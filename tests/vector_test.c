@@ -52,7 +52,7 @@ int main() {
 		printf("%c %c %c %d\n", testBrol.a, testBrol.b, testBrol.c, testBrol.d);
 	}
  	
-	vecDelete(Brol, brolVec);
-	vecDelete(Publication, pubVec);
+	vecDestroy(Brol, brolVec);
+	vecDestroy(Publication, pubVec);
 	return 0;
 }

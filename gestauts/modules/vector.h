@@ -46,7 +46,7 @@
         return newVector;                                                                   \
     }                                                                                       \
                                                                                             \
-    void vec##type##Delete(type##Vector vec) {                                              \
+    void vec##type##Destroy(type##Vector vec) {                                             \
         type##Block temp1;                                                                  \
         type##Block temp2;                                                                  \
                                                                                             \
@@ -119,7 +119,7 @@
     }                                                                                       \
 
 #define vecNew(type, blockSize) vec##type##New(blockSize)
-#define vecDelete(type, vector) vec##type##Delete(vector)
+#define vecDestroy(type, vector) vec##type##Destroy(vector)
 #define vecAppend(type, vector, item) vec##type##Append(vector, item)
 #define vecGet(type, vector, index, ret) vec##type##Get(vector, index, ret)
 
