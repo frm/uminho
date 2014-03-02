@@ -1,4 +1,4 @@
-#include "vector.h"
+#include "../gestauts/modules/vector.h"
 #include <stdio.h>
 
 typedef struct Publication_s {
@@ -8,28 +8,51 @@ typedef struct Publication_s {
 	char u;
 } Publication;
 
+typedef struct Brol_s {
+	char a;
+	char b;
+	char c;
+	int d;
+} Brol;
+
 VECTOR_DEF(Publication);
+VECTOR_DEF(Brol);
 
 int main() {
-	PublicationVector vec = vecNew(Publication, 4);
-	Publication new;
+	PublicationVector pubVec = vecNew(Publication, 4);
+	BrolVector brolVec = vecNew(Brol, 10);
+	Publication testPub;
+	Brol testBrol;
 	int i;
 
 	for (i = 0; i < 20; i++) {
-		new.x = i*3;
-		new.y = i*3 + 1;
-		new.z = i*3 + 2;
-		new.u = 'a' + i;
+		testPub.x = i*3;
+		testPub.y = i*3 + 1;
+		testPub.z = i*3 + 2;
+		testPub.u = 'a' + i;
 
-		vecAppend(Publication, vec, new);
+		testBrol.a = 'a' + i;
+		testBrol.b = 'a' + i + 1;
+		testBrol.c = 'a' + i + 2;
+		testBrol.d = i;
+
+		vecAppend(Brol, brolVec, testBrol);
+		vecAppend(Publication, pubVec, testPub);
 	}
 
 	for (i = 0; i < 20; i++) {
-		vecGet(Publication, vec, i, &new);
-
-		printf("%d %d %d %c\n", new.x, new.y, new.z, new.u);
+		vecGet(Publication, pubVec, i, &testPub);
+		printf("%d %d %d %c\n", testPub.x, testPub.y, testPub.z, testPub.u);
 	}
 
-	vecDelete(Publication, vec);
+	putchar('\n');
+
+	for (i = 0; i < 20; i++) {
+		vecGet(Brol, brolVec, i, &testBrol);
+		printf("%c %c %c %d\n", testBrol.a, testBrol.b, testBrol.c, testBrol.d);
+	}
+ 	
+	vecDelete(Brol, brolVec);
+	vecDelete(Publication, pubVec);
 	return 0;
 }

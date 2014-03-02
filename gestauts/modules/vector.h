@@ -4,12 +4,12 @@
 #include <stdlib.h>
 
 #define VECTOR_DEF(type)                                                                    \
-    typedef struct type##Block_s{                                                           \
+    typedef struct type##Block_s {                                                          \
         type *content;                                                                      \
         struct type##Block_s *next;                                                         \
     } * type##Block;                                                                        \
                                                                                             \
-    typedef struct type##Vector_s{                                                          \
+    typedef struct type##Vector_s {                                                         \
         size_t blockSize;                                                                   \
         size_t last;                                                                        \
         type##Block data;                                                                   \
