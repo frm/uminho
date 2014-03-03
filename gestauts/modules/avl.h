@@ -1,7 +1,7 @@
 #ifndef AVL_H
 #define AVL_H
 
-#include <stdlib.h>
+#include <stdlib.h> 
 #include <stdio.h>
 
 #define AVL_DEF(type)                                                                   \
@@ -88,8 +88,11 @@
                 if (node->balance == -1) {                                              \
                     node->left->balance = 0;                                            \
                     node->right->balance = 1;                                           \
-                } else {                                                                \
+                } else if (node->balance == 1) {                                        \
                     node->left->balance = -1;                                           \
+                    node->right->balance = 0;                                           \
+                } else {                                                                \
+                    node->left->balance = 0;                                            \
                     node->right->balance = 0;                                           \
                 }                                                                       \
             }                                                                           \
@@ -121,8 +124,11 @@
                 if (node->balance == -1) {                                              \
                     node->left->balance = 0;                                            \
                     node->right->balance = 1;                                           \
-                } else {                                                                \
+                } else if (node->balance == 1) {                                        \
                     node->left->balance = -1;                                           \
+                    node->right->balance = 0;                                           \
+                } else {                                                                \
+                    node->left->balance = 0;                                            \
                     node->right->balance = 0;                                           \
                 }                                                                       \
             }                                                                           \
@@ -145,8 +151,9 @@
         cmp = compare(newNode->content, node->content);                                 \
                                                                                         \
         if (cmp == 0){                                                                  \
-            free(node);                                                                 \
-            node = newNode;                                                             \
+            node->content = newNode->content;                                           \
+            free(newNode);                                                              \
+            *growth = 0;                                                                \
         } else if (cmp == 1) {                                                          \
                                                                                         \
             if (!node->right) {                                                         \
@@ -187,6 +194,7 @@
         type##AVLNode newNode;                                                          \
         int growth;                                                                     \
                                                                                         \
+        growth = 0;                                                                     \
         newNode = (type##AVLNode)malloc(sizeof(struct type##AVLNode_s));                \
                                                                                         \
         if (!newNode)                                                                   \
