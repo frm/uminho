@@ -55,7 +55,7 @@
     }                                                                                       \
                                                                                             \
     type##Vector vec##type##New(size_t blockSize,                                           \
-                                void (*deleteContent)(type *),                              \
+                                void (*deleteContent)(type),                                \
                                 type (*cloneContent)(type)) {                               \
         type##Vector newVector;                                                             \
         type##Block newBlock;                                                               \
@@ -99,14 +99,25 @@
     void vec##type##Destroy(type##Vector vec) {                                             \
         type##Block temp1;                                                                  \
         type##Block temp2;                                                                  \
+        size_t blockSize, index, i;                                                         \
                                                                                             \
+        index = vec->last;                                                                  \
+        blockSize = vec->blockSize;                                                         \
         temp2 = vec->data;                                                                  \
         free(vec);                                                                          \
                                                                                             \
         while(temp2) {                                                                      \
             temp1 = temp2->next;                                                            \
-            vec->deleteContent(temp2->content);                                             \
+                                                                                            \
+            if (index < blockSize)                                                          \
+                blockSize = index;                                                          \
+                                                                                            \
+            for (i = 0; i < blockSize; i++)                                                 \
+                vec->deleteContent(temp2->content[i]);                                      \
+                                                                                            \
+            free(temp2->content);                                                           \
             free(temp2);                                                                    \
+            index -= blockSize;                                                             \
             temp2 = temp1;                                                                  \
         }                                                                                   \
                                                                                             \
@@ -179,7 +190,7 @@
             currBlock = currBlock->next;                                                    \
         }                                                                                   \
                                                                                             \
-        vec->deleteContent(&(currBlock->content[index]));                                   \
+        vec->deleteContent(currBlock->content[index]);                                      \
         currBlock->content[index] = vec->cloneContent(item);                                \
                                                                                             \
         return 0;                                                                           \

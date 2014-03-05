@@ -51,7 +51,7 @@
                                                                                             \
     type##AVL avl##type##New(int (*compare)(keyType *, type *, type),                       \
                              void (*collision)(type *, type *),                             \
-                             void (*deleteContent)(type *),                                 \
+                             void (*deleteContent)(type),                                   \
                              type (*cloneContent)(type)) {                                  \
         type##AVL avl;                                                                      \
                                                                                             \
@@ -82,11 +82,11 @@
         return newAvl;                                                                      \
     }                                                                                       \
                                                                                             \
-    void __avl##type##DestroyNode(void          (*deleteContent)(type *),                   \
+    void __avl##type##DestroyNode(void          (*deleteContent)(type),                     \
                                   type##AVLNode node) {                                     \
                                                                                             \
         if (node) {                                                                         \
-            deleteContent(&(node->content));                                                \
+            deleteContent(node->content);                                                   \
             __avl##type##DestroyNode(deleteContent, node->left);                            \
             __avl##type##DestroyNode(deleteContent, node->right);                           \
             free(node);                                                                     \
