@@ -152,6 +152,7 @@
     void avl##type##Destroy(type##AVL avl) {                                                \
                                                                                             \
         __avl##type##DestroyNode(avl->deleteContent, avl->root);                            \
+        avl->root = NULL;                                                                   \
         if (avl->generator.initialized)                                                     \
             avl##type##Yield(avl, NULL);                                                    \
         free(avl);                                                                          \
@@ -401,5 +402,6 @@
 #define avlUpdate(type, tree, item) avl##type##Update(tree, item)
 #define avlClone(type, tree) avl##type##Clone(tree)
 #define avlYield(type, tree, ret) avl##type##Yield(tree, ret)
+#define avlRewindGenerator(type, tree) avl##type##Yield(tree, NULL)
 
 #endif
