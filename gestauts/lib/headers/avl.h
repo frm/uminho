@@ -14,7 +14,7 @@
         type##AVLNode root;                                                                 \
         int (*compare)(keyType *, type *, type);                                            \
         void (*collision)(type *, type *);                                                  \
-        void (*deleteContent)(type *);                                                      \
+        void (*deleteContent)(type);                                                        \
         type (*cloneContent)(type);                                                         \
     } * type##AVL;                                                                          \
                                                                                             \

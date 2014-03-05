@@ -12,7 +12,7 @@
     typedef struct type##Vector_s {                                                         \
         size_t blockSize;                                                                   \
         size_t last;                                                                        \
-        void (*deleteContent)(type *);                                                      \
+        void (*deleteContent)(type);                                                        \
         type (*cloneContent)(type);                                                         \
         type##Block data;                                                                   \
     } * type##Vector;                                                                       \
