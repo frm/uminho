@@ -67,7 +67,8 @@
         next = stack->top->next;                                                    \
                                                                                     \
         *ret = stack->cloneContent(stack->top->content);                            \
-        stack->deleteContent(stack->top->content);                                  \
+        if (stack->deleteContent)                                                   \
+            stack->deleteContent(stack->top->content);                              \
         free(stack->top);                                                           \
         stack->top = next;                                                          \
                                                                                     \
@@ -81,7 +82,8 @@
                                                                                     \
         while(node) {                                                               \
             nextNode = node->next;                                                  \
-            stack->deleteContent(node->content);                                    \
+            if (stack->deleteContent)                                               \
+                stack->deleteContent(node->content);                                \
             free(node);                                                             \
             node = nextNode;                                                        \
         }                                                                           \

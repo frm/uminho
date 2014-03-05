@@ -26,9 +26,6 @@
         type (*cloneContent)(type);                                                         \
     } * type##AVL;                                                                          \
                                                                                             \
-    void __avl##type##StDelete(type##AVLNode node) {                                        \
-        return;                                                                             \
-    }                                                                                       \
                                                                                             \
     type##AVLNode __avl##type##StClone(type##AVLNode node) {                                \
         return node;                                                                        \
@@ -49,9 +46,7 @@
         type##AVLNode node;                                                                 \
                                                                                             \
         if (!initialized && ret) {                                                          \
-            avl->generator.stack = stackNew(type##AVLNode,                                  \
-                                            &__avl##type##StDelete,                         \
-                                            &__avl##type##StClone);                         \
+            avl->generator.stack = stackNew(type##AVLNode, NULL, &__avl##type##StClone);    \
             avl->generator.initialized = 1;                                                 \
             avl##type##StackMin(avl->generator.stack, avl->root);                           \
         }                                                                                   \
@@ -144,7 +139,8 @@
                                   type##AVLNode node) {                                     \
                                                                                             \
         if (node) {                                                                         \
-            deleteContent(node->content);                                                   \
+            if (deleteContent)                                                              \
+                deleteContent(node->content);                                               \
             __avl##type##DestroyNode(deleteContent, node->left);                            \
             __avl##type##DestroyNode(deleteContent, node->right);                           \
             free(node);                                                                     \

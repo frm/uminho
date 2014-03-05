@@ -324,7 +324,7 @@ int main(void) {
         br.a = rand() % 26 + 'a';
         br.b = rand() % 26 + 'a';
         br.c = rand() % 26 + 'a';
-        br.d = rand();
+        br.d = rand() % 100;
 
         if (i % 2)
             avlInsert(Brol, b, br);
