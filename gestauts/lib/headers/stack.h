@@ -89,5 +89,9 @@
         free(stack);                                                                \
     }                                                                               \
 
+#define stackNew(type, del, clone) stack##type##New(del, clone)
+#define stackPush(type, st, item) stack##type##Push(st, item)
+#define stackPull(type, st, ret) stack##type##Pull(st, ret)
+#define stackDestroy(type, st) stack##type##Destroy(st)
 
 #endif
