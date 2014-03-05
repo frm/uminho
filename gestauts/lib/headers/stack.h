@@ -74,7 +74,7 @@
         return 0;                                                                   \
     }                                                                               \
                                                                                     \
-    void stack##type##Destroy(type##Stack stack) {                                  \
+    void stack##type##Clear(type##Stack stack) {                                    \
         type##StackNode node, nextNode;                                             \
                                                                                     \
         node = stack->top;                                                          \
@@ -86,12 +86,21 @@
             node = nextNode;                                                        \
         }                                                                           \
                                                                                     \
+        stack->top = NULL;                                                          \
+    }                                                                               \
+                                                                                    \
+    void stack##type##Destroy(type##Stack stack) {                                  \
+                                                                                    \
+        stack##type##Clear(stack);                                                  \
+                                                                                    \
         free(stack);                                                                \
     }                                                                               \
+
 
 #define stackNew(type, del, clone) stack##type##New(del, clone)
 #define stackPush(type, st, item) stack##type##Push(st, item)
 #define stackPull(type, st, ret) stack##type##Pull(st, ret)
 #define stackDestroy(type, st) stack##type##Destroy(st)
+#define stackClear(type, st) stack##type##Clear(st)
 
 #endif

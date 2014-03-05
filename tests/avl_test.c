@@ -348,7 +348,12 @@ int main(void) {
 
     printf("AVL2:\n");
 
-    printBrolAVL(b2->root);   
+    printBrolAVL(b2->root);
+
+    printf("YIELD TEST:\n");
+
+    while (!avlYield(Brol, b2, &br))
+        printf("%d %c %c %c\n", br.d, br.a, br.b, br.c);    
 
     avlDestroy(Brol, b2);
     return 0;

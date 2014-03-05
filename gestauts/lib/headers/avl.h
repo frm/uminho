@@ -1,7 +1,9 @@
 #ifndef AVL_H
 #define AVL_H
 
-#include <stdlib.h> 
+#include <stdlib.h>
+#include <stdio.h>
+#include "stack.h"
 
 #define AVL_DEF(type, keyType)                                                              \
     typedef struct type##AVLNode_s {                                                        \
@@ -10,13 +12,67 @@
         struct type##AVLNode_s *left, *right;                                               \
     } * type##AVLNode;                                                                      \
                                                                                             \
+    STACK_DEF(type##AVLNode)                                                                \
+                                                                                            \
     typedef struct type##AVL_s {                                                            \
+        struct {                                                                            \
+            type##AVLNodeStack stack;                                                       \
+            int initialized;                                                                \
+        } generator;                                                                        \
         type##AVLNode root;                                                                 \
         int (*compare)(keyType *, type *, type);                                            \
         void (*collision)(type *, type *);                                                  \
         void (*deleteContent)(type);                                                        \
         type (*cloneContent)(type);                                                         \
     } * type##AVL;                                                                          \
+                                                                                            \
+    void __avl##type##StDelete(type##AVLNode node) {                                        \
+        return;                                                                             \
+    }                                                                                       \
+                                                                                            \
+    type##AVLNode __avl##type##StClone(type##AVLNode node) {                                \
+        return node;                                                                        \
+    }                                                                                       \
+                                                                                            \
+    void avl##type##StackMin(type##AVLNodeStack stack, type##AVLNode node) {                \
+                                                                                            \
+        while (node) {                                                                      \
+            stackPush(type##AVLNode, stack, node);                                          \
+            node = node->left;                                                              \
+        }                                                                                   \
+                                                                                            \
+        return;                                                                             \
+    }                                                                                       \
+                                                                                            \
+    int avl##type##Yield(type##AVL avl, type *ret) {                                        \
+        int initialized = avl->generator.initialized;                                       \
+        type##AVLNode node;                                                                 \
+                                                                                            \
+        if (!initialized && ret) {                                                          \
+            avl->generator.stack = stackNew(type##AVLNode,                                  \
+                                            &__avl##type##StDelete,                         \
+                                            &__avl##type##StClone);                         \
+            avl->generator.initialized = 1;                                                 \
+            avl##type##StackMin(avl->generator.stack, avl->root);                           \
+        }                                                                                   \
+                                                                                            \
+        if (!ret) {                                                                         \
+            if (initialized) {                                                              \
+                stackDestroy(type##AVLNode, avl->generator.stack);                          \
+                avl->generator.initialized = 0;                                             \
+            }                                                                               \
+        } else {                                                                            \
+            if (!stackPull(type##AVLNode, avl->generator.stack, &node)){                    \
+                avl##type##StackMin(avl->generator.stack, node->right);                     \
+                *ret = avl->cloneContent(node->content);                                    \
+            } else {                                                                        \
+                avl##type##StackMin(avl->generator.stack, avl->root);                       \
+                return 1;                                                                   \
+            }                                                                               \
+        }                                                                                   \
+                                                                                            \
+        return 0;                                                                           \
+    }                                                                                       \
                                                                                             \
     type##AVLNode __avlNode##type##New(type content) {                                      \
         type##AVLNode node;                                                                 \
@@ -65,6 +121,8 @@
         avl->collision = collision;                                                         \
         avl->deleteContent = deleteContent;                                                 \
         avl->cloneContent = cloneContent;                                                   \
+        avl->generator.initialized = 0;                                                     \
+        avl->generator.stack = NULL;                                                        \
                                                                                             \
         return avl;                                                                         \
     }                                                                                       \
@@ -98,6 +156,8 @@
     void avl##type##Destroy(type##AVL avl) {                                                \
                                                                                             \
         __avl##type##DestroyNode(avl->deleteContent, avl->root);                            \
+        if (avl->generator.initialized)                                                     \
+            avl##type##Yield(avl, NULL);                                                    \
         free(avl);                                                                          \
                                                                                             \
         return;                                                                             \
@@ -266,6 +326,9 @@
             avl->root = __avl##type##Insert(avl, avl->root, newNode, &growth, &col);        \
         }                                                                                   \
                                                                                             \
+        if (avl->generator.initialized)                                                     \
+            avl##type##Yield(avl, NULL);                                                    \
+                                                                                            \
         return col;                                                                         \
     }                                                                                       \
                                                                                             \
@@ -278,10 +341,7 @@
         if (!node)                                                                          \
             return NULL;                                                                    \
                                                                                             \
-        if (key)                                                                            \
-            cmp = compare(key, NULL, node->content);                                        \
-        else                                                                                \
-            cmp = compare(NULL, keyContent, node->content);                                 \
+        cmp = compare(key, keyContent, node->content);                                      \
                                                                                             \
         if (cmp == 1) {                                                                     \
             return __avl##type##Find(compare, node->right, keyContent, key);                \
@@ -344,5 +404,6 @@
 #define avlFind(type, tree, key, ret) avl##type##Find(tree, key, ret)
 #define avlUpdate(type, tree, item) avl##type##Update(tree, item)
 #define avlClone(type, tree) avl##type##Clone(tree)
+#define avlYield(type, tree, ret) avl##type##Yield(tree, ret)
 
 #endif

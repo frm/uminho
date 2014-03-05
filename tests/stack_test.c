@@ -42,6 +42,7 @@ int main(void) {
     for (i = 0; i < 30; i++) {
         stackBrutalPull(stack, &b);
         printf("%d %d\n", b->x, b->y);
+        free(b);
     }
 
     stackBrutalDestroy(stack);
