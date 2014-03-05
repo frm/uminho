@@ -1,4 +1,4 @@
-#include "../gestauts/modules/vector.h"
+#include "../gestauts/lib/headers/vector.h"
 #include <stdio.h>
 
 typedef struct Publication_s {
@@ -15,12 +15,28 @@ typedef struct Brol_s {
 	int d;
 } Brol;
 
-VECTOR_DEF(Publication);
-VECTOR_DEF(Brol);
+void deleteBrol(Brol *b) {
+	return;
+}
+
+void deletePub(Publication *p) {
+	return;
+}
+
+Brol cloneBrol(Brol b) {
+	return b;
+}
+
+Publication clonePub(Publication p) {
+	return p;
+}
+
+VECTOR_DEF(Publication)
+VECTOR_DEF(Brol)
 
 int main() {
-	PublicationVector pubVec = vecNew(Publication, 4);
-	BrolVector brolVec = vecNew(Brol, 10);
+	PublicationVector pubVec = vecNew(Publication, 4, &deletePub, &clonePub);
+	BrolVector brolVec = vecNew(Brol, 10, &deleteBrol, &cloneBrol);
 	Publication testPub;
 	Brol testBrol;
 	int i;
