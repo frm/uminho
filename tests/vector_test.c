@@ -15,11 +15,11 @@ typedef struct Brol_s {
 	int d;
 } Brol;
 
-void deleteBrol(Brol *b) {
+void deleteBrol(Brol b) {
 	return;
 }
 
-void deletePub(Publication *p) {
+void deletePub(Publication p) {
 	return;
 }
 

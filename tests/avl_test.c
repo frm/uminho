@@ -124,7 +124,7 @@ void colBrol(Brol *content, Brol *newContent) {
     return;
 }
 
-void delBrol(Brol *content){
+void delBrol(Brol content){
     return;
 }
 
