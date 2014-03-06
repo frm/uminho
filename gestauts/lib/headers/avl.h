@@ -59,7 +59,8 @@
         } else {                                                                            \
             if (!stackPull(type##AVLNode, avl->generator.stack, &node)){                    \
                 avl##type##StackMin(avl->generator.stack, node->right);                     \
-                *ret = avl->cloneContent(node->content);                                    \
+                if (avl->cloneContent)                                                      \
+                    *ret = avl->cloneContent(node->content);                                \
             } else {                                                                        \
                 avl##type##StackMin(avl->generator.stack, avl->root);                       \
                 return 1;                                                                   \
@@ -86,11 +87,17 @@
                                                                                             \
     type##AVLNode __avlNode##type##Clone(type##AVL avl, type##AVLNode node) {               \
         type##AVLNode newNode;                                                              \
+        type content;                                                                       \
                                                                                             \
         newNode = NULL;                                                                     \
                                                                                             \
         if (node) {                                                                         \
-            newNode = __avlNode##type##New(avl->cloneContent(node->content));               \
+            if (avl->cloneContent)                                                          \
+                content = avl->cloneContent(node->content);                                 \
+            else                                                                            \
+                content = node->content;                                                    \
+                                                                                            \
+            newNode = __avlNode##type##New(content);                                        \
                                                                                             \
             newNode->balance = node->balance;                                               \
             newNode->right = __avlNode##type##Clone(avl, node->right);                      \
@@ -263,10 +270,11 @@
                                                                                             \
         if (cmp == 0){                                                                      \
             *col = 1;                                                                       \
-            avl->collision(&(node->content), &(newNode->content));                          \
+            if (avl->collision)                                                             \
+                avl->collision(&(node->content), &(newNode->content));                      \
             __avl##type##DestroyNode(avl->deleteContent, newNode);                          \
             *growth = 0;                                                                    \
-        } else if (cmp == 1) {                                                              \
+        } else if (cmp > 0) {                                                               \
                                                                                             \
             if (!node->right) {                                                             \
                 *col = 0;                                                                   \
@@ -307,10 +315,15 @@
     int avl##type##Insert(type##AVL avl, type item) {                                       \
         type##AVLNode newNode;                                                              \
         int growth, col;                                                                    \
+        type content;                                                                       \
                                                                                             \
         growth = 0;                                                                         \
         col = 0;                                                                            \
-        newNode = __avlNode##type##New(avl->cloneContent(item));                            \
+        if (avl->cloneContent)                                                              \
+            content = avl->cloneContent(item);                                              \
+        else                                                                                \
+            content = item;                                                                 \
+        newNode = __avlNode##type##New(content);                                            \
                                                                                             \
         if (!newNode)                                                                       \
             return -1;                                                                      \
@@ -357,7 +370,10 @@
         if (!node)                                                                          \
             return -1;                                                                      \
                                                                                             \
-        *ret = avl->cloneContent(node->content);                                            \
+        if (avl->cloneContent)                                                              \
+            *ret = avl->cloneContent(node->content);                                        \
+        else                                                                                \
+            *ret = node->content;                                                           \
                                                                                             \
         return 0;                                                                           \
     }                                                                                       \
@@ -370,7 +386,10 @@
         if (!node)                                                                          \
             return -1;                                                                      \
                                                                                             \
-        node->content = avl->cloneContent(item);                                            \
+        if (avl->cloneContent)                                                              \
+            node->content = avl->cloneContent(item);                                        \
+        else                                                                                \
+            node->content = item;                                                           \
                                                                                             \
         return 0;                                                                           \
     }                                                                                       \
@@ -396,7 +415,8 @@
 #define avlGetRoot(type, tree) avl##type##GetRoot(tree)
 #define avlGetNodeContent(type, node) avl##type##GetNodeContent(node)
 #define avlInsert(type, tree, item) avl##type##Insert(tree, item)
-#define avlNew(type, cmp, col, del, clone) avl##type##New(cmp, col, del, clone)
+#define avlNewComplete(type, cmp, col, del, clone) avl##type##New(cmp, col, del, clone)
+#define avlNew(type, cmp) avl##type##New(cmp, NULL, NULL, NULL)
 #define avlDestroy(type, tree) avl##type##Destroy(tree)
 #define avlFind(type, tree, key, ret) avl##type##Find(tree, key, ret)
 #define avlUpdate(type, tree, item) avl##type##Update(tree, item)

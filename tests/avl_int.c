@@ -10,8 +10,6 @@ void colidingInt (int* a, int* b) {
 	(*a) = (*a) + (*b);
 }
 
-void deleteInt(int a) { }
-
 int cloneInt(int a) { return a; }
 
 int compareInt(int *n, int *a, int b) {
@@ -56,15 +54,17 @@ void printintAVL(intAVLNode t) {
 
 int main() {
 	intAVL t, it;
-	int a, b, c;
+	int a, b;
 	int i, j;
 	int* keeper;
 
-	t = avlNew(int, &compareInt, &colidingInt, &deleteInt, &cloneInt);
+	keeper = (int *)malloc(sizeof(int));
 
-	it = avlNew(int, &compareInt, &colidingInt, &deleteInt, &cloneInt);
+	t = avlNew(int, &compareInt, &colidingInt, NULL, &cloneInt);
 
-	a = 1; b = 1; c = 3;
+	it = avlNew(int, &compareInt, &colidingInt, NULL, &cloneInt);
+
+	a = 1; b = 1;
 	
 	printf("### FIRST AVL ###\n");
 	j = avlInsert(int, t, a);
@@ -85,6 +85,10 @@ int main() {
 
 	avlintFind(it, 0, keeper);
 	printf("FOUND: %d\n", *keeper);
+
+	avlDestroy(int, t);
+	avlDestroy(int, it);
+	free(keeper);
 
 	return 0;
 }

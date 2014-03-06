@@ -104,7 +104,6 @@
         index = vec->last;                                                                  \
         blockSize = vec->blockSize;                                                         \
         temp2 = vec->data;                                                                  \
-        free(vec);                                                                          \
                                                                                             \
         while(temp2) {                                                                      \
             temp1 = temp2->next;                                                            \
@@ -120,6 +119,8 @@
             index -= blockSize;                                                             \
             temp2 = temp1;                                                                  \
         }                                                                                   \
+                                                                                            \
+        free(vec);                                                                          \
                                                                                             \
         return;                                                                             \
     }                                                                                       \
