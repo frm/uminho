@@ -58,7 +58,7 @@
         return 0;                                                                   \
     }                                                                               \
                                                                                     \
-    int stack##type##Pull(type##Stack stack, type *ret) {                           \
+    int stack##type##Pop(type##Stack stack, type *ret) {                            \
         type##StackNode next;                                                       \
                                                                                     \
         if (!stack->top)                                                            \
@@ -97,12 +97,21 @@
                                                                                     \
         free(stack);                                                                \
     }                                                                               \
+                                                                                    \
+    int stack##type##IsEmpty(type##Stack stack) {                                   \
+                                                                                    \
+        if (stack->top)                                                             \
+            return 0;                                                               \
+        else                                                                        \
+            return 1;                                                               \
+    }                                                                               \
 
 
 #define stackNew(type, del, clone) stack##type##New(del, clone)
 #define stackPush(type, st, item) stack##type##Push(st, item)
-#define stackPull(type, st, ret) stack##type##Pull(st, ret)
+#define stackPop(type, st, ret) stack##type##Pop(st, ret)
 #define stackDestroy(type, st) stack##type##Destroy(st)
 #define stackClear(type, st) stack##type##Clear(st)
+#define stackIsEmpty(type, st) stack##type##IsEmpty(st)
 
 #endif

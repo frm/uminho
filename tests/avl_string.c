@@ -1,57 +1,55 @@
-#include "../gestauts/lib/headers/avl.h"
 #include <stdio.h>
-#include <stdlib.h>
+#include "../gestauts/lib/headers/avl.h"
 #include <string.h>
 
-typedef char* String;
+typedef char* Author;
 
-AVL_DEF(String, String)
+AVL_DEF(Author, Author)
 
-String cloneString(String str) {
-	int size = strlen(str) + 1;
+int cmp(Author *key, Author *notkey, Author shit) {
+    Author lol;
 
-	String clone = (String)malloc(sizeof(char) * size);
-	strncpy(clone, str, size);
+    if (key)
+        lol = *key;
+    else
+        lol = *notkey;
 
-	return clone;
+    return strcmp(lol, shit);
 }
 
-int compareString(String* n, String* a, String b) {
-	String key = n ? (*n) : (*a);
-	int cmp = strcmp(key, b);
-	
-	printf("\nCOMPARED >>> %s <<< WITH >>> %s <<< AND GOT %d", key, b, cmp);
+Author clone(Author a) {
+    Author n = (Author)malloc(sizeof(char) * (strlen(a) + 1));
 
-	return cmp;
+    strncpy(n, a, strlen(a) + 1);
+
+    return n;
 }
 
-
-void printStringAVL(StringAVLNode t) {
-	if (t) {
-		if ( avlStringGetLeftChild(t) )
-			printStringAVL( avlStringGetLeftChild(t) );
-		
-		printf("%s\n", t -> content);
-
-		if ( avlStringGetRightChild(t) )
-			printStringAVL( avlStringGetRightChild(t) );
-	}
+void del(Author a) {
+    free(a);
 }
 
 int main() {
-	StringAVL t = avlNewComplete(String, &compareString, NULL, NULL, &cloneString);
+    AuthorAVL avl;
+    int i;
+    char temp[50];
+    Author ret;
 
-	avlStringInsert(t, "ABC");
-	avlStringInsert(t, "Abacate");
-	avlStringInsert(t, "Abc Def");
-	avlStringInsert(t, "A lot of fruits");
-	avlStringInsert(t, "Ananas");
-	avlStringInsert(t, "Acb Fed");
-	avlStringInsert(t, "Abacaxi");
-	avlStringInsert(t, "Abacate");
-	
+    avl = avlNewComplete(Author, &cmp, NULL, &del, &clone);
 
-	putchar('\n');
-	putchar('\n');
-	printStringAVL( t->root );
+    for (i = 0; i < 6; i++) {
+        scanf("%[^\n]\n", temp);
+
+        avlInsert(Author, avl, temp);
+    }
+
+    putchar('\n');
+
+    for (i = 0; i < 6; i++) {
+        avlYield(Author, avl, &ret);
+
+        printf("%s\n", ret);
+    }
+
+    return 0;
 }
