@@ -353,7 +353,12 @@ int main(void) {
     printf("YIELD TEST:\n");
 
     while (!avlYield(Brol, b2, &br))
-        printf("%d %c %c %c\n", br.d, br.a, br.b, br.c);    
+        printf("%d %c %c %c\n", br.d, br.a, br.b, br.c);
+
+    avlYield(Brol, b2, &br);
+
+    while (!avlYield(Brol, b2, &br))
+        printf("%d %c %c %c\n", br.d, br.a, br.b, br.c);
 
     avlDestroy(Brol, b2);
     return 0;
