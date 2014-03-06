@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "gestauts.h"
 
-#define NR_OPTIONS		15
+#define NR_OPTIONS		16
 #define NR_FUNCTIONS	15
 #define NR_ERRORS		2
 #define GREET()			( printf("WELCOME TO GESTAUTS.\n") )
@@ -14,7 +15,8 @@ static int inGestAuts = 1;
 static int populated_db = 0;
 
 static char* options[NR_OPTIONS] = {
-	"ENTER ONE OF THE FOLLOWING OPTIONS",
+    "ENTER ONE OF THE FOLLOWING OPTIONS",
+    "EXIT",
 	"READ FROM FILE",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
@@ -89,6 +91,9 @@ static void query6() {
 				printf("MORE AUTHORS AVAILABLE. CONTINUE READING? [Y/N] ");
 				scanf("\t%c", &option);
 
+                if ( islower(option) )
+                    option = toupper(option);
+
 				if (option != 'Y' && option != 'N')
 					printf("INVALID OPTION\n");
 				else {
@@ -138,7 +143,7 @@ static void print_options() {
 
 	printf("%s\n", options[0]);
 	while (i < NR_OPTIONS)
-		printf("\x1B[33m(%d)\x1B[37m - %s\n", i, options[i++]);
+		printf("\x1B[33m(%d)\x1B[37m - %s\n", i - 1, options[i++]);
 
 	putchar('\n');
 }
