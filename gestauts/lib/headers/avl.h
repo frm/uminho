@@ -5,14 +5,14 @@
 #include <stdio.h>
 #include "stack.h"
 
-#define AVL_DEF(type, keyType)                                                              \
+#define AVL_DEF_HEADER(type,keyType)                                                        \
     typedef struct type##AVLNode_s {                                                        \
         type content;                                                                       \
         int balance;                                                                        \
         struct type##AVLNode_s *left, *right;                                               \
     } * type##AVLNode;                                                                      \
                                                                                             \
-    STACK_DEF(type##AVLNode)                                                                \
+    STACK_DEF_HEADER(type##AVLNode)                                                         \
                                                                                             \
     typedef struct type##AVL_s {                                                            \
         struct {                                                                            \
@@ -26,6 +26,35 @@
         type (*cloneContent)(type);                                                         \
     } * type##AVL;                                                                          \
                                                                                             \
+    type##AVLNode __avl##type##StClone(type##AVLNode);                                      \
+    void avl##type##StackMin(type##AVLNodeStack, type##AVLNode);                            \
+    int avl##type##Yield(type##AVL, type *);                                                \
+    int avl##type##RewindGenerator(type##AVL);                                              \
+    type##AVLNode __avlNode##type##New(type);                                               \
+    type##AVLNode __avlNode##type##Clone(type##AVL, type##AVLNode);                         \
+    type##AVL avl##type##New(int (*compare)(keyType *, type *, type),                       \
+                             void (*collision)(type *, type *),                             \
+                             void (*deleteContent)(type),                                   \
+                             type (*cloneContent)(type));                                   \
+    type##AVL avl##type##Clone(type##AVL);                                                  \
+    void __avl##type##DestroyNode(void (*deleteContent)(type), type##AVLNode);              \
+    void avl##type##Destroy(type##AVL);                                                     \
+    int avl##type##Insert(type##AVL, type);                                                 \
+    type##AVLNode __avl##type##Find(int (*compare)(keyType *, type *, type),                \
+                                    type##AVLNode,                                          \
+                                    type *,                                                 \
+                                    keyType *);                                             \
+    int avl##type##Find(type##AVL, keyType, type *);                                        \
+    int avl##type##Update(type##AVL, type);                                                 \
+    type##AVLNode avl##type##GetLeftChild(type##AVLNode);                                   \
+    type##AVLNode avl##type##GetRightChild(type##AVLNode);                                  \
+    type##AVLNode avl##type##GetRoot(type##AVL);                                            \
+    type avl##type##GetNodeContent(type##AVLNode);                                          \
+
+
+#define AVL_DEF(type, keyType)                                                              \
+                                                                                            \
+    STACK_DEF(type##AVLNode)                                                                \
                                                                                             \
     type##AVLNode __avl##type##StClone(type##AVLNode node) {                                \
         return node;                                                                        \
@@ -46,6 +75,10 @@
         type##AVLNode node;                                                                 \
                                                                                             \
         if (!initialized && ret) {                                                          \
+                                                                                            \
+            if (!avl->root)                                                                 \
+                return -1;                                                                  \
+                                                                                            \
             avl->generator.stack = stackNew(type##AVLNode, NULL, &__avl##type##StClone);    \
             avl->generator.initialized = 1;                                                 \
             avl##type##StackMin(avl->generator.stack, avl->root);                           \
@@ -176,7 +209,7 @@
         return;                                                                             \
     }                                                                                       \
                                                                                             \
-    type##AVLNode __avl##type##RotateRight(type##AVLNode node) {                            \
+    static type##AVLNode __avl##type##RotateRight(type##AVLNode node) {                     \
         type##AVLNode auxNode;                                                              \
                                                                                             \
         auxNode = node->left;                                                               \
@@ -186,7 +219,7 @@
         return auxNode;                                                                     \
     }                                                                                       \
                                                                                             \
-    type##AVLNode __avl##type##RotateLeft(type##AVLNode node) {                             \
+    static type##AVLNode __avl##type##RotateLeft(type##AVLNode node) {                      \
         type##AVLNode auxNode;                                                              \
                                                                                             \
         auxNode = node->right;                                                              \
@@ -196,7 +229,7 @@
         return auxNode;                                                                     \
     }                                                                                       \
                                                                                             \
-    type##AVLNode __avl##type##BalanceRight(type##AVLNode node, int *growth) {              \
+    static type##AVLNode __avl##type##BalanceRight(type##AVLNode node, int *growth) {       \
         int balance;                                                                        \
                                                                                             \
         balance = ++node->balance;                                                          \
@@ -232,7 +265,7 @@
         return node;                                                                        \
     }                                                                                       \
                                                                                             \
-    type##AVLNode __avl##type##BalanceLeft(type##AVLNode node, int *growth) {               \
+    static type##AVLNode __avl##type##BalanceLeft(type##AVLNode node, int *growth) {        \
         int balance;                                                                        \
                                                                                             \
         balance = --node->balance;                                                          \
@@ -268,7 +301,7 @@
         return node;                                                                        \
     }                                                                                       \
                                                                                             \
-    type##AVLNode __avl##type##Insert(type##AVL       avl,                                  \
+    static type##AVLNode __avl##type##Insert(type##AVL       avl,                           \
                                       type##AVLNode node,                                   \
                                       type##AVLNode newNode,                                \
                                       int           *growth,                                \
@@ -421,7 +454,7 @@
 
 #define avlGetLeftChild(type, node) avl##type##GetLeftChild(node)
 #define avlGetRightChild(type, node) avl##type##GetRightChild(node)
-#define avlGetRoot(type, tree) avl##type##GetRoot(tree)
+#define avlGetRoot(tree) tree->root
 #define avlGetNodeContent(type, node) avl##type##GetNodeContent(node)
 #define avlInsert(type, tree, item) avl##type##Insert(tree, item)
 #define avlNewComplete(type, cmp, col, del, clone) avl##type##New(cmp, col, del, clone)

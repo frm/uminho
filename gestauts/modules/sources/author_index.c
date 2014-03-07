@@ -1,4 +1,4 @@
-#include "author_index.h"
+#include "../headers/author_index.h"
 
 void initializeAuthorIndex() {
 	initAuthorStats();

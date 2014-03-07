@@ -19,6 +19,9 @@ typedef struct Brol_s {
     int d;
 } Brol;
 
+AVL_DEF_HEADER(Brol, int)
+AVL_DEF_HEADER(Publication, int)
+
 AVL_DEF(Brol, int)
 AVL_DEF(Publication, int)
 
@@ -138,8 +141,8 @@ int main(void) {
     Brol br;
     int i, j;
 
-    b = avlNew(Brol, &cmpBrol, &colBrol, &delBrol, &cloneBrol);
-    /*p = avlNew(Publication, &cmpPublication);*/
+    b = avlNewComplete(Brol, &cmpBrol, &colBrol, &delBrol, &cloneBrol);
+    /*p = avlNewComplete(Publication, &cmpPublication);*/
 
     srand(time(NULL));
 
@@ -166,88 +169,88 @@ int main(void) {
     br.d = 1;
     i = avlInsert(Brol, b, br);
     printf("INSERT: %d\n", i);
-    heightB(avlGetRoot(Brol, b));
+    heightB(avlGetRoot(b));
     putchar('\n');
 
     br.d = 2;
     i = avlInsert(Brol, b, br);
     printf("INSERT: %d\n", i);
-    heightB(avlGetRoot(Brol, b));
+    heightB(avlGetRoot(b));
     putchar('\n');
 
     br.d = 3;
     i = avlInsert(Brol, b, br);
     printf("INSERT: %d\n", i);
-    heightB(avlGetRoot(Brol, b));
+    heightB(avlGetRoot(b));
     putchar('\n');
 
     avlDestroy(Brol, b);
-    b = avlNew(Brol, &cmpBrol, &colBrol, &delBrol, &cloneBrol);
+    b = avlNewComplete(Brol, &cmpBrol, &colBrol, &delBrol, &cloneBrol);
 
     printf("LEFT RIGHT ROTATION: \n\n");
 
     br.d = 3;
     i = avlInsert(Brol, b, br);
     printf("INSERT: %d\n", i);
-    heightB(avlGetRoot(Brol, b));
+    heightB(avlGetRoot(b));
     putchar('\n');
 
     br.d = 1;
     i = avlInsert(Brol, b, br);
     printf("INSERT: %d\n", i);
-    heightB(avlGetRoot(Brol, b));
+    heightB(avlGetRoot(b));
     putchar('\n');
 
     br.d = 2;
     i = avlInsert(Brol, b, br);
     printf("INSERT: %d\n", i);
-    heightB(avlGetRoot(Brol, b));
+    heightB(avlGetRoot(b));
     putchar('\n');
 
     avlDestroy(Brol, b);
-    b = avlNew(Brol, &cmpBrol, &colBrol, &delBrol, &cloneBrol);
+    b = avlNewComplete(Brol, &cmpBrol, &colBrol, &delBrol, &cloneBrol);
 
     printf("SIMPLE RIGHT ROTATION: \n\n");
 
     br.d = 3;
     i = avlInsert(Brol, b, br);
     printf("INSERT: %d\n", i);
-    heightB(avlGetRoot(Brol, b));
+    heightB(avlGetRoot(b));
     putchar('\n');
 
     br.d = 2;
     i = avlInsert(Brol, b, br);
     printf("INSERT: %d\n", i);
-    heightB(avlGetRoot(Brol, b));
+    heightB(avlGetRoot(b));
     putchar('\n');
 
     br.d = 1;
     i = avlInsert(Brol, b, br);
     printf("INSERT: %d\n", i);
-    heightB(avlGetRoot(Brol, b));
+    heightB(avlGetRoot(b));
     putchar('\n');
 
     avlDestroy(Brol, b);
-    b = avlNew(Brol, &cmpBrol, &colBrol, &delBrol, &cloneBrol);
+    b = avlNewComplete(Brol, &cmpBrol, &colBrol, &delBrol, &cloneBrol);
 
     printf("RIGHT LEFT ROTATION: \n\n");
 
     br.d = 1;
     i = avlInsert(Brol, b, br);
     printf("INSERT: %d\n", i);
-    heightB(avlGetRoot(Brol, b));
+    heightB(avlGetRoot(b));
     putchar('\n');
 
     br.d = 3;
     i = avlInsert(Brol, b, br);
     printf("INSERT: %d\n", i);
-    heightB(avlGetRoot(Brol, b));
+    heightB(avlGetRoot(b));
     putchar('\n');
 
     br.d = 2;
     i = avlInsert(Brol, b, br);
     printf("INSERT: %d\n", i);
-    heightB(avlGetRoot(Brol, b));
+    heightB(avlGetRoot(b));
     putchar('\n');
 
     /*printf("\n\nPublication AVL height: %d\n\nTotal Elements: %d\n\n", heightP(avlGetRoot(Publication, p)), TOTAL);*/
