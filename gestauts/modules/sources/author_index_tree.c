@@ -1,9 +1,8 @@
-#include "../../lib/headers/avl.h"
+#include "../headers/author_index.h"
 #include <string.h>
 
 #define normalLetter(c)		( ( (c) >= 'A' ) && ( (c) <= 'Z' ) )
 
-typedef char* Author;
 AVL_DEF(Author, Author)
 
 static AuthorAVL letterIndex[27];

@@ -18,7 +18,7 @@ static char* options[NR_OPTIONS] = {
     "ENTER ONE OF THE FOLLOWING OPTIONS",
     "EXIT",
 	"READ FROM FILE",
-	"TO BE IMPLEMENTED",
+	"TOTAL PUBLICATIONS BY YEAR",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
@@ -62,6 +62,19 @@ static void query1() {
 	free(stats);
 
 	populated_db = 1;
+}
+
+static void query2() {
+	int *totals;
+	int min, max, i;
+
+	totals = getYearsTotal(&min, &max);
+
+	for (i = min; i <= max; i++) {
+		printf("%d %d\n", i, totals[i - min]);
+	}
+
+	free(totals);
 }
 
 static void query6() {
@@ -120,7 +133,7 @@ static void query14() {
 static void(* functions[NR_FUNCTIONS + NR_ERRORS] )() = {
 	&exitGestAuts,
 	&query1,
-	&failureprnt,
+	&query2,
 	&failureprnt,
 	&failureprnt,
 	&failureprnt,
@@ -161,7 +174,10 @@ static int get_option() {
 	return index;
 }
 
-static void call_option(int index) { (*functions[index])(); }
+static void call_option(int index) { 
+
+	(*functions[index])(); 
+}
 
 static void cmd_interpreter() {
 	GREET();

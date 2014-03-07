@@ -2,15 +2,15 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
-#include "../../lib/headers/strutil.h"
-#include "../headers/gestauts.h"
+#include "../headers/reading.h"
 
 static char* fileread;
 
-static void extract_year_info(char* year_str) {
+static void extract_year_info(char* year_str, int coAuthors) {
 	/* Function that should use year to complete statistics */
 	int year = atoi(year_str);
 	checkForYear(year);
+	statsIncrement(year, coAuthors);
 }
 
 static void extract_author_info(char* author) {
@@ -30,6 +30,7 @@ static int isAuthor(char* str) { return !isdigit(str[0]); }
 
 static void tokenize(char* buffer) {
 	char *token = strtrim( strtok(buffer, ",") );
+	int n = 0;
 
 	while (token) {
 #ifdef DEBUG
@@ -37,7 +38,13 @@ static void tokenize(char* buffer) {
 #endif
 		/* use !isdigit() instead of isalpha because of names started with special characters */
 		/* use a function for this line */
-		isAuthor(token) ? extract_author_info(token) : extract_year_info(token);
+		if (isAuthor(token)) {
+			extract_author_info(token);
+			n++;
+		}
+		else {
+			extract_year_info(token, n);
+		}
 
 		/* strtrim is allocating mem
 		 * since we're making copies into the tree, no need for dupmem
@@ -96,6 +103,34 @@ char* getAuthorStats() {
 	return stats;
 }
 
+int *getYearsTotal(int *minYear, int *maxYear) {
+	int min, max, year, totalYears, totalPubs, test;
+	int *totals;
+
+	min = getMinYear();
+	max = getMaxYear();
+	totalYears = max - min + 1;
+	totals = (int *)calloc(totalYears, sizeof(int));
+
+	for (;;) {
+		test = statsYieldYearTotal(&year, &totalPubs);
+
+		if (!test){
+			totals[year - min] = totalPubs;
+		}
+		else {
+			if (test == 1)
+				totals[year - min] = totalPubs;
+
+			break;
+		}
+	}
+
+	*minYear = min;
+	*maxYear = max;
+	return totals;
+}
+
 int getAuthorsBy(char initial, char** list, int number_displays, int* number_read) {
 	if( islower(initial) )
 		initial = toupper(initial);
@@ -112,9 +147,11 @@ void resetAuthorBy(char initial) {
 
 void initializeGestauts() {
 	initializeAuthorIndex();
+	initializeStatistics();
 }
 
 void leaveGestauts() {
 	free(fileread);
 	deleteAuthorIndex();
+	deleteStatistics();
 }
