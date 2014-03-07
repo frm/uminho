@@ -196,6 +196,10 @@
                                                                                             \
         return 0;                                                                           \
     }                                                                                       \
+                                                                                            \
+    size_t vec##type##GetSize(type##Vector vec) {                                           \
+        return vec->last + 1;                                                               \
+    }                                                                                       \
 
 #define vecUpdate(type, index, item) vec##type##Update(index, item)
 #define vecClone(type, vector) vec##type##Clone(vector)
@@ -203,5 +207,6 @@
 #define vecDestroy(type, vector) vec##type##Destroy(vector)
 #define vecAppend(type, vector, item) vec##type##Append(vector, item)
 #define vecGet(type, vector, index, ret) vec##type##Get(vector, index, ret)
-
+#define vecGetSize(type, vector) vec##type##GetSize(vector)
+    
 #endif
