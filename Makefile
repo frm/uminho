@@ -1,4 +1,4 @@
-CC = clang
+CC = gcc
 CFLAGS ?= -Wall -Wextra -ansi -pedantic
 CPPFLAGS ?= -Imodules -Ilib -Iincludes
 
@@ -8,16 +8,16 @@ src_%.o: src/%.c src/%.h
 	@echo "		C $@"
 	$(COMPILE.c) $(OUTPUT_OPTION) $<
 
-.PHONY: clean debug test final
+.PHONY: clean debug dsmall final leak-check 
 
 $(EXEC): src/*.c includes/*.c 
 	$(LINK.c) $(OUTPUT_OPTION) $^ $(LOADLIBES) $(LDLIBS)
 
-debug: CFLAGS += -g
+debug: CFLAGS += -g -DDEBUG
 debug: $(EXEC)
 
-test: CFLAGS += -g -DDEBUG
-test: $(EXEC)
+dsmall: CFLAGS += -g -DDEBUG2
+dsmall: $(EXEC)
 
 final: CC = gcc
 final: CFLAGS += -O2
