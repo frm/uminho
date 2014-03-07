@@ -96,8 +96,8 @@ char* getReadStats() {
 char* getAuthorStats() {
 	char* stats = (char*)malloc(sizeof(char) * 1024);
 
-	sprintf( stats, "\nLONGEST NAME: %s with length %ld\n", getLongestAuthorName(), strlen( getLongestAuthorName() ) );
-	sprintf( stats + strlen(stats), "SHORTEST NAME: %s with length %ld\n", getShortestAuthorName(), strlen( getShortestAuthorName() ) );
+	sprintf( stats, "\nLONGEST NAME: %s with length %u\n", getLongestAuthorName(), strlen( getLongestAuthorName() ) );
+	sprintf( stats + strlen(stats), "SHORTEST NAME: %s with length %u\n", getShortestAuthorName(), strlen( getShortestAuthorName() ) );
 	sprintf( stats + strlen(stats), "AVERAGE LENGTH: %f\n", getAverage() );
 
 	return stats;
