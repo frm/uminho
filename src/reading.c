@@ -33,9 +33,6 @@ static void tokenize(char* buffer) {
 	int n = 0;
 
 	while (token) {
-#ifdef DEBUG
-		printf("%s ", token);
-#endif
 		/* use !isdigit() instead of isalpha because of names started with special characters */
 		/* use a function for this line */
 		if (isAuthor(token)) {
@@ -73,9 +70,6 @@ int read_file(char* filename) {
 		return -1;
 
 	while( fgets(buffer, 1024, file) ) {
-#ifdef DEBUG
-		printf("#%d	%s\n", nr_publications + 1, buffer);
-#endif
 		tokenize(buffer);
 	}
 
@@ -130,6 +124,27 @@ int *getYearsTotal(int *minYear, int *maxYear) {
 	*maxYear = max;
 	return totals;
 }
+
+int getYearsTotalByInterval(int first, int last) {
+	int min, max, i, total;
+
+	total = 0;
+	min = getMinYear();
+	max = getMaxYear();
+
+	if (first < min)
+		first = min;
+
+	if (last > max)
+		last = max;
+
+	for (i = first; i <= last; i++) {
+		total += statsGetYearTotal(i);
+	}
+
+	return total;
+}
+
 
 int getAuthorsBy(char initial, char** list, int number_displays, int* number_read) {
 	if( islower(initial) )

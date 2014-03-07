@@ -23,7 +23,7 @@ static char* options[NR_OPTIONS] = {
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
 	"GET AUTHORS BY INITIAL",
-	"TO BE IMPLEMENTED",
+	"TOTAL PUBLICATIONS IN INTERVAL",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
@@ -44,6 +44,12 @@ static void exitGestAuts() {
 
 static void query1() {
 	char* stats;
+#ifdef DEBUG
+	read_file("publicx.txt");
+#else 
+	#ifdef DEBUG2
+	read_file("publicx2.txt");
+	#else
 	char filename[1024];
 	int valid_input = 0;
 
@@ -57,6 +63,8 @@ static void query1() {
 			valid_input = 1;
 	}
 
+	#endif
+#endif
 	stats = getReadStats();
 	printf( "%s\n\n", stats );
 	free(stats);
@@ -70,9 +78,20 @@ static void query2() {
 
 	totals = getYearsTotal(&min, &max);
 
-	for (i = min; i <= max; i++) {
-		printf("%d %d\n", i, totals[i - min]);
+	printf(" _______ _______ \t _______ _______\n");
+	printf("|\t|\t|\t|\t|\t|\n");
+	printf("|Year\t|Total\t|\t|Year\t|Total\t|\n");
+	printf("|_______|_______|\t|_______|_______|\n");
+	for (i = min; i <= max; i += 2) {
+		printf("|\t|\t|\t|\t|\t|\n");
+		if (i < max)
+			printf("|%d\t|%d\t|\t|%d\t|%d\t|\n", i, totals[i - min], i + 1, totals[i + 1 - min]);
+		else
+			printf("|%d\t|%d\t|\t|\t|\t|\n", i, totals[i - min]);
+		printf("|_______|_______|\t|_______|_______|\n");
 	}
+
+	printf("\n\n");
 
 	free(totals);
 }
@@ -124,6 +143,20 @@ static void query6() {
 	resetAuthorBy(initial);
 }
 
+static void query7() {
+	int min, max, total;
+
+	printf("ENTER FIRST YEAR:\n");
+	scanf("%d%*[^\n]s%*c", &min);
+
+	printf("ENTER LAST YEAR:\n");
+	scanf("%d%*[^\n]s%*c", &max);
+
+	total = getYearsTotalByInterval(min, max);
+
+	printf("TOTAL PUBLICATIONS BETWEEN YEARS %d AND %d: %d\n\n\n\n", min, max, total);
+}
+
 static void query14() {
 	char* stats = getAuthorStats();
 	printf("%s\n\n", stats );
@@ -138,7 +171,7 @@ static void(* functions[NR_FUNCTIONS + NR_ERRORS] )() = {
 	&failureprnt,
 	&failureprnt,
 	&query6,
-	&failureprnt,
+	&query7,
 	&failureprnt,
 	&failureprnt,
 	&failureprnt,
@@ -184,6 +217,12 @@ static void call_option(int index) {
 static void cmd_interpreter() {
 	GREET();
 
+#ifdef DEBUG
+	call_option(1);
+#endif
+#ifdef DEBUG2
+	call_option(1);
+#endif
 	while(inGestAuts) {
 		print_options();
 		call_option( get_option() );

@@ -10,7 +10,7 @@ char* getReadStats();
 char* getAuthorStats();
 int getAuthorsBy(char initial, char** list, int number_display, int* number_read);
 void resetAuthorBy(char initial);
-
+int getYearsTotalByInterval(int, int);
 int *getYearsTotal(int *, int *);
 
 void initializeGestauts();

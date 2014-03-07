@@ -51,12 +51,13 @@ int statsGetYearTotal(int year) {
 
     total = 0;
 
-    if (statsTreeFind(yearStatsTree, year, &stats))
+    if (statsTreeFind(yearStatsTree, year, &stats)){
         total = 0;
-    else 
+    }
+    else {
         total = getYearTotal(stats);
-
-    yearStatsDestroy(stats);
+        yearStatsDestroy(stats);
+    }
 
     return total;
 }
@@ -69,6 +70,8 @@ int statsYieldYearTotal(int *year, int *total) {
 
     *year = stats.year;
     *total = getYearTotal(stats);
+
+    yearStatsDestroy(stats);
 
     return ret;
 }
