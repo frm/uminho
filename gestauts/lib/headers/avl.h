@@ -61,12 +61,13 @@
             avl##type##StackMin(avl->generator.stack, node->right);                         \
             if (avl->cloneContent)                                                          \
                 *ret = avl->cloneContent(node->content);                                    \
+            else                                                                            \
+                *ret = node->content;                                                       \
                                                                                             \
             if (stackIsEmpty(type##AVLNode, avl->generator.stack)) {                        \
+                                                                                            \
                 avl##type##Yield(avl, NULL);                                                \
                 return 1;                                                                   \
-            } else {                                                                        \
-                return 0;                                                                   \
             }                                                                               \
         }                                                                                   \
                                                                                             \
