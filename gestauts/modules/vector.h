@@ -11,7 +11,7 @@
                                                                                             \
     typedef struct type##Vector_s {                                                         \
         size_t blockSize;                                                                   \
-        size_t last;                                                                        \
+        size_t nextIndex;                                                                   \
         type##Block data;                                                                   \
     } * type##Vector;                                                                       \
                                                                                             \
@@ -38,7 +38,7 @@
         }                                                                                   \
                                                                                             \
         newVector->blockSize = blockSize;                                                   \
-        newVector->last = -1;                                                               \
+        newVector->nextIndex = 0;                                                           \
         newVector->data = newBlock;                                                         \
         newVector->data->next = NULL;                                                       \
         newVector->data->content = newContent;                                              \
@@ -69,7 +69,7 @@
         size_t index, blockSize;                                                            \
                                                                                             \
         blockSize = vec->blockSize;                                                         \
-        index = vec->last + 1;                                                              \
+        index = vec->nextIndex;                                                             \
         currBlock = vec->data;                                                              \
                                                                                             \
         while (index > blockSize) {                                                         \
@@ -92,7 +92,7 @@
             }                                                                               \
         }                                                                                   \
                                                                                             \
-        vec->last += 1;                                                                     \
+        vec->nextIndex += 1;                                                                \
         currBlock->content[index] = item;                                                   \
                                                                                             \
         return 0;                                                                           \
@@ -105,7 +105,7 @@
         blockSize = vec->blockSize;                                                         \
         currBlock = vec->data;                                                              \
                                                                                             \
-        if (index > vec->last + 1)                                                          \
+        if (index >= vec->nextIndex)                                                        \
             return -1;                                                                      \
                                                                                             \
         while (index >= blockSize) {                                                        \
