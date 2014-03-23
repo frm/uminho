@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include "./strutil.h"
 
 static void extract_year_info(char* year_str) {
 	/* Function that should use year to complete statistics */
 	int year = atoi(year_str);
-	return 0;
 }
 
 static void extract_author_info(char* author) {
@@ -13,15 +14,15 @@ static void extract_author_info(char* author) {
 	 * add author to author_index
 	 * use author info to calculate statistics
 	 */
-	return 0;
 }
 
 static void tokenize(char* buffer) {
 	char *token = strtok(buffer, ",");
 	
 	while (token) {
-		/* debug purposes */ printf("%s ", token);
-		
+#ifdef debug
+		printf("%s ", token);
+#endif
 		token = strtok(NULL, ",");
 		strtrim(token);
 
@@ -38,9 +39,14 @@ int read_from_file(char* filename) {
 		return -1;
 
 	while( fgets(buffer, 1024, file) ) {
-		/* debug purposes */ printf("%s\n", buffer);
+#ifdef debug
+		printf("%s\n", buffer);
+#endif
 		tokenize(buffer);
 	}
+
+	printf("FILE READ: %s\n", filename);
+	
 
 	return 0;
 }
