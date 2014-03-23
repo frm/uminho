@@ -2,38 +2,31 @@
 #include <stdio.h>
 #include <ctype.h> /* Define my own isspace function */
 
-static void trim_right (char *str) {
-	int i = strlen(str);
+static int new_str_end (char *str) {
+	int i = strlen(str) - 1;
 
-	while ( i > 0 && isspace(str[i-1]) )
+	while ( i > 0 && isspace(str[i]) )
 		i--;
 
-	str[i-1] = '\0';
+	return i;
 }
 
-static void trim_left (char *str) {
+static int new_str_start (char *str) {
 	int i = 0;
 	int size = strlen(str);
 
-	while ( i < size && isspace(str[0]) ){
-		str++;
+	while ( i < size && isspace(str[i]) )
 		i++;
-	}
-
+	
+	return i;
 }
 
 void strtrim(char* str) {
-	trim_left(str);
-	trim_right(str);
+	int start = new_str_start(str);
+	int end = new_str_end(str);
+	int last_position = end - start + 1;
 
+	memmove(str, str + start, last_position);
+	str[last_position] = '\0';
 }
 
-int main() {
-	char* mystr = " 123456789 ";
-	
-	printf("BEFORE TRIMMING - length: %d, str: %s\n", (int)strlen(mystr), mystr);
-	
-	strtrim(mystr);
-
-	printf("AFTER TRIMMING - length: %d, str: %s\n", (int)strlen(mystr), mystr);
-}
