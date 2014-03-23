@@ -1,5 +1,5 @@
-#ifndef STR_HANDLER_H
-#define STR_HANDLER_H
+#ifndef STRUTIL_H
+#define STRUTIL_H
 
 #include <string.h>
 
