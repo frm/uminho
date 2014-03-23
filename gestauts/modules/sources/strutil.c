@@ -20,9 +20,14 @@ static int new_str_start (char *str) {
 }
 
 char* strtrim(char *str) {
-	int start = new_str_start(str);
-	int end = new_str_end(str);
-	int last_position = end - start + 1;
+	int start, end, last_position;
+
+	if ( !str )
+		return NULL;
+
+	start = new_str_start(str);
+	end = new_str_end(str);
+	last_position = end - start + 1;
 
 	memmove(str, str + start, last_position);
 	str[last_position] = '\0';

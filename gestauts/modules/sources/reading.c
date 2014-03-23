@@ -2,7 +2,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
-#include "./strutil.h"
+#include "strutil.h"
+#include "statistics.h"
 
 static void extract_year_info(char* year_str) {
 	/* Function that should use year to complete statistics */
@@ -14,38 +15,55 @@ static void extract_author_info(char* author) {
 	 * add author to author_index
 	 * use author info to calculate statistics
 	 */
+	addToLength ( strlen(author) );
+	checkForLength(author);
 }
 
-static void tokenize(char* buffer) {
+static int tokenize(char* buffer) {
+	int nr_authors = 0;
 	char *token = strtok(buffer, ",");
 	
 	while (token) {
 #ifdef debug
 		printf("%s ", token);
 #endif
-		token = strtok(NULL, ",");
-		strtrim(token);
+		/* use !isdigit() instead of isalpha because of names started with special characters */
+		if ( !( isdigit(token[0]) ) ) {
+			extract_author_info(token);
+			nr_authors++;
+		}
+		else
+			extract_year_info(token);
 
-		isalpha(token[0]) ? extract_author_info(token) : extract_year_info(token);
+		token = strtrim( strtok(NULL, ",") );
+	
 	}
+
+	return nr_authors;
 }
 
 int read_from_file(char* filename) {
+	int nr_authors = 0;
+	int nr_publications = 0;
 	char buffer[1024];
 	FILE *file = fopen(filename, "r");
 	
 	/* ERROR HANDLING */
 	if (!file)
 		return -1;
-
+	init_stats();
 	while( fgets(buffer, 1024, file) ) {
 #ifdef debug
 		printf("%s\n", buffer);
 #endif
-		tokenize(buffer);
+		nr_authors += tokenize(buffer);
+		nr_publications++;
 	}
 
-	printf("FILE READ: %s\n", filename);
+	printf("FILE READ: %s\nTOTAL NUMBER OF PUBLICATIONS: %d\nTOTAL NUMBER OF AUTHORS:%d\n", filename, nr_publications, nr_authors);
+	printf("LONGEST NAME: %s with length %ld\n", getLongestAuthorName(), strlen( getLongestAuthorName() ) );
+	printf("SHORTEST NAME: %s with length %ld\n", getShortestAuthorName(), strlen( getShortestAuthorName() ) );
+	printf("AVERAGE LENGTH: %f\n", getAverage());
 	
 
 	return 0;
