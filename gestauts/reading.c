@@ -8,10 +8,10 @@ static void extract_year_info(char* year_str) {
 	return 0;
 }
 
-static void extract_author_info(char *author) {
+static void extract_author_info(char* author) {
 	/* Function that should:
 	 * add author to author_index
-	 * user author info to calculate statistics
+	 * use author info to calculate statistics
 	 */
 	return 0;
 }
@@ -20,8 +20,11 @@ static void tokenize(char* buffer) {
 	char *token = strtok(buffer, ",");
 	
 	while (token) {
-		printf("%s ", token);
-		token = strtrim( strtok(NULL, ",") );
+		/* debug purposes */ printf("%s ", token);
+		
+		token = strtok(NULL, ",");
+		strtrim(token);
+
 		isalpha(token[0]) ? extract_author_info(token) : extract_year_info(token);
 	}
 }
@@ -35,7 +38,7 @@ int read_from_file(char* filename) {
 		return -1;
 
 	while( fgets(buffer, 1024, file) ) {
-		printf("%s\n", buffer);
+		/* debug purposes */ printf("%s\n", buffer);
 		tokenize(buffer);
 	}
 
