@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdio.h>
-#include "../gestauts/lib/headers/str_handler.h"
+#include "../gestauts/lib/headers/strhandler.h"
 
 int main() {
 	char mystr[] = "  123456789  ";
