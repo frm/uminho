@@ -20,18 +20,20 @@ static int new_str_start (char *str) {
 }
 
 char* strtrim(char *str) {
-	int start, end, last_position;
+	int start, end, size;
+	char *new;
 
 	if ( !str )
 		return NULL;
 
 	start = new_str_start(str);
 	end = new_str_end(str);
-	last_position = end - start + 1;
+	size = end - start + 1;
+	
+	new = (char*) malloc(sizeof(char) * size);
+	strncpy(new, str + start, size);
+	new[size] = '\0';
 
-	memmove(str, str + start, last_position);
-	str[last_position] = '\0';
-
-	return str;
+	return new;
 }
 
