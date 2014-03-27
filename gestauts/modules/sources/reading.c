@@ -12,7 +12,7 @@ static int max_year = 0;
 static void swap(int *x, int *y) {
 	int tmp = *x;
 	*x = *y;
-	*y = tmp;	
+	*y = tmp;
 }
 
 static void extract_year_info(char* year_str) {
@@ -34,12 +34,13 @@ static void extract_author_info(char* author) {
 static int tokenize(char* buffer) {
 	int nr_authors = 0;
 	char *token = strtrim( strtok(buffer, ",") );
-	
+
 	while (token) {
 #ifdef ADEBUG
 		printf("%s ", token);
 #endif
 		/* use !isdigit() instead of isalpha because of names started with special characters */
+		/* use a function for this line */
 		if ( !isdigit(token[0]) ) {
 			extract_author_info(token);
 			nr_authors++;
@@ -48,7 +49,7 @@ static int tokenize(char* buffer) {
 			extract_year_info(token);
 
 		token = strtrim( strtok(NULL, ",") );
-	
+
 	}
 
 	return nr_authors;
@@ -59,12 +60,13 @@ int read_from_file(char* filename) {
 	int nr_publications = 0;
 	char buffer[1024];
 	FILE *file = fopen(filename, "r");
-	
+
 	/* ERROR HANDLING */
 	if (!file)
 		return -1;
 
 	init_stats();
+
 	while( fgets(buffer, 1024, file) ) {
 #ifdef DEBUG
 		printf("#%d	%s\n", nr_publications + 1, buffer);
@@ -77,7 +79,7 @@ int read_from_file(char* filename) {
 	printf("LONGEST NAME: %s with length %ld\n", getLongestAuthorName(), strlen( getLongestAuthorName() ) );
 	printf("SHORTEST NAME: %s with length %ld\n", getShortestAuthorName(), strlen( getShortestAuthorName() ) );
 	printf("AVERAGE LENGTH: %f\n", getAverage());
-	printf("MIN YEAR:%d\nMAX YEAR:%d\n", min_year, max_year); 
+	printf("MIN YEAR:%d\nMAX YEAR:%d\n", min_year, max_year);
 
 	return 0;
 }
@@ -85,7 +87,7 @@ int read_from_file(char* filename) {
 
 int main() {
 	int result = read_from_file("./publicx.txt");
-	
+
 	if (result == -1)
 		printf("FILE DOESN'T EXIST\n");
 

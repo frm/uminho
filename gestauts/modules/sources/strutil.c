@@ -15,13 +15,13 @@ static int new_str_start (char *str) {
 
 	while ( i < size && isspace(str[i]) )
 		i++;
-	
+
 	return i;
 }
 
 char* strtrim(char *str) {
 	int start, end, size;
-	char *new;
+	char *newstr;
 
 	if ( !str )
 		return NULL;
@@ -29,11 +29,11 @@ char* strtrim(char *str) {
 	start = new_str_start(str);
 	end = new_str_end(str);
 	size = end - start + 1;
-	
-	new = (char*) malloc(sizeof(char) * size);
-	strncpy(new, str + start, size);
-	new[size] = '\0';
 
-	return new;
+	newstr = (char*) malloc( sizeof(char) * (size + 1) );
+	strncpy(newstr, str + start, size);
+	newstr[size] = '\0';
+
+	return newstr;
 }
 
