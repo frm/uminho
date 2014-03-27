@@ -23,11 +23,15 @@ void addToLength(int len) {
 	nr_authors++;
 }
 
+/*
+ * Using pointer to pointer, to make destination point to the same memory address as
+ * longest/shortest_name. When using only char*, realloc was allocating memory
+ * but not setting longest/shortest_name to point there
+ */
 static void set_author(char* source, char** destination) {
 	int size = strlen(source);
 	*destination = (char*)realloc( *destination, sizeof(char) * (size + 1) );
-	strncpy( *destination, source, sizeof(char) * size );
-	(*destination)[size] = '\0';
+	strncpy( *destination, source, sizeof(char) * (size + 1) );
 }
 
 void checkForLength (char *author) {
