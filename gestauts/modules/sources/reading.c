@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include "strutil.h"
-#include "statistics.h"
+#include "author_index.h"
 
 static int min_year = INT_MAX;
 static int max_year = 0;
@@ -18,8 +18,8 @@ static void swap(int *x, int *y) {
 static void extract_year_info(char* year_str) {
 	/* Function that should use year to complete statistics */
 	int year = atoi(year_str);
-	if (year > max_year) swap(&year, &max_year);
-	else  if (year < min_year) swap(&year, &min_year);
+	if (year > max_year) max_year = year;
+	if (year < min_year) min_year = year;
 }
 
 static void extract_author_info(char* author) {
@@ -36,7 +36,7 @@ static int tokenize(char* buffer) {
 	char *token = strtrim( strtok(buffer, ",") );
 
 	while (token) {
-#ifdef ADEBUG
+#ifdef DEBUG
 		printf("%s ", token);
 #endif
 		/* use !isdigit() instead of isalpha because of names started with special characters */
@@ -47,7 +47,11 @@ static int tokenize(char* buffer) {
 		}
 		else
 			extract_year_info(token);
-
+		
+		/* strtrim is allocating mem
+		 * since we're making copies into the tree, no need for dupmem
+		 */
+		free(token);
 		token = strtrim( strtok(NULL, ",") );
 
 	}

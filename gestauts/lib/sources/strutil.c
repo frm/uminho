@@ -1,6 +1,4 @@
-#include <string.h>
-#include <stdio.h>
-#include <ctype.h> /* Define my own isspace function */
+#include "strutil.h"
 
 static int new_str_end (char *str) {
 	int i = strlen(str) - 1;
@@ -17,16 +15,25 @@ static int new_str_start (char *str) {
 
 	while ( i < size && isspace(str[i]) )
 		i++;
-	
+
 	return i;
 }
 
-void strtrim(char* str) {
-	int start = new_str_start(str);
-	int end = new_str_end(str);
-	int last_position = end - start + 1;
+char* strtrim(char *str) {
+	int start, end, size;
+	char *newstr;
 
-	memmove(str, str + start, last_position);
-	str[last_position] = '\0';
+	if ( !str )
+		return NULL;
+
+	start = new_str_start(str);
+	end = new_str_end(str);
+	size = end - start + 1;
+
+	newstr = (char*) malloc( sizeof(char) * (size + 1) );
+	strncpy(newstr, str + start, size);
+	newstr[size] = '\0';
+
+	return newstr;
 }
 
