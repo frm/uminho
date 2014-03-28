@@ -56,8 +56,8 @@ void deleteTwin(Twin* t) {
 int cmpTwin(int *n, Twin *a, Twin b) {
 	int res;
 	int key = n ? *n : a->i;
-	if (key > b.i) res = -1;
-	else if (key < b.i) res = 1;
+	if (key < b.i) res = -1;
+	else if (key > b.i) res = 1;
 	else res = 0;
 
 	return res;
@@ -83,6 +83,35 @@ void printTwin(Twin t) {
 
 AVL_DEF(Twin, int)
 
+int getAVLHeight(TwinAVLNode t) {
+	int l, r;
+	int h = 0;
+	
+	if (t) {
+
+		l = getAVLHeight( avlTwinGetLeftChild(t) );
+		r = getAVLHeight( avlTwinGetRightChild(t) );
+
+		h = ( l > r ) ? (l + 1) : (r + 1);
+	}
+
+	return h;
+}
+	
+void printTwinAVL(TwinAVLNode t) {
+	if (t) {
+		if ( avlTwinGetLeftChild(t) )
+			printTwinAVL( avlTwinGetLeftChild(t) );
+		
+		printTwin(t -> content);
+		printf( "HEIGHT: %d\n\n", getAVLHeight(t) );
+		
+		if ( avlTwinGetRightChild(t) )
+			printTwinAVL( avlTwinGetRightChild(t) );
+	}
+}
+
+
 int main() {
 	TwinAVL t;
 	Twin fst, snd, trd;
@@ -97,13 +126,16 @@ int main() {
 	val = avlInsert(Twin, t, snd);
 	printf("INSERTED SND WITH VALUE:%d\n", val);
 
-	for (val = 0; val < 40; val++) {
-		trd = newTwin();
+	for (val = 0; val < 10; val++) {
+		trd = newTwinFrom(fst);
 		trd.i = val;
+		trd.c[0] = 'a';
+		trd.c[1] = '\0';
 		j = avlInsert(Twin, t, trd);
 		printf("INSERTED #%d WITH VALUE:%d\n", val, j);
 	}
 
+	printTwinAVL(t -> root);
 
 	return 0;
 }
