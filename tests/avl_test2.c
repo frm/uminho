@@ -49,7 +49,7 @@ Twin newTwin() {
 	return t;
 }
 
-void deleteTwin(Twin* t) {
+void deleteTwin(Twin t) {
 	return;
 }
 
