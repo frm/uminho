@@ -41,22 +41,23 @@ int appendTwinStr(Twin *t, char* str) {
 	return 0;
 }
 
-Twin* newTwin() {
-	Twin* t =(struct twin*)malloc(sizeof(struct twin));
-	t -> i = 0;
-	(t -> c)[0] = '\0';
-	t -> i = 0;
+Twin newTwin() {
+	Twin t;
+	t.i = 0;
+	(t.c)[0] = '\0';
+	t.index = 0;
 	return t;
 }
 
 void deleteTwin(Twin* t) {
-	free(t);
+	return;
 }
 
-int cmpTwin(Twin a, Twin b) {
+int cmpTwin(int *n, Twin *a, Twin b) {
 	int res;
-	if (a.i > b.i) res = -1;
-	else if (a.i < b.i) res = 1;
+	int key = n ? *n : a->i;
+	if (key > b.i) res = -1;
+	else if (key < b.i) res = 1;
 	else res = 0;
 
 	return res;
@@ -66,11 +67,11 @@ void colidingTwin(Twin* a, Twin* b) {
 	strncpy(a->c + a->index, b -> c, strlen(b -> c) + 1);
 }
 
-Twin* newTwinFrom(Twin *a) {
-	Twin *t = newTwin();
-	t -> i = a -> i;
-	t -> index = a -> index;
-	strncpy(t->c, a -> c, sizeof(char)* a -> index);
+Twin newTwinFrom(Twin a) {
+	Twin t = newTwin();
+	t.i = a.i;
+	t.index = a.index;
+	strncpy(t.c, a.c, sizeof(char)* a.index);
 	return t;
 }
 
@@ -83,24 +84,24 @@ void printTwin(Twin t) {
 AVL_DEF(Twin, int)
 
 int main() {
-	TwinAVL tavl;
-	Twin* fst, snd, trd;
-	int val;
+	TwinAVL t;
+	Twin fst, snd, trd;
+	int val, j;
 
-	tavl = avlNew(Twin, &cmpTwin, &colidingTwin, &deleteTwin, &newTwinFrom);
+	t = avlNew(Twin, &cmpTwin, &colidingTwin, &deleteTwin, &newTwinFrom);
 	fst = newTwin();
 	snd = newTwinFrom(fst);
-	
-	val = avlInsert(Twin, tavl, *fst);
+
+	val = avlInsert(Twin, t, fst);
 	printf("INSERTED FST WITH VALUE:%d\n", val);
-	val = avlInsert(Twin, tavl, *snd);
+	val = avlInsert(Twin, t, snd);
 	printf("INSERTED SND WITH VALUE:%d\n", val);
 
 	for (val = 0; val < 40; val++) {
-
 		trd = newTwin();
-		trd -> i = val;
-		avlInsert(Twin, tavl, *trd);
+		trd.i = val;
+		j = avlInsert(Twin, t, trd);
+		printf("INSERTED #%d WITH VALUE:%d\n", val, j);
 	}
 
 
