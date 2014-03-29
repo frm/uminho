@@ -74,7 +74,7 @@ void printTwiceAVL(TwiceAVLNode t) {
 }
 
 
-void test_first_avl() {
+void insert_update_test() {
 	TwiceAVL t;
 	int i, j;
 	Twice tw;
@@ -98,10 +98,10 @@ void test_first_avl() {
 	printf("UPDATE VALUE %d", j);
 	printTwiceAVL(t->root);
 
-
+	avlTwiceDestroy(t);
 }
 
-void test_second_avl(){
+void rotation_find_test(){
 	int i;
 	Twice tw;
 	Twice *tn = (Twice *)malloc(sizeof(Twice));
@@ -133,10 +133,66 @@ void test_second_avl(){
 	tw.val = 0;
 	if (avlTwiceUpdate(t, tw) > 0) printf("UPDATED 11\n");
 	else printf("NO SUCH THING AS 11\n");
+
+	avlTwiceDestroy(t);
+}
+
+
+void clone_destroy_test() {
+	int i = 0;
+	Twice tw;
+	TwiceAVL t, clone;
+	t = avlNew(Twice, &compareTwice, &colidingTwice, &deleteTwice, &cloneTwice);
+
+	printf("\n### THIRD AVL ###\n");
+
+	while ( i < 10 ) {
+		tw = newTwice(i, i);
+		avlTwiceInsert(t, tw);
+		i++;
+	}
+
+	clone = avlTwiceClone(t);
+
+	printf("ORIGINAL AVL ADDRESS: %d ROOT ADDRESS: %d\n", t, (t->root) );
+	printf("CLONED AVL ADDRESS: %d ROOT ADDRESS: %d\n", clone, (clone->root) );
+
+	avlTwiceDestroy(t);
+	avlTwiceDestroy(clone);
+
+	printf("ORIGINAL AVL ADDRESS: %d ROOT ADDRESS: %d\n", t, (t->root) );
+	printf("CLONED AVL ADDRESS: %d ROOT ADDRESS: %d\n", clone, (clone->root) );
+
+}
+
+void yield_test() {
+	Twice tw, ary[20];
+	int i;
+	TwiceAVL t = avlNew(Twice, &compareTwice, &colidingTwice, &deleteTwice, &cloneTwice);
+
+	for (i = 0; i < 20; i++) {
+		tw = newTwice(i, i);
+		avlTwiceInsert(t, tw);
+	}
+
+	for (i = 0; i < 10; i++)
+		avlYield(Twice, t, ary + i);
+	
+	printf("PRINTING FIRST 10 ELEMENTS\n");
+	for (i = 0; i < 10; i++)
+		printf("#%d : (%d, %d)\n", i, ary[i].key, ary[i].val);
+
+	for (i = 10; i < 20; i++)
+		avlYield(Twice, t, ary + i);
+
+	printf("\nPRINTING LAST 10 ELEMENTS\n");
+	for (i = 10; i < 20; i++)
+		printf("#%d : (%d, %d)\n", i, ary[i].key, ary[i].val);
 }
 
 int main() {
-	test_first_avl();
-	test_second_avl();
+	insert_update_test();
+	rotation_find_test();
+	clone_destroy_test();
 	return 0;
 }
