@@ -81,13 +81,13 @@ void insert_update_test() {
 
 	t = avlNew(Twice, &compareTwice, &colidingTwice, &deleteTwice, &cloneTwice);
 
-	printf("### FIRST AVL ###\n");
+	printf("### FIRST AVL - TESTING INSERT AND UPDATE ###\n");
 	printf("INSERTING (1, 1), (2, 2), (3, 3), (4, 4)\n\n");
 	
 	for (i = 1; i < 5; i++) {
 		tw = newTwice(i, i);
 		j = avlInsert(Twice, t, tw);
-		printf("THIS JUST IN: (%d, %d) WITH VALUE %d", i, i, j);
+		printf("THIS JUST IN: (%d, %d) WITH VALUE %d\n", i, i, j);
 	}
 
 	printTwiceAVL(t->root);
@@ -107,7 +107,7 @@ void rotation_find_test(){
 	Twice *tn = (Twice *)malloc(sizeof(Twice));
 	TwiceAVL t = avlNew(Twice, &compareTwice, &colidingTwice, &deleteTwice, &cloneTwice);
 
-	printf("### SECOND AVL ###\n");
+	printf("### SECOND AVL - TESTING ROTATION AND FIND ###\n");
 	printf("INSERTING (i,i) up to 10\n\n");
 
 	for (i = 1; i < 11; i++) {
@@ -120,8 +120,8 @@ void rotation_find_test(){
 	printf("FINDING 5 AND 11\n");
 	avlTwiceFind(t, 5, tn);
 	printf("FOUND (%d, %d)\n", tn->key, tn->val);
-	if (avlTwiceFind(t, 11, tn) > 0) printf("FOUND 11\n");
-	else printf("11? NO SUCH THING\n");
+	if (avlTwiceFind(t, 11, tn) > 0) printf("FOUND 11\n\n");
+	else printf("11? NO SUCH THING\n\n");
 
 	printf("UPDATING (2, 2) TO (2, 3) and 11\n");
 	tw.key = 2;
@@ -144,7 +144,7 @@ void clone_destroy_test() {
 	TwiceAVL t, clone;
 	t = avlNew(Twice, &compareTwice, &colidingTwice, &deleteTwice, &cloneTwice);
 
-	printf("\n### THIRD AVL ###\n");
+	printf("\n### THIRD AVL - TESTING CLONE AND DESTROY ###\n");
 
 	while ( i < 10 ) {
 		tw = newTwice(i, i);
@@ -157,6 +157,7 @@ void clone_destroy_test() {
 	printf("ORIGINAL AVL ADDRESS: %d ROOT ADDRESS: %d\n", t, (t->root) );
 	printf("CLONED AVL ADDRESS: %d ROOT ADDRESS: %d\n", clone, (clone->root) );
 
+	printf("\nABOUT TO DESTROY BOTH AVLS\n\n");
 	avlTwiceDestroy(t);
 	avlTwiceDestroy(clone);
 
@@ -170,29 +171,42 @@ void yield_test() {
 	int i;
 	TwiceAVL t = avlNew(Twice, &compareTwice, &colidingTwice, &deleteTwice, &cloneTwice);
 
+
+	printf("\n### FOURTH AVL - TESTING YIELD ###\n");
+
 	for (i = 0; i < 20; i++) {
 		tw = newTwice(i, i);
 		avlTwiceInsert(t, tw);
 	}
 
 	for (i = 0; i < 10; i++)
-		avlYield(Twice, t, ary + i);
+		avlTwiceYield(t, ary + i);
 	
 	printf("PRINTING FIRST 10 ELEMENTS\n");
 	for (i = 0; i < 10; i++)
 		printf("#%d : (%d, %d)\n", i, ary[i].key, ary[i].val);
 
 	for (i = 10; i < 20; i++)
-		avlYield(Twice, t, ary + i);
+		avlTwiceYield(t, ary + i);
 
 	printf("\nPRINTING LAST 10 ELEMENTS\n");
 	for (i = 10; i < 20; i++)
 		printf("#%d : (%d, %d)\n", i, ary[i].key, ary[i].val);
+
+	printf("\nPRINTING ALL AT ONCE\n");
+	while ( avlTwiceYield(t, &tw) >= 0 ) 
+		printTwice(tw);
+
+	printf("\nTESTING REWIND: REPRINT\n");
+	while ( avlTwiceYield(t, &tw) == 0 )
+		printTwice(tw);
+
 }
 
 int main() {
 	insert_update_test();
 	rotation_find_test();
 	clone_destroy_test();
+	yield_test();
 	return 0;
 }
