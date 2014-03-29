@@ -20,7 +20,7 @@ void colidingTwice(Twice* a, Twice* b){
 	(a -> val) += (b -> val);
 }
 
-void deleteTwice(NULL) { }
+void deleteTwice(Twice t) { }
 
 Twice cloneTwice(Twice t) {
 	Twice n;
@@ -115,20 +115,23 @@ void test_second_avl(){
 		avlInsert(Twice, t, tw);
 	}
 
+	printTwiceAVL(t->root);
+
 	printf("FINDING 5 AND 11\n");
 	avlTwiceFind(t, 5, tn);
 	printf("FOUND (%d, %d)\n", tn->key, tn->val);
-	if (avlTwiceFind(t, 11, tn)) printf("FOUND 11\n");
+	if (avlTwiceFind(t, 11, tn) > 0) printf("FOUND 11\n");
 	else printf("11? NO SUCH THING\n");
 
-	printf("UPDATING (2, 2) TO (2, 3) and 11");
+	printf("UPDATING (2, 2) TO (2, 3) and 11\n");
 	tw.key = 2;
 	tw.val = 3;
 	avlTwiceUpdate(t, tw);
+	printTwiceAVL(t -> root);
 
 	tw.key = 11;
 	tw.val = 0;
-	if (avlTwiceUpdate(t, tw)) printf("UPDATED 11\n");
+	if (avlTwiceUpdate(t, tw) > 0) printf("UPDATED 11\n");
 	else printf("NO SUCH THING AS 11\n");
 }
 
