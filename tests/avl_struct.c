@@ -194,7 +194,8 @@ void yield_test() {
 		printf("#%d : (%d, %d)\n", i, ary[i].key, ary[i].val);
 
 	printf("\nPRINTING ALL AT ONCE\n");
-	while ( avlTwiceYield(t, &tw) >= 0 ) 
+	avlRewindGenerator(Twice, t);
+	while ( avlTwiceYield(t, &tw) == 0 ) 
 		printTwice(tw);
 
 	printf("\nTESTING REWIND: REPRINT\n");
