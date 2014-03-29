@@ -120,7 +120,8 @@ int main() {
 	t = avlNew(Twin, &cmpTwin, &colidingTwin, &deleteTwin, &newTwinFrom);
 	fst = newTwin();
 	snd = newTwinFrom(fst);
-
+	
+	printf("1ST AVL\n\n");
 	val = avlInsert(Twin, t, fst);
 	printf("INSERTED FST WITH VALUE:%d\n", val);
 	val = avlInsert(Twin, t, snd);
