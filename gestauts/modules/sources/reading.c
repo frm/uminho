@@ -9,11 +9,11 @@
 static int min_year = INT_MAX;
 static int max_year = 0;
 
-static void swap(int *x, int *y) {
+/*static void swap(int *x, int *y) {
 	int tmp = *x;
 	*x = *y;
 	*y = tmp;
-}
+}*/
 
 static void extract_year_info(char* year_str) {
 	/* Function that should use year to complete statistics */
@@ -29,6 +29,7 @@ static void extract_author_info(char* author) {
 	 */
 	addToLength( strlen(author) );
 	checkForLength(author);
+	insertAuthor(author);
 }
 
 static int tokenize(char* buffer) {
@@ -69,7 +70,7 @@ int read_from_file(char* filename) {
 	if (!file)
 		return -1;
 
-	init_stats();
+	initialize_author_index();
 
 	while( fgets(buffer, 1024, file) ) {
 #ifdef DEBUG
@@ -91,9 +92,20 @@ int read_from_file(char* filename) {
 
 int main() {
 	int result = read_from_file("./publicx.txt");
+	int i;
+	int number;
+	char* author_list[24];
 
 	if (result == -1)
 		printf("FILE DOESN'T EXIST\n");
+	
+	printAuthorIndex();
+	
+	number = getListOfAuthorsBy('A', author_list, 24);
+	printf("%d\n", number);
+	for (i = 0; i < number; i++) {
+		printf("%s\n", author_list[i]);
+	}
 
 	return 0;
 }
