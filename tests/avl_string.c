@@ -39,7 +39,7 @@ void printStringAVL(StringAVLNode t) {
 }
 
 int main() {
-	StringAVL t = avlNew(String, &compareString, NULL, NULL, &cloneString);
+	StringAVL t = avlNewComplete(String, &compareString, NULL, NULL, &cloneString);
 
 	avlStringInsert(t, "ABC");
 	avlStringInsert(t, "Abacate");
@@ -48,8 +48,11 @@ int main() {
 	avlStringInsert(t, "Ananas");
 	avlStringInsert(t, "Acb Fed");
 	avlStringInsert(t, "Abacaxi");
+	avlStringInsert(t, "Abacate");
 	
+
 	putchar('\n');
 	putchar('\n');
 	printStringAVL( t->root );
+	printf("%d\n", strcmp("ABCD", "ZY"));
 }
