@@ -23,8 +23,9 @@ static Author cloneAuthor(Author author) {
 
 static int compareAuthor(Author* key_author, Author* author1, Author author2) {
 	Author key = key_author ? (*key_author) : (*author1);
-
-	return strcmp( key, author2 );
+	int result = strcmp( key, author2 );
+	
+	return result;
 }
 
 static void printAuthorAVL( AuthorAVLNode tree ) {
@@ -46,7 +47,7 @@ void init_author_tree() {
 	int i = 0;
 
 	while (i < 27)
-		letterIndex[i++] = avlNew(Author, &compareAuthor, NULL, &deleteAuthor, &cloneAuthor);	
+		letterIndex[i++] = avlNewComplete(Author, &compareAuthor, NULL, &deleteAuthor, &cloneAuthor);	
 }
 
 static int getLetterIndex(char c) {
