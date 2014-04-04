@@ -1,12 +1,22 @@
 #include <string.h>
 #include <stdlib.h>
+#include <limits.h>
 
-static double totalLength = 0;
-static double nr_authors = 0;
+static double totalLength;
+static double nr_authors;
+static int nr_publications;
+static int min_year;
+static int max_year;
 static char* longest_name;
 static char* shortest_name;
 
 void init_author_stats() {
+	totalLength = 0;
+	nr_authors = 0;
+	nr_publications = 0;
+	max_year = 0;
+	min_year = INT_MAX;
+
 	longest_name = (char*)malloc( sizeof(char) * 3);
 	strncpy(longest_name, "AA\0", sizeof(char) * 3);
 	shortest_name = (char*)malloc( sizeof(char) * 10);
@@ -17,12 +27,23 @@ char* getLongestAuthorName() { return longest_name; }
 char* getShortestAuthorName() { return shortest_name; }
 
 double getAverage() { return totalLength/nr_authors; }
+double getNumberAuthors() { return nr_authors; }
 
 void addToLength(int len) {
 	totalLength += (double)len;
 	nr_authors++;
 }
 
+int getMaxYear() { return max_year; }
+int getMinYear() { return min_year; }
+
+int getNrPublications() { return nr_publications; }
+
+void checkForYear(int new_year) {
+	if (new_year > max_year) max_year = new_year;
+	if (new_year < min_year) min_year = new_year;
+	nr_publications++;
+}
 /*
  * Using pointer to pointer, to make destination point to the same memory address as
  * longest/shortest_name. When using only char*, realloc was allocating memory
