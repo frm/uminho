@@ -7,6 +7,7 @@ static double nr_authors;
 static int nr_publications;
 static int min_year;
 static int max_year;
+
 static char* longest_name;
 static char* shortest_name;
 

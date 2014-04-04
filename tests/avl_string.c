@@ -54,5 +54,4 @@ int main() {
 	putchar('\n');
 	putchar('\n');
 	printStringAVL( t->root );
-	printf("%d\n", strcmp("ABCD", "ZY"));
 }

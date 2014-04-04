@@ -23,9 +23,8 @@ static Author cloneAuthor(Author author) {
 
 static int compareAuthor(Author* key_author, Author* author1, Author author2) {
 	Author key = key_author ? (*key_author) : (*author1);
-	int result = strcmp( key, author2 );
-	
-	return result;
+
+	return strcmp( key, author2 );
 }
 
 static void printAuthorAVL( AuthorAVLNode tree ) {

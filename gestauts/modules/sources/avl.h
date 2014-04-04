@@ -59,6 +59,7 @@
         } else {                                                                            \
             if (!stackPull(type##AVLNode, avl->generator.stack, &node)){                    \
                 avl##type##StackMin(avl->generator.stack, node->right);                     \
+
                 if (avl->cloneContent)                                                      \
                     *ret = avl->cloneContent(node->content);                                \
             } else {                                                                        \
