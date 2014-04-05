@@ -38,14 +38,18 @@ int insertAuthor(char* author) {
 	return avlAuthorInsert( letterIndex[index], casted_author );
 }
 
-int getListOfAuthorsBy(char initial, char** author_list, int number_displays) {
+int getListOfAuthorsBy(char initial, char** author_list, int number_displays, int* number_read) {
 	int i = 0;
 	int index = getLetterIndex(initial);
+	int reading;
 
-	while ( i < number_displays && avlAuthorYield( letterIndex[index], &(author_list[i]) )  == 0 )
-		i++;
+	do
+		reading = avlAuthorYield( letterIndex[index], &(author_list[i++]) );
+	while ( i < number_displays && reading  == 0 );
 
-	return i;
+	*number_read = i;
+
+	return reading;
 }
 
 void rewindAuthor(char initial) {

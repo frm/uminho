@@ -9,7 +9,7 @@
 #define NR_ERRORS		2
 #define GREET()			( printf("WELCOME TO GESTAUTS.\n") )
 #define BID_FAREWELL()	( printf("BYE BYE.\n") )
-#define valid_input(i)  ( ( (i) > -1 ) && ( (i) < NR_OPTIONS ) )
+#define valid_input(i)  ( ( (i) > -1 ) && ( (i) < NR_FUNCTIONS ) )
 
 static int inGestAuts = 1;
 static int populated_db = 0;
@@ -67,22 +67,22 @@ static void query1() {
 static void query6() {
 	char* author_list[24];
 	char initial, option;
-	int number, i;
-	int wants_to_read = 1, valid_option;
+	int i, valid_option, number_read, has_finished;
+	int wants_to_read = 1;
 
 	printf("\nENTER AN INITIAL: ");
 	scanf("\t%c", &initial);
 
 	while( wants_to_read ) {
 		valid_option = 0;
-		number = getAuthorsBy(initial, author_list, 24);
+		has_finished = getAuthorsBy(initial, author_list, 24, &number_read);
 
-		for(i = 0; i < number; i++)
+		for(i = 0; i < number_read; i++)
 			printf( "%s\n", author_list[i] );
 
 		putchar('\n');
 
-		if (number < 24)
+		if ( number_read < 24 || has_finished )
 			wants_to_read = 0;
 
 		else {
@@ -96,6 +96,7 @@ static void query6() {
 
 				if (option != 'Y' && option != 'N')
 					printf("INVALID OPTION\n");
+
 				else {
 					if ( option == 'N' )
 						wants_to_read = 0;
@@ -105,7 +106,7 @@ static void query6() {
 			}
 		}
 
-	for (i = 0; i < number; i++)
+	for (i = 0; i < number_read; i++)
 		free(author_list[i]);
 	}
 
@@ -155,9 +156,9 @@ static int get_option() {
 
 	/* Error handling */
 	if( !valid_input( index ) )
-		index = NR_OPTIONS;
+		index = NR_FUNCTIONS;
 	else if ( index > 1 && !populated_db )
-		index = NR_OPTIONS + 1;
+		index = NR_FUNCTIONS + 1;
 
 	return index;
 }

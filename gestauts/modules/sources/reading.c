@@ -96,11 +96,11 @@ char* getAuthorStats() {
 	return stats;
 }
 
-int getAuthorsBy(char initial, char** list, int number) {
+int getAuthorsBy(char initial, char** list, int number_displays, int* number_read) {
 	if( islower(initial) )
 		initial = toupper(initial);
 
-	return getListOfAuthorsBy(initial, list, number);
+	return getListOfAuthorsBy(initial, list, number_displays, number_read);
 }
 
 void resetAuthorBy(char initial) {
