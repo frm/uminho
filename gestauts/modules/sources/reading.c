@@ -2,8 +2,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
-#include "strutil.h"
-#include "gestauts.h"
+#include "../../lib/headers/strutil.h"
+#include "../headers/gestauts.h"
 
 static char* fileread;
 

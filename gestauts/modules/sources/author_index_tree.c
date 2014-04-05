@@ -1,4 +1,4 @@
-#include "avl.h"
+#include "../../lib/headers/avl.h"
 #include <string.h>
 
 #define normalLetter(c)		( ( (c) >= 'A' ) && ( (c) <= 'Z' ) )
