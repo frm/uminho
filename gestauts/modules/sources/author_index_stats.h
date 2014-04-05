@@ -13,7 +13,8 @@ void addToLength(int len);
 void checkForYear(int new_year);
 void checkForLength(char *author);
 
-void init_author_stats();
+void initAuthorStats();
+void deleteAuthorIndexStats();
 
 #endif
 

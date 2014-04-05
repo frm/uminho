@@ -11,19 +11,6 @@ static int max_year;
 static char* longest_name;
 static char* shortest_name;
 
-void init_author_stats() {
-	totalLength = 0;
-	nr_authors = 0;
-	nr_publications = 0;
-	max_year = 0;
-	min_year = INT_MAX;
-
-	longest_name = (char*)malloc( sizeof(char) * 3);
-	strncpy(longest_name, "AA\0", sizeof(char) * 3);
-	shortest_name = (char*)malloc( sizeof(char) * 10);
-	strncpy(shortest_name, "AAAAAAAAA\0", sizeof(char) * 10);
-}
-
 char* getLongestAuthorName() { return longest_name; }
 char* getShortestAuthorName() { return shortest_name; }
 
@@ -64,3 +51,20 @@ void checkForLength (char *author) {
 		set_author(author, &shortest_name);
 }
 
+void initAuthorStats() {
+	totalLength = 0;
+	nr_authors = 0;
+	nr_publications = 0;
+	max_year = 0;
+	min_year = INT_MAX;
+
+	longest_name = (char*)malloc( sizeof(char) * 3);
+	strncpy(longest_name, "AA\0", sizeof(char) * 3);
+	shortest_name = (char*)malloc( sizeof(char) * 10);
+	strncpy(shortest_name, "AAAAAAAAA\0", sizeof(char) * 10);
+}
+
+void deleteAuthorIndexStats() {
+	free(longest_name);
+	free(shortest_name);
+}

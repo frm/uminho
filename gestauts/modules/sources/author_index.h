@@ -4,7 +4,8 @@
 #include "author_index_stats.h"
 #include "author_index_tree.h"
 
-void initialize_author_index();
+void initializeAuthorIndex();
+void deleteAuthorIndex();
 
 #endif
 
