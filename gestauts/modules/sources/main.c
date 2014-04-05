@@ -3,14 +3,16 @@
 #include <string.h>
 #include "gestauts.h"
 
-#define NR_OPTIONS		13
-#define NR_FUNCTIONS	14
-#define NR_ERRORS		1
+#define NR_OPTIONS		15
+#define NR_FUNCTIONS	15
+#define NR_ERRORS		2
 #define GREET()			( printf("WELCOME TO GESTAUTS.\n") )
 #define BID_FAREWELL()	( printf("BYE BYE.\n") )
 #define valid_input(i)  ( ( (i) > -1 ) && ( (i) < NR_OPTIONS ) )
 
 static int inGestAuts = 1;
+static int populated_db = 0;
+
 static char* options[NR_OPTIONS] = {
 	"ENTER ONE OF THE FOLLOWING OPTIONS",
 	"READ FROM FILE",
@@ -18,18 +20,25 @@ static char* options[NR_OPTIONS] = {
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
+	"GET AUTHORS BY INITIAL",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
-	"TO BE IMPLEMENTED"
+	"TO BE IMPLEMENTED",
+	"PRINT NAME STATISTICS"
 };
 /* Functions to be replaced with queries */
-static void leaveGestAuts() { inGestAuts = 0; }
-static void failureprnt() { printf("NON EXISTING FUNCTION\n"); }
-static void invalid_option_err() { printf("INVALID OPTION\n"); }
+static void failureprnt() { printf("NON EXISTING FUNCTION\n\n"); }
+static void invalid_option_err() { printf("INVALID OPTION\n\n"); }
+static void no_file_read_err() { printf("NO FILE WAS READ YET. PLEASE READ FROM A FILE\n\n"); }
+
+static void exitGestAuts() {
+	if (populated_db) leaveGestauts();
+	inGestAuts = 0;
+}
 
 static void query1() {
 	char* stats;
@@ -38,7 +47,7 @@ static void query1() {
 
 	while ( !valid_input ) {
 		printf("ENTER A FILENAME:\n");
-		scanf("%1024s\n", filename);
+		scanf("%s", filename);
 
 		if ( read_file(filename) == -1 )
 			printf("ERROR: FILE DOESN'T EXIST\n\n");
@@ -47,15 +56,65 @@ static void query1() {
 	}
 
 	stats = getReadStats();
-	printf( "%s\n", stats );
+	printf( "%s\n\n", stats );
 	free(stats);
+
+	populated_db = 1;
 }
 
 static void query6() {
-	printf("\n");
+	char* author_list[24];
+	char initial, option;
+	int number, i;
+	int wants_to_read = 1, valid_option;
+
+	printf("\nENTER AN INITIAL: ");
+	scanf("\t%c", &initial);
+
+	while( wants_to_read ) {
+		valid_option = 0;
+		number = getAuthorsBy(initial, author_list, 24);
+
+		for(i = 0; i < number; i++)
+			printf( "%s\n", author_list[i] );
+
+		putchar('\n');
+
+		if (number < 24)
+			wants_to_read = 0;
+
+		else {
+
+			while (!valid_option) {
+				printf("MORE AUTHORS AVAILABLE. CONTINUE READING? [Y/N] ");
+				scanf("\t%c", &option);
+
+				if (option != 'Y' && option != 'N')
+					printf("INVALID OPTION\n");
+				else {
+					if ( option == 'N' )
+						wants_to_read = 0;
+
+					valid_option = 1;
+				}
+			}
+		}
+
+	for (i = 0; i < number; i++)
+		free(author_list[i]);
+	}
+
+	resetAuthorBy(initial);
 }
+
+static void query14() {
+	char* stats = getAuthorStats();
+	printf("%s\n\n", stats );
+	free(stats);
+}
+
 static void(* functions[NR_FUNCTIONS + NR_ERRORS] )() = {
-	&leaveGestAuts,
+	&exitGestAuts,
 	&query1,
 	&failureprnt,
 	&failureprnt,
@@ -69,7 +128,9 @@ static void(* functions[NR_FUNCTIONS + NR_ERRORS] )() = {
 	&failureprnt,
 	&failureprnt,
 	&failureprnt,
-    &invalid_option_err
+	&query14,
+    &invalid_option_err,
+    &no_file_read_err
 };
 
 static void print_options() {
@@ -78,6 +139,8 @@ static void print_options() {
 	printf("%s\n", options[0]);
 	while (i < NR_OPTIONS)
 		printf("\x1B[33m(%d)\x1B[37m - %s\n", i, options[i++]);
+
+	putchar('\n');
 }
 
 static int get_option() {
@@ -87,6 +150,8 @@ static int get_option() {
 
 	/* Error handling */
 	if( !valid_input( index ) )
+		index = NR_OPTIONS;
+	else if ( index > 1 && !populated_db )
 		index = NR_OPTIONS + 1;
 
 	return index;
@@ -105,12 +170,8 @@ static void cmd_interpreter() {
 	BID_FAREWELL();
 }
 
-static void init() {
-	initialize_author_index();
-}
-
 int main() {
-	init();
+	initializeGestauts();
 	cmd_interpreter();
 	return 0;
 }
