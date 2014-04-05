@@ -43,7 +43,7 @@ static void set_author(char* source, char** destination) {
 	strncpy( *destination, source, sizeof(char) * (size + 1) );
 }
 
-void checkForLength (char *author) {
+void checkForLength (char* author) {
 	if ( strlen(author) > strlen(longest_name) )
 		set_author(author, &longest_name);
 

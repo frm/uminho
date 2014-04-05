@@ -11,7 +11,7 @@ int getNrPublications();
 
 void addToLength(int len);
 void checkForYear(int new_year);
-void checkForLength(char *author);
+void checkForLength(char* author);
 
 void initAuthorStats();
 void deleteAuthorIndexStats();

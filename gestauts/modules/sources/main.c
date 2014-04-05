@@ -74,25 +74,26 @@ static void query6() {
 	scanf("\t%c", &initial);
 
 	while( wants_to_read ) {
-		valid_option = 0;
 		has_finished = getAuthorsBy(initial, author_list, 24, &number_read);
 
-		for(i = 0; i < number_read; i++)
+		for(i = 0; i < number_read; i++) {
 			printf( "%s\n", author_list[i] );
+			free( author_list[i] );
+		}
 
 		putchar('\n');
 
-		if ( number_read < 24 || has_finished )
+		if ( has_finished )
 			wants_to_read = 0;
 
 		else {
+			valid_option = 0;
 
 			while (!valid_option) {
 				printf("MORE AUTHORS AVAILABLE. CONTINUE READING? [Y/N] ");
 				scanf("\t%c", &option);
 
-                if ( islower(option) )
-                    option = toupper(option);
+                option = toupper(option);
 
 				if (option != 'Y' && option != 'N')
 					printf("INVALID OPTION\n");
@@ -105,9 +106,6 @@ static void query6() {
 				}
 			}
 		}
-
-	for (i = 0; i < number_read; i++)
-		free(author_list[i]);
 	}
 
 	resetAuthorBy(initial);

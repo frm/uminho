@@ -1,9 +1,9 @@
 #include "avl.h"
 #include <string.h>
+
 #define normalLetter(c)		( ( (c) >= 'A' ) && ( (c) <= 'Z' ) )
 
 typedef char* Author;
-
 AVL_DEF(Author, Author)
 
 static AuthorAVL letterIndex[27];
@@ -15,7 +15,7 @@ static void deleteAuthor(Author author) {
 static Author cloneAuthor(Author author) {
 	int size = strlen(author) + 1;
 
-	Author clone = (char*)malloc( sizeof(char) * size);
+	Author clone = (Author)malloc( sizeof(char) * size);
 	strncpy(clone, author, size);
 
 	return clone;
@@ -43,8 +43,10 @@ int getListOfAuthorsBy(char initial, char** author_list, int number_displays, in
 	int index = getLetterIndex(initial);
 	int reading;
 
-	do
-		reading = avlAuthorYield( letterIndex[index], &(author_list[i++]) );
+	do {
+		reading = avlAuthorYield( letterIndex[index], &(author_list[i]) );
+		i++;
+	}
 	while ( i < number_displays && reading  == 0 );
 
 	*number_read = i;
