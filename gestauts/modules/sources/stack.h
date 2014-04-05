@@ -106,3 +106,4 @@
 #define stackClear(type, st) stack##type##Clear(st)
 
 #endif
+
