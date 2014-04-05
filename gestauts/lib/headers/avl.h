@@ -74,6 +74,11 @@
         return 0;                                                                           \
     }                                                                                       \
                                                                                             \
+    int avl##type##RewindGenerator(type##AVL avl) {                                         \
+        return avl##type##Yield(avl, NULL);                                                 \
+    }                                                                                       \
+                                                                                            \
+                                                                                            \
     type##AVLNode __avlNode##type##New(type content) {                                      \
         type##AVLNode node;                                                                 \
                                                                                             \
