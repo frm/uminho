@@ -1,11 +1,11 @@
-#ifndef STATISTICS_H_
-#define STATISTICS_H_
+#ifndef AUTHOR_INDEX_H
+#define AUTHOR_INDEX_H
 
-char* getLongestAuthorName();
-char* getShortestAuthorName();
-double getAverage();
-void addToLength(int len);
-void checkForLength(char *author);
-void init_stats();
+#include "author_index_stats.h"
+#include "author_index_tree.h"
+
+void initializeAuthorIndex();
+void deleteAuthorIndex();
 
 #endif
+
