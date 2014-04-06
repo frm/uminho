@@ -1,4 +1,4 @@
-#include "../headers/author_index.h"
+#include "author_index.h"
 #include <string.h>
 
 #define normalLetter(c)		( ( (c) >= 'A' ) && ( (c) <= 'Z' ) )

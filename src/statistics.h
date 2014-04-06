@@ -14,3 +14,4 @@ int statsGetYearTotal(int);
 int statsYieldYearTotal(int *, int *);
 
 #endif
+

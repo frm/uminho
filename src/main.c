@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "../headers/gestauts.h"
+#include "gestauts.h"
 
 #define NR_OPTIONS		16
 #define NR_FUNCTIONS	15

@@ -2,7 +2,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
-#include "../headers/reading.h"
+#include "reading.h"
 
 static char* fileread;
 

@@ -1,8 +1,10 @@
 #ifndef READING_H_
 #define READING_H_
 
-#include "../../lib/headers/strutil.h"
-#include "../headers/gestauts.h"
+#include <strutil.h>
+#include "gestauts.h"
+//#include "../../lib/headers/strutil.h"
+//#include "../headers/gestauts.h"
 
 int read_file(char* filename);
 

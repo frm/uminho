@@ -1,7 +1,7 @@
 #ifndef AUTHOR_INDEX_TREE_H_
 #define AUTHOR_INDEX_TREE_H_
 
-#include "../../lib/headers/avl.h"
+#include <avl.h>
 
 typedef char* Author;
 

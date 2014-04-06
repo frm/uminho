@@ -1,8 +1,8 @@
-#include "../headers/statistics_tree.h"
+#include "statistics_tree.h"
 
-AVL_DEF(CoAuthorStats, int);
+AVL_DEF(CoAuthorStats, int)
 
-AVL_DEF(YearStats, int);
+AVL_DEF(YearStats, int)
 /*
  * CUSTOM AVL FUNCTION
  */

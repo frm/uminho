@@ -1,4 +1,4 @@
-#include "../../lib/headers/strutil.h"
+#include "strutil.h"
 
 static int new_str_end (char *str) {
 	int i = strlen(str) - 1;

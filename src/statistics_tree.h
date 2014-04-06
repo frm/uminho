@@ -1,14 +1,14 @@
 #ifndef STATISTICS_TREE_H
 #define STATISTICS_TREE_H
 
-#include "../../lib/headers/avl.h"
+#include <avl.h>
 
 typedef struct CoAuthorStats_s{
     int coAuthors;
     int total; 
 } CoAuthorStats;
 
-AVL_DEF_HEADER(CoAuthorStats, int);
+AVL_DEF_HEADER(CoAuthorStats, int)
 
 typedef struct YearStats_s{
     int year;
@@ -16,7 +16,7 @@ typedef struct YearStats_s{
     CoAuthorStatsAVL extraCoAuthors;
 } YearStats;
 
-AVL_DEF_HEADER(YearStats, int);
+AVL_DEF_HEADER(YearStats, int)
 
 YearStatsAVL initStatsTree(void);
 void deleteStatsTree(YearStatsAVL);
@@ -35,3 +35,4 @@ void coAuthorStatsCollision(CoAuthorStats *stats1, CoAuthorStats *stats2);
 int coAuthorStatsComp(int *keyInt, CoAuthorStats *keyStats, CoAuthorStats stats);
 
 #endif
+

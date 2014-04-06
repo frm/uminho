@@ -1,5 +1,5 @@
-#include "../headers/statistics.h"
-#include "../headers/statistics_tree.h"
+#include "statistics.h"
+#include "statistics_tree.h"
 
 static StatsTree yearStatsTree = NULL;
 
