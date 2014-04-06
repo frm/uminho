@@ -3,8 +3,6 @@
 
 #include <strutil.h>
 #include "gestauts.h"
-//#include "../../lib/headers/strutil.h"
-//#include "../headers/gestauts.h"
 
 int read_file(char* filename);
 
