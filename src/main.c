@@ -154,8 +154,10 @@ static void print_options() {
 	int i = 1;
 
 	printf("%s\n", options[0]);
-	while (i < NR_OPTIONS)
-		printf("\x1B[33m(%d)\x1B[37m - %s\n", i - 1, options[i++]);
+	while (i < NR_OPTIONS) {
+		printf("\x1B[33m(%d)\x1B[37m - %s\n", i - 1, options[i]);
+		i++;
+	}
 
 	putchar('\n');
 }
