@@ -23,6 +23,10 @@ final: CC = gcc
 final: CFLAGS += -O2
 final: $(EXEC)
 
+leak-check: CFLAGS += -g
+leak-check: $(EXEC)
+	valgrind --tool=memcheck --leak-check=yes ./$(EXEC)
+
 clean:
 	@echo "CLEANING UP"
 	@cat .make/asciiart/maid.art
