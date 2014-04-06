@@ -8,17 +8,20 @@ src_%.o: src/%.c src/%.h
 	@echo "		C $@"
 	$(COMPILE.c) $(OUTPUT_OPTION) $<
 
-.PHONY: clean
+.PHONY: clean debug test final
 
 $(EXEC): src/*.c includes/*.c 
 	$(LINK.c) $(OUTPUT_OPTION) $^ $(LOADLIBES) $(LDLIBS)
 
 debug: CFLAGS += -g
+debug: $(EXEC)
 
 test: CFLAGS += -g -DDEBUG
+test: $(EXEC)
 
 final: CC = gcc
 final: CFLAGS += -O2
+final: $(EXEC)
 
 clean:
 	@echo "CLEANING UP"
