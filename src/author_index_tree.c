@@ -23,7 +23,7 @@ static Author cloneAuthor(Author author) {
 static int compareAuthor(Author* key_author, Author* author1, Author author2) {
 	Author key = key_author ? (*key_author) : (*author1);
 
-	return strcmp( key, author2 );
+	return strcmp(key, author2);
 }
 
 int getLetterIndex(char c) {

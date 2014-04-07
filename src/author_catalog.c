@@ -140,8 +140,8 @@ static AuthorEntry newAuthorEntry(char* name) {
 	newAuthorEntry.name = (char*) malloc( sizeof(char) * ( strlen(name) + 1) );
 	strncpy(newAuthorEntry.name, name, sizeof(char) * ( strlen(name) + 1 ) );
 
-	newAuthorEntry.publ_info = vecNew(YearPubl, 2000);
-	newAuthorEntry.coauth_info = vecNew(CoAuthPubl, 2000);
+	newAuthorEntry.publ_info = vecNew(YearPubl, 200);
+	newAuthorEntry.coauth_info = vecNew(CoAuthPubl, 20);
 
 	return newAuthorEntry;
 }

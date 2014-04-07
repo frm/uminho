@@ -40,7 +40,7 @@
     void __avl##type##DestroyNode(void (*deleteContent)(type), type##AVLNode);              \
     void avl##type##Destroy(type##AVL);                                                     \
     int avl##type##Insert(type##AVL, type);                                                 \
-    type##AVLNode __avl##type##Find(int (*compare)(keyType *, type *, type),                \
+    type##AVLNode __avl##type##Find(int (*)(keyType *, type *, type),                       \
                                     type##AVLNode,                                          \
                                     type *,                                                 \
                                     keyType *);                                             \
@@ -358,7 +358,7 @@
     }                                                                                       \
                                                                                             \
     int __avl##type##InsertFind(type##AVL avl, type item, type##AVLNode *ret) {             \
-        type##AVLNode newNode;                                                              \
+        type##AVLNode newNode, temp;                                                        \
         int growth, col;                                                                    \
         type content;                                                                       \
                                                                                             \
@@ -369,7 +369,7 @@
         else                                                                                \
             content = item;                                                                 \
                                                                                             \
-        newNode = __avlNode##type##New(content);                                            \
+        temp = newNode = __avlNode##type##New(content);                                     \
                                                                                             \
         if (!newNode)                                                                       \
             return -1;                                                                      \
@@ -386,6 +386,9 @@
             avl##type##Yield(avl, NULL);                                                    \
                                                                                             \
         *ret = newNode;                                                                     \
+                                                                                            \
+        if (temp != newNode)                                                                \
+            return 1;                                                                       \
                                                                                             \
         return 0;                                                                           \
     }                                                                                       \
