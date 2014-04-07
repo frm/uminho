@@ -2,13 +2,17 @@
 #include <avl.h>
 #include <vector.h>
 
+AuthorEntryAVL AuthorCatalogEntries[27];
+
+typedef AuthorPtr AuthorEntry*;
+
 typedef struct year_publ {
 	int year;
 	int nr_publications;
 } YearPubl;
 
 typedef struct coauthor_publ {
-	char* coauthor;
+	AuthorPtr coauthor;
 	int nr_publications;
 } CoAuthPubl;
 	
@@ -21,19 +25,24 @@ typedef struct author_entry {
 	CoAuthPublVector coauth_info;
 } AuthorEntry;
 
+VECTOR_DEF(AuthorPtr);
+
+typedef struct year_author {
+	int year;
+	int total;
+	AuthorPtrVector authors;
+} YearAuthor;
 
 YearPubl cloneYearPubl(YearPubl original) {
 	return original;
 }
 
 int addYearPublication(YearPublVector v, int year) {
-	int i = 0;
-	int size = getYearPublVecSize(v);
 	int updated = 0;
+	int i = 0;
 	YearPubl updater;
 
-	while ( i < size && !updated ) {
-		vecYearPublGet(v, i, &updater);
+	while ( vecYearPublGet(v, i, &updater) == 0 && !updated ) {
 		if ( updater.year == year ) {
 			updater.nr_publications++;
 			vecYearPublUpdate(v, i, updater);
@@ -53,23 +62,16 @@ int addYearPublication(YearPublVector v, int year) {
 
 
 CoAuthPubl cloneCoAuthPubl(CoAuthPubl original) {
-	CoAuthPubl clone;
-
-	clone.nr_publications = original.nr_publications;
-	strncpy( clone.coauthor, original.coauthor, sizeof(char) * ( strlen(original.coauthor) + 1 ) );
-
-	return clone;
+	return original;
 }
 
-int addCoAuthPublication(CoAuthPublVector v, char* coauthor) {
-	int i = 0;
-	int size = getVecSize(v);
+int addCoAuthPublication(CoAuthPublVector v, AuthorPtr coauthor) {
 	int updated = 0;
+	int i = 0;
 	CoAuthPubl updater;
 
-	while( i < size && !updated ) {
-		vecCoAuthPublGet(v, i, &updater);
-		if ( strcmp(updater.coauthor, coauthor) == 0 ) {
+	while( vecCoAuthPublGet(v, i, &updater) == 0 && !updated ) {
+		if ( updater.coauthor == coauthor ) {
 			updater.nr_publications++;
 			vecCoAuthPublUpdate(v, i, updater);
 			updated = 1;
@@ -79,16 +81,88 @@ int addCoAuthPublication(CoAuthPublVector v, char* coauthor) {
 
 	if (!updated) {
 		updater.nr_publications = 1;
-		strncpy( updater.coauthor, coauthor, sizeof(char) * ( strlen(coauthor) + 1) );
+		updater.coauthor = coauthor;
 		vecCoAuthPublAppend(v, updater);
 	}
-	
+
 	return 1 - updated;
 }
 
+AVL_DEF(AuthorEntry, char*)
+
+int compareAuthorEntry(char** key_search, AuthorEntry* fst, AuthorEntry snd) {
+	int cmp;
+	char* key = key_search ? (*key_search) : fst -> name;
+
+	return strcmp(key, snd.name);
+}
+
+AuthorEntry cloneAuthorEntry(AuthorEntry original) {
+	AuthorEntry clone;
+	int size = strlen(original.name) + 1;
+
+	clone.name = (char*)malloc( sizeof(char) * size );
+	strncpy(clone.name, original.name, sizeof(char) * size);
+	
+	clone.coauth_info = vecCoAuthorPublClone(original.coauth_info);
+	clone.publ_info = vecYearPublClone(original.publ_info);
+
+	return clone;
+}
+
+void deleteAuthorEntry(AuthorEntry a) {
+	free(a.name);
+	vecCoAuthPublDestroy(a.coauth_info);
+	vecYearPublDestroy(a.publ_info);
+}
+
+
+AuthorPtr cloneAuthorPtr(AuthorPtr original) {
+	return original;
+}
+
+int addAuthorPtr(AuthorPtrVector v, AuthorPtr author) {
+	int i = 0;
+	int found = 0;
+	AuthorPtr keeper;
+
+	while ( vecAuthorPtrGet(v, i, &keeper) == 0 && !found ) {
+		if (keeper == author)
+			found = 1;
+		i++;
+	}
+	
+	if (!found)
+		vecAuthorPtrAppend(v, author);
+	
+	return 1 - found;
+}
+
+AVL_DEF(YearAuthor, int)
+
+int compareYearAuthor(int* key_search, YearAuthor *fst, YearAuthor snd) {
+	int cmp;
+	int key = key_search? *key_search : fst -> year;
+
+	if ( key > snd.year ) cmp = 1;
+	else if ( key < snd.year ) cmp = -1;
+	else cmp = 0;
+
+	return cmp;
+}
+
+YearAuthor cloneYearAuthor(YearAuthor a) {
+	YearAuthor clone;
+	clone.year = a.year;
+	clone.total = a.total;
+	clone.authors = vecAuthorPtrClone(a.authors);
+
+	return clone;
+}
 
 /* Your vector needs:
- * Updater with Append (needs comparing function)
- * getVecSize
+ * Updater with Append (needs comparing function) (check my code repetition)
  * Find
+ * Your AVL needs:
+ * __avlInsertFind
  */
