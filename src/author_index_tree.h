@@ -9,15 +9,12 @@ AVL_DEF_HEADER(Author, Author)
 
 typedef AuthorAVL AuthorTree;
 
-int authorTreeInsert(AuthorTree, Author);
-
-int authorTreeYield(AuthorTree, Author *);
-
-void authorTreeRewindGenerator(AuthorTree);
-
 AuthorTree authorTreeNew();
-
 void authorTreeDestroy(AuthorTree);
+
+int authorTreeInsert(AuthorTree, Author);
+int authorTreeYield(AuthorTree, Author *);
+void authorTreeRewindGenerator(AuthorTree);
 
 #ifdef DEBUG
     void printAuthorIndex();

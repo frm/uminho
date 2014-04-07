@@ -16,18 +16,6 @@
         type (*cloneContent)(type);                                                         \
         type##Block data;                                                                   \
     } * type##Vector;                                                                       \
-                                                                                            \
-    type##Block __block##type##New(size_t);                                                 \
-    type##Block __block##type##Clone(type##Vector, type##Block);                            \
-    type##Vector vec##type##New(size_t, void (*)(type), type (*)(type));                    \
-    type##Vector vec##type##Clone(type##Vector);                                            \
-    void vec##type##Destroy(type##Vector);                                                  \
-    int vec##type##Append(type##Vector, type);                                              \
-    int vec##type##Get(type##Vector, size_t, type *);                                       \
-    void vec##type##Update(type##Vector, size_t, type);                                     \
-    size_t vec##type##GetSize(type##Vector);                                                \
-    size_t vec##type##Find(type##Vector, int (*)(type, type), type , type *);               \
-
 
 #define VECTOR_DEF(type)                                                                    \
     type##Block __block##type##New(size_t blockSize) {                                      \

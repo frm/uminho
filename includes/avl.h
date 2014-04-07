@@ -25,34 +25,6 @@
         void (*deleteContent)(type);                                                        \
         type (*cloneContent)(type);                                                         \
     } * type##AVL;                                                                          \
-                                                                                            \
-    type##AVLNode __avl##type##StClone(type##AVLNode);                                      \
-    void avl##type##StackMin(type##AVLNodeStack, type##AVLNode);                            \
-    int avl##type##Yield(type##AVL, type *);                                                \
-    int avl##type##RewindGenerator(type##AVL);                                              \
-    type##AVLNode __avlNode##type##New(type);                                               \
-    type##AVLNode __avlNode##type##Clone(type##AVL, type##AVLNode);                         \
-    type##AVL avl##type##New(int (*compare)(keyType *, type *, type),                       \
-                             void (*collision)(type *, type *),                             \
-                             void (*deleteContent)(type),                                   \
-                             type (*cloneContent)(type));                                   \
-    type##AVL avl##type##Clone(type##AVL);                                                  \
-    void __avl##type##DestroyNode(void (*deleteContent)(type), type##AVLNode);              \
-    void avl##type##Destroy(type##AVL);                                                     \
-    int avl##type##Insert(type##AVL, type);                                                 \
-    type##AVLNode __avl##type##Find(int (*)(keyType *, type *, type),                       \
-                                    type##AVLNode,                                          \
-                                    type *,                                                 \
-                                    keyType *);                                             \
-    int avl##type##Find(type##AVL, keyType, type *);                                        \
-    int avl##type##Update(type##AVL, type);                                                 \
-    type##AVLNode avl##type##GetLeftChild(type##AVLNode);                                   \
-    type##AVLNode avl##type##GetRightChild(type##AVLNode);                                  \
-    type##AVLNode avl##type##GetRoot(type##AVL);                                            \
-    type avl##type##GetNodeContent(type##AVLNode);                                          \
-    int avl##type##InsertFind(type##AVL, type, type *);                                     \
-    int __avl##type##InsertFind(type##AVL, type, type##AVLNode *);                          \
-                                                                                            \
 
 #define AVL_DEF(type, keyType)                                                              \
                                                                                             \

@@ -16,14 +16,6 @@
         size_t used;                                                                        \
         type *content;                                                                      \
     } * type##Heap;                                                                         \
-                                                                                            \
-    type##Heap heap##type##New(size_t,                                                      \
-                               int (*)(type, type),                                         \
-                               void (*)(type),                                              \
-                               type (*)(type));                                             \
-    void heap##type##Destroy(type##Heap);                                                   \
-    int heap##type##Insert(type##Heap, type);                                               \
-    int heap##type##Get(type##Heap, type *);                                                \
 
 
 #define HEAP_DEF(type)                                                                      \

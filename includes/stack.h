@@ -14,15 +14,6 @@
         type (*cloneContent)(type);                                                 \
         type##StackNode top;                                                        \
     } * type##Stack;                                                                \
-                                                                                    \
-    type##StackNode __stackNode##type##New(type, type##StackNode);                  \
-    type##Stack stack##type##New(void (*deleteContent)(type),                       \
-                                 type (*cloneContent)(type));                       \
-    int stack##type##Push(type##Stack, type);                                       \
-    int stack##type##Pop(type##Stack, type *);                                      \
-    void stack##type##Clear(type##Stack);                                           \
-    void stack##type##Destroy(type##Stack);                                         \
-    int stack##type##IsEmpty(type##Stack);                                          \
 
 #define STACK_DEF(type)                                                             \
                                                                                     \
