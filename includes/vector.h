@@ -221,9 +221,9 @@
     }                                                                                       \
                                                                                             \
     size_t vec##type##Find(type##Vector vec,                                                \
-                        int          (*compFunction)(type, type),                           \
-                        type         elem,                                                  \
-                        type         *ret) {                                                \
+                           int          (*compFunction)(type, type),                        \
+                           type         elem,                                               \
+                           type         *ret) {                                             \
         size_t i, blockSize, totalBlocks;                                                   \
         type##Block block;                                                                  \
                                                                                             \
