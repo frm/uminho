@@ -1,8 +1,9 @@
-/*#include <string.h>
+#include <string.h>
 #include <avl.h>
 #include <vector.h>
 
 AuthorEntryAVL AuthorCatalogEntries[27];
+YearAuthorAVL AuthorCatalogYears;
 
 typedef AuthorPtr AuthorEntry*;
 
@@ -33,6 +34,26 @@ typedef struct year_author {
 	AuthorPtrVector authors;
 } YearAuthor;
 
+
+int addAuthorPtr( AuthorPtrVector v, AuthorPtr author ) {
+	int found = 0;
+	int i = 0;
+	AuthorPtr keeper;
+
+	while( vecAuthorPtrGet(v, i, &keeper) == 0 && !add ) {
+	if ( keeper == author )
+		found = 1;
+
+	i++;
+	}
+
+	if (!found)
+		vecAuthorPtrAppend(v, author);
+
+	return 1 - found;
+}
+
+
 YearPubl cloneYearPubl(YearPubl original) {
 	return original;
 }
@@ -57,7 +78,7 @@ int addYearPublication(YearPublVector v, int year) {
 	}
 	
 	/* Return 0 if updated, 1 if appended */
-	/*return 1 - updated;
+	return 1 - updated;
 }
 
 
@@ -116,6 +137,16 @@ void deleteAuthorEntry(AuthorEntry a) {
 	vecYearPublDestroy(a.publ_info);
 }
 
+AuthorEntry newAuthorEntry(char* name) {
+	AuthorEntry new;
+	new.name = (char*) malloc( sizeof(char) * ( strlen(name) + 1) );
+	strncpy(new.name, name, sizeof(char) * ( strlen(name) + 1 ) );
+
+	name.publ_info = vecNew(YearPubl, 50);
+	name.coauth_info = vecNew(CoAuthPubl, 50);
+
+	return new;
+}
 
 AuthorPtr cloneAuthorPtr(AuthorPtr original) {
 	return original;
@@ -160,9 +191,82 @@ YearAuthor cloneYearAuthor(YearAuthor a) {
 	return clone;
 }
 
-/* Your vector needs:
- * Updater with Append (needs comparing function) (check my code repetition)
- * Find
- * Your AVL needs:
- * __avlInsertFind
- */
+YearAuthor newYearAuthor(int year) {
+	YearAuthor new;
+	new.year = year;
+	new.total = 0;
+	new.authors = vecNew(AuthorPtr, 50);
+
+	return new;
+}
+
+void deleteYearAuthor(YearAuthor y) {
+	vecAuthorPtrDestroy(y.authors);
+}
+
+void initAuthorCatalog() {
+	int i;
+	for (i = 0; i < 27; i++)
+		AuthorCatalogEntries[i] = avlNew(AuthorEntry, &compareAuthorEntry, NULL, &deleteAuthorEntry, &cloneAuthorEntry);
+
+	AuthorCatalogYears = avlNew(YearAuthor, &compareYearAuthor, NULL, &deleteYearAuthor, &cloneYearAuthor);
+}
+
+void deleteAuthorCatalog() {
+	int i;
+	for (i = 0; i < 27; i++)
+		avlAuthorEntryDestroy( AuthorCatalogEntries[i] );
+
+	avlYearAuthorDestroy(AuthorCatalogYears);
+}
+
+static YearAuthor* getYearAuthorFromNode(YearAuthorAVL t, YearAuthor placeholder) {
+	YearAuthorAVLNode node;
+	__avlYearAuthorInsertFind(t, placeholder, &node);
+	return &(node -> content);
+}
+
+static AuthorEntry* getAuthorEntryFromNode(AuthorEntryAVL t, AuthorEntry placeholder) {
+	AuthorEntryAVLNode node;
+	__avlAuthorEntryInsertFind(t, placeholder, &node);
+	return &(node -> content);
+}
+
+int insertToCatalog( char* author_buffer[], int size ) {
+	int i, j, index, year;
+	YearAuthor* year_position;
+	YearAuthor current_year;
+
+	AuthorEntry** location = (AuthorEntry**)malloc(sizeof(AuthorEntry*) * (size - 1) );
+	AuthorEntry newEntry;
+
+	sscanf(author_buffer[size], "%d", &year);
+	current_year = newYearAuthor(year);
+	year_position = getYearAuthorFromNode(AuthorCatalogYears, current_year);
+
+	for (i = 0; i < size; i++) {
+		index = getLetterIndex( author_buffer[i][0] );
+		
+		newEntry = newAuthorEntry( author_buffer[i] );
+		location[i] = (AuthorCatalogEntries[index], newEntry);
+
+		deleteAuthorEntry(newEntry);
+	}
+	
+	for(i = 0; i < size - 1; i++) {
+		for(j = 0; j < size; j++) {
+		addCoAuthPublication( location[i] -> coauth_info, author_buffer[j] );
+		addCoAuthPublication( location[j] -> coauth_info, author_buffer[i] );
+		}
+
+		addYearPublication(location[i] -> publ_info, year);
+		if ( addAuthorPtr( current_year -> authors, location[i] ) == 1 )
+			(current_year -> total )++;
+	}
+
+	deleteYearAuthor(current_year);
+	free(location);
+
+	return 0;
+}
+
