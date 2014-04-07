@@ -1,4 +1,4 @@
-#include "../gestauts/lib/headers/avl.h"
+#include "../includes/avl.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

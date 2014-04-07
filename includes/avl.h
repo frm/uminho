@@ -50,7 +50,7 @@
     type##AVLNode avl##type##GetRightChild(type##AVLNode);                                  \
     type##AVLNode avl##type##GetRoot(type##AVL);                                            \
     type avl##type##GetNodeContent(type##AVLNode);                                          \
-    type avl##type##InsertFind(type##AVL, type, type *);                                    \
+    int avl##type##InsertFind(type##AVL, type, type *);                                     \
     int __avl##type##InsertFind(type##AVL, type, type##AVLNode *);                          \
                                                                                             \
 

@@ -77,9 +77,7 @@
                                                                                     \
         next = stack->top->next;                                                    \
                                                                                     \
-        *ret = stack->cloneContent(stack->top->content);                            \
-        if (stack->deleteContent)                                                   \
-            stack->deleteContent(stack->top->content);                              \
+        *ret = stack->top->content;                                                 \
         free(stack->top);                                                           \
         stack->top = next;                                                          \
                                                                                     \
