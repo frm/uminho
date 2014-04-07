@@ -32,4 +32,5 @@ clean:
 	@cat .make/asciiart/maid.art
 	$(RM) *.o
 	$(RM) $(EXEC)
-
+	$(RM) *.csv
+	$(RM) *.q10
