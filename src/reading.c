@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdlib.h>
 #include "reading.h"
 
 static char* fileread;
@@ -145,6 +141,13 @@ int getYearsTotalByInterval(int first, int last) {
 	return total;
 }
 
+int yieldYearCSV(char **ret) {
+	return statsYieldYearCSV(ret);
+}
+
+int getYearCoAuthorsTotal(int year, int coAuthors) {
+	return statsGetYearCoAuthorsTotal(year, coAuthors);
+}
 
 int getAuthorsBy(char initial, char** list, int number_displays, int* number_read) {
 	if( islower(initial) )

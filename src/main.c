@@ -10,6 +10,11 @@
 #define GREET()			( printf("WELCOME TO GESTAUTS.\n") )
 #define BID_FAREWELL()	( printf("BYE BYE.\n") )
 #define valid_input(i)  ( ( (i) > -1 ) && ( (i) < NR_FUNCTIONS ) )
+#define TOTAL_DIGITS(size, n)   \
+	size = 0;					\
+	do {						\
+		size ++;				\
+	} while(n /= 10);			\
 
 static int inGestAuts = 1;
 static int populated_db = 0;
@@ -26,8 +31,8 @@ static char* options[NR_OPTIONS] = {
 	"TOTAL PUBLICATIONS IN INTERVAL",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
-	"TO BE IMPLEMENTED",
-	"TO BE IMPLEMENTED",
+	"GET YEAR AUTHOR STATS",
+	"GET CSV FILE",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
 	"PRINT NAME STATISTICS"
@@ -157,6 +162,107 @@ static void query7() {
 	printf("TOTAL PUBLICATIONS BETWEEN YEARS %d AND %d: %d\n\n\n\n", min, max, total);
 }
 
+static void query10() {
+	int year, totals[3], size, offset, i, j;
+	char fileName[50], temp[1024];
+	FILE *f;
+
+	size = 0;
+	offset = 0;
+
+	printf("ENTER FILE NAME:\n");
+	scanf("%s", fileName);
+#ifdef DEBUG
+	sprintf(fileName + strlen(fileName), ".q10");
+#endif
+#ifdef DEBUG2
+	sprintf(fileName + strlen(fileName), ".q10");
+#endif
+
+	f = fopen(fileName, "a+");
+
+	printf("ENTER A YEAR:\n");
+	scanf("%d%*[^\n]s%*c", &year);
+	totals[0] = getYearCoAuthorsTotal(year, 1);
+	totals[1] = getYearCoAuthorsTotal(year, 2);
+	totals[2] = getYearCoAuthorsTotal(year, 3);
+
+	sprintf(temp,
+		" ______________\n"
+		"|              |\n"
+		"| %d", year);
+
+	TOTAL_DIGITS(size, year);
+
+	offset += 35 + size;
+
+	for (i = 0; i < (14 - size - 1); i++) {
+		sprintf(temp + offset + i, " ");
+	}
+	sprintf(temp + offset + i, "|\n");
+	offset += i + 2;
+
+	sprintf(temp + offset, "|______________|______________ \n"
+						   "|              |              |\n"
+						   "| Authors      | Publications |\n"
+		                   "|______________|______________|\n");
+
+	offset += 32 * 4;
+
+	for (j = 0; j < 3; j++) {
+		sprintf(temp + offset, "|              |              |\n"
+			                   "| %d            | %d", j + 1, totals[j]);
+
+		TOTAL_DIGITS(size, totals[j]);
+
+		offset += 32 + 17 + size;
+
+		for (i = 0; i < (14 - size - 1); i++) {
+			sprintf(temp + offset + i, " ");
+		}
+		sprintf(temp + offset + i, "|\n");
+		offset += i + 2;
+
+		sprintf(temp + offset, "|______________|______________|\n" );
+		offset += 32;
+	}
+	sprintf(temp + offset, "\n\n");
+
+	printf("%s", temp);
+	fprintf(f, "%s", temp);
+
+	fclose(f);
+}
+static void query11() {
+	int test;
+	char *yearCSV, fileName[50];
+	FILE *f;
+
+	printf("ENTER FILE NAME:\n");
+	scanf("%s", fileName);
+	sprintf(fileName + strlen(fileName), ".csv");
+	f = fopen(fileName, "a+");
+	fprintf(f, "\"Year\",\"#Authors\",\"Publications\"\n");	
+	for (;;) {
+		test = yieldYearCSV(&yearCSV);
+
+		if (!test){
+			fprintf(f, "%s", yearCSV); 
+			free(yearCSV);
+		}
+		else {
+			if (test == 1) {
+				fprintf(f, "%s", yearCSV);
+				free(yearCSV);
+			}
+
+			break;
+		}
+	}
+
+	fclose(f);
+}
+
 static void query14() {
 	char* stats = getAuthorStats();
 	printf("%s\n\n", stats );
@@ -174,8 +280,8 @@ static void(* functions[NR_FUNCTIONS + NR_ERRORS] )() = {
 	&query7,
 	&failureprnt,
 	&failureprnt,
-	&failureprnt,
-	&failureprnt,
+	&query10,
+	&query11,
 	&failureprnt,
 	&failureprnt,
 	&query14,

@@ -1,4 +1,4 @@
-#include <string.h>
+/*#include <string.h>
 #include <avl.h>
 #include <vector.h>
 
@@ -48,7 +48,7 @@ int addYearPublication(YearPublVector v, int year) {
 	}
 	
 	/* Return 0 if updated, 1 if appended */
-	return 1 - updated;
+	/*return 1 - updated;
 }
 
 

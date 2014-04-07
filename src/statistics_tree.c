@@ -164,3 +164,7 @@ int statsTreeFind(YearStatsAVL yearStatsTree, int year, YearStats *ret) {
 int coAuthorStatsTreeYield(CoAuthorStatsAVL coAuthorStatsTree, CoAuthorStats *ret) {
     return avlYield(CoAuthorStats, coAuthorStatsTree, ret);
 }
+
+int coAuthorStatsTreeFind(CoAuthorStatsAVL coAuthorStatsTree, int coAuthors, CoAuthorStats *ret) {
+    return avlFind(CoAuthorStats, coAuthorStatsTree, coAuthors, ret);
+}

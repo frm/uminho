@@ -25,14 +25,14 @@ int statsTreeGetYear(YearStatsAVL, int, YearStats *);
 int statsTreeYield(YearStatsAVL, YearStats *);
 int statsTreeFind(YearStatsAVL, int, YearStats *);
 int coAuthorStatsTreeYield(CoAuthorStatsAVL, CoAuthorStats *);
-
-YearStats yearStatsClone(YearStats stats);
-void yearStatsDestroy(YearStats stats);
-int yearStatsComp(int *keyInt, YearStats *keyStats, YearStats stats);
-void yearStatsCollision(YearStats *stats1, YearStats *stats2);
+int coAuthorStatsTreeFind(CoAuthorStatsAVL, int, CoAuthorStats *);
+YearStats yearStatsClone(YearStats);
+void yearStatsDestroy(YearStats);
+int yearStatsComp(int *, YearStats *, YearStats);
+void yearStatsCollision(YearStats *, YearStats *);
 YearStats yearStatsNew();
-void coAuthorStatsCollision(CoAuthorStats *stats1, CoAuthorStats *stats2);
-int coAuthorStatsComp(int *keyInt, CoAuthorStats *keyStats, CoAuthorStats stats);
+void coAuthorStatsCollision(CoAuthorStats *, CoAuthorStats *);
+int coAuthorStatsComp(int *, CoAuthorStats *, CoAuthorStats);
 
 #endif
 
