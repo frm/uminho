@@ -50,7 +50,9 @@
     type##AVLNode avl##type##GetRightChild(type##AVLNode);                                  \
     type##AVLNode avl##type##GetRoot(type##AVL);                                            \
     type avl##type##GetNodeContent(type##AVLNode);                                          \
-
+    type avl##type##InsertFind(type##AVL, type, type *);                                    \
+    int __avl##type##InsertFind(type##AVL, type, type##AVLNode *);                          \
+                                                                                            \
 
 #define AVL_DEF(type, keyType)                                                              \
                                                                                             \
@@ -301,26 +303,27 @@
         return node;                                                                        \
     }                                                                                       \
                                                                                             \
-    static type##AVLNode __avl##type##Insert(type##AVL       avl,                           \
-                                      type##AVLNode node,                                   \
-                                      type##AVLNode newNode,                                \
-                                      int           *growth,                                \
-                                      int           *col) {                                 \
+    static type##AVLNode __avl##type##Insert(type##AVL     avl,                             \
+                                             type##AVLNode node,                            \
+                                             type##AVLNode *newNode,                        \
+                                             int           *growth,                         \
+                                             int           *col) {                          \
         int cmp;                                                                            \
                                                                                             \
-        cmp = avl->compare(NULL, &(newNode->content), node->content);                       \
+        cmp = avl->compare(NULL, &((*newNode)->content), node->content);                    \
                                                                                             \
         if (cmp == 0){                                                                      \
             *col = 1;                                                                       \
             if (avl->collision)                                                             \
-                avl->collision(&(node->content), &(newNode->content));                      \
-            __avl##type##DestroyNode(avl->deleteContent, newNode);                          \
+                avl->collision(&(node->content), &((*newNode)->content));                   \
+            __avl##type##DestroyNode(avl->deleteContent, (*newNode));                       \
+            *newNode = node;                                                                \
             *growth = 0;                                                                    \
         } else if (cmp > 0) {                                                               \
                                                                                             \
             if (!node->right) {                                                             \
                 *col = 0;                                                                   \
-                node->right = newNode;                                                      \
+                node->right = *newNode;                                                     \
                                                                                             \
                 if (++node->balance)                                                        \
                     *growth = 1;                                                            \
@@ -337,7 +340,7 @@
                                                                                             \
             if (!node->left) {                                                              \
                 *col = 0;                                                                   \
-                node->left = newNode;                                                       \
+                node->left = *newNode;                                                      \
                                                                                             \
                 if (--node->balance)                                                        \
                     *growth = 1;                                                            \
@@ -354,7 +357,7 @@
         return node;                                                                        \
     }                                                                                       \
                                                                                             \
-    int avl##type##Insert(type##AVL avl, type item) {                                       \
+    int __avl##type##InsertFind(type##AVL avl, type item, type##AVLNode *ret) {             \
         type##AVLNode newNode;                                                              \
         int growth, col;                                                                    \
         type content;                                                                       \
@@ -365,6 +368,7 @@
             content = avl->cloneContent(item);                                              \
         else                                                                                \
             content = item;                                                                 \
+                                                                                            \
         newNode = __avlNode##type##New(content);                                            \
                                                                                             \
         if (!newNode)                                                                       \
@@ -375,13 +379,35 @@
             avl->root = newNode;                                                            \
         }                                                                                   \
         else {                                                                              \
-            avl->root = __avl##type##Insert(avl, avl->root, newNode, &growth, &col);        \
+            avl->root = __avl##type##Insert(avl, avl->root, &newNode, &growth, &col);       \
         }                                                                                   \
                                                                                             \
         if (avl->generator.initialized)                                                     \
             avl##type##Yield(avl, NULL);                                                    \
                                                                                             \
-        return col;                                                                         \
+        *ret = newNode;                                                                     \
+                                                                                            \
+        return 0;                                                                           \
+    }                                                                                       \
+                                                                                            \
+    int avl##type##Insert(type##AVL avl, type item) {                                       \
+        type##AVLNode ret;                                                                  \
+                                                                                            \
+        return __avl##type##InsertFind(avl, item, &ret);                                    \
+    }                                                                                       \
+                                                                                            \
+    int avl##type##InsertFind(type##AVL avl, type item, type *ret) {                        \
+        type##AVLNode node;                                                                 \
+                                                                                            \
+        if (__avl##type##InsertFind(avl, item, &node) == -1)                                \
+            return -1;                                                                      \
+                                                                                            \
+        if (avl->cloneContent)                                                              \
+            *ret = avl->cloneContent(node->content);                                        \
+        else                                                                                \
+            *ret = node->content;                                                           \
+                                                                                            \
+        return 0;                                                                           \
     }                                                                                       \
                                                                                             \
     type##AVLNode __avl##type##Find(int           (*compare)(keyType *, type *, type),      \

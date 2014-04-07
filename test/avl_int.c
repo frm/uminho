@@ -1,8 +1,10 @@
-#include "../gestauts/lib/headers/avl.h"
+#include "../includes/avl.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+
+AVL_DEF_HEADER(int, int)
 
 AVL_DEF(int, int)
 
@@ -60,9 +62,9 @@ int main() {
 
 	keeper = (int *)malloc(sizeof(int));
 
-	t = avlNew(int, &compareInt, &colidingInt, NULL, &cloneInt);
+	t = avlNewComplete(int, &compareInt, &colidingInt, NULL, &cloneInt);
 
-	it = avlNew(int, &compareInt, &colidingInt, NULL, &cloneInt);
+	it = avlNewComplete(int, &compareInt, &colidingInt, NULL, &cloneInt);
 
 	a = 1; b = 1;
 	

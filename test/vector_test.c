@@ -1,4 +1,4 @@
-#include "../gestauts/lib/headers/vector.h"
+#include "../includes/vector.h"
 #include <stdio.h>
 
 typedef struct Publication_s {
@@ -15,28 +15,22 @@ typedef struct Brol_s {
 	int d;
 } Brol;
 
-void deleteBrol(Brol b) {
-	return;
+int cmp(Brol x, Brol y) {
+	if (x.d == y.d)
+		return 0;
+	else
+		return 1;
 }
 
-void deletePub(Publication p) {
-	return;
-}
-
-Brol cloneBrol(Brol b) {
-	return b;
-}
-
-Publication clonePub(Publication p) {
-	return p;
-}
+VECTOR_DEF_HEADER(Publication)
+VECTOR_DEF_HEADER(Brol)
 
 VECTOR_DEF(Publication)
 VECTOR_DEF(Brol)
 
 int main() {
-	PublicationVector pubVec = vecNew(Publication, 4, &deletePub, &clonePub);
-	BrolVector brolVec = vecNew(Brol, 10, &deleteBrol, &cloneBrol);
+	PublicationVector pubVec = vecNew(Publication, 4);
+	BrolVector brolVec = vecNew(Brol, 10);
 	Publication testPub;
 	Brol testBrol;
 	int i;
@@ -67,7 +61,22 @@ int main() {
 		vecGet(Brol, brolVec, i, &testBrol);
 		printf("%c %c %c %d\n", testBrol.a, testBrol.b, testBrol.c, testBrol.d);
 	}
+
+	testBrol.d = 2000;
+	testBrol.a = 'p';
+	vecUpdate(Brol, brolVec, 2, testBrol);
+
+	testBrol.d = 1;
+	testBrol.a = 'j';
+	vecGet(Brol, brolVec, 2, &testBrol);
+
+	printf("%c %c %c %d\n", testBrol.a, testBrol.b, testBrol.c, testBrol.d);
  	
+ 	testBrol.d = 10;
+
+ 	i = vecFind(Brol, brolVec, &cmp, testBrol, &testBrol);
+ 	printf("- %d - %c %c %c %d\n", i, testBrol.a, testBrol.b, testBrol.c, testBrol.d);
+
 	vecDestroy(Brol, brolVec);
 	vecDestroy(Publication, pubVec);
 	return 0;
