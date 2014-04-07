@@ -4,6 +4,8 @@
 #include "author_index_tree.h"
 #include "author_catalog.h"
 
+#define GET_CHAR_INDEX(c) (normalLetter(c) ? ((int)c - (int)'A') : 26)
+#define normalLetter(c)		( ( (c) >= 'A' ) && ( (c) <= 'Z' ) )
 #define getMatrixAuthorIndex(author, i)		(author + 128 * i)
 
 typedef struct year_author YearAuthor;
@@ -222,7 +224,7 @@ int insertToCatalog( char *author_buffer, int size ) {
 	year_position = getYearAuthorFromNode(AuthorCatalogYears, current_year);
 
 	for (i = 0; i < size; i++) {
-		index = getLetterIndex( getMatrixAuthorIndex(author_buffer, i)[0] );
+		index = GET_CHAR_INDEX( getMatrixAuthorIndex(author_buffer, i)[0] );
 
 		newEntry = newAuthorEntry( getMatrixAuthorIndex(author_buffer, i) );
 		location[i] = getAuthorEntryFromNode( AuthorCatalogEntries[index], newEntry );

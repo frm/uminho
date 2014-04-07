@@ -160,14 +160,14 @@ int getAuthorsBy(char initial, char** list, int number_displays, int* number_rea
 	if( islower(initial) )
 		initial = toupper(initial);
 
-	return getListOfAuthorsBy(initial, list, number_displays, number_read);
+	return getListOfAuthorsByInitial(initial, list, number_displays, number_read);
 }
 
 void resetAuthorBy(char initial) {
 	if( islower(initial) )
 		initial = toupper(initial);
 
-	rewindAuthor(initial);
+	rewindGeneratorByInitial(initial);
 }
 
 void initializeGestauts() {
