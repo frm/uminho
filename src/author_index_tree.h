@@ -8,6 +8,7 @@ typedef char* Author;
 AVL_DEF_HEADER(Author, Author)
 
 int insertAuthor(char* author);
+int getLetterIndex(char c); 
 
 int getListOfAuthorsBy(char initial, char** author_list, int number_displays, int* number_read);
 void rewindAuthor(char initial);

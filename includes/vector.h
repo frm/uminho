@@ -261,3 +261,4 @@
 #define vecGetSize(type, vector) vec##type##GetSize(vector)
 #define vecFind(type, vector, func, elem, ret) vec##type##Find(vector, func, elem, ret)
 #endif
+

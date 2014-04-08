@@ -26,7 +26,7 @@ static int compareAuthor(Author* key_author, Author* author1, Author author2) {
 	return strcmp( key, author2 );
 }
 
-static int getLetterIndex(char c) {
+int getLetterIndex(char c) {
 	return normalLetter(c) ? (int)c - (int)'A' : 26;
 }
 

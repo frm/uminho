@@ -1,5 +1,7 @@
 #include "reading.h"
 
+#define getMatrixAuthorIndex(author, i)		(author + 128 * i)
+
 static char* fileread;
 
 static void extract_year_info(char* year_str, int coAuthors) {
@@ -25,14 +27,14 @@ static void extract_author_info(char* author) {
 static int isAuthor(char* str) { return !isdigit(str[0]); }
 
 static void tokenize(char* buffer) {
-	char author_buffer[128][128];
-	char *token = strtrim( strtok(buffer, ",") );
+	char* author_buffer = (char*)malloc( sizeof(char) * 128 * 128 );
+	char* token = strtrim( strtok(buffer, ",") );
 	int n = 0;
 
 	while (token) {
 		/* use !isdigit() instead of isalpha because of names started with special characters */
 		/* use a function for this line */
-		strncpy(author_buffer[n], token, sizeof(char) * ( strlen(token) + 1 ) );
+		strncpy(getMatrixAuthorIndex(author_buffer, n), token, sizeof(char) * ( strlen(token) + 1 ) );
 		
 		if ( isAuthor(token) ) {
 			extract_author_info(token);
@@ -50,6 +52,7 @@ static void tokenize(char* buffer) {
 	}
 
 	insertToCatalog(author_buffer, n);
+	free(author_buffer);
 
 }
 
@@ -170,10 +173,12 @@ void resetAuthorBy(char initial) {
 void initializeGestauts() {
 	initializeAuthorIndex();
 	initializeStatistics();
+	initializeAuthorCatalog();
 }
 
 void leaveGestauts() {
 	free(fileread);
 	deleteAuthorIndex();
 	deleteStatistics();
+	deleteAuthorCatalog();
 }
