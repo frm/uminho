@@ -59,8 +59,12 @@
         blockSize = vec->blockSize;                                                         \
         newBlock = __block##type##New(blockSize);                                           \
                                                                                             \
-        for (i = 0; i < blockSize; i++)                                                     \
-            newBlock->content[i] = vec->cloneContent(block->content[i]);                    \
+        for (i = 0; i < blockSize; i++) {                                                   \
+            if (vec->cloneContent)                                                          \
+                newBlock->content[i] = vec->cloneContent(block->content[i]);                \
+            else                                                                            \
+                newBlock->content[i] = block->content[i];                                   \
+        }                                                                                   \
                                                                                             \
         newBlock->next = __block##type##Clone(vec, block->next);                            \
                                                                                             \
@@ -87,7 +91,7 @@
         newVector->deleteContent = deleteContent;                                           \
         newVector->cloneContent = cloneContent;                                             \
         newVector->blockSize = blockSize;                                                   \
-        newVector->last = -1;                                                               \
+        newVector->last = 0;                                                               \
         newVector->data = newBlock;                                                         \
                                                                                             \
         return newVector;                                                                   \
@@ -144,7 +148,7 @@
         size_t index, blockSize;                                                            \
                                                                                             \
         blockSize = vec->blockSize;                                                         \
-        index = vec->last + 1;                                                              \
+        index = vec->last;                                                              \
         currBlock = vec->data;                                                              \
                                                                                             \
         while (index > blockSize) {                                                         \
@@ -178,10 +182,10 @@
         blockSize = vec->blockSize;                                                         \
         currBlock = vec->data;                                                              \
                                                                                             \
-        if (index > vec->last + 1)                                                          \
+        if (index >= vec->last)                                                          \
             return -1;                                                                      \
                                                                                             \
-        while (index >= blockSize) {                                                        \
+        while (index > blockSize) {                                                        \
             index -= blockSize;                                                             \
             currBlock = currBlock->next;                                                    \
         }                                                                                   \
@@ -201,7 +205,7 @@
         blockSize = vec->blockSize;                                                         \
         currBlock = vec->data;                                                              \
                                                                                             \
-        while (index >= blockSize) {                                                        \
+        while (index > blockSize) {                                                        \
             index -= blockSize;                                                             \
             currBlock = currBlock->next;                                                    \
         }                                                                                   \
@@ -217,7 +221,7 @@
     }                                                                                       \
                                                                                             \
     size_t vec##type##GetSize(type##Vector vec) {                                           \
-        return vec->last + 1;                                                               \
+        return vec->last;                                                               \
     }                                                                                       \
                                                                                             \
     size_t vec##type##Find(type##Vector vec,                                                \

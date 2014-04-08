@@ -14,7 +14,7 @@ typedef AuthorEntry* AuthorPtr;
 
 VECTOR_DEF_HEADER(YearPubl)
 VECTOR_DEF_HEADER(CoAuthPubl)
-VECTOR_DEF_HEADER(AuthorPtr)
+AVL_DEF_HEADER(AuthorPtr, AuthorPtr)
 
 struct year_publ {
 	int year;
@@ -35,18 +35,30 @@ struct author_entry {
 	CoAuthPublVector coauth_info;
 };
 
-VECTOR_DEF(AuthorPtr)
+AVL_DEF(AuthorPtr, AuthorPtr)
 
 struct year_author {
 	int year;
 	int total;
-	AuthorPtrVector authors;
+	AuthorPtrAVL authors;
 };
 
 AVL_DEF_HEADER(AuthorEntry, char*)
 AVL_DEF_HEADER(YearAuthor, int)
+
 static AuthorEntryAVL AuthorCatalogEntries[27];
 static YearAuthorAVL AuthorCatalogYears;
+
+static int compareAuthorPtr(AuthorPtr* key_search, AuthorPtr* fst, AuthorPtr snd) {
+	int cmp;
+	AuthorPtr key = key_search ? (*key_search) : (*fst);
+
+	if ( key < snd) cmp = -1;
+	else if (key > snd) cmp = 1;
+	else cmp = 0;
+
+	return cmp;
+}
 
 
 static int addYearPublication(YearPublVector v, int year) {
@@ -128,27 +140,10 @@ static AuthorEntry newAuthorEntry(char* name) {
 	newAuthorEntry.name = (char*) malloc( sizeof(char) * ( strlen(name) + 1) );
 	strncpy(newAuthorEntry.name, name, sizeof(char) * ( strlen(name) + 1 ) );
 
-	newAuthorEntry.publ_info = vecNew(YearPubl, 50);
-	newAuthorEntry.coauth_info = vecNew(CoAuthPubl, 50);
+	newAuthorEntry.publ_info = vecNew(YearPubl, 2000);
+	newAuthorEntry.coauth_info = vecNew(CoAuthPubl, 2000);
 
 	return newAuthorEntry;
-}
-
-static int addAuthorPtr(AuthorPtrVector v, AuthorPtr author) {
-	int i = 0;
-	int found = 0;
-	AuthorPtr keeper;
-
-	while ( vecAuthorPtrGet(v, i, &keeper) == 0 && !found ) {
-		if (keeper == author)
-			found = 1;
-		i++;
-	}
-
-	if (!found)
-		vecAuthorPtrAppend(v, author);
-
-	return 1 - found;
 }
 
 AVL_DEF(YearAuthor, int)
@@ -168,20 +163,20 @@ static YearAuthor cloneYearAuthor(YearAuthor a) {
 	YearAuthor clone;
 	clone.year = a.year;
 	clone.total = a.total;
-	clone.authors = vecAuthorPtrClone(a.authors);
+	clone.authors = avlAuthorPtrClone(a.authors);
 
 	return clone;
 }
 
 static void deleteYearAuthor(YearAuthor y) {
-	vecAuthorPtrDestroy(y.authors);
+	avlAuthorPtrDestroy(y.authors);
 }
 
 static YearAuthor newYearAuthor(int year) {
 	YearAuthor newYearAuthor;
 	newYearAuthor.year = year;
 	newYearAuthor.total = 0;
-	newYearAuthor.authors = vecNew(AuthorPtr, 50);
+	newYearAuthor.authors = avlNew(AuthorPtr, &compareAuthorPtr);
 
 	return newYearAuthor;
 }
@@ -219,8 +214,8 @@ int insertToCatalog( char *author_buffer, int size ) {
 	YearAuthor* year_position;
 	YearAuthor current_year;
 
-	AuthorEntry** location = (AuthorEntry**)malloc(sizeof(AuthorEntry*) * (size - 1) );
 	AuthorEntry newEntry;
+	AuthorEntry** location = (AuthorEntry**)malloc(sizeof(AuthorEntry*) * (size) );
 
 	sscanf(getMatrixAuthorIndex(author_buffer, size), "%d", &year);
 	current_year = newYearAuthor(year);
@@ -236,13 +231,13 @@ int insertToCatalog( char *author_buffer, int size ) {
 	}
 
 	for (i = 0; i < size - 1; i++) {
-		for (j = 0; j < size; j++) {
+		for (j = i + 1; j < size; j++) {
 			addCoAuthPublication( location[i] -> coauth_info, location[j] );
 			addCoAuthPublication( location[j] -> coauth_info, location[i] );
 		}
 
 		addYearPublication(location[i] -> publ_info, year);
-		if ( addAuthorPtr( year_position -> authors, location[i] ) == 1 )
+		if ( avlAuthorPtrInsert( year_position -> authors, location[i] ) == 1 )
 			( year_position -> total )++;
 	}
 
