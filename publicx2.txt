@@ -10,13 +10,13 @@ Jay, Johnny, Karl, Karoline Salgaids, Loveme Do, Lennon, 2015
 Kayman, Laul LacCarnley, Ilold, 2012
 Abacate, Abacaxi, Ananas, A lot of fruits, 2013
 Ejahberd, ErmahGod, Mahman, Mymann, Mein Mann, Mannschaft Nao sei como se escreve, 1998
-Nurio, Nurinho, Nunovksiy Swarovisky, Olga Ferreira, 2000
-Swagovisky, Nono Decimo, Ongry Bird, Palerma, 2001
-Palerminha, Palermao, 1998
+Nurio, Nurinho, Nunovksiy Swarovisky, Ferreira, 2000
+Swagovisky, Nono Decimo, Ongry Bird, Weeman, 2001
+Palas, Paulo, 1998
 Quintero, Quest, Query Jay, 1999
 Rui Silva, Rui Machado, Rui Gomes, Rui Costa, Rui Pedro, 2011
 Swag, Silva Joao, Senhor, 2000
-Tito, Trota Trofa, Try Ruby Ponto Org, 2013
+Tito, Trofa, Try Ruby Ponto Org, 2013
 BIGGEST NAME A BUNCH OF CHARS IN HERE, Unay Emery, U cant C me, 2000
 Vitor, Zebra, WHY ALWAYS ME, WHY NO YOU, KTHXBY, Y U NO WORK, Yes Man, 1999
 A, ABC, ABCD, ABCDE, ABCDEF, ABCDEFG, ABCDEFGH, ABCDEFGHI, ABCDEGHIJ, 2001
@@ -24,3 +24,6 @@ ABCDEFGHIJK, ABCDEFGHIJKL, ABCDEFGHIJKLM, ABCDEFGHIJKLMN, ABCDEFGHIJKLMNO, ABCDE
 ABCDEFGHIJKLMNOPQ, ABCDEFGHIJKLMNOPQR, ABCDEFGHIJKLMNOPQRS, 1999
 ABCDEFGHIJKLMOPQRST, 2011
 ABCDEFGHIJKLMOPQRST, 1997
+Jay, 2012
+Jay, Lennon, 2013
+Lennon, Jay, 2000
