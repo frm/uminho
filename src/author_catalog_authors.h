@@ -47,5 +47,10 @@ void deleteAuthorInfo(AuthorInfo info);
 int authorInfoAddCoAuthor(AuthorInfo author, Author coauthor);
 int authorInfoAddYear(AuthorInfo author, int year);
 
+#ifdef DEBUG2
+    #include <stdio.h>
+    void authorInfoTreePrint(AuthorInfoTree);
+#endif
+
 #endif
 

@@ -85,6 +85,10 @@ int read_file(char* filename) {
 
 	fclose(file);
 
+#ifdef DEBUG2
+	printCatalog();
+#endif
+	
 	return 0;
 }
 

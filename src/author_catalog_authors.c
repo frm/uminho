@@ -172,3 +172,66 @@ int authorInfoAddYear(AuthorInfo author, int year) {
 	return avlInsert(YearPublPair, author.publications_info, new);
 }
 
+#ifdef DEBUG2
+
+static void authorInfoPrint(AuthorInfo author) {
+	YearPublPair pair;
+	CoAuthorPublPair ca;
+	int test;
+
+	printf("%s\n", author.author);
+
+	printf("\tPUBLICATIONS BY YEAR:\n");
+	for (;;) {
+    	test = avlYield(YearPublPair, author.publications_info, &pair);
+
+    	if (!test) {
+    		printf("\t\tYEAR: %d\t\tTOTAL: %d\n", pair.year, pair.nr_publications);
+    	}
+    	else {
+    		if (test == 1) {
+    			printf("\t\tYEAR: %d\t\tTOTAL: %d\n", pair.year, pair.nr_publications);
+    		}
+
+    		break;
+    	}
+    }
+
+	printf("\n\tPUBLICATIONS BY COAUTHOR:\n");
+	for (;;) {
+    	test = avlYield(CoAuthorPublPair, author.coauthors_info, &ca);
+
+    	if (!test) {
+    		printf("\t\tCOAUTHOR: %s\n\t\t\tTOTAL: %d\n", ca.coauthor, ca.nr_publications);
+    	}
+    	else {
+    		if (test == 1) {
+    			printf("\t\tCOAUTHOR: %s\n\t\t\tTOTAL: %d\n", ca.coauthor, ca.nr_publications);
+    		}
+
+    		break;
+    	}
+    }
+}
+
+void authorInfoTreePrint(AuthorInfoTree tree) {
+    AuthorInfo author;
+    int test;
+
+    for (;;) {
+    	test = avlYield(AuthorInfo, tree, &author);
+
+    	if (!test) {
+    		authorInfoPrint(author);
+    	}
+    	else {
+    		if (test == 1) {
+    			authorInfoPrint(author);
+    		}
+
+    		break;
+    	}
+    }
+}
+
+#endif

@@ -68,3 +68,13 @@ int insertToCatalog(Author* author_buffer, int size) { /* Note that author_buffe
 
 	return 0;
 }
+
+#ifdef DEBUG2
+
+void printCatalog() {
+    int i;
+
+    for(i = 0; i < 27; i++) 
+        authorInfoTreePrint(CatalogAuthors[i]);
+}
+#endif

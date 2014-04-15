@@ -9,5 +9,10 @@ void deleteAuthorCatalog();
 
 int insertToCatalog(Author*, int);
 
+#ifdef DEBUG2
+    #include <stdio.h>
+    void printCatalog();
+#endif
+    
 #endif
 
