@@ -1,22 +1,5 @@
 #include "author_catalog_authors.h"
 
-struct year_publ_pair {
-	int year;
-	int nr_publications;
-};
-
-struct co_author_publ_pair {
-	Author coauthor;
-	int nr_publications;
-};
-
-
-struct author_info {
-	Author author;
-	YearPublPairAVL publications_info;
-	CoAuthorPublPairAVL coauthors_info;
-};
-
 /* Defining an AVL of Pairs composed of Years and number of publications in given year */
 AVL_DEF(YearPublPair, int)
 
@@ -30,7 +13,7 @@ static YearPublPair newYearPublPair(int year) {
 }
 
 static void colideYearPublPair(YearPublPair* fst, YearPublPair *snd) {
-	(fst -> nr_publications)++;
+	(fst -> nr_publications) += ( snd -> nr_publications );
 }
 
 static int compareYearPublPair(int* key_search, YearPublPair* fst, YearPublPair snd) {
@@ -60,7 +43,7 @@ static CoAuthorPublPair newCoAuthorPublPair(Author name) {
 }
 
 static void colideCoAuthorPublPair(CoAuthorPublPair* fst, CoAuthorPublPair* snd) {
-	( fst -> nr_publications )++;
+	( fst -> nr_publications )+= ( snd -> nr_publications );
 }
 
 static void deleteCoAuthorPublPair(CoAuthorPublPair pair) {
@@ -86,7 +69,7 @@ static int compareCoAuthorPublPair(Author* key_search, CoAuthorPublPair* fst, Co
  * an AVL with a pair of year and nr of publications in that year
  * and an AVL with a pair of coauthor and nr of publications with that coauthor
  */
- 
+
 AVL_DEF(AuthorInfo, Author)
 
 AuthorInfo newAuthorInfo(Author name) {
@@ -112,7 +95,7 @@ static AuthorInfo cloneAuthorInfo(AuthorInfo original) {
 	AuthorInfo new = newAuthorInfo(original.author);
 	new.publications_info = avlYearPublPairClone(original.publications_info);
 	new.coauthors_info = avlCoAuthorPublPairClone(original.coauthors_info);
-	
+
 	return new;
 }
 
@@ -124,11 +107,11 @@ static int compareAuthorInfo(Author* key_search, AuthorInfo* fst, AuthorInfo snd
 static void colideAuthorInfo(AuthorInfo* inTree, AuthorInfo* new) {
 	YearPublPair buff1;
 	CoAuthorPublPair buff2;
-	
-	while ( avlYield(YearPublPair, new -> publications_info, &buff1) )
+
+	while ( avlYield(YearPublPair, new -> publications_info, &buff1) == 0 )
 		avlInsert(YearPublPair, inTree -> publications_info, buff1);
-	
-	while ( avlYield(CoAuthorPublPair, new -> coauthors_info, &buff2) )
+
+	while ( avlYield(CoAuthorPublPair, new -> coauthors_info, &buff2) == 0 )
 		avlInsert(CoAuthorPublPair, inTree -> coauthors_info, buff2);
 }
 
@@ -137,14 +120,14 @@ int authorInfoTreeInsert(AuthorInfoTree tree, AuthorInfo new) {
 }
 
 int authorInfoTreeYield(AuthorInfoTree tree, AuthorInfo *ret) {
-	avlYield(AuthorInfo, tree, ret);
+	return avlYield(AuthorInfo, tree, ret);
 }
 
 void authorInfoTreeRewindGenerator(AuthorInfoTree tree) {
 	avlRewindGenerator(AuthorInfo, tree);
 }
 
-AuthorTree authorTreeNew() {
+AuthorInfoTree authorInfoTreeNew() {
 	return avlNewComplete(AuthorInfo, &compareAuthorInfo, &colideAuthorInfo, &deleteAuthorInfo, &cloneAuthorInfo);
 }
 
@@ -159,14 +142,12 @@ AuthorInfoTree authorInfoTreeClone(AuthorInfoTree tree) {
 int authorInfoAddCoAuthor(AuthorInfo author, Author coauthor) {
 	CoAuthorPublPair new = newCoAuthorPublPair(coauthor);
 	int ret = avlInsert(CoAuthorPublPair, author.coauthors_info, new);
-	free(new);
+	deleteCoAuthorPublPair(new);
 	return ret;
 }
 
 int authorInfoAddYear(AuthorInfo author, int year) {
 	YearPublPair new = newYearPublPair(year);
-	int ret = avlInsert(YearPublPair, author.publications_info, new);
-	free(new);
-	return ret;
+	return avlInsert(YearPublPair, author.publications_info, new);
 }
 

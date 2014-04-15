@@ -16,8 +16,9 @@ AuthorTree authorTreeNew();
 void authorTreeDestroy(AuthorTree);
 
 int authorTreeInsert(AuthorTree, Author);
-int authorTreeYield(AuthorTree, Author *);
+int authorTreeYield(AuthorTree, Author*);
 void authorTreeRewindGenerator(AuthorTree);
+AuthorTree authorTreeClone(AuthorTree tree);
 
 #ifdef DEBUG
     void printAuthorIndex();

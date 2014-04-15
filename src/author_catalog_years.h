@@ -24,7 +24,9 @@ void yearTreeDestroy(YearTree tree);
 YearTree yearTreeNew();
 YearTree yearTreeClone(YearTree tree);
 
+int yearEntryAddAuthor(YearEntry year, Author author);
 YearEntry newYearEntry(int year);
+void deleteYearEntry(YearEntry goodbye);
 
 #endif
 
