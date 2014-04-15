@@ -1,10 +1,10 @@
-#ifndef AUTHOR_INDEX_TREE_H_
-#define AUTHOR_INDEX_TREE_H_
+#ifndef AUTHOR_TREE_H_
+#define AUTHOR_TREE_H_
 
 #include <avl.h>
+
 #define GET_CHAR_INDEX(c) (normalLetter(c) ? ((int)c - (int)'A') : 26)
 #define normalLetter(c)     ( ( (c) >= 'A' ) && ( (c) <= 'Z' ) )
-
 
 typedef char* Author;
 

@@ -1,10 +1,5 @@
 #include "author_catalog_years.h"
 
-struct year_entry {
-	int year;
-	AuthorTree authors;
-};
-
 AVL_DEF(YearEntry, int)
 
 YearEntry newYearEntry(int year) {

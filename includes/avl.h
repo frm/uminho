@@ -48,6 +48,8 @@
         int initialized = avl->generator.initialized;                                       \
         type##AVLNode node;                                                                 \
                                                                                             \
+        node = NULL;                                                                        \
+                                                                                            \
         if (!initialized && ret) {                                                          \
                                                                                             \
             if (!avl->root)                                                                 \

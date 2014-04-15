@@ -5,6 +5,25 @@
 static AuthorInfoTree	CatalogAuthors[27];
 static YearTree			CatalogYears;
 
+void initializeAuthorCatalog() {
+	int i;
+
+	for(i = 0; i < 27; i++) {
+		CatalogAuthors[i] = authorInfoTreeNew();
+	}
+
+	CatalogYears = yearTreeNew();
+}
+
+void deleteAuthorCatalog() {
+	int i;
+
+	for(i = 0; i < 27; i++)
+		authorInfoTreeDestroy(CatalogAuthors[i]);
+
+	yearTreeDestroy(CatalogYears);
+}
+
 static void addYearToCatalog(int year, Author author) {
 	AuthorInfo buffer = newAuthorInfo(author);
 	

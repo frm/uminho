@@ -1,5 +1,5 @@
-#ifndef STATISTICS_H_
-#define STATISTICS_H_
+#ifndef AUTHOR_STATISTICS_H_
+#define AUTHOR_STATISTICS_H_
 
 char* getLongestAuthorName();
 char* getShortestAuthorName();

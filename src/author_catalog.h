@@ -4,5 +4,10 @@
 #include "author_catalog_authors.h"
 #include "author_catalog_years.h"
 
+void initializeAuthorCatalog();
+void deleteAuthorCatalog();
+
+int insertToCatalog(Author*, int);
+
 #endif
 

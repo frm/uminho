@@ -1,5 +1,5 @@
-#ifndef AUTHOR_INDEX_H
-#define AUTHOR_INDEX_H
+#ifndef AUTHOR_INDEX_H_
+#define AUTHOR_INDEX_H_
 
 #include "author_index_stats.h"
 #include "author_tree.h"

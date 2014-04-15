@@ -79,7 +79,7 @@
         newVector->deleteContent = deleteContent;                                           \
         newVector->cloneContent = cloneContent;                                             \
         newVector->blockSize = blockSize;                                                   \
-        newVector->last = 0;                                                               \
+        newVector->last = 0;                                                                \
         newVector->data = newBlock;                                                         \
                                                                                             \
         return newVector;                                                                   \
@@ -136,7 +136,7 @@
         size_t index, blockSize;                                                            \
                                                                                             \
         blockSize = vec->blockSize;                                                         \
-        index = vec->last;                                                              \
+        index = vec->last;                                                                  \
         currBlock = vec->data;                                                              \
                                                                                             \
         while (index > blockSize) {                                                         \
@@ -153,7 +153,7 @@
                 return -1;                                                                  \
         }                                                                                   \
                                                                                             \
-        vec->last += 1;                                                                     \
+        vec->last ++;                                                                       \
                                                                                             \
         if (vec->cloneContent)                                                              \
             currBlock->content[index] = vec->cloneContent(item);                            \
@@ -170,10 +170,10 @@
         blockSize = vec->blockSize;                                                         \
         currBlock = vec->data;                                                              \
                                                                                             \
-        if (index >= vec->last)                                                          \
+        if (index >= vec->last)                                                             \
             return -1;                                                                      \
                                                                                             \
-        while (index > blockSize) {                                                        \
+        while (index > blockSize) {                                                         \
             index -= blockSize;                                                             \
             currBlock = currBlock->next;                                                    \
         }                                                                                   \
@@ -193,7 +193,7 @@
         blockSize = vec->blockSize;                                                         \
         currBlock = vec->data;                                                              \
                                                                                             \
-        while (index > blockSize) {                                                        \
+        while (index > blockSize) {                                                         \
             index -= blockSize;                                                             \
             currBlock = currBlock->next;                                                    \
         }                                                                                   \
@@ -209,7 +209,7 @@
     }                                                                                       \
                                                                                             \
     size_t vec##type##GetSize(type##Vector vec) {                                           \
-        return vec->last;                                                               \
+        return vec->last;                                                                   \
     }                                                                                       \
                                                                                             \
     size_t vec##type##Find(type##Vector vec,                                                \

@@ -6,7 +6,6 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <strutil.h>
-#include "gestauts.h"
 
 int read_file(char* filename);
 

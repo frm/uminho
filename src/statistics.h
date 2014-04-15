@@ -1,5 +1,5 @@
-#ifndef STATISTICS_H
-#define STATISTICS_H
+#ifndef STATISTICS_H_
+#define STATISTICS_H_
 
 #include <string.h>
 #include "statistics_tree.h"

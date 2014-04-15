@@ -1,4 +1,7 @@
 #include "reading.h"
+#include "author_index.h"
+#include "statistics.h"
+#include "author_catalog.h"
 
 #define getMatrixAuthorIndex(author, i)		(author + 128 * i)
 
@@ -97,8 +100,8 @@ char* getReadStats() {
 char* getAuthorStats() {
 	char* stats = (char*)malloc(sizeof(char) * 1024);
 
-	sprintf( stats, "\nLONGEST NAME: %s with length %d\n", getLongestAuthorName(), strlen( getLongestAuthorName() ) );
-	sprintf( stats + strlen(stats), "SHORTEST NAME: %s with length %d\n", getShortestAuthorName(), strlen( getShortestAuthorName() ) );
+	sprintf( stats, "\nLONGEST NAME: %s with length %d\n", getLongestAuthorName(), (int)strlen( getLongestAuthorName() ) );
+	sprintf( stats + strlen(stats), "SHORTEST NAME: %s with length %d\n", getShortestAuthorName(), (int)strlen( getShortestAuthorName() ) );
 	sprintf( stats + strlen(stats), "AVERAGE LENGTH: %f\n", getAverage() );
 
 	return stats;
