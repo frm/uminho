@@ -27,14 +27,15 @@ static void extract_author_info(char* author) {
 static int isAuthor(char* str) { return !isdigit(str[0]); }
 
 static void tokenize(char* buffer) {
-	char* author_buffer = (char*)malloc( sizeof(char) * 128 * 128 );
+	char** author_buffer = (char**)malloc( sizeof(char) * 128 );
 	char* token = strtrim( strtok(buffer, ",") );
 	int n = 0;
 
 	while (token) {
 		/* use !isdigit() instead of isalpha because of names started with special characters */
 		/* use a function for this line */
-		strncpy(getMatrixAuthorIndex(author_buffer, n), token, sizeof(char) * ( strlen(token) + 1 ) );
+		author_buffer[n] = (char*)malloc(sizeof(char) * ( strlen(token) + 1 ) );
+		strncpy(author_buffer[n], token, sizeof(char) * ( strlen(token) + 1 ) );
 		
 		if ( isAuthor(token) ) {
 			extract_author_info(token);
@@ -50,8 +51,11 @@ static void tokenize(char* buffer) {
 		free(token);
 		token = strtrim( strtok(NULL, ",") );
 	}
-
+	
 	insertToCatalog(author_buffer, n);
+	while ( n > 0 )
+		free( author_buffer[n--] );
+
 	free(author_buffer);
 
 }
