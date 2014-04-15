@@ -57,7 +57,8 @@ int insertToCatalog(Author* author_buffer, int size) { /* Note that author_buffe
 	int year;
     sscanf(author_buffer[size], "%d\n", &year);
 
-	for (i = 0; i < size - 1; i++) {
+	for (i = 0; i < size; i++) {
+    /* i < size as well as j < size because if we put i < size - 1, the last author won't add the year of publication */
 		for (j = i + 1; j < size; j++) {
 			addAuthorToCatalog( author_buffer[i], author_buffer[j] );
 			addAuthorToCatalog( author_buffer[j], author_buffer[i] );
@@ -74,7 +75,7 @@ int insertToCatalog(Author* author_buffer, int size) { /* Note that author_buffe
 void printCatalog() {
     int i;
 
-    for(i = 0; i < 27; i++) 
+    for(i = 0; i < 27; i++)
         authorInfoTreePrint(CatalogAuthors[i]);
 }
 #endif

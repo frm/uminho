@@ -51,9 +51,9 @@ static void query1() {
 	char* stats;
 #ifdef DEBUG
 	read_file("publicx.txt");
-#else 
+#else
 	#ifdef DEBUG2
-	read_file("publicx2.txt");
+	read_file("publicx3.txt");
 	#else
 	char filename[1024];
 	int valid_input = 0;
@@ -242,12 +242,12 @@ static void query11() {
 	scanf("%s", fileName);
 	sprintf(fileName + strlen(fileName), ".csv");
 	f = fopen(fileName, "a+");
-	fprintf(f, "\"Year\",\"#Authors\",\"Publications\"\n");	
+	fprintf(f, "\"Year\",\"#Authors\",\"Publications\"\n");
 	for (;;) {
 		test = yieldYearCSV(&yearCSV);
 
 		if (!test){
-			fprintf(f, "%s", yearCSV); 
+			fprintf(f, "%s", yearCSV);
 			free(yearCSV);
 		}
 		else {
@@ -315,9 +315,9 @@ static int get_option() {
 	return index;
 }
 
-static void call_option(int index) { 
+static void call_option(int index) {
 
-	(*functions[index])(); 
+	(*functions[index])();
 }
 
 static void cmd_interpreter() {
