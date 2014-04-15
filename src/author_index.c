@@ -1,8 +1,5 @@
 #include "author_index.h"
 
-#define GET_CHAR_INDEX(c) (normalLetter(c) ? ((int)c - (int)'A') : 26)
-#define normalLetter(c)     ( ( (c) >= 'A' ) && ( (c) <= 'Z' ) )
-
 static AuthorTree letterIndex[27];
 
 
@@ -54,7 +51,7 @@ void deleteAuthorIndex() {
     int i;
 
     deleteAuthorIndexStats();
-    
+
     for (i = 0; i < 27; i++)
         authorTreeDestroy(letterIndex[i]);
 }
