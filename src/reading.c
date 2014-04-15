@@ -30,7 +30,7 @@ static void extract_author_info(char* author) {
 static int isAuthor(char* str) { return !isdigit(str[0]); }
 
 static void tokenize(char* buffer) {
-	char** author_buffer = (char**)malloc( sizeof(char) * 128 );
+	char** author_buffer = (char**)malloc( sizeof(char*) * 128 );
 	char* token = strtrim( strtok(buffer, ",") );
 	int n = 0;
 
@@ -56,7 +56,7 @@ static void tokenize(char* buffer) {
 	}
 	
 	insertToCatalog(author_buffer, n);
-	while ( n > 0 )
+	while ( n >= 0 )
 		free( author_buffer[n--] );
 
 	free(author_buffer);

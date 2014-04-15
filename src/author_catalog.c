@@ -54,7 +54,8 @@ static int addAuthorToCatalog(Author author, Author coauthor) {
 
 int insertToCatalog(Author* author_buffer, int size) { /* Note that author_buffer[size] contains the year */
 	int i, j;
-	int year = atoi( author_buffer[size] );
+	int year;
+    sscanf(author_buffer[size], "%d\n", &year);
 
 	for (i = 0; i < size - 1; i++) {
 		for (j = i + 1; j < size; j++) {

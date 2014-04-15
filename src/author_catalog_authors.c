@@ -92,7 +92,11 @@ void deleteAuthorInfo(AuthorInfo info) {
 }
 
 static AuthorInfo cloneAuthorInfo(AuthorInfo original) {
-	AuthorInfo new = newAuthorInfo(original.author);
+	AuthorInfo new;
+	int size = strlen(original.author) + 1;
+
+	new.author = (Author)malloc(sizeof(char) * size);
+	strncpy(new.author, original.author, sizeof(char) * size);
 	new.publications_info = avlYearPublPairClone(original.publications_info);
 	new.coauthors_info = avlCoAuthorPublPairClone(original.coauthors_info);
 
@@ -104,15 +108,32 @@ static int compareAuthorInfo(Author* key_search, AuthorInfo* fst, AuthorInfo snd
 	return strcmp(key, snd.author);
 }
 
+static void catYearPublTree(YearPublPairAVL* source, YearPublPairAVL* destination) {
+	YearPublPair buffer;
+	int avl_empty = 0;
+
+	while (!avl_empty) {
+		avl_empty = avlYield(YearPublPair, *source, &buffer);
+		if ( avl_empty != -1 )
+			avlInsert(YearPublPair, *destination, buffer);
+	}
+}
+
+static void catCoAuthorPublTree(CoAuthorPublPairAVL* source, CoAuthorPublPairAVL* destination) {
+	CoAuthorPublPair buffer;
+	int avl_empty = 0;
+
+	while (!avl_empty) {
+		avl_empty = avlYield(CoAuthorPublPair, *source, &buffer);
+		if ( avl_empty != -1 ) {
+			avlInsert(CoAuthorPublPair, *destination, buffer);
+			deleteCoAuthorPublPair(buffer);
+		}
+	}
+}
 static void colideAuthorInfo(AuthorInfo* inTree, AuthorInfo* new) {
-	YearPublPair buff1;
-	CoAuthorPublPair buff2;
-
-	while ( avlYield(YearPublPair, new -> publications_info, &buff1) == 0 )
-		avlInsert(YearPublPair, inTree -> publications_info, buff1);
-
-	while ( avlYield(CoAuthorPublPair, new -> coauthors_info, &buff2) == 0 )
-		avlInsert(CoAuthorPublPair, inTree -> coauthors_info, buff2);
+	catYearPublTree( &(new -> publications_info), &(inTree -> publications_info) );
+	catCoAuthorPublTree( &(new -> coauthors_info), &(inTree -> coauthors_info) );
 }
 
 int authorInfoTreeInsert(AuthorInfoTree tree, AuthorInfo new) {

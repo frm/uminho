@@ -13,9 +13,16 @@ YearEntry newYearEntry(int year) {
 
 static void colideYearEntry(YearEntry* inTree, YearEntry* outTree) {
 	Author buffer;
+	int avl_empty = 0;
 
-	while ( authorTreeYield(outTree -> authors, &buffer) == 0 )
-		authorTreeInsert(inTree -> authors, buffer);
+	while (!avl_empty) {
+		avl_empty = authorTreeYield(outTree -> authors, &buffer);
+
+		if ( avl_empty != -1 ) {
+			authorTreeInsert(inTree -> authors, buffer);
+			free(buffer);
+		}
+	}
 }
 
 static int compareYearEntry(int* key_search, YearEntry* fst, YearEntry snd) {
@@ -34,8 +41,9 @@ void deleteYearEntry(YearEntry goodbye) {
 }
 
 static YearEntry cloneYearEntry(YearEntry original) {
-	YearEntry new = newYearEntry(original.year);
+	YearEntry new;
 
+	new.year = original.year;
 	new.authors = authorTreeClone(original.authors);
 
 	return new;
