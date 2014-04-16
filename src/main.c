@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 #include "reading.h"
 
 #define NR_OPTIONS		16
@@ -33,7 +34,7 @@ static char* options[NR_OPTIONS] = {
 	"TO BE IMPLEMENTED",
 	"GET YEAR AUTHOR STATS",
 	"GET CSV FILE",
-	"TO BE IMPLEMENTED",
+	"TOP AUTHORS IN YEAR",
 	"TO BE IMPLEMENTED",
 	"PRINT NAME STATISTICS"
 };
@@ -263,6 +264,39 @@ static void query11() {
 	fclose(f);
 }
 
+static void query12() {
+	int year, n, i;
+	char **authors;
+	clock_t begin, end;
+	double t;
+
+	printf("ENTER A YEAR:\n");
+	scanf("%d", &year);
+	printf("ENTER NUMBER OF AUTHORS:\n");
+	scanf("%d", &n);
+
+	begin = clock();
+
+	authors = getTopAuthorsInYear(year, n);
+
+	end = clock();
+
+	for (i = 0; i < n; i++) {
+		printf("%s\n", authors[i]);
+		free(authors[i]);
+	}
+
+	printf("\n\n");
+
+	t = (double)(end - begin) / CLOCKS_PER_SEC;
+
+	printf("TIME SPENT: %f\n\n", t);
+
+	free(authors);
+
+	return;
+}
+
 static void query14() {
 	char* stats = getAuthorStats();
 	printf("%s\n\n", stats );
@@ -282,7 +316,7 @@ static void(* functions[NR_FUNCTIONS + NR_ERRORS] )() = {
 	&failureprnt,
 	&query10,
 	&query11,
-	&failureprnt,
+	&query12,
 	&failureprnt,
 	&query14,
     &invalid_option_err,
@@ -316,7 +350,6 @@ static int get_option() {
 }
 
 static void call_option(int index) {
-
 	(*functions[index])();
 }
 

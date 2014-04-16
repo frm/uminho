@@ -3,23 +3,23 @@
 
 #include <stdlib.h>
 
-#define HEAP_PARENT(i) i / 2
-#define HEAP_LEFT(i) i * 2 + 1
-#define HEAP_RIGHT(i) i * 2 + 2
+#define HEAP_PARENT(i) (int)((i - 1) / 2)
+#define HEAP_LEFT(i) (int)(i * 2 + 1)
+#define HEAP_RIGHT(i) (int)(i * 2 + 2)
 
 #define HEAP_DEF_HEADER(type)                                                               \
     typedef struct type##Heap_s {                                                           \
         int (*compareContent)(type, type);                                                  \
         void (*deleteContent)(type);                                                        \
         type (*cloneContent)(type);                                                         \
-        size_t size;                                                                        \
-        size_t used;                                                                        \
+        int size;                                                                           \
+        int used;                                                                           \
         type *content;                                                                      \
     } * type##Heap;                                                                         \
 
 
 #define HEAP_DEF(type)                                                                      \
-    type##Heap heap##type##New(size_t size,                                                 \
+    type##Heap heap##type##New(int size,                                                    \
                                int (*compareContent)(type, type),                           \
                                void (*deleteContent)(type),                                 \
                                type (*cloneContent)(type)) {                                \
@@ -38,7 +38,7 @@
     }                                                                                       \
                                                                                             \
     void heap##type##Destroy(type##Heap heap) {                                             \
-        size_t used, i;                                                                     \
+        int used, i;                                                                        \
                                                                                             \
         used = heap->used;                                                                  \
                                                                                             \
@@ -51,7 +51,7 @@
     }                                                                                       \
                                                                                             \
     void heap##type##BubbleUp(type##Heap heap) {                                            \
-        size_t index;                                                                       \
+        int index;                                                                          \
         type contentChild, contentParent;                                                   \
                                                                                             \
         index = heap->used - 1;                                                             \
@@ -70,7 +70,7 @@
     }                                                                                       \
                                                                                             \
     void heap##type##BubbleDown(type##Heap heap) {                                          \
-        size_t index, candidate, max;                                                       \
+        int index, candidate, max;                                                          \
         type contentCandidate, contentIndex;                                                \
                                                                                             \
         index = 0;                                                                          \
@@ -97,6 +97,8 @@
                 break;                                                                      \
             }                                                                               \
         }                                                                                   \
+                                                                                            \
+        return;                                                                             \
     }                                                                                       \
                                                                                             \
     int heap##type##Insert(type##Heap heap, type item) {                                    \
@@ -127,11 +129,22 @@
                                                                                             \
         return 0;                                                                           \
     }                                                                                       \
+                                                                                            \
+    int heap##type##Top(type##Heap heap, type *ret) {                                       \
+                                                                                            \
+        if (heap->used == 0)                                                                \
+            return -1;                                                                      \
+                                                                                            \
+        *ret = heap->cloneContent(heap->content[0]);                                        \
+                                                                                            \
+        return 0;                                                                           \
+    }                                                                                       \
 
 #define heapNewComplete(type, size, cmp, del, clone) heap##type##New(size, cmp, del, clone)
 #define heapNew(type, size, cmp) heap##type##New(size, cmp, NULL, NULL)
 #define heapDestroy(type, hp) heap##type##Destroy(hp)
 #define heapInsert(type, hp, item) heap##type##Insert(hp, item)
 #define heapGet(type, hp, ret) heap##type##Get(hp, ret)
+#define heapTop(type, hp, ret) heap##type##Top(hp, ret)
 
 #endif

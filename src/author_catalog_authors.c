@@ -46,11 +46,11 @@ static void colideCoAuthorPublPair(CoAuthorPublPair* fst, CoAuthorPublPair* snd)
 	( fst -> nr_publications )+= ( snd -> nr_publications );
 }
 
-static void deleteCoAuthorPublPair(CoAuthorPublPair pair) {
+void deleteCoAuthorPublPair(CoAuthorPublPair pair) {
 	free(pair.coauthor);
 }
 
-static CoAuthorPublPair cloneCoAuthorPublPair(CoAuthorPublPair original) {
+CoAuthorPublPair cloneCoAuthorPublPair(CoAuthorPublPair original) {
 	CoAuthorPublPair new = newCoAuthorPublPair(original.coauthor);
 	new.nr_publications = original.nr_publications;
 
@@ -72,6 +72,24 @@ static int compareCoAuthorPublPair(Author* key_search, CoAuthorPublPair* fst, Co
 
 AVL_DEF(AuthorInfo, Author)
 
+/* AVL FUNCTION */
+
+int authorInfoGetAuthorPublicationsInYear(AuthorInfoTree tree, Author author, int year) {
+    AuthorInfoAVLNode node;
+    YearPublPair yearInfo;
+
+    node = __avlAuthorInfoFind(tree->compare, tree->root, NULL, &author);
+
+    if (!node)
+        return -1;
+
+    if (avlFind(YearPublPair, node->content.publications_info, year, &yearInfo))
+        return 0;
+
+    return yearInfo.nr_publications;
+}
+
+/* ************ */
 AuthorInfo newAuthorInfo(Author name) {
 	AuthorInfo new;
 	int size = strlen(name) + 1;

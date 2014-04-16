@@ -19,6 +19,7 @@ typedef YearEntryAVL YearTree;
 
 int yearTreeInsert(YearTree, YearEntry);
 int yearTreeYield(YearTree, YearEntry *);
+int yearTreeYieldAuthorFromYear(YearTree, int, char **);
 void yearTreeRewindGenerator(YearTree tree);
 void yearTreeDestroy(YearTree tree);
 YearTree yearTreeNew();

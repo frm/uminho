@@ -159,6 +159,10 @@ int getYearsTotalByInterval(int first, int last) {
 	return total;
 }
 
+char **getTopAuthorsInYear(int year, int n) {
+	return atrCatGetTopAuthorsInYear(year, n);
+}
+
 int yieldYearCSV(char **ret) {
 	return statsYieldYearCSV(ret);
 }

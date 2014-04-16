@@ -2,6 +2,20 @@
 
 AVL_DEF(YearEntry, int)
 
+/* AVL Function */
+int yearTreeYieldAuthorFromYear(YearTree tree, int year, char **author) {
+	static YearEntry yearContent = {0, NULL};
+	YearEntryAVLNode node;
+
+	if (!yearContent.authors || yearContent.year != year){
+		node = __avlYearEntryFind(tree->compare, tree->root, NULL, &year);
+		yearContent = node->content;
+	}
+
+	return authorTreeYield(yearContent.authors, author);
+}
+/* ******************* */
+
 YearEntry newYearEntry(int year) {
 	YearEntry new;
 
@@ -40,7 +54,7 @@ void deleteYearEntry(YearEntry goodbye) {
 	authorTreeDestroy(goodbye.authors);
 }
 
-static YearEntry cloneYearEntry(YearEntry original) {
+YearEntry cloneYearEntry(YearEntry original) {
 	YearEntry new;
 
 	new.year = original.year;
@@ -75,5 +89,9 @@ YearTree yearTreeClone(YearTree tree) {
 
 int yearEntryAddAuthor(YearEntry year, Author author) {
     return authorTreeInsert(year.authors, author);
+}
+
+int yearEntryFind(YearTree tree, int year, YearEntry *ret) {
+	return avlFind(YearEntry, tree, year, ret);
 }
 

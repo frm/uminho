@@ -35,17 +35,21 @@ AVL_DEF_HEADER(AuthorInfo, Author)
 
 typedef AuthorInfoAVL				AuthorInfoTree;
 
-int authorInfoTreeInsert(AuthorInfoTree tree, AuthorInfo new);
-int authorInfoTreeYield(AuthorInfoTree tree, AuthorInfo *ret);
-void authorInfoTreeRewindGenerator(AuthorInfoTree tree);
-void authorInfoTreeDestroy(AuthorInfoTree tree);
+int authorInfoTreeInsert(AuthorInfoTree, AuthorInfo);
+int authorInfoTreeYield(AuthorInfoTree, AuthorInfo *);
+int authorInfoGetAuthorPublicationsInYear(AuthorInfoTree, Author, int);
+void authorInfoTreeRewindGenerator(AuthorInfoTree);
+void authorInfoTreeDestroy(AuthorInfoTree);
 AuthorInfoTree authorInfoTreeNew();
-AuthorInfoTree authorInfoTreeClone(AuthorInfoTree tree);
+AuthorInfoTree authorInfoTreeClone(AuthorInfoTree);
 
-AuthorInfo newAuthorInfo(Author name);
-void deleteAuthorInfo(AuthorInfo info);
-int authorInfoAddCoAuthor(AuthorInfo author, Author coauthor);
-int authorInfoAddYear(AuthorInfo author, int year);
+AuthorInfo newAuthorInfo(Author);
+void deleteAuthorInfo(AuthorInfo);
+int authorInfoAddCoAuthor(AuthorInfo, Author);
+int authorInfoAddYear(AuthorInfo, int);
+
+CoAuthorPublPair cloneCoAuthorPublPair(CoAuthorPublPair);
+void deleteCoAuthorPublPair(CoAuthorPublPair);
 
 #ifdef DEBUG2
     #include <stdio.h>
