@@ -398,9 +398,9 @@
                                                                                             \
         cmp = compare(key, keyContent, node->content);                                      \
                                                                                             \
-        if (cmp == 1) {                                                                     \
+        if (cmp > 0) {                                                                      \
             return __avl##type##Find(compare, node->right, keyContent, key);                \
-        } else if (cmp == -1) {                                                             \
+        } else if (cmp < 0) {                                                               \
             return __avl##type##Find(compare, node->left, keyContent, key);                 \
         } else {                                                                            \
             return node;                                                                    \

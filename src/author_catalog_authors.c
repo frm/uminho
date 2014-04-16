@@ -20,6 +20,7 @@ static int compareYearPublPair(int* key_search, YearPublPair* fst, YearPublPair 
 	int cmp;
 	int key = key_search ? (*key_search) : (fst -> year);
 
+    
 	if ( key > snd.year ) cmp = 1;
 	else if ( key < snd.year ) cmp = -1;
 	else cmp = 0;
@@ -83,8 +84,9 @@ int authorInfoGetAuthorPublicationsInYear(AuthorInfoTree tree, Author author, in
     if (!node)
         return -1;
 
-    if (avlFind(YearPublPair, node->content.publications_info, year, &yearInfo))
+    if (avlFind(YearPublPair, node->content.publications_info, year, &yearInfo)){
         return 0;
+    }
 
     return yearInfo.nr_publications;
 }

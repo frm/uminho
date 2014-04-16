@@ -19,6 +19,7 @@ int yieldYearCSV(char **);
 void initializeGestauts();
 void leaveGestauts();
 int getYearCoAuthorsTotal(int, int);
-char **getTopAuthorsInYear(int, int);
+char **topAuthorsInYear(int, int);
+int authorPublicationsInYear(char *, int);
 
 #endif

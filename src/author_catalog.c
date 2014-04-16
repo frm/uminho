@@ -87,7 +87,11 @@ int insertToCatalog(Author* author_buffer, int size) { /* Note that author_buffe
 	return 0;
 }
 
-char **atrCatGetTopAuthorsInYear(int year, int n) {
+int getAuthorPublicationsInYear(Author author, int year) {
+    return authorInfoGetAuthorPublicationsInYear(CatalogAuthors[GET_CHAR_INDEX(author[0])], author, year);
+}
+
+char **getTopAuthorsInYear(int year, int n) {
     CoAuthorPublPairHeap authorHeap;
     CoAuthorPublPair pair, auxPair;
     char **authorList;
@@ -99,7 +103,7 @@ char **atrCatGetTopAuthorsInYear(int year, int n) {
     authorList = (char **)malloc(sizeof(char *) * n);
 
     for (i = 0; i < n; i++) {
-        yearTreeYieldAuthorFromYear(CatalogYears, year, &tempAuthor);
+        test = yearTreeYieldAuthorFromYear(CatalogYears, year, &tempAuthor);
         total = authorInfoGetAuthorPublicationsInYear(CatalogAuthors[GET_CHAR_INDEX(tempAuthor[0])], tempAuthor, year);
         pair.coauthor = tempAuthor;
         pair.nr_publications = total;
@@ -107,11 +111,11 @@ char **atrCatGetTopAuthorsInYear(int year, int n) {
         free(pair.coauthor);
     }
 
-    do {
+    while (!test) {
         test = yearTreeYieldAuthorFromYear(CatalogYears, year, &tempAuthor);
 
-        if (!test || test == 1) {
-            total = authorInfoGetAuthorPublicationsInYear(CatalogAuthors[GET_CHAR_INDEX(tempAuthor[0])], tempAuthor, year);
+        if (test == 0 || test == 1) {
+            total = getAuthorPublicationsInYear(tempAuthor, year);
             pair.coauthor = tempAuthor;
             pair.nr_publications = total;
 
@@ -127,12 +131,13 @@ char **atrCatGetTopAuthorsInYear(int year, int n) {
             }
             free(pair.coauthor);
         }
-    } while(!test);
+    }
 
     free(auxPair.coauthor);
 
     for (i = 1; i <= n; i++) {
         heapGet(CoAuthorPublPair, authorHeap, &pair);
+
         authorList[n - i] = pair.coauthor;
     }
 

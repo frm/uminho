@@ -25,7 +25,7 @@ static char* options[NR_OPTIONS] = {
     "EXIT",
 	"READ FROM FILE",
 	"TOTAL PUBLICATIONS BY YEAR",
-	"TO BE IMPLEMENTED",
+	"GET AUTHOR PUBLICATIONS IN YEAR",
 	"TO BE IMPLEMENTED",
 	"TO BE IMPLEMENTED",
 	"GET AUTHORS BY INITIAL",
@@ -100,6 +100,24 @@ static void query2() {
 	printf("\n\n");
 
 	free(totals);
+}
+
+static void query3() {
+	char author[128];
+	int year, total;
+
+	printf("INSERT AUTHOR NAME:\n");
+	getchar();
+	scanf("%[^\n]", author);
+
+	printf("INSERT YEAR:\n");
+	scanf("%d", &year);
+
+	total = authorPublicationsInYear(author, year);
+
+	printf("\n\n%d\n\n", total);
+
+	return;
 }
 
 static void query6() {
@@ -277,7 +295,7 @@ static void query12() {
 
 	begin = clock();
 
-	authors = getTopAuthorsInYear(year, n);
+	authors = topAuthorsInYear(year, n);
 
 	end = clock();
 
@@ -307,7 +325,7 @@ static void(* functions[NR_FUNCTIONS + NR_ERRORS] )() = {
 	&exitGestAuts,
 	&query1,
 	&query2,
-	&failureprnt,
+	&query3,
 	&failureprnt,
 	&failureprnt,
 	&query6,

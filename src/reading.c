@@ -159,8 +159,12 @@ int getYearsTotalByInterval(int first, int last) {
 	return total;
 }
 
-char **getTopAuthorsInYear(int year, int n) {
-	return atrCatGetTopAuthorsInYear(year, n);
+int authorPublicationsInYear(char *author, int year) {
+	return getAuthorPublicationsInYear(author, year);
+}
+
+char **topAuthorsInYear(int year, int n) {
+	return getTopAuthorsInYear(year, n);
 }
 
 int yieldYearCSV(char **ret) {

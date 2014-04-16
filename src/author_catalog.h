@@ -8,7 +8,8 @@ void initializeAuthorCatalog();
 void deleteAuthorCatalog();
 
 int insertToCatalog(Author*, int);
-char **atrCatGetTopAuthorsInYear(int, int);
+int getAuthorPublicationsInYear(Author, int);
+char **getTopAuthorsInYear(int, int);
 
 #ifdef DEBUG2
     #include <stdio.h>
