@@ -111,6 +111,15 @@ char* getAuthorStats() {
 	return stats;
 }
 
+float getAuthorYearRatio(char *author, int year) {
+	int yearTotal, authorTotal;
+
+	yearTotal = statsGetYearTotal(year);
+	authorTotal = getAuthorPublicationsInYear(author, year);
+
+	return ((float)authorTotal / (float)yearTotal);
+}
+
 int *getYearsTotal(int *minYear, int *maxYear) {
 	int min, max, year, totalYears, totalPubs, test;
 	int *totals;

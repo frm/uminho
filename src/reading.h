@@ -11,8 +11,8 @@ int read_file(char* filename);
 
 char* getReadStats();
 char* getAuthorStats();
-int getAuthorsBy(char initial, char** list, int number_display, int* number_read);
-void resetAuthorBy(char initial);
+int getAuthorsBy(char, char**, int, int*);
+void resetAuthorBy(char);
 int getYearsTotalByInterval(int, int);
 int *getYearsTotal(int *, int *);
 int yieldYearCSV(char **);
@@ -21,5 +21,6 @@ void leaveGestauts();
 int getYearCoAuthorsTotal(int, int);
 char **topAuthorsInYear(int, int);
 int authorPublicationsInYear(char *, int);
+float getAuthorYearRatio(char *, int);
 
 #endif

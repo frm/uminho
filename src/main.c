@@ -35,7 +35,7 @@ static char* options[NR_OPTIONS] = {
 	"GET YEAR AUTHOR STATS",
 	"GET CSV FILE",
 	"TOP AUTHORS IN YEAR",
-	"TO BE IMPLEMENTED",
+	"AUTHOR YEAR RATIO",
 	"PRINT NAME STATISTICS"
 };
 /* Functions to be replaced with queries */
@@ -315,6 +315,25 @@ static void query12() {
 	return;
 }
 
+static void query13() {
+	char author[128];
+	int year;
+	float ratio;
+
+	printf("INSERT AUTHOR NAME:\n");
+	getchar();
+	scanf("%[^\n]", author);
+
+	printf("INSERT YEAR:\n");
+	scanf("%d", &year);
+
+	ratio = getAuthorYearRatio(author, year);
+
+	printf("\n\n%f%%\n\n", ratio * 100.0);
+
+	return;
+}
+
 static void query14() {
 	char* stats = getAuthorStats();
 	printf("%s\n\n", stats );
@@ -335,7 +354,7 @@ static void(* functions[NR_FUNCTIONS + NR_ERRORS] )() = {
 	&query10,
 	&query11,
 	&query12,
-	&failureprnt,
+	&query13,
 	&query14,
     &invalid_option_err,
     &no_file_read_err
