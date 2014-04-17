@@ -150,27 +150,18 @@ int statsYieldYearCSV(char **csv) {
         }
     }
 
-    for (;;) {
+    do {
         test = coAuthorStatsTreeYield(stats.extraCoAuthors, &caStats);
 
-        if (!test) {
+        if (test == 0 || test == 1) {
             temp = getCoAuthCSV(year, caStats.coAuthors, caStats.total, &size);
             strncpy(yearCSV + index, temp, size);
             index += size;
             free(temp);
         }
-        else {
-            if (test == 1) {
-                temp = getCoAuthCSV(year, caStats.coAuthors, caStats.total, &size);
-                strncpy(yearCSV + index, temp, size);
-                index += size;
-                free(temp);
-            }
+    } while(!test);
 
-            break;
-        }
-    }
-
+    yearStatsDestroy(stats);
     yearCSV[index] = '\0';
 
     *csv = yearCSV;
