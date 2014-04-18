@@ -5,8 +5,8 @@
 #include "author_tree.h"
 #include <ctype.h>
 
-#define GET_CHAR_INDEX(c) (normalLetter(c) ? ((int)c - (int)'A') : 26)
 #define normalLetter(c)     ( ( (c) >= 'A' ) && ( (c) <= 'Z' ) )
+#define GET_CHAR_INDEX(c) (normalLetter(c) ? ((int)c - (int)'A') : 26)
 
 
 void initializeAuthorIndex();

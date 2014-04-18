@@ -181,9 +181,6 @@ int getYearCoAuthorsTotal(int year, int coAuthors) {
 }
 
 int getAuthorsBy(char initial, char** list, int number_displays, int* number_read) {
-	if( islower(initial) )
-		initial = toupper(initial);
-
 	return getListOfAuthorsByInitial(initial, list, number_displays, number_read);
 }
 
