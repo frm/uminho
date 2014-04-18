@@ -19,19 +19,12 @@ static int getYearTotal(YearStats stats) {
     for (i = 1; i < 11; i++)
         total += stats.coAuthors[i];
 
-    for (;;) {
+    do {
         test = coAuthorStatsTreeYield(stats.extraCoAuthors, &caStats);
 
-        if (!test) {
+        if (test == 0 || test == 1)
             total += caStats.total;
-        }
-        else {
-            if (test == 1)
-                total += caStats.total;
-
-            break;
-        }
-    }
+    } while(!test);
 
     return total;
 }

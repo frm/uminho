@@ -120,6 +120,11 @@ static void query3() {
 
 	total = authorPublicationsInYear(author, year);
 
+	if (total == -1) {
+		printf("SERIOUSLY? ARE YOU MAD OR SOMETHING? FUCKING FUCKTARD!\n");
+		return;
+	}
+
 	printf("\n\n%d\n\n", total);
 
 	return;
@@ -309,6 +314,11 @@ static void query12() {
 
 	end = clock();
 
+	if (!authors) {
+		printf("FUCK YOU, BITCH! FUCK YOU!\n");
+		return;
+	}
+
 	for (i = 0; i < n; i++) {
 		printf("%s\n", authors[i]);
 		free(authors[i]);
@@ -338,6 +348,11 @@ static void query13() {
 	scanf("%d", &year);
 
 	ratio = getAuthorYearRatio(author, year);
+
+	if (ratio < 0) {
+		printf("WHAT THE FUCK, DUDE?\n");
+		return;
+	}
 
 	printf("\n\n%f%%\n\n", ratio * 100.0);
 

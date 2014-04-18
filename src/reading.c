@@ -111,6 +111,10 @@ float getAuthorYearRatio(char *author, int year) {
 	int yearTotal, authorTotal;
 
 	yearTotal = statsGetYearTotal(year);
+
+	if (!yearTotal)
+		return -1.0;
+
 	authorTotal = getAuthorPublicationsInYear(author, year);
 
 	return ((float)authorTotal / (float)yearTotal);
@@ -169,7 +173,10 @@ int authorPublicationsInYear(char *author, int year) {
 }
 
 char **topAuthorsInYear(int year, int n) {
-	return getTopAuthorsInYear(year, n);
+	if (year > getMaxYear() || year < getMinYear())
+		return NULL;
+	else
+		return getTopAuthorsInYear(year, n);
 }
 
 int yieldYearCSV(char **ret) {
