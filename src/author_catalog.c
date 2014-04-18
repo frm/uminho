@@ -162,7 +162,6 @@ int getSoloAuthors() {
             }
         }
     }
-    authorInfoTreeRewindGenerator( CatalogAuthors[i] );
 	return total;
 }
 
