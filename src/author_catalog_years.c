@@ -9,6 +9,10 @@ int yearTreeYieldAuthorFromYear(YearTree tree, int year, char **author) {
 
 	if (!yearContent.authors || yearContent.year != year){
 		node = __avlYearEntryFind(tree->compare, tree->root, NULL, &year);
+
+		if (!node)
+			return -1;
+		
 		yearContent = node->content;
 	}
 

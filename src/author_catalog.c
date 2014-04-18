@@ -96,20 +96,26 @@ char **getTopAuthorsInYear(int year, int n) {
     CoAuthorPublPair pair, auxPair;
     char **authorList;
     char *tempAuthor;
-    int test, i, total;
+    char *na = "NOT AVAILABLE";
+    int test, i, j, total;
 
+    i = 0;
     auxPair.coauthor = NULL;
     authorHeap = heapNewComplete(CoAuthorPublPair, n, &cmpMinCoAuthorPublPair, &deleteCoAuthorPublPair, &cloneCoAuthorPublPair);
     authorList = (char **)malloc(sizeof(char *) * n);
 
-    for (i = 0; i < n; i++) {
+    do {
         test = yearTreeYieldAuthorFromYear(CatalogYears, year, &tempAuthor);
-        total = authorInfoGetAuthorPublicationsInYear(CatalogAuthors[GET_CHAR_INDEX(tempAuthor[0])], tempAuthor, year);
-        pair.coauthor = tempAuthor;
-        pair.nr_publications = total;
-        heapInsert(CoAuthorPublPair, authorHeap, pair);
-        free(pair.coauthor);
-    }
+
+        if (test == 0 || test == 1) {
+            total = authorInfoGetAuthorPublicationsInYear(CatalogAuthors[GET_CHAR_INDEX(tempAuthor[0])], tempAuthor, year);
+            pair.coauthor = tempAuthor;
+            pair.nr_publications = total;
+            heapInsert(CoAuthorPublPair, authorHeap, pair);
+            free(pair.coauthor);
+            i++;
+        }
+    } while(!test && i < n);
 
     while (!test) {
         test = yearTreeYieldAuthorFromYear(CatalogYears, year, &tempAuthor);
@@ -135,10 +141,15 @@ char **getTopAuthorsInYear(int year, int n) {
 
     free(auxPair.coauthor);
 
-    for (i = 1; i <= n; i++) {
+    for (j = i; j < n; j++) {
+        authorList[j] = (char *)malloc(sizeof(char) * (strlen(na) + 1));
+        strcpy(authorList[j], na);
+    }
+
+    for (j = 1; j <= i; j++) {
         heapGet(CoAuthorPublPair, authorHeap, &pair);
 
-        authorList[n - i] = pair.coauthor;
+        authorList[i - j] = pair.coauthor;
     }
 
     heapDestroy(CoAuthorPublPair, authorHeap);
@@ -157,8 +168,8 @@ int getSoloAuthors() {
         while (!avl_empty) {
             avl_empty = authorInfoTreeYield( CatalogAuthors[i], &buffer );
             if ( avl_empty != -1 ) {
-        	 if (! has_coauthors(buffer) ) total++;
-             deleteAuthorInfo(buffer);
+                if (! has_coauthors(buffer) ) total++;
+                deleteAuthorInfo(buffer);
             }
         }
     }

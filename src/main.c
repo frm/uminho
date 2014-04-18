@@ -11,6 +11,13 @@
 #define GREET()			( printf("WELCOME TO GESTAUTS.\n") )
 #define BID_FAREWELL()	( printf("BYE BYE.\n") )
 #define valid_input(i)  ( ( (i) > -1 ) && ( (i) < NR_FUNCTIONS ) )
+#define TIME(f) \
+	begin = clock(); \
+	f				 \
+	end = clock();   \
+
+#define PRINT_TIME_SPENT(msg) printf("\n\nTIME SPENT " msg ": %f\n\n", (double)(end - begin) / CLOCKS_PER_SEC);
+
 #define TOTAL_DIGITS(size, n)   \
 	size = 0;					\
 	do {						\
@@ -301,18 +308,16 @@ static void query12() {
 	int year, n, i;
 	char **authors;
 	clock_t begin, end;
-	double t;
 
 	printf("ENTER A YEAR:\n");
 	scanf("%d", &year);
 	printf("ENTER NUMBER OF AUTHORS:\n");
 	scanf("%d", &n);
 
-	begin = clock();
-
+	
+	TIME(
 	authors = topAuthorsInYear(year, n);
-
-	end = clock();
+	)
 
 	if (!authors) {
 		printf("FUCK YOU, BITCH! FUCK YOU!\n");
@@ -324,11 +329,7 @@ static void query12() {
 		free(authors[i]);
 	}
 
-	printf("\n\n");
-
-	t = (double)(end - begin) / CLOCKS_PER_SEC;
-
-	printf("TIME SPENT: %f\n\n", t);
+	PRINT_TIME_SPENT("CALCULATING TOP AUTHORS")
 
 	free(authors);
 
