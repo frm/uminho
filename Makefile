@@ -37,3 +37,5 @@ clean:
 	$(RM) $(EXEC)
 	$(RM) *.csv
 	$(RM) *.q10
+	$(RM) *.log
+
