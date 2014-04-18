@@ -227,10 +227,12 @@ static void authorInfoPrint(AuthorInfo author) {
 
     	if (!test) {
     		printf("\t\tCOAUTHOR: %s\n\t\t\tTOTAL: %d\n", ca.coauthor, ca.nr_publications);
+            deleteCoAuthorPublPair(ca);
     	}
     	else {
     		if (test == 1) {
     			printf("\t\tCOAUTHOR: %s\n\t\t\tTOTAL: %d\n", ca.coauthor, ca.nr_publications);
+                deleteCoAuthorPublPair(ca);
     		}
 
     		break;
@@ -247,10 +249,12 @@ void authorInfoTreePrint(AuthorInfoTree tree) {
 
     	if (!test) {
     		authorInfoPrint(author);
+            deleteAuthorInfo(author);
     	}
     	else {
     		if (test == 1) {
     			authorInfoPrint(author);
+                deleteAuthorInfo(author);
     		}
 
     		break;
