@@ -26,7 +26,7 @@ static char* options[NR_OPTIONS] = {
 	"READ FROM FILE",
 	"TOTAL PUBLICATIONS BY YEAR",
 	"GET AUTHOR PUBLICATIONS IN YEAR",
-	"TO BE IMPLEMENTED",
+	"GET TOTAL SOLO AUTHORS",
 	"TO BE IMPLEMENTED",
 	"GET AUTHORS BY INITIAL",
 	"TOTAL PUBLICATIONS IN INTERVAL",
@@ -54,10 +54,15 @@ static void query1() {
 	read_file("publicx.txt");
 #else
 	#ifdef DEBUG2
-	read_file("publicx3.txt");
+	read_file("publicx4.txt");
 	#else
 	char filename[1024];
 	int valid_input = 0;
+
+	if (populated_db) {
+		leaveGestauts();
+		initializeGestauts();
+	}
 
 	while ( !valid_input ) {
 		printf("ENTER A FILENAME:\n");
@@ -118,6 +123,11 @@ static void query3() {
 	printf("\n\n%d\n\n", total);
 
 	return;
+}
+
+static void query4() {
+	int total = totalSoloAuthors();
+	printf("TOTAL NUMBER OF SOLO AUTHORS: %d\n", total);
 }
 
 static void query6() {
@@ -345,7 +355,7 @@ static void(* functions[NR_FUNCTIONS + NR_ERRORS] )() = {
 	&query1,
 	&query2,
 	&query3,
-	&failureprnt,
+	&query4,
 	&failureprnt,
 	&query6,
 	&query7,

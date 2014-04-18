@@ -3,9 +3,7 @@
 #include "statistics.h"
 #include "author_catalog.h"
 
-#define getMatrixAuthorIndex(author, i)		(author + 128 * i)
-
-static char* fileread;
+static char* fileread = NULL;
 
 static void extract_year_info(char* year_str, int coAuthors) {
 	/* Function that should use year to complete statistics */
@@ -27,8 +25,6 @@ static void extract_author_info(char* author) {
 	}
 }
 
-static int isAuthor(char* str) { return !isdigit(str[0]); }
-
 static void tokenize(char* buffer) {
 	char** author_buffer = (char**)malloc( sizeof(char*) * 128 );
 	char* token = strtrim( strtok(buffer, ",") );
@@ -39,7 +35,7 @@ static void tokenize(char* buffer) {
 		/* use a function for this line */
 		author_buffer[n] = (char*)malloc(sizeof(char) * ( strlen(token) + 1 ) );
 		strncpy(author_buffer[n], token, sizeof(char) * ( strlen(token) + 1 ) );
-		
+
 		if ( isAuthor(token) ) {
 			extract_author_info(token);
 			n++;
@@ -54,7 +50,7 @@ static void tokenize(char* buffer) {
 		free(token);
 		token = strtrim( strtok(NULL, ",") );
 	}
-	
+
 	insertToCatalog(author_buffer, n);
 	while ( n >= 0 )
 		free( author_buffer[n--] );
@@ -88,7 +84,7 @@ int read_file(char* filename) {
 #ifdef DEBUG2
 	printCatalog();
 #endif
-	
+
 	return 0;
 }
 
@@ -196,6 +192,10 @@ void resetAuthorBy(char initial) {
 		initial = toupper(initial);
 
 	rewindGeneratorByInitial(initial);
+}
+
+int totalSoloAuthors() {
+	return getSoloAuthors();
 }
 
 void initializeGestauts() {

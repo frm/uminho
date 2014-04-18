@@ -56,3 +56,4 @@ void deleteAuthorIndex() {
         authorTreeDestroy(letterIndex[i]);
 }
 
+int isAuthor(char* str) { return !isdigit(str[0]); }

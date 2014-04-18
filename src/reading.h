@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 #include <stdlib.h>
 #include <strutil.h>
 
@@ -22,5 +21,6 @@ int getYearCoAuthorsTotal(int, int);
 char **topAuthorsInYear(int, int);
 int authorPublicationsInYear(char *, int);
 float getAuthorYearRatio(char *, int);
+int totalSoloAuthors();
 
 #endif
