@@ -123,7 +123,7 @@ char **getTopAuthorsInYear(int year, int n) {
                 heapTop(CoAuthorPublPair, authorHeap, &auxPair);
 
             if (cmpMinCoAuthorPublPair(pair, auxPair) == -1) {
-                free(auxPair.coauthor);                                                                       
+                free(auxPair.coauthor);
                 heapGet(CoAuthorPublPair, authorHeap, &auxPair);
                 free(auxPair.coauthor);
                 auxPair.coauthor = NULL;
@@ -146,7 +146,25 @@ char **getTopAuthorsInYear(int year, int n) {
     return authorList;
 }
 
+int getSoloAuthors() {
+	int i, avl_empty;
+    int total = 0;
+	AuthorInfo buffer;
 
+	for(i = 0; i < 27; i++) {
+        avl_empty = 0;
+
+        while (!avl_empty) {
+            avl_empty = authorInfoTreeYield( CatalogAuthors[i], &buffer );
+            if ( avl_empty != -1 ) {
+        	 if (! has_coauthors(buffer) ) total++;
+             deleteAuthorInfo(buffer);
+            }
+        }
+    }
+    authorInfoTreeRewindGenerator( CatalogAuthors[i] );
+	return total;
+}
 
 #ifdef DEBUG2
 

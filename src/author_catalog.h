@@ -10,6 +10,7 @@ void deleteAuthorCatalog();
 int insertToCatalog(Author*, int);
 int getAuthorPublicationsInYear(Author, int);
 char **getTopAuthorsInYear(int, int);
+int getSoloAuthors();
 
 #ifdef DEBUG2
     #include <stdio.h>

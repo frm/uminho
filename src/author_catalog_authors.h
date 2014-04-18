@@ -47,6 +47,7 @@ AuthorInfo newAuthorInfo(Author);
 void deleteAuthorInfo(AuthorInfo);
 int authorInfoAddCoAuthor(AuthorInfo, Author);
 int authorInfoAddYear(AuthorInfo, int);
+int has_coauthors(AuthorInfo author);
 
 CoAuthorPublPair cloneCoAuthorPublPair(CoAuthorPublPair);
 void deleteCoAuthorPublPair(CoAuthorPublPair);

@@ -20,7 +20,7 @@ static int compareYearPublPair(int* key_search, YearPublPair* fst, YearPublPair 
 	int cmp;
 	int key = key_search ? (*key_search) : (fst -> year);
 
-    
+
 	if ( key > snd.year ) cmp = 1;
 	else if ( key < snd.year ) cmp = -1;
 	else cmp = 0;
@@ -190,6 +190,10 @@ int authorInfoAddCoAuthor(AuthorInfo author, Author coauthor) {
 int authorInfoAddYear(AuthorInfo author, int year) {
 	YearPublPair new = newYearPublPair(year);
 	return avlInsert(YearPublPair, author.publications_info, new);
+}
+
+int has_coauthors(AuthorInfo author) {
+    return author.coauthors_info -> root != NULL;
 }
 
 #ifdef DEBUG2
