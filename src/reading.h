@@ -22,5 +22,6 @@ char **topAuthorsInYear(int, int);
 int authorPublicationsInYear(char *, int);
 float getAuthorYearRatio(char *, int);
 int totalSoloAuthors();
+int** getAuthorPublicationsByYear(char* author, int* size);
 
 #endif

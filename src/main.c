@@ -34,7 +34,7 @@ static char* options[NR_OPTIONS] = {
 	"TOTAL PUBLICATIONS BY YEAR",
 	"GET AUTHOR PUBLICATIONS IN YEAR",
 	"GET TOTAL SOLO AUTHORS",
-	"TO BE IMPLEMENTED",
+	"GET AUTHOR PUBLICATIONS BY YEAR",
 	"GET AUTHORS BY INITIAL",
 	"TOTAL PUBLICATIONS IN INTERVAL",
 	"TO BE IMPLEMENTED",
@@ -140,6 +140,23 @@ static void query3() {
 static void query4() {
 	int total = totalSoloAuthors();
 	printf("TOTAL NUMBER OF SOLO AUTHORS: %d\n", total);
+}
+
+static void query5() {
+	int size, i = 0;
+	int** matrix;
+	char* author_name;
+
+	printf("ENTER A NAME:\n");
+	scanf("%s\n", author_name);
+	
+	matrix = getAuthorPublicationsByYear(author_name, &size);
+	
+	while (i < size) {
+		printf("%d | %d\n", matrix[i][0], matrix[i][1]);
+		i++;
+	}
+
 }
 
 static void query6() {
@@ -372,7 +389,7 @@ static void(* functions[NR_FUNCTIONS + NR_ERRORS] )() = {
 	&query2,
 	&query3,
 	&query4,
-	&failureprnt,
+	&query5,
 	&query6,
 	&query7,
 	&failureprnt,

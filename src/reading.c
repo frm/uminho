@@ -198,6 +198,10 @@ void resetAuthorBy(char initial) {
 	rewindGeneratorByInitial(initial);
 }
 
+int** getAuthorPublicationsByYear(char* author, int* size) {
+	return getYearPublMatrix(author, size);
+}
+
 int totalSoloAuthors() {
 	return getSoloAuthors();
 }

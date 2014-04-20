@@ -176,6 +176,31 @@ int getSoloAuthors() {
 	return total;
 }
 
+static int** createIntMatrix(int width, int breadth) {
+	int** matrix = (int**)malloc(sizeof(int*) * width);
+	while (width > 0)
+		matrix[width--] = (int*)malloc(sizeof(int) * breadth);
+
+	return matrix;
+}
+
+int** getYearPublMatrix(Author author, int* size) {
+	int i = 0;
+	int** matrix = createIntMatrix(128, 2);
+	AuthorInfo buffer;
+
+	authorInfoTreeFind(CatalogAuthors[ GET_CHAR_INDEX(author[0]) ], author, &buffer);
+
+	while ( getYearPublPair(buffer, matrix[i], matrix[i] + 1) != -1 )
+		i++;
+
+	*size = i;
+	deleteAuthorInfo(buffer);
+
+	return matrix;
+}
+
+
 #ifdef DEBUG2
 
 void printCatalog() {

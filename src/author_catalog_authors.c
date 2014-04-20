@@ -192,8 +192,24 @@ int authorInfoAddYear(AuthorInfo author, int year) {
 	return avlInsert(YearPublPair, author.publications_info, new);
 }
 
+int authorInfoTreeFind(AuthorInfoTree tree, Author author, AuthorInfo* ret) {
+	return avlFind(AuthorInfo, tree, author, ret);
+}
+
 int has_coauthors(AuthorInfo author) {
     return author.coauthors_info -> root != NULL;
+}
+
+int getYearPublPair(AuthorInfo author, int* year, int* publication) {
+	YearPublPair buffer;
+	int avl_empty = avlYield(YearPublPair, author.publications_info, &buffer);
+
+	if (avl_empty != -1) {
+		*year = buffer.year;
+		*publication = buffer.nr_publications;
+	}
+
+	return avl_empty;
 }
 
 #ifdef DEBUG2

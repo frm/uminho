@@ -37,6 +37,7 @@ typedef AuthorInfoAVL				AuthorInfoTree;
 
 int authorInfoTreeInsert(AuthorInfoTree, AuthorInfo);
 int authorInfoTreeYield(AuthorInfoTree, AuthorInfo *);
+int authorInfoTreeFind(AuthorInfoTree tree, Author author, AuthorInfo* ret); 
 int authorInfoGetAuthorPublicationsInYear(AuthorInfoTree, Author, int);
 void authorInfoTreeRewindGenerator(AuthorInfoTree);
 void authorInfoTreeDestroy(AuthorInfoTree);
@@ -52,6 +53,7 @@ int has_coauthors(AuthorInfo author);
 CoAuthorPublPair cloneCoAuthorPublPair(CoAuthorPublPair);
 void deleteCoAuthorPublPair(CoAuthorPublPair);
 
+int getYearPublPair(AuthorInfo author, int* year, int* publication);
 #ifdef DEBUG2
     #include <stdio.h>
     void authorInfoTreePrint(AuthorInfoTree);

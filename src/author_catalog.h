@@ -11,6 +11,7 @@ int insertToCatalog(Author*, int);
 int getAuthorPublicationsInYear(Author, int);
 char **getTopAuthorsInYear(int, int);
 int getSoloAuthors();
+int** getYearPublMatrix(Author author, int* size);
 
 #ifdef DEBUG2
     #include <stdio.h>
