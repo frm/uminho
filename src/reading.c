@@ -202,6 +202,10 @@ int** getAuthorPublicationsByYear(char* author, int* size) {
 	return getYearPublMatrix(author, size);
 }
 
+void deleteAuthorPublicationsMatrix(int** matrix) {
+	deleteIntMatrix(matrix);
+}
+
 int totalSoloAuthors() {
 	return getSoloAuthors();
 }

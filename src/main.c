@@ -143,20 +143,32 @@ static void query4() {
 }
 
 static void query5() {
-	int size, i = 0;
+	int size, i;
 	int** matrix;
+	char buffer[1024];
 	char* author_name;
 
-	printf("ENTER A NAME:\n");
-	scanf("%s\n", author_name);
-	
+	printf("ENTER A NAME: ");
+	/*fgets(buffer, sizeof(char) * 1024, stdin);*/
+	scanf("\n%1024[^\n]s]", buffer);
+	author_name = strtrim(buffer);
+
 	matrix = getAuthorPublicationsByYear(author_name, &size);
-	
-	while (i < size) {
-		printf("%d | %d\n", matrix[i][0], matrix[i][1]);
-		i++;
+
+	if (!size)
+		printf("AUTHOR NOT FOUND\n\n");
+
+	else {
+		putchar('\n');
+		for(i = 0; i < size; i++) {
+			printf(" ______________\n");
+			printf("|  %d  |  %d  |\n", matrix[i][0], matrix[i][1]);
+		}
+		printf(" ______________\n\n");
 	}
 
+	free(author_name);
+	deleteAuthorPublicationsMatrix(matrix);
 }
 
 static void query6() {
@@ -331,7 +343,7 @@ static void query12() {
 	printf("ENTER NUMBER OF AUTHORS:\n");
 	scanf("%d", &n);
 
-	
+
 	TIME(
 	authors = topAuthorsInYear(year, n);
 	)

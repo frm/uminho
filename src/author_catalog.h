@@ -12,11 +12,12 @@ int getAuthorPublicationsInYear(Author, int);
 char **getTopAuthorsInYear(int, int);
 int getSoloAuthors();
 int** getYearPublMatrix(Author author, int* size);
+void deleteIntMatrix(int** matrix);
 
 #ifdef DEBUG2
     #include <stdio.h>
     void printCatalog();
 #endif
-    
+
 #endif
 

@@ -178,23 +178,42 @@ int getSoloAuthors() {
 
 static int** createIntMatrix(int width, int breadth) {
 	int** matrix = (int**)malloc(sizeof(int*) * width);
-	while (width > 0)
-		matrix[width--] = (int*)malloc(sizeof(int) * breadth);
+    int i = 0;
+	while (i < width)
+		matrix[i++] = (int*)malloc(sizeof(int) * breadth);
 
 	return matrix;
 }
 
+void deleteIntMatrix(int** matrix) {
+    int i;
+    for (i = 0; i < 128; i++)
+        free(matrix[i]);
+
+    free(matrix);
+}
+
 int** getYearPublMatrix(Author author, int* size) {
-	int i = 0;
+	int i = 0, avl_empty = 0;
 	int** matrix = createIntMatrix(128, 2);
 	AuthorInfo buffer;
 
-	authorInfoTreeFind(CatalogAuthors[ GET_CHAR_INDEX(author[0]) ], author, &buffer);
+	if ( authorInfoTreeFind(CatalogAuthors[ GET_CHAR_INDEX(author[0]) ], author, &buffer) == -1 ) {
+        *size = 0;
+        return matrix;
+    }
 
-	while ( getYearPublPair(buffer, matrix[i], matrix[i] + 1) != -1 )
-		i++;
+	while ( !avl_empty ) {
+        avl_empty = getYearPublPair(buffer, matrix[i], matrix[i] + 1);
+        if (avl_empty != -1) i++;
+    }
+    *size = i;
 
-	*size = i;
+/*    while ( getYearPublPair(buffer, matrix[i], matrix[i] + 1) == 0 )
+        i++;
+
+	*size = i + 1;
+*/
 	deleteAuthorInfo(buffer);
 
 	return matrix;

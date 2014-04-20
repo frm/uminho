@@ -23,5 +23,6 @@ int authorPublicationsInYear(char *, int);
 float getAuthorYearRatio(char *, int);
 int totalSoloAuthors();
 int** getAuthorPublicationsByYear(char* author, int* size);
+void deleteAuthorPublicationsMatrix(int** matrix);
 
 #endif
