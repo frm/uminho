@@ -219,6 +219,62 @@ int** getYearPublMatrix(Author author, int* size) {
 	return matrix;
 }
 
+static int addToAuthorMatrix(Author* author_matrix, int size, Author new_author) {
+    author_matrix[size] = (Author)malloc( sizeof(char) * ( strlen(new_author) + 1 ) );
+    strncpy( author_matrix[size], new_author, sizeof(char) * ( strlen(new_author) + 1 ) );
+    return size + 1;
+}
+
+static int restartAuthorMatrix(Author* author_matrix, int size, Author new_author) {
+    int i;
+
+    for (i = 0; i < size; i++)
+        free(author_matrix[i]);
+
+    return addToAuthorMatrix(author_matrix, 0, new_author);
+}
+
+char** getMostCoauthor(Author author, int* nr_coauthors, int* nr_publications) {
+    AuthorInfo author_buffer;
+    CoAuthorPublPair coauthor_buffer;
+    int avl_empty = 0, max_nr_publications = 0, size = 0, matrix_size = 128;
+    Author* author_ary = (Author*)malloc(sizeof(Author) * matrix_size);
+
+    if( authorInfoTreeFind(CatalogAuthors[ GET_CHAR_INDEX(author[0]) ], author, &author_buffer) != -1 ) {
+        while ( !avl_empty ) {
+            avl_empty = yieldCoAuthorPublPair(author_buffer, &coauthor_buffer);
+
+            if (avl_empty != -1) {
+                if ( coauthor_buffer.nr_publications > max_nr_publications ) {
+                    size = restartAuthorMatrix(author_ary, size, coauthor_buffer.coauthor);
+                    max_nr_publications = coauthor_buffer.nr_publications;
+                }
+                else if ( coauthor_buffer.nr_publications == max_nr_publications ) {
+                    size = addToAuthorMatrix(author_ary, size, coauthor_buffer.coauthor);
+                    if (size == matrix_size) {
+                        author_ary = realloc(author_ary, sizeof(Author*) * matrix_size * 2);
+                        matrix_size *= 2;
+                    }
+                }
+
+                deleteCoAuthorPublPair(coauthor_buffer);
+            }
+        }
+        deleteAuthorInfo(author_buffer);
+    }
+
+    *nr_coauthors = size;
+    *nr_publications = max_nr_publications;
+    return author_ary;
+}
+
+void deleteTopCoauthors(Author* list, int size) {
+    int i;
+    for (i = 0; i < size; i++)
+        free(list[i]);
+
+    free(list);
+}
 
 #ifdef DEBUG2
 

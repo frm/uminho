@@ -210,6 +210,14 @@ int totalSoloAuthors() {
 	return getSoloAuthors();
 }
 
+char** getTopCoauthors(char* name, int* nr_coauthors, int* nr_publications) {
+	return getMostCoauthor(name, nr_coauthors, nr_publications);
+}
+
+void deleteAuthorList(char** list, int size) {
+	deleteTopCoauthors(list, size);
+}
+
 void initializeGestauts() {
 	initializeAuthorIndex();
 	initializeStatistics();

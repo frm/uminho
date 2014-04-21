@@ -232,6 +232,38 @@ static void query7() {
 	printf("TOTAL PUBLICATIONS BETWEEN YEARS %d AND %d: %d\n\n\n\n", min, max, total);
 }
 
+static void query8() {
+	char buffer[1024];
+	char* author_name;
+	char** list;
+	int list_size, i, nr_publications;
+
+	printf("ENTER A NAME: ");
+	scanf("\n%1024[^\n]s]", buffer);
+	author_name = strtrim(buffer);
+
+	list = getTopCoauthors(author_name, &list_size, &nr_publications);
+
+	if (!list_size)
+		printf("AUTHOR NOT FOUND\n\n");
+
+	else {
+		( list_size > 1 ) ? printf("\nCOAUTHORS ") : printf("\nCOAUTHOR ");
+		printf("WITH MOST PUBLICATIONS (%d ", nr_publications);
+		( nr_publications > 1 ) ? printf("PUBLICATIONS) ") : printf("PUBLICATION) ");
+		printf("ALONG SIDE %s:\n", author_name);
+
+		for (i = 0; i < list_size; i++)
+			printf("%s\n", list[i]);
+
+		putchar('\n');
+	}
+
+	free(author_name);
+	deleteAuthorList(list, list_size);
+
+}
+
 static void query10() {
 	int year, totals[3], size, offset, i, j;
 	char fileName[50], temp[1024];
@@ -404,7 +436,7 @@ static void(* functions[NR_FUNCTIONS + NR_ERRORS] )() = {
 	&query5,
 	&query6,
 	&query7,
-	&failureprnt,
+	&query8,
 	&failureprnt,
 	&query10,
 	&query11,

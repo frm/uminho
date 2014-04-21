@@ -202,7 +202,7 @@ int has_coauthors(AuthorInfo author) {
 
 int getYearPublPair(AuthorInfo author, int* year, int* publication) {
 	YearPublPair buffer;
-	int avl_empty = avlYield(YearPublPair, author.publications_info, &buffer);
+	int avl_empty = yieldYearPublPair(author, &buffer);
 
 	if (avl_empty != -1) {
 		*year = buffer.year;
@@ -210,6 +210,14 @@ int getYearPublPair(AuthorInfo author, int* year, int* publication) {
 	}
 
 	return avl_empty;
+}
+
+int yieldYearPublPair(AuthorInfo author, YearPublPair* ret) {
+    return avlYield(YearPublPair, author.publications_info, ret);
+}
+
+int yieldCoAuthorPublPair(AuthorInfo author, CoAuthorPublPair* ret) {
+    return avlCoAuthorPublPairYield(author.coauthors_info, ret);
 }
 
 #ifdef DEBUG2
