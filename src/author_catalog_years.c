@@ -12,7 +12,7 @@ int yearTreeYieldAuthorFromYear(YearTree tree, int year, char **author) {
 
 		if (!node)
 			return -1;
-		
+
 		yearContent = node->content;
 	}
 
@@ -24,6 +24,7 @@ YearEntry newYearEntry(int year) {
 	YearEntry new;
 
 	new.year = year;
+	new.total_publications = 1;
 	new.authors = authorTreeNew();
 
 	return new;
@@ -32,6 +33,8 @@ YearEntry newYearEntry(int year) {
 static void colideYearEntry(YearEntry* inTree, YearEntry* outTree) {
 	Author buffer;
 	int avl_empty = 0;
+
+	(inTree -> total_publications) += (outTree -> total_publications);
 
 	while (!avl_empty) {
 		avl_empty = authorTreeYield(outTree -> authors, &buffer);
