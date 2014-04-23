@@ -58,6 +58,24 @@ CoAuthorPublPair cloneCoAuthorPublPair(CoAuthorPublPair original) {
 	return new;
 }
 
+Author cpGetCoauthor(CoAuthorPublPair pair) {
+    return pair.coauthor;
+}
+
+int cpGetNrPublications(CoAuthorPublPair pair) {
+    return pair.nr_publications;
+}
+
+CoAuthorPublPair cpSetCoauthor(CoAuthorPublPair pair, Author coauthor) {
+    pair.coauthor = coauthor;
+    return pair;
+}
+
+CoAuthorPublPair cpSetNrPublications(CoAuthorPublPair pair, int pubs) {
+    pair.nr_publications = pubs;
+    return pair;
+}
+
 static int compareCoAuthorPublPair(Author* key_search, CoAuthorPublPair* fst, CoAuthorPublPair snd) {
 	Author key = key_search ? (*key_search) : (fst -> coauthor);
 

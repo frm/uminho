@@ -17,13 +17,13 @@ static int getYearTotal(YearStats stats) {
     total = 0;
     
     for (i = 1; i < 11; i++)
-        total += stats.coAuthors[i];
+        total += yearStatsGetTotal(stats, i);
 
     do {
-        test = coAuthorStatsTreeYield(stats.extraCoAuthors, &caStats);
+        test = yearStatsExtraYield(stats, &caStats);
 
         if (test == 0 || test == 1)
-            total += caStats.total;
+            total += coAuthorStatsGetTotal(caStats);
     } while(!test);
 
     return total;
@@ -98,21 +98,12 @@ static char *getCoAuthCSV(int year, int coAuthors, int total, int *size) {
 
 int statsGetYearCoAuthorsTotal(int year, int coAuthors) {
     YearStats stats;
-    CoAuthorStats caStats;
     int total;
 
     if (statsTreeFind(yearStatsTree, year, &stats))
         return 0;
     
-    if (coAuthors < 11){
-        total = stats.coAuthors[coAuthors];
-    }
-    else {
-        if (coAuthorStatsTreeFind(stats.extraCoAuthors, coAuthors, &caStats))
-            return 0;
-        
-        total = caStats.total; 
-    }
+    total = yearStatsGetTotal(stats, coAuthors);
 
     yearStatsDestroy(stats);
 
@@ -131,10 +122,10 @@ int statsYieldYearCSV(char **csv) {
     yearCSV = (char *)malloc(sizeof(char) * 1024);
     ret = statsTreeYield(yearStatsTree, &stats);
 
-    year = stats.year;
+    year = yearStatsGetYear(stats);
 
     for(i = 1; i < 11; i++) {
-        total = stats.coAuthors[i];
+        total = yearStatsGetTotal(stats, i);
         if (total) {
             temp = getCoAuthCSV(year, i, total, &size);
             strncpy(yearCSV + index, temp, size);
@@ -144,10 +135,10 @@ int statsYieldYearCSV(char **csv) {
     }
 
     do {
-        test = coAuthorStatsTreeYield(stats.extraCoAuthors, &caStats);
+        test = yearStatsExtraYield(stats, &caStats);
 
         if (test == 0 || test == 1) {
-            temp = getCoAuthCSV(year, caStats.coAuthors, caStats.total, &size);
+            temp = getCoAuthCSV(year, coAuthorStatsGetCoAuthors(caStats), coAuthorStatsGetTotal(caStats), &size);
             strncpy(yearCSV + index, temp, size);
             index += size;
             free(temp);

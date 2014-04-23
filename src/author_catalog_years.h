@@ -17,6 +17,9 @@ AVL_DEF_HEADER(YearEntry, int)
 
 typedef YearEntryAVL YearTree;
 
+int yearEntryGetYear(YearEntry);
+AuthorTree yearEntryGetAuthors(YearEntry);
+
 int yearTreeInsert(YearTree, YearEntry);
 int yearTreeYield(YearTree, YearEntry *);
 int yearTreeYieldAuthorFromYear(YearTree, int, char **);

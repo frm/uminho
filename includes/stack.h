@@ -17,7 +17,8 @@
 
 #define STACK_DEF(type)                                                             \
                                                                                     \
-    type##StackNode __stackNode##type##New(type content, type##StackNode next) {    \
+    static type##StackNode __stackNode##type##New(type content,                     \
+                                                  type##StackNode next) {           \
         type##StackNode node;                                                       \
                                                                                     \
         node = (type##StackNode)malloc(sizeof(struct type##StackNode_s));           \
@@ -31,7 +32,7 @@
         return node;                                                                \
     }                                                                               \
                                                                                     \
-    type##Stack stack##type##New(void (*deleteContent)(type),                       \
+    static type##Stack stack##type##New(void (*deleteContent)(type),                \
                                  type (*cloneContent)(type)) {                      \
         type##Stack stack;                                                          \
                                                                                     \
@@ -47,7 +48,7 @@
         return stack;                                                               \
     }                                                                               \
                                                                                     \
-    int stack##type##Push(type##Stack stack, type content) {                        \
+    static int stack##type##Push(type##Stack stack, type content) {                 \
         type##StackNode newNode;                                                    \
                                                                                     \
         newNode = __stackNode##type##New(stack->cloneContent(content), stack->top); \
@@ -60,7 +61,7 @@
         return 0;                                                                   \
     }                                                                               \
                                                                                     \
-    int stack##type##Pop(type##Stack stack, type *ret) {                            \
+    static int stack##type##Pop(type##Stack stack, type *ret) {                     \
         type##StackNode next;                                                       \
                                                                                     \
         if (!stack->top)                                                            \
@@ -75,7 +76,7 @@
         return 0;                                                                   \
     }                                                                               \
                                                                                     \
-    void stack##type##Clear(type##Stack stack) {                                    \
+    static void stack##type##Clear(type##Stack stack) {                             \
         type##StackNode node, nextNode;                                             \
                                                                                     \
         node = stack->top;                                                          \
@@ -91,14 +92,14 @@
         stack->top = NULL;                                                          \
     }                                                                               \
                                                                                     \
-    void stack##type##Destroy(type##Stack stack) {                                  \
+    static void stack##type##Destroy(type##Stack stack) {                           \
                                                                                     \
         stack##type##Clear(stack);                                                  \
                                                                                     \
         free(stack);                                                                \
     }                                                                               \
                                                                                     \
-    int stack##type##IsEmpty(type##Stack stack) {                                   \
+    static int stack##type##IsEmpty(type##Stack stack) {                            \
                                                                                     \
         if (stack->top)                                                             \
             return 0;                                                               \

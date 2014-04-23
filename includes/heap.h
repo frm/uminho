@@ -19,10 +19,10 @@
 
 
 #define HEAP_DEF(type)                                                                      \
-    type##Heap heap##type##New(int size,                                                    \
-                               int (*compareContent)(type, type),                           \
-                               void (*deleteContent)(type),                                 \
-                               type (*cloneContent)(type)) {                                \
+    static type##Heap heap##type##New(int size,                                             \
+                                      int (*compareContent)(type, type),                    \
+                                      void (*deleteContent)(type),                          \
+                                      type (*cloneContent)(type)) {                         \
         type##Heap newHeap;                                                                 \
                                                                                             \
         newHeap = (type##Heap)malloc(sizeof(struct type##Heap_s));                          \
@@ -37,7 +37,7 @@
         return newHeap;                                                                     \
     }                                                                                       \
                                                                                             \
-    void heap##type##Destroy(type##Heap heap) {                                             \
+    static void heap##type##Destroy(type##Heap heap) {                                      \
         int used, i;                                                                        \
                                                                                             \
         used = heap->used;                                                                  \
@@ -50,7 +50,7 @@
         free(heap);                                                                         \
     }                                                                                       \
                                                                                             \
-    void heap##type##BubbleUp(type##Heap heap) {                                            \
+    static void heap##type##BubbleUp(type##Heap heap) {                                     \
         int index;                                                                          \
         type contentChild, contentParent;                                                   \
                                                                                             \
@@ -69,7 +69,7 @@
         }                                                                                   \
     }                                                                                       \
                                                                                             \
-    void heap##type##BubbleDown(type##Heap heap) {                                          \
+    static void heap##type##BubbleDown(type##Heap heap) {                                   \
         int index, candidate, max;                                                          \
         type contentCandidate, contentIndex;                                                \
                                                                                             \
@@ -101,7 +101,7 @@
         return;                                                                             \
     }                                                                                       \
                                                                                             \
-    int heap##type##Insert(type##Heap heap, type item) {                                    \
+    static int heap##type##Insert(type##Heap heap, type item) {                             \
                                                                                             \
         if (heap->used == heap->size)                                                       \
             return -1;                                                                      \
@@ -116,7 +116,7 @@
         return 0;                                                                           \
     }                                                                                       \
                                                                                             \
-    int heap##type##Get(type##Heap heap, type *ret) {                                       \
+    static int heap##type##Get(type##Heap heap, type *ret) {                                \
                                                                                             \
         if (heap->used == 0)                                                                \
             return -1;                                                                      \
@@ -130,7 +130,7 @@
         return 0;                                                                           \
     }                                                                                       \
                                                                                             \
-    int heap##type##Top(type##Heap heap, type *ret) {                                       \
+    static int heap##type##Top(type##Heap heap, type *ret) {                                \
                                                                                             \
         if (heap->used == 0)                                                                \
             return -1;                                                                      \

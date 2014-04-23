@@ -7,7 +7,7 @@ int yearTreeYieldAuthorFromYear(YearTree tree, int year, char **author) {
 	static YearEntry yearContent = {0, NULL};
 	YearEntryAVLNode node;
 
-	if (!yearContent.authors || yearContent.year != year){
+	if (!yearEntryGetAuthors(yearContent) || yearEntryGetYear(yearContent) != year){
 		node = __avlYearEntryFind(tree->compare, tree->root, NULL, &year);
 
 		if (!node)
@@ -16,7 +16,7 @@ int yearTreeYieldAuthorFromYear(YearTree tree, int year, char **author) {
 		yearContent = node->content;
 	}
 
-	return authorTreeYield(yearContent.authors, author);
+	return authorTreeYield(yearEntryGetAuthors(yearContent), author);
 }
 /* ******************* */
 
@@ -47,8 +47,8 @@ static int compareYearEntry(int* key_search, YearEntry* fst, YearEntry snd) {
 	int cmp;
 	int key = key_search ? (*key_search) : (fst -> year);
 
-	if (key > snd.year) cmp = 1;
-	else if (key < snd.year) cmp = -1;
+	if (key > yearEntryGetYear(snd)) cmp = 1;
+	else if (key < yearEntryGetYear(snd)) cmp = -1;
 	else cmp = 0;
 
 	return cmp;
@@ -58,11 +58,19 @@ void deleteYearEntry(YearEntry goodbye) {
 	authorTreeDestroy(goodbye.authors);
 }
 
+int yearEntryGetYear(YearEntry entry) {
+	return entry.year;
+}
+
+AuthorTree yearEntryGetAuthors(YearEntry entry) {
+	return entry.authors;
+}
+
 YearEntry cloneYearEntry(YearEntry original) {
 	YearEntry new;
 
-	new.year = original.year;
-	new.authors = authorTreeClone(original.authors);
+	new.year = yearEntryGetYear(original);
+	new.authors = authorTreeClone(yearEntryGetAuthors(original));
 
 	return new;
 }
@@ -91,8 +99,8 @@ YearTree yearTreeClone(YearTree tree) {
 	return avlClone(YearEntry, tree);
 }
 
-int yearEntryAddAuthor(YearEntry year, Author author) {
-    return authorTreeInsert(year.authors, author);
+int yearEntryAddAuthor(YearEntry entry, Author author) {
+    return authorTreeInsert(yearEntryGetAuthors(entry), author);
 }
 
 int yearEntryFind(YearTree tree, int year, YearEntry *ret) {

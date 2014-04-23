@@ -8,22 +8,6 @@
 static AuthorInfoTree	CatalogAuthors[27];
 static YearTree			CatalogYears;
 
-/* *********** HEAP FOR QUERY 12 *********** */
-
-HEAP_DEF_HEADER(CoAuthorPublPair)
-HEAP_DEF(CoAuthorPublPair)
-
-int cmpMinCoAuthorPublPair(CoAuthorPublPair fst, CoAuthorPublPair snd) {
-    if (fst.nr_publications > snd.nr_publications)
-        return -1;
-    else if (fst.nr_publications < snd.nr_publications)
-        return 1;
-    else
-        return 0;
-}
-
-/* ***************************************** */
-
 void initializeAuthorCatalog() {
 	int i;
 
@@ -91,6 +75,27 @@ int getAuthorPublicationsInYear(Author author, int year) {
     return authorInfoGetAuthorPublicationsInYear(CatalogAuthors[GET_CHAR_INDEX(author[0])], author, year);
 }
 
+/* *********** HEAP FOR QUERY 12 *********** */
+
+HEAP_DEF_HEADER(CoAuthorPublPair)
+HEAP_DEF(CoAuthorPublPair)
+
+int cmpMinCoAuthorPublPair(CoAuthorPublPair fst, CoAuthorPublPair snd) {
+    int nr_fst, nr_snd;
+
+    nr_fst = cpGetNrPublications(fst);
+    nr_snd = cpGetNrPublications(snd);
+
+    if (nr_fst > nr_snd)
+        return -1;
+    else if (nr_fst < nr_snd)
+        return 1;
+    else
+        return 0;
+}
+
+/* ***************************************** */
+
 char **getTopAuthorsInYear(int year, int n) {
     CoAuthorPublPairHeap authorHeap;
     CoAuthorPublPair pair, auxPair;
@@ -100,7 +105,7 @@ char **getTopAuthorsInYear(int year, int n) {
     int test, i, j, total;
 
     i = 0;
-    auxPair.coauthor = NULL;
+    auxPair = cpSetCoauthor(auxPair, NULL);
     authorHeap = heapNewComplete(CoAuthorPublPair, n, &cmpMinCoAuthorPublPair, &deleteCoAuthorPublPair, &cloneCoAuthorPublPair);
     authorList = (char **)malloc(sizeof(char *) * n);
 
@@ -109,10 +114,10 @@ char **getTopAuthorsInYear(int year, int n) {
 
         if (test == 0 || test == 1) {
             total = authorInfoGetAuthorPublicationsInYear(CatalogAuthors[GET_CHAR_INDEX(tempAuthor[0])], tempAuthor, year);
-            pair.coauthor = tempAuthor;
-            pair.nr_publications = total;
+            pair = cpSetCoauthor(pair, tempAuthor);
+            pair = cpSetNrPublications(pair, total);
             heapInsert(CoAuthorPublPair, authorHeap, pair);
-            free(pair.coauthor);
+            free(cpGetCoauthor(pair));
             i++;
         }
     } while(!test && i < n);
@@ -122,24 +127,24 @@ char **getTopAuthorsInYear(int year, int n) {
 
         if (test == 0 || test == 1) {
             total = getAuthorPublicationsInYear(tempAuthor, year);
-            pair.coauthor = tempAuthor;
-            pair.nr_publications = total;
+            pair = cpSetCoauthor(pair, tempAuthor);
+            pair = cpSetNrPublications(pair, total);
 
-            if (!auxPair.coauthor)
+            if (!cpGetCoauthor(auxPair))
                 heapTop(CoAuthorPublPair, authorHeap, &auxPair);
 
             if (cmpMinCoAuthorPublPair(pair, auxPair) == -1) {
-                free(auxPair.coauthor);
+                free(cpGetCoauthor(auxPair));
                 heapGet(CoAuthorPublPair, authorHeap, &auxPair);
-                free(auxPair.coauthor);
-                auxPair.coauthor = NULL;
+                free(cpGetCoauthor(auxPair));
+                auxPair = cpSetCoauthor(auxPair, NULL);
                 heapInsert(CoAuthorPublPair, authorHeap, pair);
             }
-            free(pair.coauthor);
+            free(cpGetCoauthor(pair));
         }
     }
 
-    free(auxPair.coauthor);
+    free(cpGetCoauthor(auxPair));
 
     for (j = i; j < n; j++) {
         authorList[j] = (char *)malloc(sizeof(char) * (strlen(na) + 1));
@@ -149,7 +154,7 @@ char **getTopAuthorsInYear(int year, int n) {
     for (j = 1; j <= i; j++) {
         heapGet(CoAuthorPublPair, authorHeap, &pair);
 
-        authorList[i - j] = pair.coauthor;
+        authorList[i - j] = cpGetCoauthor(pair);
     }
 
     heapDestroy(CoAuthorPublPair, authorHeap);
@@ -245,12 +250,12 @@ char** getMostCoauthor(Author author, int* nr_coauthors, int* nr_publications) {
             avl_empty = yieldCoAuthorPublPair(author_buffer, &coauthor_buffer);
 
             if (avl_empty != -1) {
-                if ( coauthor_buffer.nr_publications > max_nr_publications ) {
-                    size = restartAuthorMatrix(author_ary, size, coauthor_buffer.coauthor);
-                    max_nr_publications = coauthor_buffer.nr_publications;
+                if ( cpGetNrPublications(coauthor_buffer) > max_nr_publications ) {
+                    size = restartAuthorMatrix(author_ary, size, cpGetCoauthor(coauthor_buffer));
+                    max_nr_publications = cpGetNrPublications(coauthor_buffer);
                 }
-                else if ( coauthor_buffer.nr_publications == max_nr_publications ) {
-                    size = addToAuthorMatrix(author_ary, size, coauthor_buffer.coauthor);
+                else if ( cpGetNrPublications(coauthor_buffer) == max_nr_publications ) {
+                    size = addToAuthorMatrix(author_ary, size, cpGetCoauthor(coauthor_buffer));
                     if (size == matrix_size) {
                         author_ary = realloc(author_ary, sizeof(Author*) * matrix_size * 2);
                         matrix_size *= 2;

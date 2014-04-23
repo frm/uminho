@@ -33,7 +33,7 @@ struct author_info {
 
 AVL_DEF_HEADER(AuthorInfo, Author)
 
-typedef AuthorInfoAVL				AuthorInfoTree;
+typedef AuthorInfoAVL AuthorInfoTree;
 
 int authorInfoTreeInsert(AuthorInfoTree, AuthorInfo);
 int authorInfoTreeYield(AuthorInfoTree, AuthorInfo *);
@@ -53,9 +53,14 @@ int has_coauthors(AuthorInfo author);
 CoAuthorPublPair cloneCoAuthorPublPair(CoAuthorPublPair);
 void deleteCoAuthorPublPair(CoAuthorPublPair);
 int yieldCoAuthorPublPair(AuthorInfo author, CoAuthorPublPair* ret);
+Author cpGetCoauthor(CoAuthorPublPair pair);
+int cpGetNrPublications(CoAuthorPublPair pair);
+CoAuthorPublPair cpSetCoauthor(CoAuthorPublPair pair, Author coauthor);
+CoAuthorPublPair cpSetNrPublications(CoAuthorPublPair pair, int pubs);
 
 int yieldYearPublPair(AuthorInfo author, YearPublPair* ret);
 int getYearPublPair(AuthorInfo author, int* year, int* publication);
+
 
 #ifdef DEBUG2
     #include <stdio.h>

@@ -1,5 +1,5 @@
 CC = gcc 
-CFLAGS ?= -Wall -Wextra -ansi -pedantic
+CFLAGS ?= -Wall -Wextra -Wno-unused-function  -ansi -pedantic
 CPPFLAGS ?= -Imodules -Ilib -Iincludes
 
 EXEC = gestauts

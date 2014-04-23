@@ -2,7 +2,6 @@
 #define AVL_H
 
 #include <stdlib.h>
-#include <stdio.h>
 #include "stack.h"
 
 #define AVL_DEF_HEADER(type,keyType)                                                        \
@@ -30,11 +29,11 @@
                                                                                             \
     STACK_DEF(type##AVLNode)                                                                \
                                                                                             \
-    type##AVLNode __avl##type##StClone(type##AVLNode node) {                                \
+    static type##AVLNode __avl##type##StClone(type##AVLNode node) {                         \
         return node;                                                                        \
     }                                                                                       \
                                                                                             \
-    void avl##type##StackMin(type##AVLNodeStack stack, type##AVLNode node) {                \
+    static void avl##type##StackMin(type##AVLNodeStack stack, type##AVLNode node) {         \
                                                                                             \
         while (node) {                                                                      \
             stackPush(type##AVLNode, stack, node);                                          \
@@ -44,7 +43,7 @@
         return;                                                                             \
     }                                                                                       \
                                                                                             \
-    int avl##type##Yield(type##AVL avl, type *ret) {                                        \
+    static int avl##type##Yield(type##AVL avl, type *ret) {                                 \
         int initialized = avl->generator.initialized;                                       \
         type##AVLNode node;                                                                 \
                                                                                             \
@@ -83,12 +82,12 @@
         return 0;                                                                           \
     }                                                                                       \
                                                                                             \
-    int avl##type##RewindGenerator(type##AVL avl) {                                         \
+    static int avl##type##RewindGenerator(type##AVL avl) {                                  \
         return avl##type##Yield(avl, NULL);                                                 \
     }                                                                                       \
                                                                                             \
                                                                                             \
-    type##AVLNode __avlNode##type##New(type content) {                                      \
+    static type##AVLNode __avlNode##type##New(type content) {                               \
         type##AVLNode node;                                                                 \
                                                                                             \
         node = (type##AVLNode)malloc(sizeof(struct type##AVLNode_s));                       \
@@ -103,7 +102,7 @@
         return node;                                                                        \
     }                                                                                       \
                                                                                             \
-    type##AVLNode __avlNode##type##Clone(type##AVL avl, type##AVLNode node) {               \
+    static type##AVLNode __avlNode##type##Clone(type##AVL avl, type##AVLNode node) {        \
         type##AVLNode newNode;                                                              \
         type content;                                                                       \
                                                                                             \
@@ -125,10 +124,10 @@
         return newNode;                                                                     \
     }                                                                                       \
                                                                                             \
-    type##AVL avl##type##New(int (*compare)(keyType *, type *, type),                       \
-                             void (*collision)(type *, type *),                             \
-                             void (*deleteContent)(type),                                   \
-                             type (*cloneContent)(type)) {                                  \
+    static type##AVL avl##type##New(int (*compare)(keyType *, type *, type),                \
+                                    void (*collision)(type *, type *),                      \
+                                    void (*deleteContent)(type),                            \
+                                    type (*cloneContent)(type)) {                           \
         type##AVL avl;                                                                      \
                                                                                             \
         avl = (type##AVL)malloc(sizeof(struct type##AVL_s));                                \
@@ -147,7 +146,7 @@
         return avl;                                                                         \
     }                                                                                       \
                                                                                             \
-    type##AVL avl##type##Clone(type##AVL avl) {                                             \
+    static type##AVL avl##type##Clone(type##AVL avl) {                                      \
         type##AVL newAvl;                                                                   \
                                                                                             \
         newAvl = avl##type##New(avl->compare,                                               \
@@ -160,8 +159,8 @@
         return newAvl;                                                                      \
     }                                                                                       \
                                                                                             \
-    void __avl##type##DestroyNode(void          (*deleteContent)(type),                     \
-                                  type##AVLNode node) {                                     \
+    static void __avl##type##DestroyNode(void (*deleteContent)(type),                       \
+                                         type##AVLNode node) {                              \
                                                                                             \
         if (node) {                                                                         \
             if (deleteContent)                                                              \
@@ -174,7 +173,7 @@
         return;                                                                             \
     }                                                                                       \
                                                                                             \
-    void avl##type##Destroy(type##AVL avl) {                                                \
+    static void avl##type##Destroy(type##AVL avl) {                                         \
                                                                                             \
         __avl##type##DestroyNode(avl->deleteContent, avl->root);                            \
         avl->root = NULL;                                                                   \
@@ -331,7 +330,7 @@
         return node;                                                                        \
     }                                                                                       \
                                                                                             \
-    int __avl##type##InsertFind(type##AVL avl, type item, type##AVLNode *ret) {             \
+    static int __avl##type##InsertFind(type##AVL avl, type item, type##AVLNode *ret) {      \
         type##AVLNode newNode, temp;                                                        \
         int growth, col;                                                                    \
         type content;                                                                       \
@@ -367,13 +366,13 @@
         return 0;                                                                           \
     }                                                                                       \
                                                                                             \
-    int avl##type##Insert(type##AVL avl, type item) {                                       \
+    static int avl##type##Insert(type##AVL avl, type item) {                                \
         type##AVLNode ret;                                                                  \
                                                                                             \
         return __avl##type##InsertFind(avl, item, &ret);                                    \
     }                                                                                       \
                                                                                             \
-    int avl##type##InsertFind(type##AVL avl, type item, type *ret) {                        \
+    static int avl##type##InsertFind(type##AVL avl, type item, type *ret) {                 \
         type##AVLNode node;                                                                 \
                                                                                             \
         if (__avl##type##InsertFind(avl, item, &node) == -1)                                \
@@ -387,10 +386,10 @@
         return 0;                                                                           \
     }                                                                                       \
                                                                                             \
-    type##AVLNode __avl##type##Find(int           (*compare)(keyType *, type *, type),      \
-                                    type##AVLNode node,                                     \
-                                    type *keyContent,                                       \
-                                    keyType       *key) {                                   \
+    static type##AVLNode __avl##type##Find(int (*compare)(keyType *, type *, type),         \
+                                           type##AVLNode node,                              \
+                                           type *keyContent,                                \
+                                           keyType *key) {                                  \
         int cmp;                                                                            \
                                                                                             \
         if (!node)                                                                          \
@@ -407,7 +406,7 @@
         }                                                                                   \
     }                                                                                       \
                                                                                             \
-    int avl##type##Find(type##AVL avl, keyType key, type *ret) {                            \
+    static int avl##type##Find(type##AVL avl, keyType key, type *ret) {                     \
         type##AVLNode node;                                                                 \
                                                                                             \
         node = __avl##type##Find(avl->compare, avl->root, NULL, &key);                      \
@@ -423,7 +422,7 @@
         return 0;                                                                           \
     }                                                                                       \
                                                                                             \
-    int avl##type##Update(type##AVL avl, type item) {                                       \
+    static int avl##type##Update(type##AVL avl, type item) {                                \
         type##AVLNode node;                                                                 \
                                                                                             \
         node = __avl##type##Find(avl->compare, avl->root, &item, NULL);                     \
@@ -439,19 +438,19 @@
         return 0;                                                                           \
     }                                                                                       \
                                                                                             \
-    type##AVLNode avl##type##GetLeftChild(type##AVLNode node) {                             \
+    static type##AVLNode avl##type##GetLeftChild(type##AVLNode node) {                      \
         return node->left;                                                                  \
     }                                                                                       \
                                                                                             \
-    type##AVLNode avl##type##GetRightChild(type##AVLNode node) {                            \
+    static type##AVLNode avl##type##GetRightChild(type##AVLNode node) {                     \
         return node->right;                                                                 \
     }                                                                                       \
                                                                                             \
-    type##AVLNode avl##type##GetRoot(type##AVL avl) {                                       \
+    static type##AVLNode avl##type##GetRoot(type##AVL avl) {                                \
         return avl->root;                                                                   \
     }                                                                                       \
                                                                                             \
-    type avl##type##GetNodeContent(type##AVLNode node) {                                    \
+    static type avl##type##GetNodeContent(type##AVLNode node) {                             \
         return node->content;                                                               \
     }                                                                                       \
 

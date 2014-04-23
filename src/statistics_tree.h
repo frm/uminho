@@ -18,6 +18,9 @@ typedef struct YearStats_s{
 
 AVL_DEF_HEADER(YearStats, int)
 
+typedef YearStatsAVL StatsTree;
+typedef CoAuthorStatsAVL CoAuthorStatsTree;
+
 YearStatsAVL initStatsTree(void);
 void deleteStatsTree(YearStatsAVL);
 void statsTreeCoAuthorUpdate(YearStatsAVL, int, int, int);
@@ -33,6 +36,11 @@ void yearStatsCollision(YearStats *, YearStats *);
 YearStats yearStatsNew();
 void coAuthorStatsCollision(CoAuthorStats *, CoAuthorStats *);
 int coAuthorStatsComp(int *, CoAuthorStats *, CoAuthorStats);
+int yearStatsGetTotal(YearStats stats, int coauthors);
+int yearStatsExtraYield(YearStats stats, CoAuthorStats *ret);
+int coAuthorStatsGetTotal(CoAuthorStats stats);
+int yearStatsGetYear(YearStats stats);
+int coAuthorStatsGetCoAuthors(CoAuthorStats stats);
 
 #endif
 

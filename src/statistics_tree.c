@@ -137,6 +137,38 @@ int coAuthorStatsComp(int *keyInt, CoAuthorStats *keyStats, CoAuthorStats stats)
         return 0;
 }
 
+int yearStatsGetYear(YearStats stats) {
+    return stats.year;
+}
+
+int yearStatsGetTotal(YearStats stats, int coauthors) {
+    CoAuthorStats ret;
+
+    if (coauthors <= 10)
+        return stats.coAuthors[coauthors];
+    else
+        if (!avlFind(CoAuthorStats, stats.extraCoAuthors, coauthors, &ret))
+            return ret.total;
+        else
+            return 0;
+}
+
+int coAuthorStatsGetCoAuthors(CoAuthorStats stats) {
+    return stats.coAuthors;
+}
+
+int coAuthorStatsGetTotal(CoAuthorStats stats) {
+    return stats.total;
+}
+
+int coAuthorStatsTreeYield(CoAuthorStatsAVL coAuthorStatsTree, CoAuthorStats *ret) {
+    return avlYield(CoAuthorStats, coAuthorStatsTree, ret);
+}
+
+int yearStatsExtraYield(YearStats stats, CoAuthorStats *ret) {
+    return coAuthorStatsTreeYield(stats.extraCoAuthors, ret);
+}
+
 YearStatsAVL initStatsTree() {
     return avlNewComplete(YearStats, &yearStatsComp, &yearStatsCollision, &yearStatsDestroy, &yearStatsClone);
 }
@@ -159,10 +191,6 @@ void statsTreeCoAuthorUpdate(YearStatsAVL yearStatsTree, int year, int coAuthors
 
 int statsTreeFind(YearStatsAVL yearStatsTree, int year, YearStats *ret) {
     return avlFind(YearStats, yearStatsTree, year, ret);
-}
-
-int coAuthorStatsTreeYield(CoAuthorStatsAVL coAuthorStatsTree, CoAuthorStats *ret) {
-    return avlYield(CoAuthorStats, coAuthorStatsTree, ret);
 }
 
 int coAuthorStatsTreeFind(CoAuthorStatsAVL coAuthorStatsTree, int coAuthors, CoAuthorStats *ret) {

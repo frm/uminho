@@ -2,10 +2,8 @@
 #define STATISTICS_H_
 
 #include <string.h>
+#include <stdio.h>
 #include "statistics_tree.h"
-
-typedef YearStatsAVL StatsTree;
-typedef CoAuthorStatsAVL CoAuthorStatsTree;
 
 void initializeStatistics(void);
 void deleteStatistics(void);
