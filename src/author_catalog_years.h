@@ -10,6 +10,7 @@
 
 typedef struct year_entry {
     int year;
+    int total_publications;
     AuthorTree authors;
 } YearEntry;
 
