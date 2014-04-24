@@ -422,6 +422,14 @@
         return 0;                                                                           \
     }                                                                                       \
                                                                                             \
+    static int avl##type##Exists(type##AVL avl, keyType key) {                              \
+                                                                                            \
+        if (!__avl##type##Find(avl->compare, avl->root, NULL, &key))                        \
+            return 0;                                                                       \
+        else                                                                                \
+            return 1;                                                                       \
+    }                                                                                       \
+                                                                                            \
     static int avl##type##Update(type##AVL avl, type item) {                                \
         type##AVLNode node;                                                                 \
                                                                                             \
@@ -454,6 +462,7 @@
         return node->content;                                                               \
     }                                                                                       \
 
+
 #define avlGetLeftChild(type, node) avl##type##GetLeftChild(node)
 #define avlGetRightChild(type, node) avl##type##GetRightChild(node)
 #define avlGetRoot(tree) tree->root
@@ -467,5 +476,6 @@
 #define avlClone(type, tree) avl##type##Clone(tree)
 #define avlYield(type, tree, ret) avl##type##Yield(tree, ret)
 #define avlRewindGenerator(type, tree) avl##type##Yield(tree, NULL)
+#define avlExists(type, tree, key) avl##type##Exists(tree, key)
 
 #endif
