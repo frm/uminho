@@ -287,7 +287,7 @@ static void query8() {
 }
 
 static void query9() {
-	int min, max, size;
+	int min, max, size, i;
 	char **authors;
 
 	printf("ENTER FIRST YEAR:\n");
@@ -306,8 +306,6 @@ static void query9() {
 	}
 
 	free(authors);
-
-	printf("TOTAL PUBLICATIONS BETWEEN YEARS %d AND %d: %d\n\n\n\n", min, max, total);
 }
 
 static void query10() {

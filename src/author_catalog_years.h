@@ -10,7 +10,7 @@
 
 typedef struct year_entry {
     int year;
-    int total_publications;
+    int total_authors;
     AuthorTree authors;
 } YearEntry;
 
@@ -19,19 +19,24 @@ AVL_DEF_HEADER(YearEntry, int)
 typedef YearEntryAVL YearTree;
 
 int yearEntryGetYear(YearEntry);
+int yearEntryGetTotalAuthors(YearEntry);
 AuthorTree yearEntryGetAuthors(YearEntry);
+void yearEntrySetTotalAuthors(YearEntry*, int);
 
 int yearTreeInsert(YearTree, YearEntry);
 int yearTreeYield(YearTree, YearEntry *);
 int yearTreeYieldAuthorFromYear(YearTree, int, char **);
-void yearTreeRewindGenerator(YearTree tree);
-void yearTreeDestroy(YearTree tree);
+int yearTreeFind(YearTree, int, YearEntry*);
+void yearTreeRewindGenerator(YearTree);
+void yearTreeDestroy(YearTree);
 YearTree yearTreeNew();
-YearTree yearTreeClone(YearTree tree);
+YearTree yearTreeClone(YearTree);
+int yearTreeExists(YearTree, int);
 
-int yearEntryAddAuthor(YearEntry year, Author author);
-YearEntry newYearEntry(int year);
-void deleteYearEntry(YearEntry goodbye);
+int yearEntryAddAuthor(YearEntry, char*);
+int yearEntryYieldAuthor(YearEntry, char**);
+YearEntry newYearEntry(int);
+void deleteYearEntry(YearEntry);
 
 #endif
 

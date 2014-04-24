@@ -39,6 +39,7 @@ int authorInfoTreeInsert(AuthorInfoTree, AuthorInfo);
 int authorInfoTreeYield(AuthorInfoTree, AuthorInfo *);
 int authorInfoTreeFind(AuthorInfoTree tree, Author author, AuthorInfo* ret);
 int authorInfoGetAuthorPublicationsInYear(AuthorInfoTree, Author, int);
+int authorInfoTreeExists(AuthorInfoTree, Author);
 void authorInfoTreeRewindGenerator(AuthorInfoTree);
 void authorInfoTreeDestroy(AuthorInfoTree);
 AuthorInfoTree authorInfoTreeNew();
@@ -60,6 +61,9 @@ CoAuthorPublPair cpSetNrPublications(CoAuthorPublPair pair, int pubs);
 
 int yieldYearPublPair(AuthorInfo author, YearPublPair* ret);
 int getYearPublPair(AuthorInfo author, int* year, int* publication);
+int yearPublPairGetYear(YearPublPair);
+int existsYearPublPair(AuthorInfo, int);
+
 
 
 #ifdef DEBUG2

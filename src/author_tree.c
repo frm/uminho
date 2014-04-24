@@ -42,9 +42,32 @@ void authorTreeDestroy(AuthorTree tree) {
 	avlDestroy(Author, tree);
 }
 
+int authorTreeExists(AuthorTree tree, Author key) {
+	return avlExists(Author, tree, key);
+}
+
 AuthorTree authorTreeClone(AuthorTree tree) {
 	return avlClone(Author, tree);
 }
+
+Author* authorTreeToString(AuthorTree tree, int* ret) {
+    Author* author_list = (Author*)malloc( sizeof(Author) * 128 );
+    Author name;
+    int avl_empty = 0, i = 0;
+
+    while ( !avl_empty ) {
+    	avl_empty = authorTreeYield(tree, &name);
+    	if ( avl_empty != -1 ) {
+    		author_list[i] = (Author)malloc( sizeof(char) * ( strlen(name) + 1 ) );
+    		strncpy( author_list[i], name, sizeof(char) * ( strlen(name) + 1 ) );
+    		i++;
+    		free(name);
+    	}
+    }
+    *ret = i;
+    return author_list;
+}
+
 
 /*
 #ifdef DEBUG

@@ -26,5 +26,6 @@ int** getAuthorPublicationsByYear(char* author, int* size);
 void deleteAuthorPublicationsMatrix(int** matrix);
 void deleteAuthorList(char** list, int size);
 char** getTopCoauthors(char* name, int* nr_coauthors, int* nr_publications);
+char** getPublishedAuthorsInYear(int, int, int*);
 
 #endif

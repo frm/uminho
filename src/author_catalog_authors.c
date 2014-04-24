@@ -198,6 +198,10 @@ AuthorInfoTree authorInfoTreeClone(AuthorInfoTree tree) {
 	return avlClone(AuthorInfo, tree);
 }
 
+int authorInfoTreeExists(AuthorInfoTree tree, Author key) {
+    return avlExists(AuthorInfo, tree, key);
+}
+
 int authorInfoAddCoAuthor(AuthorInfo author, Author coauthor) {
 	CoAuthorPublPair new = newCoAuthorPublPair(coauthor);
 	int ret = avlInsert(CoAuthorPublPair, author.coauthors_info, new);
@@ -236,6 +240,14 @@ int yieldYearPublPair(AuthorInfo author, YearPublPair* ret) {
 
 int yieldCoAuthorPublPair(AuthorInfo author, CoAuthorPublPair* ret) {
     return avlCoAuthorPublPairYield(author.coauthors_info, ret);
+}
+
+int yearPublPairGetYear(YearPublPair y) {
+    return y.year;
+}
+
+int existsYearPublPair(AuthorInfo author, int year) {
+    return avlExists(YearPublPair, author.publications_info, year);
 }
 
 #ifdef DEBUG2

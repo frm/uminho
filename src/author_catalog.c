@@ -2,9 +2,12 @@
 #include <heap.h>
 #include <stdio.h>
 #include "author_index_stats.h"
+#include "author_tree.h"
+#include <limits.h>
 
 #define GET_CHAR_INDEX(c) (normalLetter(c) ? ((int)c - (int)'A') : 26)
 #define normalLetter(c)     ( ( (c) >= 'A' ) && ( (c) <= 'Z' ) )
+
 
 static AuthorInfoTree	CatalogAuthors[27];
 static YearTree			CatalogYears;
@@ -215,11 +218,6 @@ int** getYearPublMatrix(Author author, int* size) {
     }
     *size = i;
 
-/*    while ( getYearPublPair(buffer, matrix[i], matrix[i] + 1) == 0 )
-        i++;
-
-	*size = i + 1;
-*/
 	deleteAuthorInfo(buffer);
 
 	return matrix;
@@ -240,36 +238,133 @@ static int restartAuthorMatrix(Author* author_matrix, int size, Author new_autho
     return addToAuthorMatrix(author_matrix, 0, new_author);
 }
 
-/* Function that should return the year with least amount of authors */
-static int getYearWithLeastAuthors(int min, int max) {}
+/* Function that should return the year with smallest amount of authors */
+static YearEntry getYearWithLeastAuthors(int min, int max) {
+    YearEntry min_year = newYearEntry(min);
+    YearEntry buffer, tmp;
+    int avl_empty = 0;
 
-/* Move this to author_index.c */
-static char** authorTreeToBuffer(authorTree tree) {}
+    yearEntrySetTotalAuthors(&min_year, INT_MAX);
+
+    while ( !avl_empty ) {
+        avl_empty = yearTreeYield(CatalogYears, &buffer);
+        if ( avl_empty != -1 && yearEntryGetYear(buffer) <= max && yearEntryGetYear(buffer) >= min ) {
+            if( yearEntryGetTotalAuthors(buffer) < yearEntryGetTotalAuthors(min_year) ) {
+                tmp = buffer;
+                buffer = min_year;
+                min_year = tmp;
+            }
+            deleteYearEntry(buffer);
+        }
+    }
+
+    return min_year;
+}
 
 /* Simply return the author_tree within that year */
-static authorTree getAuthorsInYear(int year) {}
+static char** getAuthorsInYear(int year, int* ret) {
+    YearEntry buffer;
+    char** author_list;
+
+    yearTreeFind(CatalogYears, year, &buffer);
+    author_list = authorTreeToString( yearEntryGetAuthors(buffer), ret );
+    deleteYearEntry(buffer);
+
+    return author_list;
+}
+
+static int authorPostedByYield(Author curr_author, int min, int max) {
+    int posted = 1, avl_empty = 0, curr_year;
+    AuthorInfo author_info;
+    YearPublPair yearpubl;
+
+    authorInfoTreeFind( CatalogAuthors[ GET_CHAR_INDEX(curr_author[0]) ], curr_author, &author_info );
+    while ( !avl_empty && min <= max && posted ) {
+        avl_empty = yieldYearPublPair(author_info, &yearpubl);
+
+        if (avl_empty != -1) {
+            curr_year = yearPublPairGetYear(yearpubl);
+
+            if (curr_year < min)
+                continue;
+            else if (curr_year == min)
+                min++;
+            else
+                posted = 0;
+        }
+    }
+
+    deleteAuthorInfo(author_info);
+    return posted;
+}
+
+static int authorPostedByFind(Author curr_author, int min, int max) {
+    int posted = 1, avl_empty = 0;
+    AuthorInfo author_info;
+
+    authorInfoTreeFind( CatalogAuthors[ GET_CHAR_INDEX(curr_author[0]) ], curr_author, &author_info );
+
+    while ( !avl_empty && min <= max && posted ) {
+        if (avl_empty != -1) {
+            if ( ! existsYearPublPair(author_info, min) )
+                posted = 0;
+
+            min++;
+        }
+    }
+
+    deleteAuthorInfo(author_info);
+    return posted;
+}
 
 /* Send the year inside each author avl */
-static authorTree getAuthorsByFind(int min, int max) {}
+static char** getAuthorsPostedIn(int min, int max, int find, int* ret) {
+    YearEntry min_year = getYearWithLeastAuthors(min, max);
+    AuthorTree authors = authorTreeNew();
+    Author curr_author;
+    char** author_list;
+    int avl_empty = 0;
+    int(* posted_function)(Author, int, int);
 
-/* Yield each author year to compare sequencially with the min year */
-static authorTree getAuthorsByYield(int min, int max) {}
+    if (find)
+        posted_function = &authorPostedByFind;
+    else
+        posted_function = &authorPostedByYield;
 
-char** getAuthorsInInterval(int min, int max) {
+    while ( !avl_empty ) {
+        avl_empty = yearEntryYieldAuthor(min_year, &curr_author);
+        if ( avl_empty != -1 ) {
+            if ( posted_function(curr_author, min, max) )
+                authorTreeInsert(authors, curr_author);
+
+            free(curr_author);
+        }
+    }
+
+    deleteYearEntry(min_year);
+    author_list = authorTreeToString(authors, ret);
+    authorTreeDestroy(authors);
+
+    return author_list;
+}
+
+char** getAuthorsInInterval(int min, int max, int* ret) {
     int diff = max - min;
-    authorTree author_list;
+    char** author_list;
 
     /* Error handling */
-    if ( diff < 0 ) return -1;
+    if ( diff < 0 ) return NULL;
 
-    author_list = authorTreeNew();
+    if ( diff == 0 )
+        author_list = getAuthorsInYear(max, ret);
 
+    else if ( diff < (int)( getMaxYear() - getMinYear() ) * 0.35 )
+        author_list = getAuthorsPostedIn(min, max, 1, ret);
 
-    if ( diff == 0 ) author_list = getAuthorsInYear(max);
-    else if ( diff < (int)( getMaxYear() - getMinYear() ) * 0.35 ) author_list = getAuthorsByFind(min, max);
-    else author_list = getAuthorsByYield(min, max);
+    else
+        author_list = getAuthorsPostedIn(min, max, 0, ret);
 
-    return authorTreeToBuffer(author_list);
+    return author_list;
 }
 
 char** getMostCoauthor(Author author, int* nr_coauthors, int* nr_publications) {

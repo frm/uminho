@@ -214,6 +214,10 @@ char** getTopCoauthors(char* name, int* nr_coauthors, int* nr_publications) {
 	return getMostCoauthor(name, nr_coauthors, nr_publications);
 }
 
+char** getPublishedAuthorsInYear(int min, int max, int* size) {
+	return getAuthorsInInterval(min, max, size);
+}
+
 void deleteAuthorList(char** list, int size) {
 	deleteTopCoauthors(list, size);
 }
