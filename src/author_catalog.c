@@ -266,7 +266,9 @@ static char** getAuthorsInYear(int year, int* ret) {
     YearEntry buffer;
     char** author_list;
 
-    yearTreeFind(CatalogYears, year, &buffer);
+    if ( yearTreeFind(CatalogYears, year, &buffer) == -1 )
+        return NULL;
+
     author_list = authorTreeToString( yearEntryGetAuthors(buffer), ret );
     deleteYearEntry(buffer);
 
@@ -293,6 +295,9 @@ static int authorPostedByYield(Author curr_author, int min, int max) {
                 posted = 0;
         }
     }
+
+    if (min > max) posted = 1;
+    else posted = 0;
 
     deleteAuthorInfo(author_info);
     return posted;
