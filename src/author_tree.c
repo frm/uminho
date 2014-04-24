@@ -51,13 +51,20 @@ AuthorTree authorTreeClone(AuthorTree tree) {
 }
 
 Author* authorTreeToString(AuthorTree tree, int* ret) {
-    Author* author_list = (Author*)malloc( sizeof(Author) * 128 );
+    int list_size = 1024;
+    Author* author_list = (Author*)malloc( sizeof(Author) * list_size );
     Author name;
     int avl_empty = 0, i = 0;
 
     while ( !avl_empty ) {
     	avl_empty = authorTreeYield(tree, &name);
     	if ( avl_empty != -1 ) {
+
+            if (i == list_size) {
+                list_size *= 2;
+                author_list = (Author*)realloc( author_list, sizeof(Author) * list_size );
+            }
+
     		author_list[i] = (Author)malloc( sizeof(char) * ( strlen(name) + 1 ) );
     		strncpy( author_list[i], name, sizeof(char) * ( strlen(name) + 1 ) );
     		i++;
