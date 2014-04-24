@@ -11,6 +11,15 @@
 #define GREET()			( printf("WELCOME TO GESTAUTS.\n") )
 #define BID_FAREWELL()	( printf("BYE BYE.\n") )
 #define valid_input(i)  ( ( (i) > -1 ) && ( (i) < NR_FUNCTIONS ) )
+#define FLUSH_STDIN() \
+	while (getchar() != '\n'); \
+
+#define PRESS_ENTER_TO_CONTINUE() \
+	printf("\nPRESS ENTER TO CONTINUE\n\n"); \
+	if (getchar() != '\n') \
+	FLUSH_STDIN() \
+	printf("\n\n\n\n\n\n\n"); \
+
 #define TIME(f) \
 	begin = clock(); \
 	f				 \
@@ -87,6 +96,9 @@ static void query1() {
 	printf( "%s\n\n", stats );
 	free(stats);
 
+	FLUSH_STDIN()
+	PRESS_ENTER_TO_CONTINUE()
+
 	populated_db = 1;
 }
 
@@ -125,15 +137,20 @@ static void query3() {
 	printf("INSERT YEAR:\n");
 	scanf("%d", &year);
 
+	FLUSH_STDIN()
+
 	total = authorPublicationsInYear(author, year);
 
 	if (total == -1) {
 		printf("SERIOUSLY? ARE YOU MAD OR SOMETHING? FUCKING FUCKTARD!\n");
+
+		PRESS_ENTER_TO_CONTINUE()
 		return;
 	}
 
 	printf("\n\n%d\n\n", total);
 
+	PRESS_ENTER_TO_CONTINUE()
 	return;
 }
 
@@ -409,14 +426,18 @@ static void query13() {
 	printf("INSERT YEAR:\n");
 	scanf("%d", &year);
 
+	FLUSH_STDIN()
+
 	ratio = getAuthorYearRatio(author, year);
 
 	if (ratio < 0) {
 		printf("WHAT THE FUCK, DUDE?\n");
+		PRESS_ENTER_TO_CONTINUE()
 		return;
 	}
 
 	printf("\n\n%f%%\n\n", ratio * 100.0);
+	PRESS_ENTER_TO_CONTINUE()
 
 	return;
 }
@@ -424,6 +445,9 @@ static void query13() {
 static void query14() {
 	char* stats = getAuthorStats();
 	printf("%s\n\n", stats );
+
+	PRESS_ENTER_TO_CONTINUE()
+
 	free(stats);
 }
 
@@ -460,12 +484,12 @@ static void print_options() {
 }
 
 static int get_option() {
-	int index;
+	int index, read;
 
-	scanf("%d%*[^\n]s", &index);
+	read = scanf("%d", &index);
+	FLUSH_STDIN()
 
-	/* Error handling */
-	if( !valid_input( index ) )
+	if( !valid_input( index ) || !read)
 		index = NR_FUNCTIONS;
 	else if ( index > 1 && !populated_db )
 		index = NR_FUNCTIONS + 1;

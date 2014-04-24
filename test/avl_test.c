@@ -312,6 +312,9 @@ int main(void) {
 
     avlUpdate(Brol, b2, br);
 
+    printf("EXISTS: %d\n", avlExists(Brol, b2, 3));
+    printf("DOESN'T EXIST: %d\n", avlExists(Brol, b2, 100042));
+
     printf("AVL1:\n");
 
     printBrolAVL(b->root);
