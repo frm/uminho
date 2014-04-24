@@ -14,11 +14,11 @@
 #define FLUSH_STDIN() \
 	while (getchar() != '\n'); \
 
-#define PRESS_ENTER_TO_CONTINUE() \
+#define PRESS_ENTER_TO_CONTINUE() { \
 	printf("\nPRESS ENTER TO CONTINUE\n\n"); \
 	if (getchar() != '\n') \
 	FLUSH_STDIN() \
-	printf("\n\n\n\n\n\n\n"); \
+	printf("\n\n\n\n\n\n\n"); }\
 
 #define TIME(f) \
 	begin = clock(); \
@@ -47,7 +47,7 @@ static char* options[NR_OPTIONS] = {
 	"GET AUTHORS BY INITIAL",
 	"TOTAL PUBLICATIONS IN INTERVAL",
 	"GET TOP COAUTHORS OF AN AUTHOR",
-	"TO BE IMPLEMENTED",
+	"GET PUBLISHED AUTHORS IN INTERVAL",
 	"GET YEAR AUTHOR STATS",
 	"GET CSV FILE",
 	"TOP AUTHORS IN YEAR",
@@ -97,7 +97,6 @@ static void query1() {
 	free(stats);
 
 	FLUSH_STDIN()
-	PRESS_ENTER_TO_CONTINUE()
 
 	populated_db = 1;
 }
@@ -144,13 +143,11 @@ static void query3() {
 	if (total == -1) {
 		printf("SERIOUSLY? ARE YOU MAD OR SOMETHING? FUCKING FUCKTARD!\n");
 
-		PRESS_ENTER_TO_CONTINUE()
 		return;
 	}
 
 	printf("\n\n%d\n\n", total);
 
-	PRESS_ENTER_TO_CONTINUE()
 	return;
 }
 
@@ -183,6 +180,8 @@ static void query5() {
 		}
 		printf(" ______________\n\n");
 	}
+
+	FLUSH_STDIN()
 
 	free(author_name);
 	deleteAuthorPublicationsMatrix(matrix);
@@ -232,6 +231,8 @@ static void query6() {
 		}
 	}
 
+	FLUSH_STDIN()
+
 	resetAuthorBy(initial);
 }
 
@@ -245,6 +246,8 @@ static void query7() {
 	scanf("%d%*[^\n]s%*c", &max);
 
 	total = getYearsTotalByInterval(min, max);
+
+	FLUSH_STDIN()
 
 	printf("TOTAL PUBLICATIONS BETWEEN YEARS %d AND %d: %d\n\n\n\n", min, max, total);
 }
@@ -276,9 +279,35 @@ static void query8() {
 		putchar('\n');
 	}
 
+	FLUSH_STDIN()
+
 	free(author_name);
 	deleteAuthorList(list, list_size);
 
+}
+
+static void query9() {
+	int min, max, size;
+	char **authors;
+
+	printf("ENTER FIRST YEAR:\n");
+	scanf("%d%*[^\n]s%*c", &min);
+
+	printf("ENTER LAST YEAR:\n");
+	scanf("%d%*[^\n]s%*c", &max);
+
+	authors = getPublishedAuthorsInYear(min, max, &size);
+
+	FLUSH_STDIN()
+
+	for (i = 0; i < size; i++){
+		printf("%s\n", authors[i]);
+		free(authors[i]);
+	}
+
+	free(authors);
+
+	printf("TOTAL PUBLICATIONS BETWEEN YEARS %d AND %d: %d\n\n\n\n", min, max, total);
 }
 
 static void query10() {
@@ -351,7 +380,10 @@ static void query10() {
 	fprintf(f, "%s", temp);
 
 	fclose(f);
+
+	FLUSH_STDIN()
 }
+
 static void query11() {
 	int test;
 	char *yearCSV, fileName[50];
@@ -379,6 +411,8 @@ static void query11() {
 		}
 	}
 
+	FLUSH_STDIN()
+
 	fclose(f);
 }
 
@@ -391,7 +425,7 @@ static void query12() {
 	scanf("%d", &year);
 	printf("ENTER NUMBER OF AUTHORS:\n");
 	scanf("%d", &n);
-
+	FLUSH_STDIN()
 
 	TIME(
 	authors = topAuthorsInYear(year, n);
@@ -432,7 +466,7 @@ static void query13() {
 
 	if (ratio < 0) {
 		printf("WHAT THE FUCK, DUDE?\n");
-		PRESS_ENTER_TO_CONTINUE()
+
 		return;
 	}
 
@@ -445,8 +479,6 @@ static void query13() {
 static void query14() {
 	char* stats = getAuthorStats();
 	printf("%s\n\n", stats );
-
-	PRESS_ENTER_TO_CONTINUE()
 
 	free(stats);
 }
@@ -461,7 +493,7 @@ static void(* functions[NR_FUNCTIONS + NR_ERRORS] )() = {
 	&query6,
 	&query7,
 	&query8,
-	&failureprnt,
+	&query9,
 	&query10,
 	&query11,
 	&query12,
@@ -499,6 +531,8 @@ static int get_option() {
 
 static void call_option(int index) {
 	(*functions[index])();
+	if (valid_input( index ) && index > 0)
+		PRESS_ENTER_TO_CONTINUE()
 }
 
 static void cmd_interpreter() {
