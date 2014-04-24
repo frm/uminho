@@ -1,6 +1,7 @@
 #include "author_catalog.h"
 #include <heap.h>
 #include <stdio.h>
+#include "author_index_stats.h"
 
 #define GET_CHAR_INDEX(c) (normalLetter(c) ? ((int)c - (int)'A') : 26)
 #define normalLetter(c)     ( ( (c) >= 'A' ) && ( (c) <= 'Z' ) )
@@ -237,6 +238,38 @@ static int restartAuthorMatrix(Author* author_matrix, int size, Author new_autho
         free(author_matrix[i]);
 
     return addToAuthorMatrix(author_matrix, 0, new_author);
+}
+
+/* Function that should return the year with least amount of authors */
+static int getYearWithLeastAuthors(int min, int max) {}
+
+/* Move this to author_index.c */
+static char** authorTreeToBuffer(authorTree tree) {}
+
+/* Simply return the author_tree within that year */
+static authorTree getAuthorsInYear(int year) {}
+
+/* Send the year inside each author avl */
+static authorTree getAuthorsByFind(int min, int max) {}
+
+/* Yield each author year to compare sequencially with the min year */
+static authorTree getAuthorsByYield(int min, int max) {}
+
+char** getAuthorsInInterval(int min, int max) {
+    int diff = max - min;
+    authorTree author_list;
+
+    /* Error handling */
+    if ( diff < 0 ) return -1;
+
+    author_list = authorTreeNew();
+
+
+    if ( diff == 0 ) author_list = getAuthorsInYear(max);
+    else if ( diff < (int)( getMaxYear() - getMinYear() ) * 0.35 ) author_list = getAuthorsByFind(min, max);
+    else author_list = getAuthorsByYield(min, max);
+
+    return authorTreeToBuffer(author_list);
 }
 
 char** getMostCoauthor(Author author, int* nr_coauthors, int* nr_publications) {
