@@ -6,5 +6,6 @@
 #include <stdlib.h>
 
 char* strtrim(char *str);
+char* str_dup(char* str);
 
 #endif

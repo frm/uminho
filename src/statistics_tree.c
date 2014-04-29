@@ -1,39 +1,126 @@
 #include "statistics_tree.h"
 
-AVL_DEF(CoAuthorStats, int)
+#include <stdlib.h>
+#include <avl.h>
+#include <stdio.h>
 
-AVL_DEF(YearStats, int)
+typedef struct CoAuthorStatsContAVL_s *CoAuthorStatsTree;
+
+/*stores information about coauthors */
+typedef struct CoAuthorStats_s{
+    int coAuthors;
+    int total; 
+} CoAuthorStatsCont;
+
+AVL_DEF_HEADER(CoAuthorStatsCont, int)
+
+/*stores information about coauthors related to a year */
+typedef struct YearStats_s{
+    int year;
+    int coAuthors[11];
+    CoAuthorStatsContAVL extraCoAuthors;
+} YearStatsCont;
+
+AVL_DEF_HEADER(YearStatsCont, int)
+
+AVL_DEF(CoAuthorStatsCont, int)
+
+AVL_DEF(YearStatsCont, int)
+
+static void coAuthorStatsContCollision(CoAuthorStatsCont *stats1, CoAuthorStatsCont *stats2) {
+    stats1->total += stats2->total;
+}
+
+static int coAuthorStatsContComp(int *keyInt, CoAuthorStatsCont *keyStats, CoAuthorStatsCont stats) {
+    int key;
+
+    if (keyInt)
+        key = *keyInt;
+    else
+        key = keyStats->coAuthors;
+
+    if (key > stats.coAuthors)
+        return 1;
+    else if (key < stats.coAuthors)
+        return -1;
+    else
+        return 0;
+}
+
+CoAuthorStats coAuthorStatsNew() {
+    CoAuthorStats new;
+
+    new = (CoAuthorStats)malloc(sizeof(CoAuthorStatsCont));
+
+    return new;
+}
+
+void coAuthorStatsDestroy(CoAuthorStats stats) {
+    free(stats);
+}
+
+static YearStatsCont yearStatsContNew() {
+    YearStatsCont newStats;
+    int i;
+
+    newStats.extraCoAuthors = avlNewComplete(CoAuthorStatsCont, &coAuthorStatsContComp, &coAuthorStatsContCollision, NULL, NULL);
+    for (i = 0; i < 11; i++)
+        newStats.coAuthors[i] = 0;
+
+    return newStats;
+}
+
+YearStats yearStatsNew() {
+    YearStats newStats;
+
+    newStats = (YearStats)malloc(sizeof(YearStatsCont));
+    newStats->extraCoAuthors = NULL;
+
+    return newStats;
+}
+
+static void yearStatsContDestroy(YearStatsCont stats) {
+    if (stats.extraCoAuthors)
+        avlDestroy(CoAuthorStatsCont, stats.extraCoAuthors);
+}
+
+void yearStatsDestroy(YearStats stats) {
+    yearStatsContDestroy(*stats);
+    free(stats);
+}
+
+
 /*
  * CUSTOM AVL FUNCTION
  */
 
-static void avlYearStatsCoAuthorUpdate(YearStatsAVL avl, int year, int coAuthors, int total) {
-    YearStatsAVLNode node;
-    YearStats stats;
-    CoAuthorStats caStats;
+static void avlYearStatsCoAuthorUpdate(StatsTree avl, int year, int coAuthors, int total) {
+    YearStatsContAVLNode node;
+    YearStatsCont stats;
+    CoAuthorStatsCont caStats;
 
-    node = __avlYearStatsFind(avl->compare, avlGetRoot(avl), NULL, &year);
+    node = __avlYearStatsContFind(avl->compare, avlGetRoot(avl), NULL, &year);
 
     if (!node) {
-        stats = yearStatsNew();
+        stats = yearStatsContNew();
         stats.year = year;
         if (coAuthors > 10) {
             caStats.coAuthors = coAuthors;
             caStats.total = total;
-            avlInsert(CoAuthorStats, stats.extraCoAuthors, caStats);
+            avlInsert(CoAuthorStatsCont, stats.extraCoAuthors, caStats);
         }
         else {
             stats.coAuthors[coAuthors] = total;
         }
-        avlInsert(YearStats, avl, stats);
-        yearStatsDestroy(stats);
+        avlInsert(YearStatsCont, avl, stats);
+        yearStatsContDestroy(stats);
     }
     else {
-        stats = avlGetNodeContent(YearStats, node);
+        stats = avlGetNodeContent(YearStatsCont, node);
         if (coAuthors > 10) {
             caStats.coAuthors = coAuthors;
             caStats.total = total;
-            avlInsert(CoAuthorStats, stats.extraCoAuthors, caStats);
+            avlInsert(CoAuthorStatsCont, stats.extraCoAuthors, caStats);
         }
         else {
             stats.coAuthors[coAuthors] += total;
@@ -41,15 +128,14 @@ static void avlYearStatsCoAuthorUpdate(YearStatsAVL avl, int year, int coAuthors
 
         node->content = stats;
     }
-
     return;
 }
 
-YearStats yearStatsClone(YearStats stats) {
-    YearStats newStats;
+static YearStatsCont yearStatsContClone(YearStatsCont stats) {
+    YearStatsCont newStats;
     int i;
 
-    newStats.extraCoAuthors = avlClone(CoAuthorStats, stats.extraCoAuthors);
+    newStats.extraCoAuthors = avlClone(CoAuthorStatsCont, stats.extraCoAuthors);
 
     for (i = 0; i < 11; i++) {
         newStats.coAuthors[i] = stats.coAuthors[i];
@@ -60,12 +146,7 @@ YearStats yearStatsClone(YearStats stats) {
     return newStats;
 }
 
-void yearStatsDestroy(YearStats stats) {
-
-    avlDestroy(CoAuthorStats, stats.extraCoAuthors);
-}
-
-int yearStatsComp(int *keyInt, YearStats *keyStats, YearStats stats) {
+static int yearStatsContComp(int *keyInt, YearStatsCont *keyStats, YearStatsCont stats) {
     int key = 0;
 
     if (keyInt)
@@ -82,8 +163,8 @@ int yearStatsComp(int *keyInt, YearStats *keyStats, YearStats stats) {
 
 }
 
-void yearStatsCollision(YearStats *stats1, YearStats *stats2) {
-    CoAuthorStats temp;
+static void yearStatsContCollision(YearStatsCont *stats1, YearStatsCont *stats2) {
+    CoAuthorStatsCont temp;
     int end, i;
 
     end = 0;
@@ -92,107 +173,90 @@ void yearStatsCollision(YearStats *stats1, YearStats *stats2) {
         stats1->coAuthors[i] += stats2->coAuthors[i];
 
     for(;;) {
-        end = avlYield(CoAuthorStats, stats2->extraCoAuthors, &temp);
+        end = avlYield(CoAuthorStatsCont, stats2->extraCoAuthors, &temp);
 
         if (!end){
-            avlInsert(CoAuthorStats, stats1->extraCoAuthors, temp);
+            avlInsert(CoAuthorStatsCont, stats1->extraCoAuthors, temp);
         }
         else {
             if (end == 1)
-                avlInsert(CoAuthorStats, stats1->extraCoAuthors, temp);
+                avlInsert(CoAuthorStatsCont, stats1->extraCoAuthors, temp);
 
             break;
         }
     }
 }
 
-YearStats yearStatsNew() {
-    YearStats newStats;
-    int i;
-
-    newStats.extraCoAuthors = avlNewComplete(CoAuthorStats, &coAuthorStatsComp, &coAuthorStatsCollision, NULL, NULL);
-    for (i = 0; i < 11; i++)
-        newStats.coAuthors[i] = 0;
-
-    return newStats;
-}
-
-void coAuthorStatsCollision(CoAuthorStats *stats1, CoAuthorStats *stats2) {
-    stats1->total += stats2->total;
-}
-
-int coAuthorStatsComp(int *keyInt, CoAuthorStats *keyStats, CoAuthorStats stats) {
-    int key;
-
-    if (keyInt)
-        key = *keyInt;
-    else
-        key = keyStats->coAuthors;
-
-    if (key > stats.coAuthors)
-        return 1;
-    else if (key < stats.coAuthors)
-        return -1;
-    else
-        return 0;
-}
 
 int yearStatsGetYear(YearStats stats) {
-    return stats.year;
+    return stats->year;
 }
-
+/* Returns the total of publications with a given number of coauthors in a given year */
 int yearStatsGetTotal(YearStats stats, int coauthors) {
-    CoAuthorStats ret;
+    CoAuthorStatsCont ret;
 
     if (coauthors <= 10)
-        return stats.coAuthors[coauthors];
+        return stats->coAuthors[coauthors];
     else
-        if (!avlFind(CoAuthorStats, stats.extraCoAuthors, coauthors, &ret))
+        if (!avlFind(CoAuthorStatsCont, stats->extraCoAuthors, coauthors, &ret))
             return ret.total;
         else
             return 0;
 }
 
 int coAuthorStatsGetCoAuthors(CoAuthorStats stats) {
-    return stats.coAuthors;
+    return stats->coAuthors;
 }
 
 int coAuthorStatsGetTotal(CoAuthorStats stats) {
-    return stats.total;
+    return stats->total;
 }
 
-int coAuthorStatsTreeYield(CoAuthorStatsAVL coAuthorStatsTree, CoAuthorStats *ret) {
-    return avlYield(CoAuthorStats, coAuthorStatsTree, ret);
+int coAuthorStatsTreeYield(CoAuthorStatsTree tree, CoAuthorStats ret) {
+    return avlYield(CoAuthorStatsCont, tree, ret);
 }
 
-int yearStatsExtraYield(YearStats stats, CoAuthorStats *ret) {
-    return coAuthorStatsTreeYield(stats.extraCoAuthors, ret);
+/* Yields from the tree used to store information about publications with > 10 coauthors */
+int yearStatsExtraYield(YearStats stats, CoAuthorStats ret) {
+    return coAuthorStatsTreeYield(stats->extraCoAuthors, ret);
 }
 
-YearStatsAVL initStatsTree() {
-    return avlNewComplete(YearStats, &yearStatsComp, &yearStatsCollision, &yearStatsDestroy, &yearStatsClone);
+
+/* Initialize statistics tree */
+StatsTree initStatsTree() {
+    StatsTree new;
+
+    new = avlNewComplete(YearStatsCont, &yearStatsContComp, &yearStatsContCollision, &yearStatsContDestroy, &yearStatsContClone);
+
+    return new;
 }
 
-void deleteStatsTree(YearStatsAVL yearStatsTree) {
-    avlDestroy(YearStats, yearStatsTree);
+/* Destroy statistics tree */
+void deleteStatsTree(StatsTree yearStatsTree) {
+    avlDestroy(YearStatsCont, yearStatsTree);
 }
 
-int statsTreeGetYear(YearStatsAVL yearStatsTree, int year, YearStats *ret) {
-    return avlFind(YearStats, yearStatsTree, year, ret);
+/* Get information about an year. Returns 0 if successful */
+int statsTreeGetYear(StatsTree yearStatsTree, int year, YearStats ret) {
+    return avlFind(YearStatsCont, yearStatsTree, year, ret);
 }
 
-int statsTreeYield(YearStatsAVL yearStatsTree, YearStats *ret) {
-    return avlYield(YearStats, yearStatsTree, ret);
+/* Yield information about an year from the StatsTree.
+ * Returns 1 if the last year is yielded, -1 if the tree is empty, 0 otherwise*/
+int statsTreeYield(StatsTree yearStatsTree, YearStats ret) {
+    return avlYield(YearStatsCont, yearStatsTree, ret);
 }
 
-void statsTreeCoAuthorUpdate(YearStatsAVL yearStatsTree, int year, int coAuthors, int total) {
+/* Update statistics about a given number of coauthors */
+void statsTreeCoAuthorUpdate(StatsTree yearStatsTree, int year, int coAuthors, int total) {
     avlYearStatsCoAuthorUpdate(yearStatsTree, year, coAuthors, total);
 }
 
-int statsTreeFind(YearStatsAVL yearStatsTree, int year, YearStats *ret) {
-    return avlFind(YearStats, yearStatsTree, year, ret);
+/* Find information about a given year. Returns 0 if successful */
+int statsTreeFind(StatsTree yearStatsTree, int year, YearStats ret) {
+    return avlFind(YearStatsCont, yearStatsTree, year, ret);
 }
 
-int coAuthorStatsTreeFind(CoAuthorStatsAVL coAuthorStatsTree, int coAuthors, CoAuthorStats *ret) {
-    return avlFind(CoAuthorStats, coAuthorStatsTree, coAuthors, ret);
+int coAuthorStatsTreeFind(CoAuthorStatsTree tree, int coAuthors, CoAuthorStats ret) {
+    return avlFind(CoAuthorStatsCont, tree, coAuthors, ret);
 }

@@ -6,34 +6,37 @@ static int new_str_end (char *str) {
 	while ( i > 0 && isspace(str[i]) )
 		i--;
 
-	return i;
+	return i + 1;
 }
 
-static int new_str_start (char *str) {
-	int i = 0;
-	int size = strlen(str);
+static char* new_str_start (char *str) {
+	while ( *str != '\0' && isspace(*str) )
+		str++;
 
-	while ( i < size && isspace(str[i]) )
-		i++;
-
-	return i;
+	return str;
 }
 
 char* strtrim(char *str) {
-	int start, end, size;
-	char *newstr;
+	int size;
+	char *buffer, *new_str;
 
-	if ( !str )
+	if (!str || !*str)
 		return NULL;
 
-	start = new_str_start(str);
-	end = new_str_end(str);
-	size = end - start + 1;
+	new_str = new_str_start(str);
+	size = new_str_end(new_str);
 
-	newstr = (char*) malloc( sizeof(char) * (size + 1) );
-	strncpy(newstr, str + start, size);
-	newstr[size] = '\0';
+	buffer = (char*)malloc(size + 1);
+	memcpy(buffer, new_str, size);
+	buffer[size] = '\0';
 
-	return newstr;
+	return buffer;
+}
+
+char* str_dup(char* str) {
+	int size = strlen(str) + 1; /* avoiding multiple function calls */
+	char* dup = (char*)malloc(size);
+	memcpy(dup, str, size);
+	return dup;
 }
 

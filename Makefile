@@ -1,5 +1,5 @@
 CC = gcc 
-CFLAGS ?= -Wall -Wextra -Wno-unused-function  -Wno-unused-result -ansi -pedantic
+CFLAGS ?= -Wall -Wextra -Wno-unused-function -O2 -Wno-unused-result -ansi -pedantic
 CPPFLAGS ?= -Imodules -Ilib -Iincludes
 
 EXEC = gestauts
@@ -19,10 +19,6 @@ debug: $(EXEC)
 dsmall: CFLAGS += -g -DDEBUG2
 dsmall: $(EXEC)
 
-final: CC = gcc
-final: CFLAGS += -O2
-final: $(EXEC)
-
 leak-check: CFLAGS += -g
 leak-check: $(EXEC)
 	valgrind --tool=memcheck --leak-check=yes ./$(EXEC)
@@ -32,7 +28,7 @@ gcov: $(EXEC)
 
 clean:
 	@echo "CLEANING UP"
-	@cat .make/asciiart/maid.art
+	@cat ./.make/asciiart/maid.art
 	$(RM) *.o
 	$(RM) $(EXEC)
 	$(RM) *.csv

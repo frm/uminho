@@ -135,7 +135,10 @@
         if (heap->used == 0)                                                                \
             return -1;                                                                      \
                                                                                             \
-        *ret = heap->cloneContent(heap->content[0]);                                        \
+        if (heap->cloneContent)                                                             \
+            *ret = heap->cloneContent(heap->content[0]);                                    \
+        else                                                                                \
+            *ret = heap->content[0];                                                        \
                                                                                             \
         return 0;                                                                           \
     }                                                                                       \

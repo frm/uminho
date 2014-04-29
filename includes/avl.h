@@ -43,7 +43,7 @@
         return;                                                                             \
     }                                                                                       \
                                                                                             \
-    static int avl##type##Yield(type##AVL avl, type *ret) {                                 \
+    static int avl##type##Yield(type##AVL avl, int mode, type *ret) {                       \
         int initialized = avl->generator.initialized;                                       \
         type##AVLNode node;                                                                 \
                                                                                             \
@@ -67,14 +67,14 @@
         } else {                                                                            \
             stackPop(type##AVLNode, avl->generator.stack, &node);                           \
             avl##type##StackMin(avl->generator.stack, node->right);                         \
-            if (avl->cloneContent)                                                          \
+            if (avl->cloneContent && mode)                                                  \
                 *ret = avl->cloneContent(node->content);                                    \
             else                                                                            \
                 *ret = node->content;                                                       \
                                                                                             \
             if (stackIsEmpty(type##AVLNode, avl->generator.stack)) {                        \
                                                                                             \
-                avl##type##Yield(avl, NULL);                                                \
+                avl##type##Yield(avl, 0, NULL);                                             \
                 return 1;                                                                   \
             }                                                                               \
         }                                                                                   \
@@ -82,8 +82,38 @@
         return 0;                                                                           \
     }                                                                                       \
                                                                                             \
+    static int avl##type##GenerateFrom(type##AVL avl, keyType key) {                        \
+        type##AVLNode node = avl->root;                                                     \
+        type##AVLNodeStack stack = avl->generator.stack;                                    \
+        int cmp;                                                                            \
+                                                                                            \
+        if (avl->generator.initialized)                                                     \
+           avl##type##Yield(avl, 0, NULL);                                                  \
+                                                                                            \
+        avl->generator.stack = stackNew(type##AVLNode, NULL, &__avl##type##StClone);        \
+        avl->generator.initialized = 1;                                                     \
+                                                                                            \
+        while (node){                                                                       \
+                                                                                            \
+            stackPush(type##AVLNode, stack, node);                                          \
+                                                                                            \
+            cmp = avl->compare(&key, NULL, node->content);                                  \
+                                                                                            \
+            if (cmp > 0) {                                                                  \
+                node =  node->right;                                                        \
+            } else if (cmp < 0) {                                                           \
+                node = node->left;                                                          \
+            } else {                                                                        \
+                return 0;                                                                   \
+            }                                                                               \
+        }                                                                                   \
+                                                                                            \
+        avl##type##Yield(avl, 0, NULL);                                                     \
+        return -1;                                                                          \
+    }                                                                                       \
+                                                                                            \
     static int avl##type##RewindGenerator(type##AVL avl) {                                  \
-        return avl##type##Yield(avl, NULL);                                                 \
+        return avl##type##Yield(avl, 0,NULL);                                               \
     }                                                                                       \
                                                                                             \
                                                                                             \
@@ -178,7 +208,7 @@
         __avl##type##DestroyNode(avl->deleteContent, avl->root);                            \
         avl->root = NULL;                                                                   \
         if (avl->generator.initialized)                                                     \
-            avl##type##Yield(avl, NULL);                                                    \
+            avl##type##Yield(avl, 0, NULL);                                                 \
         free(avl);                                                                          \
                                                                                             \
         return;                                                                             \
@@ -289,7 +319,6 @@
             *col = 1;                                                                       \
             if (avl->collision)                                                             \
                 avl->collision(&(node->content), &((*newNode)->content));                   \
-            __avl##type##DestroyNode(avl->deleteContent, (*newNode));                       \
             *newNode = node;                                                                \
             *growth = 0;                                                                    \
         } else if (cmp > 0) {                                                               \
@@ -333,16 +362,11 @@
     static int __avl##type##InsertFind(type##AVL avl, type item, type##AVLNode *ret) {      \
         type##AVLNode newNode, temp;                                                        \
         int growth, col;                                                                    \
-        type content;                                                                       \
                                                                                             \
         growth = 0;                                                                         \
         col = 0;                                                                            \
-        if (avl->cloneContent)                                                              \
-            content = avl->cloneContent(item);                                              \
-        else                                                                                \
-            content = item;                                                                 \
                                                                                             \
-        temp = newNode = __avlNode##type##New(content);                                     \
+        temp = newNode = __avlNode##type##New(item);                                        \
                                                                                             \
         if (!newNode)                                                                       \
             return -1;                                                                      \
@@ -356,14 +380,19 @@
         }                                                                                   \
                                                                                             \
         if (avl->generator.initialized)                                                     \
-            avl##type##Yield(avl, NULL);                                                    \
+            avl##type##Yield(avl, 0, NULL);                                                 \
                                                                                             \
         *ret = newNode;                                                                     \
                                                                                             \
-        if (temp != newNode)                                                                \
+        if (temp != newNode){                                                               \
+            free(temp);                                                                     \
             return 1;                                                                       \
-                                                                                            \
-        return 0;                                                                           \
+        }                                                                                   \
+        else {                                                                              \
+            if (avl->cloneContent)                                                          \
+                newNode->content = avl->cloneContent(item);                                 \
+            return 0;                                                                       \
+        }                                                                                   \
     }                                                                                       \
                                                                                             \
     static int avl##type##Insert(type##AVL avl, type item) {                                \
@@ -474,8 +503,9 @@
 #define avlFind(type, tree, key, ret) avl##type##Find(tree, key, ret)
 #define avlUpdate(type, tree, item) avl##type##Update(tree, item)
 #define avlClone(type, tree) avl##type##Clone(tree)
-#define avlYield(type, tree, ret) avl##type##Yield(tree, ret)
-#define avlRewindGenerator(type, tree) avl##type##Yield(tree, NULL)
+#define avlYield(type, tree, ret) avl##type##Yield(tree, 1, ret)
+#define __avlYield(type, tree, ret) avl##type##Yield(tree, 0, ret)
+#define avlRewindGenerator(type, tree) avl##type##Yield(tree, 0, NULL)
 #define avlExists(type, tree, key) avl##type##Exists(tree, key)
 
 #endif
