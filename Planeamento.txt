@@ -1,0 +1,9 @@
+Onde podemos escolher? Quais as atividades?
+
+UserBase
+
+User
+
+Activity: Swimming, Running, Cycling,
+->Calories
+->Duration
