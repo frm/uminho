@@ -53,7 +53,7 @@ public class UserDatabase {
      * @param u user to save
      */
     public void save(User u) { 
-        if ( u.getId() < 0 ) // if user wasn't put into the db already
+        if ( u.getId() < 0 )                // if user wasn't put into the db already
             u.setId( this.nrUsers() + 1 );
         
         this.database.put( u.getId(), u);
