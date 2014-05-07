@@ -71,7 +71,7 @@ public class User {
     
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("Utilizador: ");
+        result.append("### Utilizador: ###");
         result.append("\nE-Mail: ");
         result.append(this.email);
         result.append("\nName: ");
@@ -89,9 +89,5 @@ public class User {
         User u = (User) o;
         
        return (u.getEmail() == this.email && u.getPassword() == this.password && u.getName() == this.name );
-    }
-
-    public int hashCode() {
-        return this.getId();
     }
 }

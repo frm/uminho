@@ -4,7 +4,12 @@
  */
 
 public class TestUser {
+    
     public static void main(String[] args) {
+        TestUser.test();
+    }
+    
+    public static void test() {
         System.out.println("Testing empty constructor - Should be empty");
         User empty = new User();
         System.out.println(empty);
@@ -35,8 +40,8 @@ public class TestUser {
         
         System.out.println("Testing copy constructor");
         UserDatabase my_db = new UserDatabase();
-        my_db.create(mendes);
-        my_db.create(new User("A", "BB", "CCC") );
+        my_db.save(mendes);
+        my_db.save(new User("A", "BB", "CCC") );
         System.out.println(my_db);
         System.out.println(my_db.clone());
         
@@ -50,8 +55,11 @@ public class TestUser {
         else
             System.out.println("BUG IN USER DATABASE EQUALS");
         
-        
-        
+       System.out.println("Testing change to user settings");
+       mendes = my_db.findById(1);
+       mendes.setName("Not Mendes");
+       my_db.save(mendes);
+       System.out.println(my_db);
         
         
     }
