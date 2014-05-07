@@ -1,5 +1,6 @@
-/FitnessUM/nbproject/private/
-/FitnessUM/build/
-/FitnessUM/dist/
+/nbproject/private/
+/build/
+/dist/
+*.DS_STORE
 *.log
 

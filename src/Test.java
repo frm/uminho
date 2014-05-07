@@ -2,14 +2,16 @@
  *
  * @author frmendes
  */
+import java.util.GregorianCalendar;
 
-public class TestUser {
+public class Test {
     
     public static void main(String[] args) {
-        TestUser.test();
+        Test.userTest();
+        Test.userInfoTest();
     }
     
-    public static void test() {
+    public static void userTest() {
         System.out.println("Testing empty constructor - Should be empty");
         User empty = new User();
         System.out.println(empty);
@@ -61,6 +63,33 @@ public class TestUser {
        my_db.save(mendes);
        System.out.println(my_db);
         
+    }
+    public static void userInfoTest(){
+        System.out.println("Testing empty constructor - Should be empty");
+        UserInfo empty = new UserInfo();
+        System.out.println(empty);
         
+        System.out.println("Testing normal constructor - Myself");
+        UserInfo mendes = new UserInfo(false, 170.0, 65.0,new GregorianCalendar(), "Sitting");
+        System.out.println(mendes);
+        
+        System.out.println("Testing copy constructor - Myself");
+        System.out.println(new UserInfo(mendes));
+        
+        System.out.println("Testing clone - Myself");
+        System.out.println( mendes.clone() );
+        
+        if( new UserInfo(mendes).equals(mendes) && !empty.equals(mendes) )
+            System.out.println("USER INFO EQUALS WORKS");
+        else
+            System.out.println("BUG ON USER INFO EQUALS");
+        
+        System.out.println("Testing getters and setters - Myself");
+        empty.setGender( mendes.getGender() );
+        empty.setHeight( mendes.getHeight() );
+        empty.setWeight( mendes.getWeight() );
+        empty.setBirthDate( mendes.getBirthDate() );
+        empty.setFavoriteSport( mendes.getFavoriteSport() );
+        System.out.println( empty );
     }
 }
