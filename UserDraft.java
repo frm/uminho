@@ -1,6 +1,6 @@
 import java.util.GregorianCalendar;
 
-public class User{
+public class UserDraft{
     private int id;
     private String email;
     private String password;
@@ -14,7 +14,7 @@ public class User{
     //Save friends from Hitler.
 
 
-    public User(){
+    public UserDraft(){
         this.email = "";
         this.password = "";
         this.name = "";
@@ -25,7 +25,7 @@ public class User{
         this.favoriteSport = "";
     }
 
-    public User(String email, String password, String name,boolean gender,double height, double weight, GregorianCalendar birthDate, String favoriteSport){
+    public UserDraft(String email, String password, String name,boolean gender,double height, double weight, GregorianCalendar birthDate, String favoriteSport){
         this.email = email;
         this.password = password;
         this.name = name;
@@ -36,7 +36,7 @@ public class User{
         this.favoriteSport = favoriteSport;
     }
 
-    public User(User user){
+    public UserDraft(UserDraft user){
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.name = user.getName();
@@ -56,7 +56,7 @@ public class User{
     void setWeight(double weight){this.weight = weight;}
     void setBirthDate(GregorianCalendar birthDate){this.birthDate = (GregorianCalendar) birthDate.clone();}
     void setFavoriteSport(String favoriteSport){this.favoriteSport = favoriteSport;}
-    
+
     int getId(){return this.id;}
     String getEmail(){return this.email;}
     String getPassword(){return this.password;}
@@ -89,8 +89,8 @@ public class User{
         return result.toString();
     }
 
-    public User clone(){
-        return new User(this);
+    public UserDraft clone(){
+        return new UserDraft(this);
     }
 
     public boolean equals(Object o){
@@ -98,7 +98,7 @@ public class User{
 
         if(o == null || this.getClass() != o.getClass() ) return false;
 
-        User u = (User) o;
+        UserDraft u = (UserDraft) o;
 
         return (u.getEmail() == this.email
             && u.getPassword() == this.password
