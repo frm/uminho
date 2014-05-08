@@ -125,6 +125,10 @@ public class User {
 
         return result.toString();
     }
+    
+    public boolean hasFriend(Integer id){
+        return this.friends.hasFriend(id);
+    }
 
     
     public boolean equals(Object o) {

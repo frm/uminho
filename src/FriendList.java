@@ -81,6 +81,10 @@ public class FriendList {
     public Integer numberOfFriends(){
         return friends.size();
     }
+   
+    public boolean hasFriend(Integer id){
+        return friends.contains(id);
+    }
     
     
 }

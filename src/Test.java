@@ -17,8 +17,9 @@ public class Test {
         System.out.println(empty);
         
         FriendList friendo = new FriendList();
+        UserInfo info = new UserInfo();
         System.out.println("Testing normal constructor - Myself");
-        User mendes = new User("Fernando Mendes", "ilol", "thisnthat@overthe.re", friendo);
+        User mendes = new User("Fernando Mendes", "ilol", "thisnthat@overthe.re", friendo, info);
         System.out.println(mendes);
         
         System.out.println("Testing copy constructor - Myself");
@@ -37,6 +38,7 @@ public class Test {
         empty.setEmail( mendes.getEmail() );
         empty.setId( mendes.getId() );
         empty.setFriends(mendes.getFriends());
+        empty.setInfo(mendes.getInfo());
         System.out.println( empty + "\nWITH ID: " + empty.getId() );
         
         System.out.println("Testing db");
@@ -45,7 +47,7 @@ public class Test {
         System.out.println("Testing copy constructor");
         UserDatabase my_db = new UserDatabase();
         my_db.save(mendes);
-        my_db.save(new User("A", "BB", "CCC", friendo) );
+        my_db.save(new User("A", "BB", "CCC", friendo, info) );
         System.out.println(my_db);
         System.out.println(my_db.clone());
         
