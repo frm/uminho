@@ -102,5 +102,12 @@ public class Test {
         System.out.println("Testing empty constructor - Should be empty");
         ActivityLog empty = new ActivityLog();
         System.out.println(empty);
+        
+        Activity act = new Activity("Andar", 2, new GregorianCalendar(), new GregorianCalendar(), 4000);
+        
+        empty.addActivity(act);
+        
+        System.out.println(empty);
+        
     }
 }
