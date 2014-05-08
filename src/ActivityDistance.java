@@ -1,6 +1,6 @@
 import java.util.GregorianCalendar; 
 
-public class ActivityDistance extends ActivityWeather{
+public class ActivityDistance extends Activity{
     int distance;
     
     //constructors
@@ -9,9 +9,9 @@ public class ActivityDistance extends ActivityWeather{
         this.distance = 0;
     }
     
-    public ActivityDistance(GregorianCalendar d1, GregorianCalendar d2, int c, String w, int d3){
+    public ActivityDistance(String n, String w, GregorianCalendar date, GregorianCalendar duration, int c, int distance){
         super();
-        this.distance = d3;
+        this.distance = distance;
     }
     
     public ActivityDistance(ActivityDistance ad){
@@ -19,10 +19,10 @@ public class ActivityDistance extends ActivityWeather{
         this.distance = ad.getDistance();
     }
     
-    //sets
+    //setters
     void setDistance(int d){this.distance = d;}
     
-    //gets
+    //getters
     int getDistance(){return this.distance;}
     
     //essentials
@@ -31,20 +31,11 @@ public class ActivityDistance extends ActivityWeather{
     }
     
     public String toString(){
-        StringBuilder result = new StringBuilder();
-        result.append("### OutdoorActivity(+distance): ###");
-        result.append("\nDate: ");
-        result.append(this.date);
-        result.append("\nDuration: ");
-        result.append(this.duration);
-        result.append("\nCalories spent: ");
-        result.append(this.calories);
-        result.append("\n");
-        result.append(this.weather);
-        result.append("\nDistance: ");
-        result.append(this.distance);
+        StringBuilder understring = new StringBuilder();
+        understring.append("\nDistance: ");
+        understring.append(this.distance);
         
-        return result.toString();
+        return super.toString() + understring.toString();
     }
     
     public boolean equals(Object o){
@@ -53,6 +44,6 @@ public class ActivityDistance extends ActivityWeather{
        
         ActivityDistance ad = (ActivityDistance) o;
        
-       return (ad.getDate() == this.date && ad.getDuration() == this.duration && ad.getCalories() == this.calories && ad.getWeather().equals(this.weather) && ad.getDistance() == this.distance);
+       return (super.equals(o) && this.distance == ad.getDistance());
    }
 }
