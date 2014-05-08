@@ -133,6 +133,7 @@ public class User {
     }
 
     
+    @Override
     public boolean equals(Object o) {
         if(this == o) return true;
 
@@ -140,7 +141,7 @@ public class User {
 
         User u = (User) o;
         
-       return (u.getEmail() == this.email && u.getPassword() == this.password && u.getName() == this.name && u.getFriends().equals(this.friends) && u.getInfo().equals(this.info) );
+       return (u.getEmail().equals(this.email) && u.getPassword().equals(this.password) && u.getName().equals(this.name) && u.getFriends().equals(this.friends) && u.getInfo().equals(this.info) );
     }
 
     
