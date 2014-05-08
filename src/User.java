@@ -23,11 +23,13 @@ public class User {
         this.info = new UserInfo();
     }
     
-    public User( String name,String password,String email,UserInfo info){
+    public User(String name, String password, String email, UserInfo info) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.info = info.clone();
+        this.friends = new FriendList();
+        this.id = -1;
     }
 
     public User(String name, String password, String email, FriendList friendlist, UserInfo info) {
