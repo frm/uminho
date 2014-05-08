@@ -19,15 +19,13 @@ public class FriendList {
     }
     
     public FriendList(HashSet<Integer> friends) {
-        for(Integer i: friends){
+        for(Integer i: friends)
             (this.friends).add(i);
-        }
     }
     
     public FriendList(FriendList friendlist){    
-        for(Integer i: friendlist.getFriends() ){
+        for( Integer i: friendlist.getFriends() )
             (this.friends).add(i);
-        }
     }
 
     public HashSet<Integer> getFriends() {
@@ -39,16 +37,26 @@ public class FriendList {
     }
    
     @Override
-    public FriendList clone(){
-        return new FriendList(this);
+    public FriendList clone() {
+        FriendList friend = new FriendList();
+        try {
+            new FriendList(this);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Unexisting friend list");
+            throw new IllegalArgumentException( e.getMessage() );
+        }
+        
+        return friend;
     }
     
     @Override
     public String toString(){
-        return friends.toString();
+        String str = "";
+        for(Integer i : this.friends )
+            str += i.toString() + " ";
+        
+        return str;
     }
-
-   
 
     @Override
     public boolean equals(Object obj) {
@@ -61,6 +69,4 @@ public class FriendList {
         FriendList f = (FriendList) obj;
         return true;
     }
-    
-    
 }

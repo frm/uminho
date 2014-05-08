@@ -86,7 +86,7 @@ public class FitnessUM {
         return val;
     }
     
-    public static void main(String[] args) {
-        //new FitnessUM().run();
-    }
+    /*public static void main(String[] args) {
+        new FitnessUM().run();
+    }*/
 }
