@@ -1,20 +1,20 @@
 import java.util.GregorianCalendar; 
 
-public class ActivityDistance extends Activity{
+public class DistanceActivity extends Activity{
     int distance;
     
     //constructors
-    public ActivityDistance(){
+    public DistanceActivity(){
         super();
         this.distance = 0;
     }
     
-    public ActivityDistance(String n, String w, GregorianCalendar date, GregorianCalendar duration, int c, int distance){
+    public DistanceActivity(String n, String w, GregorianCalendar date, GregorianCalendar duration, int c, int distance){
         super();
         this.distance = distance;
     }
     
-    public ActivityDistance(ActivityDistance ad){
+    public DistanceActivity(DistanceActivity ad){
         super();
         this.distance = ad.getDistance();
     }
@@ -26,8 +26,8 @@ public class ActivityDistance extends Activity{
     int getDistance(){return this.distance;}
     
     //essentials
-    public ActivityDistance clone(){
-       return new ActivityDistance(this);
+    public DistanceActivity clone(){
+       return new DistanceActivity(this);
     }
     
     public String toString(){
@@ -42,7 +42,7 @@ public class ActivityDistance extends Activity{
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass() ) return false;
        
-        ActivityDistance ad = (ActivityDistance) o;
+        DistanceActivity ad = (DistanceActivity) o;
        
        return (super.equals(o) && this.distance == ad.getDistance());
    }
