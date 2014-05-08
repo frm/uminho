@@ -87,6 +87,6 @@ public class FitnessUM {
     }
     
     public static void main(String[] args) {
-        new FitnessUM().run();
+        //new FitnessUM().run();
     }
 }

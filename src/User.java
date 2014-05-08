@@ -1,3 +1,6 @@
+
+import java.util.HashSet;
+
 /**
  *
  * @author frmendes
@@ -8,26 +11,38 @@ public class User {
     private String password;
     private String email;
     private int id;
+    private FriendList friends;
     
     public User() {
         this.name = "";
         this.password = "";
         this.email = "";
         this.id = -1;
+        this.friends = new FriendList(); 
     }
 
-    public User(String name, String password, String email) {
+    public User(String name, String password, String email, FriendList friendlist) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.id = -1;
+        this.friends = friendlist.clone();
     }
     
     public User(User u) {
         this.id = u.getId();
         this.name = u.getName();
         this.email = u.getEmail();
-        this.password = u.getPassword();        
+        this.password = u.getPassword();
+        this.friends = u.getFriends();
+    }
+    
+    /** For a given password, sees if it matches the users
+    @param password given password
+    @return true or false
+    */
+    public boolean matchPassword(String password) {
+    return this.password.equals(password);
     }
 
     public String getEmail() {
@@ -48,6 +63,10 @@ public class User {
     public String getName() {
         return name;
     }
+    
+    public FriendList getFriends() {
+        return friends.clone();
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -64,6 +83,10 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public void setFriends(FriendList friendlist){
+        this.friends = friendlist.clone();
+    }
 
     public User clone() {
         return new User(this);
@@ -76,6 +99,8 @@ public class User {
         result.append(this.email);
         result.append("\nName: ");
         result.append(this.name);
+        result.append("\nFriends: ");
+        result.append(this.friends);
 
         return result.toString();
     }
@@ -90,4 +115,6 @@ public class User {
         
        return (u.getEmail() == this.email && u.getPassword() == this.password && u.getName() == this.name );
     }
+
+    
 }
