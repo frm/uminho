@@ -12,6 +12,7 @@ public class User {
     private String email;
     private int id;
     private FriendList friends;
+    private UserInfo info;
     
     public User() {
         this.name = "";
@@ -19,14 +20,23 @@ public class User {
         this.email = "";
         this.id = -1;
         this.friends = new FriendList(); 
+        this.info = new UserInfo();
+    }
+    
+    public User( String name,String password,String email,UserInfo info){
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.info = info.clone();
     }
 
-    public User(String name, String password, String email, FriendList friendlist) {
+    public User(String name, String password, String email, FriendList friendlist, UserInfo info) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.id = -1;
         this.friends = friendlist.clone();
+        this.info = info.clone();
     }
     
     public User(User u) {
@@ -35,6 +45,7 @@ public class User {
         this.email = u.getEmail();
         this.password = u.getPassword();
         this.friends = u.getFriends();
+        this.info = u.getInfo();
     }
     
     /** For a given password, sees if it matches the users
@@ -67,6 +78,10 @@ public class User {
     public FriendList getFriends() {
         return friends.clone();
     }
+    
+    public UserInfo getInfo(){
+        return info.clone();
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -87,6 +102,10 @@ public class User {
     public void setFriends(FriendList friendlist){
         this.friends = friendlist.clone();
     }
+    
+    public void setInfo(UserInfo info){
+        this.info = info.clone();
+    }
 
     public User clone() {
         return new User(this);
@@ -101,6 +120,8 @@ public class User {
         result.append(this.name);
         result.append("\nFriends: ");
         result.append(this.friends);
+        result.append("\nInfo: ");
+        result.append(this.info);
 
         return result.toString();
     }
@@ -113,7 +134,7 @@ public class User {
 
         User u = (User) o;
         
-       return (u.getEmail() == this.email && u.getPassword() == this.password && u.getName() == this.name );
+       return (u.getEmail() == this.email && u.getPassword() == this.password && u.getName() == this.name && u.getFriends().equals(this.friends) && u.getInfo().equals(this.info) );
     }
 
     

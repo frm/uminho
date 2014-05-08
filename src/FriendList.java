@@ -69,4 +69,18 @@ public class FriendList {
         FriendList f = (FriendList) obj;
         return true;
     }
+    
+    public void addFriend(Integer id){
+        friends.add(id);
+    }
+    
+    public boolean removeFriend(Integer id){
+        return friends.remove(id);
+    }
+    
+    public Integer numberOfFriends(){
+        return friends.size();
+    }
+    
+    
 }
