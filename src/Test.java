@@ -9,6 +9,7 @@ public class Test {
     public static void main(String[] args) {
         Test.userTest();
         Test.userInfoTest();
+        Test.activityLogTest();
     }
     
     public static void userTest() {
@@ -95,5 +96,11 @@ public class Test {
         empty.setBirthDate( mendes.getBirthDate() );
         empty.setFavoriteSport( mendes.getFavoriteSport() );
         System.out.println( empty );
+    }
+    
+    public static void activityLogTest(){
+        System.out.println("Testing empty constructor - Should be empty");
+        ActivityLog empty = new ActivityLog();
+        System.out.println(empty);
     }
 }
