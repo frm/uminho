@@ -13,7 +13,7 @@ public class Event {
     
     //constructors
     public Event(){
-        this.id = 0;
+        this.id = -1;
         this.name = "testEvent";
         this.capacity = 10;
         this.weather = 1;

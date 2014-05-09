@@ -14,7 +14,7 @@ public class UserDatabase {
     private HashMap<Integer, User> idEntry;     // User indexation by ID
     private HashMap<String, User> emailEntry;   // User indexation by email
     private int userCount;                      // Total number of users that have been saved
-    
+
     /** Empty constructor
      */
     public UserDatabase() {
