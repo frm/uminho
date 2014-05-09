@@ -335,8 +335,7 @@ public class FitnessUM {
             return null;
         
         return new String( console.readPassword(message) );
-    }
-    
+    } 
     /*public static void main(String[] args) {
         new FitnessUM().run();
     }*/
