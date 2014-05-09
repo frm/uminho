@@ -24,23 +24,17 @@ public class Records {
     }
     
     public Records(HashMap<String, Activity> activities){
-        HashMap<String,Activity> aux = new HashMap<String, Activity>();
+        this.activities = new HashMap<String, Activity>();
         
-        for(Activity act: activities.values()){
-            aux.put(act.getName() , act.clone());
-        }
-        
-        this.activities = aux;
+        for( Activity act: activities.values() )
+            this.activities.put( act.getName() , act.clone() );
     }
     
     public Records(Records rec){
-        HashMap<String,Activity> aux = new HashMap<String, Activity>();
+            this.activities = new HashMap<String, Activity>();
         
-        for(Activity act: rec.getActivities().values()){
-            aux.put(act.getName() , act.clone());
-        }
-        
-        this.activities = aux;
+        for( Activity act: rec.getActivities().values() )
+            this.activities.put(act.getName() , act.clone());
     }
     
     public Map<String,Activity> getActivities(){
@@ -104,7 +98,16 @@ public class Records {
     
     
     public Records clone(){
-        return new Records(this);
+        Records rec = new Records();
+        
+         try {
+           rec = new Records(this);
+        } catch (Exception e) {
+            System.err.println("Unexisting users2 list");
+            throw new NullPointerException( e.getMessage() );
+        }
+        
+        return rec;
     }
     
     public boolean equals(Object o){

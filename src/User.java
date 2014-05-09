@@ -13,6 +13,7 @@ public class User {
     private int id;
     private UserList friends;
     private UserInfo info;
+    private Records records;
     
     public User() {
         this.name = "";
@@ -21,6 +22,7 @@ public class User {
         this.id = -1;
         this.friends = new UserList(); 
         this.info = new UserInfo();
+        this.records = new Records();
     }
     
     public User(String name, String password, String email, UserInfo info) {
@@ -30,9 +32,10 @@ public class User {
         this.info = info.clone();
         this.friends = new UserList();
         this.id = -1;
+        this.records = new Records();
     }
 
-    public User(String name, String password, String email, UserList friendlist, UserInfo info) {
+    public User(String name, String password, String email, UserList friendlist, UserInfo info, Records rec) {
         this.name = name;
         this.password = password;
         this.email = email;
@@ -41,13 +44,14 @@ public class User {
         this.info = info.clone();
     }
     
-    public User(User u) {
+    public User(User u) {        
         this.id = u.getId();
         this.name = u.getName();
         this.email = u.getEmail();
         this.password = u.getPassword();
         this.friends = u.getFriends();
         this.info = u.getInfo();
+        this.records = u.getRecords();
     }
     
     /** For a given password, sees if it matches the users
@@ -84,6 +88,10 @@ public class User {
     public UserInfo getInfo(){
         return info.clone();
     }
+    
+    public Records getRecords(){
+        return records.clone();
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -108,6 +116,10 @@ public class User {
     public void setInfo(UserInfo info){
         this.info = info.clone();
     }
+    
+    public void setRecords(Records rec){
+        this.records = rec.clone();
+    }
 
     public User clone() {
         return new User(this);
@@ -124,6 +136,8 @@ public class User {
         result.append(this.friends);
         result.append("\nInfo: ");
         result.append(this.info);
+        result.append("\nRecords: ");
+        result.append(this.records);
 
         return result.toString();
     }
@@ -141,7 +155,7 @@ public class User {
 
         User u = (User) o;
         
-       return (u.getEmail().equals(this.email) && u.getPassword().equals(this.password) && u.getName().equals(this.name) && u.getFriends().equals(this.friends) && u.getInfo().equals(this.info) );
+       return (u.getEmail().equals(this.email) && u.getPassword().equals(this.password) && u.getName().equals(this.name) && u.getFriends().equals(this.friends) && u.getInfo().equals(this.info) && u.getRecords().equals(this.records));
     }
 
     

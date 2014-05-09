@@ -365,7 +365,7 @@ public class FitnessUM {
         return Pattern.compile(FitnessUM.NAMEREGEX).matcher(name).matches();
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         new FitnessUM().run();
-    }
+    }*/
 }
