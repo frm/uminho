@@ -11,7 +11,7 @@ public class User {
     private String password;
     private String email;
     private int id;
-    private FriendList friends;
+    private UserList friends;
     private UserInfo info;
     
     public User() {
@@ -19,7 +19,7 @@ public class User {
         this.password = "";
         this.email = "";
         this.id = -1;
-        this.friends = new FriendList(); 
+        this.friends = new UserList(); 
         this.info = new UserInfo();
     }
     
@@ -28,11 +28,11 @@ public class User {
         this.password = password;
         this.email = email;
         this.info = info.clone();
-        this.friends = new FriendList();
+        this.friends = new UserList();
         this.id = -1;
     }
 
-    public User(String name, String password, String email, FriendList friendlist, UserInfo info) {
+    public User(String name, String password, String email, UserList friendlist, UserInfo info) {
         this.name = name;
         this.password = password;
         this.email = email;
@@ -77,7 +77,7 @@ public class User {
         return name;
     }
     
-    public FriendList getFriends() {
+    public UserList getFriends() {
         return friends.clone();
     }
     
@@ -101,7 +101,7 @@ public class User {
         this.password = password;
     }
     
-    public void setFriends(FriendList friendlist){
+    public void setFriends(UserList friendlist){
         this.friends = friendlist.clone();
     }
     
