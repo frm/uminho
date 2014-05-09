@@ -11,48 +11,48 @@
 
 import java.util.HashSet;
 
-public class FriendList {
-    private HashSet<Integer> friends;
+public class UserList {
+    private HashSet<Integer> users;
 
-    public FriendList() {
-        this.friends = new HashSet<Integer>();
+    public UserList() {
+        this.users = new HashSet<Integer>();
     }
     
-    public FriendList(HashSet<Integer> friends) {
-        for(Integer i: friends)
-            (this.friends).add(i);
+    public UserList(HashSet<Integer> users) {
+        for(Integer i: users)
+            (this.users).add(i);
     }
     
-    public FriendList(FriendList friendlist){    
-        for( Integer i: friendlist.getFriends() )
-            (this.friends).add(i);
+    public UserList(UserList UserList){    
+        for( Integer i: UserList.getusers() )
+            (this.users).add(i);
     }
 
-    public HashSet<Integer> getFriends() {
-        return (HashSet<Integer>)friends.clone();
+    public HashSet<Integer> getusers() {
+        return (HashSet<Integer>)users.clone();
     }
 
-    public void setFriends(HashSet<Integer> friends) {
-        this.friends = friends;
+    public void setusers(HashSet<Integer> users) {
+        this.users = users;
     }
    
     @Override
-    public FriendList clone() {
-        FriendList friend = new FriendList();
+    public UserList clone() {
+        UserList users2 = new UserList();
         try {
-            new FriendList(this);
+            new UserList(this);
         } catch (IllegalArgumentException e) {
-            System.err.println("Unexisting friend list");
+            System.err.println("Unexisting users2 list");
             throw new IllegalArgumentException( e.getMessage() );
         }
         
-        return friend;
+        return users2;
     }
     
     @Override
     public String toString(){
         String str = "";
-        for(Integer i : this.friends )
+        for(Integer i : this.users )
             str += i.toString() + " ";
         
         return str;
@@ -66,24 +66,24 @@ public class FriendList {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        FriendList f = (FriendList) obj;
+        UserList f = (UserList) obj;
         return true;
     }
     
     public void addFriend(Integer id){
-        friends.add(id);
+        users.add(id);
     }
     
     public boolean removeFriend(Integer id){
-        return friends.remove(id);
+        return users.remove(id);
     }
     
-    public Integer numberOfFriends(){
-        return friends.size();
+    public Integer numberOfusers(){
+        return users.size();
     }
    
     public boolean hasFriend(Integer id){
-        return friends.contains(id);
+        return users.contains(id);
     }
     
     

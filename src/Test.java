@@ -7,8 +7,8 @@ import java.util.GregorianCalendar;
 public class Test {
     
     public static void main(String[] args) {
-        Test.userTest();
-        Test.userInfoTest();
+       // Test.userTest();
+        //Test.userInfoTest();
         Test.activityLogTest();
     }
     
@@ -17,7 +17,7 @@ public class Test {
         User empty = new User();
         System.out.println(empty);
         
-        FriendList friendo = new FriendList();
+        UserList friendo = new UserList();
         UserInfo info = new UserInfo();
         System.out.println("Testing normal constructor - Myself");
         User mendes = new User("Fernando Mendes", "ilol", "thisnthat@overthe.re", friendo, info);
