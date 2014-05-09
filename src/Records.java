@@ -18,24 +18,29 @@ public class Records {
     
     public Records(HashMap<String, Activity> activities){
         this.activities = new HashMap<String, Activity>();
-        this.activities.putAll(activities);
+        for(Activity act: activities.values()){
+            this.activities.put(act.getName(), act);
+        }
     }
     
     public Records(Records rec){
         this.activities = new HashMap<String, Activity>();
-        this.activities.putAll(rec.getActivities());
+        for(Activity act: rec.getActivities().values())
+            this.activities.put(act.getName(), act);
     }
     
     public Map<String,Activity> getActivities(){
         HashMap<String,Activity> aux = new HashMap<String, Activity>();
-        aux.putAll(this.activities);
+        for(Activity act: this.activities.values())
+            aux.put(act.getName(), act);
         return aux;
     }
     
     public void setActivities(HashMap<String,Activity> activities){
         HashMap<String,Activity> aux = new HashMap<String, Activity>();
         
-        aux.putAll(this.activities);
+        for(Activity act: activities.values())
+            aux.put(act.getName(), act);
         
         this.activities = aux;
     }
