@@ -1,4 +1,5 @@
 
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -76,25 +77,13 @@ public class ActivityLog {
      *
      * @return Array with the 10 most recent activities
      */
-    public Activity[] getTenRecent() {
+    public Activity[] getMostRecent() {
         int count = 0;
         Activity[] result = new Activity[10];
-        for(Activity act: this.log) {
-            if(count == 10) break;
-            result[count++] = act.clone();
-        }
-        return result;
-        
-        /* Commented version with more Java sugar
-         * What do you think?
-            int count = 0;
-            Activity[] result = new Activity[10];
-            Iterator<Activity> = this.log.iterator();
+        Iterator<Activity> it= this.log.iterator();
             
-            while (iterator.hasNext() && count < 10)
-                result[count++] = iterator.next().clone();
-        
-            return result;
-        */
+        while (it.hasNext() && count < 10)
+            result[count++] = it.next().clone();
+        return result;
     }
 }
