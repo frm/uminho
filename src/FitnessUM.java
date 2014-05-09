@@ -5,8 +5,6 @@
 
 import java.util.GregorianCalendar;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.io.Console;
 
 public class FitnessUM {
@@ -14,48 +12,37 @@ public class FitnessUM {
     private UserDatabase users;
     private boolean active;
     private User currentUser;
-
-    // Name regex - names can't contain more than one space and must not contain any numbers
-    private static final String NAMEREGEX = "^[[a-z][A-Z]]*\\s?[[a-z][A-Z]]*$";
-    // Email regex
-    private static final String EMAILREGEX = "\\A[\\w\\-.]+@[a-z\\-\\d]+(\\.[a-z]+)*\\.[a-z]+\\z";
+    private UserController usersS;
 
     /** Empty constructor
      */
     public FitnessUM() {
-        this.users = new UserDatabase();
-        this.currentUser = new User();
+        this.usersS = new UserController();
     }
 
     /** Parameterized constructor
      * @param users existing UserDatabase
      */
-    public FitnessUM(UserDatabase users) {
-        this.users = users.clone();
-        this.currentUser = new User();
+    public FitnessUM(UserController userController) {
+        this.usersS = userController.clone();
     }
 
     /** Copy constructor
      * @param fit existing FitnessUM app
      */
     public FitnessUM(FitnessUM fit) {
-        this.users = fit.getUsers();
-        this.currentUser = fit.getCurrentUser();
-    }
-
-    /** Get user list
-     * It will always be run in context of the class itself, for safety reasons
-     * @return clone of user database
-     */
-    private UserDatabase getUsers() {
-        return this.users.clone();
+        this.usersS = fit.getController();
     }
 
     /** Getter for logged in user ID
      * @return logged in user ID
      */
     public User getCurrentUser() {
-        return this.currentUser.clone();
+        return this.usersS.getCurrentUser();
+    }
+    
+    private UserController getController() {
+        return this.usersS.clone();
     }
 
     /** Getter for active variable
@@ -78,12 +65,12 @@ public class FitnessUM {
     }
 
     /** Scans for information and saves the user into the database
-     */
+      */
     public void registerUser() {
         String name = FitnessUM.scanName("First name: ") + FitnessUM.scanName("Last name: ");
         String email = FitnessUM.scanEmail();
         
-        while ( this.users.findByEmail(email) != null ) {
+        while ( ! this.usersS.validateEmailUniqueness(email) ) {
             System.out.println("Email is already taken");
             email = FitnessUM.scanEmail();
         }
@@ -91,36 +78,33 @@ public class FitnessUM {
         String password = FitnessUM.scanPassword();
         UserInfo info = FitnessUM.scanUserInfo();
 
-        this.users.save( new User(name, password, email, info) );
+        this.usersS.registerUser(name, email, password, info);
     }
 
     /** Scans for valid login info and sets the current_user
      */
     public void loginUser() {
         int nrAttempts = 0;
-        boolean logged = false;
-        User u = new User();
-        
+        boolean logged = false;        
         
         while (nrAttempts < 3 && !logged) {
-            u = this.users.findByEmail( FitnessUM.scanString("Enter email:") );
-            while ( u == null ) {
+            String email = FitnessUM.scanString("Enter email:");
+            
+            while ( !this.usersS.existsUserWithEmail(email) ) {
                 System.out.println("We have no record of that email...");
-                u = this.users.findByEmail( FitnessUM.scanString("Enter email:") );
+               email = FitnessUM.scanString("Enter email:");
             }
             
             String pw = FitnessUM.scanString("Enter password:");
             
-            if ( u.matchPassword(pw) )
+            if ( this.usersS.loginUser(email, pw) )
                 logged = true;
             else
-                System.out.println("Password and email don't match. " + (3 - ++nrAttempts) + " attempts remaining.");
+                System.out.println("Password and email don't match. " + (3 - ++nrAttempts) + " attempt(s) remaining.");
             
         }
         
-        if (logged)
-            this.currentUser = u.clone();
-        else {
+        if (! logged) {
             System.out.println("Too many failed attempts. We've called the cops.\nBye bye.");
             this.shutdown();
         }
@@ -287,7 +271,7 @@ public class FitnessUM {
     private static String scanEmail() {
         String email = FitnessUM.scanString("Enter email:");
 
-        while ( !FitnessUM.matchEmail(email) )
+        while ( !UserController.validEmailFormat(email) )
             email = FitnessUM.scanString("Invalid e-mail\nEnter email:");
 
         return email;
@@ -301,7 +285,7 @@ public class FitnessUM {
     private static String scanName(String message) {
         String name = FitnessUM.scanString(message);
 
-        while( !FitnessUM.matchName(name) )
+        while( !UserController.validNameFormat(name) )
             name = FitnessUM.scanString("Invalid input\n" + message);
 
         return name;
@@ -353,19 +337,7 @@ public class FitnessUM {
         return new String( console.readPassword(message) );
     }
     
-    /** Tests if string matches email format
-     */
-    private static boolean matchEmail(String email) {
-        return Pattern.compile(FitnessUM.EMAILREGEX).matcher(email).matches();
-    }
-
-    /** Tests if string matches name format
-     */
-    private static boolean matchName(String name) {
-        return Pattern.compile(FitnessUM.NAMEREGEX).matcher(name).matches();
-    }
-
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         new FitnessUM().run();
-    }
+    }*/
 }
