@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.GregorianCalendar;
 
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -89,6 +91,7 @@ public class Records {
         if( aux.getCalories() < act.getCalories())
             aux.setCalories( act.getCalories() );
         
+
         long total = aux.getDuration().getTimeInMillis() + act.getDuration().getTimeInMillis();
         
         GregorianCalendar duration = new GregorianCalendar();
