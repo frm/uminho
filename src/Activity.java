@@ -7,8 +7,9 @@ import java.util.GregorianCalendar;
 
 public class Activity
 {
+  private static final String[] weatherStates = {"Indoor", "Clear Sky", "Cloudy", "Light Rain", "Heavy Rain", "Snowing", "Hailing", "Windy", "Stormy"};
   String name;
-  String weather;
+  int weather;
   GregorianCalendar date;
   GregorianCalendar duration;
   int calories;
@@ -16,13 +17,13 @@ public class Activity
     //constructors
     public Activity(){
         this.name = "";
-        this.weather = "";
+        this.weather = -1;
         this.date = new GregorianCalendar();
         this.duration = new GregorianCalendar();
         this.calories = 0;
     }
     
-    public Activity(String n, String w, GregorianCalendar date, GregorianCalendar duration, int c) {
+    public Activity(String n, int w, GregorianCalendar date, GregorianCalendar duration, int c) {
         this.name = n;
         this.weather = w;
         this.date = date;
@@ -40,14 +41,15 @@ public class Activity
   
     //setters
     void setName(String n){this.name = n;}
-    void setWeather(String w){this.weather = w;}
+    void setWeather(int w){this.weather = w;}
     void setDate(GregorianCalendar date){this.date = (GregorianCalendar) date.clone();}
     void setDuration(GregorianCalendar duration){this.duration = (GregorianCalendar) duration.clone();}
     void setCalories(int calories){this.calories = calories;}
 
     //getters
     String getName(){return this.name;}
-    String getWeather(){return this.weather;}
+    int getWeather(){return this.weather;}
+    String getWeatherState(){return weatherStates[this.weather];}
     GregorianCalendar getDate(){return (GregorianCalendar) this.date.clone();}
     GregorianCalendar getDuration(){return (GregorianCalendar) this.duration.clone();}
     int getCalories(){return this.calories;}
@@ -65,7 +67,7 @@ public class Activity
         result.append("\nDate: ");
         result.append(this.date);
         result.append("\nWeather: ");
-        result.append(this.weather);
+        result.append(weatherStates[this.weather]);
         result.append("\nDuration: ");
         result.append(this.duration);
         result.append("\nCalories spent: ");
@@ -80,7 +82,7 @@ public class Activity
        
         Activity a = (Activity) o;
        
-       return ((this.name).equals(a.getName()) && (this.weather).equals(a.getWeather()) && this.date == a.getDate() && this.duration == a.getDuration() && this.calories == a.getCalories());
+       return ((this.name).equals(a.getName()) && this.weather == a.getWeather() && this.date == a.getDate() && this.duration == a.getDuration() && this.calories == a.getCalories());
    }
 
 }

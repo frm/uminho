@@ -29,7 +29,7 @@ public class FriendList {
     }
 
     public HashSet<Integer> getFriends() {
-        return friends;
+        return (HashSet<Integer>)friends.clone();
     }
 
     public void setFriends(HashSet<Integer> friends) {
