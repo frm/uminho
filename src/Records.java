@@ -5,13 +5,6 @@ import java.util.Map;
 import java.util.GregorianCalendar;
 
 
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author joaorodrigues
@@ -24,41 +17,30 @@ public class Records {
     }
     
     public Records(HashMap<String, Activity> activities){
-        HashMap<String,Activity> aux = new HashMap<String, Activity>();
-        
+        this.activities = new HashMap<String, Activity>();
         for(Activity act: activities.values()){
-            aux.put(act.getName() , act.clone());
+            this.activities.put(act.getName(), act);
         }
-        
-        this.activities = aux;
     }
     
     public Records(Records rec){
-        HashMap<String,Activity> aux = new HashMap<String, Activity>();
-        
-        for(Activity act: rec.getActivities().values()){
-            aux.put(act.getName() , act.clone());
-        }
-        
-        this.activities = aux;
+        this.activities = new HashMap<String, Activity>();
+        for(Activity act: rec.getActivities().values())
+            this.activities.put(act.getName(), act);
     }
     
     public Map<String,Activity> getActivities(){
         HashMap<String,Activity> aux = new HashMap<String, Activity>();
-        
-        for(Activity act: this.activities.values()){
-            aux.put(act.getName() , act.clone());
-        }
-        
+        for(Activity act: this.activities.values())
+            aux.put(act.getName(), act);
         return aux;
     }
     
     public void setActivities(HashMap<String,Activity> activities){
         HashMap<String,Activity> aux = new HashMap<String, Activity>();
         
-        for(Activity act: activities.values()){
-            aux.put(act.getName() , act.clone());
-        }
+        for(Activity act: activities.values())
+            aux.put(act.getName(), act);
         
         this.activities = aux;
     }
@@ -104,7 +86,16 @@ public class Records {
     
     
     public Records clone(){
-        return new Records(this);
+        Records rec = new Records();
+        
+        try {
+           rec = new Records(this);
+        } catch (NullPointerException e) {
+            System.out.println("No records yet");
+            throw new NullPointerException( e.getMessage() );
+        }
+        
+        return rec;
     }
     
     public boolean equals(Object o){

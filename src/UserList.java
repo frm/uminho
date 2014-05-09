@@ -19,12 +19,14 @@ public class UserList {
     }
     
     public UserList(HashSet<Integer> users) {
+        this.users = new HashSet<Integer>();
         for(Integer i: users)
             (this.users).add(i);
     }
     
-    public UserList(UserList UserList){    
-        for( Integer i: UserList.getusers() )
+    public UserList(UserList userlist){
+        this.users = new HashSet<Integer>();
+        for( Integer i: userlist.getusers() )
             (this.users).add(i);
     }
 
@@ -40,7 +42,7 @@ public class UserList {
     public UserList clone() {
         UserList users2 = new UserList();
         try {
-            new UserList(this);
+           users2 = new UserList(this);
         } catch (IllegalArgumentException e) {
             System.err.println("Unexisting users2 list");
             throw new IllegalArgumentException( e.getMessage() );

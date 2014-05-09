@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 public class Test {
     
     public static void main(String[] args) {
-       // Test.userTest();
+        Test.userTest();
         //Test.userInfoTest();
         Test.activityLogTest();
     }
@@ -19,8 +19,9 @@ public class Test {
         
         UserList friendo = new UserList();
         UserInfo info = new UserInfo();
+        Records rec = new Records();
         System.out.println("Testing normal constructor - Myself");
-        User mendes = new User("Fernando Mendes", "ilol", "thisnthat@overthe.re", friendo, info);
+        User mendes = new User("Fernando Mendes", "ilol", "thisnthat@overthe.re", friendo, info, rec);
         System.out.println(mendes);
         
         System.out.println("Testing copy constructor - Myself");
@@ -40,6 +41,7 @@ public class Test {
         empty.setId( mendes.getId() );
         empty.setFriends(mendes.getFriends());
         empty.setInfo(mendes.getInfo());
+        empty.setRecords(mendes.getRecords());
         System.out.println( empty + "\nWITH ID: " + empty.getId() );
         
         System.out.println("Testing db");
@@ -48,7 +50,7 @@ public class Test {
         System.out.println("Testing copy constructor");
         UserDatabase my_db = new UserDatabase();
         my_db.save(mendes);
-        my_db.save(new User("A", "BB", "CCC", friendo, info) );
+        my_db.save(new User("A", "BB", "CCC", friendo, info, rec) );
         System.out.println(my_db);
         System.out.println(my_db.clone());
         

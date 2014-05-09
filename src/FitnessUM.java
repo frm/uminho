@@ -9,40 +9,39 @@ import java.io.Console;
 
 public class FitnessUM {
     
-    private UserDatabase users;
     private boolean active;
-    private User currentUser;
-    private UserController usersS;
+    private UserController userController;
+
 
     /** Empty constructor
      */
     public FitnessUM() {
-        this.usersS = new UserController();
+        this.userController = new UserController();
     }
 
     /** Parameterized constructor
      * @param users existing UserDatabase
      */
     public FitnessUM(UserController userController) {
-        this.usersS = userController.clone();
+        this.userController = userController.clone();
     }
 
     /** Copy constructor
      * @param fit existing FitnessUM app
      */
     public FitnessUM(FitnessUM fit) {
-        this.usersS = fit.getController();
+        this.userController = fit.getController();
     }
 
     /** Getter for logged in user ID
      * @return logged in user ID
      */
     public User getCurrentUser() {
-        return this.usersS.getCurrentUser();
+        return this.userController.getCurrentUser();
     }
     
     private UserController getController() {
-        return this.usersS.clone();
+        return this.userController.clone();
     }
 
     /** Getter for active variable
@@ -69,8 +68,8 @@ public class FitnessUM {
     public void registerUser() {
         String name = FitnessUM.scanName("First name: ") + FitnessUM.scanName("Last name: ");
         String email = FitnessUM.scanEmail();
-        
-        while ( ! this.usersS.validateEmailUniqueness(email) ) {
+
+        while ( ! this.userController.validateEmailUniqueness(email) ) {
             System.out.println("Email is already taken");
             email = FitnessUM.scanEmail();
         }
@@ -78,7 +77,7 @@ public class FitnessUM {
         String password = FitnessUM.scanPassword();
         UserInfo info = FitnessUM.scanUserInfo();
 
-        this.usersS.registerUser(name, email, password, info);
+        this.userController.registerUser(name, email, password, info);
     }
 
     /** Scans for valid login info and sets the current_user
@@ -89,15 +88,15 @@ public class FitnessUM {
         
         while (nrAttempts < 3 && !logged) {
             String email = FitnessUM.scanString("Enter email:");
-            
-            while ( !this.usersS.existsUserWithEmail(email) ) {
+
+            while ( !this.userController.existsUserWithEmail(email) ) {
                 System.out.println("We have no record of that email...");
                email = FitnessUM.scanString("Enter email:");
             }
             
             String pw = FitnessUM.scanString("Enter password:");
             
-            if ( this.usersS.loginUser(email, pw) )
+            if ( this.userController.loginUser(email, pw) )
                 logged = true;
             else
                 System.out.println("Password and email don't match. " + (3 - ++nrAttempts) + " attempt(s) remaining.");
@@ -335,8 +334,7 @@ public class FitnessUM {
             return null;
         
         return new String( console.readPassword(message) );
-    }
-    
+    } 
     /*public static void main(String[] args) {
         new FitnessUM().run();
     }*/

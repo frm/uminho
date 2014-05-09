@@ -5,8 +5,8 @@
  */
 
 import java.util.HashMap;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 public class UserDatabase {
 
@@ -27,11 +27,14 @@ public class UserDatabase {
      * @param db UserDatabase to be copied
      */
     public UserDatabase(UserDatabase db) {
-        this.idEntry = db.copyIDMap();
+        this.idEntry = db.copyIDMap();        
         this.userCount = db.nrUsers();
+        
+        this.emailEntry = new HashMap<String, User>();
         
         for (User u : this.idEntry.values() )
             this.emailEntry.put( u.getEmail(), u);
+        
     }
     
     /** Parameterized constructor
@@ -157,7 +160,7 @@ public class UserDatabase {
         
         for (User u : this.idEntry.values() )
             copy.put( u.getId(), u.clone() );
-        
+
         return copy;
     }
 }
