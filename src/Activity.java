@@ -7,12 +7,13 @@ import java.util.GregorianCalendar;
 
 public class Activity
 {
-  private static final String[] weatherStates = {"Indoor", "Clear Sky", "Cloudy", "Light Rain", "Heavy Rain", "Snowing", "Hailing", "Windy", "Stormy"};
   String name;
   int weather;
   GregorianCalendar date;
   GregorianCalendar duration;
   int calories;
+  
+  private static final String[] weatherStates = {"Indoor", "Clear Sky", "Cloudy", "Light Rain", "Heavy Rain", "Snowing", "Hailing", "Windy", "Stormy"};
   
     //constructors
     public Activity(){
@@ -23,12 +24,12 @@ public class Activity
         this.calories = 0;
     }
     
-    public Activity(String n, int w, GregorianCalendar date, GregorianCalendar duration, int c) {
-        this.name = n;
-        this.weather = w;
+    public Activity(String name, int weather, GregorianCalendar date, GregorianCalendar duration, int calories) {
+        this.name = name;
+        this.weather = weather;
         this.date = date;
         this.duration = duration;
-        this.calories = c;
+        this.calories = calories;
     }
     
     public Activity(Activity a){

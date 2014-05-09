@@ -17,27 +17,27 @@ public class ActivityLog {
     private TreeSet<Activity> log;
     
     public ActivityLog(){
-        this.log = new TreeSet<Activity>(new ActivityComparator());
+        this.log = new TreeSet<Activity>( new ActivityComparator() );
     }
     
-    public ActivityLog(TreeSet<Activity> log){
+    public ActivityLog(TreeSet<Activity> log) {
         this.log = (TreeSet<Activity>) log.clone();
     }
     
-    public ActivityLog(ActivityLog al){
+    public ActivityLog(ActivityLog al) {
         this.log = (TreeSet<Activity>) (al.getLog());
     }
     
-    public void setLog(TreeSet<Activity> log){
+    public void setLog(TreeSet<Activity> log) {
         this.log = (TreeSet<Activity>) log.clone();
     }
     
-    public Set<Activity> getLog(){
+    public Set<Activity> getLog() {
         return (Set<Activity>) this.log.clone();
     }
     
     @Override
-    public ActivityLog clone(){
+    public ActivityLog clone() {
         return new ActivityLog(this);
     }
 
@@ -56,19 +56,19 @@ public class ActivityLog {
     }
     
     @Override
-    public String toString(){
+    public String toString() {
         return "Activity Log: \n"+(this.log);
     }
     
-    public void addActivity(Activity act){
+    public void addActivity(Activity act) {
         this.log.add(act);
     }
     
-    public boolean removeActivity(Activity act){
+    public boolean removeActivity(Activity act) {
         return this.log.remove(act);
     }
     
-    public boolean containsActivity(Activity act){
+    public boolean containsActivity(Activity act) {
         return this.log.contains(act);
     }
     
@@ -76,14 +76,25 @@ public class ActivityLog {
      *
      * @return Array with the 10 most recent activities
      */
-    public Activity[] getTenRecent(){
+    public Activity[] getTenRecent() {
         int count = 0;
         Activity[] result = new Activity[10];
-        for(Activity act: this.log){
+        for(Activity act: this.log) {
             if(count == 10) break;
-            result[count] = act.clone();
-            count++;
+            result[count++] = act.clone();
         }
         return result;
+        
+        /* Commented version with more Java sugar
+         * What do you think?
+            int count = 0;
+            Activity[] result = new Activity[10];
+            Iterator<Activity> = this.log.iterator();
+            
+            while (iterator.hasNext() && count < 10)
+                result[count++] = iterator.next().clone();
+        
+            return result;
+        */
     }
 }

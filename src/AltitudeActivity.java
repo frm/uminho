@@ -9,28 +9,32 @@ public class AltitudeActivity extends DistanceActivity{
        this.altitude = 0;
    }
    
-    public AltitudeActivity(String n, String w, GregorianCalendar date, GregorianCalendar duration, int c, int distance, int altitude){
-        super();
+    public AltitudeActivity(String name, int weather, GregorianCalendar date, GregorianCalendar duration, int calories, int distance, int altitude){
+        super(name, weather, date, duration, calories, distance);
         this.altitude = altitude;
     }
    
-    public AltitudeActivity(AltitudeActivity aa){
-       super();
+    public AltitudeActivity(AltitudeActivity aa) {
+       super(aa);
        this.altitude = aa.getAltitude();
    }
    
     //setters
-    void setAltitude(int a){this.altitude = a;}
+    void setAltitude(int a) {
+        this.altitude = a;
+    }
     
     //getters
-    int getAltitude(){return this.altitude;}
+    int getAltitude() {
+        return this.altitude;
+    }
     
     //essentials
-    public AltitudeActivity clone(){
+    public AltitudeActivity clone() {
        return new AltitudeActivity(this);
     }
     
-    public String toString(){
+    public String toString() {
         StringBuilder understring = new StringBuilder();
         understring.append("\nAltitude");
         understring.append(this.altitude);
@@ -38,12 +42,12 @@ public class AltitudeActivity extends DistanceActivity{
         return super.toString() + understring.toString();
     }
     
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass() ) return false;
        
         AltitudeActivity aa = (AltitudeActivity) o;
        
-       return (super.equals(o) && this.altitude == aa.getAltitude());
+       return ( super.equals(o) && this.altitude == aa.getAltitude() );
     }
 }

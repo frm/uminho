@@ -120,7 +120,7 @@ public class FitnessUM {
         if (logged)
             this.currentUser = u.clone();
         else {
-            System.out.println("Too many failed attempts.\nBye bye.");
+            System.out.println("Too many failed attempts. We've called the cops.\nBye bye.");
             this.shutdown();
         }
     }
@@ -213,7 +213,7 @@ public class FitnessUM {
         } catch (Exception e) {
             System.out.println("Invalid date");
             date = FitnessUM.scanDate(message);
-            }
+        }
         
         return date;        
     }
@@ -238,16 +238,18 @@ public class FitnessUM {
      * @return boolean corresponding to the gender
      */
     private static boolean scanGender() {
-        String gender = FitnessUM.scanString("Are you male or female?");
         boolean g;
+        String gender = FitnessUM.scanString("Are you male or female?");
 
         switch ( gender.trim().toLowerCase() ) {
             case "male":
                 g = true;
                 break;
+                
             case "female":
                 g = false;
                 break;
+                
             default:
                 System.out.println("Invalid option");
                 g = FitnessUM.scanGender();
@@ -275,16 +277,16 @@ public class FitnessUM {
         while (! ( pw.length() >= 8 ) )
             pw = FitnessUM.scanString("Password has to be at least 8 characters long\nEnter password:");
         
-        String pwConfirmation = FitnessUM.scanString("Enter password confirmation:");
+        String pwConfirmation = FitnessUM.scanString("Re-type Password:");
         
         if( pw.equals(pwConfirmation) )
             return pw;
         else {
             System.out.println("Passwords don't match");
-            return FitnessUM.scanPassword();
+            return FitnessUM.scanPassword(); // I love recursion for error handling
         }
     }
-
+    
     /** Scans the user for a email
      * @return user email
      */

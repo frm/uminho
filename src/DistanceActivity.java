@@ -9,24 +9,28 @@ public class DistanceActivity extends Activity{
         this.distance = 0;
     }
     
-    public DistanceActivity(String n, String w, GregorianCalendar date, GregorianCalendar duration, int c, int distance){
-        super();
+    public DistanceActivity(String name, int weather, GregorianCalendar date, GregorianCalendar duration, int calories, int distance) {
+        super(name, weather, date, duration, calories);
         this.distance = distance;
     }
     
-    public DistanceActivity(DistanceActivity ad){
-        super();
+    public DistanceActivity(DistanceActivity ad) {
+        super(ad);
         this.distance = ad.getDistance();
     }
     
     //setters
-    void setDistance(int d){this.distance = d;}
+    void setDistance(int d) {
+        this.distance = d;
+    }
     
     //getters
-    int getDistance(){return this.distance;}
+    int getDistance() {
+        return this.distance;
+    }
     
     //essentials
-    public DistanceActivity clone(){
+    public DistanceActivity clone() {
        return new DistanceActivity(this);
     }
     
@@ -44,6 +48,6 @@ public class DistanceActivity extends Activity{
        
         DistanceActivity ad = (DistanceActivity) o;
        
-       return (super.equals(o) && this.distance == ad.getDistance());
+       return ( super.equals(o) && this.distance == ad.getDistance() );
    }
 }
