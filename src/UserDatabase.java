@@ -6,8 +6,6 @@
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 public class UserDatabase {
@@ -32,10 +30,11 @@ public class UserDatabase {
         this.idEntry = db.copyIDMap();        
         this.userCount = db.nrUsers();
         
-        for (User u : this.idEntry.values() ) {
+        this.emailEntry = new HashMap<String, User>();
+        
+        for (User u : this.idEntry.values() )
             this.emailEntry.put( u.getEmail(), u);
-            System.out.println("\n\n\nGOT THIS FAR\n\n\n");
-        }
+        
     }
     
     /** Parameterized constructor
@@ -161,20 +160,7 @@ public class UserDatabase {
         
         for (User u : this.idEntry.values() )
             copy.put( u.getId(), u.clone() );
-        
+
         return copy;
-    }
-    
-    private static <K,V> HashMap<K, V> copyHashMap(HashMap<K, V> hash) {
-        HashMap<K, V> newHash = new HashMap<K, V>();
-        Iterator it = hash.entrySet().iterator();
-        while ( it.hasNext() ) {
-            Map.Entry pair = (Map.Entry)it.next();
-            K key = (K)pair.getKey();
-            V val = (V)pair.getValue();
-            newHash.put( (K)((K)key).clone(), (V)((V)val).clone() );
-        }
-        
-        return newHash;
     }
 }
