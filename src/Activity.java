@@ -7,18 +7,16 @@ import java.util.GregorianCalendar;
 
 public class Activity
 {
+  int calories;
   String name;
-  int weather;
+  Weather weather;
   GregorianCalendar date;
   GregorianCalendar duration;
-  int calories;
-  
-  private static final String[] weatherStates = {"Indoor", "Clear Sky", "Cloudy", "Light Rain", "Heavy Rain", "Snowing", "Hailing", "Windy", "Stormy"};
   
     //constructors
     public Activity(){
         this.name = "";
-        this.weather = -1;
+        this.weather = new Weather();
         this.date = new GregorianCalendar();
         this.duration = new GregorianCalendar();
         this.calories = 0;
@@ -26,7 +24,7 @@ public class Activity
     
     public Activity(String name, int weather, GregorianCalendar date, GregorianCalendar duration, int calories) {
         this.name = name;
-        this.weather = weather;
+        this.weather = new Weather(weather);
         this.date = date;
         this.duration = duration;
         this.calories = calories;
@@ -34,26 +32,56 @@ public class Activity
     
     public Activity(Activity a){
         this.name = a.getName();
-        this.weather = a.getWeather();
+        this.weather = a.getWeatherState();
         this.date = a.getDate();
         this.duration = a.getDuration();
         this.calories = a.getCalories();
     }
   
     //setters
-    void setName(String n){this.name = n;}
-    void setWeather(int w){this.weather = w;}
-    void setDate(GregorianCalendar date){this.date = (GregorianCalendar) date.clone();}
-    void setDuration(GregorianCalendar duration){this.duration = (GregorianCalendar) duration.clone();}
-    void setCalories(int calories){this.calories = calories;}
+    void setName(String n) {
+        this.name = n;
+    }
+    
+    void setWeather(int w) {
+        this.weather.setWeather(w);
+    }
+    
+    void setDate(GregorianCalendar date) {
+        this.date = (GregorianCalendar) date.clone();
+    }
+    
+    void setDuration(GregorianCalendar duration) {
+        this.duration = (GregorianCalendar) duration.clone();
+    }
+    
+    void setCalories(int calories) {
+        this.calories = calories;
+    }
 
     //getters
-    String getName(){return this.name;}
-    int getWeather(){return this.weather;}
-    String getWeatherState(){return weatherStates[this.weather];}
-    GregorianCalendar getDate(){return (GregorianCalendar) this.date.clone();}
-    GregorianCalendar getDuration(){return (GregorianCalendar) this.duration.clone();}
-    int getCalories(){return this.calories;}
+    String getName() {
+        return this.name;
+    }
+    
+    String getWeather() {
+        return this.weather.getWeather();
+    }
+    
+    Weather getWeatherState() {
+        return this.weather.clone();
+    }
+    GregorianCalendar getDate() {
+        return (GregorianCalendar) this.date.clone();
+    }
+    
+    GregorianCalendar getDuration() {
+        return (GregorianCalendar) this.duration.clone();
+    }
+    
+    int getCalories() {
+        return this.calories;
+    }
   
     //essentials
     public Activity clone(){
@@ -68,7 +96,7 @@ public class Activity
         result.append("\nDate: ");
         result.append(this.date);
         result.append("\nWeather: ");
-        result.append(weatherStates[this.weather]);
+        result.append(this.weather);
         result.append("\nDuration: ");
         result.append(this.duration);
         result.append("\nCalories spent: ");
@@ -77,13 +105,13 @@ public class Activity
         return result.toString();
     }
     
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass() ) return false;
        
         Activity a = (Activity) o;
        
-       return ((this.name).equals(a.getName()) && this.weather == a.getWeather() && this.date == a.getDate() && this.duration == a.getDuration() && this.calories == a.getCalories());
-   }
+       return ( this.name.equals( a.getName() ) && this.weather.equals( a.getWeatherState() ) && this.date.equals( a.getDate() ) && this.duration.equals( a.getDuration() ) && this.calories == a.getCalories() );
+    }
 
 }
