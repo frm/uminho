@@ -42,6 +42,7 @@ public class User {
         this.id = -1;
         this.friends = friendlist.clone();
         this.info = info.clone();
+        this.records = rec.clone();
     }
     
     public User(User u) {        

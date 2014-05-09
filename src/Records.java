@@ -5,13 +5,6 @@ import java.util.Map;
 import java.util.GregorianCalendar;
 
 
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author joaorodrigues
@@ -25,34 +18,24 @@ public class Records {
     
     public Records(HashMap<String, Activity> activities){
         this.activities = new HashMap<String, Activity>();
-        
-        for( Activity act: activities.values() )
-            this.activities.put( act.getName() , act.clone() );
+        this.activities.putAll(activities);
     }
     
     public Records(Records rec){
-            this.activities = new HashMap<String, Activity>();
-        
-        for( Activity act: rec.getActivities().values() )
-            this.activities.put(act.getName() , act.clone());
+        this.activities = new HashMap<String, Activity>();
+        this.activities.putAll(rec.getActivities());
     }
     
     public Map<String,Activity> getActivities(){
         HashMap<String,Activity> aux = new HashMap<String, Activity>();
-        
-        for(Activity act: this.activities.values()){
-            aux.put(act.getName() , act.clone());
-        }
-        
+        aux.putAll(this.activities);
         return aux;
     }
     
     public void setActivities(HashMap<String,Activity> activities){
         HashMap<String,Activity> aux = new HashMap<String, Activity>();
         
-        for(Activity act: activities.values()){
-            aux.put(act.getName() , act.clone());
-        }
+        aux.putAll(this.activities);
         
         this.activities = aux;
     }
@@ -100,10 +83,10 @@ public class Records {
     public Records clone(){
         Records rec = new Records();
         
-         try {
+        try {
            rec = new Records(this);
-        } catch (Exception e) {
-            System.err.println("Unexisting users2 list");
+        } catch (NullPointerException e) {
+            System.out.println("No records yet");
             throw new NullPointerException( e.getMessage() );
         }
         
