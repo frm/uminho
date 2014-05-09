@@ -1,6 +1,6 @@
-/nbproject/private/*
-/build/*
-/dist/*
+nbproject/private/*
+build/*
+dist/*
 *.DS_STORE
 *.log
 
