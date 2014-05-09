@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.Console;
 
 public class FitnessUM {
     
@@ -272,19 +273,12 @@ public class FitnessUM {
      * @return user password
      */
     private static String scanPassword() {
-        String pw = FitnessUM.scanString("Enter password:");
+        String pw = FitnessUM.consolePassword();
         
-        while (! ( pw.length() >= 8 ) )
-            pw = FitnessUM.scanString("Password has to be at least 8 characters long\nEnter password:");
+        if ( pw == null )
+            pw = FitnessUM.idePassword();
         
-        String pwConfirmation = FitnessUM.scanString("Re-type Password:");
-        
-        if( pw.equals(pwConfirmation) )
-            return pw;
-        else {
-            System.out.println("Passwords don't match");
-            return FitnessUM.scanPassword(); // I love recursion for error handling
-        }
+        return pw;
     }
     
     /** Scans the user for a email
@@ -312,7 +306,53 @@ public class FitnessUM {
 
         return name;
     }
+    
+    private static String idePassword() {
+        String pw = FitnessUM.scanString("Enter password:");
+        
+        while ( pw.length() < 8 )
+            pw = FitnessUM.scanString("Password has to be at least 8 characters long\nEnter password:");
+        
+        String pwConfirmation = FitnessUM.scanString("Re-type Password:");
+        
+        if( pw.equals(pwConfirmation) )
+            return pw;
+        else {
+            System.out.println("Passwords don't match");
+            return FitnessUM.scanPassword(); // I love recursion for error handling
+        }
+    }
+    
+    private static String consolePassword() {
+        String pw = FitnessUM.consoleScanPassword("Enter password:");
+        
+        // Ugly, but needed. IDEs and System.console don't like to mix
+        if (pw == null)
+            return null;
+        
+        while( pw.length() < 8)
+            pw = FitnessUM.consoleScanPassword("Password has to be at least 8 characters long\nEnter password:");
+        
+        String pwConfirmation = FitnessUM.consoleScanPassword("Re-type Password:");
+        
+        if( pw.equals(pwConfirmation) )
+            return pw;
+        else {
+            System.out.println("Passwords don't match");
+            return FitnessUM.consolePassword();
+        }
+    }
 
+    private static String consoleScanPassword(String message) {
+        Console console = System.console();
+        
+        // Ugly, but needed. IDEs and System.console don't like to mix
+        if (console == null)
+            return null;
+        
+        return new String( console.readPassword(message) );
+    }
+    
     /** Tests if string matches email format
      */
     private static boolean matchEmail(String email) {
