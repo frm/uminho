@@ -11,7 +11,7 @@ public class Weather {
     private static final String[] weatherStates = {"Indoor", "Clear Sky", "Cloudy", "Light Rain", "Heavy Rain", "Snowing", "Hailing", "Windy", "Stormy"};
     
     public Weather() {
-        this.weatherIndex = -1;
+        this.weatherIndex = 0;
     }
     
     public Weather(int index) {
@@ -26,8 +26,12 @@ public class Weather {
         this.weatherIndex = Weather.getIndexOf(weather);
     }
     
-    public String getWeather() {
+    public String getWeatherSTR() {
         return Weather.weatherStates[this.weatherIndex];
+    }
+    
+    public int getWeatherIND() {
+        return Weather.this.weatherIndex;
     }
     
     public void setWeather(int index) {
@@ -45,7 +49,7 @@ public class Weather {
 
     @Override
     public String toString() {
-        return this.getWeather();
+        return this.getWeatherSTR();
     }
     
     public boolean equals(Object o) {

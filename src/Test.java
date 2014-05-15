@@ -11,7 +11,7 @@ public class Test {
         //Test.userTest();
         //Test.userInfoTest();
          //Test.activityLogTest();
-            Test.eventTest();
+        Test.eventTest();
     }
     
     public static void userTest() {
@@ -116,11 +116,18 @@ public class Test {
     }
     
     public static void eventTest(){
-        System.out.println("Testing empty constructor - Should be empty");
+        UserList empty2 = new UserList();
+        
+        System.out.println("Testing empty constructor");
         Event empty = new Event();
         System.out.println(empty);
         
-        System.out.println("Testing normal constructor - Myself");
-        System.out.println("Testing clone constructor - Myself");
+        System.out.println("Testing normal constructor");
+        Event testEvent = new Event(3, "Maratona", 123, 0, empty2);
+        System.out.println(testEvent);
+        
+        System.out.println("Testing clone constructor");
+        Event cloneEvent = new Event(testEvent);
+        System.out.println(cloneEvent);
     }
 }
