@@ -87,7 +87,7 @@ public class FitnessUM {
 
         this.userController.registerUser(name, email, password, info);
         this.userController.loginUser(email, password);
-        System.out.println("Welcome "+ this.userController.getCurrentUser().getName() );
+        System.out.println("\nWelcome "+ this.userController.getCurrentUser().getName() );
     }
 
     /** Scans for valid login info and sets the current_user
@@ -128,7 +128,7 @@ public class FitnessUM {
      */
     public void getStartOption() {
         this.startup();
-        System.out.println("Choose one of the following options");
+        System.out.println("Choose one of the following options.");
         FitnessUM.printStartOptions();
         int option = FitnessUM.scanIntInRange(0, 2);
         this.getStartPrompt()[option].exec();
@@ -137,7 +137,7 @@ public class FitnessUM {
     /** Reads user input and launches a chain of events accordingly
      */
     public void commandInterpreter() {
-        System.out.println( "\nChoose one of the following options.");
+        System.out.println( "Choose one of the following options.");
         FitnessUM.printMainOptions();
         int option = FitnessUM.scanIntInRange(0, 1);
         this.getMainPrompt()[option].exec();
@@ -163,8 +163,8 @@ public class FitnessUM {
         System.out.println("Please provide a value in [" + min + ", " + max + "]");
         int val = scan.nextInt();
 
-        while ( val < min && val > max ) {
-            System.out.println("Invalid value");
+        while ( val < min || val > max ) {
+            System.out.println("Invalid value\n");
             val = FitnessUM.scanIntInRange(min, max);
         }
 
@@ -371,14 +371,14 @@ public class FitnessUM {
     }
     
     private static void pressEnterToContinue() {
-        System.out.println("Press Enter To Continue");
         Scanner scan = new Scanner(System.in);
-        
-        while (scan.next().charAt(0) != '\n');
+            System.out.println("\nPress Enter To Continue");
+            
+        while ( scan.nextLine().length() > 0 );
     }
     
     public static String dateFormat(GregorianCalendar c) {
-        return new SimpleDateFormat("dd-MM-yyyy").format(c.getTime());
+        return new SimpleDateFormat("dd/MM/yyyy").format( c.getTime() );
     }
     
     public static void main(String[] args) {
