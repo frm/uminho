@@ -123,7 +123,7 @@ public class Test {
         System.out.println(empty);
         
         System.out.println("Testing normal constructor");
-        Event testEvent = new Event(3, "Maratona", 123, 0, empty2);
+        Event testEvent = new Event(3, "Maratona", 123, "Cloudy", empty2);
         System.out.println(testEvent);
         
         System.out.println("Testing clone constructor");

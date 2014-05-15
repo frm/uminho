@@ -20,11 +20,11 @@ public class Event {
         this.entries = new UserList();  
     }
     
-    public Event(int id, String name, int capacity, int weatherint, UserList entries){
+    public Event(int id, String name, int capacity, String weatherstr, UserList entries){
         this.id = id;
         this.name = name;
         this.capacity = capacity;
-        this.weather = new Weather(weatherint);
+        this.weather = new Weather(weatherstr);
         this.entries = entries.clone();
     }
     
@@ -46,7 +46,7 @@ public class Event {
     public int getId() {return this.id;}
     public String getName() {return this.name;}
     public int getCapacity() {return this.capacity;}
-    public int getWeather() {return this.weather.getWeatherIND();}
+    public String getWeather() {return this.weather.getWeather();}
     public UserList getEntries() {return this.entries.clone();}
     
     //methods add, remove, addUser, removeUser
@@ -82,6 +82,6 @@ public class Event {
         
         Event e = (Event) o;
         
-        return(this.id == e.getId() && this.name.equals(e.getName()) && this.weather.getWeatherIND() == e.getWeather() && this.capacity == e.getCapacity() && this.entries.equals(e.getEntries()));
+        return(this.id == e.getId() && this.name.equals(e.getName()) && this.weather.getWeather().equals(e.getWeather()) && this.capacity == e.getCapacity() && this.entries.equals(e.getEntries()));
     }
 }
