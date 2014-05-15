@@ -6,11 +6,12 @@ import java.util.GregorianCalendar;
 
 public class Test {
     
+    /*
     public static void main(String[] args) {
         Test.userTest();
         //Test.userInfoTest();
         Test.activityLogTest();
-    }
+    }*/
     
     public static void userTest() {
         System.out.println("Testing empty constructor - Should be empty");

@@ -13,6 +13,13 @@ public class FitnessUM {
     private UserController userController;
 
 
+   private static final String[] startOptions = { "Exit", "Register", "Login" };
+   
+   private static final String[] mainOptions = {
+       "Exit"
+   };
+   
+   
     /** Empty constructor
      */
     public FitnessUM() {
@@ -66,7 +73,7 @@ public class FitnessUM {
     /** Scans for information and saves the user into the database
       */
     public void registerUser() {
-        String name = FitnessUM.scanName("First name: ") + FitnessUM.scanName("Last name: ");
+        String name = FitnessUM.scanName("First name: ") + " " + FitnessUM.scanName("Last name: ");
         String email = FitnessUM.scanEmail();
 
         while ( ! this.userController.validateEmailUniqueness(email) ) {
@@ -78,6 +85,7 @@ public class FitnessUM {
         UserInfo info = FitnessUM.scanUserInfo();
 
         this.userController.registerUser(name, email, password, info);
+        this.userController.loginUser(email, password);
     }
 
     /** Scans for valid login info and sets the current_user
@@ -90,7 +98,7 @@ public class FitnessUM {
             String email = FitnessUM.scanString("Enter email:");
 
             while ( !this.userController.existsUserWithEmail(email) ) {
-                System.out.println("We have no record of that email...");
+               System.out.println("We have no record of that email...");
                email = FitnessUM.scanString("Enter email:");
             }
             
@@ -104,7 +112,7 @@ public class FitnessUM {
         }
         
         if (! logged) {
-            System.out.println("Too many failed attempts. We've called the cops.\nBye bye.");
+            System.out.println("Too many failed attempts. We called the cops.\nBye bye.");
             this.shutdown();
         }
     }
@@ -112,29 +120,20 @@ public class FitnessUM {
     /** Reads an integer from the user input and starts up or shuts down the app accordingly
      */
     public void getStartOption() {
-        System.out.println("Choose one of the following options\n1. Login\n2. Register\n0. Exit\n");
+        this.startup();
+        System.out.println("Choose one of the following options");
+        FitnessUM.printStartOptions();
         int option = FitnessUM.scanIntInRange(0, 2);
-        
-        switch(option) {
-            case 1:
-                this.startup();
-                this.loginUser();
-                break;
-            case 2:
-                this.startup();
-                this.registerUser();
-                break;
-            default:
-                this.shutdown();
-                break;
-        }        
+        this.getStartPrompt()[option].exec();
     }
 
     /** Reads user input and launches a chain of events accordingly
      */
     public void commandInterpreter() {
-        System.out.println("IT WORKS!");
-        this.getStartOption();
+        System.out.println( "\nWelcome " + this.userController.getCurrentUser().getName() + ". Choose one of the following options.");
+        FitnessUM.printMainOptions();
+        int option = FitnessUM.scanIntInRange(0, 0);
+        this.getMainPrompt()[option].exec();
     }
 
     /** Controls the main flow of events.
@@ -148,7 +147,6 @@ public class FitnessUM {
     }
 
     /** Scans the system input for a new integer in a given inclusive range.
-     * Throws IllegalArgumentException if value is off limits.
      * @param min minimum range
      * @param max maximum range
      * @return read value
@@ -335,7 +333,36 @@ public class FitnessUM {
         
         return new String( console.readPassword(message) );
     } 
-    /*public static void main(String[] args) {
+    
+    private Prompt[] getStartPrompt() {
+        final FitnessUM app = this;
+        return new Prompt[] {
+            new Prompt() { public void exec() { app.shutdown(); } },
+            new Prompt() { public void exec() { app.registerUser();} },
+            new Prompt() { public void exec() { app.loginUser();} }
+        };
+    }
+    
+    private Prompt[] getMainPrompt() {
+        final FitnessUM app = this;
+        return new Prompt[] {
+            new Prompt() { public void exec() { app.shutdown(); } },
+        };
+    }
+    
+    private static void printStartOptions() {
+        int i = 0;
+        for (String s : FitnessUM.startOptions)
+            System.out.println(i++ + ". " + s);
+    }
+    
+    private static void printMainOptions() {
+        int i = 0;
+        for (String s : FitnessUM.mainOptions)
+            System.out.println(i++ + ". " + s);
+    }
+    
+    public static void main(String[] args) {
         new FitnessUM().run();
-    }*/
+    }
 }
