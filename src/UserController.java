@@ -65,6 +65,10 @@ public class UserController {
         
         return match;
     }
+    
+    public String currentUserProfile() {
+        return this.currentUser.toString();
+    }
 
     @Override
     public UserController clone() {

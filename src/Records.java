@@ -109,7 +109,7 @@ public class Records {
     }
     
     public String toString(){
-        return ("Records: \n" + this.activities.toString() );
+        return (this.activities.toString() );
     }
     
 }

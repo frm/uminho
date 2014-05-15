@@ -62,7 +62,7 @@ public class User extends BasicUser {
     public void setRecords(Records rec){
         this.records = rec.clone();
     }
-
+    
     public User clone() {
         return new User(this);
     }
@@ -71,8 +71,6 @@ public class User extends BasicUser {
         StringBuilder result = new StringBuilder();
         result.append("### User: ###");
         result.append( super.toString() );
-        result.append("\nFriends: ");
-        result.append(this.friends);
         result.append("\nInfo: ");
         result.append(this.info);
         result.append("\nRecords: ");

@@ -55,15 +55,15 @@ public class UserInfo {
         StringBuilder result = new StringBuilder();
         
         result.append("\nGender: ");
-        if(gender) result.append("Female ");
-        else result.append("Male ");
+        if (gender) result.append("Male ");
+        else result.append("Female ");
         
         result.append("\nHeight: ");
         result.append(this.height);
         result.append("\nWeight: ");
         result.append(this.weight);
         result.append("\nBirth Date: ");
-        result.append( (this.birthDate).toString());
+        result.append( FitnessUM.dateFormat(this.birthDate) );
         result.append("\nFavorite Sport: ");
         result.append( this.favoriteSport);
         return result.toString();

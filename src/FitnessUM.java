@@ -3,9 +3,10 @@
  * @author frmendes
  */
 
+import java.io.Console;
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
-import java.io.Console;
 
 public class FitnessUM {
     
@@ -16,7 +17,7 @@ public class FitnessUM {
    private static final String[] startOptions = { "Exit", "Register", "Login" };
    
    private static final String[] mainOptions = {
-       "Exit"
+       "Logout", "My Profile"
    };
    
    
@@ -86,6 +87,7 @@ public class FitnessUM {
 
         this.userController.registerUser(name, email, password, info);
         this.userController.loginUser(email, password);
+        System.out.println("Welcome "+ this.userController.getCurrentUser().getName() );
     }
 
     /** Scans for valid login info and sets the current_user
@@ -116,6 +118,11 @@ public class FitnessUM {
             this.shutdown();
         }
     }
+    
+    public void userProfile() {
+        System.out.println( this.userController.currentUserProfile() );
+        FitnessUM.pressEnterToContinue();
+    }
 
     /** Reads an integer from the user input and starts up or shuts down the app accordingly
      */
@@ -130,9 +137,9 @@ public class FitnessUM {
     /** Reads user input and launches a chain of events accordingly
      */
     public void commandInterpreter() {
-        System.out.println( "\nWelcome " + this.userController.getCurrentUser().getName() + ". Choose one of the following options.");
+        System.out.println( "\nChoose one of the following options.");
         FitnessUM.printMainOptions();
-        int option = FitnessUM.scanIntInRange(0, 0);
+        int option = FitnessUM.scanIntInRange(0, 1);
         this.getMainPrompt()[option].exec();
     }
 
@@ -347,6 +354,7 @@ public class FitnessUM {
         final FitnessUM app = this;
         return new Prompt[] {
             new Prompt() { public void exec() { app.shutdown(); } },
+            new Prompt() { public void exec() { app.userProfile(); }}
         };
     }
     
@@ -360,6 +368,17 @@ public class FitnessUM {
         int i = 0;
         for (String s : FitnessUM.mainOptions)
             System.out.println(i++ + ". " + s);
+    }
+    
+    private static void pressEnterToContinue() {
+        System.out.println("Press Enter To Continue");
+        Scanner scan = new Scanner(System.in);
+        
+        while (scan.next().charAt(0) != '\n');
+    }
+    
+    public static String dateFormat(GregorianCalendar c) {
+        return new SimpleDateFormat("dd-MM-yyyy").format(c.getTime());
     }
     
     public static void main(String[] args) {

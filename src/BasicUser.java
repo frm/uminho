@@ -81,10 +81,10 @@ public abstract class BasicUser {
     @Override
    public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("\nE-Mail: ");
-        result.append(this.email);
         result.append("\nName: ");
         result.append(this.name);
+        result.append("\nE-Mail: ");
+        result.append(this.email);
         
         return result.toString();
    }
