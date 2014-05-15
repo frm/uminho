@@ -6,83 +6,40 @@ import java.util.HashSet;
  * @author frmendes
  */
 
-public class User {
-    private String name;
-    private String password;
-    private String email;
-    private int id;
+public class User extends BasicUser {
     private UserList friends;
     private UserInfo info;
     private Records records;
     
     public User() {
-        this.name = "";
-        this.password = "";
-        this.email = "";
-        this.id = -1;
+        super();
         this.friends = new UserList(); 
         this.info = new UserInfo();
         this.records = new Records();
     }
     
     public User(String name, String password, String email, UserInfo info) {
-        this.name = name;
-        this.password = password;
-        this.email = email;
+        super(name, password, email);
         this.info = info.clone();
         this.friends = new UserList();
-        this.id = -1;
         this.records = new Records();
     }
 
     public User(String name, String password, String email, UserList friendlist, UserInfo info, Records rec) {
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.id = -1;
+        super(name, password, email);
         this.friends = friendlist.clone();
         this.info = info.clone();
         this.records = rec.clone();
     }
     
     public User(User u) {        
-        this.id = u.getId();
-        this.name = u.getName();
-        this.email = u.getEmail();
-        this.password = u.getPassword();
+        super(u);
         this.friends = u.getFriends();
         this.info = u.getInfo();
         this.records = u.getRecords();
     }
     
-    /** For a given password, sees if it matches the users
-    @param password given password
-    @return true or false
-    */
-    public boolean matchPassword(String password) {
-    return this.password.equals(password);
-    }
-
-    public String getEmail() {
-        return email;
-    }
-    
-/* Although it doesn't make sense to implement a getPassword method for security reasons
- * it is implemented as private for copy constructor (see public User (User u) )
- */
-    private String getPassword() {
-        return password;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-    
-    public UserList getFriends() {
+     public UserList getFriends() {
         return friends.clone();
     }
     
@@ -92,22 +49,6 @@ public class User {
     
     public Records getRecords(){
         return records.clone();
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
     
     public void setFriends(UserList friendlist){
@@ -128,11 +69,8 @@ public class User {
     
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("### Utilizador: ###");
-        result.append("\nE-Mail: ");
-        result.append(this.email);
-        result.append("\nName: ");
-        result.append(this.name);
+        result.append("### User: ###");
+        result.append( super.toString() );
         result.append("\nFriends: ");
         result.append(this.friends);
         result.append("\nInfo: ");
@@ -156,8 +94,6 @@ public class User {
 
         User u = (User) o;
         
-       return (u.getEmail().equals(this.email) && u.getPassword().equals(this.password) && u.getName().equals(this.name) && u.getFriends().equals(this.friends) && u.getInfo().equals(this.info) && u.getRecords().equals(this.records));
-    }
-
-    
+       return ( u.getFriends().equals(this.friends) && u.getInfo().equals(this.info) && u.getRecords().equals(this.records) && super.equals(o) );
+    } 
 }
