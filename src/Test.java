@@ -6,12 +6,13 @@ import java.util.GregorianCalendar;
 
 public class Test {
     
-    /*
+    
     public static void main(String[] args) {
-        Test.userTest();
+        //Test.userTest();
         //Test.userInfoTest();
-        Test.activityLogTest();
-    }*/
+         //Test.activityLogTest();
+            Test.eventTest();
+    }
     
     public static void userTest() {
         System.out.println("Testing empty constructor - Should be empty");
@@ -112,5 +113,14 @@ public class Test {
         
         System.out.println(empty);
         
+    }
+    
+    public static void eventTest(){
+        System.out.println("Testing empty constructor - Should be empty");
+        Event empty = new Event();
+        System.out.println(empty);
+        
+        System.out.println("Testing normal constructor - Myself");
+        System.out.println("Testing clone constructor - Myself");
     }
 }
