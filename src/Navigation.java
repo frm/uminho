@@ -7,33 +7,34 @@ import java.util.Scanner;
  *
  * @author frmendes
  */
-public abstract class Navigation {
+public abstract class Navigation<T> {
     
     private int navigator;
     private boolean end;
     private boolean navigating;
-    private ArrayList<Object> list;
+    private ArrayList<T> list;
     
     public Navigation() {
         this.navigator = 0;
         this.end = false;
         this.navigating = false;
-        this.list = new ArrayList<Object>();
+        this.list = new ArrayList<T>();
     }
     
-    public Navigation(ArrayList<Object> list) {
+    public Navigation(ArrayList<T> list) {
         this.navigator = 0;
         this.end = false;
         this.navigating = false;
-        this.list = (ArrayList<Object>) list.clone();
+        this.list = (ArrayList<T>) list.clone();
     }
     
-    public abstract void select(Object o);
-    public abstract void print(Object o);
+    public abstract void select(T t);
+    public abstract void print(T t);
+    public abstract String emptyMessage();
     
     private void next() {
         int limit = this.navigator + 10;
-        Iterator<Object> it = this.list.iterator();
+        Iterator<T> it = this.list.iterator();
         
         while ( this.navigator < limit && it.hasNext() ) {
             System.out.print(this.navigator + 1);
@@ -43,6 +44,9 @@ public abstract class Navigation {
         if (this.navigator < limit)
             this.end = true;
         
+        if (this.navigator == 0)
+            System.out.println( this.emptyMessage () );
+              
     }
     
     private void backtrace() {
