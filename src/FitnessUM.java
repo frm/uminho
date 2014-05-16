@@ -5,6 +5,7 @@
 
 import java.io.Console;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
@@ -20,7 +21,7 @@ public class FitnessUM {
    private static final String[] startOptions = { "Exit", "Register", "Login" };
    
    private static final String[] mainOptions = {
-       "Logout", "My Profile", "Add New Activity Session"
+       "Logout", "My Profile", "Friend List", "Add New Activity Session"
    };
    
    
@@ -135,11 +136,15 @@ public class FitnessUM {
         FitnessUM.pressEnterToContinue();
     }
     
+    public void listFriends() {
+        new FriendListNavigator( this.userController.getFriendList() ).navigate();
+    }
+    
     public void addActivitySession() {
         
         /*Falta receber se é distance ou altitude ou nada, usar variavel specialCategories, que diz o numero de categorias extra*/
         /*Falta por o navigator para as atividades e os weathers*/
-        int calories = FitnessUM.scanInt("How many calories did you burn?");
+        /*int calories = FitnessUM.scanInt("How many calories did you burn?");
         GregorianCalendar date = FitnessUM.scanDateWithHours("What's the date of this session? (dd-mm-yyyy)", "At what time did it start? (hh:mm)");
         GregorianCalendar duration = FitnessUM.scanDuration("How long was the session? (hh:mm:ss)");
         
@@ -154,7 +159,7 @@ public class FitnessUM {
             userController.addActivity(type(navigator), weather(navigator) ,calories, date, duration, distance, altitude);
         }
         
-        else userController.addActivity(type(navigator), weather(navigator) ,calories, date, duration);
+        else userController.addActivity(type(navigator), weather(navigator) ,calories, date, duration);*/
     }
 
     /** Reads an integer from the user input and starts up or shuts down the app accordingly
@@ -172,7 +177,7 @@ public class FitnessUM {
     public void commandInterpreter() {
         System.out.println( "Choose one of the following options.");
         FitnessUM.printMainOptions();
-        int option = FitnessUM.scanMenuOption(0, 2);
+        int option = FitnessUM.scanMenuOption(0, 3);
         this.getMainPrompt()[option].exec();
     }
 
@@ -543,6 +548,7 @@ public class FitnessUM {
         return new Prompt[] {
             new Prompt() { public void exec() { app.shutdown(); } },
             new Prompt() { public void exec() { app.userProfile(); } },
+            new Prompt() { public void exec() { app.listFriends(); }},
             new Prompt() { public void exec() { app.addActivitySession(); } }
         };
     }
