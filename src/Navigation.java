@@ -32,7 +32,25 @@ public abstract class Navigation<T> {
     public abstract void print(T t);
     public abstract String emptyMessage();
     
+    private boolean reachedEnd() {
+        return this.end;
+    }
+    
+    private boolean isNavigating() {
+        return this.navigating;
+    }
+    
+    private void startNavigating() {
+        this.navigating = true;
+    }
+    
+    private void quit() {
+        this.navigating = false;
+    }
+    
     private void next() {
+        this.startNavigating();
+        
         int limit = this.navigator + 10;
         Iterator<T> it = this.list.iterator();
         
@@ -44,8 +62,11 @@ public abstract class Navigation<T> {
         if (this.navigator < limit)
             this.end = true;
         
-        if (this.navigator == 0)
+        if (this.navigator == 0) {
             System.out.println( this.emptyMessage () );
+            FitnessUM.pressEnterToContinue();
+            this.quit();
+        }
               
     }
     
@@ -64,25 +85,12 @@ public abstract class Navigation<T> {
         while( this.isNavigating() ) {
             if ( this.reachedEnd() )
                 this.endOptions();
-            if (this.navigator == 10)
+            else if (this.navigator == 10)
                 this.startOptions();
             else
                 this.normalOptions();
         }
-    }
-    
-    private boolean reachedEnd() {
-        return this.end;
-    }
-    
-    private boolean isNavigating() {
-        return this.navigating;
-    }
-    
-    private void quit() {
-        this.navigating = false;
-    }
-    
+    }    
     
     private void normalOptions() {
         System.out.println("\nPress c to continue reading, b to backtrace and q to quit.\nEnter an option number to select it");

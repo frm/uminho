@@ -567,7 +567,7 @@ public class FitnessUM {
             System.out.println(i++ + ". " + s);
     }
     
-    private static void pressEnterToContinue() {
+    public static void pressEnterToContinue() {
         Scanner scan = new Scanner(System.in);
             System.out.println("\nPress Enter To Continue");
             
