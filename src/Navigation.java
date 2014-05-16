@@ -76,7 +76,7 @@ public abstract class Navigation {
         int option;
         if ( Character.isDigit(c) )
             try {
-                option = Navigation.parseIntInRange(this.getMinimumOption(), this.navigator, c);
+                option = Navigation.parseIntitInRange(this.getMinimumOption(), this.navigator, c);
             } catch {
                 
             }
