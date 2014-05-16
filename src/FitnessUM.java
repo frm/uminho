@@ -5,8 +5,10 @@
 
 import java.io.Console;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class FitnessUM {
     
@@ -74,7 +76,7 @@ public class FitnessUM {
     /** Scans for information and saves the user into the database
       */
     public void registerUser() {
-        String name = FitnessUM.scanName("First name: ") + " " + FitnessUM.scanName("Last name: ");
+        String name = FitnessUM.scanName("\nFirst name: ") + " " + FitnessUM.scanName("\nLast name: ");
         String email = FitnessUM.scanEmail();
 
         while ( ! this.userController.validateEmailUniqueness(email) ) {
@@ -130,7 +132,7 @@ public class FitnessUM {
         this.startup();
         System.out.println("Choose one of the following options.");
         FitnessUM.printStartOptions();
-        int option = FitnessUM.scanIntInRange(0, 2);
+        int option = FitnessUM.scanMenuOption(0, 2);
         this.getStartPrompt()[option].exec();
     }
 
@@ -139,7 +141,7 @@ public class FitnessUM {
     public void commandInterpreter() {
         System.out.println( "Choose one of the following options.");
         FitnessUM.printMainOptions();
-        int option = FitnessUM.scanIntInRange(0, 1);
+        int option = FitnessUM.scanMenuOption(0, 1);
         this.getMainPrompt()[option].exec();
     }
 
@@ -152,20 +154,38 @@ public class FitnessUM {
         while ( this.isActive() )
             this.commandInterpreter();
     }
+    
+    private static int scanMenuOption(int min, int max) {
+        return scanIntInRange("Please provide a value for the menu.", min, max);
+    }
+    
+    private static int scanInt(String message) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println(message);
+        
+        int val;
+        
+         try {
+            val = scan.nextInt();
+        } catch (Exception e) {
+            System.out.println("Invalid option");
+            val = FitnessUM.scanInt(message);
+        }
+         
+         return val;
+    }
 
     /** Scans the system input for a new integer in a given inclusive range.
      * @param min minimum range
      * @param max maximum range
      * @return read value
      */
-    private static int scanIntInRange(int min, int max) {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Please provide a value in [" + min + ", " + max + "]");
-        int val = scan.nextInt();
+    private static int scanIntInRange(String message, int min, int max) {
+        int val = FitnessUM.scanInt(message);
 
         while ( val < min || val > max ) {
             System.out.println("Invalid value\n");
-            val = FitnessUM.scanIntInRange(min, max);
+            val = FitnessUM.scanIntInRange(message, min, max);
         }
 
         return val;
@@ -177,34 +197,67 @@ public class FitnessUM {
     private static UserInfo scanUserInfo() {
         UserInfo u = new UserInfo();
         u.setGender( FitnessUM.scanGender() );
-        u.setHeight( FitnessUM.scanDouble("How tall are you? (cm) ") );
-        u.setWeight( FitnessUM.scanDouble("What's your current weight? (kg)") );
-        u.setBirthDate( FitnessUM.scanDate("When where you born?") );
-        u.setFavoriteSport( FitnessUM.scanString("Share your favorite sport.") );
+        u.setHeight( FitnessUM.scanHeight() );
+        u.setWeight( FitnessUM.scanWeight() );
+        u.setBirthDate( FitnessUM.scanDate() );
+        u.setFavoriteSport( FitnessUM.scanSport() );
 
         return u;
     }
-
+    
+    private static int[] scanDateArray() {
+        String[] dateAry= FitnessUM.scanString("\nWhen were you born? (dd-mm-yy)").split("-");
+        
+        if ( dateAry.length != 3 ) {
+            System.out.println("Invalid date");
+            return scanDateArray();
+        }
+        
+        int[] date = new int[3];
+        
+        for (int i = 0; i < 3; i++) {
+            
+            try {
+                date[i] = Integer.parseInt(dateAry[i]);
+            } catch (Exception e) {
+                System.out.println("Invalid date");
+                return scanDateArray();
+            }
+        }
+        return date;       
+    }
+    
+    private static boolean validDate(GregorianCalendar date) {
+        GregorianCalendar now = new GregorianCalendar();
+        
+        if ( date.get(Calendar.YEAR) < 1900 || date.compareTo(now) != -1 ) // We don't want any dates < 1900 or >= current time
+            return false;
+        
+        date.setLenient(false);     // Allows for date verification
+        try {
+            date.getTime();           // If the date isn't valid, with setLenient(false), GregorianCalendar#getTime() throws an exception
+        } catch (Exception e) {
+            return false;
+        }
+        
+        return true;
+    }
+    
     /** Scans the user for a date
      * @param message message for print
      * @return date Date given
      */
-    private static GregorianCalendar scanDate(String message) {
-        System.out.println(message);
-        int day = Integer.parseInt( FitnessUM.scanString("Enter the day:") );
-        int month = Integer.parseInt( FitnessUM.scanString("Enter the month:") );
-        int year = Integer.parseInt( FitnessUM.scanString("Enter the year:") );
+    private static GregorianCalendar scanDate() {
+        int[] numbers = FitnessUM.scanDateArray();
+        GregorianCalendar date = new GregorianCalendar(numbers[2], numbers[1] - 1, numbers[0]);
         
-        GregorianCalendar date = new GregorianCalendar(year, month - 1, day);
-        date.setLenient(false);
-        try {
-            date.getTime();
-        } catch (Exception e) {
+        if ( FitnessUM.validDate(date) )
+            return date;
+        
+        else {
             System.out.println("Invalid date");
-            date = FitnessUM.scanDate(message);
+            return FitnessUM.scanDate();
         }
-        
-        return date;        
     }
     
     /** Scans the user for a double, presenting a message
@@ -222,13 +275,24 @@ public class FitnessUM {
         }
         return d;
     }
+    
+        private static double scanDoubleInRange(double min, double max, String message) {
+        double d = scanDouble(message);
+        
+        if ( d < min || d > max ) {
+            System.out.println("Please. Don't lie.");
+            d = scanDoubleInRange(min, max, message);
+        }
+        
+        return d;
+    }
 
     /** Scans the user for gender
      * @return boolean corresponding to the gender
      */
     private static boolean scanGender() {
         boolean g;
-        String gender = FitnessUM.scanString("Are you male or female?");
+        String gender = FitnessUM.scanString("\nAre you male or female?");
 
         switch ( gender.trim().toLowerCase() ) {
             case "male":
@@ -247,7 +311,25 @@ public class FitnessUM {
 
         return g;
     }
-
+    
+    private static double scanWeight() {
+        return scanDoubleInRange(0.0, 300.0, "\nWhat's your current weight? (kg)");
+    }
+    
+    private static double scanHeight() {
+        return scanDoubleInRange( 20.0, 300.0, "\nHow tall are you? (cm)" );
+    }
+    
+    private static String scanSport() {
+        String sport = FitnessUM.scanString("\nShare your favorite sport.").trim();
+        
+        if ( ! Pattern.compile("[a-zA-Z]*").matcher(sport).matches() ) {
+            System.out.println("Invalid sport.");
+            return FitnessUM.scanSport();
+        }
+        
+        return sport;            
+    }
     /** Scans the user for a string
      * @param message message to be displayed
      * @return scanned message
@@ -273,7 +355,7 @@ public class FitnessUM {
      * @return user email
      */
     private static String scanEmail() {
-        String email = FitnessUM.scanString("Enter email:");
+        String email = FitnessUM.scanString("\nEnter email:");
 
         while ( !UserController.validEmailFormat(email) )
             email = FitnessUM.scanString("Invalid e-mail\nEnter email:");
@@ -287,7 +369,7 @@ public class FitnessUM {
      * @return string containing both names concatenated
      */
     private static String scanName(String message) {
-        String name = FitnessUM.scanString(message);
+        String name = FitnessUM.scanString(message).trim();
 
         while( !UserController.validNameFormat(name) )
             name = FitnessUM.scanString("Invalid input\n" + message);
@@ -296,12 +378,12 @@ public class FitnessUM {
     }
     
     private static String idePassword() {
-        String pw = FitnessUM.scanString("Enter password:");
+        String pw = FitnessUM.scanString("\nEnter password:");
         
         while ( pw.length() < 8 )
             pw = FitnessUM.scanString("Password has to be at least 8 characters long\nEnter password:");
         
-        String pwConfirmation = FitnessUM.scanString("Re-type Password:");
+        String pwConfirmation = FitnessUM.scanString("\nRe-type Password:");
         
         if( pw.equals(pwConfirmation) )
             return pw;
@@ -312,7 +394,7 @@ public class FitnessUM {
     }
     
     private static String consolePassword() {
-        String pw = FitnessUM.consoleScanPassword("Enter password:");
+        String pw = FitnessUM.consoleScanPassword("\nEnter password:");
         
         // Ugly, but needed. IDEs and System.console don't like to mix
         if (pw == null)
@@ -321,7 +403,7 @@ public class FitnessUM {
         while( pw.length() < 8)
             pw = FitnessUM.consoleScanPassword("Password has to be at least 8 characters long\nEnter password:");
         
-        String pwConfirmation = FitnessUM.consoleScanPassword("Re-type Password:");
+        String pwConfirmation = FitnessUM.consoleScanPassword("\nRe-type Password:");
         
         if( pw.equals(pwConfirmation) )
             return pw;
