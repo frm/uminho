@@ -1,6 +1,4 @@
 
-import java.util.HashSet;
-
 /**
  *
  * @author frmendes
@@ -10,12 +8,14 @@ public class User extends BasicUser {
     private UserList friends;
     private UserInfo info;
     private Records records;
+    private ActivityLog log;
     
     public User() {
         super();
         this.friends = new UserList(); 
         this.info = new UserInfo();
         this.records = new Records();
+        this.log = new ActivityLog();
     }
     
     public User(String name, String password, String email, UserInfo info) {
@@ -23,13 +23,15 @@ public class User extends BasicUser {
         this.info = info.clone();
         this.friends = new UserList();
         this.records = new Records();
+        this.log = new ActivityLog();
     }
 
-    public User(String name, String password, String email, UserList friendlist, UserInfo info, Records rec) {
+    public User(String name, String password, String email, UserList friendlist, UserInfo info, Records rec, ActivityLog log) {
         super(name, password, email);
         this.friends = friendlist.clone();
         this.info = info.clone();
         this.records = rec.clone();
+        this.log = log.clone();
     }
     
     public User(User u) {        
@@ -37,6 +39,7 @@ public class User extends BasicUser {
         this.friends = u.getFriends();
         this.info = u.getInfo();
         this.records = u.getRecords();
+        this.log = u.getActivityLog();
     }
     
      public UserList getFriends() {
@@ -51,6 +54,10 @@ public class User extends BasicUser {
         return records.clone();
     }
     
+    public ActivityLog getActivityLog(){
+        return log.clone();
+    }
+    
     public void setFriends(UserList friendlist){
         this.friends = friendlist.clone();
     }
@@ -61,6 +68,10 @@ public class User extends BasicUser {
     
     public void setRecords(Records rec){
         this.records = rec.clone();
+    }
+    
+    public void setActivityLog(ActivityLog log){
+        this.log = log.clone();
     }
     
     public User clone() {
@@ -75,6 +86,8 @@ public class User extends BasicUser {
         result.append(this.info);
         result.append("\nRecords: ");
         result.append(this.records);
+        result.append("\nActivities: ");
+        result.append(this.log);
 
         return result.toString();
     }
@@ -92,6 +105,6 @@ public class User extends BasicUser {
 
         User u = (User) o;
         
-       return ( u.getFriends().equals(this.friends) && u.getInfo().equals(this.info) && u.getRecords().equals(this.records) && super.equals(o) );
+       return ( u.getFriends().equals(this.friends) && u.getInfo().equals(this.info) && u.getRecords().equals(this.records) && u.getActivityLog().equals(this.log) && super.equals(o) );
     } 
 }
