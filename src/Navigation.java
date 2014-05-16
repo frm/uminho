@@ -60,7 +60,7 @@ public abstract class Navigation<T> {
         }
         
         if (this.navigator < limit)
-            this.end = true;
+            this.reachedEnd();
         
         if (this.navigator == 0) {
             System.out.println( this.emptyMessage () );
