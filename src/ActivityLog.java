@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
@@ -58,7 +59,7 @@ public class ActivityLog {
     
     @Override
     public String toString() {
-        return "Activity Log: \n"+(this.log);
+        return (this.log).toString();
     }
     
     public void addActivity(Activity act) {
@@ -77,13 +78,13 @@ public class ActivityLog {
      *
      * @return Array with the 10 most recent activities
      */
-    public Activity[] getMostRecent() {
+    public ArrayList<Activity> getMostRecent() {
         int count = 0;
-        Activity[] result = new Activity[10];
+        ArrayList<Activity> result = new ArrayList<Activity>();
         Iterator<Activity> it= this.log.iterator();
             
         while (it.hasNext() && count < 10)
-            result[count++] = it.next().clone();
+            result.add(it.next().clone());
         return result;
     }
 }

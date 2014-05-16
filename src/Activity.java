@@ -1,5 +1,6 @@
 
-import java.util.GregorianCalendar; 
+import java.util.ArrayList; 
+import java.util.GregorianCalendar;
 
 /*Base Activity(Indoor Activities)
   class chain: Activity -> ActivityDistance -> ActivityAltitude
@@ -7,11 +8,11 @@ import java.util.GregorianCalendar;
 
 public class Activity
 {
-  int calories;
-  String name;
-  Weather weather;
-  GregorianCalendar date;
-  GregorianCalendar duration;
+  private int calories;
+  private String name;
+  private Weather weather;
+  private GregorianCalendar date;
+  private GregorianCalendar duration;
   
     //constructors
     public Activity(){

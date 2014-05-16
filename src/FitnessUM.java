@@ -14,12 +14,13 @@ public class FitnessUM {
     
     private boolean active;
     private UserController userController;
+    private ActivityController activityController;
 
 
    private static final String[] startOptions = { "Exit", "Register", "Login" };
    
    private static final String[] mainOptions = {
-       "Logout", "My Profile"
+       "Logout", "My Profile", "Add New Activity Session"
    };
    
    
@@ -27,31 +28,38 @@ public class FitnessUM {
      */
     public FitnessUM() {
         this.userController = new UserController();
+        this.activityController = new ActivityController();
     }
 
     /** Parameterized constructor
      * @param users existing UserDatabase
      */
-    public FitnessUM(UserController userController) {
+    public FitnessUM(UserController userController, ActivityController activityController) {
         this.userController = userController.clone();
+        this.activityController = activityController.clone();
     }
 
     /** Copy constructor
      * @param fit existing FitnessUM app
      */
     public FitnessUM(FitnessUM fit) {
-        this.userController = fit.getController();
+        this.userController = fit.getUserController();
+        this.activityController = fit.getActivityController();
     }
 
     /** Getter for logged in user ID
      * @return logged in user ID
      */
-    public User getCurrentUser() {
+    public User getUserCurrentUser() {
         return this.userController.getCurrentUser();
     }
     
-    private UserController getController() {
+    private UserController getUserController() {
         return this.userController.clone();
+    }
+    
+    private ActivityController getActivityController(){
+        return this.activityController.clone();
     }
 
     /** Getter for active variable
@@ -89,7 +97,6 @@ public class FitnessUM {
 
         this.userController.registerUser(name, email, password, info);
         this.userController.loginUser(email, password);
-        System.out.println("\nWelcome "+ this.userController.getCurrentUser().getName() );
     }
 
     /** Scans for valid login info and sets the current_user
@@ -119,11 +126,35 @@ public class FitnessUM {
             System.out.println("Too many failed attempts. We called the cops.\nBye bye.");
             this.shutdown();
         }
+        
+        System.out.println("\nWelcome "+ this.userController.getCurrentUser().getName() );
     }
     
     public void userProfile() {
         System.out.println( this.userController.currentUserProfile() );
         FitnessUM.pressEnterToContinue();
+    }
+    
+    public void addActivitySession() {
+        
+        /*Falta receber se é distance ou altitude ou nada, usar variavel specialCategories, que diz o numero de categorias extra*/
+        /*Falta por o navigator para as atividades e os weathers*/
+        int calories = FitnessUM.scanInt("How many calories did you burn?");
+        GregorianCalendar date = FitnessUM.scanDateWithHours("What's the date of this session? (dd-mm-yyyy)", "At what time did it start? (hh:mm)");
+        GregorianCalendar duration = FitnessUM.scanDuration("How long was the session? (hh:mm:ss)");
+        
+        if(specialCategories <= 1){
+            int distance = FitnessUM.scanInt("What was the distance?");
+            userController.addActivity(type(navigator), weather(navigator) ,calories, date, duration, distance);
+        }
+        
+        else if(specialCategories <= 2){
+            int distance = FitnessUM.scanInt("What was the distance?");
+            int altitude = FitnessUM.scanInt("What was the altitude?");
+            userController.addActivity(type(navigator), weather(navigator) ,calories, date, duration, distance, altitude);
+        }
+        
+        else userController.addActivity(type(navigator), weather(navigator) ,calories, date, duration);
     }
 
     /** Reads an integer from the user input and starts up or shuts down the app accordingly
@@ -141,7 +172,7 @@ public class FitnessUM {
     public void commandInterpreter() {
         System.out.println( "Choose one of the following options.");
         FitnessUM.printMainOptions();
-        int option = FitnessUM.scanMenuOption(0, 1);
+        int option = FitnessUM.scanMenuOption(0, 2);
         this.getMainPrompt()[option].exec();
     }
 
@@ -199,18 +230,18 @@ public class FitnessUM {
         u.setGender( FitnessUM.scanGender() );
         u.setHeight( FitnessUM.scanHeight() );
         u.setWeight( FitnessUM.scanWeight() );
-        u.setBirthDate( FitnessUM.scanDate() );
+        u.setBirthDate( FitnessUM.scanDate("When were you born? (dd-mm-yyyy)") );
         u.setFavoriteSport( FitnessUM.scanSport() );
 
         return u;
     }
     
-    private static int[] scanDateArray() {
-        String[] dateAry= FitnessUM.scanString("\nWhen were you born? (dd-mm-yy)").split("-");
+    private static int[] scanDateArray(String message) {
+        String[] dateAry= FitnessUM.scanString("\n"+message).split("-");
         
         if ( dateAry.length != 3 ) {
             System.out.println("Invalid date");
-            return scanDateArray();
+            return scanDateArray(message);
         }
         
         int[] date = new int[3];
@@ -221,17 +252,42 @@ public class FitnessUM {
                 date[i] = Integer.parseInt(dateAry[i]);
             } catch (Exception e) {
                 System.out.println("Invalid date");
-                return scanDateArray();
+                return scanDateArray(message);
             }
         }
         return date;       
     }
     
-    private static boolean validDate(GregorianCalendar date) {
-        GregorianCalendar now = new GregorianCalendar();
+    private static int[] scanHourArray(String message) {
+        String[] hourAry= FitnessUM.scanString("\n"+message).split(":");
         
+        if ( hourAry.length != 2 ) {
+            System.out.println("Invalid time");
+            return scanHourArray(message);
+        }
+        
+        int[] hour = new int[2];
+        
+        for (int i = 0; i < 2; i++) {
+            
+            try {
+                hour[i] = Integer.parseInt(hourAry[i]);
+            } catch (Exception e) {
+                System.out.println("Invalid time");
+                return scanHourArray(message);
+            }
+        }
+        return hour;       
+    }
+    
+    private static boolean validDate(GregorianCalendar date){
+        GregorianCalendar now = new GregorianCalendar();
         if ( date.get(Calendar.YEAR) < 1900 || date.compareTo(now) != -1 ) // We don't want any dates < 1900 or >= current time
             return false;
+        return true;
+    }
+    
+    private static boolean validGregorianCalendar(GregorianCalendar date) {
         
         date.setLenient(false);     // Allows for date verification
         try {
@@ -244,21 +300,71 @@ public class FitnessUM {
     }
     
     /** Scans the user for a date
-     * @param message message for print
-     * @return date Date given
+     * @return Date given
      */
-    private static GregorianCalendar scanDate() {
-        int[] numbers = FitnessUM.scanDateArray();
+    private static GregorianCalendar scanDate(String message) {
+        int[] numbers = FitnessUM.scanDateArray(message);
         GregorianCalendar date = new GregorianCalendar(numbers[2], numbers[1] - 1, numbers[0]);
         
-        if ( FitnessUM.validDate(date) )
+        if ( FitnessUM.validGregorianCalendar(date) && FitnessUM.validDate(date) )
             return date;
         
         else {
             System.out.println("Invalid date");
-            return FitnessUM.scanDate();
+            return FitnessUM.scanDate(message);
         }
     }
+    
+    private static GregorianCalendar scanDateWithHours(String messageForDate, String messageForTime) {
+        int[] day = FitnessUM.scanDateArray(messageForDate);
+        int[] time = FitnessUM.scanHourArray(messageForTime);
+        GregorianCalendar date = new GregorianCalendar(day[2], day[1] - 1, day[0], time[1], time[0]);
+        
+        if ( FitnessUM.validGregorianCalendar(date) && FitnessUM.validDate(date) )
+            return date;
+        
+        else {
+            System.out.println("Invalid date or time");
+            return FitnessUM.scanDateWithHours(messageForDate, messageForTime);
+        }
+    }
+    
+    private static int[] scanDurationArray(String message) {
+        String[] durationAry= FitnessUM.scanString("\n"+message).split(":");
+        
+        if ( durationAry.length != 3 ) {
+            System.out.println("Invalid duration");
+            return scanDurationArray(message);
+        }
+        
+        int[] duration = new int[3];
+        
+        for (int i = 0; i < 3; i++) {
+            
+            try {
+                duration[i] = Integer.parseInt(durationAry[i]);
+            } catch (Exception e) {
+                System.out.println("Invalid duration");
+                return scanDurationArray(message);
+            }
+        }
+        return duration;       
+    }
+    
+    private static GregorianCalendar scanDuration(String message) {
+        int[] numbers = FitnessUM.scanDurationArray(message);
+        GregorianCalendar date = new GregorianCalendar(1, 1, 1, numbers[2], numbers[1], numbers[0]);
+        
+        if ( FitnessUM.validGregorianCalendar(date) )
+            return date;
+        
+        else {
+            System.out.println("Invalid duration");
+            return FitnessUM.scanDuration(message);
+        }
+    }
+    
+    
     
     /** Scans the user for a double, presenting a message
      * @param message message message to be print
@@ -436,9 +542,12 @@ public class FitnessUM {
         final FitnessUM app = this;
         return new Prompt[] {
             new Prompt() { public void exec() { app.shutdown(); } },
-            new Prompt() { public void exec() { app.userProfile(); }}
+            new Prompt() { public void exec() { app.userProfile(); } },
+            new Prompt() { public void exec() { app.addActivitySession(); } }
         };
     }
+    
+    
     
     private static void printStartOptions() {
         int i = 0;

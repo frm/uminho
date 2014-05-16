@@ -1,4 +1,7 @@
 
+import java.util.ArrayList;
+
+
 /**
  *
  * @author frmendes
@@ -72,6 +75,18 @@ public class User extends BasicUser {
     
     public void setActivityLog(ActivityLog log){
         this.log = log.clone();
+    }
+    
+    public void addActivity(Activity act){
+        log.addActivity(act);
+    }
+    
+    public boolean removeActivity(Activity act){
+        return log.removeActivity(act);
+    }
+    
+    public ArrayList<Activity> getMostRecentActivities(){
+        return log.getMostRecent();
     }
     
     public User clone() {
