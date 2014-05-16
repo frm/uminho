@@ -12,23 +12,32 @@ public abstract class Navigation {
     private int navigator;
     private boolean end;
     private boolean navigating;
+    private ArrayList<Object> list;
     
     public Navigation() {
         this.navigator = 0;
         this.end = false;
         this.navigating = false;
+        this.list = new ArrayList<Object>();
     }
     
-    public abstract void action(Object o);
+    public Navigation(ArrayList<Object> list) {
+        this.navigator = 0;
+        this.end = false;
+        this.navigating = false;
+        this.list = (ArrayList<Object>) list.clone();
+    }
+    
+    public abstract void select(Object o);
     public abstract void print(Object o);
     
-    public void next(ArrayList<Object> list) {
+    private void next() {
         int limit = this.navigator + 10;
-        Iterator<Object> it = list.iterator();
+        Iterator<Object> it = this.list.iterator();
         
         while ( this.navigator < limit && it.hasNext() ) {
             System.out.print(this.navigator + 1);
-            this.print( list.get(this.navigator++) );
+            this.print( this.list.get(this.navigator++) );
         }
         
         if (this.navigator < limit)
@@ -36,17 +45,17 @@ public abstract class Navigation {
         
     }
     
-    public void backtrace(ArrayList<Object> list) {
+    private void backtrace() {
         int i = this.navigator - 10;
         
         while ( i < this.navigator ) {
             System.out.print(i + 1);
-            this.print( list.get(i++) );
+            this.print( this.list.get(i++) );
         }
     }
     
-    public int navigateIn(ArrayList<Object> list) {
-        this.next(list);
+    public void navigate() {
+        this.next();
         
         while( this.isNavigating() ) {
             if ( this.reachedEnd() )
@@ -58,30 +67,66 @@ public abstract class Navigation {
         }
     }
     
-    public boolean reachedEnd() {
+    private boolean reachedEnd() {
         return this.end;
     }
     
-    public boolean isNavigating() {
+    private boolean isNavigating() {
         return this.navigating;
     }
     
-    public void endOptions() {
-        System.out.println("\nNo more options available. Press n to continue, b to backtrace.\nEnter an option number to select it.");
-        Navigation.parseOptions();
+    private void quit() {
+        this.navigating = false;
     }
     
-    public static void parseOptions() {
+    
+    private void normalOptions() {
+        System.out.println("\nPress c to continue reading, b to backtrace and q to quit.\nEnter an option number to select it");
+        this.parseOptions(1);
+    }
+    
+    private void startOptions() {
+        System.out.println("\nPress c to continue reading, q to quit.\nEnter an option number to select it.");
+        this.parseOptions(2);
+    }
+    
+    private void endOptions() {
+        System.out.println("\nNo more options available. Press q to quit, b to backtrace.\nEnter an option number to select it.");
+        this.parseOptions(3);
+    }
+    
+    private void parseOptions(int tag) {
         char c = new Scanner(System.in).nextLine().charAt(0);
-        int option;
         if ( Character.isDigit(c) )
-            try {
-                option = Navigation.parseIntitInRange(this.getMinimumOption(), this.navigator, c);
-            } catch {
-                
-            }
-        
+            this.actionOptions(tag, c);                    
+        else
+           this.navigationOptions(1, c);
+    }
+    
+    private void actionOptions(int tag, char c) {
+        int option = -1;
+        try {
+            option = Navigation.parseIntInRange(this.getMinimumOption(), this.navigator, c);
+        } catch (Exception e) {
+             System.out.println("Invalid option");
+             this.parseOptions(tag);
+        }
             
+            this.select( this.list.get(option - 1) );
+    }
+    
+    private void navigationOptions(int tag, char option) {
+        char c = Character.toLowerCase(option);
+        if ( tag != 1 && c == 'n')
+            this.next();
+        else if (tag != 2 &&  c == 'b')
+            this.backtrace();
+        else if ( c == 'q' )
+            this.quit();
+        else {
+            System.out.println("Invalid option");
+            this.parseOptions(tag);
+        }
     }
     
     private int getMinimumOption() {
