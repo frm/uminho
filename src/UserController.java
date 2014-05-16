@@ -3,6 +3,8 @@
  * @author frmendes
  */
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.regex.Pattern;
 
 public class UserController {
@@ -68,6 +70,16 @@ public class UserController {
     
     public String currentUserProfile() {
         return this.currentUser.toString();
+    }
+    
+    public ArrayList<BasicUser> getFriendList() {
+        ArrayList<BasicUser> friendList = new ArrayList<BasicUser>();
+        Iterator<Integer> it = this.currentUser.getFriends().iterator();
+        
+        while ( it.hasNext() )
+            friendList.add( this.database.findById( it.next() ) );
+        
+        return friendList;
     }
 
     @Override

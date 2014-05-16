@@ -10,6 +10,7 @@
  */
 
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class UserList {
     private HashSet<Integer> users;
@@ -80,7 +81,7 @@ public class UserList {
         return users.remove(id);
     }
     
-    public Integer numberOfusers(){
+    public int numberOfUsers(){
         return users.size();
     }
    
@@ -88,5 +89,7 @@ public class UserList {
         return users.contains(id);
     }
     
-    
+    public Iterator<Integer> iterator()  {
+        return this.users.iterator();
+    }
 }
