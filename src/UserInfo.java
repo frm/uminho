@@ -62,7 +62,7 @@ public class UserInfo {
         result.append("\nWeight: ");
         result.append(this.weight);
         result.append("\nBirth Date: ");
-        result.append( FitnessUM.dateFormat(this.birthDate) );
+        result.append( Scan.dateFormat(this.birthDate) );
         result.append("\nFavorite Sport: ");
         result.append( this.favoriteSport);
         return result.toString();
