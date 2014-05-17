@@ -5,9 +5,12 @@
 
 import java.io.Console;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class FitnessUM {
@@ -21,6 +24,10 @@ public class FitnessUM {
    
    private static final String[] mainOptions = {
        "Logout", "My Profile", "Friend List", "Add New Activity Session"
+   };
+   
+   private static final String[] addActivitySessionOptions = {
+       "Go Back", "Simple Activities", "Distance Activities", "Altitude Activities"
    };
    
    
@@ -143,26 +150,54 @@ public class FitnessUM {
         new FriendListNavigator( this.userController.getFriendList() ).navigate();
     }
     
-    public void addActivitySession() {
+    public void getAddActivitySessionOption() {
+        System.out.println("Choose one of the following options.");
+        FitnessUM.printAddActivitySessionOptions();
+        int option = FitnessUM.scanMenuOption(0, 3);
+        this.getAddActivitySessionPrompt()[option].exec();
+    }
+    
+    public void listAddActivitySession(){
+        this.getAddActivitySessionOption();     
+    }
+    
+    public static String listWeatherOptions(){
+        String[] list = Weather.weatherStates;
+        StringBuilder result = new StringBuilder();
+        result.append("How was the weather?");
+        for( String w: list){
+            result.append(Weather.getIndexOf(w) + "." + w + "\n");
+        }
+        return result.toString() ;
+    }
+    
+    public void setActivities(ArrayList<String> simple, ArrayList<String> distance, ArrayList<String> altitude){
+        this.activityController.setSimpleActivities(simple);
+        this.activityController.setSimpleActivities(distance);
+        this.activityController.setSimpleActivities(altitude);
+    }
+    
+    public void addActivitySession(int category, String name) {
         
         /*Falta receber se é distance ou altitude ou nada, usar variavel specialCategories, que diz o numero de categorias extra*/
         /*Falta por o navigator para as atividades e os weathers*/
-        /*int calories = FitnessUM.scanInt("How many calories did you burn?");
+        int weather = FitnessUM.scanInt( FitnessUM.listWeatherOptions() );
+        int calories = FitnessUM.scanInt("How many calories did you burn?");
         GregorianCalendar date = FitnessUM.scanDateWithHours("What's the date of this session? (dd-mm-yyyy)", "At what time did it start? (hh:mm)");
         GregorianCalendar duration = FitnessUM.scanDuration("How long was the session? (hh:mm:ss)");
         
-        if(specialCategories <= 1){
+        if(category == 1){
             int distance = FitnessUM.scanInt("What was the distance?");
-            userController.addActivity(type(navigator), weather(navigator) ,calories, date, duration, distance);
+            userController.addActivity(name, 1, date, duration, calories, distance);
         }
         
-        else if(specialCategories <= 2){
+        else if(category == 2){
             int distance = FitnessUM.scanInt("What was the distance?");
             int altitude = FitnessUM.scanInt("What was the altitude?");
-            userController.addActivity(type(navigator), weather(navigator) ,calories, date, duration, distance, altitude);
+            userController.addActivity(name, calories, date, duration, calories, distance, altitude);
         }
         
-        else userController.addActivity(type(navigator), weather(navigator) ,calories, date, duration);*/
+        else userController.addActivity(name, 1, date, duration, calories);
     }
 
     /** Reads an integer from the user input and starts up or shuts down the app accordingly
@@ -437,7 +472,7 @@ public class FitnessUM {
     private static String scanSport() {
         String sport = FitnessUM.scanString("\nShare your favorite sport.").trim();
         
-        if ( ! Pattern.compile("[a-zA-Z]*").matcher(sport).matches() ) {
+        if ( ! Pattern.compile("^[\\p{L} ]*$").matcher(sport).matches() ) {
             System.out.println("Invalid sport.");
             return FitnessUM.scanSport();
         }
@@ -552,7 +587,17 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.shutdown(); } },
             new Prompt() { public void exec() { app.userProfile(); } },
             new Prompt() { public void exec() { app.listFriends(); }},
-            new Prompt() { public void exec() { app.addActivitySession(); } }
+            new Prompt() { public void exec() { app.listAddActivitySession(); } }
+        };
+    }
+    
+    private Prompt[] getAddActivitySessionPrompt() {
+        final FitnessUM app = this;
+        return new Prompt[] {
+            new Prompt() { public void exec() { return; } },
+            new Prompt() { public void exec() { (new AddActivityNavigator( 0,app, app.activityController.getSimpleActivities() ) ).navigate(); } },
+            new Prompt() { public void exec() { (new AddActivityNavigator( 1,app, app.activityController.getDistanceActivities() ) ).navigate();} },
+            new Prompt() { public void exec() { (new AddActivityNavigator( 2,app, app.activityController.getAltitudeActivities() ) ).navigate();} }        
         };
     }
     
@@ -574,6 +619,12 @@ public class FitnessUM {
     private static void printStartOptions() {
         int i = 0;
         for (String s : FitnessUM.startOptions)
+            System.out.println(i++ + ". " + s);
+    }
+    
+    private static void printAddActivitySessionOptions() {
+        int i = 0;
+        for (String s : FitnessUM.addActivitySessionOptions)
             System.out.println(i++ + ". " + s);
     }
     

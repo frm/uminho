@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class Weather {
     private int weatherIndex;
     
-    private static final String[] weatherStates = {"No Information Available", "Clear Sky", "Cloudy", "Light Rain", "Heavy Rain", "Snowing", "Hailing", "Windy", "Stormy"};
+    public static final String[] weatherStates = {"No Information Available", "Clear Sky", "Cloudy", "Light Rain", "Heavy Rain", "Snowing", "Hailing", "Windy", "Stormy"};
     
     public Weather() {
         this.weatherIndex = 0;
@@ -61,7 +61,7 @@ public class Weather {
         return this.weatherIndex;
     }
     
-    private static int getIndexOf(String weather) {
+    public static int getIndexOf(String weather) {
         return Math.max( Arrays.asList(Weather.weatherStates).indexOf(weather), 0);
     }
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
  *
  * @author frmendes
  */
-public class FriendListNavigator extends Navigation<BasicUser> {
+public class FriendListNavigator extends Navigator<BasicUser> {
     public FriendListNavigator() {
         super();
     }

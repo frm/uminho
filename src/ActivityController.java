@@ -33,15 +33,15 @@ public class ActivityController {
         this.altitudeActivities = ac.getAltitudeActivities();
     }
 
-    private ArrayList<String> getSimpleActivities() {
+    public ArrayList<String> getSimpleActivities() {
         return (ArrayList<String>) this.simpleActivities.clone();
     }
 
-    private ArrayList<String> getDistanceActivities() {
+    public ArrayList<String> getDistanceActivities() {
         return (ArrayList<String>) this.distanceActivities.clone();
     }
 
-    private ArrayList<String> getAltitudeActivities() {
+    public ArrayList<String> getAltitudeActivities() {
         return (ArrayList<String>) this.altitudeActivities.clone();
     }
 
