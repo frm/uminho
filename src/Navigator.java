@@ -13,14 +13,12 @@ public abstract class Navigator<T> {
     private boolean end;
     private boolean navigating;
     private ArrayList<T> list;
-    private int lastOption;
     private static Prompt[] optionsParser;
     
     private static final int NumberDisplays = 10;
     
     public Navigator() {
         this.navigator = 0;
-        this.lastOption = -1;
         this.end = false;
         this.navigating = false;
         this.list = new ArrayList<T>();
@@ -29,7 +27,6 @@ public abstract class Navigator<T> {
     
     public Navigator(ArrayList<T> list) {
         this.navigator = 0;
-        this.lastOption = -1;
         this.end = false;
         this.navigating = false;
         this.list = (ArrayList<T>) list.clone();
@@ -39,11 +36,6 @@ public abstract class Navigator<T> {
     public abstract void select(T t);
     public abstract void print(T t);
     public abstract String emptyMessage();
-    
-    
-    public int getLastOption() {
-        return this.lastOption;
-    }
     
     private boolean reachedEnd() {
         return this.end;
@@ -90,6 +82,19 @@ public abstract class Navigator<T> {
         do
             this.navigator--;
         while (this.navigator % Navigator.NumberDisplays != 0);
+    }
+    
+    private void reprint() {
+        int limit = this.navigator;
+        this.rewindNavigator();
+        System.out.println("\n\nLIMIT: " + limit + " NAVIGATOR: " + this.navigator+ "\n\n");
+        
+        while ( this.navigator < limit) {
+            System.out.print(this.navigator + 1 + ". ");
+            this.print( list.get(this.navigator++) );
+        }
+        
+        if (this.reachedEnd() ) this.end = false;        
     }
     
     private void backtrace() {
@@ -147,8 +152,8 @@ public abstract class Navigator<T> {
             return;
         }
             
-            this.lastOption = option - 1;
-            this.select( this.list.get(this.lastOption) );
+            this.select( this.list.get(option - 1) );
+            this.reprint();
     }
     
     private void navigationOptions(int permission, char option) {
