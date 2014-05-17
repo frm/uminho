@@ -179,16 +179,16 @@ public class FitnessUM {
 
         if(category == 1){
             int distance = Scan.scanInt("What was the distance?");
-            userController.addActivity(name, 1, date, duration, calories, distance);
+            userController.addActivity(name, weather, date, duration, calories, distance);
         }
 
         else if(category == 2){
             int distance = Scan.scanInt("What was the distance?");
             int altitude = Scan.scanInt("What was the altitude?");
-            userController.addActivity(name, calories, date, duration, calories, distance, altitude);
+            userController.addActivity(name, weather, date, duration, calories, distance, altitude);
         }
 
-        else userController.addActivity(name, 1, date, duration, calories);
+        else userController.addActivity(name, weather, date, duration, calories);
     }
 
     /** Reads an integer from the user input and starts up or shuts down the app accordingly

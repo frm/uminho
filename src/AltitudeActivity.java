@@ -36,7 +36,7 @@ public class AltitudeActivity extends DistanceActivity{
     
     public String toString() {
         StringBuilder understring = new StringBuilder();
-        understring.append("\nAltitude");
+        understring.append("\nAltitude: ");
         understring.append(this.altitude);
         
         return super.toString() + understring.toString();

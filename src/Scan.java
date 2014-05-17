@@ -162,7 +162,7 @@ public class Scan {
     public static GregorianCalendar dateWithHours(String messageForDate, String messageForTime) {
         int[] day = Scan.dateArray(messageForDate);
         int[] time = Scan.hourArray(messageForTime);
-        GregorianCalendar date = new GregorianCalendar(day[2], day[1] - 1, day[0], time[1], time[0]);
+        GregorianCalendar date = new GregorianCalendar(day[2], day[1] - 1, day[0], time[0], time[1]);
         
         if ( Scan.validGregorianCalendar(date) && Scan.validDate(date) )
             return date;
@@ -197,7 +197,7 @@ public class Scan {
     
     public static GregorianCalendar duration(String message) {
         int[] numbers = Scan.durationArray(message);
-        GregorianCalendar date = new GregorianCalendar(1, 1, 1, numbers[2], numbers[1], numbers[0]);
+        GregorianCalendar date = new GregorianCalendar(1, 1, 1, numbers[0], numbers[1], numbers[2]);
         
         if ( Scan.validGregorianCalendar(date) )
             return date;
