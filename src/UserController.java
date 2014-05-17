@@ -14,7 +14,7 @@ public class UserController {
     
     
     // Name regex - names can't contain more than one space and must not contain any numbers
-    private static final String NAMEREGEX = "^[[a-z][A-Z]]*\\s?[[a-z][A-Z]]*$";
+    private static final String NAMEREGEX = "^[\\p{L}]*\\s?[\\p{L}]*$";
     // Email regex
     private static final String EMAILREGEX = "\\A[\\w\\-.]+@[a-z\\-\\d]+(\\.[a-z]+)*\\.[a-z]+\\z";
     

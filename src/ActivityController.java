@@ -46,15 +46,21 @@ public class ActivityController {
     }
 
     public void setSimpleActivities(ArrayList<String> simpleActivities) {
-        this.simpleActivities = simpleActivities;
+        this.simpleActivities = (ArrayList<String>)simpleActivities.clone();
     }
 
     public void setDistanceActivities(ArrayList<String> distanceActivities) {
-        this.distanceActivities = distanceActivities;
+        this.distanceActivities = (ArrayList<String>)distanceActivities.clone();
     }
 
     public void setAltitudeActivities(ArrayList<String> altitudeActivities) {
-        this.altitudeActivities = altitudeActivities;
+        this.altitudeActivities = (ArrayList<String>)altitudeActivities.clone();
+    }
+    
+    public void setActivities(ArrayList<String> simple, ArrayList<String> distance, ArrayList<String> altitude){
+        this.setSimpleActivities(simple);
+        this.setDistanceActivities(distance);
+        this.setAltitudeActivities(altitude);
     }
     
     public void addNewActivity(int type, String name){
@@ -101,8 +107,4 @@ public class ActivityController {
     public ActivityController clone(){
        return new ActivityController(this);
     }
-    
-    
-    
-    
 }

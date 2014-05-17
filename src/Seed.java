@@ -73,7 +73,9 @@ public class Seed {
         altitude.add("Elliptical Training");
         altitude.add("Scuba Diving");
         
-        app.setActivities(simple, distance, altitude);
+        ActivityController ac = app.getActivityController();
+        ac.setActivities(simple, distance, altitude);
+        app.setActivityController(ac);
     }
     
     private void addTestUsers() {
@@ -106,6 +108,7 @@ public class Seed {
     
     public FitnessUM generate() {
         this.addTestUsers();
+        this.generateDefaultActivityList();
         return this.app;
     }
     

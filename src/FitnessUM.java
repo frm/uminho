@@ -72,6 +72,10 @@ public class FitnessUM {
     public void setUserController(UserController uc) {
         this.userController = uc.clone();
     }
+    
+     public void setActivityController(ActivityController ac) {
+        this.activityController = ac.clone();
+    }
 
     /** Getter for active variable
      * @return active variable
@@ -169,12 +173,6 @@ public class FitnessUM {
             result.append(Weather.getIndexOf(w) + "." + w + "\n");
         }
         return result.toString() ;
-    }
-    
-    public void setActivities(ArrayList<String> simple, ArrayList<String> distance, ArrayList<String> altitude){
-        this.activityController.setSimpleActivities(simple);
-        this.activityController.setSimpleActivities(distance);
-        this.activityController.setSimpleActivities(altitude);
     }
     
     public void addActivitySession(int category, String name) {

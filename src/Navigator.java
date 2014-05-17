@@ -67,11 +67,12 @@ public abstract class Navigator<T> {
     
     private void next() {        
         int limit = this.navigator + Navigator.NumberDisplays;
-        Iterator<T> it = this.list.iterator();
+        int total = this.list.size();
+
         
-        while ( it.hasNext() && this.navigator < limit) {
-            System.out.print(++this.navigator + ". ");
-            this.print( it.next() );
+        while ( this.navigator < total && this.navigator < limit) {
+            System.out.print(this.navigator + 1 + ". ");
+            this.print( list.get(this.navigator++) );
         }
         
         if (this.navigator == 0) {
@@ -80,18 +81,27 @@ public abstract class Navigator<T> {
             this.quit();
         }
         
-        else if (this.navigator < limit)
+        else if ( this.navigator == total )
             this.reachEnd();
               
     }
     
+    private void rewindNavigator() {
+        do
+            this.navigator--;
+        while (this.navigator % Navigator.NumberDisplays != 0);
+    }
+    
     private void backtrace() {
-        int i = this.navigator - Navigator.NumberDisplays;
+        this.rewindNavigator();
+        int i = this.navigator -  Navigator.NumberDisplays;
         
-        while ( i < this.navigator ) {
-            System.out.print(i + 1);
-            this.print( this.list.get(i++) );
+        while ( i < this.navigator) {
+            System.out.print(i + 1 + ". ");
+            this.print( list.get(i++) );
         }
+        
+        if (this.reachedEnd() ) this.end = false;
     }
     
     public void navigate() {
@@ -100,7 +110,7 @@ public abstract class Navigator<T> {
         
         while( this.isNavigating() ) {
             if ( this.reachedEnd() )
-                if ( this.navigator < Navigator.NumberDisplays )         this.optionsParser[0].exec();
+                if ( this.navigator <= Navigator.NumberDisplays )      this.optionsParser[0].exec();
                 else                                                                                 this.optionsParser[2].exec();
             else
                 if ( this.navigator == Navigator.NumberDisplays )      this.optionsParser[1].exec();
@@ -114,7 +124,14 @@ public abstract class Navigator<T> {
     }
 
     private void parseOptionsPermit(int permission) {
-        char c = new Scanner(System.in).nextLine().charAt(0);
+        String s = new Scanner(System.in).nextLine() ;
+        if (s.length() != 1) {
+            this.invalidOption(permission);
+            return;
+        }
+        
+        char c = s.charAt(0);
+        
         if ( Character.isDigit(c) )
             this.actionOptions(permission, c);                    
         else
@@ -179,7 +196,7 @@ public abstract class Navigator<T> {
              }}                
         };
     }
-    
+        
     private static int parseIntInRange(int min, int max, char c) throws IllegalArgumentException {
         int val = Character.getNumericValue(c);
         
