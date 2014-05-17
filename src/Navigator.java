@@ -125,7 +125,7 @@ public abstract class Navigator<T> {
 
     private void parseOptionsPermit(int permission) {
         String s = new Scanner(System.in).nextLine() ;
-        if (s.length() != 1) {
+        if (s.length() == 0) {
             this.invalidOption(permission);
             return;
         }
@@ -133,15 +133,15 @@ public abstract class Navigator<T> {
         char c = s.charAt(0);
         
         if ( Character.isDigit(c) )
-            this.actionOptions(permission, c);                    
+            this.actionOptions(permission, s);                    
         else
            this.navigationOptions(permission, c);
     }
     
-    private void actionOptions(int permission, char c) {
+    private void actionOptions(int permission, String s) {
         int option = -1;
         try {
-            option = Navigator.parseIntInRange(this.getMinimumOption(), this.navigator, c);
+            option = Navigator.parseIntInRange(this.getMinimumOption(), this.list.size(), s);
         } catch (IllegalArgumentException e) {
             this.invalidOption(permission);
             return;
@@ -197,8 +197,8 @@ public abstract class Navigator<T> {
         };
     }
         
-    private static int parseIntInRange(int min, int max, char c) throws IllegalArgumentException {
-        int val = Character.getNumericValue(c);
+    private static int parseIntInRange(int min, int max, String s) throws IllegalArgumentException {
+        int val = Integer.parseInt(s);
         
         if (val < min || val > max)
             throw new IllegalArgumentException("Value off range");
