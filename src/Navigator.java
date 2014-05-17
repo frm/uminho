@@ -61,7 +61,7 @@ public abstract class Navigator<T> {
         int limit = this.navigator + Navigator.NumberDisplays;
         int total = this.list.size();
 
-        
+        System.out.println("\n");
         while ( this.navigator < total && this.navigator < limit) {
             System.out.print(this.navigator + 1 + ". ");
             this.print( list.get(this.navigator++) );
@@ -69,7 +69,7 @@ public abstract class Navigator<T> {
         
         if (this.navigator == 0) {
             System.out.println( this.emptyMessage() );
-            FitnessUM.pressEnterToContinue();
+            Scan.pressEnterToContinue();
             this.quit();
         }
         
@@ -85,21 +85,25 @@ public abstract class Navigator<T> {
     }
     
     private void reprint() {
+        Scan.pressEnterToContinue();
         int limit = this.navigator;
         this.rewindNavigator();
         
+        System.out.println("\n");
         while ( this.navigator < limit) {
             System.out.print(this.navigator + 1 + ". ");
             this.print( list.get(this.navigator++) );
         }
         
-        if (this.reachedEnd() ) this.end = false;        
+        if ( this.navigator == this.list.size() )
+            this.reachEnd();
     }
     
     private void backtrace() {
         this.rewindNavigator();
         int i = this.navigator -  Navigator.NumberDisplays;
         
+        System.out.println("\n");
         while ( i < this.navigator) {
             System.out.print(i + 1 + ". ");
             this.print( list.get(i++) );
