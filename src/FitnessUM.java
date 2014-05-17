@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 /**
@@ -16,7 +17,7 @@ public class FitnessUM {
    private static final String[] startOptions = { "Exit", "Register", "Login" };
 
    private static final String[] mainOptions = {
-       "Logout", "My Profile", "Friend List", "Add New Activity Session"
+       "Logout", "My Profile", "Friend List","My Activity Log", "Add New Activity Session"
    };
 
    private static final String[] addActivitySessionOptions = {
@@ -190,6 +191,12 @@ public class FitnessUM {
 
         else userController.addActivity(name, weather, date, duration, calories);
     }
+    
+    public void myActivityLog(){
+        ArrayList<Activity> list = userController.getMostRecentActivities();
+        
+        System.out.print(list.toString()+"\n");
+    }
 
     /** Reads an integer from the user input and starts up or shuts down the app accordingly
      */
@@ -206,7 +213,7 @@ public class FitnessUM {
     public void commandInterpreter() {
         System.out.println( "Choose one of the following options.");
         FitnessUM.printMainOptions();
-        int option = Scan.menuOption(0, 3);
+        int option = Scan.menuOption(0, 4);
         this.getMainPrompt()[option].exec();
     }
 
@@ -236,6 +243,7 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.run(); } },
             new Prompt() { public void exec() { app.userProfile(); } },
             new Prompt() { public void exec() { app.listFriends(); }},
+            new Prompt() { public void exec() { app.myActivityLog(); }},
             new Prompt() { public void exec() { app.listAddActivitySession(); } }
         };
     }
