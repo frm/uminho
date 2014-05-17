@@ -5,7 +5,6 @@
  */
 
 import java.util.GregorianCalendar;
-import java.util.Objects;
 
 public class UserInfo {
     private boolean gender;

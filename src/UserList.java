@@ -73,11 +73,11 @@ public class UserList {
         return true;
     }
     
-    public void addFriend(Integer id){
+    public void addUser(Integer id){
         users.add(id);
     }
     
-    public boolean removeFriend(Integer id){
+    public boolean removeUser(Integer id){
         return users.remove(id);
     }
     

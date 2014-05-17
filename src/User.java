@@ -49,43 +49,51 @@ public class User extends BasicUser {
         return friends.clone();
     }
     
-    public UserInfo getInfo(){
+    public UserInfo getInfo() {
         return info.clone();
     }
     
-    public Records getRecords(){
+    public Records getRecords() {
         return records.clone();
     }
     
-    public ActivityLog getActivityLog(){
+    public ActivityLog getActivityLog() {
         return log.clone();
     }
     
-    public void setFriends(UserList friendlist){
+    public void setFriends(UserList friendlist) {
         this.friends = friendlist.clone();
     }
     
-    public void setInfo(UserInfo info){
+    public void setInfo(UserInfo info) {
         this.info = info.clone();
     }
     
-    public void setRecords(Records rec){
+    public void setRecords(Records rec) {
         this.records = rec.clone();
     }
     
-    public void setActivityLog(ActivityLog log){
+    public void setActivityLog(ActivityLog log) {
         this.log = log.clone();
     }
     
-    public void addActivity(Activity act){
+    public void addFriend(int id) {
+        this.friends.addUser(id);
+    }
+    
+    public void addFriend(User u) {
+        this.friends.addUser( u.getId() );
+    }
+    
+    public void addActivity(Activity act) {
         log.addActivity(act);
     }
     
-    public boolean removeActivity(Activity act){
+    public boolean removeActivity(Activity act) {
         return log.removeActivity(act);
     }
     
-    public ArrayList<Activity> getMostRecentActivities(){
+    public ArrayList<Activity> getMostRecentActivities() {
         return log.getMostRecent();
     }
     

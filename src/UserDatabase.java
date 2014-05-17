@@ -11,9 +11,9 @@ import java.util.Set;
 public class UserDatabase {
 
     // Both HashMaps refer to the same user, pointer is shared
-    private HashMap<Integer, User> idEntry;     // User indexation by ID
-    private HashMap<String, User> emailEntry;   // User indexation by email
-    private int userCount;                      // Total number of users that have been saved
+    private HashMap<Integer, User> idEntry;              // User indexation by ID
+    private HashMap<String, User> emailEntry;          // User indexation by email
+    private int userCount;                                          // Total number of users that have been saved
 
     /** Empty constructor
      */

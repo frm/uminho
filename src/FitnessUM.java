@@ -5,7 +5,6 @@
 
 import java.io.Console;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
@@ -55,12 +54,16 @@ public class FitnessUM {
         return this.userController.getCurrentUser();
     }
     
-    private UserController getUserController() {
+    public UserController getUserController() {
         return this.userController.clone();
     }
     
-    private ActivityController getActivityController(){
+    public ActivityController getActivityController(){
         return this.activityController.clone();
+    }
+    
+    public void setUserController(UserController uc) {
+        this.userController = uc.clone();
     }
 
     /** Getter for active variable
@@ -553,7 +556,20 @@ public class FitnessUM {
         };
     }
     
+    private static Prompt[] getDevPrompt() {
+        return new Prompt[] {
+            new Prompt() { public void exec() { System.out.println("\nBye bye."); } },
+            new Prompt() { public void exec() { new FitnessUM( new Seed().generate() ).run(); } },
+            new Prompt() { public void exec() { System.out.println("\nFunction yet to be implemented\n"); FitnessUM.devPrompt(); } }
+        };
+     }
     
+    private static void devPrompt() {
+        System.out.println("Do you wish to import an existing network or create a new one?\n0. Exit\n1. Create\n2. Import");
+        
+        int option = FitnessUM.scanMenuOption(0, 3);
+        FitnessUM.getDevPrompt()[option].exec();
+    }
     
     private static void printStartOptions() {
         int i = 0;
@@ -578,7 +594,12 @@ public class FitnessUM {
         return new SimpleDateFormat("dd/MM/yyyy").format( c.getTime() );
     }
     
+    public FitnessUM clone() {
+        return new FitnessUM(this);
+    }
+    
     public static void main(String[] args) {
-        new FitnessUM().run();
+        System.out.println("Welcome to FitnessUM Dev Prompt.");
+        FitnessUM.devPrompt();
     }
 }

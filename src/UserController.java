@@ -69,6 +69,20 @@ public class UserController {
         return match;
     }
     
+    public void addFriend(int id) {
+        User u = this.database.findById(id);
+        
+        this.currentUser.addFriend( u.getId() );
+        u.addFriend( this.currentUser.getId() );
+        
+        this.database.save(u);
+        this.database.save(this.currentUser);
+    }
+    
+    public void addFriend(User u) {
+        this.addFriend( u.getId() );
+    }
+    
     public void addActivity(String type, int weather, GregorianCalendar date, GregorianCalendar duration, int calories){
         Activity activity = new Activity(type, weather, date, duration, calories);
         currentUser.addActivity(activity);
