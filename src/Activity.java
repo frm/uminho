@@ -100,7 +100,7 @@ public class Activity
         result.append("\nWeather: ");
         result.append(this.weather);
         result.append("\nDuration: ");
-        result.append(new SimpleDateFormat("HH 'hours' mm 'minutes and' ss 'seconds' ").format( this.date.getTime() ));
+        result.append(new SimpleDateFormat("HH 'hours' mm 'minutes and' ss 'seconds' ").format( this.duration.getTime() ));
         result.append("\nCalories burned: ");
         result.append(this.calories);
         
