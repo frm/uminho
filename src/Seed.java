@@ -102,7 +102,7 @@ public class Seed {
     }
     
     private static void jrod(UserController uc) {
-        UserInfo ui = new UserInfo(true, 174.0, 60.0, new GregorianCalendar(1994, 4, 26), "Kendo");
+        UserInfo ui = new UserInfo(true, 174.0, 63.0, new GregorianCalendar(1994, 11, 13), "Swimming");
         uc.registerUser("João Rodrigues", "bobloblaw@law.blog", "lowblow", ui);
     }
     
