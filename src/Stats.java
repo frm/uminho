@@ -15,49 +15,49 @@ import java.util.Map;
  * @author joaorodrigues
  */
 public class Stats {
-    private HashMap<String, Activity> activities;
+    private HashMap<String, StatEntry> stats;
     
     public Stats(){
-        this.activities = new HashMap<String, Activity>();
+        this.stats = new HashMap<String, StatEntry>();
     }
     
-    public Stats(HashMap<String, Activity> activities){
-        this.activities = new HashMap<String, Activity>();
-        for(Activity act: activities.values()){
-            this.activities.put(act.getName(), act);
+    public Stats(HashMap<String, StatEntry> stats){
+        this.stats = new HashMap<String, StatEntry>();
+        for(StatEntry act: stats.values()){
+            this.stats.put(act.getName(), act);
         }
     }
     
     public Stats(Stats stats){
-        this.activities = new HashMap<String, Activity>();
-        for(Activity act: stats.getActivities().values())
-            this.activities.put(act.getName(), act);
+        this.stats = new HashMap<String, StatEntry>();
+        for(StatEntry act: stats.getstats().values())
+            this.stats.put(act.getName(), act);
     }
     
-    public Map<String,Activity> getActivities(){
-        HashMap<String,Activity> aux = new HashMap<String, Activity>();
-        for(Activity act: this.activities.values())
+    public Map<String,StatEntry> getstats(){
+        HashMap<String,StatEntry> aux = new HashMap<String, StatEntry>();
+        for(StatEntry act: this.stats.values())
             aux.put(act.getName(), act);
         return aux;
     }
     
-    public void setActivities(HashMap<String,Activity> activities){
-        HashMap<String,Activity> aux = new HashMap<String, Activity>();
+    public void setstats(HashMap<String,StatEntry> stats){
+        HashMap<String,StatEntry> aux = new HashMap<String, StatEntry>();
         
-        for(Activity act: activities.values())
+        for(StatEntry act: stats.values())
             aux.put(act.getName(), act);
         
-        this.activities = aux;
+        this.stats = aux;
     }
     
-    /**Get the activities the user has practiced at least once
+    /**Get the stats the user has practiced at least once
      *
-     * @return HashSet with the names of the activities he has practiced at least once.
+     * @return HashSet with the names of the stats he has practiced at least once.
      */
-    public HashSet<String> getMyActivities(){
+    public HashSet<String> getMystats(){
         HashSet<String> result = new HashSet<String>();
 
-        for(Activity act: this.activities.values() ){
+        for(StatEntry act: this.stats.values() ){
             result.add( act.getName() );
         }
         
@@ -65,35 +65,37 @@ public class Stats {
     }
     
     public void addActivity(Activity act){
-        if(this.activities.containsKey(act.getName())) 
+        if(this.stats.containsKey(act.getName())) 
             updateStats(act);
+        else {
+            StatEntry stat = newStatFromActivity(act);
+            this.stats.put(act.getName(), stat );
+        }
+    }
+    
+    private StatEntry newStatFromActivity(Activity act){
+        if( act instanceof AltitudeActivity){
+            AltitudeActivity altAct = (AltitudeActivity) act;
+            return new AltitudeStatEntry(altAct);
+        }
+        else if(act instanceof DistanceActivity){
+            DistanceActivity disAct = (DistanceActivity) act;
+            return new DistanceStatEntry(disAct);
+        }
+        
         else 
-            this.activities.put(act.getName(), act);
+            return new StatEntry(act ); 
+            
     }
     
     
-    /**Update the statistics for an existing activity
+    /**Update the statistics for an existing StatEntry
      *
      */
     public void updateStats(Activity act){
-        Activity aux = (this.activities).get( act.getName() );
+        StatEntry stat = stats.get(act.getName());     
+        stat.updateStat(act);
         
-        aux.setCalories( aux.getCalories() + act.getCalories() );
-
-        long total = aux.getDuration().getTimeInMillis() + act.getDuration().getTimeInMillis();
-        
-        GregorianCalendar duration = new GregorianCalendar();
-        duration.setTimeInMillis(total);
-        
-        aux.setDuration(duration);
-        
-        if( aux instanceof DistanceActivity){
-            DistanceActivity newAux = (DistanceActivity) aux;
-            DistanceActivity newAct = (DistanceActivity) act;
-            newAux.setDistance( newAct.getDistance() + newAux.getDistance() );
-        }
-        
-        this.activities.put(act.getName(), aux);
     }
     
     public Stats clone(){
@@ -116,11 +118,11 @@ public class Stats {
         
         Stats stats = (Stats) o;
         
-        return this.activities.equals(stats.getActivities() );
+        return this.stats.equals(stats.getstats() );
     }
     
     public String toString(){
-        return (this.activities.toString() );
+        return (this.stats.toString() );
     }    
     
 }
