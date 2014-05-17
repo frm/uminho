@@ -168,7 +168,7 @@ public class FitnessUM {
     public static String listWeatherOptions(){
         String[] list = Weather.weatherStates;
         StringBuilder result = new StringBuilder();
-        result.append("How was the weather?");
+        result.append("How was the weather?\n");
         for( String w: list){
             result.append(Weather.getIndexOf(w) + "." + w + "\n");
         }

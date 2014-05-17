@@ -87,7 +87,6 @@ public abstract class Navigator<T> {
     private void reprint() {
         int limit = this.navigator;
         this.rewindNavigator();
-        System.out.println("\n\nLIMIT: " + limit + " NAVIGATOR: " + this.navigator+ "\n\n");
         
         while ( this.navigator < limit) {
             System.out.print(this.navigator + 1 + ". ");

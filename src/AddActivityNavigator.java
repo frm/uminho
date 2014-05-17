@@ -17,16 +17,19 @@ public class AddActivityNavigator extends Navigator<String>{
     
     public AddActivityNavigator() {
         super();
+        this.app = new FitnessUM();
         this.category = 0;
     }
     
     public AddActivityNavigator(ArrayList<String> list) {
         super(list);
+        this.app = new FitnessUM();
         this.category = 0;
     }
     
     public AddActivityNavigator(int category, FitnessUM app, ArrayList<String> list ){
         super(list);
+        this.app = app;
         this.category = category;
     }
     
