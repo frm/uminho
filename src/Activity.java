@@ -1,4 +1,5 @@
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList; 
 import java.util.GregorianCalendar;
 
@@ -91,16 +92,16 @@ public class Activity
     
     public String toString(){
         StringBuilder result = new StringBuilder();
-        result.append("### Activity: ###");
-        result.append("\nName: ");
+
+        result.append("\n\nSport: ");
         result.append(this.name);
         result.append("\nDate: ");
-        result.append(this.date);
+        result.append(new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm").format( this.date.getTime() ));
         result.append("\nWeather: ");
         result.append(this.weather);
         result.append("\nDuration: ");
-        result.append(this.duration);
-        result.append("\nCalories spent: ");
+        result.append(new SimpleDateFormat("HH 'hours' mm 'minutes and' ss 'seconds' ").format( this.date.getTime() ));
+        result.append("\nCalories burned: ");
         result.append(this.calories);
         
         return result.toString();
