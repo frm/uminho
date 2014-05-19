@@ -10,7 +10,6 @@ import java.util.Scanner;
 public abstract class Navigator<T> {
     
     private int navigator;
-    private boolean end;
     private boolean navigating;
     private ArrayList<T> list;
     private static Prompt[] optionsParser;
@@ -19,7 +18,6 @@ public abstract class Navigator<T> {
     
     public Navigator() {
         this.navigator = 0;
-        this.end = false;
         this.navigating = false;
         this.list = new ArrayList<T>();
         this.optionsParser = Navigator.optionsGenerator(this);
@@ -27,7 +25,6 @@ public abstract class Navigator<T> {
     
     public Navigator(ArrayList<T> list) {
         this.navigator = 0;
-        this.end = false;
         this.navigating = false;
         this.list = (ArrayList<T>) list.clone();
         this.optionsParser = Navigator.optionsGenerator(this);
@@ -38,7 +35,7 @@ public abstract class Navigator<T> {
     public abstract String emptyMessage();
     
     private boolean reachedEnd() {
-        return this.end;
+        return this.navigator == this.list.size();
     }
     
     private boolean isNavigating() {
@@ -53,63 +50,8 @@ public abstract class Navigator<T> {
         this.navigating = false;
     }
     
-    public void reachEnd() {
-        this.end = true;
-    }
-    
-    private void next() {        
-        int limit = this.navigator + Navigator.NumberDisplays;
-        int total = this.list.size();
-
-        System.out.println("\n");
-        while ( this.navigator < total && this.navigator < limit) {
-            System.out.print(this.navigator + 1 + ". ");
-            this.print( list.get(this.navigator++) );
-        }
-        
-        if (this.navigator == 0) {
-            System.out.println( this.emptyMessage() );
-            Scan.pressEnterToContinue();
-            this.quit();
-        }
-        
-        else if ( this.navigator == total )
-            this.reachEnd();
-              
-    }
-    
-    private void rewindNavigator() {
-        do
-            this.navigator--;
-        while (this.navigator % Navigator.NumberDisplays != 0);
-    }
-    
-    private void reprint() {
-        Scan.pressEnterToContinue();
-        int limit = this.navigator;
-        this.rewindNavigator();
-        
-        System.out.println("\n");
-        while ( this.navigator < limit) {
-            System.out.print(this.navigator + 1 + ". ");
-            this.print( list.get(this.navigator++) );
-        }
-        
-        if ( this.navigator == this.list.size() )
-            this.reachEnd();
-    }
-    
-    private void backtrace() {
-        this.rewindNavigator();
-        int i = this.navigator -  Navigator.NumberDisplays;
-        
-        System.out.println("\n");
-        while ( i < this.navigator) {
-            System.out.print(i + 1 + ". ");
-            this.print( list.get(i++) );
-        }
-        
-        if (this.reachedEnd() ) this.end = false;
+    private int totalElements() {
+        return this.list.size();
     }
     
     public void navigate() {
@@ -125,6 +67,50 @@ public abstract class Navigator<T> {
                 else                                                                                 this.optionsParser[3].exec();
         }
     }
+    
+    private void next() {        
+        int limit = Math.min(this.navigator + Navigator.NumberDisplays, this.totalElements() );
+
+        this.printNext(limit);
+        
+        if (this.navigator == 0) {
+            System.out.println( this.emptyMessage() );
+            Scan.pressEnterToContinue();
+            this.quit();
+        }
+              
+    }
+    
+    private void reprint() {
+        Scan.pressEnterToContinue();
+        int limit = this.navigator;
+        this.rewindNavigator();
+        
+        this.printNext(limit);        
+    }
+    
+    private void backtrace() {
+        this.rewindNavigator();
+        int limit = this.navigator;
+        this.navigator -= Navigator.NumberDisplays;
+        
+        this.printNext(limit);
+    }
+    
+    private void rewindNavigator() {
+        do
+            this.navigator--;
+        while (this.navigator % Navigator.NumberDisplays != 0);
+    }
+    
+    private void printNext(int limit) {
+        System.out.println("\n");
+        while ( this.navigator < limit) {
+            System.out.print(this.navigator + 1 + ". ");
+            this.print( list.get(this.navigator++) );
+        }
+    }
+    
     
     private void invalidOption(int permission) {
         System.out.println("Invalid option");
