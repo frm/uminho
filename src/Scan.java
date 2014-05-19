@@ -305,10 +305,10 @@ public class Scan {
      * @return user email
      */
     public static String email() {
-        String email = Scan.scanString("\nEnter email:");
+        String email = Scan.scanString("\nEnter an email:");
 
         while ( !UserController.validEmailFormat(email) )
-            email = Scan.scanString("Invalid e-mail\nEnter email:");
+            email = Scan.scanString("Invalid e-mail\nEnter an email:");
 
         return email;
     }

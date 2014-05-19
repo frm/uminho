@@ -4,6 +4,7 @@
  * @author frmendes
  */
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,8 +13,8 @@ public class UserDatabase {
 
     // Both HashMaps refer to the same user, pointer is shared
     private HashMap<Integer, User> idEntry;              // User indexation by ID
-    private HashMap<String, User> emailEntry;          // User indexation by email
-    private HashMap<String, User> nameEntry;          // User indexation by name
+    private HashMap<String, User> emailEntry;         // User indexation by email
+    private HashMap<String, User> nameEntry;        // User indexation by name
     private int userCount;                                          // Total number of users that have been saved
 
     /** Empty constructor
@@ -108,6 +109,26 @@ public class UserDatabase {
         }
         
         return u;
+    }
+    
+    public ArrayList<User> searchName(String name) {
+        ArrayList<User> list = new ArrayList<User>();
+        
+        for (User u : this.nameEntry.values() )
+            if ( u.getName().contains(name) )
+                list.add( u.clone() );
+        
+        return list;
+    }
+    
+     public ArrayList<User> searchEmail(String email) {
+        ArrayList<User> list = new ArrayList<User>();
+        
+        for (User u : this.emailEntry.values() )
+            if ( u.getEmail().contains(email) )
+                list.add( u.clone() );
+        
+        return list;
     }
 
     /** Either saves or updates a user

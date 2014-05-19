@@ -17,7 +17,7 @@ public class FitnessUM {
    private static final String[] startOptions = { "Exit", "Register", "Login" };
 
    private static final String[] mainOptions = {
-       "Logout", "My Profile", "Friend List","My Activity Log", "Add New Activity Session"
+       "Logout", "My Profile", "Friend List", "Search User", "My Activity Log", "Add New Activity Session"
    };
 
    private static final String[] addActivitySessionOptions = {
@@ -107,6 +107,31 @@ public class FitnessUM {
         this.userController.registerUser(name, email, password, info);
         this.userController.loginUser(email, password);
     }
+    
+    private void searchUserByName() {
+        String name = Scan.name("Enter a name:");
+        new SearchUserNavigator( this.userController.nameSearch(name) ).navigate();
+    }
+    
+    private void searchUserByEmail() {
+        String email = Scan.email();
+        new SearchUserNavigator( this.userController.emailSearch(email) ).navigate();
+    }
+    
+    public void searchUser() {
+        final FitnessUM app = this;
+        
+        Prompt[] p = new Prompt[] {
+            new Prompt() { public void exec() { return; } },
+            new Prompt() { public void exec() { app.searchUserByName(); } },
+            new Prompt() { public void exec() { app.searchUserByEmail(); } }
+         };
+         
+        System.out.println("\n0. Go Back\n1. By Name\n2. By Email\n");
+        
+        int option = Scan.menuOption(0, 2);
+         p[option].exec();        
+    }
 
     /** Scans for valid login info and sets the current_user
      */
@@ -146,6 +171,10 @@ public class FitnessUM {
 
     public void listFriends() {
         new FriendListNavigator( this.userController.getFriendList() ).navigate();
+    }
+    
+    public void addFriend(User u) {
+        this.userController.addFriend(u);
     }
 
     public void getAddActivitySessionOption() {
@@ -243,6 +272,7 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.run(); } },
             new Prompt() { public void exec() { app.userProfile(); } },
             new Prompt() { public void exec() { app.listFriends(); }},
+            new Prompt() { public void exec() { app.searchUser(); }},
             new Prompt() { public void exec() { app.myActivityLog(); }},
             new Prompt() { public void exec() { app.listAddActivitySession(); } }
         };

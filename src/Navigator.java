@@ -32,7 +32,7 @@ public abstract class Navigator<T> {
         this.list = (ArrayList<T>) list.clone();
         this.optionsParser = Navigator.optionsGenerator(this);
     }
-    
+        
     public abstract void select(T t);
     public abstract void print(T t);
     public abstract String emptyMessage();

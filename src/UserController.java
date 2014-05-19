@@ -57,6 +57,14 @@ public class UserController {
         return ! this.validateEmailUniqueness(email);
     }
     
+    public ArrayList<User> nameSearch(String name) {
+        return this.database.searchName(name);
+    }
+    
+    public ArrayList<User> emailSearch(String email) {
+        return this.database.searchEmail(email);
+    }
+    
     public boolean loginUser(String email, String password) {
         User u = this.database.findByEmail(email);
         boolean match = false;
