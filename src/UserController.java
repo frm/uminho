@@ -94,20 +94,25 @@ public class UserController {
     public void addActivity(String type, int weather, GregorianCalendar date, GregorianCalendar duration, int calories){
         Activity activity = new Activity(type, weather, date, duration, calories);
         currentUser.addActivity(activity);
+        database.save(currentUser);
     }
     
     public void addActivity(String type, int weather, GregorianCalendar date, GregorianCalendar duration, int calories, int distance){
         DistanceActivity activity = new DistanceActivity(type, weather, date, duration, calories, distance);
         currentUser.addActivity(activity);
+        database.save(currentUser);
     }
     
     public void addActivity(String type, int weather, GregorianCalendar date, GregorianCalendar duration, int calories, int distance, int altitude){
         AltitudeActivity activity = new AltitudeActivity(type, weather, date, duration, calories, distance, altitude);
         currentUser.addActivity(activity);
+        database.save(currentUser);
     }
     
     public boolean removeActivity(Activity act){
-        return currentUser.removeActivity(act);
+        boolean result = currentUser.removeActivity(act);
+        database.save(currentUser);
+        return result;
     }
     
     public ArrayList<Activity> getMostRecentActivities(){
