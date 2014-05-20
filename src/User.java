@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -12,6 +13,7 @@ public class User extends BasicUser {
     private UserInfo info;
     private Records records;
     private ActivityLog log;
+    private Stats stats;
     
     public User() {
         super();
@@ -19,6 +21,7 @@ public class User extends BasicUser {
         this.info = new UserInfo();
         this.records = new Records();
         this.log = new ActivityLog();
+        this.stats = new Stats();
     }
     
     public User(String name, String password, String email, UserInfo info) {
@@ -27,14 +30,16 @@ public class User extends BasicUser {
         this.friends = new UserList();
         this.records = new Records();
         this.log = new ActivityLog();
+        this.stats = new Stats();
     }
 
-    public User(String name, String password, String email, UserList friendlist, UserInfo info, Records rec, ActivityLog log) {
+    public User(String name, String password, String email, UserList friendlist, UserInfo info, Records rec, ActivityLog log, Stats stats) {
         super(name, password, email);
         this.friends = friendlist.clone();
         this.info = info.clone();
         this.records = rec.clone();
         this.log = log.clone();
+        this.stats = stats.clone();
     }
     
     public User(User u) {        
@@ -43,6 +48,7 @@ public class User extends BasicUser {
         this.info = u.getInfo();
         this.records = u.getRecords();
         this.log = u.getActivityLog();
+        this.stats = u.getStats();
     }
     
      public UserList getFriends() {
@@ -60,6 +66,10 @@ public class User extends BasicUser {
     public ActivityLog getActivityLog() {
         return log.clone();
     }
+
+    public Stats getStats() {
+        return stats.clone();
+    }
     
     public void setFriends(UserList friendlist) {
         this.friends = friendlist.clone();
@@ -75,6 +85,18 @@ public class User extends BasicUser {
     
     public void setActivityLog(ActivityLog log) {
         this.log = log.clone();
+    }
+    
+    public void setStats(Stats stats) {
+        this.stats = stats.clone();
+    }
+    
+    public void addStat(Activity act){
+        this.stats.addStat(act);
+    }
+    
+    public String showStats(){
+        return this.stats.toString();
     }
     
     public void addFriend(int id) {

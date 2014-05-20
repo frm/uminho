@@ -23,29 +23,29 @@ public class Stats {
     
     public Stats(HashMap<String, StatEntry> stats){
         this.stats = new HashMap<String, StatEntry>();
-        for(StatEntry act: stats.values()){
-            this.stats.put(act.getName(), act);
+        for(StatEntry stat: stats.values()){
+            this.stats.put(stat.getName(), stat);
         }
     }
     
     public Stats(Stats stats){
         this.stats = new HashMap<String, StatEntry>();
-        for(StatEntry act: stats.getstats().values())
-            this.stats.put(act.getName(), act);
+        for(StatEntry stat: stats.getStats().values())
+            this.stats.put(stat.getName(), stat);
     }
     
     public Map<String,StatEntry> getstats(){
         HashMap<String,StatEntry> aux = new HashMap<String, StatEntry>();
-        for(StatEntry act: this.stats.values())
-            aux.put(act.getName(), act);
+        for(StatEntry stat: this.stats.values())
+            aux.put(stat.getName(), stat);
         return aux;
     }
     
     public void setstats(HashMap<String,StatEntry> stats){
         HashMap<String,StatEntry> aux = new HashMap<String, StatEntry>();
         
-        for(StatEntry act: stats.values())
-            aux.put(act.getName(), act);
+        for(StatEntry stat: stats.values())
+            aux.put(stat.getName(), stat);
         
         this.stats = aux;
     }
@@ -54,17 +54,17 @@ public class Stats {
      *
      * @return HashSet with the names of the stats he has practiced at least once.
      */
-    public HashSet<String> getMystats(){
+    public HashSet<String> getSports(){
         HashSet<String> result = new HashSet<String>();
 
-        for(StatEntry act: this.stats.values() ){
-            result.add( act.getName() );
+        for(StatEntry stat: this.stats.values() ){
+            result.add( stat.getName() );
         }
         
         return result;
     }
     
-    public void addActivity(Activity act){
+    public void addStat(Activity act){
         if(this.stats.containsKey(act.getName())) 
             updateStats(act);
         else {
@@ -86,6 +86,23 @@ public class Stats {
         else 
             return new StatEntry(act ); 
             
+    }
+
+    public HashMap<String, StatEntry> getStats() {
+        HashMap<String,StatEntry> result = new HashMap<String, StatEntry>();
+        for(StatEntry stat: this.stats.values()){
+            result.put(stat.getName(), stat);
+        }
+        
+        
+        return result;
+    }
+
+    public void setStats(HashMap<String, StatEntry> stats) {
+        this.stats = new HashMap<String, StatEntry>();
+        for(StatEntry stat: stats.values()){
+            this.stats.put(stat.getName(), stat);
+        }
     }
     
     

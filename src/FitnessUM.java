@@ -17,7 +17,8 @@ public class FitnessUM {
    private static final String[] startOptions = { "Exit", "Register", "Login" };
 
    private static final String[] mainOptions = {
-       "Logout", "My Profile", "Friend List", "Search User", "My Activity Log", "Add New Activity Session"
+       "Logout", "My Profile", "Friend List","My Activity Log", "Add New Activity Session", "Show My Statistics"
+
    };
 
    private static final String[] addActivitySessionOptions = {
@@ -187,6 +188,24 @@ public class FitnessUM {
     public void listAddActivitySession(){
         this.getAddActivitySessionOption();
     }
+    
+    public void listStats(){
+        this.getStatsOption(){}
+    }
+
+    public void showStatsByName(){
+        String name = Scan.scanString("What activity do you want to check out?");
+        userController.showStatsByName(name);
+    }
+    
+    public void getStatsOption(){
+        System.out.println("Choose one of the following options.");
+        FitnessUM.printAddActivitySessionOptions();
+        int option = Scan.menuOption(0, 1);
+        this.getStatsPrompt()[option].exec();
+    }
+
+    
 
     public static String listWeatherOptions(){
         String[] list = Weather.weatherStates;
@@ -242,7 +261,7 @@ public class FitnessUM {
     public void commandInterpreter() {
         System.out.println( "Choose one of the following options.");
         FitnessUM.printMainOptions();
-        int option = Scan.menuOption(0, 4);
+        int option = Scan.menuOption(0, 5);
         this.getMainPrompt()[option].exec();
     }
 
@@ -274,7 +293,8 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.listFriends(); }},
             new Prompt() { public void exec() { app.searchUser(); }},
             new Prompt() { public void exec() { app.myActivityLog(); }},
-            new Prompt() { public void exec() { app.listAddActivitySession(); } }
+            new Prompt() { public void exec() { app.listAddActivitySession(); } },
+            new Prompt() { public void exec() { app.listStats(); } }
         };
     }
 
@@ -285,6 +305,26 @@ public class FitnessUM {
             new Prompt() { public void exec() { (new AddActivityNavigator( 0,app, app.activityController.getSimpleActivities() ) ).navigate(); } },
             new Prompt() { public void exec() { (new AddActivityNavigator( 1,app, app.activityController.getDistanceActivities() ) ).navigate();} },
             new Prompt() { public void exec() { (new AddActivityNavigator( 2,app, app.activityController.getAltitudeActivities() ) ).navigate();} }
+        };
+    }
+    
+    public Prompt[] getStatsPrompt(){
+        final FitnessUM app = this;
+        return new Prompt[]{
+            new Prompt(){ public void exec(){ return;}},
+            new Prompt() { public void exec() { app.showStatsByName(); } },
+            new Prompt() { public void exec() { app.getCategoryStatsPrompt(); } }
+        };
+    }
+    
+    
+    public Prompt[] getCategoryStatsPrompt(){
+        final FitnessUM app = this;
+        return new Prompt[]{
+            new Prompt(){ public void exec(){ return;}},
+            new Prompt() { public void exec() { (new StatsNavigator( 0,app, app.activityController.getSimpleActivities() ) ).navigate(); } },
+            new Prompt() { public void exec() { (new StatsNavigator( 1,app, app.activityController.getDistanceActivities() ) ).navigate();} },
+            new Prompt() { public void exec() { (new StatsNavigator( 2,app, app.activityController.getAltitudeActivities() ) ).navigate();} }
         };
     }
 

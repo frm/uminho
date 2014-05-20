@@ -11,20 +11,20 @@ import java.util.ArrayList;
  *
  * @author joaorodrigues
  */
-public class AddActivityNavigator extends ActivityNavigator{
-    public AddActivityNavigator() {
+public class StatsNavigator extends ActivityNavigator{
+    public StatsNavigator() {
         super();
     }
     
-    public AddActivityNavigator(ArrayList<String> list) {
+    public StatsNavigator(ArrayList<String> list) {
         super(list);
     }
     
-    public AddActivityNavigator(int category, FitnessUM app, ArrayList<String> list ){
+    public StatsNavigator(int category, FitnessUM app, ArrayList<String> list ){
         super(category, app, list);
     }
     
     public void select(String name){
-        this.getApp().addActivitySession(this.getCategory(), name);
+        this.getApp().listStats(name);
     }
 }

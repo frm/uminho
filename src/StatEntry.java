@@ -160,9 +160,11 @@ public class StatEntry {
 
     public String toString(){
         StringBuilder result = new StringBuilder();
-
+        
         result.append("\n\nSport: ");
         result.append(this.name);
+        result.append("\nNumber of times practiced: ");
+        result.append(this.nrEntries);
         result.append("\nAverage of calories burned per session: ");
         result.append(this.avgCalories);
         result.append("\nTotal of calories burned: ");
