@@ -23,8 +23,9 @@ public class Test {
         UserInfo info = new UserInfo();
         Records rec = new Records();
         ActivityLog log = new ActivityLog();
+        Stats stats = new Stats();
         System.out.println("Testing normal constructor - Myself");
-        User mendes = new User("Fernando Mendes", "ilol", "thisnthat@overthe.re", friendo, info, rec, log);
+        User mendes = new User("Fernando Mendes", "ilol", "thisnthat@overthe.re", friendo, info, rec, log, stats);
         System.out.println(mendes);
         
         System.out.println("Testing copy constructor - Myself");
@@ -53,7 +54,7 @@ public class Test {
         System.out.println("Testing copy constructor");
         UserDatabase my_db = new UserDatabase();
         my_db.save(mendes);
-        my_db.save(new User("A", "BB", "CCC", friendo, info, rec, log) );
+        my_db.save(new User("A", "BB", "CCC", friendo, info, rec, log, stats) );
         System.out.println(my_db);
         System.out.println(my_db.clone());
         

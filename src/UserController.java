@@ -128,7 +128,11 @@ public class UserController {
         return friendList;
     }
     
-    public String showStatsByName(String name){
+    public String showStats(){
+        return this.currentUser.showStats();
+    }
+    
+    public String showStats(String name){
         return this.currentUser.showStats(name);
     }
 

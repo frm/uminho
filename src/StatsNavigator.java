@@ -25,6 +25,6 @@ public class StatsNavigator extends ActivityNavigator{
     }
     
     public void select(String name){
-        this.getApp().listStats(name);
+        this.getApp().showStatsByName(name);
     }
 }

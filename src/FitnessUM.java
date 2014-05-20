@@ -26,7 +26,7 @@ public class FitnessUM {
    };
 
    private static final String[] statsOptions = {
-       "Check all the statistics", "Check statistics for one activity"
+       "Go Back", "Check all the statistics", "Check statistics for one activity"
    };
 
 
@@ -198,15 +198,18 @@ public class FitnessUM {
         this.getStatsOption();
     }
 
-    public void showStatsByName(){
-        String name = Scan.scanString("What activity do you want to check out?");
-        userController.showStatsByName(name);
+    public void showStatsByName(String name){
+        System.out.println( userController.showStats(name) );
+    }
+    
+    public void showAllStats(){
+        System.out.println( userController.showStats() );
     }
     
     public void getStatsOption(){
         System.out.println("Choose one of the following options.");
         FitnessUM.printStatsOptions();
-        int option = Scan.menuOption(0, 1);
+        int option = Scan.menuOption(0, 2);
         this.getStatsPrompt()[option].exec();
     }
 
@@ -324,7 +327,7 @@ public class FitnessUM {
         final FitnessUM app = this;
         return new Prompt[]{
             new Prompt(){ public void exec(){ return;}},
-            new Prompt() { public void exec() { app.showStatsByName(); } },
+            new Prompt() { public void exec() { app.showAllStats(); } },
             new Prompt() { public void exec() { app.getCategoryStatsPrompt(); } }
         };
     }
