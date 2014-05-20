@@ -128,7 +128,9 @@ public class UserController {
         return friendList;
     }
     
-    
+    public String showStatsByName(String name){
+        return this.currentUser.showStats(name);
+    }
 
     @Override
     public UserController clone() {

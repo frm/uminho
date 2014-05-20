@@ -99,6 +99,10 @@ public class User extends BasicUser {
         return this.stats.toString();
     }
     
+    public String showStats(String name){
+        return this.stats.getActivityStat(name).toString();
+    }
+    
     public void addFriend(int id) {
         this.friends.addUser(id);
     }

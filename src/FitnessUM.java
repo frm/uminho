@@ -25,6 +25,11 @@ public class FitnessUM {
        "Go Back", "Simple Activities", "Distance Activities", "Altitude Activities"
    };
 
+   private static final String[] statsOptions = {
+       "Check all the statistics", "Check statistics for one activity"
+   };
+
+
 
     /** Empty constructor
      */
@@ -190,7 +195,7 @@ public class FitnessUM {
     }
     
     public void listStats(){
-        this.getStatsOption(){}
+        this.getStatsOption();
     }
 
     public void showStatsByName(){
@@ -200,12 +205,19 @@ public class FitnessUM {
     
     public void getStatsOption(){
         System.out.println("Choose one of the following options.");
-        FitnessUM.printAddActivitySessionOptions();
+        FitnessUM.printStatsOptions();
         int option = Scan.menuOption(0, 1);
         this.getStatsPrompt()[option].exec();
     }
 
-    
+    public void getCategoryStatsOption(){
+        System.out.println("Choose one of the following options.");
+        FitnessUM.printAddActivitySessionOptions();
+        int option = Scan.menuOption(0, 3);
+        this.getCategoryStatsPrompt()[option].exec();
+    }
+
+
 
     public static String listWeatherOptions(){
         String[] list = Weather.weatherStates;
@@ -360,6 +372,13 @@ public class FitnessUM {
         for (String s : FitnessUM.mainOptions)
             System.out.println(i++ + ". " + s);
     }
+
+    private static void printStatsOptions() {
+        int i = 0;
+        for (String s : FitnessUM.statsOptions)
+            System.out.println(i++ + ". " + s);
+    }
+
 
     public FitnessUM clone() {
         return new FitnessUM(this);

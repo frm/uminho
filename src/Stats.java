@@ -115,6 +115,10 @@ public class Stats {
         
     }
     
+    public StatEntry getActivityStat(String name){
+        return this.stats.get(name);
+    }
+    
     public Stats clone(){
         Stats stats = new Stats();
         
