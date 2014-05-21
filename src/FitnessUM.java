@@ -20,11 +20,11 @@ public class FitnessUM {
        "Logout", "My Profile", "Friend List","My Activity Log", "Add New Activity Session", "Show My Statistics"
 
    };
-
-   private static final String[] addActivitySessionOptions = {
+   
+    private static final String[] activityCategories = {
        "Go Back", "Simple Activities", "Distance Activities", "Altitude Activities"
    };
-
+   
    private static final String[] statsOptions = {
        "Go Back", "Check all the statistics", "Check statistics for one activity"
    };
@@ -41,7 +41,7 @@ public class FitnessUM {
     /** Parameterized constructor
      * @param users existing UserDatabase
      */
-    public FitnessUM(UserController userController, ActivityController activityController) {
+    public FitnessUM(UserController userController) {
         this.userController = userController.clone();
         this.activityController = activityController.clone();
     }
@@ -108,7 +108,7 @@ public class FitnessUM {
         }
 
         String password = Scan.password();
-        UserInfo info = Scan.userInfo();
+        UserInfo info = userInfo();
 
         this.userController.registerUser(name, email, password, info);
         this.userController.loginUser(email, password);
@@ -182,17 +182,6 @@ public class FitnessUM {
     public void addFriend(User u) {
         this.userController.addFriend(u);
     }
-
-    public void getAddActivitySessionOption() {
-        System.out.println("Choose one of the following options.");
-        FitnessUM.printAddActivitySessionOptions();
-        int option = Scan.menuOption(0, 3);
-        this.getAddActivitySessionPrompt()[option].exec();
-    }
-
-    public void listAddActivitySession(){
-        this.getAddActivitySessionOption();
-    }
     
     public void listStats(){
         this.getStatsOption();
@@ -215,7 +204,7 @@ public class FitnessUM {
 
     public void getCategoryStatsOption(){
         System.out.println("Choose one of the following options.");
-        FitnessUM.printAddActivitySessionOptions();
+        FitnessUM.printActivityCategories();
         int option = Scan.menuOption(0, 3);
         this.getCategoryStatsPrompt()[option].exec();
     }
@@ -231,36 +220,49 @@ public class FitnessUM {
         }
         return result.toString() ;
     }
-
-    public void addActivitySession(int category, String name) {
-
-        /*Falta receber se é distance ou altitude ou nada, usar variavel specialCategories, que diz o numero de categorias extra*/
-        /*Falta por o navigator para as atividades e os weathers*/
-        int weather = Scan.scanInt( FitnessUM.listWeatherOptions() );
-        int calories = Scan.scanInt("How many calories did you burn?");
-        GregorianCalendar date = Scan.dateWithHours("What's the date of this session? (dd-mm-yyyy)", "At what time did it start? (hh:mm)");
-        GregorianCalendar duration = Scan.duration("How long was the session? (hh:mm:ss)");
-
-        if(category == 1){
-            int distance = Scan.scanInt("What was the distance?");
-            userController.addActivity(name, weather, date, duration, calories, distance);
-        }
-
-        else if(category == 2){
-            int distance = Scan.scanInt("What was the distance?");
-            int altitude = Scan.scanInt("What was the altitude?");
-            userController.addActivity(name, weather, date, duration, calories, distance, altitude);
-        }
-
-        else userController.addActivity(name, weather, date, duration, calories);
-    }
     
     public void myActivityLog(){
         ArrayList<Activity> list = userController.getMostRecentActivities();
         
         System.out.print(list.toString()+"\n");
     }
+    
+    private Prompt[] addActivitySession(){
+        UserController uc = this.userController;
+        int option = Scan.menuOption(0,5);
+        final FitnessUM app = this;
+        
+        return new Prompt[]{
+            new Prompt() { public void exec() { app.addFootball();} }
+        };
+    }
+    
+    public void addFootball(){
+        GregorianCalendar date = Scan.date("When did you practice this activity?");
+        GregorianCalendar duration = Scan.duration("How long did you take?");
+        int distance = Scan.scanInt("What was the distance? (meters)");
+        this.listWeatherOptions();
+        int weather = Scan.scanInt(this.listWeatherOptions());
+        
+        this.userController.addActivity( new Football(date, duration, distance, weather));
+        //adicionar mais
+    }
+                
+    /** Scans the user for gender, height, weight, birth date and favorite sport
+     * @return u UserInfo containing scanned information
+     */
+                
+    public static UserInfo userInfo(){
+        UserInfo u = new UserInfo();
+        u.setGender( Scan.gender() );
+        u.setHeight( Scan.height() );
+        u.setWeight( Scan.weight() );
+        u.setBirthDate( Scan.date("When were you born? (dd-mm-yyyy)") );
+        u.setFavoriteSport( Scan.sport() );
 
+        return u;
+    }            
+                
     /** Reads an integer from the user input and starts up or shuts down the app accordingly
      */
     public void getStartOption() {
@@ -308,21 +310,11 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.listFriends(); }},
             new Prompt() { public void exec() { app.searchUser(); }},
             new Prompt() { public void exec() { app.myActivityLog(); }},
-            new Prompt() { public void exec() { app.listAddActivitySession(); } },
+            new Prompt() { public void exec() { app.addActivitySession(); } },
             new Prompt() { public void exec() { app.listStats(); } }
         };
     }
 
-    private Prompt[] getAddActivitySessionPrompt() {
-        final FitnessUM app = this;
-        return new Prompt[] {
-            new Prompt() { public void exec() { return; } },
-            new Prompt() { public void exec() { (new AddActivityNavigator( 0,app, app.activityController.getSimpleActivities() ) ).navigate(); } },
-            new Prompt() { public void exec() { (new AddActivityNavigator( 1,app, app.activityController.getDistanceActivities() ) ).navigate();} },
-            new Prompt() { public void exec() { (new AddActivityNavigator( 2,app, app.activityController.getAltitudeActivities() ) ).navigate();} }
-        };
-    }
-    
     public Prompt[] getStatsPrompt(){
         final FitnessUM app = this;
         return new Prompt[]{
@@ -331,7 +323,7 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.getCategoryStatsPrompt(); } }
         };
     }
-    
+
     
     public Prompt[] getCategoryStatsPrompt(){
         final FitnessUM app = this;
@@ -364,9 +356,9 @@ public class FitnessUM {
             System.out.println(i++ + ". " + s);
     }
 
-    private static void printAddActivitySessionOptions() {
+    private static void printActivityCategories() {
         int i = 0;
-        for (String s : FitnessUM.addActivitySessionOptions)
+        for (String s : FitnessUM.activityCategories)
             System.out.println(i++ + ". " + s);
     }
 

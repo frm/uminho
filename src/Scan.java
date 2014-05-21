@@ -66,20 +66,6 @@ public class Scan {
 
         return val;
     }
-
-    /** Scans the user for gender, height, weight, birth date and favorite sport
-     * @return u UserInfo containing scanned information
-     */
-    public static UserInfo userInfo() {
-        UserInfo u = new UserInfo();
-        u.setGender( Scan.gender() );
-        u.setHeight( Scan.height() );
-        u.setWeight( Scan.weight() );
-        u.setBirthDate( Scan.date("When were you born? (dd-mm-yyyy)") );
-        u.setFavoriteSport( Scan.sport() );
-
-        return u;
-    }
     
     private static int[] dateArray(String message) {
         String[] dateAry= Scan.scanString("\n"+message).split("-");

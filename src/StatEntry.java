@@ -50,7 +50,7 @@ public class StatEntry {
     }
     
     public StatEntry(Activity act){
-        this.name = act.getName();
+        this.name = act.getClass().toString();
         this.totalCalories = 0;
         this.avgCalories = 0.0;
         this.totalDuration = new GregorianCalendar(0,0,0,0,0,0);

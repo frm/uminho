@@ -65,11 +65,11 @@ public class Stats {
     }
     
     public void addStat(Activity act){
-        if(this.stats.containsKey(act.getName())) 
+        if(this.stats.containsKey(act.getClass().toString())) 
             updateStats(act);
         else {
             StatEntry stat = newStatFromActivity(act);
-            this.stats.put(act.getName(), stat );
+            this.stats.put( act.getClass().toString(), stat );
         }
     }
     
@@ -110,7 +110,7 @@ public class Stats {
      *
      */
     public void updateStats(Activity act){
-        StatEntry stat = stats.get(act.getName());     
+        StatEntry stat = stats.get(act.getClass().toString() );     
         stat.updateStat(act);
         
     }

@@ -1,12 +1,104 @@
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList; 
 import java.util.GregorianCalendar;
 
 /*Base Activity(Indoor Activities)
   class chain: Activity -> ActivityDistance -> ActivityAltitude
 */
 
+public abstract class Activity
+{
+  int calories;
+  private GregorianCalendar date;
+  private GregorianCalendar duration;
+  
+    //constructors
+    public Activity(){
+        this.date = new GregorianCalendar();
+        this.duration = new GregorianCalendar();
+        this.calories = 0;
+    }
+    
+    public Activity(GregorianCalendar date, GregorianCalendar duration) {
+        this.date = date;
+        this.duration = duration;
+    }
+    
+    public Activity(Activity a){
+        this.date = a.getDate();
+        this.duration = a.getDuration();
+        this.calories = a.getCalories();
+    }
+  
+    //setters
+    
+    void setDate(GregorianCalendar date) {
+        this.date = (GregorianCalendar) date.clone();
+    }
+    
+    void setDuration(GregorianCalendar duration) {
+        this.duration = (GregorianCalendar) duration.clone();
+    }
+    
+    void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+
+    GregorianCalendar getDate() {
+        return (GregorianCalendar) this.date.clone();
+    }
+    
+    GregorianCalendar getDuration() {
+        return (GregorianCalendar) this.duration.clone();
+    }
+    
+    int getCalories() {
+        return this.calories;
+    }
+    
+ 
+    public abstract Activity clone();
+    
+    public String toString(){
+        StringBuilder result = new StringBuilder();
+
+        result.append("\nDate: ");
+        result.append(new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm").format( this.date.getTime() ));
+        result.append("\nDuration: ");
+        result.append(new SimpleDateFormat("HH 'hours' mm 'minutes and' ss 'seconds' ").format( this.duration.getTime() ));
+        result.append("\nCalories burned: ");
+        result.append(this.calories);
+        
+        return result.toString();
+    }
+    
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || this.getClass() != o.getClass() ) return false;
+       
+        Activity act = (Activity) o;
+       
+       return (this.date.equals( act.getDate() ) && this.duration.equals( act.getDuration() ) && this.calories == act.getCalories() );
+    }
+
+}
+
+
+
+
+
+
+
+
+/*
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+
+/*Base Activity(Indoor Activities)
+  class chain: Activity -> ActivityDistance -> ActivityAltitude
+*/
+/*
 public class Activity
 {
   private int calories;
@@ -117,3 +209,4 @@ public class Activity
     }
 
 }
+*/

@@ -91,24 +91,12 @@ public class UserController {
         this.addFriend( u.getId() );
     }
     
-    public void addActivity(String type, int weather, GregorianCalendar date, GregorianCalendar duration, int calories){
-        Activity activity = new Activity(type, weather, date, duration, calories);
-        currentUser.addActivity(activity);
+    
+    public void addActivity(Activity act){
+        currentUser.addActivity(act);
         database.save(currentUser);
     }
-    
-    public void addActivity(String type, int weather, GregorianCalendar date, GregorianCalendar duration, int calories, int distance){
-        DistanceActivity activity = new DistanceActivity(type, weather, date, duration, calories, distance);
-        currentUser.addActivity(activity);
-        database.save(currentUser);
-    }
-    
-    public void addActivity(String type, int weather, GregorianCalendar date, GregorianCalendar duration, int calories, int distance, int altitude){
-        AltitudeActivity activity = new AltitudeActivity(type, weather, date, duration, calories, distance, altitude);
-        currentUser.addActivity(activity);
-        database.save(currentUser);
-    }
-    
+
     public boolean removeActivity(Activity act){
         boolean result = currentUser.removeActivity(act);
         database.save(currentUser);

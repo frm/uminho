@@ -24,60 +24,6 @@ public class Seed {
         this.app.setUserController(uc);
     }
     
-    private void generateDefaultActivityList() {
-        ArrayList<String> simple = new ArrayList<String>();
-        ArrayList<String> distance = new ArrayList<String>();
-        ArrayList<String> altitude = new ArrayList<String>();
-        
-        simple.add("Aerobics");
-        simple.add("Badminton");
-        simple.add("Basketball");
-        simple.add("Squash");
-        simple.add("Tennis");
-        simple.add("Table Tennis");
-        simple.add("Gymnastics");
-        simple.add("Handball");
-        simple.add("Hockey");
-        simple.add("Martial Arts");
-        simple.add("Pilates");
-        simple.add("Fencing");
-        simple.add("Dancing");
-        simple.add("Boxing");
-        simple.add("Climbing Stairs");
-        simple.add("Skating");
-        simple.add("Baseball");
-        simple.add("Polo");
-        simple.add("Cricket");
-        simple.add("Football");
-        simple.add("American Football");
-        
-        distance.add("Swimming");
-        distance.add("Windsurfing");
-        distance.add("Sailing");
-        distance.add("Rowing");
-        distance.add("Kayaking");
-        distance.add("Kite Surfing");
-        distance.add("Golfing");
-        distance.add("Riding");
-        distance.add("Indoor Cycling");
-        
-        altitude.add("Cycling");
-        altitude.add("Mountain Biking");
-        altitude.add("Running");
-        altitude.add("Walking");
-        altitude.add("Hiking");
-        altitude.add("Orienteering");
-        altitude.add("Roller Skiing");
-        altitude.add("Skiing");
-        altitude.add("Snowboarding");
-        altitude.add("Elliptical Training");
-        altitude.add("Scuba Diving");
-        
-        ActivityController ac = app.getActivityController();
-        ac.setActivities(simple, distance, altitude);
-        app.setActivityController(ac);
-    }
-    
     private void addTestUsers() {
         UserController uc = this.app.getUserController();
         Seed.frm(uc);
@@ -108,7 +54,6 @@ public class Seed {
     
     public FitnessUM generate() {
         this.addTestUsers();
-        this.generateDefaultActivityList();
         return this.app;
     }
     
