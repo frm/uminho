@@ -30,7 +30,5 @@ final: $(EXEC)
 clean:
 	@echo "CLEANING UP"
 	@cat ./.make/asciiart/maid.art
-	$(RM) *.o
-	$(RM) $(EXEC)
-	$(RM) *.log
+	$(RM) *.o *.log *.out $(EXEC)
 
