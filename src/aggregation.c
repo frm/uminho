@@ -3,13 +3,13 @@
 typedef struct bucket_node Node, *Bucket;
 
 struct bucket_node {
-	Aggregate ag;
-	struct bucket_node* next;
+  Aggregate content;
+  struct bucket_node* next;
 };
 
 struct aggregation {
-	int size;
-	Bucket* table;
+  int size;
+  Bucket* table;
 };
 
 /** Creates a hash bucket with an aggregation of given name and count total to 0
@@ -17,7 +17,7 @@ struct aggregation {
   */
 static Bucket newBucket(char* name) {
     Bucket new = (Bucket)malloc( sizeof (struct bucket_node) );
-    new -> ag = newAggregateWith(name, 0);
+    new -> content = newAggregateWith(name, 0);
     new -> next = NULL;
 
     return new;
@@ -47,7 +47,7 @@ static int get_bucket_address(Aggregation a, char* name, Bucket** ret) {
     Bucket *head = it;                                              // Saving the head of the bucket
 
     while (*it && !found) {                                         // Scanning the bucket for agregation
-        if ( strcmp(name, getAggregateName( (*it) -> ag) ) == 0 )
+        if ( strcmp(name, getAggregateName( (*it) -> content) ) == 0 )
             found = 1;
         else
             it = &( (*it) -> next );                                // Saving the new bucket address
@@ -84,7 +84,7 @@ static void deleteBucket (Bucket b) {
     while (it) {
         bird = it;
         it = it -> next;
-        deleteAggregate(bird -> ag);
+        deleteAggregate(bird -> content);
         free(bird);                             // badumm tss!
     }
 }
@@ -94,7 +94,7 @@ void deleteAggregation(Aggregation a) {
     for (int i = 0; i < a -> size; i++)
         deleteBucket( a -> table[i] );
 
-    free(a->table);
+    free(a -> table);
     free(a);
   }
 }
@@ -107,17 +107,15 @@ Aggregation newAggregation(int size) {
     return a;
 }
 
+int updateAggregation(Aggregation a, char name*[], int count) {
 
+    if (*name) {
+        Aggregate curr = get_aggregate_ptr(a, *name) -> content
+        incCount(curr, count);
+        int res; = createSubAggregate(curr);
+        updateAggregation( getSubAggregate(curr), name + 1, count);
+        return res;
+    }
 
-
-
-
-
-
-/** MISSING: functions to add aggregation
-  * Should be part of aggregate.c
-  * This is because it's not the tables responsability to add
-  * It simply gives the aggregate address on the structure and calls the function the adds data to it
-  */
-
-
+    return -1;
+}

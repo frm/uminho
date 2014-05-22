@@ -22,6 +22,25 @@ char* getAggregateName(Aggregate ag) {
 	return ag -> name;
 }
 
+Aggregation getSubAggregate(Aggregate ag) {
+	return ag -> subaggregate;
+}
+
+int hasSubAggregate(Aggregate ag) {
+	return ag -> subaggregate != NULL;
+}
+
+int createSubAggregate(Aggregate ag) {
+	int res = 0;
+
+	if ( !hasSubAggregate(ag) ) {
+		ag -> subaggregate = newAggregation(AGGREGATION_SIZE);
+		res = 1;
+	}
+
+	return res;
+}
+
 Aggregate newAggregate() {
 	return (Aggregate)malloc( sizeof(struct aggregate_s) );
 }
@@ -39,6 +58,4 @@ void deleteAggregate(Aggregate a) {
 	deleteAggregation(a -> subaggregate);
 	free(a);
 }
-
-/** MISSING: functions to add aggregation and subaggregation as well deleting */
 
