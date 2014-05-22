@@ -1,37 +1,43 @@
-#include "agregate.h"
+#include "aggregate.h"
 
-typedef struct agregate {
+struct aggregate_s {
 	char* name;
 	int count;
-	Agregation* subagregate;
-} Agregate_s;
+	Aggregation subaggregate;
+};
 
-void countInc(Agregate ag, int val) {
+void countInc(Aggregate ag, int val) {
 	ag -> count += val;
 }
 
-void setName(Agregate ag, char* name) {
+void setName(Aggregate ag, char* name) {
 	ag -> name = strdup(name);
 }
 
-int getCount(Agregate ag) {
+int getCount(Aggregate ag) {
 	return ag -> count;
 }
 
-char* getAgregateName(Agregate ag) {
+char* getAggregateName(Aggregate ag) {
 	return ag -> name;
 }
 
-Agregate newAgregate() {
-	return (Agregate)malloc( sizeof(Agregate_s) );
+Aggregate newAggregate() {
+	return (Aggregate)malloc( sizeof(struct aggregate_s) );
 }
 
-Agregate newAgregateWith(char* name, int count) {
-	Agregate new = (Agregate)malloc( sizeof(Agregate_s) );
+Aggregate newAggregateWith(char* name, int count) {
+	Aggregate new = (Aggregate)malloc( sizeof(struct aggregate_s) );
 	new -> name = strdup(name);
 	new -> count = count;
-	new -> subagregate = NULL;
+	new -> subaggregate = NULL;
 	return new;
+}
+
+void deleteAggregate(Aggregate a) {
+	free(a -> name);
+	deleteAggregation(a -> subaggregate);
+	free(a);
 }
 
 /** MISSING: functions to add aggregation and subaggregation as well deleting */

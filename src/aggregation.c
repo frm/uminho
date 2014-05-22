@@ -1,5 +1,4 @@
-#include "agregation.h"
-#include <string.h>
+#include "aggregation.h"
 
 typedef struct bucket_node Node, *Bucket;
 
@@ -8,7 +7,7 @@ struct bucket_node {
 	struct bucket_node* next;
 };
 
-struct agregation {
+struct aggregation {
 	int size;
 	Bucket* table;
 };
@@ -17,7 +16,7 @@ struct agregation {
   * It shall not contain subaggregations
   */
 Bucket newBucket(char* name) {
-    Bucket new = (Bucket)malloc( sizeof (bucket_node) );
+    Bucket new = (Bucket)malloc( sizeof (struct bucket_node) );
     new -> ag = newAggregateWith(name, 0);
     new -> next = NULL;
 
@@ -41,14 +40,14 @@ static unsigned int hash( char *str ) {
   * ret will contain the address of the bucket where it should be (whether or not it in fact is)
   * Return will be 1 or 0 depending on existance
   */
-static int get_bucket_address(Agregation a, char* name, Bucket** ret) {
-    unsigned int index = hash(name) % ag -> size;                   // Get table index
+static int get_bucket_address(Aggregation a, char* name, Bucket** ret) {
+    unsigned int index = hash(name) % a -> size;                    // Get table index
     int found = 0;                                                  // Control variable
-    Bucket *it = a -> table[index];                                 // Iterator for that bucket
+    Bucket *it = &(a -> table)[index];                              // Iterator for that bucket
     Bucket *head = it;                                              // Saving the head of the bucket
 
     while (*it && !found) {                                         // Scanning the bucket for agregation
-        if ( strcmp(name, getName( (*it) -> ag) ) == 0 )
+        if ( strcmp(name, getAggregateName( (*it) -> ag) ) == 0 )
             found = 1;
         else
             it = &( (*it) -> next );                                // Saving the new bucket address
@@ -66,11 +65,11 @@ static int get_bucket_address(Agregation a, char* name, Bucket** ret) {
   * If found, returns its address
   * Otherwise adds it to the table
   */
-static Bucket* get_aggregate_ptr(Agregation a, char* name) {
+static Bucket* get_aggregate_ptr(Aggregation a, char* name) {
     Bucket new;
     Bucket* it;
 
-    if (! get_bucket_address(ag, name, &it) ) {
+    if (! get_bucket_address(a, name, &it) ) {
         new = newBucket(name);
         new -> next = *it;
         *it = new;

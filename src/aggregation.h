@@ -1,8 +1,10 @@
-#ifndef AGREGATION_H
-#define AGREGATION_H
+#ifndef AGGREGATION_H
+#define AGGREGATION_H
 
-#include "agregate.h"
+#include "aggregate.h"
+#include <string.h>
+#define AGGREGATION_SIZE        500
 
-typedef struct agregation* Agregation;
+typedef struct aggregation* Aggregation;
 
 #endif
