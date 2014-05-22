@@ -1,5 +1,7 @@
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 
 /**
@@ -17,7 +19,7 @@ public class FitnessUM {
    private static final String[] startOptions = { "Exit", "Register", "Login" };
 
    private static final String[] mainOptions = {
-       "Logout", "My Profile", "Friend List","My Activity Log", "Add New Activity Session", "Show My Statistics"
+       "Logout", "My Profile", "Friend List","Search User", "My Activity Log", "Add New Activity Session", "Show My Statistics"
 
    };
    
@@ -209,22 +211,22 @@ public class FitnessUM {
         int option = Scan.menuOption(0, 2);
         this.getStatsPrompt()[option].exec();
     }
-
-    public void getCategoryStatsOption(){
-        System.out.println("Choose one of the following options.");
-        FitnessUM.printActivityCategories();
-        int option = Scan.menuOption(0, 3);
-        this.getCategoryStatsPrompt()[option].exec();
-    }
     
     public void getAddActivityOption(){
         System.out.println("Choose one of the following options.");
-        FitnessUM.printActivityCategories();
+        FitnessUM.printActivities();
         int option = Scan.menuOption(0, 6);
         this.getAddActivityPrompt()[option].exec();
     }
 
-
+    public void getStatsTypeOption(){
+        System.out.println("Choose one of the following options.");
+        System.out.println("0.Go Back");
+        System.out.println("1.Annual Statistics");
+        System.out.println("2.Monthly Statistics");
+        int option = Scan.menuOption(0,2);
+        this.getStatsTypePrompt()[option].exec();
+    }
 
     public static String listWeatherOptions(){
         String[] list = Weather.weatherStates;
@@ -257,8 +259,8 @@ public class FitnessUM {
     }
     
     public void addCycling(){
-        GregorianCalendar date = Scan.date("When did you practice this activity?");
-        GregorianCalendar duration = Scan.duration("How long did you take?");
+        GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "At what time? (hh:mm)");
+        GregorianCalendar duration = Scan.duration("How long did you take? (hh:mm:ss)");
         int distance = Scan.scanInt("What was the distance? (meters)");
         int altitude = Scan.scanInt("What was the altitude? (meters)");
         this.listWeatherOptions();
@@ -268,8 +270,8 @@ public class FitnessUM {
     }
     
     public void addKayaking(){
-        GregorianCalendar date = Scan.date("When did you practice this activity?");
-        GregorianCalendar duration = Scan.duration("How long did you take?");
+        GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "At what time? (hh:mm)");
+        GregorianCalendar duration = Scan.duration("How long did you take? (hh:mm:ss)");
         int distance = Scan.scanInt("What was the distance? (meters)");
         this.listWeatherOptions();
         int weather = Scan.scanInt(this.listWeatherOptions());
@@ -278,15 +280,17 @@ public class FitnessUM {
     }
     
     public void addKendo(){
-        GregorianCalendar date = Scan.date("When did you practice this activity?");
-        GregorianCalendar duration = Scan.duration("How long did you take?");
+        GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "At what time? (hh:mm)");
+        GregorianCalendar duration = Scan.duration("How long did you take? (hh:mm:ss)");
+        
+        System.out.println(new SimpleDateFormat(" dd 'days' HH 'hours' mm 'minutes and' ss 'seconds' ").format( duration.getTime() ));
         
         this.userController.addActivity( new Kendo(date, duration));
     }
     
     public void addRunning(){
-        GregorianCalendar date = Scan.date("When did you practice this activity?");
-        GregorianCalendar duration = Scan.duration("How long did you take?");
+        GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "At what time? (hh:mm)");
+        GregorianCalendar duration = Scan.duration("How long did you take? (hh:mm:ss)");
         int distance = Scan.scanInt("What was the distance? (meters)");
         int altitude = Scan.scanInt("What was the altitude? (meters)");
         this.listWeatherOptions();
@@ -296,15 +300,15 @@ public class FitnessUM {
     }
     
     public void addSkating(){
-        GregorianCalendar date = Scan.date("When did you practice this activity?");
-        GregorianCalendar duration = Scan.duration("How long did you take?");
+        GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "At what time? (hh:mm)");
+        GregorianCalendar duration = Scan.duration("How long did you take? (hh:mm:ss)");
         
         this.userController.addActivity( new Skating(date, duration));
     }
     
     public void addSwimming(){
-        GregorianCalendar date = Scan.date("When did you practice this activity?");
-        GregorianCalendar duration = Scan.duration("How long did you take?");
+        GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "At what time? (hh:mm)");
+        GregorianCalendar duration = Scan.duration("How long did you take? (hh:mm:ss)");
         int distance = Scan.scanInt("What was the distance? (meters)");
         
         this.userController.addActivity( new Swimming(date, duration, distance));
@@ -341,7 +345,7 @@ public class FitnessUM {
     public void commandInterpreter() {
         System.out.println( "Choose one of the following options.");
         FitnessUM.printMainOptions();
-        int option = Scan.menuOption(0, 5);
+        int option = Scan.menuOption(0, 6);
         this.getMainPrompt()[option].exec();
     }
 
@@ -380,21 +384,11 @@ public class FitnessUM {
 
     public Prompt[] getStatsPrompt(){
         final FitnessUM app = this;
+        final ArrayList<String> activityList = new ArrayList( Arrays.asList(app.activities) );
         return new Prompt[]{
             new Prompt(){ public void exec(){ return;}},
-            new Prompt() { public void exec() { app.showAnnualStats(); } },
-            new Prompt() { public void exec() { app.getCategoryStatsOption(); } }
-        };
-    }
-
-    
-    public Prompt[] getCategoryStatsPrompt(){
-        final FitnessUM app = this;
-        return new Prompt[]{
-            new Prompt(){ public void exec(){ return;}},
-            new Prompt() { public void exec() { (new StatsNavigator( 0,app, app.activityController.getSimpleActivities() ) ).navigate(); } },
-            new Prompt() { public void exec() { (new StatsNavigator( 1,app, app.activityController.getDistanceActivities() ) ).navigate();} },
-            new Prompt() { public void exec() { (new StatsNavigator( 2,app, app.activityController.getAltitudeActivities() ) ).navigate();} }
+            new Prompt() { public void exec() { app.getStatsTypeOption(); } },
+            new Prompt() { public void exec() { ( new StatsNavigator(activityList) ).navigate(); } }
         };
     }
 
@@ -405,6 +399,15 @@ public class FitnessUM {
             new Prompt() { public void exec() { System.out.println("\nFunction yet to be implemented\n"); FitnessUM.devPrompt(); } }
         };
      }
+
+     public Prompt[] getStatsTypePrompt(){
+        final FitnessUM app = this;
+        return new Prompt[]{
+            new Prompt(){ public void exec(){ return;}},
+            new Prompt() { public void exec() { app.showAnnualStats(); } },
+            new Prompt() { public void exec() { app.showMonthlyStats(); } }
+        };
+    }
 
     private static void devPrompt() {
         System.out.println("Do you wish to import an existing network or create a new one?\n0. Exit\n1. Create\n2. Import");

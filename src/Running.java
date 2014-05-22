@@ -34,7 +34,7 @@ public class Running extends AltitudeActivity implements weatherInterface{
     
     //essentials
     public Running clone()
-    {return this.clone();}
+    {return new Running(this);}
     
     public String toString(){
         StringBuilder understring = new StringBuilder();

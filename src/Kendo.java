@@ -20,7 +20,7 @@ public class Kendo extends Activity {
     {super(k);}
     
     public Kendo clone()
-    {return this.clone();}
+    {return new Kendo(this);}
     
     public double calculateCalories(GregorianCalendar duration)
     {return (double) duration.getTimeInMillis()*0.00008;}

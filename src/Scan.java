@@ -118,6 +118,9 @@ public class Scan {
     
     public static boolean validGregorianCalendar(GregorianCalendar date) {
         
+                    System.out.println(date.get(Calendar.MONTH) + " " + date.get(Calendar.DATE));
+            System.out.println(new SimpleDateFormat(" dd 'days' HH 'hours' mm 'minutes and' ss 'seconds' ").format( date.getTime() ));
+        
         date.setLenient(false);     // Allows for date verification
         try {
             date.getTime();           // If the date isn't valid, with setLenient(false), GregorianCalendar#getTime() throws an exception
@@ -185,8 +188,13 @@ public class Scan {
         int[] numbers = Scan.durationArray(message);
         GregorianCalendar date = new GregorianCalendar(1, 1, 1, numbers[0], numbers[1], numbers[2]);
         
-        if ( Scan.validGregorianCalendar(date) )
+        if ( Scan.validGregorianCalendar(date) ){
+            System.out.println(date.get(Calendar.MONTH) + " " + date.get(Calendar.DATE));
+            System.out.println(new SimpleDateFormat(" dd 'days' HH 'hours' mm 'minutes and' ss 'seconds' ").format( date.getTime() ));
+            System.out.println(date.get(Calendar.MONTH) + " " + date.get(Calendar.DATE));
+            System.out.println(new SimpleDateFormat(" dd 'days' HH 'hours' mm 'minutes and' ss 'seconds' ").format( date.getTime() ));
             return date;
+        }
         
         else {
             System.out.println("Invalid duration");

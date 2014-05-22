@@ -34,7 +34,7 @@ public class Kayaking extends DistanceActivity implements weatherInterface{
     
     //essentials
     public Kayaking clone()
-    {return this.clone();}
+    {return new Kayaking(this);}
     
     public String toString(){
         StringBuilder understring = new StringBuilder();

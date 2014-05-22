@@ -36,7 +36,7 @@ public class Cycling extends AltitudeActivity implements weatherInterface{
     
     //essentials
     public Cycling clone()
-    {return this.clone();}
+    {return new Cycling(this);}
     
     public String toString(){
         StringBuilder understring = new StringBuilder();

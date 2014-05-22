@@ -35,7 +35,7 @@ public class StatEntry {
       this.name = name;
       this.totalDuration = new GregorianCalendar(0,0,0,0,0,0);
       this.avgDuration = new GregorianCalendar(0,0,0,0,0,0);
-      this.nrEntries = 1;
+      this.nrEntries = 0;
       
       updateStat(calories, duration);
   }
@@ -55,7 +55,7 @@ public class StatEntry {
         this.avgCalories = 0.0;
         this.totalDuration = new GregorianCalendar(0,0,0,0,0,0);
         this.avgDuration = new GregorianCalendar(0,0,0,0,0,0);
-        this.nrEntries = 1;
+        this.nrEntries = 0;
         
         updateStat(act);
     }
@@ -128,8 +128,10 @@ public class StatEntry {
         this.totalCalories += calories;
         this.avgCalories = this.totalCalories/this.nrEntries;
         
-        this.totalDuration.setTimeInMillis( this.totalDuration.getTimeInMillis() + duration.getTimeInMillis() );
-        this.totalDuration.setTimeInMillis( this.totalDuration.getTimeInMillis()/this.nrEntries );
+        this.totalDuration.setTimeInMillis( this.totalDuration.getTimeInMillis() + duration.getTimeInMillis() - new GregorianCalendar(1, 1, 1).getTimeInMillis() );
+        this.avgDuration.setTimeInMillis( this.totalDuration.getTimeInMillis()/this.nrEntries );
+        
+        System.out.println(new SimpleDateFormat(" dd 'days' HH 'hours' mm 'minutes and' ss 'seconds' ").format( this.totalDuration.getTime() ));
     }
     
     public void updateStat(int calories, GregorianCalendar duration){
@@ -138,7 +140,9 @@ public class StatEntry {
         this.avgCalories = this.totalCalories/this.nrEntries;
         
         this.totalDuration.setTimeInMillis( this.totalDuration.getTimeInMillis() + duration.getTimeInMillis() );
-        this.totalDuration.setTimeInMillis( this.totalDuration.getTimeInMillis()/this.nrEntries );
+        this.avgDuration.setTimeInMillis( this.totalDuration.getTimeInMillis()/this.nrEntries );
+        
+        
     }
     
     public StatEntry clone(){
@@ -170,9 +174,9 @@ public class StatEntry {
         result.append("\nTotal of calories burned: ");
         result.append(this.totalCalories);
         result.append("\nAverage duration of sessions: ");
-        result.append(new SimpleDateFormat("HH 'hours' mm 'minutes and' ss 'seconds' ").format( this.avgDuration.getTime() ));
+        result.append(new SimpleDateFormat(" dd 'days' HH 'hours' mm 'minutes and' ss 'seconds' ").format( this.avgDuration.getTime() ));
         result.append("\nTotal of time spent doing this activity: ");
-        result.append(new SimpleDateFormat("HH 'hours' mm 'minutes and' ss 'seconds' ").format( this.totalDuration.getTime() ));
+        result.append(new SimpleDateFormat(" dd 'days' HH 'hours' mm 'minutes and' ss 'seconds' ").format( this.totalDuration.getTime() ));
         
         return result.toString();
     } 

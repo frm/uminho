@@ -19,7 +19,7 @@ public class Skating extends Activity {
     {super(s);}
     
     public Skating clone()
-    {return this.clone();}
+    {return new Skating(this);}
     
     public double calculateCalories(GregorianCalendar duration)
     {return (double) duration.getTimeInMillis()*0.00006;}

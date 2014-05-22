@@ -20,7 +20,7 @@ public class Swimming extends DistanceActivity {
     {super(s);}
 
     public Swimming clone()
-    {return this.clone();}
+    {return new Swimming(this);}
     
     public double calculateCalories(GregorianCalendar duration, int distance)
     {return (double)(distance/duration.getTimeInMillis())*900000;}

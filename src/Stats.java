@@ -84,7 +84,7 @@ public class Stats {
         }
         
         else 
-            return new StatEntry(act ); 
+            return new StatEntry(act); 
             
     }
 
@@ -124,9 +124,9 @@ public class Stats {
         
         try {
            stats = new Stats(this);
+            
         } catch (NullPointerException e) {
             System.out.println("No stats yet");
-            throw new NullPointerException( e.getMessage() );
         }
         
         return stats;

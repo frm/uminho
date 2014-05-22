@@ -20,6 +20,7 @@ public class User extends BasicUser {
         this.friends = new UserList(); 
         this.info = new UserInfo();
         this.log = new ActivityLog();
+        this.annualStats = new Stats();
         this.monthlyStats = new Stats();
     }
     
@@ -127,6 +128,7 @@ public class User extends BasicUser {
     
     public void addActivity(Activity act) {
         log.addActivity(act);
+        this.addStat(act);
     }
     
     public boolean removeActivity(Activity act) {
