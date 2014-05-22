@@ -25,6 +25,6 @@ public class StatsNavigator extends ActivityNavigator{
     }
     
     public void select(String name){
-        this.getApp().showStatsByName(name);
+        this.getApp().showAnnualStats(name);
     }
 }

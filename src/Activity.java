@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 
 public abstract class Activity
 {
-  int calories;
+  private double calories;
   private GregorianCalendar date;
   private GregorianCalendar duration;
   
@@ -53,8 +53,12 @@ public abstract class Activity
         return (GregorianCalendar) this.duration.clone();
     }
     
-    int getCalories() {
+    double getCalories() {
         return this.calories;
+    }
+    
+    void setCalories(double calories){
+        this.calories = calories;
     }
     
  

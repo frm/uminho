@@ -121,12 +121,20 @@ public class UserController {
         return friendList;
     }
     
-    public String showStats(){
-        return this.currentUser.showStats();
+    public String showAnnualStats(){
+        return this.currentUser.showAnnualStats();
     }
     
-    public String showStats(String name){
-        return this.currentUser.showStats(name);
+    public String showMonthlyStats(){
+        return this.currentUser.showMonthlyStats();
+    }
+    
+    public String showAnnualStats(String name){
+        return this.currentUser.showAnnualStats(name);
+    }
+    
+    public String showMonthlyStats(String name){
+        return this.currentUser.showMonthlyStats(name);
     }
 
     @Override

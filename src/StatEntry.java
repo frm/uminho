@@ -14,7 +14,7 @@ import java.util.GregorianCalendar;
  */
 public class StatEntry {
   private String name;
-  private int totalCalories;
+  private double totalCalories;
   private double avgCalories;
   private GregorianCalendar totalDuration;
   private GregorianCalendar avgDuration;
@@ -73,7 +73,7 @@ public class StatEntry {
         return name;
     }
 
-    public int getTotalCalories() {
+    public double getTotalCalories() {
         return totalCalories;
     }
 
@@ -121,7 +121,7 @@ public class StatEntry {
     }
     
     public void updateStat(Activity act){
-        int calories = act.getCalories();
+        double calories = act.getCalories();
         GregorianCalendar duration = act.getDuration();
         
         this.nrEntries++;

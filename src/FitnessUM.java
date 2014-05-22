@@ -28,6 +28,10 @@ public class FitnessUM {
    private static final String[] statsOptions = {
        "Go Back", "Check all the statistics", "Check statistics for one activity"
    };
+   
+   private static final String[] activities = {
+       "Go Back", "Cycling", "Kayaking", "Kendo", "Running", "Skating", "Swimming"
+   };
 
 
 
@@ -183,16 +187,20 @@ public class FitnessUM {
         this.userController.addFriend(u);
     }
     
-    public void listStats(){
-        this.getStatsOption();
-    }
-
-    public void showStatsByName(String name){
-        System.out.println( userController.showStats(name) );
+    public void showAnnualStats(String name){
+        System.out.println( userController.showAnnualStats(name) );
     }
     
-    public void showAllStats(){
-        System.out.println( userController.showStats() );
+    public void showMonthlyStats(String name){
+        System.out.println( userController.showAnnualStats(name) );
+    }
+    
+    public void showAnnualStats(){
+        System.out.println( userController.showAnnualStats() );
+    }
+    
+     public void showMonthlyStats(){
+        System.out.println( userController.showMonthlyStats() );
     }
     
     public void getStatsOption(){
@@ -207,6 +215,13 @@ public class FitnessUM {
         FitnessUM.printActivityCategories();
         int option = Scan.menuOption(0, 3);
         this.getCategoryStatsPrompt()[option].exec();
+    }
+    
+    public void getAddActivityOption(){
+        System.out.println("Choose one of the following options.");
+        FitnessUM.printActivityCategories();
+        int option = Scan.menuOption(0, 6);
+        this.getAddActivityPrompt()[option].exec();
     }
 
 
@@ -227,26 +242,74 @@ public class FitnessUM {
         System.out.print(list.toString()+"\n");
     }
     
-    private Prompt[] addActivitySession(){
-        UserController uc = this.userController;
-        int option = Scan.menuOption(0,5);
+    private Prompt[] getAddActivityPrompt(){
         final FitnessUM app = this;
         
         return new Prompt[]{
-            new Prompt() { public void exec() { app.addFootball();} }
+            new Prompt() { public void exec() { return;} },
+            new Prompt() { public void exec() { app.addCycling();} },
+            new Prompt() { public void exec() { app.addKayaking();} },
+            new Prompt() { public void exec() { app.addKendo();} },
+            new Prompt() { public void exec() { app.addRunning();} },
+            new Prompt() { public void exec() { app.addSkating();} },
+            new Prompt() { public void exec() { app.addSwimming();} }
         };
     }
     
-    public void addFootball(){
+    public void addCycling(){
+        GregorianCalendar date = Scan.date("When did you practice this activity?");
+        GregorianCalendar duration = Scan.duration("How long did you take?");
+        int distance = Scan.scanInt("What was the distance? (meters)");
+        int altitude = Scan.scanInt("What was the altitude? (meters)");
+        this.listWeatherOptions();
+        int weather = Scan.scanInt(this.listWeatherOptions());
+        
+        this.userController.addActivity( new Cycling(date, duration, distance, altitude, weather));
+    }
+    
+    public void addKayaking(){
         GregorianCalendar date = Scan.date("When did you practice this activity?");
         GregorianCalendar duration = Scan.duration("How long did you take?");
         int distance = Scan.scanInt("What was the distance? (meters)");
         this.listWeatherOptions();
         int weather = Scan.scanInt(this.listWeatherOptions());
         
-        this.userController.addActivity( new Football(date, duration, distance, weather));
-        //adicionar mais
+        this.userController.addActivity( new Kayaking(date, duration, distance, weather));
     }
+    
+    public void addKendo(){
+        GregorianCalendar date = Scan.date("When did you practice this activity?");
+        GregorianCalendar duration = Scan.duration("How long did you take?");
+        
+        this.userController.addActivity( new Kendo(date, duration));
+    }
+    
+    public void addRunning(){
+        GregorianCalendar date = Scan.date("When did you practice this activity?");
+        GregorianCalendar duration = Scan.duration("How long did you take?");
+        int distance = Scan.scanInt("What was the distance? (meters)");
+        int altitude = Scan.scanInt("What was the altitude? (meters)");
+        this.listWeatherOptions();
+        int weather = Scan.scanInt(this.listWeatherOptions());
+        
+        this.userController.addActivity( new Running(date, duration, distance, altitude, weather));
+    }
+    
+    public void addSkating(){
+        GregorianCalendar date = Scan.date("When did you practice this activity?");
+        GregorianCalendar duration = Scan.duration("How long did you take?");
+        
+        this.userController.addActivity( new Skating(date, duration));
+    }
+    
+    public void addSwimming(){
+        GregorianCalendar date = Scan.date("When did you practice this activity?");
+        GregorianCalendar duration = Scan.duration("How long did you take?");
+        int distance = Scan.scanInt("What was the distance? (meters)");
+        
+        this.userController.addActivity( new Swimming(date, duration, distance));
+    }
+        
                 
     /** Scans the user for gender, height, weight, birth date and favorite sport
      * @return u UserInfo containing scanned information
@@ -310,8 +373,8 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.listFriends(); }},
             new Prompt() { public void exec() { app.searchUser(); }},
             new Prompt() { public void exec() { app.myActivityLog(); }},
-            new Prompt() { public void exec() { app.addActivitySession(); } },
-            new Prompt() { public void exec() { app.listStats(); } }
+            new Prompt() { public void exec() { app.getAddActivityOption(); } },
+            new Prompt() { public void exec() { app.getStatsOption(); } }
         };
     }
 
@@ -319,8 +382,8 @@ public class FitnessUM {
         final FitnessUM app = this;
         return new Prompt[]{
             new Prompt(){ public void exec(){ return;}},
-            new Prompt() { public void exec() { app.showAllStats(); } },
-            new Prompt() { public void exec() { app.getCategoryStatsPrompt(); } }
+            new Prompt() { public void exec() { app.showAnnualStats(); } },
+            new Prompt() { public void exec() { app.getCategoryStatsOption(); } }
         };
     }
 
@@ -371,6 +434,12 @@ public class FitnessUM {
     private static void printStatsOptions() {
         int i = 0;
         for (String s : FitnessUM.statsOptions)
+            System.out.println(i++ + ". " + s);
+    }
+    
+    private static void printActivities() {
+        int i = 0;
+        for (String s : FitnessUM.activities)
             System.out.println(i++ + ". " + s);
     }
 
