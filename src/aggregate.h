@@ -27,7 +27,7 @@ Aggregate newAggregate();
 Aggregate newAggregateWith(char* name, int count);
 
 /** Deletes an aggregate */
-void deleteAggregate(Aggregate a)
+void deleteAggregate(Aggregate a);
 
 #endif
 

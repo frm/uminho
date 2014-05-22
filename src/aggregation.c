@@ -15,7 +15,7 @@ struct aggregation {
 /** Creates a hash bucket with an aggregation of given name and count total to 0
   * It shall not contain subaggregations
   */
-Bucket newBucket(char* name) {
+static Bucket newBucket(char* name) {
     Bucket new = (Bucket)malloc( sizeof (struct bucket_node) );
     new -> ag = newAggregateWith(name, 0);
     new -> next = NULL;
@@ -90,11 +90,13 @@ static void deleteBucket (Bucket b) {
 }
 
 void deleteAggregation(Aggregation a) {
+  if (a) {
     for (int i = 0; i < a -> size; i++)
         deleteBucket( a -> table[i] );
 
     free(a->table);
     free(a);
+  }
 }
 
 Aggregation newAggregation(int size) {

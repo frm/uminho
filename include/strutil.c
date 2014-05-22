@@ -39,3 +39,4 @@ char* str_dup(char* str) {
     memcpy(dup, str, size);
     return dup;
 }
+
