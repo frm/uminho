@@ -119,3 +119,14 @@ int updateAggregation(Aggregation a, char *name[], int count) {
 
     return -1;
 }
+
+#ifdef DEBUG
+void printAggregation(Aggregation a) {
+	if (!a) return;
+	for (int i = 0; i < a -> size; i++) {
+		for (Bucket b = (a -> table)[i]; b; b = b -> next)
+			printAggregate(b -> content);
+	}
+}
+#endif
+

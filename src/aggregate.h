@@ -38,4 +38,9 @@ int hasSubAggregate(Aggregate ag);
 /** Creates a subaggregation for given aggregate */
 int createSubAggregate(Aggregate ag);
 
+#ifdef DEBUG /** ### WARNING: DEBUG PURPOSES ONLY ### */
+/** Prints aggregate and subaggregations */
+void printAggregate(Aggregate ag);
+#endif
+
 #endif

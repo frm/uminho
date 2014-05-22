@@ -58,3 +58,16 @@ void deleteAggregate(Aggregate a) {
 	deleteAggregation(a -> subaggregate);
 	free(a);
 }
+
+#ifdef DEBUG
+
+#include <stdio.h>
+void printAggregate(Aggregate a) {
+	printf("AGGREGATE NAME: %s\n", a -> name);
+	printf("TOTAL COUNT: %d\n", a -> count);
+	printf("SUBAGGREGATIONS:\n");
+	printAggregation(a -> subaggregate);
+	printf("\n");
+}
+
+#endif

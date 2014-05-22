@@ -14,4 +14,11 @@ Aggregation newAggregation(int size);
 /** Deletes a given aggregation */
 void deleteAggregation(Aggregation a);
 
+/** Updates an aggregation incrementing its count and consequently subaggregations count */
+int updateAggregation(Aggregation a, char *name[], int count);
+#ifdef DEBUG /** ### WARNING: DEBUG PURPOSES ONLY ### */
+/** Prints the aggregation */
+void printAggregation(Aggregation a);
+#endif
+
 #endif
