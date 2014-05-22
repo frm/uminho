@@ -58,4 +58,3 @@ void deleteAggregate(Aggregate a) {
 	deleteAggregation(a -> subaggregate);
 	free(a);
 }
-

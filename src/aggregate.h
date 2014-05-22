@@ -1,10 +1,10 @@
 #ifndef AGGREGATE_H
 #define AGGREGATE_H
 
-#include "aggregation.h"
 #include <stdlib.h>
 #include <string.h>
 
+#include "aggregation.h"
 
 typedef struct aggregate_s *Aggregate;
 
@@ -29,5 +29,13 @@ Aggregate newAggregateWith(char* name, int count);
 /** Deletes an aggregate */
 void deleteAggregate(Aggregate a);
 
-#endif
+/** Returns pointer to subaggregation */
+struct aggregation* getSubAggregate(Aggregate ag);
 
+/** Returns 0 if doesn't have a subaggregation, 1 otherwise */
+int hasSubAggregate(Aggregate ag);
+
+/** Creates a subaggregation for given aggregate */
+int createSubAggregate(Aggregate ag);
+
+#endif

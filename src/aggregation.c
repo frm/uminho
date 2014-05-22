@@ -107,13 +107,13 @@ Aggregation newAggregation(int size) {
     return a;
 }
 
-int updateAggregation(Aggregation a, char name*[], int count) {
+int updateAggregation(Aggregation a, char *name[], int count) {
 
     if (*name) {
-        Aggregate curr = get_aggregate_ptr(a, *name) -> content
-        incCount(curr, count);
-        int res; = createSubAggregate(curr);
-        updateAggregation( getSubAggregate(curr), name + 1, count);
+        Aggregate curr = ( *get_aggregate_ptr(a, *name) ) -> content;
+        countInc(curr, count);
+        int res = createSubAggregate(curr);
+        updateAggregation( getSubAggregate(curr), name + 1, count );
         return res;
     }
 
