@@ -22,8 +22,8 @@ public class Test {
         UserList friendo = new UserList();
         UserInfo info = new UserInfo();
         Records rec = new Records();
-        ActivityLog log = new ActivityLog();
-        Stats stats = new Stats();
+        ActivityInfo log = new ActivityInfo();
+        AnnualStats stats = new AnnualStats();
         System.out.println("Testing normal constructor - Myself");
         User mendes = new User("Fernando Mendes", "ilol", "thisnthat@overthe.re", friendo, info, rec, log, stats);
         System.out.println(mendes);
@@ -106,7 +106,7 @@ public class Test {
     
     public static void activityLogTest(){
         System.out.println("Testing empty constructor - Should be empty");
-        ActivityLog empty = new ActivityLog();
+        ActivityInfo empty = new ActivityInfo();
         System.out.println(empty);
         
         Activity act = new Activity("Andar", 2, new GregorianCalendar(), new GregorianCalendar(), 4000);

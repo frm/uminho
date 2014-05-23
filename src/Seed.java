@@ -30,10 +30,13 @@ public class Seed {
         Seed.td(uc);
         Seed.jrod(uc);
         uc.loginUser("f@r.away", "frmrules");
-        uc.addFriend(2);
-        uc.addFriend(3);
+        uc.sendFriendRequest(2);
+        uc.sendFriendRequest(3);
         uc.loginUser("td@gmail.com", "marmitas");
-        uc.addFriend(3);
+        uc.sendFriendRequest(3);
+        uc.acceptFriendRequest(1);
+        uc.loginUser("rod@m.com", "leite");
+        uc.acceptFriendRequest(1);
         this.app.setUserController(uc);
     }
     
@@ -49,7 +52,7 @@ public class Seed {
     
     private static void jrod(UserController uc) {
         UserInfo ui = new UserInfo(true, 174.0, 63.0, new GregorianCalendar(1994, 11, 13), "Swimming");
-        uc.registerUser("João Rodrigues", "bobloblaw@law.blog", "lowblow", ui);
+        uc.registerUser("João Rodrigues", "rod@m.com", "leite", ui);
     }
     
     public FitnessUM generate() {

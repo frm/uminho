@@ -172,48 +172,6 @@ public class Scan {
         }
     }
     
-    private static int[] durationArray(String message) {
-        String[] durationAry= Scan.scanString("\n"+message).split(":");
-        
-        if ( durationAry.length != 3 ) {
-            System.out.println("Invalid duration");
-            return Scan.durationArray(message);
-        }
-        
-        int[] duration = new int[3];
-        
-        for (int i = 0; i < 3; i++) {
-            
-            try {
-                duration[i] = Integer.parseInt(durationAry[i]);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid duration");
-                return Scan.durationArray(message);
-            }
-        }
-        return duration;       
-    }
-    
-    public static GregorianCalendar duration(String message) {
-        int[] numbers = Scan.durationArray(message);
-        GregorianCalendar date = new GregorianCalendar(1, 1, 1, numbers[0], numbers[1], numbers[2]);
-        
-        if ( Scan.validGregorianCalendar(date) ){
-            System.out.println(date.get(Calendar.MONTH) + " " + date.get(Calendar.DATE));
-            System.out.println(new SimpleDateFormat(" dd 'days' HH 'hours' mm 'minutes and' ss 'seconds' ").format( date.getTime() ));
-            System.out.println(date.get(Calendar.MONTH) + " " + date.get(Calendar.DATE));
-            System.out.println(new SimpleDateFormat(" dd 'days' HH 'hours' mm 'minutes and' ss 'seconds' ").format( date.getTime() ));
-            return date;
-        }
-        
-        else {
-            System.out.println("Invalid duration");
-            return Scan.duration(message);
-        }
-    }
-    
-    
-    
     /** Scans the user for a double, presenting a message
      * @param message message message to be print
      * @return d scanned double

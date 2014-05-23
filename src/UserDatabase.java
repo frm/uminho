@@ -7,22 +7,23 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class UserDatabase {
 
     // Both HashMaps refer to the same user, pointer is shared
     private HashMap<Integer, User> idEntry;              // User indexation by ID
-    private HashMap<String, User> emailEntry;         // User indexation by email
-    private HashMap<String, User> nameEntry;        // User indexation by name
+    private HashMap<String, Integer> emailEntry;         // User indexation by email
+    private HashMap<String, AdminUser> adminEntry;       // Admin Indexation by Email
     private int userCount;                                          // Total number of users that have been saved
 
     /** Empty constructor
      */
     public UserDatabase() {
         this.idEntry = new HashMap<Integer, User>();
-        this.emailEntry = new HashMap<String, User>();
-        this.nameEntry = new HashMap<String, User>();
+        this.emailEntry = new HashMap<String, Integer>();
+        this.adminEntry = new HashMap<String, AdminUser>();
         this.userCount = 0;
     }
 
@@ -30,27 +31,39 @@ public class UserDatabase {
      * @param db UserDatabase to be copied
      */
     public UserDatabase(UserDatabase db) {
-        this.idEntry = db.copyIDMap();        
+        this.idEntry = new HashMap<Integer, User>();
+        this.emailEntry = new HashMap<String, Integer>();
+
         this.userCount = db.nrUsers();
-        
-        this.emailEntry = new HashMap<String, User>();
-        this.nameEntry = new HashMap<String, User>();
-        
-        for (User u : this.idEntry.values() ) {
-            this.emailEntry.put( u.getEmail(), u);
-            this.nameEntry.put( u.getName(), u);
-        }
-        
+
+        this.adminEntry = UserDatabase.copyAdmins( db.getAdmins() );
+        UserDatabase.copyUsers(this, db);
+
     }
-    
+
     /** Parameterized constructor
      * @param ids HashMap of IDs and corresponding Users
      */
-    public UserDatabase(HashMap<Integer, User> users)  {
+    public UserDatabase(HashMap<Integer, User> users, HashMap<String, AdminUser> admins)  {
+        this.adminEntry = UserDatabase.copyAdmins(admins);
         for (User u : users.values() )
             this.save(u);
     }
-    
+
+    private HashMap<Integer, User> getIdEntry() {
+        HashMap<Integer, User> cpy = new HashMap<Integer, User>();
+       for (User u : this.idEntry.values() )
+            cpy.put( u.getId(), u.clone() );
+       
+        return cpy;
+    }
+
+    private HashMap<String, Integer> getEmailEntry() {
+        HashMap<String, Integer> cpy = new HashMap<String, Integer>();
+        cpy.putAll(this.emailEntry);
+        return cpy;
+    }
+
     /** Getter for number of users on the network
      * @return Total number of users
      */
@@ -63,11 +76,15 @@ public class UserDatabase {
      */
     public Set<User> all() {
         HashSet<User> copy = new HashSet<User>();
-        
+
         for ( User u : this.idEntry.values() )
             copy.add( u.clone() );
-        
+
         return (Set<User>)copy;
+    }
+
+    private HashMap<String, AdminUser> getAdmins() {
+        return UserDatabase.copyAdmins(this.adminEntry);
     }
 
     /** Returns a user with the corresponding id or null if not found
@@ -75,87 +92,67 @@ public class UserDatabase {
      * @return Corresponding user
      */
     public User findById(int id) {
-        User u = new User();
-        try {
-            u = this.idEntry.get(id).clone();
-        } catch (Exception e) {
-            u = null;
-        }
-        
-        return u;
+        return this.idEntry.get(id).clone();
     }
-    
+
     /** Returns a user with the corresponding email or null if not found
      * @param email Wanted user email
      * @return Corresponding user
      */
     public User findByEmail(String email) {
-        User u = new User();
-        try {
-            u = this.emailEntry.get(email).clone();
-        } catch (Exception e) {
-            u = null;
-        }
-        
-        return u;
+        int id = this.emailEntry.get(email);
+        return findById(id);
     }
-    
-    public User findByName(String name) {
-        User u = new User();
-        try {
-            u = this.nameEntry.get(name).clone();
-        } catch (Exception e) {
-            u = null;
-        }
-        
-        return u;
+
+    public AdminUser findAdmin(String email) {
+        return this.adminEntry.get(email).clone();
     }
-    
+
     public ArrayList<User> searchName(String name) {
         ArrayList<User> list = new ArrayList<User>();
-        
-        for (User u : this.nameEntry.values() )
+
+        for (User u : this.idEntry.values() )
             if ( u.getName().contains(name) )
                 list.add( u.clone() );
-        
+
         return list;
     }
-    
-     public ArrayList<User> searchEmail(String email) {
-        ArrayList<User> list = new ArrayList<User>();
-        
-        for (User u : this.emailEntry.values() )
-            if ( u.getEmail().contains(email) )
-                list.add( u.clone() );
-        
-        return list;
-    }
+
+     public void addAdmin(AdminUser au) {
+         this.adminEntry.put( au.getEmail(), new AdminUser(au) );
+     }
+
+     public void addAdmin(String name, String email, String password) {
+         addAdmin( new AdminUser(name, password, email) );
+     }
 
     /** Either saves or updates a user
      * If the user id is < 0, it wasn't created and we need to give it an id, otherwise, we override it
      * @param u user to save
      */
-    public void save(User u) { 
+    public void save(User u) {
         User newUser = u.clone();
-        
-        if ( newUser.getId() < 0 )
+        int id = u.getId();
+
+        if ( id < 0 )
             newUser.setId( ++this.userCount );
-        
-                
-        this.idEntry.put( newUser.getId(), newUser );
-        this.emailEntry.put( newUser.getEmail(), newUser );
-        this.nameEntry.put ( newUser.getName(), newUser );
+
+
+        this.idEntry.put( id, newUser );
+        this.emailEntry.put( newUser.getEmail(), id );
     }
-    
+
     /** Deletes a user from the network
      * userCount is not updated to avoid ID aliasing
      * @param userId ID of the to delete
      */
     public void delete(int userId) {
-        User u = this.findById(userId);
-        this.idEntry.remove(userId);
+        delete( findById(userId) );
+    }
+
+    public void delete(User u) {
+        this.idEntry.remove( u.getId() );
         this.emailEntry.remove( u.getEmail() );
-        this.nameEntry.remove( u.getName() );
     }
 
     @Override
@@ -171,35 +168,29 @@ public class UserDatabase {
 
         UserDatabase db = (UserDatabase) o;
 
-       return this.idEntry.equals( db.copyIDMap() );
+       return this.idEntry.equals( db.getIdEntry() ) && this.emailEntry.equals( db.getEmailEntry() ) && this.adminEntry.equals( db.getAdmins() );
     }
 
     @Override
     public UserDatabase clone() {
         return new UserDatabase(this);
     }
-    
-    /** Convert a Set of users into a HashMap with valid format
-     * @param set Set to be converted
-     * @returns converted HashMap
-     */
-    private static HashMap<Integer, User> userSetToMap(Set<User> set) {
-        HashMap<Integer, User> map = new HashMap<Integer, User>();
-        for ( User u : set)
-            map.put( u.getId(), u );
-        
-        return map;
-    }
-    
-    /** Copies a HashMap
-     * @return copy
-     */
-    private HashMap<Integer, User> copyIDMap() {
-        HashMap<Integer, User> copy = new HashMap<Integer, User>();
-        
-        for (User u : this.idEntry.values() )
-            copy.put( u.getId(), u.clone() );
 
-        return copy;
+    private static HashMap<String, AdminUser> copyAdmins(HashMap<String, AdminUser> admins) {
+        HashMap<String, AdminUser> adm = new HashMap<String, AdminUser>();
+
+        for ( AdminUser au : admins.values() )
+            adm.put( au.getEmail(), au.clone() );
+
+        return adm;
     }
+
+    private static void copyUsers(UserDatabase db1, UserDatabase db2) {
+        for ( User u : db2.all() ) {
+            int id = u.getId();
+            db1.idEntry.put(id, u);
+            db1.emailEntry.put( u.getEmail(), id );
+        }
+    }
+
 }

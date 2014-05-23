@@ -20,7 +20,7 @@ public class FitnessUM {
    private static final String[] startOptions = { "Exit", "Register", "Login" };
 
    private static final String[] mainOptions = {
-       "Logout", "My Profile", "Friend List","Search User", "My Activity Log", "Add New Activity Session", "Show My Statistics"
+       "Logout", "My Profile", "Friend Requests", "Friend List","Search User", "My Activity Log", "Add New Activity Session", "Show My Statistics"
 
    };
    
@@ -173,8 +173,13 @@ public class FitnessUM {
             System.out.println("Too many failed attempts. We called the cops.\nBye bye.");
             this.shutdown();
         }
+        else greet();
+    }
 
+    private void greet() {
         System.out.println("\nWelcome "+ this.userController.getCurrentUser().getName() );
+        if ( this.userController.hasFriendRequests() )
+            System.out.println("You have friend requests!");
     }
 
     public void userProfile() {
@@ -185,9 +190,25 @@ public class FitnessUM {
     public void listFriends() {
         new FriendListNavigator( this.userController.getFriendList() ).navigate();
     }
-    
+
     public void addFriend(User u) {
-        this.userController.addFriend(u);
+        this.userController.sendFriendRequest(u);
+    }
+
+    public void deleteFriend(User u) {
+        this.userController.deleteFriend(u);
+    }
+
+    public void acceptFriend(User u) {
+        this.userController.acceptFriendRequest(u);
+    }
+
+    public void rejectFriend(User u) {
+        this.userController.rejectFriendRequest(u);
+    }
+    
+    private void viewFriendRequests() {
+        new FriendRequestsNavigator( this.userController.getFriendRequests() ).navigate();
     }
     
     public void showAnnualStats(String name){
@@ -366,7 +387,7 @@ public class FitnessUM {
     public void commandInterpreter() {
         System.out.println( "Choose one of the following options.");
         FitnessUM.printMainOptions();
-        int option = Scan.menuOption(0, 6);
+        int option = Scan.menuOption(0, 7);
         this.getMainPrompt()[option].exec();
     }
 
@@ -395,6 +416,7 @@ public class FitnessUM {
         return new Prompt[] {
             new Prompt() { public void exec() { app.run(); } },
             new Prompt() { public void exec() { app.userProfile(); } },
+            new Prompt() { public void exec() { app.viewFriendRequests(); } },
             new Prompt() { public void exec() { app.listFriends(); }},
             new Prompt() { public void exec() { app.searchUser(); }},
             new Prompt() { public void exec() { app.myActivityLog(); }},

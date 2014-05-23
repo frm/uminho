@@ -20,4 +20,8 @@ public class AdminUser extends BasicUser {
         return "### Admin: ###" + super.toString();
     }
     
+    public AdminUser clone() {
+        return new AdminUser(this);
+    }
+    
 }

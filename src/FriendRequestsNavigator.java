@@ -4,20 +4,20 @@ import java.util.ArrayList;
  *
  * @author frmendes
  */
-public class SearchUserNavigator extends Navigator<User> {
+public class FriendRequestsNavigator extends Navigator<User> {
 
     private FitnessUM app;
 
-    public SearchUserNavigator() {
+    public FriendRequestsNavigator() {
         super();
         this.app = new FitnessUM();
     }
 
-    public SearchUserNavigator(ArrayList<User> list) {
+    public FriendRequestsNavigator(ArrayList<User> list) {
         super(list);
     }
 
-    public SearchUserNavigator(ArrayList<User> list, FitnessUM app) {
+    public FriendRequestsNavigator(ArrayList<User> list, FitnessUM app) {
         super(list);
         this.app = app;
     }
@@ -27,12 +27,13 @@ public class SearchUserNavigator extends Navigator<User> {
     }
 
     public void select(final User u) {
-        System.out.println("0. Go Back\n1. View Profile\n 2. Add Friend");
-        int option = Scan.menuOption(0, 2);
+        System.out.println("0. Go Back\n1. View Profile\n 2. Accept\n 3. Reject");
+        int option = Scan.menuOption(0, 3);
         new Prompt[] {
             new Prompt() { public void exec() { }},
             new Prompt() { public void exec() { System.out.println(u); } },
-            new Prompt() { public void exec() { app.addFriend(u); }}
+            new Prompt() { public void exec() { app.acceptFriend(u); }},
+            new Prompt() { public void exec() { app.rejectFriend(u); }}
         }[option].exec();
     }
 

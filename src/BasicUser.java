@@ -9,7 +9,6 @@
  * @author frmendes
  */
 public abstract class BasicUser {
-    private int id;
     private String name;
     private String password;
     private String email;
@@ -18,25 +17,18 @@ public abstract class BasicUser {
         this.name = "";
         this.password = "";
         this.email = "";
-        this.id = -1;
     }
 
     public BasicUser(String name, String password, String email) {
-        this.id = -1;
         this.name = name;
         this.password = password;
         this.email = email;
     }
     
     public BasicUser(BasicUser b) {
-        this.id = b.getId();
         this.name = b.getName();
         this.email = b.getEmail();
         this.password = b.getPassword();
-    }
-
-    public int getId() {
-        return id;
     }
     
     public String getEmail() {
@@ -56,10 +48,6 @@ public abstract class BasicUser {
     
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setName(String name) {
@@ -100,8 +88,7 @@ public abstract class BasicUser {
         return (
                 this.name.equals( b.getName() ) &&
                 this.password.equals( b.getPassword() ) &&
-                this.email.equals( b.getEmail() ) &&
-                this.id == b.getId()
+                this.email.equals( b.getEmail() )
                 );
      }
    

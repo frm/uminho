@@ -14,21 +14,21 @@ import java.util.Map;
  *
  * @author joaorodrigues
  */
-public class Stats {
+public class AnnualStats {
     private HashMap<String, StatEntry> stats;
     
-    public Stats(){
+    public AnnualStats(){
         this.stats = new HashMap<String, StatEntry>();
     }
     
-    public Stats(HashMap<String, StatEntry> stats){
+    public AnnualStats(HashMap<String, StatEntry> stats){
         this.stats = new HashMap<String, StatEntry>();
         for(StatEntry stat: stats.values()){
             this.stats.put(stat.getName(), stat);
         }
     }
     
-    public Stats(Stats stats){
+    public AnnualStats(AnnualStats stats){
         this.stats = new HashMap<String, StatEntry>();
         for(StatEntry stat: stats.getStats().values())
             this.stats.put(stat.getName(), stat);
@@ -119,11 +119,11 @@ public class Stats {
         return this.stats.get(name);
     }
     
-    public Stats clone(){
-        Stats stats = new Stats();
+    public AnnualStats clone(){
+        AnnualStats stats = new AnnualStats();
         
         try {
-           stats = new Stats(this);
+           stats = new AnnualStats(this);
             
         } catch (NullPointerException e) {
             System.out.println("No stats yet");
@@ -137,7 +137,7 @@ public class Stats {
         
         if( o == null || this.getClass() != o.getClass() ) return false;
         
-        Stats stats = (Stats) o;
+        AnnualStats stats = (AnnualStats) o;
         
         return this.stats.equals(stats.getstats() );
     }
