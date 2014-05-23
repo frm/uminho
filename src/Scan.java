@@ -92,14 +92,14 @@ public class Scan {
     private static int[] hourArray(String message) {
         String[] hourAry= Scan.scanString("\n"+message).split(":");
         
-        if ( hourAry.length != 2 ) {
+        if ( hourAry.length != 3 ) {
             System.out.println("Invalid time");
             return Scan.hourArray(message);
         }
         
-        int[] hour = new int[2];
+        int[] hour = new int[3];
         
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             
             try {
                 hour[i] = Integer.parseInt(hourAry[i]);
@@ -117,9 +117,6 @@ public class Scan {
     }
     
     public static boolean validGregorianCalendar(GregorianCalendar date) {
-        
-                    System.out.println(date.get(Calendar.MONTH) + " " + date.get(Calendar.DATE));
-            System.out.println(new SimpleDateFormat(" dd 'days' HH 'hours' mm 'minutes and' ss 'seconds' ").format( date.getTime() ));
         
         date.setLenient(false);     // Allows for date verification
         try {
@@ -151,7 +148,7 @@ public class Scan {
     public static GregorianCalendar dateWithHours(String messageForDate, String messageForTime) {
         int[] day = Scan.dateArray(messageForDate);
         int[] time = Scan.hourArray(messageForTime);
-        GregorianCalendar date = new GregorianCalendar(day[2], day[1] - 1, day[0], time[0], time[1]);
+        GregorianCalendar date = new GregorianCalendar(day[2], day[1] - 1, day[0], time[0], time[1], time[2]);
         
         if ( Scan.validGregorianCalendar(date) && Scan.validDate(date) )
             return date;
@@ -159,6 +156,19 @@ public class Scan {
         else {
             System.out.println("Invalid date or time");
             return Scan.dateWithHours(messageForDate, messageForTime);
+        }
+    }
+    
+    public static GregorianCalendar time(String message){
+        int[] hour = Scan.hourArray(message);
+        GregorianCalendar time = new GregorianCalendar(1,1,1, hour[0], hour[1], hour[2]); 
+        
+        if ( Scan.validGregorianCalendar(time))
+            return time;
+        
+        else {
+            System.out.println("Invalid time");
+            return Scan.time(message);
         }
     }
     

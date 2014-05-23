@@ -11,7 +11,7 @@ public class Swimming extends DistanceActivity {
     public Swimming() 
     {super();}
     
-    public Swimming(GregorianCalendar date, GregorianCalendar duration, int distance){
+    public Swimming(GregorianCalendar date, long duration, int distance){
         super(date,duration,distance);
         this.setCalories(calculateCalories(duration, distance) );
     }
@@ -22,7 +22,7 @@ public class Swimming extends DistanceActivity {
     public Swimming clone()
     {return new Swimming(this);}
     
-    public double calculateCalories(GregorianCalendar duration, int distance)
-    {return (double)(distance/duration.getTimeInMillis())*900000;}
+    public double calculateCalories(long duration, int distance)
+    {return (double)(distance/duration)*900000;}
 }
 

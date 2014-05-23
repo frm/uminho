@@ -11,7 +11,7 @@ public class Kendo extends Activity {
     public Kendo() 
     {super();}
     
-    public Kendo(GregorianCalendar date, GregorianCalendar duration){
+    public Kendo(GregorianCalendar date, long duration){
         super(date, duration);
         this.setCalories( calculateCalories(duration) );
     }
@@ -22,6 +22,6 @@ public class Kendo extends Activity {
     public Kendo clone()
     {return new Kendo(this);}
     
-    public double calculateCalories(GregorianCalendar duration)
-    {return (double) duration.getTimeInMillis()*0.00008;}
+    public double calculateCalories(long duration)
+    {return (double) duration*0.00008;}
 }

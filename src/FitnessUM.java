@@ -2,6 +2,7 @@
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -259,59 +260,79 @@ public class FitnessUM {
     }
     
     public void addCycling(){
-        GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "At what time? (hh:mm)");
-        GregorianCalendar duration = Scan.duration("How long did you take? (hh:mm:ss)");
+        GregorianCalendar startDate = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "When did you start (hh:mm:ss)");
+        GregorianCalendar endDate = Scan.time("When did you finish? (hh:mm:ss)");
+        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DATE));
+        long duration = endDate.getTimeInMillis() - startDate.getTimeInMillis();
+        
         int distance = Scan.scanInt("What was the distance? (meters)");
         int altitude = Scan.scanInt("What was the altitude? (meters)");
         this.listWeatherOptions();
         int weather = Scan.scanInt(this.listWeatherOptions());
         
-        this.userController.addActivity( new Cycling(date, duration, distance, altitude, weather));
+        this.userController.addActivity( new Cycling(startDate, duration, distance, altitude, weather));
     }
     
     public void addKayaking(){
-        GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "At what time? (hh:mm)");
-        GregorianCalendar duration = Scan.duration("How long did you take? (hh:mm:ss)");
+        GregorianCalendar startDate = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "When did you start (hh:mm:ss)");
+        GregorianCalendar endDate = Scan.time("When did you finish? (hh:mm:ss)");
+        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DATE));
+        long duration = endDate.getTimeInMillis() - startDate.getTimeInMillis();
         int distance = Scan.scanInt("What was the distance? (meters)");
         this.listWeatherOptions();
         int weather = Scan.scanInt(this.listWeatherOptions());
         
-        this.userController.addActivity( new Kayaking(date, duration, distance, weather));
+        this.userController.addActivity( new Kayaking(startDate, duration, distance, weather));
     }
     
     public void addKendo(){
-        GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "At what time? (hh:mm)");
-        GregorianCalendar duration = Scan.duration("How long did you take? (hh:mm:ss)");
+        GregorianCalendar startDate = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "When did you start (hh:mm:ss)");
+        GregorianCalendar endDate = Scan.time("When did you finish? (hh:mm:ss)");
+        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DATE));
+        long duration = endDate.getTimeInMillis() - startDate.getTimeInMillis();
         
-        System.out.println(new SimpleDateFormat(" dd 'days' HH 'hours' mm 'minutes and' ss 'seconds' ").format( duration.getTime() ));
         
-        this.userController.addActivity( new Kendo(date, duration));
+                    System.out.println(endDate.get(Calendar.MONTH) + " " + endDate.get(Calendar.DATE));
+            System.out.println(new SimpleDateFormat(" dd 'days' HH 'hours' mm 'minutes and' ss 'seconds' ").format( endDate.getTime() ));
+        
+        
+        
+        this.userController.addActivity( new Kendo(startDate, duration));
     }
     
     public void addRunning(){
-        GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "At what time? (hh:mm)");
-        GregorianCalendar duration = Scan.duration("How long did you take? (hh:mm:ss)");
+        GregorianCalendar startDate = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "When did you start (hh:mm:ss)");
+        GregorianCalendar endDate = Scan.time("When did you finish? (hh:mm:ss)");
+        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DATE));
+        long duration = endDate.getTimeInMillis() - startDate.getTimeInMillis();
+        
         int distance = Scan.scanInt("What was the distance? (meters)");
         int altitude = Scan.scanInt("What was the altitude? (meters)");
         this.listWeatherOptions();
         int weather = Scan.scanInt(this.listWeatherOptions());
         
-        this.userController.addActivity( new Running(date, duration, distance, altitude, weather));
+        this.userController.addActivity( new Running(startDate, duration, distance, altitude, weather));
     }
     
     public void addSkating(){
-        GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "At what time? (hh:mm)");
-        GregorianCalendar duration = Scan.duration("How long did you take? (hh:mm:ss)");
+        GregorianCalendar startDate = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "When did you start (hh:mm:ss)");
+        GregorianCalendar endDate = Scan.time("When did you finish? (hh:mm:ss)");
+        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DATE));
+        long duration = endDate.getTimeInMillis() - startDate.getTimeInMillis();
         
-        this.userController.addActivity( new Skating(date, duration));
+        this.userController.addActivity( new Skating(startDate, duration));
     }
     
     public void addSwimming(){
-        GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "At what time? (hh:mm)");
-        GregorianCalendar duration = Scan.duration("How long did you take? (hh:mm:ss)");
+        GregorianCalendar startDate = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "When did you start (hh:mm:ss)");
+        GregorianCalendar endDate = Scan.time("When did you finish? (hh:mm:ss)");
+        
+        endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DATE));
+        
+        long duration = endDate.getTimeInMillis() - startDate.getTimeInMillis();
         int distance = Scan.scanInt("What was the distance? (meters)");
         
-        this.userController.addActivity( new Swimming(date, duration, distance));
+        this.userController.addActivity( new Swimming(startDate, duration, distance));
     }
         
                 

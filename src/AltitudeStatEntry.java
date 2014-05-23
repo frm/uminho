@@ -26,13 +26,13 @@ public class AltitudeStatEntry extends DistanceStatEntry{
         this.avgAltitude = avgAltitude;
     }
 
-    public AltitudeStatEntry(String name, int calories, GregorianCalendar duration, int totalDistance, double avgDistance, int totalAltitude, double avgAltitude) {
+    public AltitudeStatEntry(String name, int calories, long duration, int totalDistance, double avgDistance, int totalAltitude, double avgAltitude) {
         super(name, calories, duration, totalDistance, avgDistance);
         this.totalAltitude = totalAltitude;
         this.avgAltitude = avgAltitude;
     }
 
-    public AltitudeStatEntry(String name, int totalCalories, double avgCalories, GregorianCalendar totalDuration, GregorianCalendar avgDuration, int nrEntries, int totalDistance, double avgDistance,  int totalAltitude, double avgAltitude) {
+    public AltitudeStatEntry(String name, int totalCalories, double avgCalories, long totalDuration, long avgDuration, int nrEntries, int totalDistance, double avgDistance,  int totalAltitude, double avgAltitude) {
         super(name, totalCalories, avgCalories, totalDuration, avgDuration, nrEntries, totalDistance, avgDistance);
         this.totalAltitude = totalAltitude;
         this.avgAltitude = avgAltitude;
@@ -61,7 +61,7 @@ public class AltitudeStatEntry extends DistanceStatEntry{
         this.avgAltitude = this.totalAltitude/this.getNrEntries();
     }
     
-    public void updateStat(int calories, GregorianCalendar duration,int distance, int altitude){
+    public void updateStat(int calories, long duration,int distance, int altitude){
         super.updateStat(calories, duration, distance);
         
         this.totalAltitude += altitude;

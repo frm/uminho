@@ -26,13 +26,13 @@ public class DistanceStatEntry extends StatEntry{
         this.avgDistance = avgDistance;
     }
 
-    public DistanceStatEntry(String name, int calories, GregorianCalendar duration, int totalDistance, double avgDistance) {
+    public DistanceStatEntry(String name, int calories, long duration, int totalDistance, double avgDistance) {
         super(name, calories, duration);
         this.totalDistance = totalDistance;
         this.avgDistance = avgDistance;
     }
 
-    public DistanceStatEntry(String name, int totalCalories, double avgCalories, GregorianCalendar totalDuration, GregorianCalendar avgDuration, int nrEntries, int totalDistance, double avgDistance) {
+    public DistanceStatEntry(String name, int totalCalories, double avgCalories, long totalDuration, long avgDuration, int nrEntries, int totalDistance, double avgDistance) {
         super(name, totalCalories, avgCalories, totalDuration, avgDuration, nrEntries);
         this.totalDistance = totalDistance;
         this.avgDistance = avgDistance;
@@ -61,7 +61,7 @@ public class DistanceStatEntry extends StatEntry{
         this.avgDistance = this.totalDistance/this.getNrEntries();
     }
     
-    public void updateStat(int calories, GregorianCalendar duration, int distance){
+    public void updateStat(int calories, long duration, int distance){
         super.updateStat(calories, duration);
         
         this.totalDistance += distance;

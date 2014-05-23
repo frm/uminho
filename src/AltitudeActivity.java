@@ -9,7 +9,7 @@ public abstract class AltitudeActivity extends DistanceActivity{
        this.altitude = 0;
    }
    
-    public AltitudeActivity(GregorianCalendar date, GregorianCalendar duration, int distance, int altitude){
+    public AltitudeActivity(GregorianCalendar date, long duration, int distance, int altitude){
         super(date, duration, distance);
         this.altitude = altitude;
     }

@@ -10,7 +10,7 @@ public class Skating extends Activity {
     public Skating() 
     {super();}
     
-    public Skating(GregorianCalendar date, GregorianCalendar duration){
+    public Skating(GregorianCalendar date, long duration){
         super(date, duration);
         this.setCalories( calculateCalories(duration) );
     }
@@ -21,6 +21,6 @@ public class Skating extends Activity {
     public Skating clone()
     {return new Skating(this);}
     
-    public double calculateCalories(GregorianCalendar duration)
-    {return (double) duration.getTimeInMillis()*0.00006;}
+    public double calculateCalories(long duration)
+    {return (double) duration*0.00006;}
 }

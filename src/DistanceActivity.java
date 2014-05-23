@@ -9,7 +9,7 @@ public abstract class DistanceActivity extends Activity{
         this.distance = 0;
     }
     
-    public DistanceActivity(GregorianCalendar date, GregorianCalendar duration, int distance) {
+    public DistanceActivity(GregorianCalendar date, long duration, int distance) {
         super(date, duration);
         this.distance = distance;
     }
