@@ -57,6 +57,10 @@ public abstract class Activity
         return this.calories;
     }
     
+    String getName(){
+        return this.getClass().getSimpleName();
+    }
+    
     void setCalories(double calories){
         this.calories = calories;
     }

@@ -11,7 +11,7 @@ import java.util.Comparator;
  *
  * @author joaorodrigues
  */
-class ActivityComparator implements Comparator<Activity>, Serializable {
+public class ActivityComparator implements Comparator<Activity>, Serializable {
     
     @Override
     public int compare(Activity a1, Activity a2){

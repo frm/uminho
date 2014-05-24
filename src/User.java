@@ -14,16 +14,16 @@ public class User extends BasicUser {
     private FriendList friends;
     private UserInfo info;
     private ActivityInfo activityInfo;
-    private AnnualStats annualStats;
-    private AnnualStats monthlyStats;
+    private YearStat annualStats;
+    private YearStat monthlyStats;
     
     public User() {
         super();
         this.friends = new FriendList(); 
         this.info = new UserInfo();
         this.activityInfo = new ActivityInfo();
-        this.annualStats = new AnnualStats();
-        this.monthlyStats = new AnnualStats();
+        this.annualStats = new YearStat();
+        this.monthlyStats = new YearStat();
         this.id = -1;
     }
     
@@ -32,12 +32,12 @@ public class User extends BasicUser {
         this.info = info.clone();
         this.friends = new FriendList();
         this.activityInfo = new ActivityInfo();
-        this.annualStats = new AnnualStats();
-        this.monthlyStats = new AnnualStats();
+        this.annualStats = new YearStat();
+        this.monthlyStats = new YearStat();
         this.id = -1;
     }
 
-    public User(String name, String password, String email, FriendList friendlist, UserInfo info, ActivityInfo actInfo, AnnualStats yStats, AnnualStats mStats) {
+    public User(String name, String password, String email, FriendList friendlist, UserInfo info, ActivityInfo actInfo, YearStat yStats, YearStat mStats) {
         super(name, password, email);
         this.friends = friendlist.clone();
         this.info = info.clone();
@@ -92,11 +92,11 @@ public class User extends BasicUser {
         this.activityInfo = actInfo.clone();
     }
 
-    public AnnualStats getAnnualStats() {
+    public YearStat getAnnualStats() {
         return annualStats.clone();
     }
 
-    public AnnualStats getMonthlyStats() {
+    public YearStat getMonthlyStats() {
         return monthlyStats.clone();
     }
 
@@ -191,40 +191,21 @@ public class User extends BasicUser {
         return this.friends.getRequests();
     }
     
-    
-    public void addStat(Activity act){
-        this.annualStats.addStat(act);
-        this.monthlyStats.addStat(act);
+    public String showStatsOverview(){
+        return this.activityInfo.statsOverview();
+    }
+ 
+    public String showAnnualStats(int year){
+        return this.activityInfo.showAnnualStats(year);
     }
     
-    public String showAnnualStats(){
-        return this.annualStats.toString();
-    }
-    
-    public String showMonthlyStats(){
-        return this.monthlyStats.toString();
-    }
-
-    public void setAnnualStats(AnnualStats annualStats) {
-        this.annualStats = annualStats.clone();
-    }
-
-    public void setMonthlyStats(AnnualStats monthlyStats) {
-        this.monthlyStats = monthlyStats.clone();
-    }
-    
-    public String showAnnualStats(String name){
-        return this.annualStats.getActivityStat(name).toString();
-    }
-    
-    public String showMonthlyStats(String name){
-        return this.monthlyStats.getActivityStat(name).toString();
+    public String showMonthlyStats(int year, int month){
+        return this.activityInfo.showMonthlyStats(year, month);
     }
     
     
     public void addActivity(Activity act) {
         activityInfo.addActivity(act);
-        this.addStat(act);
     }
     
     public boolean removeActivity(Activity act) {

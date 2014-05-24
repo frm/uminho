@@ -211,29 +211,18 @@ public class FitnessUM {
         new FriendRequestsNavigator( this.userController.getFriendRequests() ).navigate();
     }
     
-    public void showAnnualStats(String name){
-        System.out.println( userController.showAnnualStats(name) );
+    public void showStatsOverview(){
+        System.out.println(userController.showStatsOverview());
     }
     
-    public void showMonthlyStats(String name){
-        System.out.println( userController.showAnnualStats(name) );
+    public void showAnnualStats(int year){
+        System.out.println( userController.showAnnualStats(year) );
     }
     
-    public void showAnnualStats(){
-        System.out.println( userController.showAnnualStats() );
+    public void showMonthlyStats(int year, int month){
+        System.out.println( userController.showMonthlyStats(year, month) );
     }
-    
-     public void showMonthlyStats(){
-        System.out.println( userController.showMonthlyStats() );
-    }
-    
-    public void getStatsOption(){
-        System.out.println("Choose one of the following options.");
-        FitnessUM.printStatsOptions();
-        int option = Scan.menuOption(0, 2);
-        this.getStatsPrompt()[option].exec();
-    }
-    
+
     public void getAddActivityOption(){
         System.out.println("Choose one of the following options.");
         FitnessUM.printActivities();
@@ -421,17 +410,7 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.searchUser(); }},
             new Prompt() { public void exec() { app.myActivityLog(); }},
             new Prompt() { public void exec() { app.getAddActivityOption(); } },
-            new Prompt() { public void exec() { app.getStatsOption(); } }
-        };
-    }
-
-    public Prompt[] getStatsPrompt(){
-        final FitnessUM app = this;
-        final ArrayList<String> activityList = new ArrayList( Arrays.asList(app.activities) );
-        return new Prompt[]{
-            new Prompt(){ public void exec(){ return;}},
-            new Prompt() { public void exec() { app.getStatsTypeOption(); } },
-            new Prompt() { public void exec() { ( new StatsNavigator(activityList) ).navigate(); } }
+            new Prompt() { public void exec() { app.getStatsTypeOption(); } }
         };
     }
 

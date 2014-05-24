@@ -23,7 +23,7 @@ public class Test {
         UserInfo info = new UserInfo();
         Records rec = new Records();
         ActivityInfo log = new ActivityInfo();
-        AnnualStats stats = new AnnualStats();
+        YearStat stats = new YearStat();
         System.out.println("Testing normal constructor - Myself");
         User mendes = new User("Fernando Mendes", "ilol", "thisnthat@overthe.re", friendo, info, rec, log, stats);
         System.out.println(mendes);

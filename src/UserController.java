@@ -204,20 +204,16 @@ public class UserController {
         return this.currentUser.toString();
     }
 
-    public String showAnnualStats(){
-        return this.currentUser.showAnnualStats();
+    public String showStatsOverview(){
+        return this.currentUser.showStatsOverview();
     }
     
-    public String showMonthlyStats(){
-        return this.currentUser.showMonthlyStats();
+    public String showAnnualStats(int year){
+        return this.currentUser.showAnnualStats(year);
     }
     
-    public String showAnnualStats(String name){
-        return this.currentUser.showAnnualStats(name);
-    }
-    
-    public String showMonthlyStats(String name){
-        return this.currentUser.showMonthlyStats(name);
+    public String showMonthlyStats(int year, int month){
+        return this.currentUser.showMonthlyStats(year, month);
     }
 
     @Override

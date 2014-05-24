@@ -29,17 +29,6 @@ public class StatEntry {
       this.nrEntries = 0;
   }
   
-  public StatEntry(String name, int calories, long duration){
-      this.totalCalories = 0;
-      this.avgCalories = 0.0;
-      this.name = name;
-      this.totalDuration =0;
-      this.avgDuration =0;
-      this.nrEntries = 0;
-      
-      updateStat(calories, duration);
-  }
-
     public StatEntry(String name, int totalCalories, double avgCalories, long totalDuration, long avgDuration, int nrEntries) {
         this.name = name;
         this.totalCalories = totalCalories;
@@ -49,8 +38,19 @@ public class StatEntry {
         this.nrEntries = nrEntries;
     }
     
+    public StatEntry(String name, int calories, long duration){
+        this.name = name;
+        this.totalCalories = 0;
+        this.avgCalories = 0.0;
+        this.totalDuration = 0;
+        this.avgDuration = 0;
+        this.nrEntries = 0;
+        
+        updateStat(calories, duration);
+    }
+    
     public StatEntry(Activity act){
-        this.name = act.getClass().getSimpleName();
+        this.name = act.getName();
         this.totalCalories = 0;
         this.avgCalories = 0.0;
         this.totalDuration = 0;
@@ -142,7 +142,6 @@ public class StatEntry {
         
         this.totalDuration += duration;
         this.avgDuration = this.totalDuration/this.nrEntries;
-        
     }
     
     public void updateStat(int calories, long duration){
@@ -152,8 +151,15 @@ public class StatEntry {
         
         this.totalDuration += duration;
         this.avgDuration = this.totalDuration/this.nrEntries;
+    }
+    
+    public void removeActivityStat(Activity act){
+        this.nrEntries--;
+        this.totalCalories -= act.getCalories();
+        this.avgCalories = this.totalCalories/this.nrEntries;
         
-        
+        this.totalDuration -= act.getDuration();
+        this.avgDuration = this.totalDuration/this.nrEntries;
     }
     
     public StatEntry clone(){
