@@ -13,7 +13,7 @@ public class User extends BasicUser {
     private int id;
     private FriendList friends;
     private UserInfo info;
-    private ActivityInfo log;
+    private ActivityInfo activityInfo;
     private AnnualStats annualStats;
     private AnnualStats monthlyStats;
     
@@ -21,7 +21,7 @@ public class User extends BasicUser {
         super();
         this.friends = new FriendList(); 
         this.info = new UserInfo();
-        this.log = new ActivityInfo();
+        this.activityInfo = new ActivityInfo();
         this.annualStats = new AnnualStats();
         this.monthlyStats = new AnnualStats();
         this.id = -1;
@@ -31,17 +31,17 @@ public class User extends BasicUser {
         super(name, password, email);
         this.info = info.clone();
         this.friends = new FriendList();
-        this.log = new ActivityInfo();
+        this.activityInfo = new ActivityInfo();
         this.annualStats = new AnnualStats();
         this.monthlyStats = new AnnualStats();
         this.id = -1;
     }
 
-    public User(String name, String password, String email, FriendList friendlist, UserInfo info, ActivityInfo log, AnnualStats yStats, AnnualStats mStats) {
+    public User(String name, String password, String email, FriendList friendlist, UserInfo info, ActivityInfo actInfo, AnnualStats yStats, AnnualStats mStats) {
         super(name, password, email);
         this.friends = friendlist.clone();
         this.info = info.clone();
-        this.log = log.clone();
+        this.activityInfo = actInfo.clone();
         this.annualStats = yStats.clone();
         this.monthlyStats = mStats.clone();
         this.id = -1;
@@ -51,7 +51,7 @@ public class User extends BasicUser {
         super(u);
         this.friends = u.getFriendList();
         this.info = u.getInfo();
-        this.log = u.getActivityLog();
+        this.activityInfo = u.getActivityLog();
         this.annualStats = u.getAnnualStats();
         this.monthlyStats = u.getMonthlyStats();
         this.id = u.getId();
@@ -72,7 +72,7 @@ public class User extends BasicUser {
 
     
     public ActivityInfo getActivityLog() {
-        return log.clone();
+        return activityInfo.clone();
     }
 
     public int setId(int id) {
@@ -88,8 +88,8 @@ public class User extends BasicUser {
     }
     
     
-    public void setActivityLog(ActivityInfo log) {
-        this.log = log.clone();
+    public void setActivityLog(ActivityInfo actInfo) {
+        this.activityInfo = actInfo.clone();
     }
 
     public AnnualStats getAnnualStats() {
@@ -223,16 +223,16 @@ public class User extends BasicUser {
     
     
     public void addActivity(Activity act) {
-        log.addActivity(act);
+        activityInfo.addActivity(act);
         this.addStat(act);
     }
     
     public boolean removeActivity(Activity act) {
-        return log.removeActivity(act);
+        return activityInfo.removeActivity(act);
     }
     
     public ArrayList<Activity> getMostRecentActivities() {
-        return log.getMostRecent();
+        return activityInfo.getMostRecent();
     }
     
     public User clone() {
@@ -246,7 +246,7 @@ public class User extends BasicUser {
         result.append("\nInfo: ");
         result.append(this.info);
         result.append("\nActivities: ");
-        result.append(this.log);
+        result.append(this.activityInfo);
 
         return result.toString();
     }
@@ -267,7 +267,7 @@ public class User extends BasicUser {
        return (
         u.getFriendList().equals(this.friends)
         && u.getInfo().equals(this.info)
-        && u.getActivityLog().equals(this.log)
+        && u.getActivityLog().equals(this.activityInfo)
         && u.getId() == this.id
         && super.equals(o)
         );
