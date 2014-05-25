@@ -76,14 +76,18 @@ public class Stats {
     }
     
     
-    public String showAnnualStats(int year){
-        return this.annualStats.get(year).toString();
-        POR EXCEÇOES
+    public String showAnnualStats(int year) throws StatsNotAvailable{
+        if(this.annualStats.get(year) == null)
+            throw new StatsNotAvailable("There are no statistics for " + year);
+        
+        return this.annualStats.get(year).toString(); 
     }
     
-    public String showMonthlyStats(int year, int month){
+    public String showMonthlyStats(int year, int month) throws StatsNotAvailable{
+        if(this.annualStats.get(year) == null)
+            throw new StatsNotAvailable("There are no statistics for " + year);
+        
         YearStat yt = this.annualStats.get(year);
-        POR EXCEÇOES
         return yt.showMonthlyStats(month);
     }
     

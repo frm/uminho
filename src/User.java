@@ -195,11 +195,11 @@ public class User extends BasicUser {
         return this.activityInfo.statsOverview();
     }
  
-    public String showAnnualStats(int year){
+    public String showAnnualStats(int year) throws StatsNotAvailable{
         return this.activityInfo.showAnnualStats(year);
     }
     
-    public String showMonthlyStats(int year, int month){
+    public String showMonthlyStats(int year, int month) throws StatsNotAvailable{
         return this.activityInfo.showMonthlyStats(year, month);
     }
     

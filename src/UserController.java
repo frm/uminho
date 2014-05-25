@@ -208,11 +208,11 @@ public class UserController {
         return this.currentUser.showStatsOverview();
     }
     
-    public String showAnnualStats(int year){
+    public String showAnnualStats(int year) throws StatsNotAvailable{
         return this.currentUser.showAnnualStats(year);
     }
     
-    public String showMonthlyStats(int year, int month){
+    public String showMonthlyStats(int year, int month) throws StatsNotAvailable{
         return this.currentUser.showMonthlyStats(year, month);
     }
 

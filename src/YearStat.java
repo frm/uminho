@@ -60,8 +60,9 @@ public class YearStat {
         this.monthlyStats = stats.clone();
     }
     
-    public String showMonthlyStats(int month){
-        POR EXCEÇOES
+    public String showMonthlyStats(int month) throws StatsNotAvailable{
+        if(this.monthlyStats[month-1] == null)
+            throw new StatsNotAvailable("There are no statistics for that month");
         return this.monthlyStats[month-1].toString();
     }
     

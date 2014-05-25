@@ -85,11 +85,11 @@ public class ActivityInfo {
         return this.stats.toString();
     }
     
-    public String showAnnualStats(int year){
+    public String showAnnualStats(int year) throws StatsNotAvailable{
         return this.stats.showAnnualStats(year);
     }
     
-    public String showMonthlyStats(int year, int month){
+    public String showMonthlyStats(int year, int month) throws StatsNotAvailable{
         return this.stats.showMonthlyStats(year, month);
     }
     

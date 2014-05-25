@@ -215,12 +215,23 @@ public class FitnessUM {
         System.out.println(userController.showStatsOverview());
     }
     
-    public void showAnnualStats(int year){
+    public void showAnnualStats(){
+        int year = Scan.scanInt("Insert the year you want to check.");
+        try{
         System.out.println( userController.showAnnualStats(year) );
+        }
+        catch(StatsNotAvailable s){System.out.println("No Stats Available");}
+        
     }
     
-    public void showMonthlyStats(int year, int month){
-        System.out.println( userController.showMonthlyStats(year, month) );
+    public void showMonthlyStats(){
+        int year = Scan.scanInt("Insert the year you want to check.");
+        int month = Scan.scanInt("Insert the month (number).");
+        try{
+           System.out.println( userController.showMonthlyStats(year, month) );
+        }
+        catch(StatsNotAvailable s){System.out.println("No Stats Available");}
+        
     }
 
     public void getAddActivityOption(){
@@ -233,9 +244,10 @@ public class FitnessUM {
     public void getStatsTypeOption(){
         System.out.println("Choose one of the following options.");
         System.out.println("0.Go Back");
-        System.out.println("1.Annual Statistics");
-        System.out.println("2.Monthly Statistics");
-        int option = Scan.menuOption(0,2);
+        System.out.println("1.Statistics Overview");
+        System.out.println("2.Statistics for a given year");
+        System.out.println("3.Statistics for a given year and month");
+        int option = Scan.menuOption(0,3);
         this.getStatsTypePrompt()[option].exec();
     }
 
@@ -426,6 +438,7 @@ public class FitnessUM {
         final FitnessUM app = this;
         return new Prompt[]{
             new Prompt(){ public void exec(){ return;}},
+            new Prompt(){ public void exec(){ app.showStatsOverview(); } },
             new Prompt() { public void exec() { app.showAnnualStats(); } },
             new Prompt() { public void exec() { app.showMonthlyStats(); } }
         };
