@@ -66,17 +66,19 @@ static int get_pipe_address(PipeTable a, char* name, PipeBucket** ret) {
   * If found, returns its address
   * Otherwise adds it to the table
   */
-static PipeBucket* get_pipe_ptr(PipeTable pt, char* name) {
+static int get_pipe_ptr(PipeTable pt, char* name, PipeBucket** ret) {
     PipeBucket new;
     PipeBucket* it;
+    int res = get_pipe_address(pt, name, &it);
 
-    if (! get_pipe_address(pt, name, &it) ) {
+    if(!res) {
         new = newPipeBucket(name);
         new -> next = *it;
         *it = new;
     }
 
-    return it;
+    *ret = it;
+    return res;
 }
 
 static void deletePipeBucket (PipeBucket b) {
@@ -109,3 +111,12 @@ PipeTable newPipeTable(int size) {
 
     return pt;
 }
+
+int pipe_writer(PipeTable pt, char* name, int* ret) {
+    if (!pt) return 0;
+    PipeBucket* it;
+    int res = get_pipe_ptr(pt, name, &it);
+    ret = getDescriptors( (*it) -> content );
+    return res;
+}
+

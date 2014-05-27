@@ -5,8 +5,10 @@ typedef struct pipe *Pipe;
 
 char* getPipeName(Pipe p);
 
-Pipe newPipe(char* name, int fdesc[]);
+Pipe newPipe(char* name);
 
 void deletePipe(Pipe p);
+
+int* getDescriptors(Pipe p);
 
 #endif
