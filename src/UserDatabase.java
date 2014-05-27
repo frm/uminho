@@ -92,7 +92,13 @@ public class UserDatabase {
      * @return Corresponding user
      */
     public User findById(int id) {
-        return this.idEntry.get(id).clone();
+        User u;
+        try {
+            u = this.idEntry.get(id).clone();
+        } catch (NullPointerException e) {
+            u = null;
+        }
+        return u;
     }
 
     /** Returns a user with the corresponding email or null if not found
@@ -100,12 +106,25 @@ public class UserDatabase {
      * @return Corresponding user
      */
     public User findByEmail(String email) {
-        int id = this.emailEntry.get(email);
+        int id;
+        try {
+            id = this.emailEntry.get(email);
+        } catch (NullPointerException e) {
+            return null;
+        }
+        
         return findById(id);
     }
 
     public AdminUser findAdmin(String email) {
-        return this.adminEntry.get(email).clone();
+        AdminUser a;
+        try {
+            a = this.adminEntry.get(email).clone();
+        } catch (NullPointerException e) {
+            a = null;
+        }
+        
+        return a;
     }
 
     public ArrayList<User> searchName(String name) {
@@ -132,14 +151,13 @@ public class UserDatabase {
      */
     public void save(User u) {
         User newUser = u.clone();
-        int id = u.getId();
 
-        if ( id < 0 )
+        if ( u.getId() < 0 )
             newUser.setId( ++this.userCount );
 
 
-        this.idEntry.put( id, newUser );
-        this.emailEntry.put( newUser.getEmail(), id );
+        this.idEntry.put( newUser.getId(), newUser );
+        this.emailEntry.put( newUser.getEmail(), newUser.getId() );
     }
 
     /** Deletes a user from the network

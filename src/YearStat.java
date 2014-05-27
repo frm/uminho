@@ -1,4 +1,5 @@
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 /*
@@ -12,6 +13,9 @@ import java.util.Calendar;
  * @author joaorodrigues
  */
 public class YearStat {
+    private static String[] months = {
+    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    
     private MonthStat[] monthlyStats;
     private int year;
     
@@ -21,7 +25,7 @@ public class YearStat {
     }
     
     public YearStat(MonthStat[] mStat, int year){
-        this.monthlyStats = mStat.clone();
+        this.monthlyStats = Arrays.copyOf(mStat, 12);
         this.year = year;
     }
     
@@ -31,7 +35,7 @@ public class YearStat {
     }
     
     public MonthStat[] getStats(){
-        return this.monthlyStats.clone();
+        return Arrays.copyOf(this.monthlyStats, 12);
     }
     
     public int getYear(){
@@ -42,8 +46,19 @@ public class YearStat {
         this.year = year;
     }
     
+    
+    
     public void addStat(Activity act){
         int month = ( act.getDate().get(Calendar.MONTH) );
+        if(monthlyStats[month] == null) this.addNewStat(act, month);
+        else this.updateStat(act, month);
+    }
+    
+    public void addNewStat(Activity act, int month){
+        monthlyStats[month] = new MonthStat(act);
+    }
+    
+    public void updateStat(Activity act, int month){
         monthlyStats[month].addStat(act);
     }
     
@@ -57,7 +72,7 @@ public class YearStat {
     }
 
     public void setStats(MonthStat[] stats) {
-        this.monthlyStats = stats.clone();
+        this.monthlyStats = Arrays.copyOf(stats, 12);
     }
     
     public String showMonthlyStats(int month) throws StatsNotAvailable{
@@ -90,6 +105,14 @@ public class YearStat {
     }
     
     public String toString(){
-        return (this.monthlyStats.toString() );
+        StringBuilder result = new StringBuilder();
+        
+        for(int i = 0; i<12; i++){
+            if(monthlyStats[i] != null){
+                result.append("\n"+YearStat.months[i]+": \n");
+                result.append(monthlyStats[i]+"\n");
+            }
+        }
+        return result.toString();
     }    
 }

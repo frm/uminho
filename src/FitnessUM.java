@@ -14,7 +14,6 @@ public class FitnessUM {
 
     private boolean active;
     private UserController userController;
-    private ActivityController activityController;
 
 
    private static final String[] startOptions = { "Exit", "Register", "Login" };
@@ -42,7 +41,6 @@ public class FitnessUM {
      */
     public FitnessUM() {
         this.userController = new UserController();
-        this.activityController = new ActivityController();
     }
 
     /** Parameterized constructor
@@ -50,7 +48,6 @@ public class FitnessUM {
      */
     public FitnessUM(UserController userController) {
         this.userController = userController.clone();
-        this.activityController = activityController.clone();
     }
 
     /** Copy constructor
@@ -58,7 +55,6 @@ public class FitnessUM {
      */
     public FitnessUM(FitnessUM fit) {
         this.userController = fit.getUserController();
-        this.activityController = fit.getActivityController();
     }
 
     /** Getter for logged in user ID
@@ -72,17 +68,12 @@ public class FitnessUM {
         return this.userController.clone();
     }
 
-    public ActivityController getActivityController(){
-        return this.activityController.clone();
-    }
 
     public void setUserController(UserController uc) {
         this.userController = uc.clone();
     }
 
-     public void setActivityController(ActivityController ac) {
-        this.activityController = ac.clone();
-    }
+    
 
     /** Getter for active variable
      * @return active variable
@@ -123,12 +114,12 @@ public class FitnessUM {
     
     private void searchUserByName() {
         String name = Scan.name("Enter a name:");
-        new SearchUserNavigator( this.userController.nameSearch(name) ).navigate();
+        new SearchUserNavigator( this.userController.nameSearch(name), this ).navigate();
     }
     
     private void searchUserByEmail() {
         String email = Scan.email();
-        new SearchUserNavigator( this.userController.emailSearch(email) ).navigate();
+        new SearchUserNavigator( this.userController.emailSearch(email), this ).navigate();
     }
     
     public void searchUser() {
@@ -188,7 +179,7 @@ public class FitnessUM {
     }
 
     public void listFriends() {
-        new FriendListNavigator( this.userController.getFriendList() ).navigate();
+        new FriendListNavigator( this.userController.getFriendList(), this ).navigate();
     }
 
     public void addFriend(User u) {
@@ -208,7 +199,7 @@ public class FitnessUM {
     }
     
     private void viewFriendRequests() {
-        new FriendRequestsNavigator( this.userController.getFriendRequests() ).navigate();
+        new FriendRequestsNavigator( this.userController.getFriendRequests(), this ).navigate();
     }
     
     public void showStatsOverview(){
@@ -225,13 +216,17 @@ public class FitnessUM {
     }
     
     public void showMonthlyStats(){
-        int year = Scan.scanInt("Insert the year you want to check.");
-        int month = Scan.scanInt("Insert the month (number).");
+        int year = Scan.intInRange("Insert the year you want to check.", 0, (new GregorianCalendar()).get(Calendar.YEAR) );
+        int month = Scan.intInRange("Insert the month (number).", 1, 12);
         try{
            System.out.println( userController.showMonthlyStats(year, month) );
         }
         catch(StatsNotAvailable s){System.out.println("No Stats Available");}
         
+    }
+    
+    public void removeActivity(Activity act){
+        this.userController.removeActivity(act);
     }
 
     public void getAddActivityOption(){
@@ -264,7 +259,7 @@ public class FitnessUM {
     public void myActivityLog(){
         ArrayList<Activity> list = userController.getMostRecentActivities();
         
-        System.out.print(list.toString()+"\n");
+        new ActivityNavigator(list).navigate();
     }
     
     private Prompt[] getAddActivityPrompt(){
@@ -312,12 +307,6 @@ public class FitnessUM {
         GregorianCalendar endDate = Scan.time("When did you finish? (hh:mm:ss)");
         endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DATE));
         long duration = endDate.getTimeInMillis() - startDate.getTimeInMillis();
-        
-        
-                    System.out.println(endDate.get(Calendar.MONTH) + " " + endDate.get(Calendar.DATE));
-            System.out.println(new SimpleDateFormat(" dd 'days' HH 'hours' mm 'minutes and' ss 'seconds' ").format( endDate.getTime() ));
-        
-        
         
         this.userController.addActivity( new Kendo(startDate, duration));
     }

@@ -182,8 +182,6 @@ public class StatEntry {
     public String toString(){
         StringBuilder result = new StringBuilder();
         
-        result.append("\n\nSport: ");
-        result.append(this.name);
         result.append("\nNumber of times practiced: ");
         result.append(this.nrEntries);
         result.append("\nAverage of calories burned per session: ");
@@ -193,7 +191,7 @@ public class StatEntry {
         result.append("\nAverage duration of sessions: ");
         result.append(StatEntry.formatMillis(this.avgDuration));
         result.append("\nTotal of time spent doing this activity: ");
-        result.append(StatEntry.formatMillis(this.totalDuration));
+        result.append(StatEntry.formatMillis(this.totalDuration) + "\n");
         
         return result.toString();
     } 

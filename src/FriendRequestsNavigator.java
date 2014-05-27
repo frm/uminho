@@ -27,7 +27,7 @@ public class FriendRequestsNavigator extends Navigator<User> {
     }
 
     public void select(final User u) {
-        System.out.println("0. Go Back\n1. View Profile\n 2. Accept\n 3. Reject");
+        System.out.println("0. Go Back\n1. View Profile\n2. Accept\n3. Reject");
         int option = Scan.menuOption(0, 3);
         new Prompt[] {
             new Prompt() { public void exec() { }},

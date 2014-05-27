@@ -66,7 +66,7 @@ public class UserController {
     }
 
     public boolean existsUserWithEmail(String email) {
-        return ! this.validateEmailUniqueness(email);
+        return !this.validateEmailUniqueness(email);
     }
 
     public ArrayList<User> nameSearch(String name) {

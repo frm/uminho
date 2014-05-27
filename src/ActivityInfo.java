@@ -48,7 +48,7 @@ public class ActivityInfo {
    
     
     private TreeSet<Activity> cloneActivityLog(TreeSet<Activity> aL){
-        TreeSet<Activity> result= new TreeSet<Activity>();
+        TreeSet<Activity> result= new TreeSet<Activity>(new ActivityComparator());
         
         for(Activity act: aL){
             result.add(act);

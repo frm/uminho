@@ -70,12 +70,14 @@ public abstract class Activity
     
     public String toString(){
         StringBuilder result = new StringBuilder();
+        result.append("\nActivity: ");
+        result.append(this.getName());
         result.append("\nDate: ");
         result.append(new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm").format( this.date.getTime() ));
         result.append("\nDuration: ");
         result.append(StatEntry.formatMillis(duration));
         result.append("\nCalories burned: ");
-        result.append(this.calories);
+        result.append(this.calories+"\n");
         
         return result.toString();
     }

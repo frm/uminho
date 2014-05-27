@@ -56,6 +56,7 @@ public class Stats {
         YearStat anStat = new YearStat();
         int year = act.getDate().get(Calendar.YEAR);
         anStat.setYear(year);
+        anStat.addStat(act);
         annualStats.put(year, anStat);
     }
     

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author joaorodrigues
  */
-public abstract class ActivityNavigator extends Navigator<String>{
+public class ActivityNavigator extends Navigator<Activity>{
     private int category;
     private FitnessUM app;
     
@@ -21,23 +21,25 @@ public abstract class ActivityNavigator extends Navigator<String>{
         this.category = 0;
     }
     
-    public ActivityNavigator(ArrayList<String> list) {
+    public ActivityNavigator(ArrayList<Activity> list) {
         super(list);
         this.app = new FitnessUM();
         this.category = 0;
     }
     
-    public ActivityNavigator(int category, FitnessUM app, ArrayList<String> list ){
+    public ActivityNavigator(int category, FitnessUM app, ArrayList<Activity> list ){
         super(list);
         this.app = app;
         this.category = category;
     }
     
-    public void print(String name) {
-        System.out.println( name );
+    public void print(Activity act) {
+        System.out.println( act );
     }
     
-    public abstract void select(String nome);
+    public void select(Activity act){
+        app.removeActivity(act);
+    };
 
     public int getCategory() {
         return category;

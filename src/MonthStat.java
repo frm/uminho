@@ -19,6 +19,11 @@ public class MonthStat {
         this.stats = new HashMap<String, StatEntry>();
     }
     
+    public MonthStat(Activity act){
+        this.stats = new HashMap<String, StatEntry>();
+        this.addStat(act);
+    }
+    
     public MonthStat(HashMap<String, StatEntry> stats){
         this.stats = cloneStats(stats);
     }
