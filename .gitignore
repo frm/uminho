@@ -4,3 +4,4 @@
 *~
 *.out
 server
+.DS_Store
