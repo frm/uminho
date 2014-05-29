@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS ?= -Wall -Wextra -pedantic
+CFLAGS ?= -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -pedantic
 CPPFLAGS ?= -Imodules -Ilib -Iincludes
 
 EXEC = server
@@ -23,7 +23,7 @@ leak-check: $(EXEC)
 gcov: CFLAGS += -fprofile-arcs -ftest-coverage
 gcov: $(EXEC)
 
-final: CFLAGS += -Wno-unused-function -Wno-unused-result -O2
+final: CFLAGS += -O2
 final: CC = gcc
 final: $(EXEC)
 
