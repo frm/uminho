@@ -16,6 +16,10 @@ static char* new_str_start (char *str) {
     return str;
 }
 
+char* str_slice(char *str, int i) {
+    return str_dup(str + i);
+}
+
 char* strtrim(char *str) {
     int size;
     char *buffer, *new_str;

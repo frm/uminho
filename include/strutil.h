@@ -7,5 +7,6 @@
 
 char* strtrim(char *str);
 char* str_dup(char* str);
+char* str_slice(char *str, int i);
 
 #endif
