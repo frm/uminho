@@ -12,8 +12,8 @@ int main(void) {
     
     if (!pid1) {
         printf( "FIRST CHILD. PID: %d\nI WILL BE REAPED\n", getpid() );
-        pause();
-    }
+		pause();
+	}
     
     else {
     
@@ -30,14 +30,16 @@ int main(void) {
             waitpid(pid2, &status, 0);
 
             if ( WIFSIGNALED(status) ) printf("CHILD %d WAS REAPED\n", pid2);
-            else printf("CHILD %d TERMINATED ITSELF", pid2);
+            else printf("CHILD %d TERMINATED ITSELF\n", pid2);
         }
         
         waitpid(pid1, &status, 0);
 
         if ( WIFSIGNALED(status) ) printf("CHILD %d WAS REAPED\n", pid1);
-        else printf("CHILD %d TERMINATED ITSELF", pid1);
+        else printf("CHILD %d TERMINATED ITSELF\n", pid1);
     }
+
+	printf("\n\n### IGNORE THIS. I'M STILL RUNNING ###\n\n");
 
     return 0;
 }
