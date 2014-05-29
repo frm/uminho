@@ -33,6 +33,58 @@ static void (* request_handl[NR_HANDLERS])(char *str) = {
 	&aggregate_handl
 };*/
 
+static char** parseAggregates(char* agg) {
+	int size = 0;
+	int max_size = 3;
+	char** args = (char**)malloc(sizeof(char*) * max_size);
+	char* token = strtok(agg, ":");
+
+
+	while (token != NULL) {
+		printf("%s\n", token);
+		args[size++] = strdup(token);
+		if (size == max_size) {
+			max_size++;
+			args = (char**)realloc(args, sizeof(char*) * max_size);
+		}
+		token = strtok(NULL, ":");
+	}
+
+	args[size] = NULL;
+
+	return args;
+}
+
+static void deleteAggregatesStr(char** ag) {
+	for(int i = 0; ag[i] != NULL; i++)
+		free(ag[i]);
+
+	free(ag);
+}
+
+static void increment_parser(char* str) {
+
+	char* token = strtok(str, ";");
+
+	int count = atoi(token);
+
+	token = strtok(NULL, ";");
+
+	char** agg = parseAggregates(token);
+
+	update_aggregation(agg, str, count);
+
+	deleteAggregatesStr(agg);
+
+}
+
+static int (* request_handl[NR_HANDLERS])(char* str, Aggregation ag) = {
+    &exit_handl,
+    &reload_handl,
+    &increment_handl,
+    &aggregate_handl
+};
+
 static void crisis_handl(char* district) {
 	char* dup = (char*)malloc(sizeof(district) + 1);
 	sprintf(dup, "%s0", district);
@@ -45,6 +97,22 @@ static void write_to_child(int fd, char* str, size_t size) {
 	write(fd[0], slice, sizeof(slice));
 	free(slice);
 }
+
+static char* read_from_parent(int fd){
+	char buff[1024];
+	int i = 0;
+	while( read( fd, buff+i, sizeof(char) ) ) i++;
+	return strdup(buff);
+}
+
+static int dispatch(char *str, Aggregation ag){
+	int i = atoi (str[0]);
+	int res = request_handl[i](str+1, ag);
+	free(str);
+	return res;
+}
+
+
 
 /* child needs to parse string
  * The string format is <district>;<indicator><value>;<aggregation>;<filename if needed>
@@ -62,7 +130,11 @@ static void call_child(char *str) {
 		pid = fork();
 
 		if (pid == 0) {
+			int active = 1;
 			Aggregation ag = newAggregation(AGGREGATION_SIZE);
+			while(active){
+				active = dispatch( read_from_parent(fd[1]) );
+			}
 			//do something
 		}
 	}
@@ -71,7 +143,7 @@ static void call_child(char *str) {
 
 	waitpid(pid, &status, 0); // double check that 0
 	
-	if ( WIFEXIT(status) == SIGCHILD )  // this isn't right, change that
+	if ( WIFSIGNALED(status)  )  // this isn't right, change that
 		crisis_handl(district);
 
 	free(district);
@@ -95,7 +167,7 @@ static void receive_request() {
 
 int main() {
 	// NOTE: Create signal to save data on SIGQUIT
-	handl_table = newPipeTable(TABLE_SIZE;
+	handl_table = newPipeTable(TABLE_SIZE);
 	generate_channel();
 	receive_request();
 	return 0;
