@@ -10,7 +10,7 @@ src_%.o: src/%.c src/%.h
 
 .PHONY: clean debug final leak-check gcov
 
-$(EXEC): src/*.c include/*.c
+$(EXEC): src/*.c includes/*.c
 	$(LINK.c) $(OUTPUT_OPTION) $^ $(LOADLIBES) $(LDLIBS)
 
 debug: CFLAGS += -g -DDEBUG
@@ -23,7 +23,7 @@ leak-check: $(EXEC)
 gcov: CFLAGS += -fprofile-arcs -ftest-coverage
 gcov: $(EXEC)
 
-final: CFLAGS += -O2
+final: CFLAGS += -Wno-unused-function -Wno-unused-result -O2
 final: CC = gcc
 final: $(EXEC)
 

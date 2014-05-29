@@ -8,6 +8,9 @@
 #include <sys/wait.h>	// wait
 #include <stdio.h>		// printf
 #include <stdlib.h>		// atoi
+#include <strutil.h>
+#include "pipe_hash.h"
+#include "aggregation.h"
 
 #define NR_HANDLERS			2		// DO NOT move to external .h
 #define BUF_SIZE			1024 	// ^ as above
@@ -38,10 +41,7 @@ static char** parseAggregates(char* agg) {
 	int max_size = 3;
 	char** args = (char**)malloc(sizeof(char*) * max_size);
 	char* token = strtok(agg, ":");
-
-
 	while (token != NULL) {
-		printf("%s\n", token);
 		args[size++] = strdup(token);
 		if (size == max_size) {
 			max_size++;
@@ -62,19 +62,23 @@ static void deleteAggregatesStr(char** ag) {
 	free(ag);
 }
 
-static void increment_parser(char* str) {
+static int exit_handl(char* str, Aggregation a) { return 0; }
+static int reload_handl(char* str, Aggregation a) { return 1; }
+static int aggregate_handl(char* str, Aggregation a) { return 1; }
+
+static int increment_handl(char* str, Aggregation a) {
 
 	char* token = strtok(str, ";");
 
 	int count = atoi(token);
 
-	token = strtok(NULL, ";");
+	char** agg = parseAggregates( strtok(NULL, ";") );
 
-	char** agg = parseAggregates(token);
-
-	update_aggregation(agg, str, count);
+	update_aggregation(a, agg, count);
 
 	deleteAggregatesStr(agg);
+
+	return 1;
 
 }
 
