@@ -147,7 +147,6 @@ static void receive_request() {
 }
 
 int main() {
-	// NOTE: Create signal to save data on SIGQUIT
 	handl_table = newPipeTable(TABLE_SIZE);
 	generate_channel();
 	receive_request();
