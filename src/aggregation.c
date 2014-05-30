@@ -146,18 +146,21 @@ static char* get_new_path(char* path, char* add) {
 // Necessary header declaration
 static int aggregate_level(Aggregation a, int level, char* filename, char* path, char* last);
 
-static void update_subs(Aggregation a, int level, char* path, char* filename) {
+static int update_subs(Aggregation a, int level, char* path, char* filename) {
+    int res = -1;
     for (int i = 0; i < a -> size; i++) {
         Bucket b = (a -> table)[i];
 
         while (b) {
             char* name = getAggregateName(b -> content);
             char* new_path = get_new_path(path, name);
-            aggregate_level( a, level - 1, filename, new_path, name );
+            if ( aggregate_level( a, level - 1, filename, new_path, name ) == 0)
+                res = 0;
             free(new_path);
             b = b -> next;
         }
     }
+    return res;
 }
 
 static void write_to_file(char* filename, char* path, char* count) {
@@ -202,9 +205,8 @@ static int aggregate_level(Aggregation a, int level, char* filename, char* path,
 
 	else {
         Aggregation sub = getSubAggregate(curr_ag);
-        update_subs(sub, level, path, filename);
-
-        write_total_aggregate(curr_ag, filename, path);
+        if ( update_subs(sub, level, path, filename) == 0 )
+            write_total_aggregate(curr_ag, filename, path);
 	}
 
 	return 0;
