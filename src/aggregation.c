@@ -136,11 +136,11 @@ static void write_to_file(char* filename, char* path, char* count) {
 		sprintf(logfile, "%s.dat", filename);
 		int fd = open(logfile, O_CREAT | O_WRONLY | O_APPEND, 0666);
 
-        printf("\n\n### IM ABOUT TO WRITE %s:%s TO %s###\n\n", path, count, logfile);
-		write( fd, path, strlen(path) + 1);
+        printf("\n\n### IM ABOUT TO WRITE %s:%s TO %s###\n\n", ++path, count, logfile);
+		write( fd, path, strlen(path) );
     	write( fd, ":", sizeof(char) );
 
-		write( fd, count, sizeof(count) );
+		write( fd, count, strlen(count) );
 
         close(fd);
 }
@@ -163,12 +163,13 @@ static int aggregate_level(Aggregation a, int level, char* filename, char* path,
 			Bucket b = (sub -> table)[i];
 			while (b) {
                 char* name = getAggregateName(b -> content);
+                printf("\n\n### GOT NAME: %s ###\n\n", name);
                 char* new_path = (char*)malloc( strlen(name) + strlen(path) + 1 );
                 sprintf(new_path, "%s:%s", path, name);
 
 				aggregate_level( sub, level - 1, filename, new_path, name );
 				free(new_path);
-                
+
                 b = b -> next;
 			}
 		}
@@ -195,9 +196,8 @@ int collectAggregate(Aggregation a, char* name[], int level, char* filename) {
 	if ( !name || ! (*name) || !a )
 		return -1;
 
-	char* path = (char*)malloc(sizeof(char) * 1024);
+	char* path = (char*)calloc(1024, sizeof(char));
 	int res = aggregate_descend(a, name, level, filename, path);
-    path = NULL;
     free(path);
     return res;
 }
