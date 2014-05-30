@@ -114,7 +114,7 @@ Aggregation newAggregation(int size) {
 
 int updateAggregation(Aggregation a, char *name[], int count) {
 
-    if (*name && a) {
+    if (*name) {
         Aggregate curr = ( *get_aggregate_ptr(a, *name) ) -> content;
         countInc(curr, count);
         int res = createSubAggregate(curr);
@@ -141,7 +141,11 @@ static void write_to_file(char* filename, char* path[], int size, char* count) {
 static int aggregate_level(Aggregation a, int level, int curr, char* filename, char* path[]) {
 	if (!a) return -1;
 
-	Aggregate sub = ( *get_aggregate_ptr(a, *path) ) -> content;
+    Bucket* b;
+    if ( !get_bucket_address(a, *path, &b) )
+        return -1;
+
+    Aggregate sub = (*b) -> content;
 	path[curr] = strdup( getAggregateName(sub) );
 
 	if (level == curr) {
@@ -167,7 +171,11 @@ static int aggregate_level(Aggregation a, int level, int curr, char* filename, c
 }
 
 static int aggregate_descend(Aggregation a, char* name[], int curr, int level, char* filename, char* path[] ) {
-	Aggregate sub = ( *get_aggregate_ptr(a, *name) ) -> content;
+    Bucket* b;
+    if ( !get_bucket_address(a, *name, &b) )
+        return -1;
+
+    Aggregate sub = (*b) -> content;
     path[curr] = getAggregateName(sub);
 
     if ( *(name + 1) == NULL )
