@@ -37,6 +37,13 @@ char* strtrim(char *str) {
     return buffer;
 }
 
+char* str_add(char* str1, char* str2) {
+    char* new_str = (char*)malloc( sizeof(char) * ( strlen(str1) + strlen(str2) + 1 ) );
+    memcpy( new_str, str1, strlen(str1) + 1 );
+    strcat(new_str, str2);
+    return new_str;
+}
+
 char* str_dup(char* str) {
     int size = strlen(str) + 1; /* avoiding multiple function calls */
     char* dup = (char*)malloc(size);
