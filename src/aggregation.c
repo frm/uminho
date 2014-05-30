@@ -204,7 +204,7 @@ static int aggregate_level(Aggregation a, int level, char* filename, char* path,
         Aggregation sub = getSubAggregate(curr_ag);
         update_subs(sub, level, path, filename);
 
-        //write_total_aggregate(curr_ag, filename, path);
+        write_total_aggregate(curr_ag, filename, path);
 	}
 
 	return 0;
