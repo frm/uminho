@@ -3,5 +3,7 @@
 *.swp
 *~
 *.out
+*.out*
+*.dat
 server
 .DS_Store
