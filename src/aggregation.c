@@ -131,12 +131,41 @@ int updateAggregation(Aggregation a, char *name[], int count) {
     return -1;
 }
 
+static char* get_count_str(Aggregate a) {
+    char* count = (char*)malloc(sizeof(char) * 10);
+    sprintf( count, "%d\n", getCount(a) );
+    return count;
+}
+
+static char* get_new_path(char* path, char* add) {
+    char* new_path = (char*)malloc( strlen(add) + strlen(path) + 1 );
+    sprintf(new_path, "%s:%s", path, add);
+    return new_path;
+}
+
+// Necessary header declaration
+static int aggregate_level(Aggregation a, int level, char* filename, char* path, char* last);
+
+static void update_subs(Aggregation a, int level, char* path, char* filename) {
+    for (int i = 0; i < a -> size; i++) {
+        Bucket b = (a -> table)[i];
+
+        while (b) {
+            char* name = getAggregateName(b -> content);
+            char* new_path = get_new_path(path, name);
+            aggregate_level( a, level - 1, filename, new_path, name );
+            free(new_path);
+            b = b -> next;
+        }
+    }
+}
+
 static void write_to_file(char* filename, char* path, char* count) {
 		char logfile[1024];
 		sprintf(logfile, "%s.dat", filename);
 		int fd = open(logfile, O_CREAT | O_WRONLY | O_APPEND, 0666);
 
-        printf("\n\n### IM ABOUT TO WRITE %s:%s TO %s###\n\n", ++path, count, logfile);
+        ++path;
 		write( fd, path, strlen(path) );
     	write( fd, ":", sizeof(char) );
 
@@ -145,34 +174,37 @@ static void write_to_file(char* filename, char* path, char* count) {
         close(fd);
 }
 
+static void write_total_to_file(char* filename, char* path, char* count) {
+    char* total = get_new_path(" \tTotal", path); // same function call, inverted arguments
+    write_to_file(filename, total, count);
+    free(total);
+}
+
+static void write_aggregate(Aggregate a, char* filename, char* path) {
+    char* count = get_count_str(a);
+    write_to_file(filename, path, count);
+    free(count);
+}
+
+static void write_total_aggregate(Aggregate a, char* filename, char* path) {
+    char* count = get_count_str(a);
+    write_total_to_file(filename, path, count);
+    free(count);
+}
+
 static int aggregate_level(Aggregation a, int level, char* filename, char* path, char* last) {
 	if (!a) return -1;
 
     Aggregate curr_ag = getAggregate(a, last);
 
-	if (level == 0) {
-		char* count = (char*)malloc(sizeof(char) * 10);
-		sprintf( count, "%d\n", getCount(curr_ag) );
-		write_to_file(filename, path, count);
-		free(count);
-	}
+	if (level == 0)
+        write_aggregate(curr_ag, filename, path);
 
 	else {
         Aggregation sub = getSubAggregate(curr_ag);
-		for (int i = 0; i < sub -> size; i++) {
-			Bucket b = (sub -> table)[i];
-			while (b) {
-                char* name = getAggregateName(b -> content);
-                printf("\n\n### GOT NAME: %s ###\n\n", name);
-                char* new_path = (char*)malloc( strlen(name) + strlen(path) + 1 );
-                sprintf(new_path, "%s:%s", path, name);
+        update_subs(sub, level, path, filename);
 
-				aggregate_level( sub, level - 1, filename, new_path, name );
-				free(new_path);
-
-                b = b -> next;
-			}
-		}
+        //write_total_aggregate(curr_ag, filename, path);
 	}
 
 	return 0;
