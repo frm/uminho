@@ -83,6 +83,12 @@ static Bucket* get_aggregate_ptr(Aggregation a, char* name) {
     return it;
 }
 
+static Aggregate getAggregate(Aggregation a, char* name) {
+    Bucket* b;
+    if(! get_bucket_address(a, name, &b) ) return NULL;
+    else return (*b) -> content;
+}
+
 static void deleteBucket (Bucket b) {
     Bucket bird;                                // Auxiliary iterator that deletes everything behind
     Bucket it = b;                              // Main iterator that leads the way
@@ -128,7 +134,7 @@ int updateAggregation(Aggregation a, char *name[], int count) {
 static void write_to_file(char* filename, char* path[], int size, char* count) {
 		char logfile[1024];
 		sprintf(logfile, "%s.dat", filename);
-		int fd = open(logfile, O_CREAT | O_RDONLY, 0666);
+		int fd = open(logfile, O_CREAT | O_WRONLY, 0666);
 
 		for(int i = 0; i < size; ++i) {
 			write( fd, path[i], sizeof(path[i]) );
@@ -141,11 +147,9 @@ static void write_to_file(char* filename, char* path[], int size, char* count) {
 static int aggregate_level(Aggregation a, int level, int curr, char* filename, char* path[]) {
 	if (!a) return -1;
 
-    Bucket* b;
-    if ( !get_bucket_address(a, *path, &b) )
-        return -1;
+    Aggregate sub = getAggregate(a, *path);
+    if (!sub) return -1;
 
-    Aggregate sub = (*b) -> content;
 	path[curr] = strdup( getAggregateName(sub) );
 
 	if (level == curr) {
@@ -171,11 +175,10 @@ static int aggregate_level(Aggregation a, int level, int curr, char* filename, c
 }
 
 static int aggregate_descend(Aggregation a, char* name[], int curr, int level, char* filename, char* path[] ) {
-    Bucket* b;
-    if ( !get_bucket_address(a, *name, &b) )
-        return -1;
+    Aggregate sub = getAggregate(a, *name);
 
-    Aggregate sub = (*b) -> content;
+    if (!sub) return -1;
+
     path[curr] = getAggregateName(sub);
 
     if ( *(name + 1) == NULL )
