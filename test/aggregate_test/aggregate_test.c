@@ -4,15 +4,15 @@
 int main() {
 	Aggregation a = newAggregation(500);
 	char* names[9][4] = { 
-		{ "Braga", "Braga", "Dume", NULL },				// 1
+		{ "Braga", "Braga2", "Dume", NULL },				// 1
 		{ "Braga", "Guimarães", "Pevidém", NULL },		// 2
-		{ "Porto", "Porto", "Miragaia", NULL },			// 3
-		{ "Lisboa", "Lisboa", "Amadora", NULL},			// 4
-		{ "Lisboa", "Lisboa", NULL },					// 5
+		{ "Porto", "Porto2", "Miragaia", NULL },			// 3
+		{ "Lisboa", "Lisboa2", "Amadora", NULL},			// 4
+		{ "Lisboa", "Lisboa2", NULL },					// 5
 		{ "Braga", NULL },								// 6
 		{ "Braga", "Guimarães", NULL,},					// 7
 		{ "Braga", "Guimarães", "Azurém", NULL},		// 8
-		{ "Lisboa", "Lisboa", "Arroios", NULL}			// 9
+		{ "Lisboa", "Lisboa2", "Arroios", NULL}			// 9
 	};
 
 	for (int i = 0; i < 9; i++)
@@ -22,7 +22,7 @@ int main() {
 	char* agg[3][4] = {
 		{ "Braga", NULL },
 		{ "Braga", "Guimarães", NULL },
-		{ "Braga", "Braga", "Dume", NULL }
+		{ "Braga", "Braga2", "Dume", NULL }
 	};
 
 	collectAggregate(a, agg[0], 0, "1");		// Total de Braga (distrito)
