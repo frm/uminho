@@ -131,7 +131,7 @@ static void write_to_file(char* filename, char* path[], int size, char* count) {
 		int fd = open(logfile, O_CREAT | O_RDONLY, 0666);
 
 		for(int i = 0; i < size; ++i) {
-			write( fd, path + i, sizeof(path[i]) );
+			write( fd, path[i], sizeof(path[i]) );
 			write( fd, ":", sizeof(char) );
 		}
 
