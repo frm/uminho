@@ -16,6 +16,10 @@ void deleteAggregation(Aggregation a);
 
 /** Updates an aggregation incrementing its count and consequently subaggregations count */
 int updateAggregation(Aggregation a, char *name[], int count);
+
+/** Writes the corresponding level of the given aggregation to filename */
+int collectAggregate(Aggregation a, char* name[], int level, char* filename); 
+
 #ifdef DEBUG /** ### WARNING: DEBUG PURPOSES ONLY ### */
 /** Prints the aggregation */
 void printAggregation(Aggregation a);

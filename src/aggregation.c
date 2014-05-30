@@ -1,4 +1,9 @@
 #include "aggregation.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <fcntl.h>
 
 typedef struct bucket_node Node, *Bucket;
 
@@ -26,13 +31,13 @@ static Bucket newBucket(char* name) {
 
 /* djb2 hash function created by Dan Bernstein */
 static unsigned int hash( char *str ) {
-   unsigned int hash = 5381;
+	unsigned int hash = 5381;
     int c;
 
-        while ( (c = *str++) )
-            hash = ((hash << 5) + hash) ^ c;
+	while ( (c = *str++) )
+		hash = ((hash << 5) + hash) ^ c;
 
-        return hash;
+	return hash;
 }
 
 
@@ -109,7 +114,7 @@ Aggregation newAggregation(int size) {
 
 int updateAggregation(Aggregation a, char *name[], int count) {
 
-    if (*name) {
+    if (*name && a) {
         Aggregate curr = ( *get_aggregate_ptr(a, *name) ) -> content;
         countInc(curr, count);
         int res = createSubAggregate(curr);
@@ -119,6 +124,68 @@ int updateAggregation(Aggregation a, char *name[], int count) {
 
     return -1;
 }
+
+static void write_to_file(char* filename, char* path[], int size, char* count) {
+		char logfile[1024];
+		sprintf(logfile, "%s.dat", filename);
+		int fd = open(logfile, O_CREAT | O_RDONLY, 0666);
+
+		for(int i = 0; i < size; ++i) {
+			write( fd, path + i, sizeof(path[i]) );
+			write( fd, ":", sizeof(char) );
+		}
+
+		write( fd, count, sizeof(count) );
+}
+
+static int aggregate_level(Aggregation a, int level, int curr, char* filename, char* path[]) {
+	if (!a) return -1;
+
+	Aggregate sub = ( *get_aggregate_ptr(a, *path) ) -> content;
+	path[curr] = strdup( getAggregateName(sub) );
+
+	if (level == curr) {
+		char* count = (char*)malloc(sizeof(char) * 10);
+		sprintf( count, "%d", getCount(sub) );
+		write_to_file(filename, path, level + 1, count);
+		free(count);
+	}
+
+	else {
+		for (int i = 0; i < a -> size; i++) {
+			Bucket b = (a -> table)[i];
+			while (b) {
+				aggregate_level( getSubAggregate(b -> content), level, curr + 1, filename, path );
+				b = b -> next;
+			}
+		}
+	}
+
+	free(path[curr]);							// more possible leaks in here
+
+	return 0;
+}
+
+static int aggregate_descend(Aggregation a, char* name[], int curr, int level, char* filename, char* path[] ) {
+	Aggregate sub = ( *get_aggregate_ptr(a, *name) ) -> content;
+    path[curr] = getAggregateName(sub);
+
+    if ( *(name + 1) == NULL )
+		return aggregate_level(a, level, curr, filename, path);
+
+
+	return aggregate_descend( getSubAggregate(sub), name + 1, curr + 1, level, filename, path);
+}
+
+int collectAggregate(Aggregation a, char* name[], int level, char* filename) {
+	if ( !name || ! (*name) || !a)
+		return -1;
+
+	char* path[1024];
+	return aggregate_descend(a, name, 0, level, filename, path);
+}
+
+
 
 #ifdef DEBUG
 void printAggregation(Aggregation a) {
