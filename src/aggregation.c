@@ -131,69 +131,75 @@ int updateAggregation(Aggregation a, char *name[], int count) {
     return -1;
 }
 
-static void write_to_file(char* filename, char* path[], int size, char* count) {
+static void write_to_file(char* filename, char* path, char* count) {
 		char logfile[1024];
 		sprintf(logfile, "%s.dat", filename);
-		int fd = open(logfile, O_CREAT | O_WRONLY, 0666);
+		int fd = open(logfile, O_CREAT | O_WRONLY | O_APPEND, 0666);
 
-		for(int i = 0; i < size; ++i) {
-			write( fd, path[i], sizeof(path[i]) );
-			write( fd, ":", sizeof(char) );
-		}
+        printf("\n\n### IM ABOUT TO WRITE %s:%s TO %s###\n\n", path, count, logfile);
+		write( fd, path, strlen(path) + 1);
+    	write( fd, ":", sizeof(char) );
 
 		write( fd, count, sizeof(count) );
+
+        close(fd);
 }
 
-static int aggregate_level(Aggregation a, int level, int curr, char* filename, char* path[]) {
+static int aggregate_level(Aggregation a, int level, char* filename, char* path, char* last) {
 	if (!a) return -1;
 
-    Aggregate sub = getAggregate(a, *path);
-    if (!sub) return -1;
+    Aggregate curr_ag = getAggregate(a, last);
 
-	path[curr] = strdup( getAggregateName(sub) );
-
-	if (level == curr) {
+	if (level == 0) {
 		char* count = (char*)malloc(sizeof(char) * 10);
-		sprintf( count, "%d", getCount(sub) );
-		write_to_file(filename, path, level + 1, count);
+		sprintf( count, "%d\n", getCount(curr_ag) );
+		write_to_file(filename, path, count);
 		free(count);
 	}
 
 	else {
-		for (int i = 0; i < a -> size; i++) {
-			Bucket b = (a -> table)[i];
+        Aggregation sub = getSubAggregate(curr_ag);
+		for (int i = 0; i < sub -> size; i++) {
+			Bucket b = (sub -> table)[i];
 			while (b) {
-				aggregate_level( getSubAggregate(b -> content), level, curr + 1, filename, path );
-				b = b -> next;
+                char* name = getAggregateName(b -> content);
+                char* new_path = (char*)malloc( strlen(name) + strlen(path) + 1 );
+                sprintf(new_path, "%s:%s", path, name);
+
+				aggregate_level( sub, level - 1, filename, new_path, name );
+				free(new_path);
+                
+                b = b -> next;
 			}
 		}
 	}
 
-	free(path[curr]);							// more possible leaks in here
-
 	return 0;
 }
 
-static int aggregate_descend(Aggregation a, char* name[], int curr, int level, char* filename, char* path[] ) {
-    Aggregate sub = getAggregate(a, *name);
+static int aggregate_descend(Aggregation a, char* name[], int level, char* filename, char* path ) {
+    Aggregate curr_ag = getAggregate(a, *name);
 
-    if (!sub) return -1;
+    if (!curr_ag) return -1;
 
-    path[curr] = getAggregateName(sub);
+    sprintf(path, "%s:%s", path, *name);
 
     if ( *(name + 1) == NULL )
-		return aggregate_level(a, level, curr, filename, path);
+		return aggregate_level(a, level, filename, path, *name);
 
 
-	return aggregate_descend( getSubAggregate(sub), name + 1, curr + 1, level, filename, path);
+	return aggregate_descend( getSubAggregate(curr_ag), name + 1, level, filename, path );
 }
 
 int collectAggregate(Aggregation a, char* name[], int level, char* filename) {
-	if ( !name || ! (*name) || !a)
+	if ( !name || ! (*name) || !a )
 		return -1;
 
-	char* path[1024];
-	return aggregate_descend(a, name, 0, level, filename, path);
+	char* path = (char*)malloc(sizeof(char) * 1024);
+	int res = aggregate_descend(a, name, level, filename, path);
+    path = NULL;
+    free(path);
+    return res;
 }
 
 
