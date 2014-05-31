@@ -48,13 +48,13 @@ static void deleteAggregatesStr(char** ag) {
 }
 
 static void write_to_log(char *district, char *agg){
-	if(agg[0] == 2){
+	if(agg[0] == '2'){
 		char logfile[1024];
 		sprintf(logfile, "%s.log", district);
 		int fd = open(logfile, O_CREAT | O_WRONLY | O_APPEND, 0666);
-    
+
 		write( fd, agg, strlen(agg) );
-    
+
     	close(fd);
     }
 }
