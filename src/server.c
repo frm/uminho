@@ -1,13 +1,12 @@
 #include "server.h"
 
-// Move this to external includes
-#include <sys/types.h>	// Named Pipe
-#include <sys/stat.h>	// Named Pipe
-#include <unistd.h>		// Open (Read from named pipe)
-#include <fcntl.h>		// Open (Read from named pipe)
-#include <sys/wait.h>	// wait
-#include <stdio.h>		// printf
-#include <stdlib.h>		// atoi
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <strutil.h>
 #include "pipe_hash.h"
 #include "aggregation.h"
@@ -15,7 +14,7 @@
 #define NR_HANDLERS			4		// DO NOT move to external .h
 #define BUF_SIZE			1024 	// ^ as above
 #define TABLE_SIZE			50		// number of districts for the table
-#define getDistrict(s)		( strdup( strtok(s, ";") ) )
+#define getDistrict(s)		( strtok( strdup(s), ";") )
 
 static PipeTable handl_table;
 
@@ -55,37 +54,13 @@ static int increment_handl(char* str, Aggregation a) {
 	int count = atoi( strtok(str, ";") );
 	char** agg = parseAggregates( strtok(NULL, ";") );
 
-	printAggregation(a);
 
-	updateAggregation(a, agg, count);
+    updateAggregation(a, agg, count);
+
+	printAggregation(a);
 	deleteAggregatesStr(agg);
 
 	return 1;
-}
-
-
-int incrementar(char* prefix[], int value){
-	if(!prefix) return -1;
-	char count[10];
-	sprintf(count, "%d", value);
-	char* new_str = (char*) calloc( strlen( prefix[0] ) + strlen(count) + 2, sizeof(char) ); // 2 for '\0' and the indicator (1 in case)
-	sprintf(new_str, "%s;%s%s;", prefix[0], "1", count);
-
-	new_str = (char*)realloc( new_str, strlen(new_str) + strlen( prefix[1] ) + 1 ); // '\0'
-	sprintf(new_str, "%s%s", new_str, prefix[1]);
-
-	for(int i = 2; prefix[i]; i++){
-		new_str = (char*)realloc( new_str, strlen(new_str) + strlen( prefix[i] ) + 1 ); // '\0'
-		sprintf(new_str, "%s:%s", new_str, prefix[i]);
-	}
-
-	int fd = open(SERVER_NAME, O_WRONLY);
-
-	write(fd, new_str, strlen(new_str) + 1);
-
-	close(fd);
-	free(new_str);
-	return 0;
 }
 
 static int (* request_handl[NR_HANDLERS])(char* str, Aggregation ag) = {
@@ -102,23 +77,17 @@ static void crisis_handl(char* district) {
 	free(dup);
 }
 
-static void write_to_child(int fd, char* str, size_t size) {
-	char* slice = str_slice(str, size);
-	write( fd, slice, sizeof(slice) );
-	free(slice);
-}
-
-static char* read_from_parent(int fd){
+static char* read_from_parent(int fd) {
 	char buff[1024];
 	int i = 0;
-	while( read( fd, buff+i, sizeof(char) ) ) i++;
+	while( read( fd, buff+i, sizeof(char) ) > 0 ) i++;
+    printf(" ### CHILD RECEIVED %s ###\n", buff);
 	return strdup(buff);
 }
 
 static int dispatch(char *str, Aggregation ag){
 	int i = atoi (&str[0]);                    // not sure on this. Maybe char c = str[0]; int i = atoi(&c); ??
 	int res = request_handl[i](str+1, ag);
-	free(str);
 	return res;
 }
 
@@ -131,21 +100,37 @@ static int dispatch(char *str, Aggregation ag){
  */
 static void call_child(char *str) {
     char* district = getDistrict(str);
+    char* slice = str_slice(str, strlen(district) + 1);
     int fd[2];
     int status, pid = -1;
     // write to str.log
     if( !pipe_writer(handl_table, district, fd) ) {
+        pipe(fd);
+        /** This pipe here is a mystery to me.
+          * If I run it inside the struct, it won't hold
+          * But on pipe_writer, I'm returning the pointer to the struct
+          * I wonder if it will hold there or it will be overriden after the first time we call this function
+          */
+        printf("### FILE DESCRIPTORS PARENT: %d %d ###\n", fd[0], fd[1]);
+
         pid = fork();
 
         if (pid == 0) {
             int active = 1;
+            printf("### FILE DESCRIPTORS CHILD: %d %d ###\n", fd[0], fd[1]);
             Aggregation ag = newAggregation(AGGREGATION_SIZE);
-            while(active)
-                active = dispatch( read_from_parent(fd[1]), ag );
+            while(active) {
+                char buff[1024];
+                int i = 0;
+                while( read( fd[0], buff+i, sizeof(char) ) ) i++;
+                printf(" ### CHILD RECEIVED %s ###\n", buff);
+                active = dispatch( buff, ag );
+            }
         }
     }
 
-    write_to_child( fd[0], str, strlen(district) );
+    printf(" ABOUT TO WRITE %s TO CHILD. SIZE %d\n", slice, strlen(slice));
+    write( fd[1], slice, strlen(slice) + 1 );
 
     waitpid(pid, &status, 0);
 
@@ -153,6 +138,7 @@ static void call_child(char *str) {
         crisis_handl(district);
 
     free(district);
+    free(slice);
 }
 
 
@@ -166,18 +152,16 @@ static void receive_request() {
 	char buff[1024];
 	int active = 1;
 
-	while (active) {
+	//while (active) {
 		int i = 0;
 		while( read( fd, buff+i, sizeof(char) ) ) i++;
 		call_child(buff);
-	}
+	//}
 }
 
 int main() {
 	handl_table = newPipeTable(TABLE_SIZE);
 	generate_channel();
-	char* prefix[4] = { "Braga", "Guimarães", "Pevidém", NULL };
-	incrementar(prefix, 10);
 	receive_request();
 	return 0;
 }

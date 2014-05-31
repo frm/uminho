@@ -18,8 +18,6 @@ Pipe newPipe(char* name) {
   new -> name = strdup(name);
   new -> fd = (int*)malloc(sizeof(int) * 2);
 
-  pipe(new -> fd);
-
   return new;
 }
 
