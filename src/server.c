@@ -47,18 +47,30 @@ static void deleteAggregatesStr(char** ag) {
 	free(ag);
 }
 
+static void write_to_log(char *district, char *agg){
+	if(agg[0] == 2){
+		char logfile[1024];
+		sprintf(logfile, "%s.log", district);
+		int fd = open(logfile, O_CREAT | O_WRONLY | O_APPEND, 0666);
+    
+		write( fd, agg, strlen(agg) );
+    
+    	close(fd);
+    }
+}
+
 static int exit_handl(char* str, Aggregation a)         { return 0; }
 static int reload_handl(char* str, Aggregation a)       { return 1; }
 
 static int aggregate_handl(char* str, Aggregation a)    {
-	int level = atoi( strtok(str, ":") );
-	char *path = strdup( strtok(NULL, ":"));
+	int level = atoi( strtok(str, ";") );
+	char *filepath = strdup( strtok(NULL, ";"));
 
 	char** agg = parseAggregates( strtok(NULL, ";") );
 
-	printAggregation(a);
+	collectAggregate(a, agg, level, filepath);
 
-	/*Continuar*/
+	printAggregation(a);
 
 	return 1; }
 
@@ -163,7 +175,7 @@ static void call_child(char *str) {
 }*/
 
 
-    static void call_child(char *str) {
+static void call_child(char *str) {
     char* district = getDistrict(str);
     char* slice = str_slice(str, strlen(district) + 1);
     int fd[2];
@@ -197,6 +209,7 @@ static void call_child(char *str) {
             close(fd[0]);
             _exit(0);
         }
+    }
      	//else{
 			close(fd[0]);
 			printf(" ABOUT TO WRITE %s TO CHILD. SIZE %lu\n", slice, strlen(slice));
@@ -209,7 +222,7 @@ static void call_child(char *str) {
 
     		if ( WIFSIGNALED(status)  )
         		crisis_handl(district);
-    		}
+
    		//}
     free(district);
     free(slice);
