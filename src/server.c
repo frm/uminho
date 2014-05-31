@@ -179,26 +179,29 @@ static void call_child(char *str) {
           */
         printf("### FILE DESCRIPTORS PARENT: %d %d ###\n", fd[0], fd[1]);
 
-    	
+
         pid = fork();
 
         if (pid == 0) {
         	close(fd[1]);
-        	
+
             int active = 1;
             printf("### FILE DESCRIPTORS CHILD: %d %d ###\n", fd[0], fd[1]);
             Aggregation ag = newAggregation(AGGREGATION_SIZE);
-            while(active) {
+            //while(active) {
                 char buff[1024];
                 read( fd[0], buff, size);
                 printf(" ### CHILD RECEIVED %s ###\n", buff);
-                active = dispatch( buff, ag );
-            }
+                //active = dispatch( buff, ag );
+            //}
             close(fd[0]);
+            _exit(0);
         }
-     	else{
+     	//else{
 			close(fd[0]);
 			printf(" ABOUT TO WRITE %s TO CHILD. SIZE %lu\n", slice, strlen(slice));
+            if (slice[strlen(slice)] == '\0')
+                printf("YAY");
     		write( fd[1], slice, strlen(slice) + 1 );
 
     		close(fd[1]);
@@ -207,7 +210,7 @@ static void call_child(char *str) {
     		if ( WIFSIGNALED(status)  )
         		crisis_handl(district);
     		}
-   		}
+   		//}
     free(district);
     free(slice);
 }
@@ -221,21 +224,21 @@ static void receive_request() {
 	char buff[1024];
 	int active = 1;
 
-	while (active) {
+	//while (active) {
 		fd = open(SERVER_NAME, O_RDONLY);
 		int i = 0;
 		while( read( fd, buff+i, sizeof(char) ) ) i++;
 		printf("//////////%s//////////\n", buff);
 		call_child(buff);
 		close(fd);
-	}
+	//}
 }
 
 int main() {
 	handl_table = newPipeTable(TABLE_SIZE);
 	generate_channel();
 	receive_request();
-	
+
 	return 0;
 }
 
