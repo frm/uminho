@@ -135,7 +135,7 @@ static void call_child(char *str) {
     printf(" ABOUT TO WRITE %s TO CHILD. SIZE %d\n", slice, strlen(slice));
     write( fd[1], slice, strlen(slice) + 1 );
 
-    waitpid(pid, &status, 0);
+    waitpid(pid, &status, WNOHANG);
 
     if ( WIFSIGNALED(status)  )
         crisis_handl(district);
