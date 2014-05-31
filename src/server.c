@@ -86,7 +86,9 @@ static char* read_from_parent(int fd) {
 }
 
 static int dispatch(char *str, Aggregation ag){
-	int i = atoi (&str[0]);                    // not sure on this. Maybe char c = str[0]; int i = atoi(&c); ??
+	char c = str[0];
+    int i = atoi(&c);
+    printf("### CONVERTED %d ###\n\n", i);
 	int res = request_handl[i](str+1, ag);
 	return res;
 }
@@ -103,6 +105,7 @@ static void call_child(char *str) {
     char* slice = str_slice(str, strlen(district) + 1);
     int fd[2];
     int status, pid = -1;
+    int size = strlen(slice) + 1;
     // write to str.log
     if( !pipe_writer(handl_table, district, fd) ) {
         pipe(fd);
@@ -122,7 +125,7 @@ static void call_child(char *str) {
             while(active) {
                 char buff[1024];
                 int i = 0;
-                while( read( fd[0], buff+i, sizeof(char) ) ) i++;
+                read( fd[0], buff, size);
                 printf(" ### CHILD RECEIVED %s ###\n", buff);
                 active = dispatch( buff, ag );
             }
@@ -152,11 +155,11 @@ static void receive_request() {
 	char buff[1024];
 	int active = 1;
 
-	//while (active) {
+	while (active) {
 		int i = 0;
 		while( read( fd, buff+i, sizeof(char) ) ) i++;
 		call_child(buff);
-	//}
+	}
 }
 
 int main() {
