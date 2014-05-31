@@ -20,6 +20,7 @@ static PipeTable handl_table;
 
 static void call_child(char *str); // Necessary header definition
 
+
 static char** parseAggregates(char* agg) {
 	int size = 0;
 	int max_size = 3;
@@ -48,16 +49,28 @@ static void deleteAggregatesStr(char** ag) {
 
 static int exit_handl(char* str, Aggregation a)         { return 0; }
 static int reload_handl(char* str, Aggregation a)       { return 1; }
-static int aggregate_handl(char* str, Aggregation a)    { return 1; }
+
+static int aggregate_handl(char* str, Aggregation a)    {
+	int level = atoi( strtok(str, ":") );
+	char *path = strdup( strtok(NULL, ":"));
+
+	char** agg = parseAggregates( strtok(NULL, ";") );
+
+	printAggregation(a);
+
+	/*Continuar*/
+
+	return 1; }
+
 
 static int increment_handl(char* str, Aggregation a) {
 	int count = atoi( strtok(str, ";") );
 	char** agg = parseAggregates( strtok(NULL, ";") );
 
-
-    updateAggregation(a, agg, count);
-
 	printAggregation(a);
+
+	updateAggregation(a, agg, count);
+
 	deleteAggregatesStr(agg);
 
 	return 1;
@@ -100,7 +113,57 @@ static int dispatch(char *str, Aggregation ag){
  * if 1 => increment
  * if 2 => aggregate
  */
+ /*
 static void call_child(char *str) {
+    char* district = getDistrict(str);
+    char* slice = str_slice(str, strlen(district) + 1);
+    int fd[2];
+    int status, pid = -1;
+    int size = strlen(slice) + 1;
+    // write to str.log
+    if( !pipe_writer(handl_table, district, fd) ) {
+        pipe(fd);
+        /** This pipe here is a mystery to me.
+          * If I run it inside the struct, it won't hold
+          * But on pipe_writer, I'm returning the pointer to the struct
+          * I wonder if it will hold there or it will be overriden after the first time we call this function
+          */
+          /*
+        printf("### FILE DESCRIPTORS PARENT: %d %d ###\n", fd[0], fd[1]);
+
+    	close(fd[1]);
+        pid = fork();
+
+        if (pid == 0) {
+            int active = 1;
+            printf("### FILE DESCRIPTORS CHILD: %d %d ###\n", fd[0], fd[1]);
+            Aggregation ag = newAggregation(AGGREGATION_SIZE);
+            while(active) {
+                char buff[1024];
+                read( fd[0], buff, size);
+                printf(" ### CHILD RECEIVED %s ###\n", buff);
+                active = dispatch( buff, ag );
+            }
+        }
+        close(fd[0]);
+    }
+    close(fd[0]);
+
+    printf(" ABOUT TO WRITE %s TO CHILD. SIZE %lu\n", slice, strlen(slice));
+    write( fd[1], slice, strlen(slice) + 1 );
+
+    close(fd[1]);
+    waitpid(pid, &status, WNOHANG);
+
+    if ( WIFSIGNALED(status)  )
+        crisis_handl(district);
+
+    free(district);
+    free(slice);
+}*/
+
+
+    static void call_child(char *str) {
     char* district = getDistrict(str);
     char* slice = str_slice(str, strlen(district) + 1);
     int fd[2];
@@ -116,49 +179,55 @@ static void call_child(char *str) {
           */
         printf("### FILE DESCRIPTORS PARENT: %d %d ###\n", fd[0], fd[1]);
 
+    	
         pid = fork();
 
         if (pid == 0) {
+        	close(fd[1]);
+        	
             int active = 1;
             printf("### FILE DESCRIPTORS CHILD: %d %d ###\n", fd[0], fd[1]);
             Aggregation ag = newAggregation(AGGREGATION_SIZE);
             while(active) {
                 char buff[1024];
-                int i = 0;
                 read( fd[0], buff, size);
                 printf(" ### CHILD RECEIVED %s ###\n", buff);
                 active = dispatch( buff, ag );
             }
+            close(fd[0]);
         }
-    }
+     	else{
+			close(fd[0]);
+			printf(" ABOUT TO WRITE %s TO CHILD. SIZE %lu\n", slice, strlen(slice));
+    		write( fd[1], slice, strlen(slice) + 1 );
 
-    printf(" ABOUT TO WRITE %s TO CHILD. SIZE %d\n", slice, strlen(slice));
-    write( fd[1], slice, strlen(slice) + 1 );
+    		close(fd[1]);
+    		waitpid(pid, &status, WNOHANG);
 
-    waitpid(pid, &status, WNOHANG);
-
-    if ( WIFSIGNALED(status)  )
-        crisis_handl(district);
-
+    		if ( WIFSIGNALED(status)  )
+        		crisis_handl(district);
+    		}
+   		}
     free(district);
     free(slice);
 }
-
-
 
 static int generate_channel() {
 	return mkfifo(SERVER_NAME, 0666);
 }
 
 static void receive_request() {
-	int fd = open(SERVER_NAME, O_RDONLY);
+	int fd;
 	char buff[1024];
 	int active = 1;
 
 	while (active) {
+		fd = open(SERVER_NAME, O_RDONLY);
 		int i = 0;
 		while( read( fd, buff+i, sizeof(char) ) ) i++;
+		printf("//////////%s//////////\n", buff);
 		call_child(buff);
+		close(fd);
 	}
 }
 
@@ -166,6 +235,7 @@ int main() {
 	handl_table = newPipeTable(TABLE_SIZE);
 	generate_channel();
 	receive_request();
+	
 	return 0;
 }
 
