@@ -7,6 +7,45 @@
 
 #include "server.h"
 
+int incrementar(char* prefix[], int value) {
+	if(!prefix) return -1;
+
+	char count[10];
+	sprintf(count, "%d", value);
+	printf("SIZE OF COUNT %lu\n", strlen(count));
+
+	char* new_str = (char*)calloc(
+		strlen(prefix[0]) +
+		strlen(count) +
+		4,			// 2 ';', indicator and '\0'
+		sizeof(char)
+		);
+
+	sprintf(new_str, "%s;2%s;", prefix[0], count);
+	printf("SIZE EXPECTED: %lu\n", strlen(prefix[0]) + strlen(count) + 4);
+	printf("NEW_STR: %s WITH SIZE: %lu\n", new_str, strlen(new_str) + 1);
+	printf("IF LAST CHAR IS NULL, THEN YES WILL BE PRINT: ");
+	if (new_str[strlen(new_str)] == '\0') printf("YES\n");
+	else printf("%c", new_str[strlen(new_str)]);
+
+	for(int i = 1; prefix[i]; i++) {
+		new_str = (char*)realloc(new_str, strlen(new_str) + strlen(prefix[i]) + 2);
+		printf("AT ITERATION %d, NEW_STR SIZE WILL BE: %lu\n", i, strlen(new_str) + strlen(prefix[i]) + 2);
+		if (i == 1) sprintf(new_str, "%s%s", new_str, prefix[i]);
+		else sprintf(new_str, "%s:%s", new_str, prefix[i]);
+		printf("NEW_STR SIZE IS: %lu\n", strlen(new_str) + 1);
+	}
+
+	printf("\nSTRING COMPLETE\nIF LAST CHAR IS NULL, THEN YES WILL BE PRINT: ");
+	if (new_str[strlen(new_str)] == '\0') printf("YES\n");
+	else printf("%c", new_str[strlen(new_str)]);
+	printf("\t\t### %s\n", new_str);
+
+	free(new_str);
+	return 0;
+}
+
+/*
 int incrementar(char* prefix[], int value){
 	if(!prefix) return -1;
 	char count[10];
@@ -70,3 +109,4 @@ int agregar(char *prefix[], unsigned level, char *path){
 
 	return 0;
 }
+*/
