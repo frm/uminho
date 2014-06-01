@@ -119,3 +119,36 @@ int pipe_writer(PipeTable pt, char* name, int** ret) {
     getDescriptors( (*it) -> content, ret );
     return res;
 }
+
+void set_pid(PipeTable pt, char*name, pid_t pid) {
+  if (pt) {
+    PipeBucket* it;
+    get_pipe_ptr(pt, name, &it);
+    setChildPid(pid, (*it) -> content);
+  }
+}
+
+void shutdown_children(PipeTable pt) {
+  for (int i = 0; i < (pt -> size); i++) {
+    PipeBucket it = (pt -> table)[i];
+    while (it) {
+      closeChild(it -> content);
+      it = it -> next;
+    }
+  }
+}
+
+
+
+char* get_dead_child(PipeTable pt, pid_t pid) {
+  for (int i = 0; i < (pt -> size); i++) {
+    PipeBucket it = (pt -> table)[i];
+    while (it) {
+      if( getChildPid(it -> content) == pid )
+        return getPipeName(it -> content);
+      it = it -> next;
+    }
+  }
+
+  return NULL;
+}

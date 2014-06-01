@@ -159,7 +159,11 @@ static void call_child(char *str) {
             close(fd[0]);
             exit(EXIT_SUCCESS);
         }
-	   else close(fd[0]);
+
+	   else {
+            close(fd[0]);
+            set_pid(handl_table, district, pid);
+        }
     }
 
     write( fd[1], slice, strlen(slice) + 1 );
