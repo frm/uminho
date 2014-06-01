@@ -140,15 +140,35 @@ void shutdown_children(PipeTable pt) {
 
 
 
-char* get_dead_child(PipeTable pt, int pid) {
+char* bury_dead_child(PipeTable pt, int pid) {
   for (int i = 0; i < (pt -> size); i++) {
     PipeBucket it = (pt -> table)[i];
+    PipeBucket b = it;
+
     while (it) {
-      if( getChildPid(it -> content) == pid )
-        return getPipeName(it -> content);
+      if( getChildPid(it -> content) == pid ) {
+        char* name = str_dup( getPipeName(it -> content) );
+        deletePipe(it -> content);
+        b -> next = it -> next;
+        deletePipeBucket(it);
+        return name;
+      }
+
+      b = it;
       it = it -> next;
+
     }
   }
 
   return NULL;
 }
+
+    PipeBucket bird;                                // Auxiliary iterator that deletes everything behind
+    PipeBucket it = b;                              // Main iterator that leads the way
+
+    while (it) {
+        bird = it;
+        it = it -> next;
+        deletePipe(bird -> content);
+        free(bird);                             // badumm tss!
+    }

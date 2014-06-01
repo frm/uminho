@@ -13,6 +13,6 @@ void set_pid(PipeTable pt, char*name, int pid);
 
 void shutdown_children(PipeTable pt);
 
-char* get_dead_child(PipeTable pt, int pid);
+char* bury_dead_child(PipeTable pt, int pid);
 
 #endif

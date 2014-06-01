@@ -127,6 +127,22 @@ static int dispatch(char *str, Aggregation ag){
 	return res;
 }
 
+/** Reaviving a dead child:
+  * get sigchild
+  * get pid
+  * on function activated, fork
+  * set new descriptors
+  * call child with reload (reload reads from file to structure)
+  */
+
+static void revive (int s) {
+    int chld_pid = wait(NULL);
+    printf("CHILD EXITED %d\n", chld_pid);
+    char* name = bury_dead_child(handl_table, chld_pid);
+    crisis_handl(name);
+    free(name);
+}
+
 static void read_from_parent(int fd) {
     Aggregation ag = newAggregation(AGGREGATION_SIZE);
     int active = 1;
@@ -207,6 +223,7 @@ static void receive_request() {
 }
 
 int main() {
+    signal(SIGCHLD, revive);
     signal(SIGINT, clear_struct);
     signal(SIGQUIT, clear_struct);
     signal(SIGUSR1, clear_struct);
