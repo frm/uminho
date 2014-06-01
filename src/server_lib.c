@@ -47,6 +47,7 @@ int incrementar(char* prefix[], int value) {
 	append_prefixes(&new_str, prefix);
 
 	write_to_pipe(new_str);
+	printf(" !!! INCREMENTED\n");
 
 	free(new_str);
 	return 0;
@@ -72,6 +73,7 @@ int agregar(char* prefix[], int level, char* path) {
 	append_prefixes(&new_str, prefix);
 
 	write_to_pipe(new_str);
+	printf(" !!! AGGREGATED\n");
 
 	free(new_str);
 	return 0;
