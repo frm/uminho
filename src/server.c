@@ -70,10 +70,16 @@ static int exit_handl(char* str, Aggregation a)         { return 0; }
 static int reload_handl(char* str, Aggregation a)       { return 1; }
 
 static int aggregate_handl(char* str, Aggregation a)    {
+    printf(" ### GOING TO AGGREGATE PARSE %s ###\n", str);
 	int level = atoi( strtok(str, ";") );
 	char *filepath = strdup( strtok(NULL, ";"));
 
 	char** agg = parseAggregates( strtok(NULL, ";") );
+
+    printf("### ABOUT TO AGGREGATE: LEVEL %d; FILEPATH %s ###\n", level, filepath);
+    for(int i = 0; agg[i]; i++) {
+        printf("### AGG %d: %s ###\n", i, agg[i]);
+    }
 
 	collectAggregate(a, agg, level, filepath);
 
