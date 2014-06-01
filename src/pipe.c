@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "pipe.h"
+#include <stdio.h>
 
 struct pipe {
   char* name;
@@ -49,6 +50,9 @@ void getDescriptors(Pipe p, int** ret) {
 }
 
 void closeChild(Pipe p) {
-  close( (p -> fd)[1] );
+  int fd = (p -> fd)[1];
+  printf("PARENT IS ABOUT TO TERMINATE CHILD %d FROM DISTRICT %s\n", p -> child_pid, p -> name);
+  write(fd, "0\0", 2);
+  close(fd);
 }
 

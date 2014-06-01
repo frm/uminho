@@ -16,6 +16,7 @@
 #define TABLE_SIZE			50		// number of districts for the table
 
 static PipeTable handl_table;
+static int is_active;
 
 static void call_child(char *str); // Necessary header definition
 
@@ -27,8 +28,11 @@ static char* get_district(char* str) {
     return str2;
 }
 
-void clear_struct(int s){
+void clear_struct(int s) {
+    write(1, "RECEIVED SIGINT\n", 16);
     shutdown_children(handl_table);
+    deletePipeTable(handl_table);
+    is_active = 0;
 }
 
 static char** parseAggregates(char* agg) {
@@ -142,8 +146,9 @@ static void call_child(char *str) {
     char* district = get_district(str);
     char* slice = str_slice(str, strlen(district) + 1);
     int* fd = (int*)malloc(sizeof(int) * 2);
-    int status, pid = -1;
+    int pid = -1;
     write_to_log(district, slice);
+
     if( !pipe_writer(handl_table, district, &fd) ) {
         pid = fork();
 
@@ -161,6 +166,7 @@ static void call_child(char *str) {
             }
             deleteAggregation(ag);
             close(fd[0]);
+            printf("CHILD %d TERMINATED\n", getpid());
             exit(EXIT_SUCCESS);
         }
 
@@ -173,13 +179,6 @@ static void call_child(char *str) {
     write( fd[1], slice, strlen(slice) + 1 );
     free(slice);
     free(fd);
-    waitpid(pid, &status, WNOHANG);
-
-    if ( WIFSIGNALED(status)  )
-        crisis_handl(district);
-    else
-        close(fd[1]);
-
     free(district);
 }
 
@@ -190,9 +189,8 @@ static int generate_channel() {
 static void receive_request() {
 	int fd;
 	char buff[1024];
-	int active = 1;
 
-    while (active) {
+    while (is_active) {
 		fd = open(SERVER_NAME, O_RDONLY);
 		int i = 0;
         while ( read(fd, buff + i, 1) > 0 ) {
@@ -210,16 +208,15 @@ static void receive_request() {
 }
 
 int main() {
+    signal(SIGINT, clear_struct);
+    //signal(SIGQUIT, clear_struct);
+    //signal(SIGUSR1, clear_struct);
+    //signal(SIGUSR2, clear_struct);
+
 	handl_table = newPipeTable(TABLE_SIZE);
+    is_active = 1;
 	generate_channel();
 	receive_request();
-
-    signal(SIGINT, clear_struct);
-    signal(SIGQUIT, clear_struct);
-    signal(SIGUSR1, clear_struct);
-    signal(SIGUSR2, clear_struct);
-
-    deletePipeTable(handl_table);
 	return 0;
 }
 
