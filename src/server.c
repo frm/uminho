@@ -232,6 +232,8 @@ static void call_child(char *str) {
 
     if ( WIFSIGNALED(status)  )
         crisis_handl(district);
+    else
+        close(fd[1]);
 
     free(district);
 }
@@ -245,14 +247,14 @@ static void receive_request() {
 	char buff[1024];
 	int active = 1;
 
-	while (active) {
+    while (active) {
 		fd = open(SERVER_NAME, O_RDONLY);
 		int i = 0;
 		while( read( fd, buff+i, sizeof(char) ) ) i++;
 		printf("//////////%s//////////\n", buff);
 		call_child(buff);
 		close(fd);
-	}
+    }
 }
 
 int main() {
