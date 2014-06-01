@@ -78,6 +78,8 @@ static int aggregate_handl(char* str, Aggregation a)    {
 
 	printAggregation(a);
 
+    deleteAggregatesStr(agg);
+
 	return 1;
 }
 
@@ -207,6 +209,7 @@ static void call_child(char *str) {
                 printf(" ### CHILD RECEIVED %s ###\n", buff);
                 active = dispatch(buff, ag);
             }
+            deleteAggregation(ag);
             close(fd[0]);
             exit(EXIT_SUCCESS);
         }
@@ -215,14 +218,14 @@ static void call_child(char *str) {
 	close(fd[0]);
 	printf(" ABOUT TO WRITE %s TO CHILD. SIZE %lu\n", slice, strlen(slice));
     write( fd[1], slice, strlen(slice) + 1 );
+    free(slice);
+    free(fd);
     waitpid(pid, &status, WNOHANG);
 
     if ( WIFSIGNALED(status)  )
         crisis_handl(district);
 
     free(district);
-    free(slice);
-    free(fd);
 }
 
 static int generate_channel() {
@@ -248,7 +251,7 @@ int main() {
 	handl_table = newPipeTable(TABLE_SIZE);
 	generate_channel();
 	receive_request();
-
+    deletePipeTable(handl_table);
 	return 0;
 }
 
