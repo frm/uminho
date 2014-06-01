@@ -59,7 +59,8 @@ static void write_to_log(char *district, char *agg){
 		sprintf(logfile, "%s.log", district);
 		int fd = open(logfile, O_CREAT | O_WRONLY | O_APPEND, 0666);
 
-		write( fd, agg, strlen(agg) );
+		write( fd, agg + 1, strlen(agg) );
+        write( fd, "\n", sizeof(char) );
 
     	close(fd);
     }
@@ -189,6 +190,7 @@ static void call_child(char *str) {
     char* slice = str_slice(str, strlen(district) + 1);
     int* fd = (int*)malloc(sizeof(int) * 2);
     int status, pid = -1;
+    write_to_log(district, slice);
     if( !pipe_writer(handl_table, district, &fd) ) {
 
         printf("### FILE DESCRIPTORS PARENT: %d %d ###\n", fd[0], fd[1]);
