@@ -159,9 +159,9 @@ static void call_child(char *str) {
             close(fd[0]);
             exit(EXIT_SUCCESS);
         }
+	   else close(fd[0]);
     }
 
-	close(fd[0]);
     write( fd[1], slice, strlen(slice) + 1 );
     free(slice);
     free(fd);
