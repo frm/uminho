@@ -15,7 +15,8 @@ static void write_to_pipe(char* str) {
 
 static void append_prefix(char** str, char* prefix, int offset) {
 	*str = (char*)realloc(*str, offset + strlen(*str) + strlen(prefix) );
-	sprintf(*str, "%s%s", *str, prefix);
+	if (offset == 1) sprintf(*str, "%s%s", *str, prefix);
+	else sprintf(*str, "%s:%s", *str, prefix);
 }
 
 static void append_prefixes(char** str, char* prefix[]) {
