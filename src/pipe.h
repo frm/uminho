@@ -9,6 +9,6 @@ Pipe newPipe(char* name);
 
 void deletePipe(Pipe p);
 
-int* getDescriptors(Pipe p);
+void getDescriptors(Pipe p, int** ret);
 
 #endif

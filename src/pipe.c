@@ -17,8 +17,14 @@ Pipe newPipe(char* name) {
 
   new -> name = strdup(name);
   new -> fd = (int*)malloc(sizeof(int) * 2);
+  pipe(new -> fd);
 
   return new;
+}
+
+void setDescriptors(int* fd, Pipe p) {
+  (p -> fd)[0] = fd[0];
+  (p -> fd)[1] = fd[1];
 }
 
 void deletePipe(Pipe p) {
@@ -27,7 +33,8 @@ void deletePipe(Pipe p) {
   free(p);
 }
 
-int* getDescriptors(Pipe p) {
-  return p -> fd;
+void getDescriptors(Pipe p, int** ret) {
+  (*ret)[0] = (p -> fd)[0];
+  (*ret)[1] = (p -> fd)[1];
 }
 

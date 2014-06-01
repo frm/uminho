@@ -112,11 +112,10 @@ PipeTable newPipeTable(int size) {
     return pt;
 }
 
-int pipe_writer(PipeTable pt, char* name, int* ret) {
+int pipe_writer(PipeTable pt, char* name, int** ret) {
     if (!pt) return 0;
     PipeBucket* it;
     int res = get_pipe_ptr(pt, name, &it);
-    ret = getDescriptors( (*it) -> content );
+    getDescriptors( (*it) -> content, ret );
     return res;
 }
-

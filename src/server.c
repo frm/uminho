@@ -14,12 +14,18 @@
 #define NR_HANDLERS			4		// DO NOT move to external .h
 #define BUF_SIZE			1024 	// ^ as above
 #define TABLE_SIZE			50		// number of districts for the table
-#define getDistrict(s)		( strtok( strdup(s), ";") )
 
 static PipeTable handl_table;
 
 static void call_child(char *str); // Necessary header definition
 
+
+static char* get_district(char* str) {
+    char* str1 = strdup(str);
+    char* str2 = strdup ( strtok(str1, ";") );
+    free(str1);
+    return str2;
+}
 
 static char** parseAggregates(char* agg) {
 	int size = 0;
@@ -96,8 +102,8 @@ static int (* request_handl[NR_HANDLERS])(char* str, Aggregation ag) = {
 };
 
 static void crisis_handl(char* district) {
-	char* dup = (char*)malloc(sizeof(district) + 1);
-	sprintf(dup, "%s0", district);
+	char* dup = (char*)malloc(strlen(district) + 3);
+	sprintf(dup, "%s;0", district);
 	call_child(dup);
 	free(dup);
 }
@@ -176,19 +182,12 @@ static void call_child(char *str) {
 
 
 static void call_child(char *str) {
-    char* district = getDistrict(str);
+    char* district = get_district(str);
     char* slice = str_slice(str, strlen(district) + 1);
-    int fd[2];
+    int* fd = (int*)malloc(sizeof(int) * 2);
     int status, pid = -1;
-    int size = strlen(slice) + 1;
-    // write to str.log
-    if( !pipe_writer(handl_table, district, fd) ) {
-        pipe(fd);
-        /** This pipe here is a mystery to me.
-          * If I run it inside the struct, it won't hold
-          * But on pipe_writer, I'm returning the pointer to the struct
-          * I wonder if it will hold there or it will be overriden after the first time we call this function
-          */
+    if( !pipe_writer(handl_table, district, &fd) ) {
+
         printf("### FILE DESCRIPTORS PARENT: %d %d ###\n", fd[0], fd[1]);
 
 
@@ -201,31 +200,28 @@ static void call_child(char *str) {
             printf("### FILE DESCRIPTORS CHILD: %d %d ###\n", fd[0], fd[1]);
             Aggregation ag = newAggregation(AGGREGATION_SIZE);
             //while(active) {
+                int i = 0;
                 char buff[1024];
-                read( fd[0], buff, size);
+                while ( read( fd[0], buff + i, sizeof(char) ) ) i++;
                 printf(" ### CHILD RECEIVED %s ###\n", buff);
                 //active = dispatch( buff, ag );
             //}
             close(fd[0]);
-            _exit(0);
+            exit(EXIT_SUCCESS);
         }
     }
-     	//else{
-			close(fd[0]);
-			printf(" ABOUT TO WRITE %s TO CHILD. SIZE %lu\n", slice, strlen(slice));
-            if (slice[strlen(slice)] == '\0')
-                printf("YAY");
-    		write( fd[1], slice, strlen(slice) + 1 );
 
-    		close(fd[1]);
-    		waitpid(pid, &status, WNOHANG);
+	close(fd[0]);
+	printf(" ABOUT TO WRITE %s TO CHILD. SIZE %lu\n", slice, strlen(slice));
+    write( fd[1], slice, strlen(slice) + 1 );
+    waitpid(pid, &status, WNOHANG);
 
-    		if ( WIFSIGNALED(status)  )
-        		crisis_handl(district);
+    if ( WIFSIGNALED(status)  )
+        crisis_handl(district);
 
-   		//}
     free(district);
     free(slice);
+    free(fd);
 }
 
 static int generate_channel() {

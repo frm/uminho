@@ -7,6 +7,6 @@ void deletePipeTable(PipeTable pt);
 
 PipeTable newPipeTable(int size);
 
-int pipe_writer(PipeTable pt, char* name, int* ret);
+int pipe_writer(PipeTable pt, char* name, int** ret);
 
 #endif
