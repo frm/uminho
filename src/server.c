@@ -78,16 +78,17 @@ static int aggregate_handl(char* str, Aggregation a)    {
 
 	printAggregation(a);
 
-	return 1; }
+	return 1;
+}
 
 
 static int increment_handl(char* str, Aggregation a) {
 	int count = atoi( strtok(str, ";") );
 	char** agg = parseAggregates( strtok(NULL, ";") );
 
-	printAggregation(a);
+    updateAggregation(a, agg, count);
 
-	updateAggregation(a, agg, count);
+	printAggregation(a);
 
 	deleteAggregatesStr(agg);
 
@@ -199,13 +200,13 @@ static void call_child(char *str) {
             int active = 1;
             printf("### FILE DESCRIPTORS CHILD: %d %d ###\n", fd[0], fd[1]);
             Aggregation ag = newAggregation(AGGREGATION_SIZE);
-            //while(active) {
+            while(active) {
                 int i = 0;
                 char buff[1024];
-                while ( read( fd[0], buff + i, sizeof(char) ) ) i++;
+                while ( read( fd[0], buff + i, sizeof(char) ) > 0 && buff[i] != '\0' ) i++;
                 printf(" ### CHILD RECEIVED %s ###\n", buff);
-                //active = dispatch( buff, ag );
-            //}
+                active = dispatch(buff, ag);
+            }
             close(fd[0]);
             exit(EXIT_SUCCESS);
         }
@@ -233,14 +234,14 @@ static void receive_request() {
 	char buff[1024];
 	int active = 1;
 
-	//while (active) {
+	while (active) {
 		fd = open(SERVER_NAME, O_RDONLY);
 		int i = 0;
 		while( read( fd, buff+i, sizeof(char) ) ) i++;
 		printf("//////////%s//////////\n", buff);
 		call_child(buff);
 		close(fd);
-	//}
+	}
 }
 
 int main() {
