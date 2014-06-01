@@ -70,20 +70,12 @@ static int exit_handl(char* str, Aggregation a)         { return 0; }
 static int reload_handl(char* str, Aggregation a)       { return 1; }
 
 static int aggregate_handl(char* str, Aggregation a)    {
-    printf(" ### GOING TO AGGREGATE PARSE %s ###\n", str);
 	int level = atoi( strtok(str, ";") );
 	char *filepath = strdup( strtok(NULL, ";"));
 
 	char** agg = parseAggregates( strtok(NULL, ";") );
 
-    printf("### ABOUT TO AGGREGATE: LEVEL %d; FILEPATH %s ###\n", level, filepath);
-    for(int i = 0; agg[i]; i++) {
-        printf("### AGG %d: %s ###\n", i, agg[i]);
-    }
-
 	collectAggregate(a, agg, level, filepath);
-
-	printAggregation(a);
 
     deleteAggregatesStr(agg);
 
@@ -122,14 +114,12 @@ static char* read_from_parent(int fd) {
 	char buff[1024];
 	int i = 0;
 	while( read( fd, buff+i, sizeof(char) ) > 0 ) i++;
-    printf(" ### CHILD RECEIVED %s ###\n", buff);
 	return strdup(buff);
 }
 
 static int dispatch(char *str, Aggregation ag){
 	char c = str[0];
     int i = atoi(&c);
-    printf("### CONVERTED %d ###\n\n", i);
 	int res = request_handl[i](str+1, ag);
 	return res;
 }
@@ -192,29 +182,25 @@ static void call_child(char *str) {
 
 
 static void call_child(char *str) {
+    printf("### ARGS %s###\n", str);
     char* district = get_district(str);
     char* slice = str_slice(str, strlen(district) + 1);
     int* fd = (int*)malloc(sizeof(int) * 2);
     int status, pid = -1;
     write_to_log(district, slice);
     if( !pipe_writer(handl_table, district, &fd) ) {
-
-        printf("### FILE DESCRIPTORS PARENT: %d %d ###\n", fd[0], fd[1]);
-
-
         pid = fork();
 
         if (pid == 0) {
         	close(fd[1]);
 
             int active = 1;
-            printf("### FILE DESCRIPTORS CHILD: %d %d ###\n", fd[0], fd[1]);
             Aggregation ag = newAggregation(AGGREGATION_SIZE);
             while(active) {
                 int i = 0;
                 char buff[1024];
                 while ( read( fd[0], buff + i, sizeof(char) ) > 0 && buff[i] != '\0' ) i++;
-                printf(" ### CHILD RECEIVED %s ###\n", buff);
+
                 active = dispatch(buff, ag);
             }
             deleteAggregation(ag);
@@ -224,7 +210,6 @@ static void call_child(char *str) {
     }
 
 	close(fd[0]);
-	printf(" ABOUT TO WRITE %s TO CHILD. SIZE %lu\n", slice, strlen(slice));
     write( fd[1], slice, strlen(slice) + 1 );
     free(slice);
     free(fd);
@@ -250,9 +235,9 @@ static void receive_request() {
     while (active) {
 		fd = open(SERVER_NAME, O_RDONLY);
 		int i = 0;
-		while( read( fd, buff+i, sizeof(char) ) ) i++;
-		printf("//////////%s//////////\n", buff);
-		call_child(buff);
+		while( read( fd, buff + i, sizeof(char) ) ) i++;
+        buff[i] = '\0';
+        call_child(buff);
 		close(fd);
     }
 }

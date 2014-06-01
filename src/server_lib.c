@@ -28,6 +28,7 @@ int incrementar(char* prefix[], int value){
 
 	int fd = open(SERVER_NAME, O_WRONLY);
 
+	printf(" !!! INCREMENT OPPENED SERVER_NAME TO FD %d !!!\n", fd);
 	write(fd, new_str, strlen(new_str) + 1);
 
 	close(fd);
@@ -57,9 +58,9 @@ int agregar(char *prefix[], unsigned level, char *path){
 		sprintf(new_str, "%s:%s", new_str, prefix[i]);
 	}
 
-
-
 	int fd = open(SERVER_NAME, O_WRONLY);
+	printf(" !!! AGGREGATE OPPENED SERVER_NAME TO FD %d !!!\n", fd);
+	puts(new_str);
 
 	write(fd, new_str, strlen(new_str) + 1);
 
