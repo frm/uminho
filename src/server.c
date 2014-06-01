@@ -62,7 +62,7 @@ static void deleteAggregatesStr(char** ag) {
 }
 
 static void write_to_log(char *district, char *agg){
-	if(agg[0] == '2'){
+	if(agg[0] == '2') {
 		char logfile[1024];
 		sprintf(logfile, "%s.log", district);
 		int fd = open(logfile, O_CREAT | O_WRONLY | O_APPEND, 0666);
@@ -120,18 +120,28 @@ static void crisis_handl(char* district) {
 	free(dup);
 }
 
-static char* read_from_parent(int fd) {
-	char buff[1024];
-	int i = 0;
-	while( read( fd, buff+i, sizeof(char) ) > 0 ) i++;
-	return str_dup(buff);
-}
-
 static int dispatch(char *str, Aggregation ag){
 	char c = str[0];
     int i = atoi(&c);
 	int res = request_handl[i](str+1, ag);
 	return res;
+}
+
+static void read_from_parent(int fd) {
+    Aggregation ag = newAggregation(AGGREGATION_SIZE);
+    int active = 1;
+    while(active) {
+        int i = 0;
+        char buff[1024];
+
+        while ( read( fd, buff + i, sizeof(char) ) > 0 && buff[i] != '\0' ) i++;
+
+        active = dispatch(buff, ag);
+    }
+
+    deleteAggregation(ag);
+    close(fd);
+
 }
 
 /* child needs to parse string
@@ -142,11 +152,11 @@ static int dispatch(char *str, Aggregation ag){
  * if 2 => aggregate
  */
 static void call_child(char *str) {
-    //printf("### ARGS %s###\n", str);
     char* district = get_district(str);
     char* slice = str_slice(str, strlen(district) + 1);
     int* fd = (int*)malloc(sizeof(int) * 2);
     int pid = -1;
+
     write_to_log(district, slice);
 
     if( !pipe_writer(handl_table, district, &fd) ) {
@@ -154,18 +164,7 @@ static void call_child(char *str) {
 
         if (pid == 0) {
         	close(fd[1]);
-
-            int active = 1;
-            Aggregation ag = newAggregation(AGGREGATION_SIZE);
-            while(active) {
-                int i = 0;
-                char buff[1024];
-                while ( read( fd[0], buff + i, sizeof(char) ) > 0 && buff[i] != '\0' ) i++;
-
-                active = dispatch(buff, ag);
-            }
-            deleteAggregation(ag);
-            close(fd[0]);
+            read_from_parent(fd[0]);
             printf("CHILD %d TERMINATED\n", getpid());
             exit(EXIT_SUCCESS);
         }
@@ -209,9 +208,9 @@ static void receive_request() {
 
 int main() {
     signal(SIGINT, clear_struct);
-    //signal(SIGQUIT, clear_struct);
-    //signal(SIGUSR1, clear_struct);
-    //signal(SIGUSR2, clear_struct);
+    signal(SIGQUIT, clear_struct);
+    signal(SIGUSR1, clear_struct);
+    signal(SIGUSR2, clear_struct);
 
 	handl_table = newPipeTable(TABLE_SIZE);
     is_active = 1;

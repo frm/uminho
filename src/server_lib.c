@@ -7,6 +7,8 @@
 
 #include "server.h"
 
+#define PIPE_BUF		4096
+
 static void write_to_pipe(char* str) {
 	int fd = open(SERVER_NAME, O_WRONLY | O_APPEND);
 	write(fd, str, strlen(str) + 1);
@@ -46,11 +48,14 @@ int incrementar(char* prefix[], int value) {
 
 	append_prefixes(&new_str, prefix);
 
-	write_to_pipe(new_str);
-	printf(" !!! INCREMENTED\n");
+	if ( strlen(new_str) < PIPE_BUF ) {
+		printf(" !!! INCREMENTED\n");
+		write_to_pipe(new_str);
+		free(new_str);
+		return 0;
+	}
 
-	free(new_str);
-	return 0;
+	return 1;
 }
 
 
@@ -72,9 +77,13 @@ int agregar(char* prefix[], int level, char* path) {
 
 	append_prefixes(&new_str, prefix);
 
-	write_to_pipe(new_str);
-	printf(" !!! AGGREGATED\n");
+	if ( strlen(new_str) < PIPE_BUF ) {
+		printf(" !!! AGGREGATED\n");
+		write_to_pipe(new_str);
+		free(new_str);
+		return 0;
+	}
 
-	free(new_str);
-	return 0;
+	return 1;
+
 }
