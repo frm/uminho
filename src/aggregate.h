@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <strutil.h>
 
 #include "aggregation.h"
 

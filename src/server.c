@@ -22,8 +22,8 @@ static void call_child(char *str); // Necessary header definition
 
 
 static char* get_district(char* str) {
-    char* str1 = strdup(str);
-    char* str2 = strdup ( strtok(str1, ";") );
+    char* str1 = str_dup(str);
+    char* str2 = str_dup ( strtok(str1, ";") );
     free(str1);
     return str2;
 }
@@ -41,7 +41,7 @@ static char** parseAggregates(char* agg) {
 	char** args = (char**)malloc(sizeof(char*) * max_size);
 	char* token = strtok(agg, ":");
 	while (token != NULL) {
-		args[size++] = strdup(token);
+		args[size++] = str_dup(token);
 		if (size == max_size) {
 			max_size++;
 			args = (char**)realloc(args, sizeof(char*) * max_size);
@@ -79,7 +79,7 @@ static int reload_handl(char* str, Aggregation a)       { return 1; }
 
 static int aggregate_handl(char* str, Aggregation a)    {
 	int level = atoi( strtok(str, ";") );
-	char *filepath = strdup( strtok(NULL, ";"));
+	char *filepath = str_dup( strtok(NULL, ";"));
 
 	char** agg = parseAggregates( strtok(NULL, ";") );
 
@@ -124,7 +124,7 @@ static char* read_from_parent(int fd) {
 	char buff[1024];
 	int i = 0;
 	while( read( fd, buff+i, sizeof(char) ) > 0 ) i++;
-	return strdup(buff);
+	return str_dup(buff);
 }
 
 static int dispatch(char *str, Aggregation ag){

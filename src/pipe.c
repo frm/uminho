@@ -2,26 +2,27 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "pipe.h"
+#include <strutil.h>
 #include <stdio.h>
 
 struct pipe {
   char* name;
   int* fd;
-  pid_t child_pid;
+  int child_pid;
 };
 
 char* getPipeName(Pipe p) {
   return p -> name;
 }
 
-pid_t getChildPid(Pipe p) {
+int getChildPid(Pipe p) {
   return p -> child_pid;
 }
 
 Pipe newPipe(char* name) {
   Pipe new = (Pipe)malloc( sizeof(struct pipe) );
 
-  new -> name = strdup(name);
+  new -> name = str_dup(name);
   new -> fd = (int*)malloc(sizeof(int) * 2);
   new -> child_pid = -1;
   pipe(new -> fd);
@@ -34,7 +35,7 @@ void setDescriptors(int* fd, Pipe p) {
   (p -> fd)[1] = fd[1];
 }
 
-void setChildPid(pid_t pid, Pipe p) {
+void setChildPid(int pid, Pipe p) {
   p -> child_pid = pid;
 }
 

@@ -120,7 +120,7 @@ int pipe_writer(PipeTable pt, char* name, int** ret) {
     return res;
 }
 
-void set_pid(PipeTable pt, char*name, pid_t pid) {
+void set_pid(PipeTable pt, char*name, int pid) {
   if (pt) {
     PipeBucket* it;
     get_pipe_ptr(pt, name, &it);
@@ -140,7 +140,7 @@ void shutdown_children(PipeTable pt) {
 
 
 
-char* get_dead_child(PipeTable pt, pid_t pid) {
+char* get_dead_child(PipeTable pt, int pid) {
   for (int i = 0; i < (pt -> size); i++) {
     PipeBucket it = (pt -> table)[i];
     while (it) {

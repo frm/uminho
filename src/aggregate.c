@@ -11,7 +11,7 @@ void countInc(Aggregate ag, int val) {
 }
 
 void setName(Aggregate ag, char* name) {
-	ag -> name = strdup(name);
+	ag -> name = str_dup(name);
 }
 
 int getCount(Aggregate ag) {
@@ -47,7 +47,7 @@ Aggregate newAggregate() {
 
 Aggregate newAggregateWith(char* name, int count) {
 	Aggregate new = (Aggregate)malloc( sizeof(struct aggregate_s) );
-	new -> name = strdup(name);
+	new -> name = str_dup(name);
 	new -> count = count;
 	new -> subaggregate = NULL;
 	return new;
