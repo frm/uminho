@@ -6,6 +6,7 @@
 
 int main(int argc, char* argv[]){
 	char* prefix[4] = { "Braga", "Guimarães", "Pevidém", NULL };
-    agregar(prefix, 10, "./path/to/file");
+    incrementar(prefix, 2);
+    agregar(prefix, 0, "this");
 	return 0;
 }

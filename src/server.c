@@ -132,7 +132,7 @@ static int dispatch(char *str, Aggregation ag){
  * if 2 => aggregate
  */
 static void call_child(char *str) {
-    printf("### ARGS %s###\n", str);
+    //printf("### ARGS %s###\n", str);
     char* district = get_district(str);
     char* slice = str_slice(str, strlen(district) + 1);
     int* fd = (int*)malloc(sizeof(int) * 2);
@@ -182,14 +182,14 @@ static void receive_request() {
 	char buff[1024];
 	int active = 1;
 
-    while (active) {
 		fd = open(SERVER_NAME, O_RDONLY);
+    while (active) {
 		int i = 0;
-		while( read( fd, buff + i, sizeof(char) ) > 0) i++;
-        buff[i-1] = '\0';
+		while( read( fd, buff + i, sizeof(char) ) > 0 && buff[i] != '\0') i++;
+        printf("### GONNA CALL %s\n", buff);
         call_child(buff);
-		close(fd);
     }
+		close(fd);
 }
 
 int main() {
