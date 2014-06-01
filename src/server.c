@@ -27,6 +27,10 @@ static char* get_district(char* str) {
     return str2;
 }
 
+void clear_struct(int s){
+    shutdown_children(handl_table);
+}
+
 static char** parseAggregates(char* agg) {
 	int size = 0;
 	int max_size = 3;
@@ -209,6 +213,12 @@ int main() {
 	handl_table = newPipeTable(TABLE_SIZE);
 	generate_channel();
 	receive_request();
+
+    signal(SIGINT, clear_struct);
+    signal(SIGQUIT, clear_struct);
+    signal(SIGUSR1, clear_struct);
+    signal(SIGUSR2, clear_struct);
+
     deletePipeTable(handl_table);
 	return 0;
 }
