@@ -131,56 +131,6 @@ static int dispatch(char *str, Aggregation ag){
  * if 1 => increment
  * if 2 => aggregate
  */
- /*
-static void call_child(char *str) {
-    char* district = getDistrict(str);
-    char* slice = str_slice(str, strlen(district) + 1);
-    int fd[2];
-    int status, pid = -1;
-    int size = strlen(slice) + 1;
-    // write to str.log
-    if( !pipe_writer(handl_table, district, fd) ) {
-        pipe(fd);
-        /** This pipe here is a mystery to me.
-          * If I run it inside the struct, it won't hold
-          * But on pipe_writer, I'm returning the pointer to the struct
-          * I wonder if it will hold there or it will be overriden after the first time we call this function
-          */
-          /*
-        printf("### FILE DESCRIPTORS PARENT: %d %d ###\n", fd[0], fd[1]);
-
-    	close(fd[1]);
-        pid = fork();
-
-        if (pid == 0) {
-            int active = 1;
-            printf("### FILE DESCRIPTORS CHILD: %d %d ###\n", fd[0], fd[1]);
-            Aggregation ag = newAggregation(AGGREGATION_SIZE);
-            while(active) {
-                char buff[1024];
-                read( fd[0], buff, size);
-                printf(" ### CHILD RECEIVED %s ###\n", buff);
-                active = dispatch( buff, ag );
-            }
-        }
-        close(fd[0]);
-    }
-    close(fd[0]);
-
-    printf(" ABOUT TO WRITE %s TO CHILD. SIZE %lu\n", slice, strlen(slice));
-    write( fd[1], slice, strlen(slice) + 1 );
-
-    close(fd[1]);
-    waitpid(pid, &status, WNOHANG);
-
-    if ( WIFSIGNALED(status)  )
-        crisis_handl(district);
-
-    free(district);
-    free(slice);
-}*/
-
-
 static void call_child(char *str) {
     printf("### ARGS %s###\n", str);
     char* district = get_district(str);
@@ -235,8 +185,8 @@ static void receive_request() {
     while (active) {
 		fd = open(SERVER_NAME, O_RDONLY);
 		int i = 0;
-		while( read( fd, buff + i, sizeof(char) ) ) i++;
-        buff[i] = '\0';
+		while( read( fd, buff + i, sizeof(char) ) > 0) i++;
+        buff[i-1] = '\0';
         call_child(buff);
 		close(fd);
     }
