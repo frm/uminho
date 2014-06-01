@@ -185,7 +185,11 @@ static void receive_request() {
 		fd = open(SERVER_NAME, O_RDONLY);
     while (active) {
 		int i = 0;
-		while( read( fd, buff + i, sizeof(char) ) > 0 && buff[i] != '\0') i++;
+        do {
+            read(fd, buff + i, 1);
+            i++;
+        } while( buff[i-1] != '\0');
+        if (buff[i-1] == '\0') printf(" I STOPPED BECAUSE OF NULL\n");
         printf("### GONNA CALL %s\n", buff);
         call_child(buff);
     }
