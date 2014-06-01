@@ -76,6 +76,7 @@ static int aggregate_handl(char* str, Aggregation a)    {
 	char** agg = parseAggregates( strtok(NULL, ";") );
 
 	collectAggregate(a, agg, level, filepath);
+    printf("###\n AGGREGATED\n###\n");
 
     deleteAggregatesStr(agg);
 
@@ -89,6 +90,7 @@ static int increment_handl(char* str, Aggregation a) {
 
     updateAggregation(a, agg, count);
 
+    printf("###\n INCREMENTED\n###\n");
 	printAggregation(a);
 
 	deleteAggregatesStr(agg);
@@ -182,18 +184,21 @@ static void receive_request() {
 	char buff[1024];
 	int active = 1;
 
-		fd = open(SERVER_NAME, O_RDONLY);
     while (active) {
+		fd = open(SERVER_NAME, O_RDONLY);
 		int i = 0;
-        do {
-            read(fd, buff + i, 1);
-            i++;
-        } while( buff[i-1] != '\0');
-        if (buff[i-1] == '\0') printf(" I STOPPED BECAUSE OF NULL\n");
-        printf("### GONNA CALL %s\n", buff);
-        call_child(buff);
-    }
+        while ( read(fd, buff + i, 1) > 0 ) {
+            if (buff[i] == '\0') {
+                printf(" I STOPPED BECAUSE OF NULL\n");
+                printf("### GONNA CALL %s\n\n", buff);
+                call_child(buff);
+                i = 0;
+            }
+            else i++;
+        }
 		close(fd);
+    }
+
 }
 
 int main() {
