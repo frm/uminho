@@ -1,6 +1,6 @@
 
-#include <unistd.h>		// Open (Read from named pipe)
-#include <stdio.h>		// printf
+#include <unistd.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
@@ -50,7 +50,6 @@ int incrementar(char* prefix[], int value) {
 	append_prefixes(&new_str, prefix);
 
 	if ( strlen(new_str) < PIPE_BUF ) {
-		printf(" !!! INCREMENTED\n");
 		write_to_pipe(new_str);
 		free(new_str);
 		return 0;
@@ -60,7 +59,7 @@ int incrementar(char* prefix[], int value) {
 }
 
 static void error_handl(int s) {
-	printf("Invalid arguments");
+	printf("\nInvalid arguments\n");
 }
 
 static void correct_handl(int s) { }
@@ -89,7 +88,6 @@ int agregar(char* prefix[], int level, char* path) {
 	append_prefixes(&new_str, prefix);
 
 	if ( strlen(new_str) < PIPE_BUF ) {
-		printf(" !!! AGGREGATED\n");
 		write_to_pipe(new_str);
 		pause();
 		free(new_str);
