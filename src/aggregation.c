@@ -138,7 +138,7 @@ static char* get_count_str(Aggregate a) {
 }
 
 static char* get_new_path(char* path, char* add) {
-    char* new_path = (char*)malloc( strlen(add) + strlen(path) + 1 );
+    char* new_path = (char*)calloc( strlen(add) + strlen(path) + 2, sizeof(char) );
     sprintf(new_path, "%s:%s", path, add);
     return new_path;
 }
@@ -168,7 +168,6 @@ static void write_to_file(char* filename, char* path, char* count) {
 		sprintf(logfile, "%s.dat", filename);
 		int fd = open(logfile, O_CREAT | O_WRONLY | O_APPEND, 0666);
 
-        ++path;
 		write( fd, path, strlen(path) );
     	write( fd, ":", sizeof(char) );
 
@@ -213,6 +212,8 @@ static int aggregate_level(Aggregation a, int level, char* filename, char* path,
 }
 
 static int aggregate_descend(Aggregation a, char* name[], int level, char* filename, char* path ) {
+    if( ! *name ) return -1;
+
     Aggregate curr_ag = getAggregate(a, *name);
 
     if (!curr_ag) return -1;
@@ -226,13 +227,32 @@ static int aggregate_descend(Aggregation a, char* name[], int level, char* filen
 	return aggregate_descend( getSubAggregate(curr_ag), name + 1, level, filename, path );
 }
 
-int collectAggregate(Aggregation a, char* name[], int level, char* filename) {
-	if ( !name || ! (*name) || !a )
+int collectAggregate(Aggregate a, char* name[], int level, char* filename) {
+	if ( !name || !a || !(*name) )
 		return -1;
 
+
 	char* path = (char*)calloc(1024, sizeof(char));
-	int res = aggregate_descend(a, name, level, filename, path);
+    int size = strlen(name[0]) + 1;
+    memcpy(path, name[0], size);
+    path[size] = '\0';
+    path[size - 1] = '\0';
+	int res;
+
+    if( !name[1] ) {
+        
+        if(level == 0)
+            write_aggregate(a, filename, path);
+
+        else if ( update_subs(getSubAggregate(a), level, path, filename) == 0 )
+            write_total_aggregate(a, filename, path);
+
+        res = 0;
+    }
+    
+    else res = aggregate_descend( getSubAggregate(a), name + 1, level, filename, path);
     free(path);
+
     return res;
 }
 

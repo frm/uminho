@@ -3,6 +3,7 @@
 
 #include <string.h>
 #include "aggregate.h"
+
 #define AGGREGATION_SIZE        500
 
 
@@ -18,7 +19,7 @@ void deleteAggregation(Aggregation a);
 int updateAggregation(Aggregation a, char *name[], int count);
 
 /** Writes the corresponding level of the given aggregation to filename */
-int collectAggregate(Aggregation a, char* name[], int level, char* filename); 
+int collectAggregate(struct aggregate_s * a, char* name[], int level, char* filename);
 
 #ifdef DEBUG /** ### WARNING: DEBUG PURPOSES ONLY ### */
 /** Prints the aggregation */

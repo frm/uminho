@@ -3,11 +3,11 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <strutil.h>
+#include "../includes/strutil.h"
+
+typedef struct aggregate_s* Aggregate;
 
 #include "aggregation.h"
-
-typedef struct aggregate_s *Aggregate;
 
 /** Increments counter with val */
 void countInc(Aggregate ag, int val);
@@ -38,6 +38,12 @@ int hasSubAggregate(Aggregate ag);
 
 /** Creates a subaggregation for given aggregate */
 int createSubAggregate(Aggregate ag);
+
+/** Creates an Aggregate allocating size for the SubAggregation */
+Aggregate newAggregateFull(char* name, int count);
+
+/** Increments an aggregate and its subaggregations */
+int incrementAggregate(Aggregate a, char* name[], int count);
 
 #ifdef DEBUG /** ### WARNING: DEBUG PURPOSES ONLY ### */
 /** Prints aggregate and subaggregations */

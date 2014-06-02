@@ -11,7 +11,7 @@ void countInc(Aggregate ag, int val) {
 }
 
 void setName(Aggregate ag, char* name) {
-	ag -> name = str_dup(name);
+	ag -> name = strtrim(name);
 }
 
 int getCount(Aggregate ag) {
@@ -47,9 +47,15 @@ Aggregate newAggregate() {
 
 Aggregate newAggregateWith(char* name, int count) {
 	Aggregate new = (Aggregate)malloc( sizeof(struct aggregate_s) );
-	new -> name = str_dup(name);
+	new -> name = strtrim(name);
 	new -> count = count;
 	new -> subaggregate = NULL;
+	return new;
+}
+
+Aggregate newAggregateFull(char* name, int count) {
+	Aggregate new = newAggregateWith(name, count);
+	createSubAggregate(new);
 	return new;
 }
 
@@ -57,6 +63,12 @@ void deleteAggregate(Aggregate a) {
 	free(a -> name);
 	deleteAggregation(a -> subaggregate);
 	free(a);
+}
+
+int incrementAggregate(Aggregate a, char* name[], int count) {
+	if( !name || !a || !*name || strcmp(a -> name, *name) ) return -1;
+	countInc(a, count);
+	return updateAggregation(a -> subaggregate, name + 1, count);
 }
 
 #ifdef DEBUG
