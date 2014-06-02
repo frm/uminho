@@ -65,13 +65,25 @@ void clear_struct(int s) {
     unlink(SERVER_NAME);
 }
 
-static char** parseAggregates(char* agg) {
-	int size = 0;
+static char** parseAggregates(char* agg, char* name) {
 	int max_size = 3;
 	char** args = (char**)malloc(sizeof(char*) * max_size);
-	char* token = strtok(agg, ":");
+    int size;
+
+    if (name) {
+        args[0] = str_dup(name);
+        printf("ARG%d: %s\n", 0, args[0]);
+        size = 1;
+    }
+
+    else
+        size = 0;
+
+    char* token = strtok(agg, ":");
+
 	while (token != NULL) {
 		args[size++] = strtrim(token);
+        printf("ARG%d: %s\n", size - 1, args[size-1]);
 		if (size == max_size) {
 			max_size++;
 			args = (char**)realloc(args, sizeof(char*) * max_size);
@@ -109,7 +121,7 @@ static void write_to_log(char *district, char *agg){
 
 static int increment_handl(char* str, Aggregate a) {
     int count = atoi( strtok(str, ";") );
-    char** agg = parseAggregates( strtok(NULL, ";") );
+    char** agg = parseAggregates( strtok(NULL, ";"), getAggregateName(a) );
 
     incrementAggregate(a, agg, count);
 
@@ -149,7 +161,7 @@ static int aggregate_handl(char* str, Aggregate a)    {
 
 	char *filepath = str_dup( strtok(NULL, ";"));
 
-	char** agg = parseAggregates( strtok(NULL, ";") );
+	char** agg = parseAggregates( strtok(NULL, ";"), getAggregateName(a) );
 
 	collectAggregate(a, agg, level, filepath);
 

@@ -3,7 +3,7 @@
 
 int main() {
 	Aggregate a = newAggregateFull("Braga", 0);
-	char* names[5][4] = { 
+	/*char* names[5][4] = {
 		{ "Braga", "Braga2", "Dume", NULL },				// 1
 		{ "Braga", "Guimarães", "Pevidém", NULL },		// 2
 		//{ "Porto", "Porto2", "Miragaia", NULL },			// 3
@@ -23,8 +23,14 @@ int main() {
 		{ "Braga", NULL },
 		{ "Braga", "Guimarães", NULL },
 		{ "Braga", "Braga2", "Dume", NULL }
-	};
+	};*/
 
+	char* agg[4] = { "Braga", "Braga2", NULL };
+	char* agg2[4] = { "Braga", "Braga2", "Real", NULL };
+
+	incrementAggregate( a, agg2, 2);
+	collectAggregate(a, agg, 1, "1");
+/*
 	collectAggregate(a, agg[0], 0, "1");		// Total de Braga (distrito)
 	collectAggregate(a, agg[0], 1, "2");		// Concelhos de Braga: Braga, Guimarães
 	collectAggregate(a, agg[0], 2, "3");		// Freguesias de Braga (distrito): Dume, Pevidém, Azurém
@@ -34,7 +40,7 @@ int main() {
 	collectAggregate(a, agg[2], 1, "7");		// Vazio
 	collectAggregate(a, agg[2], 1, "8");		// Vazio
 
-
+*/
 	printAggregate(a);
 
 	deleteAggregate(a);

@@ -228,19 +228,16 @@ static int aggregate_descend(Aggregation a, char* name[], int level, char* filen
 }
 
 int collectAggregate(Aggregate a, char* name[], int level, char* filename) {
-	if ( !name || !a || !(*name) )
+	if ( !name || !a )
 		return -1;
-
 
 	char* path = (char*)calloc(1024, sizeof(char));
     int size = strlen(name[0]) + 1;
     memcpy(path, name[0], size);
-    path[size] = '\0';
-    path[size - 1] = '\0';
 	int res;
 
     if( !name[1] ) {
-        
+
         if(level == 0)
             write_aggregate(a, filename, path);
 
@@ -249,7 +246,7 @@ int collectAggregate(Aggregate a, char* name[], int level, char* filename) {
 
         res = 0;
     }
-    
+
     else res = aggregate_descend( getSubAggregate(a), name + 1, level, filename, path);
     free(path);
 
