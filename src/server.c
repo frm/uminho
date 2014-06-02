@@ -18,7 +18,7 @@
 #define BUF_SIZE			1024 	// ^ as above
 #define TABLE_SIZE			50		// number of districts for the table
 #define set_children_signals()          \
-            signal(SIGINT,  SIG_DFL);   \
+            signal(SIGINT,  SIG_IGN);   \
             signal(SIGQUIT, SIG_DFL);   \
             signal(SIGUSR1, SIG_DFL);   \
             signal(SIGUSR2, SIG_DFL);   \
@@ -55,12 +55,13 @@ static char* get_district(char* str) {
 }
 
 void clear_struct(int s) {
-    write(1, "RECEIVED SIGINT\n", 16);
+    printf("TERMINATE PARENT\n");
     is_active = 0;
     printf("IT WAS SHUTDOWN CHILDREN\n");
     shutdown_children(handl_table);
     printf("IT WAS DELETE PIPE\n");
     deletePipeTable(handl_table);
+    printf("\n\nUNLINK\n");
     unlink(SERVER_NAME);
 }
 
@@ -112,8 +113,9 @@ static int increment_handl(char* str, Aggregation a) {
 
     updateAggregation(a, agg, count);
 
-    printf("###\n INCREMENTED\n###\n");
-    printAggregation(a);
+    printf("\n### INCREMENTED ###\n");
+
+    printAggregation(a);    
 
     deleteAggregatesStr(agg);
 
@@ -153,7 +155,7 @@ static int aggregate_handl(char* str, Aggregation a)    {
 
     kill(pid, SIGINT);
 
-    printf("###\n AGGREGATED\n###\n");
+    printf("\n### AGGREGATED ###\n");
 
     deleteAggregatesStr(agg);
 
@@ -196,7 +198,7 @@ static void revive (int s) {
     int status;
     int chld_pid = wait(&status);
     if ( WIFSIGNALED(status) ) {
-        printf("CHILD EXITED %d\n", chld_pid);
+        printf("CHILD %d RECEIVED KILL SIG\n", chld_pid);
         char* name = bury_dead_child(handl_table, chld_pid);
         crisis_handl(name);
         free(name);
@@ -211,8 +213,6 @@ static void read_from_parent(int fd) {
         char buff[1024];
 
         while ( read( fd, buff + i, sizeof(char) ) > 0 && buff[i] != '\0' ) i++;
-
-        printf(" !!! READ %s FROM PARENT !!!", buff);
 
         active = dispatch(buff, ag);
     }
@@ -235,11 +235,10 @@ static void call_child(char *str) {
     int* fd = (int*)malloc(sizeof(int) * 2);
     int pid = -1;
 
-    printf("### SLICE %s ###", slice);
     write_to_log(district, slice);
 
     if( !pipe_writer(handl_table, district, &fd) ) {
-        printf("ABOUT TO FORK\n\n");
+
         pid = fork();
 
         if (pid == 0) {
@@ -247,7 +246,7 @@ static void call_child(char *str) {
             set_children_signals();
         	close(fd[1]);
             read_from_parent(fd[0]);
-            printf("CHILD %d TERMINATED\n", getpid());
+            printf("CHILD %d EXITED SUCCESSFULLY \n", getpid());
             exit(EXIT_SUCCESS);
         }
 
@@ -272,8 +271,6 @@ static void receive_request() {
 		int i = 0;
         while ( read(fd, buff + i, 1) > 0 ) {
             if (buff[i] == '\0') {
-                printf(" I STOPPED BECAUSE OF NULL\n");
-                printf("### GONNA CALL %s\n\n", buff);
                 call_child(buff);
                 i = 0;
             }
