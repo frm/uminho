@@ -3,7 +3,7 @@
 rm a.out
 rm *.dat
 
-clang -Wall -Wextra -pedantic -g -DDEBUG ../../src/aggregation.c ../../src/aggregate.c ./aggregate_test.c
+gcc -std=c99 -Wall -Wextra -pedantic -g -DDEBUG ../../src/aggregation.c ../../src/aggregate.c ../../includes/strutil.c ./aggregate_test.c
 ./a.out
 
 for i in {1..8}

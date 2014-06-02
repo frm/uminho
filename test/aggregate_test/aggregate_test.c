@@ -2,21 +2,21 @@
 #include "../../src/aggregation.h"
 
 int main() {
-	Aggregation a = newAggregation(500);
-	char* names[9][4] = { 
+	Aggregate a = newAggregateFull("Braga", 0);
+	char* names[5][4] = { 
 		{ "Braga", "Braga2", "Dume", NULL },				// 1
 		{ "Braga", "Guimarães", "Pevidém", NULL },		// 2
-		{ "Porto", "Porto2", "Miragaia", NULL },			// 3
-		{ "Lisboa", "Lisboa2", "Amadora", NULL},			// 4
-		{ "Lisboa", "Lisboa2", NULL },					// 5
+		//{ "Porto", "Porto2", "Miragaia", NULL },			// 3
+		//{ "Lisboa", "Lisboa2", "Amadora", NULL},			// 4
+		//{ "Lisboa", "Lisboa2", NULL },					// 5
 		{ "Braga", NULL },								// 6
-		{ "Braga", "Guimarães", NULL,},					// 7
-		{ "Braga", "Guimarães", "Azurém", NULL},		// 8
-		{ "Lisboa", "Lisboa2", "Arroios", NULL}			// 9
+		{ "Braga", "Guimarães", NULL},					// 7
+		{ "Braga", "Guimarães", "Azurém", NULL}		// 8
+		//{ "Lisboa", "Lisboa2", "Arroios", NULL}			// 9
 	};
 
-	for (int i = 0; i < 9; i++)
-		updateAggregation(a, names[i], i + 1);
+	for (int i = 0; i < 5; i++)
+		incrementAggregate( a, names[i], i + 1);//updateAggregation(getSubAggregate(a), names[i] + 1, i+1);
 
 
 	char* agg[3][4] = {
@@ -35,5 +35,7 @@ int main() {
 	collectAggregate(a, agg[2], 1, "8");		// Vazio
 
 
-	printAggregation(a);
+	printAggregate(a);
+
+	deleteAggregate(a);
 }
