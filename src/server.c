@@ -68,16 +68,9 @@ void clear_struct(int s) {
 static char** parseAggregates(char* agg, char* name) {
 	int max_size = 3;
 	char** args = (char**)malloc(sizeof(char*) * max_size);
-    int size;
+    int size = 1;
 
-    if (name) {
-        args[0] = str_dup(name);
-        printf("ARG%d: %s\n", 0, args[0]);
-        size = 1;
-    }
-
-    else
-        size = 0;
+    args[0] = str_dup(name);
 
     char* token = strtok(agg, ":");
 
