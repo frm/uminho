@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <strutil.h>
 #include "pipe.h"
 #include "pipe_hash.h"
 
@@ -149,8 +150,9 @@ char* bury_dead_child(PipeTable pt, int pid) {
       if( getChildPid(it -> content) == pid ) {
         char* name = str_dup( getPipeName(it -> content) );
         deletePipe(it -> content);
-        b -> next = it -> next;
-        deletePipeBucket(it);
+        if (it == (pt -> table)[i])   (pt -> table)[i] = it -> next;
+        else                          b -> next = it -> next;
+        free(it);
         return name;
       }
 
@@ -163,12 +165,3 @@ char* bury_dead_child(PipeTable pt, int pid) {
   return NULL;
 }
 
-    PipeBucket bird;                                // Auxiliary iterator that deletes everything behind
-    PipeBucket it = b;                              // Main iterator that leads the way
-
-    while (it) {
-        bird = it;
-        it = it -> next;
-        deletePipe(bird -> content);
-        free(bird);                             // badumm tss!
-    }

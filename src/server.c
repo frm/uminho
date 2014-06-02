@@ -30,9 +30,10 @@ static char* get_district(char* str) {
 
 void clear_struct(int s) {
     write(1, "RECEIVED SIGINT\n", 16);
+    is_active = 0;
     shutdown_children(handl_table);
     deletePipeTable(handl_table);
-    is_active = 0;
+    unlink(SERVER_NAME);
 }
 
 static char** parseAggregates(char* agg) {
@@ -74,8 +75,39 @@ static void write_to_log(char *district, char *agg){
     }
 }
 
+static int increment_handl(char* str, Aggregation a) {
+    int count = atoi( strtok(str, ";") );
+    char** agg = parseAggregates( strtok(NULL, ";") );
+
+    updateAggregation(a, agg, count);
+
+    printf("###\n INCREMENTED\n###\n");
+    printAggregation(a);
+
+    deleteAggregatesStr(agg);
+
+    return 1;
+}
+
 static int exit_handl(char* str, Aggregation a)         { return 0; }
-static int reload_handl(char* str, Aggregation a)       { return 1; }
+
+static int reload_handl(char* str, Aggregation a) {
+    char logfile[1024];
+    sprintf(logfile, "%s.log", str);
+    char buf[1024];
+    int i = 0;
+    int fd = open(logfile, O_RDONLY);
+
+    while (read(fd, buf + i, sizeof(char)) > 0) {
+        if (buf[i] == '\n') {
+            increment_handl(buf, a);
+            i = 0;
+        }
+        else i++;
+    }
+
+    return 1;
+}
 
 static int aggregate_handl(char* str, Aggregation a)    {
 	int level = atoi( strtok(str, ";") );
@@ -91,21 +123,6 @@ static int aggregate_handl(char* str, Aggregation a)    {
 	return 1;
 }
 
-
-static int increment_handl(char* str, Aggregation a) {
-	int count = atoi( strtok(str, ";") );
-	char** agg = parseAggregates( strtok(NULL, ";") );
-
-    updateAggregation(a, agg, count);
-
-    printf("###\n INCREMENTED\n###\n");
-	printAggregation(a);
-
-	deleteAggregatesStr(agg);
-
-	return 1;
-}
-
 static int (* request_handl[NR_HANDLERS])(char* str, Aggregation ag) = {
     &exit_handl,
     &reload_handl,
@@ -114,8 +131,8 @@ static int (* request_handl[NR_HANDLERS])(char* str, Aggregation ag) = {
 };
 
 static void crisis_handl(char* district) {
-	char* dup = (char*)malloc(strlen(district) + 3);
-	sprintf(dup, "%s;0", district);
+	char* dup = (char*)malloc( 2 * strlen(district) + 3);
+	sprintf(dup, "%s;1%s", district, district);
 	call_child(dup);
 	free(dup);
 }
@@ -152,6 +169,8 @@ static void read_from_parent(int fd) {
 
         while ( read( fd, buff + i, sizeof(char) ) > 0 && buff[i] != '\0' ) i++;
 
+        printf(" !!! READ %s FROM PARENT !!!", buff);
+
         active = dispatch(buff, ag);
     }
 
@@ -176,9 +195,11 @@ static void call_child(char *str) {
     write_to_log(district, slice);
 
     if( !pipe_writer(handl_table, district, &fd) ) {
+        printf("ABOUT TO FORK\n\n");
         pid = fork();
 
         if (pid == 0) {
+            signal(SIGCHLD, SIG_IGN);
         	close(fd[1]);
             read_from_parent(fd[0]);
             printf("CHILD %d TERMINATED\n", getpid());
@@ -225,9 +246,9 @@ static void receive_request() {
 int main() {
     signal(SIGCHLD, revive);
     signal(SIGINT, clear_struct);
-    signal(SIGQUIT, clear_struct);
-    signal(SIGUSR1, clear_struct);
-    signal(SIGUSR2, clear_struct);
+    //signal(SIGQUIT, clear_struct);
+    //signal(SIGUSR1, clear_struct);
+    //signal(SIGUSR2, clear_struct);
 
 	handl_table = newPipeTable(TABLE_SIZE);
     is_active = 1;
