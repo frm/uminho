@@ -1,10 +1,11 @@
+#define _POSIX_SOURCE
 #include "server.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <sys/wait.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <strutil.h>
@@ -68,22 +69,27 @@ static void write_to_log(char *district, char *agg){
 	if(agg[0] == '2') {
 		char logfile[1024];
 		sprintf(logfile, "%s.log", district);
+        int size = strlen(agg);
+        char* msg = (char*)malloc(size);                 // can't use array of chars because of double byte chars
+        sprintf(msg, "%s\n", agg + 1);
+
 		int fd = open(logfile, O_CREAT | O_WRONLY | O_APPEND, 0666);
-
-		write( fd, agg + 1, strlen(agg) );
-        write( fd, "\n", sizeof(char) );
-
+		write(fd, msg, size);
     	close(fd);
+
+        free(msg);
     }
 }
 
 static int increment_handl(char* str, Aggregation a) {
-    int count = atoi( strtok(str, ";") );
-    char** agg = parseAggregates( strtok(NULL, ";") );
+    int count;
+    sscanf(str, "%d;%s", &count, str);
+    printf("\n!!! INCREMENT ARGS: %d AND %s !!!\n", count, str);
+    char** agg = parseAggregates( strtok(str, ";") );
 
     updateAggregation(a, agg, count);
 
-    printf("###\n INCREMENTED\n###\n");
+    printf("\n###\n INCREMENTED\n###\n");
     printAggregation(a);
 
     deleteAggregatesStr(agg);
@@ -111,23 +117,18 @@ static int reload_handl(char* str, Aggregation a) {
     return 1;
 }
 
-static int aggregate_handl(char* str, Aggregation a)    {
-	int level = atoi( strtok(str, ";") );
-
-    int pid = atoi( strtok(NULL, ";") );
-
-	char *filepath = str_dup( strtok(NULL, ";"));
-
+static int aggregate_handl(char* str, Aggregation a) {
+    int level, pid;
+    sscanf(str, "%d;%d;%s", &level, &pid, str);
+    printf("\n!!! AGG ARGS: %d %d AND %s !!!\n", level, pid, str);
+	char *filepath = str_dup( strtok(NULL, ";") );
 	char** agg = parseAggregates( strtok(NULL, ";") );
 
 	collectAggregate(a, agg, level, filepath);
-
     kill(pid, SIGINT);
-
     printf("###\n AGGREGATED\n###\n");
-
     deleteAggregatesStr(agg);
-
+    free(filepath);
 	return 1;
 }
 
@@ -200,6 +201,7 @@ static void call_child(char *str) {
     int* fd = (int*)malloc(sizeof(int) * 2);
     int pid = -1;
 
+    printf("### SLICE %s ###", slice);
     write_to_log(district, slice);
 
     if( !pipe_writer(handl_table, district, &fd) ) {
@@ -207,6 +209,10 @@ static void call_child(char *str) {
         pid = fork();
 
         if (pid == 0) {
+            signal(SIGINT,  SIG_IGN);
+            signal(SIGQUIT, SIG_IGN);
+            signal(SIGUSR1, SIG_IGN);
+            signal(SIGUSR2, SIG_IGN);
             signal(SIGCHLD, SIG_IGN);
         	close(fd[1]);
             read_from_parent(fd[0]);
@@ -251,15 +257,20 @@ static void receive_request() {
 
 }
 
-int main() {
+static void init_server() {
     signal(SIGCHLD, revive);
-    signal(SIGINT, clear_struct);
-    //signal(SIGQUIT, clear_struct);
-    //signal(SIGUSR1, clear_struct);
-    //signal(SIGUSR2, clear_struct);
+    signal(SIGINT,  clear_struct);
+    signal(SIGQUIT, clear_struct);
+    signal(SIGUSR1, clear_struct);
+    signal(SIGUSR2, clear_struct);
+    signal(SIGTERM, clear_struct);
+    signal(SIGKILL, clear_struct);
 
-	handl_table = newPipeTable(TABLE_SIZE);
+    handl_table = newPipeTable(TABLE_SIZE);
     is_active = 1;
+}
+
+int main() {
 	generate_channel();
 	receive_request();
 	return 0;
