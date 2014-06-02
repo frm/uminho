@@ -188,8 +188,9 @@ static int dispatch(char *str, Aggregate a){
 	return res;
 }
 
-/** Rearms the sigchld, collecting the child pid and closing its descriptors.
-  * It then proceeds
+/** Rearms the SIGCHLD, collecting the child pid and closing its descriptors.
+  * It then proceeds to remove the dead child from the pipe table and calling call_child with arguments
+  * that allows it to reload the child
   */
 static void revive (int s) {
     signal(SIGCHLD, revive);
@@ -202,6 +203,7 @@ static void revive (int s) {
     }
 }
 
+/** Child stays active reading from parent and dispatching requests */
 static void read_from_parent(int fd, char* district) {
     Aggregate a = newAggregateFull(district, 0);
     int active = 1;
@@ -219,13 +221,7 @@ static void read_from_parent(int fd, char* district) {
 
 }
 
-/* child needs to parse string
- * The string format is <district>;<indicator><value>;<aggregation>;<filename if needed>
- * <indicator> can be 0, 1 or 2
- * if 0 => read from log
- * if 1 => increment
- * if 2 => aggregate
- */
+/* Parses a string and calls the correct function handling, creating the child if needed */
 static void call_child(char *str) {
     char* district = get_district(str);
     char* slice = str_slice(str, strlen(district) + 1);
@@ -257,6 +253,7 @@ static void call_child(char *str) {
     free(district);
 }
 
+/** Reads from a named pipe, dispatching requests once they arrive */
 static void receive_request() {
 	int fd;
 	char buff[1024];
