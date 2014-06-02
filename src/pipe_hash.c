@@ -87,6 +87,7 @@ static int get_pipe_ptr(PipeTable pt, char* name, PipeBucket** ret) {
     return res;
 }
 
+/**Deletes the given PipeBucket*/
 static void deletePipeBucket (PipeBucket b) {
     PipeBucket bird;                                // Auxiliary iterator that deletes everything behind
     PipeBucket it = b;                              // Main iterator that leads the way
@@ -95,11 +96,11 @@ static void deletePipeBucket (PipeBucket b) {
         bird = it;
         it = it -> next;
         deletePipe(bird -> content);
-        free(bird);                             // badumm tss!
+        free(bird);                            
     }
 }
 
-
+/*Deletes the whole Pipe hash table*/
 void deletePipeTable(PipeTable pt) {
   if (pt) {
     for (int i = 0; i < pt -> size; i++)
@@ -110,6 +111,7 @@ void deletePipeTable(PipeTable pt) {
   }
 }
 
+/*Creating a new Pipe Table*/
 PipeTable newPipeTable(int size) {
     PipeTable pt = (PipeTable)malloc(sizeof (struct pipe_table) );
     pt -> size = size;
@@ -117,6 +119,7 @@ PipeTable newPipeTable(int size) {
 
     return pt;
 }
+
 
 int pipe_writer(PipeTable pt, char* name, int** ret) {
     if (!pt) return 0;
@@ -126,6 +129,7 @@ int pipe_writer(PipeTable pt, char* name, int** ret) {
     return res;
 }
 
+/**Sets the PID of the Pipe accessed by "name"*/
 void set_pid(PipeTable pt, char*name, int pid) {
   if (pt) {
     PipeBucket* it;
@@ -134,6 +138,7 @@ void set_pid(PipeTable pt, char*name, int pid) {
   }
 }
 
+/**Closes every Pipe in the given PipeTable*/
 void shutdown_children(PipeTable pt) {
   for (int i = 0; i < (pt -> size); i++) {
     PipeBucket it = (pt -> table)[i];
