@@ -17,6 +17,8 @@
 #define NR_HANDLERS			4
 #define BUF_SIZE			1024
 #define TABLE_SIZE			50		// number of districts for the table
+
+/** Sets the children signal handles */
 #define set_children_signals()          \
             signal(SIGINT,  SIG_IGN);   \
             signal(SIGQUIT, SIG_DFL);   \
@@ -26,6 +28,7 @@
             signal(SIGKILL, SIG_DFL);   \
             signal(SIGCHLD, SIG_IGN)    \
 
+/** Sets the parent signal handls */
 #define set_parent_signals()                 \
             signal(SIGINT,  clear_struct);   \
             signal(SIGQUIT, clear_struct);   \
@@ -35,6 +38,7 @@
             signal(SIGKILL, clear_struct);   \
             signal(SIGCHLD, revive)          \
 
+/** Starts the server */
 #define init_server()                                   \
             set_parent_signals();                       \
             handl_table = newPipeTable(TABLE_SIZE);     \
