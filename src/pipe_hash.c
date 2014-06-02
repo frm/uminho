@@ -4,6 +4,11 @@
 #include "pipe.h"
 #include "pipe_hash.h"
 
+
+
+#include <stdio.h>
+#include <unistd.h>
+
 typedef struct node {
   Pipe content;
   struct node* next;
@@ -130,6 +135,7 @@ void set_pid(PipeTable pt, char*name, int pid) {
 }
 
 void shutdown_children(PipeTable pt) {
+  printf("/// SHUTDOWN CHILDREN: THE CALLER HAS PID %d\n\n////", getpid() );
   for (int i = 0; i < (pt -> size); i++) {
     PipeBucket it = (pt -> table)[i];
     while (it) {

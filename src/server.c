@@ -212,10 +212,7 @@ static void call_child(char *str) {
         pid = fork();
 
         if (pid == 0) {
-            signal(SIGINT,  SIG_IGN);
-            signal(SIGQUIT, SIG_IGN);
-            signal(SIGUSR1, SIG_IGN);
-            signal(SIGUSR2, SIG_IGN);
+            printf(" \n\n//// MY LITTLE PID %d ///\n\n", getpid() );
             signal(SIGCHLD, SIG_IGN);
         	close(fd[1]);
             read_from_parent(fd[0]);
@@ -268,6 +265,8 @@ int main() {
     signal(SIGUSR2, clear_struct);
     signal(SIGTERM, clear_struct);
     signal(SIGKILL, clear_struct);
+
+    printf(" \n\n//// MY PID %d ///\n\n", getpid() );
 
 	handl_table = newPipeTable(TABLE_SIZE);
     is_active = 1;
