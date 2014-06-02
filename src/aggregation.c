@@ -204,6 +204,7 @@ static void write_total_aggregate(Aggregate a, char* filename, char* path) {
     free(count);
 }
 
+/** Collects all elements in a level recursively until it is 0 */
 static int aggregate_level(Aggregation a, int level, char* filename, char* path, char* last) {
 	if (!a) return -1;
 
@@ -221,6 +222,7 @@ static int aggregate_level(Aggregation a, int level, char* filename, char* path,
 	return 0;
 }
 
+/** Descends in an aggregation, trying to collect it. If has reached end has levels below, starts descending on levels */
 static int aggregate_descend(Aggregation a, char* name[], int level, char* filename, char* path ) {
     if( ! *name ) return -1;
 
@@ -237,6 +239,11 @@ static int aggregate_descend(Aggregation a, char* name[], int level, char* filen
 	return aggregate_descend( getSubAggregate(curr_ag), name + 1, level, filename, path );
 }
 
+/** Collects an aggregate. First descends in the given name until it is NULL.
+  * If it still has levels to descend, it does so for all elements in the level
+  * Returns 0 if was able to collect
+  * Returns -1 if the arguments were invalid (e.g. inexisting levels)
+  */
 int collectAggregate(Aggregate a, char* name[], int level, char* filename) {
 	if ( !name || !a )
 		return -1;

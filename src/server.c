@@ -14,10 +14,10 @@
 #include "pipe_hash.h"
 #include "aggregation.h"
 
-#define NR_HANDLERS			4		// DO NOT move to external .h
-#define BUF_SIZE			1024 	// ^ as above
+#define NR_HANDLERS			4
+#define BUF_SIZE			1024
 #define TABLE_SIZE			50		// number of districts for the table
-#define set_children_signals()          \
+#define set_children_signals()          \       /** Sets the children signal handles */
             signal(SIGINT,  SIG_IGN);   \
             signal(SIGQUIT, SIG_DFL);   \
             signal(SIGUSR1, SIG_DFL);   \
@@ -26,7 +26,7 @@
             signal(SIGKILL, SIG_DFL);   \
             signal(SIGCHLD, SIG_IGN)    \
 
-#define set_parent_signals()                 \
+#define set_parent_signals()                 \  /** Sets the parent signal handls */
             signal(SIGINT,  clear_struct);   \
             signal(SIGQUIT, clear_struct);   \
             signal(SIGUSR1, clear_struct);   \
@@ -35,18 +35,18 @@
             signal(SIGKILL, clear_struct);   \
             signal(SIGCHLD, revive)          \
 
-#define init_server()                                   \
+#define init_server()                                   \       /** Starts the server */
             set_parent_signals();                       \
             handl_table = newPipeTable(TABLE_SIZE);     \
             is_active = 1;                              \
             mkfifo(SERVER_NAME, 0666)                   \
 
-static PipeTable handl_table;
-static int is_active;
+static PipeTable handl_table;   /** PipeTable that contains the descriptors, district names and pids for child communication */
+static int is_active;           /** Control variable that enables FIFO reading */
 
 static void call_child(char *str); // Necessary header definition
 
-
+/** Returns the district from the pipe args string */
 static char* get_district(char* str) {
     char* str1 = str_dup(str);
     char* str2 = str_dup ( strtok(str1, ";") );
@@ -54,6 +54,7 @@ static char* get_district(char* str) {
     return str2;
 }
 
+/** Clears everything up for server exit */
 void clear_struct(int s) {
     is_active = 0;
     shutdown_children(handl_table);
@@ -61,6 +62,7 @@ void clear_struct(int s) {
     unlink(SERVER_NAME);
 }
 
+/** Parses string generating array of aggregates for increment or collect */
 static char** parseAggregates(char* agg, char* name) {
 	int max_size = 3;
 	char** args = (char**)malloc(sizeof(char*) * max_size);
@@ -84,6 +86,7 @@ static char** parseAggregates(char* agg, char* name) {
 	return args;
 }
 
+/** Deletes aggregates string generated */
 static void deleteAggregatesStr(char** ag) {
 	for(int i = 0; ag[i] != NULL; i++)
 		free(ag[i]);
@@ -91,6 +94,7 @@ static void deleteAggregatesStr(char** ag) {
 	free(ag);
 }
 
+/** Writes the increment string argument to a .log with name of the district */
 static void write_to_log(char *district, char *agg){
 	if(agg[0] == '2') {
 		char logfile[1024];
@@ -107,6 +111,7 @@ static void write_to_log(char *district, char *agg){
     }
 }
 
+/** Receives a string and parses it, generating valid input for increment function. It then applies it to given aggregate */
 static int increment_handl(char* str, Aggregate a) {
     int count = atoi( strtok(str, ";") );
     char** agg = parseAggregates( strtok(NULL, ";"), getAggregateName(a) );
@@ -115,8 +120,10 @@ static int increment_handl(char* str, Aggregate a) {
     return 1;
 }
 
+/** Returns 0 for dispatch, causing the child to end */
 static int exit_handl(char* str, Aggregate a)         { return 0; }
 
+/** Reads from the log of a given district, passing the read arguments to re-increment the aggregate */
 static int reload_handl(char* str, Aggregate a) {
     char logfile[1024];
     sprintf(logfile, "%s.log", str);
@@ -135,6 +142,7 @@ static int reload_handl(char* str, Aggregate a) {
     return 1;
 }
 
+/** Receives a string and parses it, generating valid input for collect function. It then applies it to given aggregate */
 static int aggregate_handl(char* str, Aggregate a)    {
 	int level = atoi( strtok(str, ";") );
 
@@ -154,6 +162,7 @@ static int aggregate_handl(char* str, Aggregate a)    {
 	return 1;
 }
 
+/** Array of function pointers for child function handling */
 static int (* request_handl[NR_HANDLERS])(char* str, Aggregate a) = {
     &exit_handl,
     &reload_handl,
@@ -163,6 +172,7 @@ static int (* request_handl[NR_HANDLERS])(char* str, Aggregate a) = {
 
 static void revive (int s); // Necessary header declaration
 
+/** Prepares the input for a child to reload itself */
 static void crisis_handl(char* district) {
 	char* dup = (char*)malloc( 2 * strlen(district) + 3);
 	sprintf(dup, "%s;1%s", district, district);
@@ -170,6 +180,7 @@ static void crisis_handl(char* district) {
 	free(dup);
 }
 
+/** Parses a string to call the correct function from the function pointer arrays */
 static int dispatch(char *str, Aggregate a){
 	char c = str[0];
     int i = atoi(&c);
@@ -177,14 +188,9 @@ static int dispatch(char *str, Aggregate a){
 	return res;
 }
 
-/** Reaviving a dead child:
-  * get sigchild
-  * get pid
-  * on function activated, fork
-  * set new descriptors
-  * call child with reload (reload reads from file to structure)
+/** Rearms the sigchld, collecting the child pid and closing its descriptors.
+  * It then proceeds
   */
-
 static void revive (int s) {
     signal(SIGCHLD, revive);
     int status;
