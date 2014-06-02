@@ -96,7 +96,7 @@ static void write_to_log(char *district, char *agg){
 		char logfile[1024];
 		sprintf(logfile, "%s.log", district);
         int size = strlen(agg);
-        char* msg = (char*)malloc(size);                 // can't use array of chars because of double byte chars
+        char* msg = (char*)malloc(size);
         sprintf(msg, "%s\n", agg + 1);
 
 		int fd = open(logfile, O_CREAT | O_WRONLY | O_APPEND, 0666);
@@ -107,24 +107,24 @@ static void write_to_log(char *district, char *agg){
     }
 }
 
-static int increment_handl(char* str, Aggregation a) {
+static int increment_handl(char* str, Aggregate a) {
     int count = atoi( strtok(str, ";") );
     char** agg = parseAggregates( strtok(NULL, ";") );
 
-    updateAggregation(a, agg, count);
+    incrementAggregate(a, agg, count);
 
     printf("\n### INCREMENTED ###\n");
 
-    printAggregation(a);    
+    printAggregate(a);
 
     deleteAggregatesStr(agg);
 
     return 1;
 }
 
-static int exit_handl(char* str, Aggregation a)         { return 0; }
+static int exit_handl(char* str, Aggregate a)         { return 0; }
 
-static int reload_handl(char* str, Aggregation a) {
+static int reload_handl(char* str, Aggregate a) {
     char logfile[1024];
     sprintf(logfile, "%s.log", str);
     char buf[1024];
@@ -142,7 +142,7 @@ static int reload_handl(char* str, Aggregation a) {
     return 1;
 }
 
-static int aggregate_handl(char* str, Aggregation a)    {
+static int aggregate_handl(char* str, Aggregate a)    {
 	int level = atoi( strtok(str, ";") );
 
     int pid = atoi( strtok(NULL, ";") );
@@ -162,7 +162,7 @@ static int aggregate_handl(char* str, Aggregation a)    {
 	return 1;
 }
 
-static int (* request_handl[NR_HANDLERS])(char* str, Aggregation ag) = {
+static int (* request_handl[NR_HANDLERS])(char* str, Aggregate a) = {
     &exit_handl,
     &reload_handl,
     &increment_handl,
@@ -178,10 +178,10 @@ static void crisis_handl(char* district) {
 	free(dup);
 }
 
-static int dispatch(char *str, Aggregation ag){
+static int dispatch(char *str, Aggregate a){
 	char c = str[0];
     int i = atoi(&c);
-	int res = request_handl[i](str+1, ag);
+	int res = request_handl[i](str+1, a);
 	return res;
 }
 
@@ -205,8 +205,8 @@ static void revive (int s) {
     }
 }
 
-static void read_from_parent(int fd) {
-    Aggregation ag = newAggregation(AGGREGATION_SIZE);
+static void read_from_parent(int fd, char* district) {
+    Aggregate a = newAggregateFull(district, 0);
     int active = 1;
     while(active) {
         int i = 0;
@@ -214,10 +214,10 @@ static void read_from_parent(int fd) {
 
         while ( read( fd, buff + i, sizeof(char) ) > 0 && buff[i] != '\0' ) i++;
 
-        active = dispatch(buff, ag);
+        active = dispatch(buff, a);
     }
 
-    deleteAggregation(ag);
+    deleteAggregate(a);
     close(fd);
 
 }
@@ -245,7 +245,7 @@ static void call_child(char *str) {
             printf(" \n\n//// MY LITTLE PID %d ///\n\n", getpid() );
             set_children_signals();
         	close(fd[1]);
-            read_from_parent(fd[0]);
+            read_from_parent(fd[0], district);
             printf("CHILD %d EXITED SUCCESSFULLY \n", getpid());
             exit(EXIT_SUCCESS);
         }
