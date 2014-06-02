@@ -110,6 +110,7 @@ void deleteAggregation(Aggregation a) {
   }
 }
 
+/** Creates a new aggregation with given size */
 Aggregation newAggregation(int size) {
     Aggregation a = (Aggregation)malloc(sizeof (struct aggregation) );
     a -> size = size;
@@ -118,6 +119,8 @@ Aggregation newAggregation(int size) {
     return a;
 }
 
+
+/** Updates an Aggregation, incrementing te given value. If the given name does not exist, it will be created */
 int updateAggregation(Aggregation a, char *name[], int count) {
 
     if (*name) {
@@ -131,12 +134,14 @@ int updateAggregation(Aggregation a, char *name[], int count) {
     return -1;
 }
 
+/** Aux function that turns a count int to string to be written */
 static char* get_count_str(Aggregate a) {
     char* count = (char*)malloc(sizeof(char) * 10);
     sprintf( count, "%d\n", getCount(a) );
     return count;
 }
 
+/** Aux function that updates the path the aggregation has until that aggregate */
 static char* get_new_path(char* path, char* add) {
     char* new_path = (char*)calloc( strlen(add) + strlen(path) + 2, sizeof(char) );
     sprintf(new_path, "%s:%s", path, add);
@@ -146,6 +151,7 @@ static char* get_new_path(char* path, char* add) {
 // Necessary header declaration
 static int aggregate_level(Aggregation a, int level, char* filename, char* path, char* last);
 
+/** Iterates over every aggregate in a subaggregation, trying to collect its count */
 static int update_subs(Aggregation a, int level, char* path, char* filename) {
     int res = -1;
     for (int i = 0; i < a -> size; i++) {
@@ -163,6 +169,7 @@ static int update_subs(Aggregation a, int level, char* path, char* filename) {
     return res;
 }
 
+/** Aux function that writes a path and count to given file */
 static void write_to_file(char* filename, char* path, char* count) {
 		char logfile[1024];
 		sprintf(logfile, "%s.dat", filename);
@@ -176,18 +183,21 @@ static void write_to_file(char* filename, char* path, char* count) {
         close(fd);
 }
 
+/** Writes the total count to a file */
 static void write_total_to_file(char* filename, char* path, char* count) {
     char* total = get_new_path(" \tTotal", path); // same function call, inverted arguments
     write_to_file(filename, total, count);
     free(total);
 }
 
+/** Writes the given aggregate to a file */
 static void write_aggregate(Aggregate a, char* filename, char* path) {
     char* count = get_count_str(a);
     write_to_file(filename, path, count);
     free(count);
 }
 
+/** Writes the total count of an aggregate to a file */
 static void write_total_aggregate(Aggregate a, char* filename, char* path) {
     char* count = get_count_str(a);
     write_total_to_file(filename, path, count);
