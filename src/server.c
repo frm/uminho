@@ -82,14 +82,12 @@ static void write_to_log(char *district, char *agg){
 }
 
 static int increment_handl(char* str, Aggregation a) {
-    int count;
-    sscanf(str, "%d;%s", &count, str);
-    printf("\n!!! INCREMENT ARGS: %d AND %s !!!\n", count, str);
-    char** agg = parseAggregates( strtok(str, ";") );
+    int count = atoi( strtok(str, ";") );
+    char** agg = parseAggregates( strtok(NULL, ";") );
 
     updateAggregation(a, agg, count);
 
-    printf("\n###\n INCREMENTED\n###\n");
+    printf("###\n INCREMENTED\n###\n");
     printAggregation(a);
 
     deleteAggregatesStr(agg);
@@ -117,18 +115,23 @@ static int reload_handl(char* str, Aggregation a) {
     return 1;
 }
 
-static int aggregate_handl(char* str, Aggregation a) {
-    int level, pid;
-    sscanf(str, "%d;%d;%s", &level, &pid, str);
-    printf("\n!!! AGG ARGS: %d %d AND %s !!!\n", level, pid, str);
-	char *filepath = str_dup( strtok(NULL, ";") );
+static int aggregate_handl(char* str, Aggregation a)    {
+	int level = atoi( strtok(str, ";") );
+
+    int pid = atoi( strtok(NULL, ";") );
+
+	char *filepath = str_dup( strtok(NULL, ";"));
+
 	char** agg = parseAggregates( strtok(NULL, ";") );
 
 	collectAggregate(a, agg, level, filepath);
+
     kill(pid, SIGINT);
+
     printf("###\n AGGREGATED\n###\n");
+
     deleteAggregatesStr(agg);
-    free(filepath);
+
 	return 1;
 }
 
@@ -257,20 +260,17 @@ static void receive_request() {
 
 }
 
-static void init_server() {
+int main() {
     signal(SIGCHLD, revive);
-    signal(SIGINT,  clear_struct);
+    signal(SIGINT, clear_struct);
     signal(SIGQUIT, clear_struct);
     signal(SIGUSR1, clear_struct);
     signal(SIGUSR2, clear_struct);
     signal(SIGTERM, clear_struct);
     signal(SIGKILL, clear_struct);
 
-    handl_table = newPipeTable(TABLE_SIZE);
+	handl_table = newPipeTable(TABLE_SIZE);
     is_active = 1;
-}
-
-int main() {
 	generate_channel();
 	receive_request();
 	return 0;
