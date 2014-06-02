@@ -10,18 +10,21 @@
 
 #define PIPE_BUF		4096
 
+/**Write the given string to the named pipe*/
 static void write_to_pipe(char* str) {
 	int fd = open(SERVER_NAME, O_WRONLY | O_APPEND);
 	write(fd, str, strlen(str) + 1);
 	close(fd);
 }
 
+/**Append the given prefix to the end of the given str, int the format chosen by us. If "offset == 1", writes a colon between the string and the prefix*/
 static void append_prefix(char** str, char* prefix, int offset) {
 	*str = (char*)realloc(*str, offset + strlen(*str) + strlen(prefix) );
 	if (offset == 1) sprintf(*str, "%s%s", *str, prefix);
 	else sprintf(*str, "%s:%s", *str, prefix);
 }
 
+/**Appends all the prefixes in a prefix array using append_prefix*/
 static void append_prefixes(char** str, char* prefix[]) {
 	for(int i = 1; prefix[i]; i++) {
 		if (i == 1)
@@ -31,21 +34,21 @@ static void append_prefixes(char** str, char* prefix[]) {
 	}
 }
 
-
+/*Main function: Incrementar; Increments the given value to the location given in prefix*/
 int incrementar(char* prefix[], int value) {
 	if(!prefix) return -1;
 
-	char count[10];
-	sprintf(count, "%d", value);
+	char count[10];                     
+	sprintf(count, "%d", value);		//Converts the int value to a string
 
 	char* new_str = (char*)calloc(
 		strlen(prefix[0]) +
 		strlen(count) +
 		4,			// 2 ';', indicator and '\0'
 		sizeof(char)
-		);
+		);								//sets the size of the base string
 
-	sprintf(new_str, "%s;2%s;", prefix[0], count);
+	sprintf(new_str, "%s;2%s;", prefix[0], count);   //From here to the end of the function, we append all of the information to the base string*/
 
 	append_prefixes(&new_str, prefix);
 
@@ -58,12 +61,16 @@ int incrementar(char* prefix[], int value) {
 	return 1;
 }
 
+/**Handles the errors*/
 static void error_handl(int s) {
 	printf("\nInvalid arguments\n");
 }
 
+/**Releases the process from the block created while writing to a file*/
 static void correct_handl(int s) { }
 
+
+/**Main function: Agregar; Writes info about the given arguments into a file*/
 int agregar(char* prefix[], int level, char* path) {
 	if(!prefix) return -1;
 
