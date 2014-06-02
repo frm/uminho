@@ -17,6 +17,29 @@
 #define NR_HANDLERS			4		// DO NOT move to external .h
 #define BUF_SIZE			1024 	// ^ as above
 #define TABLE_SIZE			50		// number of districts for the table
+#define set_children_signals()          \
+            signal(SIGINT,  SIG_DFL);   \
+            signal(SIGQUIT, SIG_DFL);   \
+            signal(SIGUSR1, SIG_DFL);   \
+            signal(SIGUSR2, SIG_DFL);   \
+            signal(SIGTERM, SIG_DFL);   \
+            signal(SIGKILL, SIG_DFL);   \
+            signal(SIGCHLD, SIG_IGN)    \
+
+#define set_parent_signals()                 \
+            signal(SIGINT,  clear_struct);   \
+            signal(SIGQUIT, clear_struct);   \
+            signal(SIGUSR1, clear_struct);   \
+            signal(SIGUSR2, clear_struct);   \
+            signal(SIGTERM, clear_struct);   \
+            signal(SIGKILL, clear_struct);   \
+            signal(SIGCHLD, revive)          \
+
+#define init_server()                                   \
+            set_parent_signals();                       \
+            handl_table = newPipeTable(TABLE_SIZE);     \
+            is_active = 1;                              \
+            mkfifo(SERVER_NAME, 0666)                   \
 
 static PipeTable handl_table;
 static int is_active;
@@ -45,7 +68,7 @@ static char** parseAggregates(char* agg) {
 	char** args = (char**)malloc(sizeof(char*) * max_size);
 	char* token = strtok(agg, ":");
 	while (token != NULL) {
-		args[size++] = str_dup(token);
+		args[size++] = strtrim(token);
 		if (size == max_size) {
 			max_size++;
 			args = (char**)realloc(args, sizeof(char*) * max_size);
@@ -142,10 +165,13 @@ static int (* request_handl[NR_HANDLERS])(char* str, Aggregation ag) = {
     &aggregate_handl
 };
 
+static void revive (int s); // Necessary header declaration
+
 static void crisis_handl(char* district) {
 	char* dup = (char*)malloc( 2 * strlen(district) + 3);
 	sprintf(dup, "%s;1%s", district, district);
 	call_child(dup);
+    signal(SIGCHLD, revive);
 	free(dup);
 }
 
@@ -213,7 +239,7 @@ static void call_child(char *str) {
 
         if (pid == 0) {
             printf(" \n\n//// MY LITTLE PID %d ///\n\n", getpid() );
-            signal(SIGCHLD, SIG_IGN);
+            set_children_signals();
         	close(fd[1]);
             read_from_parent(fd[0]);
             printf("CHILD %d TERMINATED\n", getpid());
@@ -230,10 +256,6 @@ static void call_child(char *str) {
     free(slice);
     free(fd);
     free(district);
-}
-
-static int generate_channel() {
-	return mkfifo(SERVER_NAME, 0666);
 }
 
 static void receive_request() {
@@ -258,19 +280,8 @@ static void receive_request() {
 }
 
 int main() {
-    signal(SIGCHLD, revive);
-    signal(SIGINT, clear_struct);
-    signal(SIGQUIT, clear_struct);
-    signal(SIGUSR1, clear_struct);
-    signal(SIGUSR2, clear_struct);
-    signal(SIGTERM, clear_struct);
-    signal(SIGKILL, clear_struct);
-
+    init_server();
     printf(" \n\n//// MY PID %d ///\n\n", getpid() );
-
-	handl_table = newPipeTable(TABLE_SIZE);
-    is_active = 1;
-	generate_channel();
 	receive_request();
 	return 0;
 }
