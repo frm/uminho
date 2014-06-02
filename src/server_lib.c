@@ -59,15 +59,17 @@ int incrementar(char* prefix[], int value) {
 	return 1;
 }
 
-static void handl(int s){
-	printf("\n\n//////I DIED////\n\n");
+static void error_handl(int s) {
+	printf("Invalid arguments");
 }
 
-
+static void correct_handl(int s) { }
 
 int agregar(char* prefix[], int level, char* path) {
 	if(!prefix) return -1;
-	
+
+	signal(SIGINT, correct_handl);
+	signal(SIGQUIT, error_handl);
 
 	char pid[10];
 	char count[10];
@@ -89,7 +91,6 @@ int agregar(char* prefix[], int level, char* path) {
 	if ( strlen(new_str) < PIPE_BUF ) {
 		printf(" !!! AGGREGATED\n");
 		write_to_pipe(new_str);
-		signal(SIGINT, handl);
 		pause();
 		free(new_str);
 		return 0;

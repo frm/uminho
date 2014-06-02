@@ -163,9 +163,10 @@ static int aggregate_handl(char* str, Aggregate a)    {
 
 	char** agg = parseAggregates( strtok(NULL, ";"), getAggregateName(a) );
 
-	collectAggregate(a, agg, level, filepath);
-
-    kill(pid, SIGINT);
+	if ( collectAggregate(a, agg, level, filepath) < 0 )
+        kill(pid, SIGQUIT);
+    else
+        kill(pid, SIGINT);
 
     printf("\n### AGGREGATED ###\n");
 
