@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+#include <signal.h>
 
 #include "server.h"
 
@@ -58,28 +59,38 @@ int incrementar(char* prefix[], int value) {
 	return 1;
 }
 
+static void handl(int s){
+	printf("\n\n//////I DIED////\n\n");
+}
+
+
 
 int agregar(char* prefix[], int level, char* path) {
 	if(!prefix) return -1;
+	
 
+	char pid[10];
 	char count[10];
 	sprintf(count, "%d", level);
-
+	sprintf(pid, "%d", getpid());
 	char* new_str = (char*)calloc(
 		strlen(prefix[0]) +
 		strlen(count) +
+		strlen(pid) +
 		strlen(path) +
-		5,			// 3 ';', indicator and '\0'
+		6,			// 4 ';', indicator and '\0'
 		sizeof(char)
 		);
 
-	sprintf(new_str, "%s;3%s;%s;", prefix[0], count, path);
+	sprintf(new_str, "%s;3%s;%s;%s;", prefix[0], count, pid, path);
 
 	append_prefixes(&new_str, prefix);
 
 	if ( strlen(new_str) < PIPE_BUF ) {
 		printf(" !!! AGGREGATED\n");
 		write_to_pipe(new_str);
+		signal(SIGINT, handl);
+		pause();
 		free(new_str);
 		return 0;
 	}

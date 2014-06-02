@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <strutil.h>
+#include <signal.h>
+
 #include "pipe_hash.h"
 #include "aggregation.h"
 
@@ -111,11 +113,17 @@ static int reload_handl(char* str, Aggregation a) {
 
 static int aggregate_handl(char* str, Aggregation a)    {
 	int level = atoi( strtok(str, ";") );
+
+    int pid = atoi( strtok(NULL, ";") );
+
 	char *filepath = str_dup( strtok(NULL, ";"));
 
 	char** agg = parseAggregates( strtok(NULL, ";") );
 
 	collectAggregate(a, agg, level, filepath);
+
+    kill(pid, SIGINT);
+
     printf("###\n AGGREGATED\n###\n");
 
     deleteAggregatesStr(agg);

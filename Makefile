@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS ?= -std=c99 -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -pedantic
+CFLAGS ?= -std=c99 -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -pedantic
 CPPFLAGS ?= -Imodules -Ilib -Iincludes
 
 EXEC = server
