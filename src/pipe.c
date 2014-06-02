@@ -52,7 +52,6 @@ void getDescriptors(Pipe p, int** ret) {
 
 void closeChild(Pipe p) {
   int fd = (p -> fd)[1];
-  printf("PARENT IS ABOUT TO TERMINATE CHILD %d FROM DISTRICT %s\n", p -> child_pid, p -> name);
   write(fd, "0\0", 2);
   close(fd);
 }
