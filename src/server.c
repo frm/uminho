@@ -57,7 +57,9 @@ static char* get_district(char* str) {
 void clear_struct(int s) {
     write(1, "RECEIVED SIGINT\n", 16);
     is_active = 0;
+    printf("IT WAS SHUTDOWN CHILDREN\n");
     shutdown_children(handl_table);
+    printf("IT WAS DELETE PIPE\n");
     deletePipeTable(handl_table);
     unlink(SERVER_NAME);
 }
@@ -171,7 +173,6 @@ static void crisis_handl(char* district) {
 	char* dup = (char*)malloc( 2 * strlen(district) + 3);
 	sprintf(dup, "%s;1%s", district, district);
 	call_child(dup);
-    signal(SIGCHLD, revive);
 	free(dup);
 }
 
@@ -191,11 +192,15 @@ static int dispatch(char *str, Aggregation ag){
   */
 
 static void revive (int s) {
-    int chld_pid = wait(NULL);
-    printf("CHILD EXITED %d\n", chld_pid);
-    char* name = bury_dead_child(handl_table, chld_pid);
-    crisis_handl(name);
-    free(name);
+    signal(SIGCHLD, revive);
+    int status;
+    int chld_pid = wait(&status);
+    if ( WIFSIGNALED(status) ) {
+        printf("CHILD EXITED %d\n", chld_pid);
+        char* name = bury_dead_child(handl_table, chld_pid);
+        crisis_handl(name);
+        free(name);
+    }
 }
 
 static void read_from_parent(int fd) {
