@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
@@ -6,7 +7,7 @@ import java.util.GregorianCalendar;
   class chain: Activity -> ActivityDistance -> ActivityAltitude
 */
 
-public abstract class Activity
+public abstract class Activity implements Serializable
 {
   private double calories;
   private GregorianCalendar date;

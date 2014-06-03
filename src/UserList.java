@@ -9,11 +9,12 @@
  * @author joaorodrigues
  */
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class UserList {
+public class UserList implements Serializable{
     private HashSet<Integer> users;
 
     public UserList() {

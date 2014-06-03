@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,7 +11,7 @@ import java.util.TreeSet;
  *
  * @author joaorodrigues
  */
-public class ActivityInfo {
+public class ActivityInfo implements Serializable{
     private TreeSet<Activity> activityLog;
     private Stats stats;
 

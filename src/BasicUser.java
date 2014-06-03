@@ -1,3 +1,6 @@
+
+import java.io.Serializable;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,7 +11,7 @@
  *
  * @author frmendes
  */
-public abstract class BasicUser {
+public abstract class BasicUser implements Serializable{
     private String name;
     private String password;
     private String email;

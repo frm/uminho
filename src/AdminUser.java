@@ -1,8 +1,11 @@
+
+import java.io.Serializable;
+
 /**
  *
  * @author frmendes
  */
-public class AdminUser extends BasicUser {
+public class AdminUser extends BasicUser{
 
     public AdminUser() {
         super();

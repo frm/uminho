@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
@@ -12,7 +13,7 @@ import java.util.GregorianCalendar;
  *
  * @author joaorodrigues
  */
-public class StatEntry {
+public class StatEntry implements Serializable{
   private String name;
   private double totalCalories;
   private double avgCalories;

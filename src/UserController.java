@@ -3,8 +3,10 @@
  * @author frmendes
  */
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -219,12 +221,18 @@ public class UserController implements Serializable {
         return this.currentUser.showMonthlyStats(year, month);
     }
     
-    public void writeToFile(String fich) throws IOException {
-      ObjectOutputStream oos = new ObjectOutputStream(
-                                new FileOutputStream(fich));
-      oos.writeObject(this.database);
-      oos.flush(); oos.close();
-  }
+    public void writeToFile(String fich) throws IOException{
+        ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(fich) );
+        oos.writeObject(this.database);
+        oos.flush(); oos.close();
+    }
+    
+    public void readFromFile(String fich) throws IOException, ClassNotFoundException{
+        ObjectInputStream ois = new ObjectInputStream( new FileInputStream(fich) );
+        UserDatabase restored = (UserDatabase) ois.readObject();
+        ois.close();
+        this.database = restored;
+    }
 
     @Override
     public UserController clone() {

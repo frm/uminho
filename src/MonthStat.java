@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.TreeSet;
 
@@ -12,7 +13,7 @@ import java.util.TreeSet;
  *
  * @author joaorodrigues
  */
-public class MonthStat {
+public class MonthStat implements Serializable{
     private HashMap<String, StatEntry> stats;
     
     public MonthStat(){

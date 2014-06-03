@@ -1,9 +1,12 @@
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -91,7 +94,11 @@ public class FitnessUM {
     /** Setter for active variable
      */
     public void shutdown() {
-        this.active = false;
+        try{
+            this.userController.writeToFile("dataFile");
+            this.active = false;
+        }
+        catch(IOException e){System.out.println("Write error");}
     }
 
     /** Scans for information and saves the user into the database
@@ -400,7 +407,18 @@ public class FitnessUM {
         u.setFavoriteSport( Scan.sport() );
 
         return u;
-    }            
+    }          
+    
+    public static void importData(){
+        FitnessUM app = new FitnessUM();
+        UserController uc = new UserController();
+        try{
+            uc.readFromFile("dataFile");
+            app.setUserController(uc);
+            app.run();
+        }
+        catch(Exception s){System.out.println("Loading error\n");}
+    }
                 
     /** Reads an integer from the user input and starts up or shuts down the app accordingly
      */
@@ -459,7 +477,7 @@ public class FitnessUM {
         return new Prompt[] {
             new Prompt() { public void exec() { System.out.println("\nBye bye."); } },
             new Prompt() { public void exec() { new FitnessUM( new Seed().generate() ).run(); } },
-            new Prompt() { public void exec() { System.out.println("\nFunction yet to be implemented\n"); FitnessUM.devPrompt(); } }
+            new Prompt() { public void exec() { importData(); } }
         };
      }
 

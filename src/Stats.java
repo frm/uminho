@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -12,7 +13,7 @@ import java.util.HashMap;
  *
  * @author joaorodrigues
  */
-public class Stats {
+public class Stats implements Serializable{
     private HashMap<Integer, YearStat> annualStats;
     
     public Stats(){

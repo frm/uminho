@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.Set;
  * @author frmendes
  */
 
-public class User extends BasicUser {
+public class User extends BasicUser{
     private int id;
     private FriendList friends;
     private UserInfo info;

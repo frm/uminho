@@ -1,11 +1,12 @@
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
  *
  * @author frmendes
 */
-public class FriendList {
+public class FriendList implements Serializable{
         private UserList friends;                          // ids of actual frinds
         private UserList requestsSent;                     // ids of users whom requests were sent
         private UserList requestsReceived;                 // ids of users who sent requests

@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Calendar;
 
@@ -12,8 +13,8 @@ import java.util.Calendar;
  *
  * @author joaorodrigues
  */
-public class YearStat {
-    private static String[] months = {
+public class YearStat implements Serializable{
+    private static final String[] months = {
     "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     
     private MonthStat[] monthlyStats;

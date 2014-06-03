@@ -4,9 +4,10 @@
  * @author joaorodrigues
  */
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public class UserInfo {
+public class UserInfo implements Serializable{
     private boolean gender;
     private double height;
     private double weight;
