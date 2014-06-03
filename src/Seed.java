@@ -29,7 +29,7 @@ public class Seed {
         Seed.frm(uc);
         Seed.td(uc);
         Seed.jrod(uc);
-        uc.loginUser("f@r.away", "frmrules");
+        uc.loginUser("f@r.mendes", "password1");
         uc.sendFriendRequest(2);
         uc.sendFriendRequest(3);
         uc.loginUser("td@gmail.com", "marmitas");
@@ -41,17 +41,17 @@ public class Seed {
     }
     
     private static void frm(UserController uc) {
-        UserInfo ui = new UserInfo(true, 178.0, 64.0, new GregorianCalendar(1994, 8, 3), "Couching");
-        uc.registerUser("Fernando Mendes", "f@r.away", "frmrules", ui);
+        UserInfo ui = new UserInfo(true, 178.0, 64.0, new GregorianCalendar(1994, 7, 3), "Couching");
+        uc.registerUser("Fernando Mendes", "f@r.mendes", "password1", ui);
     }
     
     private static void td(UserController uc) {
-        UserInfo ui = new UserInfo(true, 174.0, 60.0, new GregorianCalendar(1994, 4, 26), "Kendo");
+        UserInfo ui = new UserInfo(true, 174.0, 60.0, new GregorianCalendar(1994, 3, 26), "Kendo");
         uc.registerUser("Tiago Dinis", "td@gmail.com", "marmitas", ui);
     }
     
     private static void jrod(UserController uc) {
-        UserInfo ui = new UserInfo(true, 174.0, 63.0, new GregorianCalendar(1994, 11, 13), "Swimming");
+        UserInfo ui = new UserInfo(true, 174.0, 63.0, new GregorianCalendar(1994, 10, 13), "Swimming");
         uc.registerUser("João Rodrigues", "rod@m.com", "leite", ui);
     }
     

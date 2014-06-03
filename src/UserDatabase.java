@@ -166,7 +166,15 @@ public class UserDatabase implements Serializable{
      * @param userId ID of the to delete
      */
     public void delete(int userId) {
-        delete( findById(userId) );
+        String email = findById(userId).getEmail();
+        this.idEntry.remove(userId);
+        this.emailEntry.remove(email);
+    }
+    
+    public void delete(String email) {
+       int id = this.emailEntry.get(email);
+       this.idEntry.remove(id);
+       this.emailEntry.remove(email);
     }
 
     public void delete(User u) {

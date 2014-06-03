@@ -61,6 +61,11 @@ public abstract class BasicUser implements Serializable{
         this.password = password;
     }
     
+    public void updatePassword(String pw) {
+        if (pw.length() != 0)
+            this.password = pw;
+    }
+    
     /** For a given password, sees if it matches the users
     @param password given password
     @return true or false

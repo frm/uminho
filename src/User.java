@@ -15,14 +15,15 @@ public class User extends BasicUser{
     private FriendList friends;
     private UserInfo info;
     private ActivityInfo activityInfo;
+
     public User() {
         super();
-        this.friends = new FriendList(); 
+        this.friends = new FriendList();
         this.info = new UserInfo();
         this.activityInfo = new ActivityInfo();
         this.id = -1;
     }
-    
+
     public User(String name, String password, String email, UserInfo info) {
         super(name, password, email);
         this.info = info.clone();
@@ -38,15 +39,15 @@ public class User extends BasicUser{
         this.activityInfo = actInfo.clone();
         this.id = -1;
     }
-    
-    public User(User u) {        
+
+    public User(User u) {
         super(u);
         this.friends = u.getFriendList();
         this.info = u.getInfo();
         this.activityInfo = u.getActivityLog();
         this.id = u.getId();
     }
-    
+
     public int getId() {
         return this.id;
     }
@@ -58,9 +59,7 @@ public class User extends BasicUser{
     public UserInfo getInfo() {
         return info.clone();
     }
-    
 
-    
     public ActivityInfo getActivityLog() {
         return activityInfo.clone();
     }
@@ -72,12 +71,11 @@ public class User extends BasicUser{
     public void setFriends(UserList friendlist) {
         this.friends.setFriends(friendlist);
     }
-    
+
     public void setInfo(UserInfo info) {
         this.info = info.clone();
     }
-    
-    
+
     public void setActivityLog(ActivityInfo actInfo) {
         this.activityInfo = actInfo.clone();
     }
@@ -182,20 +180,20 @@ public class User extends BasicUser{
     public Set<Integer> getRequests() {
         return this.friends.getRequests();
     }
-    
+
     public String showStatsOverview(){
         return this.activityInfo.statsOverview();
     }
- 
+
     public String showAnnualStats(int year) throws StatsNotAvailable{
         return this.activityInfo.showAnnualStats(year);
     }
-    
+
     public String showMonthlyStats(int year, int month) throws StatsNotAvailable{
         return this.activityInfo.showMonthlyStats(year, month);
     }
-    
-    
+
+
     public void addActivity(Activity act) {
         activityInfo.addActivity(act);
     }
@@ -204,10 +202,22 @@ public class User extends BasicUser{
         activityInfo.removeActivity(act);
     }
 
-    
     public ArrayList<Activity> getMostRecentActivities() {
         return activityInfo.getMostRecent();
     }
+
+    public void updateSettings(String name, String email, String pw, UserInfo info) {
+        setInfo(info);
+        
+        if(name.trim().length() != 0)
+            super.setName(name);
+       
+        if(email.length() != 0)
+            super.setEmail(email);
+
+        super.updatePassword(pw);
+    }
+
     
     public Set<String> getPracticedActivities(){
         return activityInfo.getPracticedActivities();
@@ -216,7 +226,7 @@ public class User extends BasicUser{
     public User clone() {
         return new User(this);
     }
-    
+
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("### User: ###");
@@ -227,12 +237,12 @@ public class User extends BasicUser{
         result.append(this.getPracticedActivities().toString() );
         return result.toString();
     }
-    
+
     public boolean hasFriend(Integer id){
         return this.friends.hasFriend(id);
     }
 
-    
+
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;
@@ -240,7 +250,7 @@ public class User extends BasicUser{
         if(o == null || this.getClass() != o.getClass() ) return false;
 
         User u = (User) o;
-        
+
        return (
                super.equals(o)     
                && u.getFriendList().equals(this.friends)
@@ -248,5 +258,5 @@ public class User extends BasicUser{
                && u.getActivityLog().equals(this.activityInfo)
                && u.getId() == this.id
         );
-    } 
+    }
 }

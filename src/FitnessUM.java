@@ -22,18 +22,19 @@ public class FitnessUM {
    private static final String[] startOptions = { "Exit", "Register", "Login" };
 
    private static final String[] mainOptions = {
-       "Logout", "My Profile", "Friend Requests", "Friend List","Search User", "My Activity Log", "Add New Activity Session", "My Statistics", "My Records"
 
+       "Logout", "My Profile", "Friend Requests", "Friend List","Search User", "My Activity Log",
+       "Add New Activity Session", "Show My Statistics", "Update Settings"
    };
-   
+
     private static final String[] activityCategories = {
        "Go Back", "Simple Activities", "Distance Activities", "Altitude Activities"
    };
-   
+
    private static final String[] statsOptions = {
        "Go Back", "Check all the statistics", "Check statistics for one activity"
    };
-   
+
    private static final String[] activities = {
        "Go Back", "Cycling", "Kayaking", "Kendo", "Running", "Skating", "Swimming"
    };
@@ -76,7 +77,7 @@ public class FitnessUM {
         this.userController = uc.clone();
     }
 
-    
+
 
     /** Getter for active variable
      * @return active variable
@@ -107,41 +108,58 @@ public class FitnessUM {
         String name = Scan.name("\nFirst name: ") + " " + Scan.name("\nLast name: ");
         String email = Scan.email();
 
-        while ( ! this.userController.validateEmailUniqueness(email) ) {
+        while ( ! this.userController.validUserEmail(email) ) {
             System.out.println("Email is already taken");
             email = Scan.email();
         }
 
         String password = Scan.password();
-        UserInfo info = userInfo();
+        UserInfo info = readUserInfo();
 
         this.userController.registerUser(name, email, password, info);
         this.userController.loginUser(email, password);
     }
-    
+
+    public void updateUser() {
+        System.out.println("You are about to update your settings.\nIf you do not wish to update a particular field, simply press Enter or input 0 in numeric fields.");
+
+        String name = Scan.updateName("\nFirst name: ") + " " + Scan.updateName("\nLast name: ");
+        String email = Scan.updateEmail();
+
+        while ( email.length() > 0 && ! this.userController.validUserEmail(email) ) {
+            System.out.println("Email is already taken");
+            email = Scan.updateEmail();
+        }
+
+        String password = Scan.updatePassword();
+        UserInfo info = readUpdateInfo();
+
+        this.userController.updateUser(name, email, password, info);
+    }
+
     private void searchUserByName() {
         String name = Scan.name("Enter a name:");
         new SearchUserNavigator( this.userController.nameSearch(name), this ).navigate();
     }
-    
+
     private void searchUserByEmail() {
         String email = Scan.email();
         new SearchUserNavigator( this.userController.emailSearch(email), this ).navigate();
     }
-    
+
     public void searchUser() {
         final FitnessUM app = this;
-        
+
         Prompt[] p = new Prompt[] {
             new Prompt() { public void exec() { return; } },
             new Prompt() { public void exec() { app.searchUserByName(); } },
             new Prompt() { public void exec() { app.searchUserByEmail(); } }
          };
-         
+
         System.out.println("\n0. Go Back\n1. By Name\n2. By Email\n");
-        
+
         int option = Scan.menuOption(0, 2);
-         p[option].exec();        
+         p[option].exec();
     }
 
     /** Scans for valid login info and sets the current_user
@@ -164,7 +182,8 @@ public class FitnessUM {
                 logged = true;
             else
                 System.out.println("Password and email don't match. " + (3 - ++nrAttempts) + " attempt(s) remaining.");
-
+            
+            System.out.println(this.userController.getCurrentUser());
         }
 
         if (! logged) {
@@ -204,24 +223,24 @@ public class FitnessUM {
     public void rejectFriend(User u) {
         this.userController.rejectFriendRequest(u);
     }
-    
+
     private void viewFriendRequests() {
         new FriendRequestsNavigator( this.userController.getFriendRequests(), this ).navigate();
     }
-    
+
     public void showStatsOverview(){
         System.out.println(userController.showStatsOverview());
     }
-    
+
     public void showAnnualStats(){
         int year = Scan.scanInt("Insert the year you want to check.");
         try{
         System.out.println( userController.showAnnualStats(year) );
         }
         catch(StatsNotAvailable s){System.out.println("No Stats Available");}
-        
+
     }
-    
+
     public void showMonthlyStats(){
         int year = Scan.intInRange("Insert the year you want to check.", 0, (new GregorianCalendar()).get(Calendar.YEAR) );
         int month = Scan.intInRange("Insert the month (number).", 1, 12);
@@ -229,9 +248,9 @@ public class FitnessUM {
            System.out.println( userController.showMonthlyStats(year, month) );
         }
         catch(StatsNotAvailable s){System.out.println("No Stats Available");}
-        
+
     }
-    
+
     public void removeActivity(Activity act){
         this.userController.removeActivity(act);
     }
@@ -262,16 +281,16 @@ public class FitnessUM {
         }
         return result.toString() ;
     }
-    
+
     public void myActivityLog(){
         ArrayList<Activity> list = userController.getMostRecentActivities();
-        
+
         new ActivityNavigator(list).navigate();
     }
-    
+
     private Prompt[] getAddActivityPrompt(){
         final FitnessUM app = this;
-        
+
         return new Prompt[]{
             new Prompt() { public void exec() { return;} },
             new Prompt() { public void exec() { app.addCycling();} },
@@ -282,7 +301,7 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.addSwimming();} }
         };
     }
-    
+
     public GregorianCalendar getStartDate(){
         return Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "When did you start (hh:mm:ss)");
     }
@@ -308,10 +327,10 @@ public class FitnessUM {
         int altitude = Scan.scanInt("What was the altitude? (meters)");
         this.listWeatherOptions();
         int weather = Scan.scanInt(this.listWeatherOptions());
-        
+
         this.userController.addActivity( new Cycling(startDate, duration, distance, altitude, weather));
     }
-    
+
     public void addKayaking(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
@@ -326,10 +345,10 @@ public class FitnessUM {
         int distance = Scan.scanInt("What was the distance? (meters)");
         this.listWeatherOptions();
         int weather = Scan.scanInt(this.listWeatherOptions());
-        
+
         this.userController.addActivity( new Kayaking(startDate, duration, distance, weather));
     }
-    
+
     public void addKendo(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
@@ -340,10 +359,10 @@ public class FitnessUM {
             if (duration <= 0) 
                 System.out.println("Invalid finish time\n");
         }
-        
+
         this.userController.addActivity( new Kendo(startDate, duration));
     }
-    
+
     public void addRunning(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
@@ -354,15 +373,15 @@ public class FitnessUM {
             if (duration <= 0) 
                 System.out.println("Invalid finish time\n");
         }
-        
+
         int distance = Scan.scanInt("What was the distance? (meters)");
         int altitude = Scan.scanInt("What was the altitude? (meters)");
         this.listWeatherOptions();
         int weather = Scan.scanInt(this.listWeatherOptions());
-        
+
         this.userController.addActivity( new Running(startDate, duration, distance, altitude, weather));
     }
-    
+
     public void addSkating(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
@@ -373,10 +392,10 @@ public class FitnessUM {
             if (duration <= 0) 
                 System.out.println("Invalid finish time\n");
         }
-        
+
         this.userController.addActivity( new Skating(startDate, duration));
     }
-    
+
     public void addSwimming(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
@@ -387,18 +406,17 @@ public class FitnessUM {
             if (duration <= 0) 
                 System.out.println("\nINVALID FINISH TIME\n");
         }
-        
+
         int distance = Scan.scanInt("What was the distance? (meters)");
-        
+
         this.userController.addActivity( new Swimming(startDate, duration, distance));
     }
-        
-                
+
+
     /** Scans the user for gender, height, weight, birth date and favorite sport
      * @return u UserInfo containing scanned information
      */
-                
-    public static UserInfo userInfo(){
+    public static UserInfo readUserInfo(){
         UserInfo u = new UserInfo();
         u.setGender( Scan.gender() );
         u.setHeight( Scan.height() );
@@ -419,7 +437,18 @@ public class FitnessUM {
         }
         catch(Exception s){System.out.println("Loading error\n");}
     }
-                
+
+    /** Scans the user for up to date height, weight and favorite sport
+     * @return User Info containing scanned info
+     */
+    public static UserInfo readUpdateInfo() {
+        UserInfo u = new UserInfo();
+        u.setHeight( Scan.updateHeight() );
+        u.setWeight( Scan.updateWeight() );
+        u.setFavoriteSport( Scan.updateSport() );
+        return u;
+    }
+
     /** Reads an integer from the user input and starts up or shuts down the app accordingly
      */
     public void getStartOption() {
@@ -435,7 +464,7 @@ public class FitnessUM {
     public void commandInterpreter() {
         System.out.println( "Choose one of the following options.");
         FitnessUM.printMainOptions();
-        int option = Scan.menuOption(0, 7);
+        int option = Scan.menuOption(0, 8);
         this.getMainPrompt()[option].exec();
     }
 
@@ -447,7 +476,7 @@ public class FitnessUM {
         this.getStartOption();
         while ( this.isActive() )
             this.commandInterpreter();
-        
+
     }
 
     private Prompt[] getStartPrompt() {
@@ -469,7 +498,8 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.searchUser(); }},
             new Prompt() { public void exec() { app.myActivityLog(); }},
             new Prompt() { public void exec() { app.getAddActivityOption(); } },
-            new Prompt() { public void exec() { app.getStatsTypeOption(); } }
+            new Prompt() { public void exec() { app.getStatsTypeOption(); } },
+            new Prompt() { public void exec() { app.updateUser(); } }
         };
     }
 
@@ -521,7 +551,7 @@ public class FitnessUM {
         for (String s : FitnessUM.statsOptions)
             System.out.println(i++ + ". " + s);
     }
-    
+
     private static void printActivities() {
         int i = 0;
         for (String s : FitnessUM.activities)

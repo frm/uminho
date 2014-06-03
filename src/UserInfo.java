@@ -37,27 +37,27 @@ public class UserInfo implements Serializable{
         this.birthDate = user.getBirthDate();
         this.favoriteSport = user.getFavoriteSport();
     }
-    
+
     void setGender(boolean gender){this.gender = gender;}
     void setHeight(double height){this.height = height;}
     void setWeight(double weight){this.weight = weight;}
     void setBirthDate(GregorianCalendar birthDate){this.birthDate = (GregorianCalendar) birthDate.clone();}
     void setFavoriteSport(String favoriteSport){this.favoriteSport = favoriteSport;}
-    
+
     boolean getGender(){return this.gender;}
     double getHeight(){return this.height;}
     double getWeight(){return this.weight;}
     GregorianCalendar getBirthDate(){return (GregorianCalendar) (this.birthDate).clone();}
     String getFavoriteSport(){  return this.favoriteSport;}
-    
+
     @Override
     public String toString(){
         StringBuilder result = new StringBuilder();
-        
+
         result.append("\nGender: ");
         if (gender) result.append("Male ");
         else result.append("Female ");
-        
+
         result.append("\nHeight: ");
         result.append(this.height);
         result.append("\nWeight: ");
@@ -68,12 +68,12 @@ public class UserInfo implements Serializable{
         result.append( this.favoriteSport);
         return result.toString();
     }
-    
+
     @Override
     public UserInfo clone(){
         return new UserInfo(this);
     }
-    
+
     @Override
     public boolean equals(Object o){
         if(this == o) return true;
@@ -87,5 +87,18 @@ public class UserInfo implements Serializable{
             && u.getWeight() == this.weight
             && (u.getBirthDate() ).equals(this.birthDate)
             && ( u.getFavoriteSport() ).equals( this.favoriteSport ));
+    }
+
+    public static UserInfo generateValidInfo(UserInfo u, UserInfo ui) {
+        UserInfo n = new UserInfo(u);
+        
+        if (ui.getWeight() != 0)
+            n.setWeight( ui.getWeight() );
+        if (ui.getHeight() != 0)
+            n.setHeight( ui.getHeight() );
+        if (ui.getFavoriteSport().length() != 0)
+            n.setFavoriteSport( ui.getFavoriteSport() );
+
+        return n;
     }
 }

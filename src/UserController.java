@@ -21,7 +21,7 @@ public class UserController implements Serializable {
 
 
     // Name regex - names can't contain more than one space and must not contain any numbers
-    private static final String NAMEREGEX = "^[\\p{L}]*\\s?[\\p{L}]*$";
+    private static final String NAMEREGEX = "^[\\p{L}]+\\s?[\\p{L}]+$";
     // Email regex
     private static final String EMAILREGEX = "\\A[\\w\\-.]+@[a-z\\-\\d]+(\\.[a-z]+)*\\.[a-z]+\\z";
 
@@ -74,6 +74,10 @@ public class UserController implements Serializable {
     public boolean existsUserWithEmail(String email) {
         return !this.validateEmailUniqueness(email);
     }
+    
+    public boolean validUserEmail(String email) {
+        return this.validAdminUniqueness(email) && ! UserController.isAdminEmail(email);
+    }
 
     public ArrayList<User> nameSearch(String name) {
         return this.database.searchName(name);
@@ -96,7 +100,7 @@ public class UserController implements Serializable {
 
         return match;
     }
-
+    
     private boolean adminUserLogin(String email, String password) {
         AdminUser au = this.database.findAdmin(email);
         boolean match = false;
@@ -200,7 +204,7 @@ public class UserController implements Serializable {
         currentUser.removeActivity(act);
         database.save(currentUser);
     }
-    
+
     public ArrayList<Activity> getMostRecentActivities(){
         return currentUser.getMostRecentActivities();
     }
@@ -212,11 +216,11 @@ public class UserController implements Serializable {
     public String showStatsOverview(){
         return this.currentUser.showStatsOverview();
     }
-    
+
     public String showAnnualStats(int year) throws StatsNotAvailable{
         return this.currentUser.showAnnualStats(year);
     }
-    
+
     public String showMonthlyStats(int year, int month) throws StatsNotAvailable{
         return this.currentUser.showMonthlyStats(year, month);
     }
@@ -233,6 +237,31 @@ public class UserController implements Serializable {
         ois.close();
         this.database = restored;
     }
+
+    public void deleteUser(int id) {
+        this.database.delete(id);
+    }
+    
+    public void deleteUser(String email) {
+        this.database.delete(email);
+    }
+    
+    public void deleteUser(User u) {
+        this.database.delete(u);
+    }
+    
+    public void updateUser(String name, String email, String pw, UserInfo info) {
+        UserInfo ui = UserInfo.generateValidInfo(this.currentUser.getInfo(), info);
+        if (name.length() == 0)
+            name = this.currentUser.getName();
+        if (email.length() == 0)
+            email = this.currentUser.getEmail();
+
+        this.deleteUser( this.currentUser.getId() );
+        this.currentUser.updateSettings(name, email, pw, ui);
+        this.database.save(currentUser);
+        
+    }   
 
     @Override
     public UserController clone() {
