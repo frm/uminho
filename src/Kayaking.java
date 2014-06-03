@@ -13,7 +13,7 @@ public class Kayaking extends DistanceActivity implements weatherInterface{
         this.weather = new Weather();
     }
     
-    public Kayaking(GregorianCalendar date, long duration, int distance, int w){
+    public Kayaking(GregorianCalendar date, long duration, int distance,  int w){
         super(date, duration, distance);
         this.weather = new Weather(w);
         this.setCalories( calculateCalories(duration, distance, w) );

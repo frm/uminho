@@ -93,6 +93,14 @@ public class ActivityInfo {
         return this.stats.showMonthlyStats(year, month);
     }
     
+    public Set<String> getPracticedActivities(){
+        TreeSet<String> result = new TreeSet<String>();
+        for( Activity a: activityLog){
+            result.add(a.getName());
+        }
+        return result;
+    }
+    
     public ActivityInfo clone(){
         return new ActivityInfo(this);
     }

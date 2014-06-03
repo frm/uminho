@@ -190,10 +190,9 @@ public class UserController {
         database.save(currentUser);
     }
 
-    public boolean removeActivity(Activity act){
-        boolean result = currentUser.removeActivity(act);
+    public void removeActivity(Activity act){
+        currentUser.removeActivity(act);
         database.save(currentUser);
-        return result;
     }
     
     public ArrayList<Activity> getMostRecentActivities(){
