@@ -14,16 +14,13 @@ public class User extends BasicUser {
     private FriendList friends;
     private UserInfo info;
     private ActivityInfo activityInfo;
-    private YearStat annualStats;
-    private YearStat monthlyStats;
-    
+    private Stats stats;
     public User() {
         super();
         this.friends = new FriendList(); 
         this.info = new UserInfo();
         this.activityInfo = new ActivityInfo();
-        this.annualStats = new YearStat();
-        this.monthlyStats = new YearStat();
+        this.stats = new Stats();
         this.id = -1;
     }
     
@@ -32,8 +29,7 @@ public class User extends BasicUser {
         this.info = info.clone();
         this.friends = new FriendList();
         this.activityInfo = new ActivityInfo();
-        this.annualStats = new YearStat();
-        this.monthlyStats = new YearStat();
+        this.stats = new Stats();
         this.id = -1;
     }
 
@@ -42,8 +38,7 @@ public class User extends BasicUser {
         this.friends = friendlist.clone();
         this.info = info.clone();
         this.activityInfo = actInfo.clone();
-        this.annualStats = yStats.clone();
-        this.monthlyStats = mStats.clone();
+        this.stats = stats.clone();
         this.id = -1;
     }
     
@@ -52,8 +47,7 @@ public class User extends BasicUser {
         this.friends = u.getFriendList();
         this.info = u.getInfo();
         this.activityInfo = u.getActivityLog();
-        this.annualStats = u.getAnnualStats();
-        this.monthlyStats = u.getMonthlyStats();
+        this.stats = u.getStats();
         this.id = u.getId();
     }
     
@@ -92,12 +86,8 @@ public class User extends BasicUser {
         this.activityInfo = actInfo.clone();
     }
 
-    public YearStat getAnnualStats() {
-        return annualStats.clone();
-    }
-
-    public YearStat getMonthlyStats() {
-        return monthlyStats.clone();
+    public Stats getStats() {
+        return stats.clone();
     }
 
     public void confirmFriendRequest(User u) {
