@@ -13,20 +13,24 @@ import java.util.TreeSet;
 public class ActivityInfo {
     private TreeSet<Activity> activityLog;
     private Stats stats;
+    private Records records;
 
     public ActivityInfo() {
         this.activityLog = new TreeSet<Activity>(new ActivityComparator());
         this.stats = new Stats();
+        this.records = new Records();
     }
     
-    public ActivityInfo(TreeSet<Activity> activityLog, Stats stats) {
+    public ActivityInfo(TreeSet<Activity> activityLog, Stats stats, Records records) {
         this.activityLog = cloneActivityLog(activityLog);
         this.stats = stats.clone();
+        this.records = records.clone();
     }
     
     public ActivityInfo(ActivityInfo info){
         this.activityLog = info.getActivityLog();
         this.stats = info.getStats();
+        this.records = info.getRecords();
     }
 
     public void setActivityLog(TreeSet<Activity> activityLog) {
@@ -43,6 +47,10 @@ public class ActivityInfo {
 
     public Stats getStats() {
         return this.stats.clone();
+    }
+    
+    public Records getRecords() {
+        return this.records.clone();
     }
    
    
