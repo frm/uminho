@@ -1,4 +1,4 @@
-import java.util.Hashtable;
+import java.util.HashMap;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -11,14 +11,14 @@ import java.util.Hashtable;
  * @author tiago
  */
 public class Achievements {
-    private Hashtable<String,Boolean> achievements;
+    private HashMap<String,Boolean> achievements;
     
     //constructors
     public Achievements(){
-        this.achievements = new Hashtable<String,Boolean>();
+        this.achievements = new HashMap<String,Boolean>();
     }
     
-    public Achievements(Hashtable<String,Boolean> ach){
+    public Achievements(HashMap<String,Boolean> ach){
         this.achievements = cloneAchievements(ach);
     }
     
@@ -27,18 +27,21 @@ public class Achievements {
     }
     
     
-    public Hashtable<String,Boolean> cloneAchievements(Hashtable<String,Boolean> a){
-        Hashtable<String,Boolean> aux = new Hashtable<String,Boolean>();
-        aux.putAll(achievements);
-        return aux;
-    }
-    
-    public Hashtable<String,Boolean> getAchievements(){
+
+    //getters & setters
+    public HashMap<String,Boolean> getAchievements(){
         return cloneAchievements(this.achievements);
     }
     
-    public void setAchievements(Hashtable<String,Boolean> a){
+    public void setAchievements(HashMap<String,Boolean> a){
         this.achievements = cloneAchievements(a);
+    }
+    
+    //methods
+    public HashMap<String,Boolean> cloneAchievements(HashMap<String,Boolean> a){
+        HashMap<String,Boolean> aux = new HashMap<String,Boolean>();
+        aux.putAll(a);
+        return aux;
     }
     
     public void addAchievement(String s, Boolean b){
@@ -79,6 +82,6 @@ public class Achievements {
     }
     
     public String toSrting(){
-        return achievements.toString();
+        return this.achievements.toString();
     }
 }

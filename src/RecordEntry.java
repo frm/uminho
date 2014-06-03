@@ -30,7 +30,7 @@ public class RecordEntry {
         this.nrEntries = nE;
         this.maxDuration = mD;
         this.maxCalories = mC;
-        this.achievList = ach.getAchievements();
+        this.achievList = ach;
     }
     
     public RecordEntry(RecordEntry re){
@@ -54,12 +54,9 @@ public class RecordEntry {
     public int getMaxCalories()
     {return this.maxCalories;}
     
-    public Achievements getAchievList(){
-        return new Achievements(this.achievList);
-    }
-    
-    //methods
-    
+    public Achievements getAchievList()
+    {return new Achievements(this.achievList);}
+
     //setters
     public void setName(String n)
     {this.name = n;}
@@ -73,7 +70,6 @@ public class RecordEntry {
     public void setMaxCalories(int c)
     {this.maxCalories = c;}
         
-    //não sei se é assim...
     public void setAchievList(Achievements a)
     {this.achievList = new Achievements(this.achievList);}
     

@@ -19,7 +19,7 @@ public class FitnessUM {
    private static final String[] startOptions = { "Exit", "Register", "Login" };
 
    private static final String[] mainOptions = {
-       "Logout", "My Profile", "Friend Requests", "Friend List","Search User", "My Activity Log", "Add New Activity Session", "Show My Statistics"
+       "Logout", "My Profile", "Friend Requests", "Friend List","Search User", "My Activity Log", "Add New Activity Session", "My Statistics", "My Records"
 
    };
    
