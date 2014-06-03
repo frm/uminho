@@ -3,12 +3,16 @@
  * @author frmendes
  */
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
-public class UserController {
+public class UserController implements Serializable {
     private UserDatabase database;
     private User currentUser;
     private boolean adminLogged;
@@ -214,6 +218,13 @@ public class UserController {
     public String showMonthlyStats(int year, int month) throws StatsNotAvailable{
         return this.currentUser.showMonthlyStats(year, month);
     }
+    
+    public void writeToFile(String fich) throws IOException {
+      ObjectOutputStream oos = new ObjectOutputStream(
+                                new FileOutputStream(fich));
+      oos.writeObject(this.database);
+      oos.flush(); oos.close();
+  }
 
     @Override
     public UserController clone() {

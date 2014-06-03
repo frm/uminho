@@ -4,13 +4,14 @@
  * @author frmendes
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class UserDatabase {
+public class UserDatabase implements Serializable{
 
     // Both HashMaps refer to the same user, pointer is shared
     private HashMap<Integer, User> idEntry;              // User indexation by ID
