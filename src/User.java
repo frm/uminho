@@ -14,16 +14,11 @@ public class User extends BasicUser {
     private FriendList friends;
     private UserInfo info;
     private ActivityInfo activityInfo;
-    private YearStat annualStats;
-    private YearStat monthlyStats;
-    
     public User() {
         super();
         this.friends = new FriendList(); 
         this.info = new UserInfo();
         this.activityInfo = new ActivityInfo();
-        this.annualStats = new YearStat();
-        this.monthlyStats = new YearStat();
         this.id = -1;
     }
     
@@ -32,18 +27,14 @@ public class User extends BasicUser {
         this.info = info.clone();
         this.friends = new FriendList();
         this.activityInfo = new ActivityInfo();
-        this.annualStats = new YearStat();
-        this.monthlyStats = new YearStat();
         this.id = -1;
     }
 
-    public User(String name, String password, String email, FriendList friendlist, UserInfo info, ActivityInfo actInfo, YearStat yStats, YearStat mStats) {
+    public User(String name, String password, String email, FriendList friendlist, UserInfo info, ActivityInfo actInfo) {
         super(name, password, email);
         this.friends = friendlist.clone();
         this.info = info.clone();
         this.activityInfo = actInfo.clone();
-        this.annualStats = yStats.clone();
-        this.monthlyStats = mStats.clone();
         this.id = -1;
     }
     
@@ -52,8 +43,6 @@ public class User extends BasicUser {
         this.friends = u.getFriendList();
         this.info = u.getInfo();
         this.activityInfo = u.getActivityLog();
-        this.annualStats = u.getAnnualStats();
-        this.monthlyStats = u.getMonthlyStats();
         this.id = u.getId();
     }
     
@@ -92,14 +81,16 @@ public class User extends BasicUser {
         this.activityInfo = actInfo.clone();
     }
 
-    public YearStat getAnnualStats() {
-        return annualStats.clone();
+
+    public void setFriends(FriendList friends) {
+        this.friends = friends.clone();
     }
 
-    public YearStat getMonthlyStats() {
-        return monthlyStats.clone();
+    public void setActivityInfo(ActivityInfo activityInfo) {
+        this.activityInfo = activityInfo.clone();
     }
-
+    
+    
     public void confirmFriendRequest(User u) {
         this.friends.confirmFriendRequest(u);
     }
@@ -208,12 +199,17 @@ public class User extends BasicUser {
         activityInfo.addActivity(act);
     }
     
-    public boolean removeActivity(Activity act) {
-        return activityInfo.removeActivity(act);
+    public void removeActivity(Activity act){
+        activityInfo.removeActivity(act);
     }
+
     
     public ArrayList<Activity> getMostRecentActivities() {
         return activityInfo.getMostRecent();
+    }
+    
+    public Set<String> getPracticedActivities(){
+        return activityInfo.getPracticedActivities();
     }
     
     public User clone() {
@@ -226,9 +222,8 @@ public class User extends BasicUser {
         result.append( super.toString() );
         result.append("\nInfo: ");
         result.append(this.info);
-        result.append("\nActivities: ");
-        result.append(this.activityInfo);
-
+        result.append("\nPracticed Activities: ");
+        result.append(this.getPracticedActivities().toString() );
         return result.toString();
     }
     
@@ -246,11 +241,11 @@ public class User extends BasicUser {
         User u = (User) o;
         
        return (
-        u.getFriendList().equals(this.friends)
-        && u.getInfo().equals(this.info)
-        && u.getActivityLog().equals(this.activityInfo)
-        && u.getId() == this.id
-        && super.equals(o)
+               super.equals(o)     
+               && u.getFriendList().equals(this.friends)
+               && u.getInfo().equals(this.info)
+               && u.getActivityLog().equals(this.activityInfo)
+               && u.getId() == this.id
         );
     } 
 }

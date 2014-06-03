@@ -16,7 +16,7 @@ public class Running extends AltitudeActivity implements weatherInterface{
     public Running(GregorianCalendar date, long duration, int distance, int altitude, int w){
         super(date, duration, distance, altitude);
         this.weather = new Weather(w);
-        this.setCalories( calculateCalories(duration, distance, w) );
+        this.setCalories( calculateCalories(duration, distance, altitude, w) );
     }
     
     public Running(Running r){
@@ -55,9 +55,9 @@ public class Running extends AltitudeActivity implements weatherInterface{
     
     
     //methods
-    public double calculateCalories(long duration, int distance, int weather){
+    public double calculateCalories(long duration, int distance, int altitude, int weather){
         double wfac = calculateWeatherFactor(weather);
-        return ((double)((altitude + distance)/duration))*950000*wfac;
+        return (  ( (double) (altitude + distance)/ ( (double) duration) ) )*950000*wfac;
     }
     
     double calculateWeatherFactor(int w){

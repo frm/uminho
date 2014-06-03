@@ -39,7 +39,7 @@ public class ActivityNavigator extends Navigator<Activity>{
     
     public void select(Activity act){
         app.removeActivity(act);
-    };
+    }
 
     public int getCategory() {
         return category;
