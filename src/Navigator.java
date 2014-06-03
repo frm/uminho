@@ -164,7 +164,12 @@ public abstract class Navigator<T> {
                     break;                    
         }
     }
-    
+   
+    public void remove(T t) {
+	this.list.remove( this.list.indexOf(t) );
+        this.navigator--;
+    }
+
     private int getMinimumOption() {
         return Math.max(1, this.navigator - Navigator.NumberDisplays - 1);
     }

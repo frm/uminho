@@ -30,11 +30,15 @@ public class FriendListNavigator extends Navigator<User> {
     public void select(final User u) {
         System.out.println("0. Go Back\n1. View Profile\n 2. Remove Friend");
         int option = Scan.menuOption(0, 2);
-        new Prompt[] {
+        
+		new Prompt[] {
             new Prompt() { public void exec() { }},
             new Prompt() { public void exec() { System.out.println(u); } },
             new Prompt() { public void exec() { app.deleteFriend(u); }}
         }[option].exec();
+
+		if (option == 2) super.remove(u);
+
     }
 
     public String emptyMessage() {
