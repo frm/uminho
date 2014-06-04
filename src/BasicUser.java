@@ -42,6 +42,12 @@ public abstract class BasicUser implements Serializable{
         return name;
     }
 
+    @Override
+    public int hashCode() {
+        return this.name.hashCode();
+    }
+
+    
     /* Although it doesn't make sense to implement a getPassword method for security reasons
      * it is implemented as private for copy constructor (see public User (User u) )
      */
