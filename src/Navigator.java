@@ -71,14 +71,7 @@ public abstract class Navigator<T> {
     private void next() {        
         int limit = Math.min(this.navigator + Navigator.NumberDisplays, this.totalElements() );
 
-        this.printNext(limit);
-        
-        if (this.navigator == 0) {
-            System.out.println( this.emptyMessage() );
-            Scan.pressEnterToContinue();
-            this.quit();
-        }
-              
+        this.printNext(limit);              
     }
     
     private void reprint() {
@@ -103,11 +96,21 @@ public abstract class Navigator<T> {
         while (this.navigator % Navigator.NumberDisplays != 0);
     }
     
+    private void printAndExit() {
+        System.out.println( this.emptyMessage() );
+        Scan.pressEnterToContinue();
+        this.quit();
+    }
+    
     private void printNext(int limit) {
-        System.out.println("\n");
-        while ( this.navigator < limit) {
-            System.out.print(this.navigator + 1 + ". ");
-            this.print( list.get(this.navigator++) );
+        if(limit == 0)
+            printAndExit();
+        else {
+            System.out.println("\n");
+            while ( this.navigator < limit) {
+                System.out.print(this.navigator + 1 + ". ");
+                this.print( list.get(this.navigator++) );
+            }
         }
     }
     
@@ -166,8 +169,8 @@ public abstract class Navigator<T> {
     }
    
     public void remove(T t) {
-	this.list.remove( this.list.indexOf(t) );
-        this.navigator--;
+        this.list.remove( this.list.indexOf(t) );
+        this.navigator = Math.max(0, this.navigator - 1);
     }
 
     private int getMinimumOption() {

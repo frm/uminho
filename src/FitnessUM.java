@@ -275,6 +275,10 @@ public class FitnessUM {
     public void rejectFriend(User u) {
         this.userController.rejectFriendRequest(u);
     }
+    
+    public boolean currentUserHasFriend(User u) {
+        return this.userController.getCurrentUser().hasFriend(u);
+    }
 
     private void viewFriendRequests() {
         new FriendRequestsNavigator( this.userController.getFriendRequests(), this ).navigate();
