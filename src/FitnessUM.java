@@ -38,6 +38,10 @@ public class FitnessUM {
    private static final String[] activities = {
        "Go Back", "Cycling", "Kayaking", "Kendo", "Running", "Skating", "Swimming"
    };
+   
+   private static final String[] adminOptions = {
+       "Logout", "Delete User", "Add Event", "Update Event", "Delete Event"
+   };
 
 
 
@@ -96,8 +100,8 @@ public class FitnessUM {
      */
     public void shutdown() {
         try{
-            this.userController.writeToFile("dataFile");
             this.active = false;
+            this.userController.writeToFile("dataFile");
         }
         catch(IOException e){System.out.println("Write error");}
     }
@@ -182,8 +186,6 @@ public class FitnessUM {
                 logged = true;
             else
                 System.out.println("Password and email don't match. " + (3 - ++nrAttempts) + " attempt(s) remaining.");
-            
-            System.out.println(this.userController.getCurrentUser());
         }
 
         if (! logged) {
@@ -192,6 +194,14 @@ public class FitnessUM {
         }
         else greet();
     }
+
+	public void deleteUser() {
+		String email = Scan.email();
+		String answer = Scan.yesNo("Are you sure you want to delete user with given email?");
+
+		if ( answer.equals("yes") || answer.equals("y") )
+			this.userController.deleteUser(email);
+	}
 
     private void greet() {
         System.out.println("\nWelcome "+ this.userController.getCurrentUser().getName() );
@@ -411,7 +421,24 @@ public class FitnessUM {
 
         this.userController.addActivity( new Swimming(startDate, duration, distance));
     }
+	
+	/** Scans the admin for event details, saving the event in the event controller
+	 */
+	public void addEvent() {
+		System.out.println("Yet to be implemented");
+	}
 
+	/** Scans the admin for event name, prompting for new event details and updating it
+	 */
+	public void updateEvent() {
+		System.out.println("Yet to be implemented");
+	}
+
+	/** Scans the admin for event name, deleting the event
+	 */
+	public void deleteEvent() {
+		System.out.println("Yet to be implemented");
+	}
 
     /** Scans the user for gender, height, weight, birth date and favorite sport
      * @return u UserInfo containing scanned information
@@ -459,14 +486,26 @@ public class FitnessUM {
         this.getStartPrompt()[option].exec();
     }
 
-    /** Reads user input and launches a chain of events accordingly
-     */
-    public void commandInterpreter() {
+	/** Shows the main options for regular users, reading the input for the options
+	 *  and launching the corresponding events accordingly
+	 */
+	public void userInterpreter() {
         System.out.println( "Choose one of the following options.");
-        FitnessUM.printMainOptions();
+	    FitnessUM.printMainOptions();
         int option = Scan.menuOption(0, 8);
         this.getMainPrompt()[option].exec();
-    }
+	}
+
+	/** Shows the main options for admin users, reading the input and launching events
+	 * Beware as these options include creating and destroying events as well destroying users
+	 */
+	public void adminInterpreter() {
+		System.out.println("You are on an admin account. We trust you know what you are doing.\nWith great power comes great responsability.\n");
+		FitnessUM.printAdminOptions();
+		int option = Scan.menuOption(0, 4); // Logout, Delete user, Create, Update, Delete Activity
+		this.getAdminPrompt()[option].exec();
+	}
+
 
     /** Controls the main flow of events.
      */
@@ -474,19 +513,34 @@ public class FitnessUM {
         System.out.println("\nWelcome to FitnessUM");
 
         this.getStartOption();
-        while ( this.isActive() )
-            this.commandInterpreter();
+        if( this.userController.isAdminLogin() )
+            while( this.isActive() )
+                this.adminInterpreter();
 
+        else
+            while( this.isActive() )
+              this.userInterpreter();
     }
 
     private Prompt[] getStartPrompt() {
         final FitnessUM app = this;
         return new Prompt[] {
-            new Prompt() { public void exec() { app.shutdown(); } },
+            new Prompt() { public void exec() { FitnessUM.devPrompt(); app.shutdown(); } },
             new Prompt() { public void exec() { app.registerUser();} },
             new Prompt() { public void exec() { app.loginUser();} }
         };
     }
+
+	private Prompt[] getAdminPrompt() {
+		final FitnessUM app = this;
+		return new Prompt[] {
+			new Prompt() { public void exec() { FitnessUM.devPrompt(); app.shutdown(); } },
+			new Prompt() { public void exec() { app.deleteUser(); } },
+			new Prompt() { public void exec() { app.addEvent(); } },
+			new Prompt() { public void exec() { app.updateEvent(); } },
+			new Prompt() { public void exec() { app.deleteEvent(); } }
+		};
+	}
 
     private Prompt[] getMainPrompt() {
         final FitnessUM app = this;
@@ -514,8 +568,8 @@ public class FitnessUM {
      public Prompt[] getStatsTypePrompt(){
         final FitnessUM app = this;
         return new Prompt[]{
-            new Prompt(){ public void exec(){ return;}},
-            new Prompt(){ public void exec(){ app.showStatsOverview(); } },
+            new Prompt() { public void exec() { return; }},
+            new Prompt() { public void exec() { app.showStatsOverview(); } },
             new Prompt() { public void exec() { app.showAnnualStats(); } },
             new Prompt() { public void exec() { app.showMonthlyStats(); } }
         };
@@ -555,6 +609,12 @@ public class FitnessUM {
     private static void printActivities() {
         int i = 0;
         for (String s : FitnessUM.activities)
+            System.out.println(i++ + ". " + s);
+    }
+    
+    private static void printAdminOptions() {
+        int i = 0;
+        for(String s : FitnessUM.adminOptions)
             System.out.println(i++ + ". " + s);
     }
 

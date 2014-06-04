@@ -194,6 +194,24 @@ public class UserController implements Serializable {
 
         return list;
     }
+    
+    public ArrayList<User> getFriendList(int id) {
+        User u = this.database.findById(id);
+        ArrayList<User> list = new ArrayList<User>();
+
+        for (int i : u.getFriends() )
+            list.add( this.database.findById(i) );
+
+        return list;
+    }
+    
+    private void deleteUserFromFriends(int id) {
+        ArrayList<User> friends = this.getFriendList(id);
+        for (User u : friends) {
+            u.deleteFriend(id);
+            this.database.save(u);
+        }
+    }
 
     public void addActivity(Activity act){
         currentUser.addActivity(act);
@@ -239,14 +257,17 @@ public class UserController implements Serializable {
     }
 
     public void deleteUser(int id) {
+        deleteUserFromFriends(id);
         this.database.delete(id);
     }
     
     public void deleteUser(String email) {
+        deleteUserFromFriends( this.database.findByEmail(email).getId() );
         this.database.delete(email);
     }
     
     public void deleteUser(User u) {
+        deleteUserFromFriends( u.getId() );
         this.database.delete(u);
     }
     

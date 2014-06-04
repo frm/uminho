@@ -11,13 +11,7 @@ import java.util.regex.Pattern;
  *
  * @author frmendes
  */
-public class Scan {
-
-    private Scanner stream;
-
-    public Scan(InputStream stream) {
-        this.stream = new Scanner(stream);
-    }
+public abstract class Scan {
 
     public static String dateFormat(GregorianCalendar c) {
         return new SimpleDateFormat("dd/MM/yyyy").format( c.getTime() );
@@ -285,6 +279,19 @@ public class Scan {
         System.out.println(message);
         return new Scanner(System.in).nextLine();
     }
+	
+	/** Scans the user for a yes or no answer. y and n are also valid
+	 * @param message to be displayed
+	 * @return User answer downcased
+	 */
+
+	public static String yesNo(String message) {
+		String ans = Scan.scanString(message);
+		if( ans.equals("yes") || ans.equals("y") || ans.equals("n") || ans.equals("no") )
+			return ans;
+		else return Scan.yesNo(message);
+	}
+
 
     /** Scans the user for a password
      * @return user password
