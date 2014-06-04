@@ -246,7 +246,9 @@ public class FitnessUM {
     }
 
     public void friendsFeed(){
-        System.out.println ( this.userController.getFriendsFeed().toString() );
+        Set<Tuple<String, Activity>> feed = this.userController.getFriendsFeed();
+        for(Tuple<String, Activity> t : feed)
+            System.out.println("\t###\nUser: " + t.getKey() + "\n" + t.getValue() + "\t###\n" );
     }
 
     public void userProfile() {
