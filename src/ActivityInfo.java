@@ -79,10 +79,26 @@ public class ActivityInfo implements Serializable{
         return result;
     }
     
-    public void addActivity(Activity act){
-        stats.addStat(act);
-        records.addRecords(act);
-        activityLog.add(act);
+    public boolean isAliasedActivity(Activity act) {
+        Iterator<Activity> it = this.activityLog.iterator();
+        boolean alias = false;
+        
+        while( it.hasNext() && !alias )
+            alias = act.aliasOf( it.next() );
+        
+        return alias;
+    }
+    
+    public boolean addActivity(Activity act) {
+        boolean valid = !isAliasedActivity(act);
+        
+        if(valid) {
+            stats.addStat(act);
+            records.addRecords(act);
+            activityLog.add(act);
+        }
+        
+        return valid;        
     }
     
     public boolean removeActivity(Activity act){

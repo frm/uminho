@@ -252,9 +252,10 @@ public class UserController implements Serializable {
         }
     }
 
-    public void addActivity(Activity act){
-        currentUser.addActivity(act);
-        database.save(currentUser);
+    public boolean addActivity(Activity act){
+        boolean validActivity = currentUser.addActivity(act);
+        if(validActivity) database.save(currentUser);
+        return validActivity;
     }
 
     public void removeActivity(Activity act){

@@ -12,8 +12,8 @@ import java.util.Map;
  *
  * @author frmendes
  */
-public class FeedComparator implements Comparator <Map.Entry<String, Activity> >, Serializable {
-    public int compare(Map.Entry<String, Activity> a1, Map.Entry<String, Activity> a2) {
+public class FeedComparator implements Comparator< Tuple<String, Activity> >, Serializable {
+    public int compare(Tuple<String, Activity> a1, Tuple<String, Activity> a2) {
         int compare = new ActivityComparator().compare(a1.getValue(), a2.getValue() );
         if (compare < 0) return 1;
         if (compare > 0) return -1;

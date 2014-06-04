@@ -274,7 +274,7 @@ public class FitnessUM {
     public void rejectFriend(User u) {
         this.userController.rejectFriendRequest(u);
     }
-    
+
     public boolean currentUserHasFriend(User u) {
         return this.userController.getCurrentUser().hasFriend(u);
     }
@@ -356,14 +356,14 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.addSwimming();} }
         };
     }
-    
+
     public boolean beforeBirth(GregorianCalendar date){
         long userBirth = userController.getCurrentUser().getInfo().getBirthDate().getTimeInMillis();
         if (date.getTimeInMillis() < userBirth) return true;
         else return false;
-        
+
     }
-    
+
     public GregorianCalendar getStartDate(){
         GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "When did you start (hh:mm:ss)");
         if( beforeBirth(date) ) {
@@ -392,10 +392,12 @@ public class FitnessUM {
 
         int distance = Scan.scanInt("What was the distance? (meters)");
         int altitude = Scan.scanInt("What was the altitude? (meters)");
-        this.listWeatherOptions();
         int weather = Scan.scanInt(this.listWeatherOptions());
 
-        this.userController.addActivity( new Cycling(startDate, duration, distance, altitude, weather));
+        if( ! this.userController.addActivity( new Cycling(startDate, duration, distance, altitude, weather) ) ) {
+            System.out.println("\nInvalid activity");
+            Scan.pressEnterToContinue();
+        }
     }
 
     public void addKayaking(){
@@ -410,24 +412,29 @@ public class FitnessUM {
         }
 
         int distance = Scan.scanInt("What was the distance? (meters)");
-        this.listWeatherOptions();
         int weather = Scan.scanInt(this.listWeatherOptions());
 
-        this.userController.addActivity( new Kayaking(startDate, duration, distance, weather));
+        if( !this.userController.addActivity( new Kayaking(startDate, duration, distance, weather) ) ) {
+            System.out.println("\nInvalid activity");
+            Scan.pressEnterToContinue();
+        }
     }
 
-    public void addKendo(){
+    public void addKendo() {
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
 
-        while(duration <= 0){
+        while(duration <= 0) {
             startDate = getStartDate();
             duration = getDuration(startDate);
             if (duration <= 0)
                 System.out.println("Invalid finish time\n");
         }
 
-        this.userController.addActivity( new Kendo(startDate, duration));
+        if (! this.userController.addActivity( new Kendo(startDate, duration) ) ) {
+            System.out.println("\nInvalid activity");
+            Scan.pressEnterToContinue();
+        }
     }
 
     public void addRunning(){
@@ -443,10 +450,12 @@ public class FitnessUM {
 
         int distance = Scan.scanInt("What was the distance? (meters)");
         int altitude = Scan.scanInt("What was the altitude? (meters)");
-        this.listWeatherOptions();
         int weather = Scan.scanInt(this.listWeatherOptions());
 
-        this.userController.addActivity( new Running(startDate, duration, distance, altitude, weather));
+        if( !this.userController.addActivity( new Running(startDate, duration, distance, altitude, weather) ) ) {
+            System.out.println("\nInvalid activity");
+            Scan.pressEnterToContinue();
+        }
     }
 
     public void addSkating(){
@@ -460,10 +469,13 @@ public class FitnessUM {
                 System.out.println("Invalid finish time\n");
         }
 
-        this.userController.addActivity( new Skating(startDate, duration));
+        if( !this.userController.addActivity( new Skating(startDate, duration) ) ) {
+            System.out.println("\nInvalid activity");
+            Scan.pressEnterToContinue();
+        }
     }
 
-    public void addSwimming(){
+    public void addSwimming() {
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
 
@@ -476,26 +488,29 @@ public class FitnessUM {
 
         int distance = Scan.scanInt("What was the distance? (meters)");
 
-        this.userController.addActivity( new Swimming(startDate, duration, distance));
+        if( !this.userController.addActivity( new Swimming(startDate, duration, distance) ) ) {
+            System.out.println("\nInvalid activity");
+            Scan.pressEnterToContinue();
+        }
     }
 
-	/** Scans the admin for event details, saving the event in the event controller
-	 */
-	public void addEvent() {
-		System.out.println("Yet to be implemented");
-	}
+    /** Scans the admin for event details, saving the event in the event controller
+     */
+    public void addEvent() {
+	System.out.println("Yet to be implemented");
+    }
 
-	/** Scans the admin for event name, prompting for new event details and updating it
-	 */
-	public void updateEvent() {
-		System.out.println("Yet to be implemented");
-	}
+    /** Scans the admin for event name, prompting for new event details and updating it
+     */
+    public void updateEvent() {
+    	System.out.println("Yet to be implemented");
+    }
 
-	/** Scans the admin for event name, deleting the event
-	 */
-	public void deleteEvent() {
-		System.out.println("Yet to be implemented");
-	}
+    /** Scans the admin for event name, deleting the event
+     */
+    public void deleteEvent() {
+    	System.out.println("Yet to be implemented");
+    }
 
     /** Scans the user for gender, height, weight, birth date and favorite sport
      * @return u UserInfo containing scanned information
