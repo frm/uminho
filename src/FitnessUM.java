@@ -228,8 +228,7 @@ public class FitnessUM {
             email = Scan.email();
         }
 
-        String answer = Scan.yesNo("Are you sure you want to delete user with given email?");
-        if ( answer.equals("yes") || answer.equals("y") )
+        if ( Scan.yesNo("Are you sure you want to delete user with given email?") )
             try {
                 this.userController.deleteUser(email);
             } catch (InexistingUserException e) {
