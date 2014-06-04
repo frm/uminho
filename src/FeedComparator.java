@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class FeedComparator implements Comparator <Map.Entry<String, Activity> >, Serializable {
     public int compare(Map.Entry<String, Activity> a1, Map.Entry<String, Activity> a2) {
-        int compare = a1.getValue().getDate().compareTo( a2.getValue().getDate() );
+        int compare = new ActivityComparator().compare(a1.getValue(), a2.getValue() );
         if (compare < 0) return 1;
         if (compare > 0) return -1;
         else {
