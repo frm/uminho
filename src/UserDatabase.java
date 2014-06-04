@@ -142,7 +142,7 @@ public class UserDatabase implements Serializable{
          this.adminEntry.put( au.getEmail(), new AdminUser(au) );
      }
 
-     public void addAdmin(String name, String email, String password) {
+     public void addAdmin(String name, String password, String email) {
          addAdmin( new AdminUser(name, password, email) );
      }
 

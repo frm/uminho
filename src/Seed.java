@@ -18,9 +18,9 @@ public class Seed {
         this.app = app.clone();
     }
     
-    private void generateAdmin() {
+    private void addAdmin() {
         UserController uc = this.app.getUserController();
-        // add admin
+        uc.registerAdmin("Admin", "admin", "admin@fitnessum.com");
         this.app.setUserController(uc);
     }
     
@@ -56,7 +56,8 @@ public class Seed {
     }
     
     public FitnessUM generate() {
-        this.addTestUsers();
+        addTestUsers();
+        addAdmin();
         return this.app;
     }
     

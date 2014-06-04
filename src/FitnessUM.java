@@ -40,7 +40,7 @@ public class FitnessUM {
    };
    
    private static final String[] adminOptions = {
-       "Logout", "Delete User", "Add Event", "Update Event", "Delete Event"
+       "Logout", "Add Admin", "Delete User", "Add Event", "Update Event", "Delete Event"
    };
 
 
@@ -123,6 +123,20 @@ public class FitnessUM {
         this.userController.registerUser(name, email, password, info);
         this.userController.loginUser(email, password);
     }
+    
+    public void registerAdmin() {
+        String name = Scan.name("\nAdmin name: ");
+        String email = Scan.email();
+        
+        while( ! this.userController.validAdminEmail(email) ) {
+            System.out.println("Invalid email");
+            email = Scan.email();
+        }
+        
+        String password = Scan.password();
+        
+        this.userController.registerAdmin(name, password, email);
+    }
 
     public void updateUser() {
         System.out.println("You are about to update your settings.\nIf you do not wish to update a particular field, simply press Enter or input 0 in numeric fields.");
@@ -195,18 +209,19 @@ public class FitnessUM {
         else greet();
     }
 
-	public void deleteUser() {
-		String email = Scan.email();
-		String answer = Scan.yesNo("Are you sure you want to delete user with given email?");
-
-		if ( answer.equals("yes") || answer.equals("y") )
-			this.userController.deleteUser(email);
-	}
+    public void deleteUser() {
+        String email = Scan.email();
+        String answer = Scan.yesNo("Are you sure you want to delete user with given email?");
+           if ( answer.equals("yes") || answer.equals("y") )
+            this.userController.deleteUser(email);
+    }
 
     private void greet() {
-        System.out.println("\nWelcome "+ this.userController.getCurrentUser().getName() );
-        if ( this.userController.hasFriendRequests() )
-            System.out.println("You have friend requests!");
+        if( this.userController.getCurrentUser() != null ) {
+            System.out.println("\nWelcome "+ this.userController.getCurrentUser().getName() );
+            if ( this.userController.hasFriendRequests() )
+                System.out.println("You have friend requests!");
+        }
     }
 
     public void userProfile() {
@@ -502,7 +517,7 @@ public class FitnessUM {
 	public void adminInterpreter() {
 		System.out.println("You are on an admin account. We trust you know what you are doing.\nWith great power comes great responsability.\n");
 		FitnessUM.printAdminOptions();
-		int option = Scan.menuOption(0, 4); // Logout, Delete user, Create, Update, Delete Activity
+		int option = Scan.menuOption(0, 5);
 		this.getAdminPrompt()[option].exec();
 	}
 
@@ -531,16 +546,17 @@ public class FitnessUM {
         };
     }
 
-	private Prompt[] getAdminPrompt() {
-		final FitnessUM app = this;
-		return new Prompt[] {
-			new Prompt() { public void exec() { FitnessUM.devPrompt(); app.shutdown(); } },
-			new Prompt() { public void exec() { app.deleteUser(); } },
-			new Prompt() { public void exec() { app.addEvent(); } },
-			new Prompt() { public void exec() { app.updateEvent(); } },
-			new Prompt() { public void exec() { app.deleteEvent(); } }
-		};
-	}
+    private Prompt[] getAdminPrompt() {
+        final FitnessUM app = this;
+        return new Prompt[] {
+            new Prompt() { public void exec() { app.run(); } },
+            new Prompt() { public void exec() { app.registerAdmin(); } },
+            new Prompt() { public void exec() { app.deleteUser(); } },
+            new Prompt() { public void exec() { app.addEvent(); } },
+            new Prompt() { public void exec() { app.updateEvent(); } },
+            new Prompt() { public void exec() { app.deleteEvent(); } }
+        };
+    }
 
     private Prompt[] getMainPrompt() {
         final FitnessUM app = this;

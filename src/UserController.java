@@ -48,6 +48,9 @@ public class UserController implements Serializable {
     }
 
     public User getCurrentUser() {
+        if(this.adminLogged)
+            return null;
+        
         return this.currentUser.clone();
     }
 
@@ -70,14 +73,25 @@ public class UserController implements Serializable {
     public void registerUser(String name, String email, String password, UserInfo info) {
         this.database.save( new User(name, password, email, info) );
     }
+    
+    public void registerAdmin(String name, String password, String email) {
+        this.database.addAdmin( new AdminUser(name, password, email) );
+    }
 
     public boolean existsUserWithEmail(String email) {
-        return !this.validateEmailUniqueness(email);
+        boolean existsUserEmail = !this.validateEmailUniqueness(email);
+        boolean existsAdminEmail = !this.validAdminUniqueness(email);
+        return (existsAdminEmail || existsUserEmail);
     }
     
     public boolean validUserEmail(String email) {
-        return this.validAdminUniqueness(email) && ! UserController.isAdminEmail(email);
+        return this.validateEmailUniqueness(email) && ! UserController.isAdminEmail(email);
     }
+    
+    public boolean validAdminEmail(String email) {
+        return this.validAdminUniqueness(email) && UserController.isAdminEmail(email);
+    }
+    
 
     public ArrayList<User> nameSearch(String name) {
         return this.database.searchName(name);
@@ -326,7 +340,7 @@ public class UserController implements Serializable {
     }
 
     public static boolean isAdminEmail(String email) {
-        return email.contains("@fitnessum");
+        return email.contains("@fitnessum.com");
     }
 
 }
