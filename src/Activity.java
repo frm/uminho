@@ -7,8 +7,7 @@ import java.util.GregorianCalendar;
   class chain: Activity -> ActivityDistance -> ActivityAltitude
 */
 
-public abstract class Activity implements Serializable
-{
+public abstract class Activity implements Serializable {
   private double calories;
   private GregorianCalendar date;
   private long duration;
@@ -33,39 +32,46 @@ public abstract class Activity implements Serializable
   
     //setters
     
-    void setDate(GregorianCalendar date) {
+    public void setDate(GregorianCalendar date) {
         this.date = (GregorianCalendar) date.clone();
     }
     
-    void setDuration(long duration) {
+    public void setDuration(long duration) {
         this.duration = duration;
     }
     
-    void setCalories(int calories) {
+    public void setCalories(int calories) {
         this.calories = calories;
     }
 
-
-    GregorianCalendar getDate() {
+    public GregorianCalendar getDate() {
         return (GregorianCalendar) this.date.clone();
     }
     
-    long getDuration() {
+    public long getDuration() {
         return this.duration;
     }
     
-    double getCalories() {
+    public double getCalories() {
         return this.calories;
     }
     
-    String getName(){
+    public String getName(){
         return this.getClass().getSimpleName();
     }
     
-    void setCalories(double calories){
+    public void setCalories(double calories){
         this.calories = calories;
     }
     
+    public boolean aliasOf(Activity a) {
+        long currStartTime = this.date.getTimeInMillis();
+        long actStartTime = a.getDate().getTimeInMillis();
+        boolean upperAlias = this.duration + currStartTime > actStartTime && currStartTime < actStartTime;
+        boolean lowerAlias = a.getDuration() + actStartTime > currStartTime && actStartTime < currStartTime;
+        
+        return upperAlias || lowerAlias;
+    }
  
     public abstract Activity clone();
     

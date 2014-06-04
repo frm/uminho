@@ -23,6 +23,7 @@ public class AltitudeRecordEntry extends DistanceRecordEntry{
     
     public AltitudeRecordEntry(Activity act){
         super(act);
+        this.altitudeMilestones = new AltitudeMilestones();
         this.altitudeMilestones.addData(act);
     }
 
