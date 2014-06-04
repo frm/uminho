@@ -234,8 +234,10 @@ public class UserController implements Serializable {
     
     private void deleteUserRequests(int id) {
         for(User u : this.database.all() ) {
-            if ( u.hasReceivedRequest(id) )
+            if ( u.hasReceivedRequest(id) ) {
                 u.rejectFriendRequest(id);
+                this.database.save(u);
+            }
         }
     }
 
