@@ -180,6 +180,11 @@ public class FitnessUM {
          p[option].exec();
     }
 
+    public void logoutUser() {
+        if ( this.userController.isAdminLogin() )
+            this.userController.logoutAdmin();
+    }
+    
     /** Scans for valid login info and sets the current_user
      */
     public void loginUser() {
@@ -210,6 +215,7 @@ public class FitnessUM {
     }
 
     public void deleteUser() {
+        // missing delete from events
         String email = Scan.email();
         String answer = Scan.yesNo("Are you sure you want to delete user with given email?");
            if ( answer.equals("yes") || answer.equals("y") )
@@ -549,7 +555,7 @@ public class FitnessUM {
     private Prompt[] getAdminPrompt() {
         final FitnessUM app = this;
         return new Prompt[] {
-            new Prompt() { public void exec() { app.run(); } },
+            new Prompt() { public void exec() { app.logoutUser(); app.run(); } },
             new Prompt() { public void exec() { app.registerAdmin(); } },
             new Prompt() { public void exec() { app.deleteUser(); } },
             new Prompt() { public void exec() { app.addEvent(); } },
@@ -561,7 +567,7 @@ public class FitnessUM {
     private Prompt[] getMainPrompt() {
         final FitnessUM app = this;
         return new Prompt[] {
-            new Prompt() { public void exec() { app.run(); } },
+            new Prompt() { public void exec() { app.logoutUser(); app.run(); } },
             new Prompt() { public void exec() { app.userProfile(); } },
             new Prompt() { public void exec() { app.viewFriendRequests(); } },
             new Prompt() { public void exec() { app.listFriends(); }},

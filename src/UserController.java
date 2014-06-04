@@ -61,6 +61,10 @@ public class UserController implements Serializable {
     public boolean isAdminLogin() {
         return this.adminLogged;
     }
+    
+    public void logoutAdmin() {
+        this.adminLogged = false;
+    }
 
     public boolean validateEmailUniqueness(String email) {
         return this.database.findByEmail(email) == null;
@@ -223,6 +227,9 @@ public class UserController implements Serializable {
         ArrayList<User> friends = this.getFriendList(id);
         for (User u : friends) {
             u.deleteFriend(id);
+            if (u.hasReceivedRequest(id) )
+                u.removeSentRequest(id);
+            
             this.database.save(u);
         }
     }
