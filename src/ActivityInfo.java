@@ -79,9 +79,10 @@ public class ActivityInfo implements Serializable{
         return result;
     }
     
-    public boolean addActivity(Activity act){
+    public void addActivity(Activity act){
         stats.addStat(act);
-        return activityLog.add(act);
+        records.addRecords(act);
+        activityLog.add(act);
     }
     
     public boolean removeActivity(Activity act){

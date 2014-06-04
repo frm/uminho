@@ -228,8 +228,7 @@ public class FitnessUM {
             email = Scan.email();
         }
 
-        String answer = Scan.yesNo("Are you sure you want to delete user with given email?");
-        if ( answer.equals("yes") || answer.equals("y") )
+        if ( Scan.yesNo("Are you sure you want to delete user with given email?") )
             try {
                 this.userController.deleteUser(email);
             } catch (InexistingUserException e) {
@@ -274,6 +273,10 @@ public class FitnessUM {
 
     public void rejectFriend(User u) {
         this.userController.rejectFriendRequest(u);
+    }
+    
+    public boolean currentUserHasFriend(User u) {
+        return this.userController.getCurrentUser().hasFriend(u);
     }
 
     private void viewFriendRequests() {

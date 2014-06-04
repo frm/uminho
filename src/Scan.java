@@ -285,10 +285,10 @@ public abstract class Scan {
 	 * @return User answer downcased
 	 */
 
-	public static String yesNo(String message) {
+	public static boolean yesNo(String message) {
 		String ans = Scan.scanString(message);
 		if( ans.equals("yes") || ans.equals("y") || ans.equals("n") || ans.equals("no") )
-			return ans;
+			return true;
 		else return Scan.yesNo(message);
 	}
 

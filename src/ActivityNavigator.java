@@ -37,8 +37,9 @@ public class ActivityNavigator extends Navigator<Activity>{
         System.out.println( act );
     }
     
-    public void select(Activity act){
-        app.removeActivity(act);
+    public void select(Activity act){ 
+        if( Scan.yesNo("Are you sure you want to delete the activity?"))
+            app.removeActivity(act);
     }
 
     public int getCategory() {
