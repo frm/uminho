@@ -38,7 +38,7 @@ public class FitnessUM {
    private static final String[] activities = {
        "Go Back", "Cycling", "Kayaking", "Kendo", "Running", "Skating", "Swimming"
    };
-   
+
    private static final String[] adminOptions = {
        "Logout", "Add Admin", "Delete User", "Add Event", "Update Event", "Delete Event"
    };
@@ -123,18 +123,18 @@ public class FitnessUM {
         this.userController.registerUser(name, email, password, info);
         this.userController.loginUser(email, password);
     }
-    
+
     public void registerAdmin() {
         String name = Scan.name("\nAdmin name: ");
         String email = Scan.email();
-        
+
         while( ! this.userController.validAdminEmail(email) ) {
             System.out.println("Invalid email");
             email = Scan.email();
         }
-        
+
         String password = Scan.password();
-        
+
         this.userController.registerAdmin(name, password, email);
     }
 
@@ -152,7 +152,12 @@ public class FitnessUM {
         String password = Scan.updatePassword();
         UserInfo info = readUpdateInfo();
 
-        this.userController.updateUser(name, email, password, info);
+        try {
+            this.userController.updateUser(name, email, password, info);
+        } catch (InexistingUserException e) {
+            System.out.println("Fatal error, inexisting user");
+            this.shutdown();
+        }
     }
 
     private void searchUserByName() {
@@ -184,7 +189,7 @@ public class FitnessUM {
         if ( this.userController.isAdminLogin() )
             this.userController.logoutAdmin();
     }
-    
+
     /** Scans for valid login info and sets the current_user
      */
     public void loginUser() {
@@ -194,7 +199,7 @@ public class FitnessUM {
         while (nrAttempts < 3 && !logged) {
             String email = Scan.scanString("Enter email:");
 
-            while ( !this.userController.existsUserWithEmail(email) ) {
+            while ( !this.userController.existsEmail(email) ) {
                System.out.println("We have no record of that email...");
                email = Scan.scanString("Enter email:");
             }
@@ -217,9 +222,19 @@ public class FitnessUM {
     public void deleteUser() {
         // missing delete from events
         String email = Scan.email();
+
+        while( !this.userController.existsUser(email) ) {
+            System.out.println("User does not exist");
+            email = Scan.email();
+        }
+
         String answer = Scan.yesNo("Are you sure you want to delete user with given email?");
-           if ( answer.equals("yes") || answer.equals("y") )
-            this.userController.deleteUser(email);
+        if ( answer.equals("yes") || answer.equals("y") )
+            try {
+                this.userController.deleteUser(email);
+            } catch (InexistingUserException e) {
+                System.out.println("User does not exist");
+            }
     }
 
     private void greet() {
@@ -229,7 +244,7 @@ public class FitnessUM {
                 System.out.println("You have friend requests!");
         }
     }
-    
+
     public void friendsFeed(){
         System.out.println ( this.userController.getFriendsFeed().toString() );
     }
@@ -340,24 +355,24 @@ public class FitnessUM {
     public GregorianCalendar getStartDate(){
         return Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "When did you start (hh:mm:ss)");
     }
-    
+
     public long getDuration(GregorianCalendar startDate){
         GregorianCalendar endDate = Scan.time("When did you finish? (hh:mm:ss)");
         endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DATE));
         return endDate.getTimeInMillis() - startDate.getTimeInMillis();
     }
-    
+
     public void addCycling(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
- 
+
         while(duration <= 0){
             startDate = getStartDate();
             duration = getDuration(startDate);
-            if (duration <= 0) 
+            if (duration <= 0)
                 System.out.println("Invalid finish time\n");
         }
-        
+
         int distance = Scan.scanInt("What was the distance? (meters)");
         int altitude = Scan.scanInt("What was the altitude? (meters)");
         this.listWeatherOptions();
@@ -369,14 +384,14 @@ public class FitnessUM {
     public void addKayaking(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
- 
+
         while(duration <= 0){
             startDate = getStartDate();
             duration = getDuration(startDate);
-            if (duration <= 0) 
+            if (duration <= 0)
                 System.out.println("Invalid finish time\n");
         }
-        
+
         int distance = Scan.scanInt("What was the distance? (meters)");
         this.listWeatherOptions();
         int weather = Scan.scanInt(this.listWeatherOptions());
@@ -387,11 +402,11 @@ public class FitnessUM {
     public void addKendo(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
- 
+
         while(duration <= 0){
             startDate = getStartDate();
             duration = getDuration(startDate);
-            if (duration <= 0) 
+            if (duration <= 0)
                 System.out.println("Invalid finish time\n");
         }
 
@@ -401,11 +416,11 @@ public class FitnessUM {
     public void addRunning(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
- 
+
         while(duration <= 0){
             startDate = getStartDate();
             duration = getDuration(startDate);
-            if (duration <= 0) 
+            if (duration <= 0)
                 System.out.println("Invalid finish time\n");
         }
 
@@ -420,11 +435,11 @@ public class FitnessUM {
     public void addSkating(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
- 
+
         while(duration <= 0){
             startDate = getStartDate();
             duration = getDuration(startDate);
-            if (duration <= 0) 
+            if (duration <= 0)
                 System.out.println("Invalid finish time\n");
         }
 
@@ -434,11 +449,11 @@ public class FitnessUM {
     public void addSwimming(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
- 
+
         while(duration <= 0){
             startDate = getStartDate();
             duration = getDuration(startDate);
-            if (duration <= 0) 
+            if (duration <= 0)
                 System.out.println("\nINVALID FINISH TIME\n");
         }
 
@@ -446,7 +461,7 @@ public class FitnessUM {
 
         this.userController.addActivity( new Swimming(startDate, duration, distance));
     }
-	
+
 	/** Scans the admin for event details, saving the event in the event controller
 	 */
 	public void addEvent() {
@@ -477,8 +492,8 @@ public class FitnessUM {
         u.setFavoriteSport( Scan.sport() );
 
         return u;
-    }          
-    
+    }
+
     public static void importData(){
         FitnessUM app = new FitnessUM();
         UserController uc = new UserController();
@@ -511,25 +526,25 @@ public class FitnessUM {
         this.getStartPrompt()[option].exec();
     }
 
-	/** Shows the main options for regular users, reading the input for the options
-	 *  and launching the corresponding events accordingly
-	 */
-	public void userInterpreter() {
+    /** Shows the main options for regular users, reading the input for the options
+     *  and launching the corresponding events accordingly
+     */
+    public void userInterpreter() {
         System.out.println( "Choose one of the following options.");
 	    FitnessUM.printMainOptions();
         int option = Scan.menuOption(0, 9);
         this.getMainPrompt()[option].exec();
-	}
+    }
 
-	/** Shows the main options for admin users, reading the input and launching events
-	 * Beware as these options include creating and destroying events as well destroying users
-	 */
-	public void adminInterpreter() {
-		System.out.println("You are on an admin account. We trust you know what you are doing.\nWith great power comes great responsability.\n");
-		FitnessUM.printAdminOptions();
-		int option = Scan.menuOption(0, 5);
-		this.getAdminPrompt()[option].exec();
-	}
+    /** Shows the main options for admin users, reading the input and launching events
+     * Beware as these options include creating and destroying events as well destroying users
+     */
+    public void adminInterpreter() {
+        System.out.println("You are on an admin account. We trust you know what you are doing.\nWith great power comes great responsability.\n");
+        FitnessUM.printAdminOptions();
+        int option = Scan.menuOption(0, 5);
+        this.getAdminPrompt()[option].exec();
+    }
 
 
     /** Controls the main flow of events.
@@ -638,7 +653,7 @@ public class FitnessUM {
         for (String s : FitnessUM.activities)
             System.out.println(i++ + ". " + s);
     }
-    
+
     private static void printAdminOptions() {
         int i = 0;
         for(String s : FitnessUM.adminOptions)

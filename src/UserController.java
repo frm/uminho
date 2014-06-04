@@ -52,7 +52,7 @@ public class UserController implements Serializable {
     public User getCurrentUser() {
         if(this.adminLogged)
             return null;
-        
+
         return this.currentUser.clone();
     }
 
@@ -63,7 +63,7 @@ public class UserController implements Serializable {
     public boolean isAdminLogin() {
         return this.adminLogged;
     }
-    
+
     public void logoutAdmin() {
         this.adminLogged = false;
     }
@@ -79,25 +79,33 @@ public class UserController implements Serializable {
     public void registerUser(String name, String email, String password, UserInfo info) {
         this.database.save( new User(name, password, email, info) );
     }
-    
+
     public void registerAdmin(String name, String password, String email) {
         this.database.addAdmin( new AdminUser(name, password, email) );
     }
 
-    public boolean existsUserWithEmail(String email) {
+    public boolean existsUser(String email) {
+        return !this.validateEmailUniqueness(email);
+    }
+
+    public boolean existsAdmin(String email) {
+        return !this.validAdminUniqueness(email);
+    }
+
+    public boolean existsEmail(String email) {
         boolean existsUserEmail = !this.validateEmailUniqueness(email);
         boolean existsAdminEmail = !this.validAdminUniqueness(email);
-        return (existsAdminEmail || existsUserEmail);
+        return existsUser(email) || existsAdmin(email);
     }
-    
+
     public boolean validUserEmail(String email) {
         return this.validateEmailUniqueness(email) && ! UserController.isAdminEmail(email);
     }
-    
+
     public boolean validAdminEmail(String email) {
         return this.validAdminUniqueness(email) && UserController.isAdminEmail(email);
     }
-    
+
 
     public ArrayList<User> nameSearch(String name) {
         return this.database.searchName(name);
@@ -120,7 +128,7 @@ public class UserController implements Serializable {
 
         return match;
     }
-    
+
     private boolean adminUserLogin(String email, String password) {
         AdminUser au = this.database.findAdmin(email);
         boolean match = false;
@@ -214,7 +222,7 @@ public class UserController implements Serializable {
 
         return list;
     }
-    
+
     public ArrayList<User> getFriendList(int id) {
         User u = this.database.findById(id);
         ArrayList<User> list = new ArrayList<User>();
@@ -224,16 +232,16 @@ public class UserController implements Serializable {
 
         return list;
     }
-    
+
     private void deleteUserFromFriends(int id) {
         ArrayList<User> friends = this.getFriendList(id);
         for (User u : friends) {
             u.deleteFriend(id);
-            
+
             this.database.save(u);
         }
     }
-    
+
     private void deleteUserRequests(int id) {
         for(User u : this.database.all() ) {
             if ( u.hasReceivedRequest(id) ) {
@@ -272,13 +280,13 @@ public class UserController implements Serializable {
     public String showMonthlyStats(int year, int month) throws StatsNotAvailable{
         return this.currentUser.showMonthlyStats(year, month);
     }
-    
+
     public void writeToFile(String fich) throws IOException{
         ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(fich) );
         oos.writeObject(this.database);
         oos.flush(); oos.close();
     }
-    
+
     public void readFromFile(String fich) throws IOException, ClassNotFoundException{
         ObjectInputStream ois = new ObjectInputStream( new FileInputStream(fich) );
         UserDatabase restored = (UserDatabase) ois.readObject();
@@ -286,25 +294,25 @@ public class UserController implements Serializable {
         this.database = restored;
     }
 
-    public void deleteUser(int id) {
+    public void deleteUser(int id) throws InexistingUserException {
         deleteUserFromFriends(id);
         this.database.delete(id);
     }
-    
-    public void deleteUser(String email) {
+
+    public void deleteUser(String email) throws InexistingUserException {
         int id = this.database.findByEmail(email).getId();
         deleteUserFromFriends(id);
         this.database.delete(email);
         deleteUserRequests(id);
     }
-    
-    public void deleteUser(User u) {
+
+    public void deleteUser(User u) throws InexistingUserException {
         deleteUserFromFriends( u.getId() );
         this.database.delete(u);
         deleteUserRequests( u.getId() );
     }
-    
-    public void updateUser(String name, String email, String pw, UserInfo info) {
+
+    public void updateUser(String name, String email, String pw, UserInfo info)  throws InexistingUserException {
         UserInfo ui = UserInfo.generateValidInfo(this.currentUser.getInfo(), info);
         if (name.length() == 0)
             name = this.currentUser.getName();
@@ -313,8 +321,8 @@ public class UserController implements Serializable {
 
         this.deleteUser( this.currentUser.getId() );
         this.currentUser.updateSettings(name, email, pw, ui);
-        this.database.save(currentUser);        
-    }   
+        this.database.save(currentUser);
+    }
 
     @Override
     public UserController clone() {
@@ -360,20 +368,20 @@ public class UserController implements Serializable {
     public static boolean isAdminEmail(String email) {
         return email.contains("@fitnessum.com");
     }
-    
+
     private void addTenRecent(User usr, TreeSet<Activity> tree){
         ArrayList<Activity> tenRecent = usr.getMostRecentActivities();
         boolean full = false;
         for(Activity act: tenRecent){
             tree.add(act);
-            
-            if(full) 
+
+            if(full)
                 tree.pollLast();
-            else if (tree.size() >= 10) 
+            else if (tree.size() >= 10)
                 full = true;
         }
     }
-    
+
     public Set<Activity> getFriendsFeed(){
         TreeSet<Activity> tree = new TreeSet<Activity>(new ActivityComparator());
         ArrayList<User> friends = this.getFriendList();
@@ -382,7 +390,7 @@ public class UserController implements Serializable {
         }
         return tree;
     }
-    
-    
+
+
 
 }
