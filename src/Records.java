@@ -11,30 +11,57 @@ import java.util.HashMap;
  * @author tiago
  */
 public class Records {
-    private HashMap<Integer, RecordEntry> records;
+    private HashMap<String, RecordEntry> records;
     
     //constructors
     public Records()
-    {this.records = new HashMap<Integer,RecordEntry>();}
+    {this.records = new HashMap<String,RecordEntry>();}
     
-    public Records(HashMap<Integer, RecordEntry> rec)
+    public Records(HashMap<String, RecordEntry> rec)
     {this.records = cloneRecords(rec);}
     
     public Records(Records rec)
     {this.records = rec.getRecords();}
     
+  
+    public void addRecords(Activity act){
+        String name = act.getName();
+        if( this.records.containsKey(name)){
+            RecordEntry entry = this.records.get(name);
+            entry.updateRecords(act);
+            this.records.put(name, entry);
+        }
+        else{
+            this.records.put(name, createNewRecordEntry(act) );
+        }
+    }
+    
+    private RecordEntry createNewRecordEntry(Activity act){
+        RecordEntry result;
+        if(act instanceof AltitudeActivity)
+            result = new AltitudeRecordEntry(act);
+        else if(act instanceof DistanceActivity)
+            result = new DistanceRecordEntry(act);
+        else
+            result = new RecordEntry(act);
+        
+        return result;
+    }
+    
     //getters & setters
-    public HashMap<Integer,RecordEntry> getRecords()
+    public HashMap<String,RecordEntry> getRecords()
     {return cloneRecords(this.records);}
     
-    public void setRecords(HashMap<Integer, RecordEntry> rec)
+    public void setRecords(HashMap<String, RecordEntry> rec)
     {this.records = cloneRecords(rec);}
     
     //methods
-    public HashMap<Integer, RecordEntry> cloneRecords(HashMap<Integer, RecordEntry> rec){
-        HashMap<Integer, RecordEntry> aux = new HashMap<Integer,RecordEntry>();
-        aux.putAll(rec);
-        return aux;
+    private HashMap<String, RecordEntry> cloneRecords(HashMap<String, RecordEntry> entries ) {
+        HashMap<String, RecordEntry> result = new HashMap<String, RecordEntry>();
+        for(RecordEntry rec: entries.values()){
+            result.put(rec.getName(), rec);
+        }
+        return result;
     }
     
     //essentials
