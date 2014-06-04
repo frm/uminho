@@ -229,10 +229,17 @@ public class UserController implements Serializable {
         ArrayList<User> friends = this.getFriendList(id);
         for (User u : friends) {
             u.deleteFriend(id);
-            if (u.hasReceivedRequest(id) )
-                u.removeSentRequest(id);
             
             this.database.save(u);
+        }
+    }
+    
+    private void deleteUserRequests(int id) {
+        for(User u : this.database.all() ) {
+            if ( u.hasReceivedRequest(id) ) {
+                u.rejectFriendRequest(id);
+                this.database.save(u);
+            }
         }
     }
 
@@ -285,13 +292,16 @@ public class UserController implements Serializable {
     }
     
     public void deleteUser(String email) {
-        deleteUserFromFriends( this.database.findByEmail(email).getId() );
+        int id = this.database.findByEmail(email).getId();
+        deleteUserFromFriends(id);
         this.database.delete(email);
+        deleteUserRequests(id);
     }
     
     public void deleteUser(User u) {
         deleteUserFromFriends( u.getId() );
         this.database.delete(u);
+        deleteUserRequests( u.getId() );
     }
     
     public void updateUser(String name, String email, String pw, UserInfo info) {
@@ -303,8 +313,7 @@ public class UserController implements Serializable {
 
         this.deleteUser( this.currentUser.getId() );
         this.currentUser.updateSettings(name, email, pw, ui);
-        this.database.save(currentUser);
-        
+        this.database.save(currentUser);        
     }   
 
     @Override
