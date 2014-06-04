@@ -24,7 +24,7 @@ public class FitnessUM {
    private static final String[] mainOptions = {
 
        "Logout", "My Profile", "Friend Requests", "Friend List", "Friends Feed", "Search User", "My Activity Log",
-       "Add New Activity Session", "Show My Statistics", "Update Settings"
+       "Add New Activity Session", "Show My Statistics", "Show My Records", "Update Settings"
    };
 
     private static final String[] activityCategories = {
@@ -255,6 +255,12 @@ public class FitnessUM {
         Scan.pressEnterToContinue();
     }
 
+    public void listPracticedActivities() {
+        ArrayList<String> list = this.userController.getPracticedActivities();
+        new RecordsNavigator(list).navigate();
+    }
+
+    
     public void listFriends() {
         new FriendListNavigator( this.userController.getFriendList(), this ).navigate();
     }
@@ -326,7 +332,7 @@ public class FitnessUM {
         int option = Scan.menuOption(0,3);
         this.getStatsTypePrompt()[option].exec();
     }
-
+    
     public static String listWeatherOptions(){
         String[] list = Weather.weatherStates;
         StringBuilder result = new StringBuilder();
@@ -612,7 +618,8 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.myActivityLog(); }},
             new Prompt() { public void exec() { app.getAddActivityOption(); } },
             new Prompt() { public void exec() { app.getStatsTypeOption(); } },
-            new Prompt() { public void exec() { app.updateUser(); } }
+            new Prompt() { public void exec() { app.updateUser(); } },
+            new Prompt() { public void exec() { app.getRecordsTypeOtion(); } }
         };
     }
 

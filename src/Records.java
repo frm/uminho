@@ -64,6 +64,9 @@ public class Records {
         return result;
     }
     
+    public RecordEntry getRecordEntry(String s){
+        return this.records.get(s);
+    }
     //essentials
     public Records clone()
     {return new Records(this);}

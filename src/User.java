@@ -64,6 +64,10 @@ public class User extends BasicUser{
         return activityInfo.clone();
     }
 
+    public RecordEntry getRecordEntry(String s){
+       return activityInfo.getRecordEntry(s);
+   }
+    
     public int setId(int id) {
         return this.id = id;
     }
@@ -219,7 +223,7 @@ public class User extends BasicUser{
     }
 
     
-    public Set<String> getPracticedActivities(){
+    public ArrayList<String> getPracticedActivities(){
         return activityInfo.getPracticedActivities();
     }
     

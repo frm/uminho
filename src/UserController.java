@@ -257,6 +257,14 @@ public class UserController implements Serializable {
         database.save(currentUser);
     }
 
+    public RecordEntry getRecordEntry(String s){
+       return currentUser.getRecordEntry(s);
+   }
+   
+    public ArrayList<String> getPracticedActivities() {
+        return this.currentUser.getPracticedActivities();
+    }
+    
     public void removeActivity(Activity act){
         currentUser.removeActivity(act);
         database.save(currentUser);

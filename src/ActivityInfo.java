@@ -54,7 +54,9 @@ public class ActivityInfo implements Serializable{
         return this.records.clone();
     }
    
-   
+   public RecordEntry getRecordEntry(String s){
+       return this.records.getRecordEntry(s);
+   }
     
     private TreeSet<Activity> cloneActivityLog(TreeSet<Activity> aL){
         TreeSet<Activity> result= new TreeSet<Activity>(new ActivityComparator());
@@ -103,8 +105,8 @@ public class ActivityInfo implements Serializable{
         return this.stats.showMonthlyStats(year, month);
     }
     
-    public Set<String> getPracticedActivities(){
-        TreeSet<String> result = new TreeSet<String>();
+    public ArrayList<String> getPracticedActivities(){
+        ArrayList<String> result = new ArrayList<String>();
         for( Activity a: activityLog){
             result.add(a.getName());
         }
