@@ -28,6 +28,7 @@ public class DistanceRecordEntry extends RecordEntry{
     
     public DistanceRecordEntry(Activity act){
         super(act);
+        this.distanceMilestones = new DistanceMilestones();
         this.distanceMilestones.addData(act);
     }
 
