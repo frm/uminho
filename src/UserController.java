@@ -12,6 +12,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 public class UserController implements Serializable {
@@ -349,5 +351,29 @@ public class UserController implements Serializable {
     public static boolean isAdminEmail(String email) {
         return email.contains("@fitnessum.com");
     }
+    
+    private void addTenRecent(User usr, TreeSet<Activity> tree){
+        ArrayList<Activity> tenRecent = usr.getMostRecentActivities();
+        boolean full = false;
+        for(Activity act: tenRecent){
+            tree.add(act);
+            
+            if(full) 
+                tree.pollLast();
+            else if (tree.size() >= 10) 
+                full = true;
+        }
+    }
+    
+    public Set<Activity> getFriendsFeed(){
+        TreeSet<Activity> tree = new TreeSet<Activity>(new ActivityComparator());
+        ArrayList<User> friends = this.getFriendList();
+        for(User friend: friends){
+            addTenRecent(friend, tree);
+        }
+        return tree;
+    }
+    
+    
 
 }

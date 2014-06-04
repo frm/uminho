@@ -23,7 +23,7 @@ public class FitnessUM {
 
    private static final String[] mainOptions = {
 
-       "Logout", "My Profile", "Friend Requests", "Friend List","Search User", "My Activity Log",
+       "Logout", "My Profile", "Friend Requests", "Friend List", "Friends Feed", "Search User", "My Activity Log",
        "Add New Activity Session", "Show My Statistics", "Update Settings"
    };
 
@@ -228,6 +228,10 @@ public class FitnessUM {
             if ( this.userController.hasFriendRequests() )
                 System.out.println("You have friend requests!");
         }
+    }
+    
+    public void friendsFeed(){
+        System.out.println ( this.userController.getFriendsFeed().toString() );
     }
 
     public void userProfile() {
@@ -513,7 +517,7 @@ public class FitnessUM {
 	public void userInterpreter() {
         System.out.println( "Choose one of the following options.");
 	    FitnessUM.printMainOptions();
-        int option = Scan.menuOption(0, 8);
+        int option = Scan.menuOption(0, 9);
         this.getMainPrompt()[option].exec();
 	}
 
@@ -571,6 +575,7 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.userProfile(); } },
             new Prompt() { public void exec() { app.viewFriendRequests(); } },
             new Prompt() { public void exec() { app.listFriends(); }},
+            new Prompt() { public void exec() { app.friendsFeed(); }},
             new Prompt() { public void exec() { app.searchUser(); }},
             new Prompt() { public void exec() { app.myActivityLog(); }},
             new Prompt() { public void exec() { app.getAddActivityOption(); } },
