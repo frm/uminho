@@ -366,8 +366,10 @@ public class FitnessUM {
     
     public GregorianCalendar getStartDate(){
         GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "When did you start (hh:mm:ss)");
-        if( beforeBirth(date) ) 
+        if( beforeBirth(date) ) {
+            System.out.println("\nInvalid date\n");
             this.getStartDate();
+        }
         return date;
     }
 

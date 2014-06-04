@@ -14,6 +14,7 @@ public class RecordEntry {
     }
     
     public RecordEntry(Activity act){
+        this.milestones = new Milestones();
         this.name = act.getName();
         this.milestones.addData(act);
 
