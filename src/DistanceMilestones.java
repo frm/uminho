@@ -13,15 +13,15 @@ import java.util.Map;
  * @author tiago
  */
 public class DistanceMilestones extends Milestones{
-    private HashMap<Integer,Integer> distanceMS;
+    private HashMap<Integer,Long> distanceMS;
     
     //constructors public 
     public DistanceMilestones(){
         super();
-        this.distanceMS = new HashMap<Integer,Integer>();
+        this.distanceMS = new HashMap<Integer,Long>();
     }
     
-    public DistanceMilestones(HashMap<Long,Integer> cms,HashMap<Integer,Integer> dms){
+    public DistanceMilestones(HashMap<Long,Integer> cms,HashMap<Integer,Long> dms){
         super(cms);
         this.distanceMS = cloneDistanceMilestones(dms);
     }
@@ -32,20 +32,43 @@ public class DistanceMilestones extends Milestones{
     }
     
     //setters & getters
-    public HashMap<Integer,Integer> getDistanceMilestones()
+    public HashMap<Integer,Long> getDistanceMilestones()
     {return cloneDistanceMilestones(this.distanceMS);}
     
-    public void setDistanceMS(HashMap<Integer, Integer> distanceMS)
+    public void setDistanceMS(HashMap<Integer,Long> distanceMS)
     {this.distanceMS = cloneDistanceMilestones(distanceMS);}
     
     //methods
-    public HashMap<Integer, Integer> cloneDistanceMilestones(HashMap<Integer,Integer> dm) {
-        HashMap<Integer,Integer> aux = new HashMap<Integer,Integer>();
-        for(Map.Entry<Integer,Integer> cms: dm.entrySet())
-            aux.put(cms.getKey(), cms.getValue());
+    public HashMap<Integer,Long> cloneDistanceMilestones(HashMap<Integer,Long> dm) {
+        HashMap<Integer,Long> aux = new HashMap<Integer,Long>();
+        for(Map.Entry<Integer,Long> dms: dm.entrySet())
+            aux.put(dms.getKey(), dms.getValue());
         return aux;
     }
     
+    public void populateMilestones(){
+        super.populateMilestones();
+        this.distanceMS.put(1000,(long)-1);
+        this.distanceMS.put(5000,(long)-1);
+        this.distanceMS.put(10000,(long)-1);
+        this.distanceMS.put(20000,(long)-1);
+    }
+    
+    public void addData(DistanceActivity act){
+        super.addData(act);
+        long actDuration = act.getDuration();
+        int actDistance = act.getDistance();
+        
+        for(Map.Entry<Integer,Long> pair : distanceMS.entrySet()){
+            if(actDistance >= pair.getKey()){
+                actDuration = (actDuration*(pair.getKey()))/actDistance;
+                
+                if(actDuration > pair.getValue())
+                    distanceMS.put((int)pair.getKey(),(long)actDuration);
+            }
+            else break;
+        }
+    }
     //essentials
     public DistanceMilestones clone()
     {return new DistanceMilestones(this);}
