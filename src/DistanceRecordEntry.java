@@ -54,9 +54,4 @@ public class DistanceRecordEntry extends RecordEntry{
     public String toString() {
         return ( super.toString() + "\n##Distance Milestones## \n" + distanceMilestones.toString()); 
     }
-    
-    
-    
-     
-   
 }

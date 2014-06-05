@@ -280,17 +280,16 @@ public abstract class Scan {
         return new Scanner(System.in).nextLine();
     }
 	
-	/** Scans the user for a yes or no answer. y and n are also valid
-	 * @param message to be displayed
-	 * @return User answer downcased
-	 */
-
-	public static boolean yesNo(String message) {
-		String ans = Scan.scanString(message);
-		if( ans.equals("yes") || ans.equals("y") || ans.equals("n") || ans.equals("no") )
-			return true;
-		else return Scan.yesNo(message);
-	}
+    /** Scans the user for a yes or no answer. y and n are also valid
+     * @param message to be displayed
+     * @return User answer downcased
+     */
+    public static boolean yesNo(String message) {
+    	String ans = Scan.scanString(message);
+    	if( ans.equals("yes") || ans.equals("y") ) return true;
+        else if ( ans.equals("n") || ans.equals("no") ) return false;
+	else return Scan.yesNo(message);
+    }
 
 
     /** Scans the user for a password
