@@ -456,7 +456,7 @@ public class FitnessUM {
 
         int distance = Scan.scanInt("What was the distance? (meters)");
         int altitude = Scan.scanInt("What was the altitude? (meters)");
-        int weather = Scan.scanInt(this.listWeatherOptions());
+        int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
 
         if( !this.userController.addActivity( new Running(startDate, duration, distance, altitude, weather) ) ) {
             System.out.println("\nInvalid activity");

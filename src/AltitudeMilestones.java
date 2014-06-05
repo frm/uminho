@@ -63,18 +63,19 @@ public class AltitudeMilestones extends DistanceMilestones{
         
         for(Map.Entry<Integer,Long> pair : altitudeMS.entrySet()){
             if(actAltitude >= pair.getKey()){
-                actDuration = (actDuration*(pair.getKey()))/actAltitude;
+                long aux = ruleOfThree(actDuration/60000L, (long) actAltitude, pair.getKey());
                 
-                if(actDuration > pair.getValue())
-                    altitudeMS.put((int)pair.getKey(),(long)actDuration);
+                if(aux > pair.getValue())
+                    altitudeMS.put((int)pair.getKey(),aux);
             }
             else break;
         }
     }
     
     //essentials
-    public AltitudeMilestones clone()
-    {return new AltitudeMilestones(this);}
+    public AltitudeMilestones clone() {
+        return new AltitudeMilestones(this);
+    }
     
     public String toString(){
         return super.toString() + this.altitudeMS.toString();

@@ -62,10 +62,10 @@ public class DistanceMilestones extends Milestones{
         
         for(Map.Entry<Integer,Long> pair : distanceMS.entrySet()){
             if(actDistance >= pair.getKey()){
-                actDuration = (actDuration*(pair.getKey()))/actDistance;
+                long aux = ruleOfThree(actDuration/60000L, (long) actDistance, pair.getKey());
                 
-                if(actDuration > pair.getValue())
-                    distanceMS.put((int)pair.getKey(),(long)actDuration);
+                if(aux > pair.getValue())
+                    distanceMS.put( (int)pair.getKey(), aux);
             }
             else break;
         }
