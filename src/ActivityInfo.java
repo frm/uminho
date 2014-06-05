@@ -118,11 +118,11 @@ public class ActivityInfo implements Serializable{
         return this.stats.toString();
     }
     
-    public String showAnnualStats(int year) throws StatsNotAvailable{
+    public String showAnnualStats(int year) throws StatsNotAvailableException{
         return this.stats.showAnnualStats(year);
     }
     
-    public String showMonthlyStats(int year, int month) throws StatsNotAvailable{
+    public String showMonthlyStats(int year, int month) throws StatsNotAvailableException{
         return this.stats.showMonthlyStats(year, month);
     }
     

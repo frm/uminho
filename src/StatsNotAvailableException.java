@@ -5,13 +5,13 @@
  */
 
 
-public class StatsNotAvailable extends Exception
+public class StatsNotAvailableException extends Exception
 {
-    public StatsNotAvailable(){
+    public StatsNotAvailableException(){
         super();
     }
     
-    public StatsNotAvailable(String s){
+    public StatsNotAvailableException(String s){
         super(s);
     }  
 }
