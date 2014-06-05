@@ -257,7 +257,7 @@ public class FitnessUM {
 
     public void listPracticedActivities() {
         ArrayList<String> list = this.userController.getPracticedActivities();
-        new RecordsNavigator(list).navigate();
+        new RecordsNavigator(list, this.userController).navigate();
     }
 
     

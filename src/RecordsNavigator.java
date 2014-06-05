@@ -19,11 +19,6 @@ public class RecordsNavigator extends Navigator<String>{
         this.uc = new UserController();
     }
     
-    public RecordsNavigator(ArrayList<String> list) {
-        super(list);
-        this.uc = new UserController();
-    }
-    
     public RecordsNavigator(ArrayList<String> list, UserController userc ){
         super(list);
         this.uc = userc.clone();
