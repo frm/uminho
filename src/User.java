@@ -157,6 +157,7 @@ public class User extends BasicUser implements BaseModel{
     public void setActivityInfo(ActivityInfo activityInfo) {
         this.activityInfo = activityInfo.clone();
     }
+<<<<<<< HEAD
 
     /**
      *
@@ -171,6 +172,14 @@ public class User extends BasicUser implements BaseModel{
      * @param id
      */
     public void confirmFriendRequest(int id) {
+=======
+
+
+    public void confirmFriendRequest(User u) throws InexistingUserException {
+        this.friends.confirmFriendRequest(u);
+    }
+    public void confirmFriendRequest(int id) throws InexistingUserException {
+>>>>>>> Updates User Exception
         this.friends.confirmFriendRequest(id);
     }
 
@@ -206,6 +215,7 @@ public class User extends BasicUser implements BaseModel{
         this.friends.receiveFriendRequest(id);
     }
 
+<<<<<<< HEAD
     /**
      *
      * @param u
@@ -357,32 +367,18 @@ public class User extends BasicUser implements BaseModel{
         return this.activityInfo.statsOverview();
     }
 
-    /**
-     *
-     * @param year
-     * @return
-     * @throws StatsNotAvailable
-     */
-    public String showAnnualStats(int year) throws StatsNotAvailable{
+    public String showAnnualStats(int year) throws StatsNotAvailableException {
         return this.activityInfo.showAnnualStats(year);
     }
 
-    /**
-     *
-     * @param year
-     * @param month
-     * @return
-     * @throws StatsNotAvailable
-     */
-    public String showMonthlyStats(int year, int month) throws StatsNotAvailable{
+    public String showMonthlyStats(int year, int month) throws StatsNotAvailableException {
         return this.activityInfo.showMonthlyStats(year, month);
     }
 
-    /**
-     *
-     * @param act
-     * @return
-     */
+    public boolean hasPracticed(String type) throws ActivityNotAvailableException {
+        return this.activityInfo.getPracticedActivities().contains(type);
+    }
+
     public boolean addActivity(Activity act) {
         boolean res = activityInfo.addActivity(act);
         return res;

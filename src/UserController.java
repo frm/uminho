@@ -404,7 +404,7 @@ public class UserController implements Serializable {
     public Milestones getMilestones(String s){
        return currentUser.getMilestones(s);
    }
-   
+
     /**
      *
      * @return
@@ -412,7 +412,7 @@ public class UserController implements Serializable {
     public ArrayList<String> getPracticedActivities() {
         return this.currentUser.getPracticedActivities();
     }
-    
+
     /**
      *
      * @param act
@@ -447,24 +447,11 @@ public class UserController implements Serializable {
         return this.currentUser.showStatsOverview();
     }
 
-    /**
-     *
-     * @param year
-     * @return
-     * @throws StatsNotAvailable
-     */
-    public String showAnnualStats(int year) throws StatsNotAvailable{
+    public String showAnnualStats(int year) throws StatsNotAvailableException{
         return this.currentUser.showAnnualStats(year);
     }
 
-    /**
-     *
-     * @param year
-     * @param month
-     * @return
-     * @throws StatsNotAvailable
-     */
-    public String showMonthlyStats(int year, int month) throws StatsNotAvailable{
+    public String showMonthlyStats(int year, int month) throws StatsNotAvailableException{
         return this.currentUser.showMonthlyStats(year, month);
     }
 
@@ -572,7 +559,7 @@ public class UserController implements Serializable {
 
       /** Tests if string matches email format
      * @param email
-     * @return 
+     * @return
      */
     public static boolean validEmailFormat(String email) {
         return UserController.validateRegex(UserController.EMAILREGEX, email);
@@ -580,7 +567,7 @@ public class UserController implements Serializable {
 
     /** Tests if string matches name format
      * @param name
-     * @return 
+     * @return
      */
     public static boolean validNameFormat(String name) {
         return UserController.validateRegex(UserController.NAMEREGEX, name);
@@ -601,9 +588,9 @@ public class UserController implements Serializable {
 
     private void addTenRecent(User usr, TreeSet<Tuple<String, Activity>> tree) {
         ArrayList<Activity> tenRecent = usr.getMostRecentActivities();
-        
+
         boolean full = false;
-        
+
         for(Activity act: tenRecent) {
             tree.add( new Tuple<String, Activity>( usr.getName(), act.clone() ) );
 
@@ -611,7 +598,7 @@ public class UserController implements Serializable {
             else if (tree.size() >= 10)
                 full = true;
         }
-        
+
     }
 
     /**
@@ -621,10 +608,10 @@ public class UserController implements Serializable {
     public Set<Tuple<String, Activity>> getFriendsFeed(){
         TreeSet<Tuple<String, Activity>> tree = new TreeSet<Tuple<String, Activity>>( new FeedComparator() );
         ArrayList<User> friends = this.getFriendList();
-        
+
         for(User friend : friends)
             addTenRecent(friend, tree);
-        
+
         return tree;
     }
 

@@ -347,7 +347,7 @@ public class FitnessUM {
      *
      */
     public void showStatsOverview(){
-        try{ 
+        try{
             System.out.println(userController.showStatsOverview());
         }
         catch(StatsNotAvailable s){System.out.println("No Stats Available\n");}
@@ -361,7 +361,8 @@ public class FitnessUM {
         try{
         System.out.println( userController.showAnnualStats(year) );
         }
-        catch(StatsNotAvailable s){System.out.println("No Stats Available\n");}
+
+        catch(StatsNotAvailableException s){System.out.println("No Stats Available\n");}
 
     }
 
@@ -373,9 +374,9 @@ public class FitnessUM {
         int month = Scan.intInRange("Insert the month (number).", 1, 12);
         try{
            System.out.println( userController.showMonthlyStats(year, month) );
+        } catch (StatsNotAvailableException s) {
+            System.out.println("No Stats Available\n");
         }
-        catch(StatsNotAvailable s){System.out.println("No Stats Available\n");}
-
     }
 
     /**
@@ -408,7 +409,7 @@ public class FitnessUM {
         int option = Scan.menuOption(0,3);
         this.getStatsTypePrompt()[option].exec();
     }
-    
+
     /**
      *
      * @return
@@ -422,7 +423,7 @@ public class FitnessUM {
         }
         return result.toString() ;
     }
-    
+
     /**Shows the user's ten most recent activitites
     *
     */
@@ -469,7 +470,7 @@ public class FitnessUM {
         endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DATE));
         return endDate.getTimeInMillis() - startDate.getTimeInMillis();
     }
- 
+
     /**
      *
      * @return
@@ -487,10 +488,10 @@ public class FitnessUM {
 
         int distance = Scan.scanInt("\nWhat was the distance? (meters)");
         int altitude = Scan.scanInt("\nWhat was the altitude? (meters)");
-        
+
         return (AltitudeActivity) (new Cycling(startDate, duration, distance, altitude));
     }
-    
+
     /**
      *
      * @return
@@ -507,10 +508,10 @@ public class FitnessUM {
         }
 
         int distance = Scan.scanInt("What was the distance? (meters)");
-        
+
         return (DistanceActivity) (new Swimming(startDate, duration, distance));
     }
-    
+
     /**
      *
      * @return
