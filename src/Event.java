@@ -4,7 +4,6 @@
  */
 import java.util.GregorianCalendar;
 
-<<<<<<< HEAD
 /**
  *
  * @author joaorodrigues
@@ -50,6 +49,16 @@ public class Event implements BaseModel {
         this.weather = new Weather( e.getWeather() );
         this.participants = e.getParticipants();
         this.date = e.getDate();
+    }
+
+    public Event(String name, String type, int capacity, String weather, GregorianCalendar date) {
+        this.id = -1;
+        this.name = name;
+        this.type = type;
+        this.setCapacity(capacity);
+        this.weather = new Weather(weather);
+        this.participants = new UserList();
+        this.date = (GregorianCalendar)date.clone();
     }
 
     @Override
