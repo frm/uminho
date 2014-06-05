@@ -11,7 +11,7 @@ import java.util.Set;
  * @author frmendes
  */
 
-public class User extends BasicUser{
+public class User extends BasicUser implements BaseModel{
     private int id;
     private FriendList friends;
     private UserInfo info;
@@ -108,7 +108,7 @@ public class User extends BasicUser{
     public Milestones getMilestones(String s){
        return activityInfo.getMilestones(s);
    }
-    
+
     /**
      *
      * @param id
@@ -157,7 +157,7 @@ public class User extends BasicUser{
     public void setActivityInfo(ActivityInfo activityInfo) {
         this.activityInfo = activityInfo.clone();
     }
-    
+
     /**
      *
      * @param u
@@ -387,7 +387,7 @@ public class User extends BasicUser{
         boolean res = activityInfo.addActivity(act);
         return res;
     }
-    
+
     /**
      *
      * @param act
@@ -413,10 +413,10 @@ public class User extends BasicUser{
      */
     public void updateSettings(String name, String email, String pw, UserInfo info) {
         setInfo(info);
-        
+
         if(name.trim().length() != 0)
             super.setName(name);
-       
+
         if(email.length() != 0)
             super.setEmail(email);
 
@@ -430,7 +430,7 @@ public class User extends BasicUser{
     public ArrayList<String> getPracticedActivities(){
         return activityInfo.getPracticedActivities();
     }
-    
+
     public User clone() {
         return new User(this);
     }
@@ -465,14 +465,14 @@ public class User extends BasicUser{
         User u = (User) o;
 
        return (
-               super.equals(o)     
+               super.equals(o)
                && u.getFriendList().equals(this.friends)
                && u.getInfo().equals(this.info)
                && u.getActivityLog().equals(this.activityInfo)
                && u.getId() == this.id
         );
     }
-    
+
     /**
      *
      * @param date
@@ -482,5 +482,5 @@ public class User extends BasicUser{
         if ( date.getTimeInMillis() < this.getInfo().getBirthDate().getTimeInMillis() ) return true;
         return false;
     }
-    
+
 }

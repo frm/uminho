@@ -56,7 +56,7 @@ public class UserList implements Serializable{
         HashSet<Integer> copy = new HashSet<Integer>();
         for (int i : this.users)
             copy.add(i);
-        
+
         return copy;
     }
 
@@ -110,12 +110,7 @@ public class UserList implements Serializable{
         users.add(id);
     }
 
-    /**
-     *
-     * @param id
-     * @return
-     */
-    public boolean removeUser(Integer id){
+    public boolean removeUser(Integer id) throws InexistingUserException {
         return users.remove(id);
     }
 

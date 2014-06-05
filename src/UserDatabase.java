@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class UserDatabase implements Serializable{
+public class UserDatabase implements Serializable, MappedDatabase<User>{
 
     // Both HashMaps refer to the same user, pointer is shared
     private HashMap<Integer, User> idEntry;              // User indexation by ID
@@ -51,7 +51,7 @@ public class UserDatabase implements Serializable{
             this.save(u);
     }
 
-    private HashMap<Integer, User> getIdEntry() {
+    public HashMap<Integer, User> getIdEntry() {
         HashMap<Integer, User> cpy = new HashMap<Integer, User>();
        for (User u : this.idEntry.values() )
             cpy.put( u.getId(), u.clone() );
