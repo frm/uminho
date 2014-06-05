@@ -2,7 +2,7 @@
  *
  * @author frmendes
  */
-import java.util.HashSet;
+import java.util.GregorianCalendar;
 
 <<<<<<< HEAD
 /**
@@ -13,56 +13,43 @@ import java.util.HashSet;
 public class Event implements BaseModel {
     private int id;
     private int capacity;
+    private String type;
     private String name;
     private Weather weather;
     private UserList participants;
+    private GregorianCalendar date;
 
     /** Default number of participants, given in case the number is not valid or given */
     private static final int defaultParticipants = Integer.MAX_VALUE;
 
-
-    public Event(){
+    public Event() {
         this.id = -1;
         this.name = "";
+        this.type = "";
         this.capacity = Event.defaultParticipants;
         this.weather = new Weather();
         this.participants = new UserList();
+        this.date = new GregorianCalendar();
     }
 
-    public Event(int id, String name, int capacity, String weather, UserList participants){
+    public Event(int id, String name, String type, int capacity, String weather, UserList participants, GregorianCalendar date){
         this.id = id;
         this.name = name;
+        this.type = type;
         this.setCapacity(capacity);
         this.weather = new Weather(weather);
         this.participants = participants.clone();
+        this.date = (GregorianCalendar)date.clone();
     }
 
-    /**
-     *
-     * @param id
-     * @param name
-     * @param capacity
-     * @param weather
-     * @param participants
-     */
-    public Event(int id, String name, int capacity, Weather weather, UserList participants) {
-        this.id = id;
-        this.name = name;
-        this.setCapacity(capacity);
-        this.weather = new Weather(weather);
-        this.participants = participants.clone();
-    }
-
-    /**
-     *
-     * @param e
-     */
-    public Event(Event e){
+    public Event(Event e) {
         this.id = e.getId();
         this.name = e.getName();
+        this.type = e.getType();
         this.capacity = e.getCapacity();
-        this.weather = new Weather (e.getWeather());
+        this.weather = new Weather( e.getWeather() );
         this.participants = e.getParticipants();
+        this.date = e.getDate();
     }
 
     @Override
@@ -98,13 +85,35 @@ public class Event implements BaseModel {
     /** Sets the participants
      * @param p UserList of participants
      */
-    public void setParticipants(UserList p) throws InvalidUserListException {
+
+    public void setParticipants(UserList p) {
         this.participants = p.clone();
+    }
+
+    /** Sets the date for the event
+     * @param date Date of the event
+     */
+    public void setDate(GregorianCalendar date) {
+        this.date = (GregorianCalendar)date.clone();
+    }
+
+    /** Sets the type
+     * @param type type of the event
+     */
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
     public int getId() {
         return this.id;
+    }
+
+    /** Returns the type of event
+     * @return type of the event
+     */
+    public String getType() {
+        return this.type;
     }
 
     /** Returns the name of the event
@@ -135,18 +144,22 @@ public class Event implements BaseModel {
         return this.participants.clone();
     }
 
+    /** Returns the date of the event
+     * @return date of the event
+     */
+    public GregorianCalendar getDate() {
+        return (GregorianCalendar)this.date.clone();
+    }
+
+
     /** Adds a new participant to the event
      * @param u User to be added
      */
-    void addParticipant(User u) {
-        this.participants.addUser( u.getId() );
-    }
-
-     /** Adds a new participant to the event
-      * @param id id of the user that will be added
-      */
-    void addParticipant(int id) {
-        this.participants.addUser(id);
+    void addParticipant(User u) throws InvalidParticipantException, ActivityNotAvailableException {
+        if( u.hasPracticed(this.type) )
+            this.participants.addUser( u.getId() );
+        else
+            throw new InvalidParticipantException("User has not participated in a " + this.type + " event");
     }
 
     /** Removes a participant from the event
@@ -154,7 +167,6 @@ public class Event implements BaseModel {
      * @param u User to be removed
      * @throws InexistingUserException
      */
-
     void removeParticipant(User u) throws InexistingUserException {
         if(! this.participants.removeUser( u.getId() ) )
             throw new InexistingUserException("User does not exist");
@@ -184,8 +196,12 @@ public class Event implements BaseModel {
         sb.append("### Event ###\n");
         sb.append("Id: ");
         sb.append(this.id);
+        sb.append("\nType: ");
+        sb.append(this.type);
         sb.append("\nName: ");
         sb.append(this.name);
+        sb.append("\nDate");
+        sb.append(this.date);
         sb.append("\nWeather Prediction: ");
         sb.append(this.weather);
         sb.append("\nMax entries: ");
@@ -197,17 +213,20 @@ public class Event implements BaseModel {
     }
 
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass()) return false;
 
         Event e = (Event) o;
 
-        return(
+        return (
                 this.id == e.getId() &&
-                this.name.equals(e.getName()) &&
-                this.weather.getWeather().equals(e.getWeather()) &&
+                this.name.equals( e.getName() ) &&
+                this.weather.getWeather().equals( e.getWeather() ) &&
                 this.capacity == e.getCapacity() &&
-                this.participants.equals( e.getParticipants() ) );
+                this.participants.equals( e.getParticipants() ) &&
+                this.date.equals( e.getDate() ) &&
+                this.type.equals( e.getType() )
+                );
     }
 }
