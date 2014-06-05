@@ -186,7 +186,7 @@ public class User extends BasicUser{
         return this.friends.getRequests();
     }
 
-    public String showStatsOverview(){
+    public String showStatsOverview() throws StatsNotAvailable{
         return this.activityInfo.statsOverview();
     }
 
@@ -201,7 +201,6 @@ public class User extends BasicUser{
 
     public boolean addActivity(Activity act) {
         boolean res = activityInfo.addActivity(act);
-        System.out.println(this.activityInfo);
         return res;
     }
     

@@ -80,14 +80,14 @@ public class Stats implements Serializable{
     
     public String showAnnualStats(int year) throws StatsNotAvailable{
         if(this.annualStats.get(year) == null)
-            throw new StatsNotAvailable("There are no statistics for " + year);
+            throw new StatsNotAvailable();
         
         return this.annualStats.get(year).toString(); 
     }
     
     public String showMonthlyStats(int year, int month) throws StatsNotAvailable{
         if(this.annualStats.get(year) == null)
-            throw new StatsNotAvailable("There are no statistics for " + year);
+            throw new StatsNotAvailable();
         
         YearStat yt = this.annualStats.get(year);
         return yt.showMonthlyStats(month);

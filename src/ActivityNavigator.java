@@ -12,25 +12,21 @@ import java.util.ArrayList;
  * @author joaorodrigues
  */
 public class ActivityNavigator extends Navigator<Activity>{
-    private int category;
     private FitnessUM app;
     
     public ActivityNavigator() {
         super();
         this.app = new FitnessUM();
-        this.category = 0;
     }
     
     public ActivityNavigator(ArrayList<Activity> list) {
         super(list);
         this.app = new FitnessUM();
-        this.category = 0;
     }
     
-    public ActivityNavigator(int category, FitnessUM app, ArrayList<Activity> list ){
+    public ActivityNavigator( FitnessUM app, ArrayList<Activity> list ){
         super(list);
         this.app = app;
-        this.category = category;
     }
     
     public void print(Activity act) {
@@ -38,25 +34,13 @@ public class ActivityNavigator extends Navigator<Activity>{
     }
     
     public void select(Activity act){ 
-        if( Scan.yesNo("Are you sure you want to delete the activity?"))
+        if( Scan.yesNo("Are you sure you want to delete the activity?")){
             app.removeActivity(act);
+            super.remove(act);
+        }
     }
 
-    public int getCategory() {
-        return category;
-    }
 
-    public FitnessUM getApp() {
-        return app.clone();
-    }
-
-    public void setCategory(int category) {
-        this.category = category;
-    }
-
-    public void setApp(FitnessUM app) {
-        this.app = app.clone();
-    }
     
     
     

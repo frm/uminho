@@ -157,10 +157,15 @@ public class StatEntry implements Serializable{
     public void removeActivityStat(Activity act){
         this.nrEntries--;
         this.totalCalories -= act.getCalories();
-        this.avgCalories = this.totalCalories/this.nrEntries;
-        
         this.totalDuration -= act.getDuration();
-        this.avgDuration = this.totalDuration/this.nrEntries;
+        if(this.nrEntries == 0){
+            this.avgCalories = 0;
+            this.avgDuration = 0;
+        }
+        else{
+            this.avgCalories = this.totalCalories/this.nrEntries;
+            this.avgDuration = this.totalDuration/this.nrEntries;
+        }
     }
     
     public StatEntry clone(){

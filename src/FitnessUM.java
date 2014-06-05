@@ -290,7 +290,10 @@ public class FitnessUM {
     }
 
     public void showStatsOverview(){
-        System.out.println(userController.showStatsOverview());
+        try{ 
+            System.out.println(userController.showStatsOverview());
+        }
+        catch(StatsNotAvailable s){System.out.println("No Stats Available\n");}
     }
 
     public void showAnnualStats(){
@@ -298,7 +301,7 @@ public class FitnessUM {
         try{
         System.out.println( userController.showAnnualStats(year) );
         }
-        catch(StatsNotAvailable s){System.out.println("No Stats Available");}
+        catch(StatsNotAvailable s){System.out.println("No Stats Available\n");}
 
     }
 
@@ -308,7 +311,7 @@ public class FitnessUM {
         try{
            System.out.println( userController.showMonthlyStats(year, month) );
         }
-        catch(StatsNotAvailable s){System.out.println("No Stats Available");}
+        catch(StatsNotAvailable s){System.out.println("No Stats Available\n");}
 
     }
 
@@ -342,11 +345,14 @@ public class FitnessUM {
         }
         return result.toString() ;
     }
-
+    
+    /**Shows the user's ten most recent activitites
+    *
+    */
     public void myActivityLog(){
         ArrayList<Activity> list = userController.getMostRecentActivities();
 
-        new ActivityNavigator(list).navigate();
+        new ActivityNavigator(this,list).navigate();
     }
 
     private Prompt[] getAddActivityPrompt(){

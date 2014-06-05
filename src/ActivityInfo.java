@@ -96,7 +96,7 @@ public class ActivityInfo implements Serializable{
         
         if(validTime) {
             stats.addStat(act);
-            records.addRecords(act);
+            records.addRecord(act);
             activityLog.add(act);
         }
         
@@ -106,10 +106,15 @@ public class ActivityInfo implements Serializable{
     public boolean removeActivity(Activity act){
         boolean actRemoval = this.activityLog.remove(act);
         boolean statRemoval = this.stats.removeActivityStat(act);
+        this.restoreRecords(act);
         return (actRemoval && statRemoval);
     }
     
-    public String statsOverview(){
+    public String statsOverview() throws StatsNotAvailable{
+        String result = this.stats.toString();
+        if(result.length() == 0)
+            throw(new StatsNotAvailable() );
+        
         return this.stats.toString();
     }
     
@@ -127,6 +132,15 @@ public class ActivityInfo implements Serializable{
             result.add(a.getName());
         }
         return result;
+    }
+    
+    public void restoreRecords(Activity act){
+        this.records.removeRecord( act.getName() );
+        
+        for(Activity a: this.activityLog){
+            if( act.getName().equals( a.getName()))
+                this.records.addRecord(a);
+        }
     }
     
     public ActivityInfo clone(){

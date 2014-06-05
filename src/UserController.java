@@ -279,7 +279,7 @@ public class UserController implements Serializable {
         return this.currentUser.toString();
     }
 
-    public String showStatsOverview(){
+    public String showStatsOverview() throws StatsNotAvailable{
         return this.currentUser.showStatsOverview();
     }
 

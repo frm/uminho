@@ -25,7 +25,7 @@ public class Records implements Serializable{
     {this.records = rec.getRecords();}
     
   
-    public void addRecords(Activity act){
+    public void addRecord(Activity act){
         String name = act.getName();
         if( this.records.containsKey(name)){
             RecordEntry entry = this.records.get(name);
@@ -47,6 +47,14 @@ public class Records implements Serializable{
             result = new RecordEntry(act);
         
         return result;
+    }
+    
+    public void removeRecord(Activity act){
+        removeRecord( act.getName() );
+    }
+    
+    public void removeRecord(String name){
+        this.records.remove(name);
     }
     
     //getters & setters
