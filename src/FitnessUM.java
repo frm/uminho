@@ -362,17 +362,9 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.addSwimming();} }
         };
     }
-
-    public boolean beforeBirth(GregorianCalendar date){
-        long userBirth = userController.getCurrentUser().getInfo().getBirthDate().getTimeInMillis();
-        if (date.getTimeInMillis() < userBirth) return true;
-        else return false;
-
-    }
-
     public GregorianCalendar getStartDate(){
         GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "When did you start (hh:mm:ss)");
-        if( beforeBirth(date) ) {
+        if( this.userController.getCurrentUser().beforeBorn(date) || date.compareTo( new GregorianCalendar() ) > 0 ) {
             System.out.println("\nInvalid date\n");
             this.getStartDate();
         }

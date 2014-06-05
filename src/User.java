@@ -1,6 +1,7 @@
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -265,4 +266,10 @@ public class User extends BasicUser{
                && u.getId() == this.id
         );
     }
+    
+    public boolean beforeBorn(GregorianCalendar date) {
+        if ( date.getTimeInMillis() < this.getInfo().getBirthDate().getTimeInMillis() ) return true;
+        return false;
+    }
+    
 }
