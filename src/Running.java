@@ -4,7 +4,7 @@
  */
 import java.util.GregorianCalendar;
 
-public class Running extends AltitudeActivity implements weatherInterface{
+public class Running extends AltitudeActivity implements WeatherInterface{
     private Weather weather;
     
     //constructors
@@ -55,15 +55,10 @@ public class Running extends AltitudeActivity implements weatherInterface{
     
     
     //methods
-    public double calculateCalories(long duration, int distance, int altitude, int weather){
-        double wfac = calculateWeatherFactor(weather);
-        return (  ( (double) (altitude + distance)/ ( (double) duration) ) )*950000*wfac;
+    public int calculateCalories(long duration, int distance, int altitude, int weather){
+        double wfac = Weather.calculateWeatherFactor(weather);
+        return (int) ( (  ( (double) (altitude + distance)/ ( (double) duration) ) )*950000.0*wfac);
     }
     
-    double calculateWeatherFactor(int w){
-        if (w < 2) return 1;
-        else if (w < 5) return 1.05;
-        else if (w == 6) return 1.1;
-        else return 1.2;       
-    }
+   
 }

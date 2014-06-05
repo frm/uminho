@@ -64,4 +64,11 @@ public class Weather {
     public static int getIndexOf(String weather) {
         return Math.max( Arrays.asList(Weather.weatherStates).indexOf(weather), 0);
     }
+    
+    public static double calculateWeatherFactor(int w){
+        if (w < 2) return 1;
+        else if (w < 5) return 1.05;
+        else if (w == 6) return 1.1;
+        else return 1.2;       
+    }
 }

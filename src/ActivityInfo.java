@@ -149,6 +149,8 @@ public class ActivityInfo implements Serializable{
         result.append(this.activityLog);
         result.append("\nSTATS: ");
         result.append(this.stats);
+        result.append("\nRECORDS: \n");
+        result.append(this.records);
         
         return result.toString();
     }

@@ -199,7 +199,9 @@ public class User extends BasicUser{
 
 
     public boolean addActivity(Activity act) {
-        return activityInfo.addActivity(act);
+        boolean res = activityInfo.addActivity(act);
+        System.out.println(this.activityInfo);
+        return res;
     }
     
     public void removeActivity(Activity act){

@@ -50,8 +50,10 @@ public class Records implements Serializable{
     }
     
     //getters & setters
-    public HashMap<String,RecordEntry> getRecords()
-    {return cloneRecords(this.records);}
+    public HashMap<String,RecordEntry> getRecords(){
+        return cloneRecords(this.records);
+    }
+    
     
     public void setRecords(HashMap<String, RecordEntry> rec)
     {this.records = cloneRecords(rec);}

@@ -8,7 +8,7 @@
  *
  * @author joaorodrigues
  */
-public interface weatherInterface {
+public interface WeatherInterface {
     public Weather getWeather();
 
     public void setWeather(Weather weather);

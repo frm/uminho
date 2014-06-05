@@ -15,22 +15,22 @@ import java.util.GregorianCalendar;
  */
 public class StatEntry implements Serializable{
   private String name;
-  private double totalCalories;
-  private double avgCalories;
+  private int totalCalories;
+  private int avgCalories;
   private long totalDuration;
   private long avgDuration;
   private int nrEntries;
   
   public StatEntry(){
       this.totalCalories = 0;
-      this.avgCalories = 0.0;
+      this.avgCalories = 0;
       this.name = "";
       this.totalDuration = 0;
       this.avgDuration = 0;
       this.nrEntries = 0;
   }
   
-    public StatEntry(String name, int totalCalories, double avgCalories, long totalDuration, long avgDuration, int nrEntries) {
+    public StatEntry(String name, int totalCalories, int avgCalories, long totalDuration, long avgDuration, int nrEntries) {
         this.name = name;
         this.totalCalories = totalCalories;
         this.avgCalories = avgCalories;
@@ -42,7 +42,7 @@ public class StatEntry implements Serializable{
     public StatEntry(String name, int calories, long duration){
         this.name = name;
         this.totalCalories = 0;
-        this.avgCalories = 0.0;
+        this.avgCalories = 0;
         this.totalDuration = 0;
         this.avgDuration = 0;
         this.nrEntries = 0;
@@ -53,7 +53,7 @@ public class StatEntry implements Serializable{
     public StatEntry(Activity act){
         this.name = act.getName();
         this.totalCalories = 0;
-        this.avgCalories = 0.0;
+        this.avgCalories = 0;
         this.totalDuration = 0;
         this.avgDuration = 0;
         this.nrEntries = 0;
@@ -74,11 +74,11 @@ public class StatEntry implements Serializable{
         return name;
     }
 
-    public double getTotalCalories() {
+    public int getTotalCalories() {
         return totalCalories;
     }
 
-    public double getAvgCalories() {
+    public int getAvgCalories() {
         return avgCalories;
     }
 
@@ -115,7 +115,7 @@ public class StatEntry implements Serializable{
         this.totalCalories = totalCalories;
     }
 
-    public void setAvgCalories(double avgCalories) {
+    public void setAvgCalories(int avgCalories) {
         this.avgCalories = avgCalories;
     }
 

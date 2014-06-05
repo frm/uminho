@@ -52,18 +52,24 @@ public class Milestones implements Serializable{
     
     public void addData(Activity act){
         long actDuration = act.getDuration();
-        double actCalories = act.getCalories();
+        int actCalories = act.getCalories();
         
         for(Map.Entry<Long,Integer> pair : caloriesMS.entrySet()) {
             
             if( actDuration >= pair.getKey() ) {
-                int aux = (int) ( ( actCalories*( pair.getKey() ) )/actDuration);
+                int aux = (int) threeSimple(actDuration/60000L, (long) actCalories, pair.getKey());
+                System.out.println(aux);
                 
                 if(aux > pair.getValue())
                     caloriesMS.put(pair.getKey(), aux);
             }
         }
     }
+    
+    public static long threeSimple(long l1, long l2, long r1){
+        return (l2 * r1)/l1;
+    }
+    
     //essentials
     public String toString(){
         return this.caloriesMS.toString();

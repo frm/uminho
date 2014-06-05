@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 */
 
 public abstract class Activity implements Serializable {
-  private double calories;
+  private int calories;
   private GregorianCalendar date;
   private long duration;
   
@@ -52,16 +52,12 @@ public abstract class Activity implements Serializable {
         return this.duration;
     }
     
-    public double getCalories() {
+    public int getCalories() {
         return this.calories;
     }
     
     public String getName(){
         return this.getClass().getSimpleName();
-    }
-    
-    public void setCalories(double calories){
-        this.calories = calories;
     }
     
     public boolean aliasOf(Activity a) {

@@ -32,7 +32,7 @@ public class DistanceStatEntry extends StatEntry{
         this.avgDistance = avgDistance;
     }
 
-    public DistanceStatEntry(String name, int totalCalories, double avgCalories, long totalDuration, long avgDuration, int nrEntries, int totalDistance, double avgDistance) {
+    public DistanceStatEntry(String name, int totalCalories, int avgCalories, long totalDuration, long avgDuration, int nrEntries, int totalDistance, double avgDistance) {
         super(name, totalCalories, avgCalories, totalDuration, avgDuration, nrEntries);
         this.totalDistance = totalDistance;
         this.avgDistance = avgDistance;

@@ -4,7 +4,7 @@
  */
 import java.util.GregorianCalendar;
 
-public class Kayaking extends DistanceActivity implements weatherInterface{
+public class Kayaking extends DistanceActivity implements WeatherInterface{
     private Weather weather;
         
     //constructors
@@ -54,15 +54,10 @@ public class Kayaking extends DistanceActivity implements weatherInterface{
     }
     
     //methods
-    public double calculateCalories(long duration, int distance, int weather){
-        double wfac = calculateWeatherFactor(weather);
-        return (double)(distance/duration)*650000*wfac;
+    public int calculateCalories(long duration, int distance, int weather){
+        double wfac = Weather.calculateWeatherFactor(weather);
+        return (int) ((double)(distance/duration)*650000.0*wfac);
     }
 
-    double calculateWeatherFactor(int w){
-        if (w < 2) return 1;
-        else if (w < 5) return 1.05;
-        else if (w == 6) return 1.1;
-        else return 1.2;       
-    }
+    
 }

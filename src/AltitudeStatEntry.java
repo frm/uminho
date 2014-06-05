@@ -32,7 +32,7 @@ public class AltitudeStatEntry extends DistanceStatEntry{
         this.avgAltitude = avgAltitude;
     }
 
-    public AltitudeStatEntry(String name, int totalCalories, double avgCalories, long totalDuration, long avgDuration, int nrEntries, int totalDistance, double avgDistance,  int totalAltitude, double avgAltitude) {
+    public AltitudeStatEntry(String name, int totalCalories, int avgCalories, long totalDuration, long avgDuration, int nrEntries, int totalDistance, double avgDistance,  int totalAltitude, double avgAltitude) {
         super(name, totalCalories, avgCalories, totalDuration, avgDuration, nrEntries, totalDistance, avgDistance);
         this.totalAltitude = totalAltitude;
         this.avgAltitude = avgAltitude;
