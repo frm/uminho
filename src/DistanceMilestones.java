@@ -138,7 +138,13 @@ public class DistanceMilestones extends Milestones{
     }
     
     public String toString(){
-        return (firsttoString() + secondtoString());
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append(super.toString());
+        sb.append(firsttoString());
+        sb.append(secondtoString());
+        
+        return sb.toString();
     }
 
     public boolean equals(Object o){
