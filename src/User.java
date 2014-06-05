@@ -1,8 +1,6 @@
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Set;
 
 
@@ -11,7 +9,7 @@ import java.util.Set;
  * @author frmendes
  */
 
-public class User extends BasicUser implements BaseModel{
+public class User extends BasicUser implements BaseModel {
     private int id;
     private FriendList friends;
     private UserInfo info;
@@ -427,10 +425,17 @@ public class User extends BasicUser implements BaseModel{
         return activityInfo.getPracticedActivities();
     }
 
+    @Override
+    public int hashCode() {
+        return new Integer( this.getId() ).hashCode();
+    }
+
+    @Override
     public User clone() {
         return new User(this);
     }
 
+    @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("### User: ###");

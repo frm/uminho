@@ -1,6 +1,6 @@
 /** UserDatabase class
- * Consists of a double entry table with shared memory
- * Users can be accessed by id or by email
+ * Consists of a double entry table with memory shared through User IDs
+ * Users can be accessed by id, email or name
  * @author frmendes
  */
 
@@ -8,16 +8,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
-public class UserDatabase implements Serializable, MappedDatabase<User>{
+public class UserDatabase implements Serializable, MappedDatabase<User> {
 
     // Both HashMaps refer to the same user, pointer is shared
     private HashMap<Integer, User> idEntry;              // User indexation by ID
     private HashMap<String, Integer> emailEntry;         // User indexation by email
     private HashMap<String, AdminUser> adminEntry;       // Admin Indexation by Email
-    private int userCount;                                          // Total number of users that have been saved
+    private int userCount;                               // Total number of users that have been saved
 
     /** Empty constructor
      */
@@ -43,7 +42,8 @@ public class UserDatabase implements Serializable, MappedDatabase<User>{
     }
 
     /** Parameterized constructor
-     * @param ids HashMap of IDs and corresponding Users
+     * @param users HashMap of IDs and corresponding Users
+     * @param admins HashMap of emails and corresponding admins
      */
     public UserDatabase(HashMap<Integer, User> users, HashMap<String, AdminUser> admins)  {
         this.adminEntry = UserDatabase.copyAdmins(admins);
@@ -51,8 +51,9 @@ public class UserDatabase implements Serializable, MappedDatabase<User>{
             this.save(u);
     }
 
+    @Override
     public HashMap<Integer, User> getIdEntry() {
-        HashMap<Integer, User> cpy = new HashMap<Integer, User>();
+       HashMap<Integer, User> cpy = new HashMap<Integer, User>();
        for (User u : this.idEntry.values() )
             cpy.put( u.getId(), u.clone() );
        
@@ -72,9 +73,7 @@ public class UserDatabase implements Serializable, MappedDatabase<User>{
         return this.userCount;
     }
 
-    /** Get all users on the network
-     * @return Set of all users
-     */
+    @Override
     public Set<User> all() {
         HashSet<User> copy = new HashSet<User>();
 
@@ -88,44 +87,22 @@ public class UserDatabase implements Serializable, MappedDatabase<User>{
         return UserDatabase.copyAdmins(this.adminEntry);
     }
 
-    /** Returns a user with the corresponding id or null if not found
-     * @param id Wanted user id
-     * @return Corresponding user
-     */
-    public User findById(int id) {
-        User u;
-        try {
-            u = this.idEntry.get(id).clone();
-        } catch (NullPointerException e) {
-            u = null;
-        }
-        return u;
+    @Override
+    public User findById(int id) throws InexistingUserException {
+       return this.idEntry.get(id).clone();
     }
 
     /** Returns a user with the corresponding email or null if not found
      * @param email Wanted user email
      * @return Corresponding user
+     * @throws InexistingUserException
      */
-    public User findByEmail(String email) {
-        int id;
-        try {
-            id = this.emailEntry.get(email);
-        } catch (NullPointerException e) {
-            return null;
-        }
-        
-        return findById(id);
+    public User findByEmail(String email) throws InexistingUserException {
+        return findById( this.emailEntry.get(email) );
     }
 
-    public AdminUser findAdmin(String email) {
-        AdminUser a;
-        try {
-            a = this.adminEntry.get(email).clone();
-        } catch (NullPointerException e) {
-            a = null;
-        }
-        
-        return a;
+    public AdminUser findAdmin(String email) throws InexistingUserException {
+        return this.adminEntry.get(email).clone();
     }
 
     public ArrayList<User> searchName(String name) {
@@ -146,26 +123,20 @@ public class UserDatabase implements Serializable, MappedDatabase<User>{
          addAdmin( new AdminUser(name, password, email) );
      }
 
-    /** Either saves or updates a user
-     * If the user id is < 0, it wasn't created and we need to give it an id, otherwise, we override it
-     * @param u user to save
-     */
+    @Override
     public void save(User u) {
         User newUser = u.clone();
 
         if ( u.getId() < 0 )
-            newUser.setId( ++this.userCount );
+            newUser.setId(++this.userCount);
 
 
         this.idEntry.put( newUser.getId(), newUser );
         this.emailEntry.put( newUser.getEmail(), newUser.getId() );
     }
 
-    /** Deletes a user from the network
-     * userCount is not updated to avoid ID aliasing
-     * @param userId ID of the to delete
-     */
-    public void delete(int userId) {
+    @Override
+    public void delete(int userId) throws InexistingUserException {
         String email = findById(userId).getEmail();
         this.idEntry.remove(userId);
         this.emailEntry.remove(email);
@@ -177,6 +148,7 @@ public class UserDatabase implements Serializable, MappedDatabase<User>{
        this.emailEntry.remove(email);
     }
 
+    @Override
     public void delete(User u) {
         this.idEntry.remove( u.getId() );
         this.emailEntry.remove( u.getEmail() );
