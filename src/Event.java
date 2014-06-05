@@ -183,6 +183,10 @@ public class Event implements BaseModel {
             throw new InexistingUserException("User does not exist");
     }
 
+    @Override
+    public int hashCode() {
+        return new Integer( this.getId() ).hashCode();
+    }
 
     @Override
     public Event clone() {
@@ -213,7 +217,7 @@ public class Event implements BaseModel {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean eqals(Object o) {
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass()) return false;
 

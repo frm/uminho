@@ -1,62 +1,69 @@
-/**
- *
- * @author tiago
+/** EventDatabase class
+ * Consists of a double entry table with memory shared through Event IDs
+ * Events can be accessed by id or name
+ * @author frmendes
  */
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
-public class EventDatabase {
-    private HashMap<Integer, Event> eventbase;
+public class EventDatabase implements MappedDatabase<Event> {
+    private HashMap<Integer, Event> idEntry;
+    private HashMap<String, Integer> nameEntry;
     private int eventCount;
     
-    //constructors
-    public EventDatabase(){
-        this.eventbase = new HashMap<Integer, Event>();
+    public EventDatabase() {
+        this.idEntry = new HashMap<Integer, Event>();
+        this.nameEntry = new HashMap<String, Integer>();
         this.eventCount = 0;
     }
 
-    public EventDatabase(EventDatabase ed){
-        
-        this.eventbase = ed.copyMap();
+    // This is wrong. Change this
+    public EventDatabase(EventDatabase ed) {
+        this.idEntry = ed.getIdEntry();
         this.eventCount = ed.nrEvents();
     }
     
-    //methods
-    public void addEvent(Event e){
+    public int nrEvents() {
+        return this.eventCount;
+    }
+    
+    @Override
+    public void save(Event e) {
         Event newEvent = e.clone();
         
         if(newEvent.getId() < 0)
-            newEvent.setId(this.eventCount++);
+            newEvent.setId(++this.eventCount);
         
-        this.eventbase.put( newEvent.getId(), newEvent);
+        this.idEntry.put( newEvent.getId(), newEvent );
     }
     
-    public void removeEvent(int id ){
-        if(findEvent(id) != null)
-            this.eventbase.remove(id);
+    public Event findById(int id) throws InexistingEventException {
+        return this.idEntry.get(id).clone();
     }
     
-    public Event findEvent(int id){
-        Event e = new Event();
-        
-        if(this.eventbase.containsKey(id)) e = this.eventbase.get(id).clone();
-        else e = null;
-        
-        return e;
+    @Override
+    public Set<Event> all() {
+        HashSet<Event> copy = new HashSet<Event>();
+
+        for ( Event e : this.idEntry.values() )
+            copy.add( e.clone() );
+
+        return (Set<Event>)copy;
     }
     
-    public int nrEvents(){return this.eventCount;}
-    
-    public HashMap<Integer, Event> copyMap(){
+    @Override
+    public HashMap<Integer, Event> getIdEntry(){
         HashMap<Integer, Event> copy = new HashMap<Integer, Event>();
         
-        for(Event e: this.eventbase.values())
+        for( Event e: this.idEntry.values() )
             copy.put(e.getId(), e.clone());
         
         return copy;
     }
     
-    //essentials
+    @Override
     public boolean equals(Object o) {
         if(this == o) return true;
 
@@ -64,17 +71,30 @@ public class EventDatabase {
 
         EventDatabase eb = (EventDatabase) o;
 
-       return this.eventbase.equals( eb.copyMap() );
+       return this.idEntry.equals( eb.copyMap() );
     }
     
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         
         sb.append("TOTAL EVENTS: ");
         sb.append(this.nrEvents());
         sb.append("\n");
-        sb.append(this.eventbase);
+        sb.append(this.idEntry);
         
         return sb.toString();
+    }
+    
+    private HashMap<String, Integer> getNameEntry() {
+        HashMap<String, Integer> cpy = new HashMap<String, Integer>();
+        cpy.putAll(this.nameEntry);
+        return cpy;
+    }
+    
+    private HashMap<String, Integer> getTypeEntry() {
+        HashMap<String, Integer> cpy = new HashMap<String, Integer>();
+        cpy.putAll(this.typeEntry);
+        return cpy;
     }
 }
