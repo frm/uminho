@@ -74,17 +74,19 @@ public class Milestones implements Serializable{
     }
 
     public void addData(Activity act){
+        int actMinDuration = (int) (act.getDuration()/60000L);
         long actDuration = act.getDuration();
         int actCalories = act.getCalories();
 
         for(Map.Entry<Long,Integer> pair : calories.entrySet()) {
 
-            if( actDuration >= pair.getKey() ) {
-                int aux = (int) ruleOfThree(actDuration/60000L, (long) actCalories, pair.getKey());
+            if( actMinDuration >= pair.getKey() ) {
+                int aux = (int) ruleOfThree(actMinDuration, (long) actCalories, pair.getKey());
 
                 if(aux > pair.getValue())
                     calories.put(pair.getKey(), aux);
             }
+            else break;
         }
         
         
@@ -96,6 +98,7 @@ public class Milestones implements Serializable{
                 if(aux > pair.getValue())
                     reverseC.put(pair.getKey(), (long)aux);
             }
+            else break;
         }
     }
 
@@ -104,7 +107,7 @@ public class Milestones implements Serializable{
     }
 
     //essentials
-    public String toString(){
+    public String firsttoString(){
         StringBuilder result = new StringBuilder();
 
         for(Map.Entry<Long,Integer> pair: this.calories.entrySet()){
@@ -117,30 +120,41 @@ public class Milestones implements Serializable{
                 result.append( (pair.getKey())/60 );
                 result.append(" hour(s): ");
             }
-
-            result.append(pair.getValue());
-            result.append(" kCal\n");
-
+            
+            if(pair.getValue() == -1)
+                result.append(" No info\n");
+            else{
+                result.append(pair.getValue());
+                result.append(" kCal\n");
+            }
         }
+        return result.toString();
+    }
+    
+    public String secondtoString(){
+        StringBuilder result = new StringBuilder();
         
+        result.append("\n");
         for(Map.Entry<Integer,Long> pair: this.reverseC.entrySet()){
             
             result.append(pair.getKey());
             result.append(" kCal: ");
             
-            if(pair.getValue() < 60){
+            if(pair.getValue() == -1)
+                result.append(" No info\n");
+            else{
                 result.append(pair.getValue());
-                result.append(" minutes: ");
-            }
-            else {
-                result.append( (pair.getValue())/60 );
-                result.append(" hour(s): ");
+                result.append(" minutes\n");
             }
         }
         
         return result.toString();
     }
 
+    public String toString(){
+        return (firsttoString() + secondtoString());
+    }
+    
     public boolean equals(Object o){
         if (this == o) return true;
 

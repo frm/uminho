@@ -70,6 +70,6 @@ public class RecordEntry implements Serializable{
     }
     
     public String toString(){
-        return ( "Basic Milestones: \n" + this.milestones.toString() );
+        return ( "\n##Calories Milestones## \n" + this.milestones.toString() );
     }
 }

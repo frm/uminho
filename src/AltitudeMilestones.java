@@ -91,6 +91,7 @@ public class AltitudeMilestones extends DistanceMilestones{
                 if(aux > pair.getValue())
                     altitude.put((int)pair.getKey(),aux);
             }
+            else break;
         }
         
         for(Map.Entry<Long,Integer> pair : reverseA.entrySet()){
@@ -100,6 +101,7 @@ public class AltitudeMilestones extends DistanceMilestones{
                 if(aux > pair.getKey())
                     reverseA.put(pair.getKey(), (int)aux);
             }
+            else break;
         }
     }
 
@@ -108,24 +110,41 @@ public class AltitudeMilestones extends DistanceMilestones{
         return new AltitudeMilestones(this);
     }
 
-    public String toString(){
+    public String firsttoString(){
         StringBuilder result = new StringBuilder();
 
         for(Map.Entry<Integer,Long> pair: this.altitude.entrySet()){
             result.append( pair.getKey());
             result.append( " meters: ");
-            result.append( StatEntry.formatMillis( pair.getValue() ));
+            
+            if(pair.getValue() == -1)
+                result.append(" No info\n");
+            else
+                result.append( StatEntry.formatMillis( pair.getValue() ));
         }
+        
+        return ( super.toString() + result.toString() );
+    }
+    
+    public String secondtoString(){
+        StringBuilder result = new StringBuilder();
         
         for(Map.Entry<Long,Integer> pair: this.reverseA.entrySet()){
             result.append( StatEntry.formatMillis( pair.getKey() ));
-            result.append( " Time: ");
-            result.append( pair.getValue());
+            result.append( " : ");
+            
+            if(pair.getValue() == -1)
+                result.append(" No info\n");
+            else
+                result.append( pair.getValue());
         }
         
         return ( super.toString() + result.toString() );
     }
 
+    public String toString(){
+        return (firsttoString() + secondtoString());
+    }
     public boolean equals(Object o){
         if (this == o) return true;
 

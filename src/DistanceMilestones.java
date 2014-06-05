@@ -87,6 +87,7 @@ public class DistanceMilestones extends Milestones{
                 if(aux > pair.getValue())
                     distance.put( (int)pair.getKey(), aux);
             }
+            else break;
         }
         
         for(Map.Entry<Long,Integer> pair : reverseD.entrySet()){
@@ -96,28 +97,47 @@ public class DistanceMilestones extends Milestones{
                 if(aux > pair.getValue())
                     reverseD.put(pair.getKey(), (int)aux);
             }
+            else break;
         }
     }
     //essentials
     public DistanceMilestones clone()
     {return new DistanceMilestones(this);}
 
-    public String toString(){
+    public String firsttoString(){
         StringBuilder result = new StringBuilder();
 
         for(Map.Entry<Integer,Long> pair: this.distance.entrySet()){
             result.append( (pair.getKey())/1000 );
             result.append( " km: ");
-            result.append( StatEntry.formatMillis( pair.getValue() ));
-        }
-
-        for(Map.Entry<Long,Integer> pair: this.reverseD.entrySet()){
-            result.append( StatEntry.formatMillis( pair.getKey() ));
-            result.append( " Time: ");
-            result.append( (pair.getValue())/1000 );
+            
+            if(pair.getValue() == -1)
+                result.append(" No info\n");
+            else
+                result.append( StatEntry.formatMillis( pair.getValue() ));
         }
         
         return ( super.toString() + result.toString() );
+    }
+    
+    public String secondtoString(){
+        StringBuilder result = new StringBuilder();
+
+        for(Map.Entry<Long,Integer> pair: this.reverseD.entrySet()){
+            result.append( StatEntry.formatMillis( pair.getKey() ));
+            result.append( " : ");
+            
+            if(pair.getValue() == -1)
+                result.append(" No info\n");
+            else
+                result.append( (pair.getValue())/1000 );
+        }
+        
+        return ( super.toString() + result.toString() );
+    }
+    
+    public String toString(){
+        return (firsttoString() + secondtoString());
     }
 
     public boolean equals(Object o){
