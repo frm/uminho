@@ -606,7 +606,9 @@ public class FitnessUM {
     /** Scans the admin for event details, saving the event in the event controller
      */
     public void addEvent() {
-	System.out.println("Yet to be implemented");
+        String name = Scan.scanString("What is the name of the event?");
+        Event e = new Event(name);
+	this.eventController.addEvent(e);
     }
 
     /** Scans the admin for event name, prompting for new event details and updating it
