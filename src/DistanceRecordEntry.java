@@ -52,7 +52,7 @@ public class DistanceRecordEntry extends RecordEntry{
 
     @Override
     public String toString() {
-        return ( super.toString() + "\nDistance Milestones: \n" + distanceMilestones); 
+        return ( super.toString() + "\n##Distance Milestones## \n" + distanceMilestones.toString()); 
     }
     
     

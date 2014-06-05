@@ -76,12 +76,14 @@ public class DistanceMilestones extends Milestones{
 
     public void addData(DistanceActivity act){
         super.addData(act);
+        int actMinDuration = (int) (act.getDuration()/60000L);
         long actDuration = act.getDuration();
         int actDistance = act.getDistance();
 
         for(Map.Entry<Integer,Long> pair : distance.entrySet()){
+            
             if(actDistance >= pair.getKey()){
-                long aux = ruleOfThree(actDuration/60000L, (long) actDistance, pair.getKey());
+                long aux = ruleOfThree(actMinDuration, (long) actDistance, pair.getKey());
 
                 if(aux > pair.getValue())
                     distance.put( (int)pair.getKey(), aux);
@@ -116,7 +118,7 @@ public class DistanceMilestones extends Milestones{
                 result.append( StatEntry.formatMillis( pair.getValue() ));
         }
         
-        return ( super.toString() + result.toString() );
+        return result.toString();
     }
     
     public String secondtoString(){
@@ -132,7 +134,7 @@ public class DistanceMilestones extends Milestones{
                 result.append( (pair.getValue())/1000 );
         }
         
-        return ( super.toString() + result.toString() );
+        return result.toString();
     }
     
     public String toString(){

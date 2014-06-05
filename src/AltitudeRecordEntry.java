@@ -45,7 +45,7 @@ public class AltitudeRecordEntry extends DistanceRecordEntry{
     }
 
     public String toString() {
-        return ( super.toString() + "\nAltitude Milestones: \n" + altitudeMilestones); 
+        return ( super.toString() + "\nAltitude Milestones: \n" + altitudeMilestones.toString()); 
     }
     
     
