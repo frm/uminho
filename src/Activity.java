@@ -13,7 +13,7 @@ public abstract class Activity implements Serializable {
   private long duration;
   
   /** Minimum time to practice an activity (in milliseconds) */
-  private static final int minimumTime = 60000;
+  private static final long minimumTime = 60000;
   
     //constructors
     public Activity(){

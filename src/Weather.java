@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class Weather {
     private int weatherIndex;
     
-    public static final String[] weatherStates = {"No Information Available", "Clear Sky", "Cloudy", "Light Rain", "Heavy Rain", "Snowing", "Hailing", "Windy", "Stormy"};
+    public static final String[] weatherStates = { "Clear Sky", "Cloudy", "Light Rain", "Heavy Rain", "Snowing", "Hailing", "Windy", "Stormy"};
     
     public Weather() {
         this.weatherIndex = 0;
