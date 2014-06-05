@@ -78,7 +78,14 @@ public class AltitudeMilestones extends DistanceMilestones{
     }
     
     public String toString(){
-        return super.toString() + this.altitudeMS.toString();
+        StringBuilder result = new StringBuilder();
+        
+        for(Map.Entry<Integer,Long> pair: this.altitudeMS.entrySet()){
+            result.append( pair.getKey());
+            result.append( " meters: ");
+            result.append( StatEntry.formatMillis( pair.getValue() ));
+        }
+        return ( super.toString() + result.toString() );
     }
     
     public boolean equals(Object o){

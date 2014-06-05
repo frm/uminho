@@ -72,7 +72,24 @@ public class Milestones implements Serializable{
 
     //essentials
     public String toString(){
-        return this.caloriesMS.toString();
+        StringBuilder result = new StringBuilder();
+        
+        for(Map.Entry<Long,Integer> pair: this.caloriesMS.entrySet()){
+            
+            if(pair.getKey() < 60){
+                result.append(pair.getKey());
+                result.append(" minutes: ");
+            }
+            else {
+                result.append( (pair.getKey())/60 );
+                result.append(" hour(s): ");
+            }
+            
+            result.append(pair.getValue());
+            result.append(" kCal\n");
+            
+        }
+        return result.toString();
     }
 
     public boolean equals(Object o){

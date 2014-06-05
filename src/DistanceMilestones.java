@@ -75,8 +75,14 @@ public class DistanceMilestones extends Milestones{
     {return new DistanceMilestones(this);}
     
     public String toString(){
+        StringBuilder result = new StringBuilder();
         
-        return super.toString() + this.distanceMS.toString();
+        for(Map.Entry<Integer,Long> pair: this.distanceMS.entrySet()){
+            result.append( (pair.getKey())/1000 );
+            result.append( " km: ");
+            result.append( StatEntry.formatMillis( pair.getValue() ));
+        }
+        return ( super.toString() + result.toString() );
     }
     
     public boolean equals(Object o){
