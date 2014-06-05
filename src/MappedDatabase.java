@@ -10,6 +10,7 @@ import java.util.Set;
 /**
  *
  * @author frmendes
+ * @param <T>
  */
 public interface MappedDatabase<T> {
     /** Getter for the ID Map
