@@ -12,6 +12,9 @@ public abstract class Activity implements Serializable {
   private GregorianCalendar date;
   private long duration;
   
+  /** Minimum time to practice an activity (in milliseconds) */
+  private static final int minimumTime = 60000;
+  
     //constructors
     public Activity(){
         this.date = new GregorianCalendar();
@@ -59,6 +62,10 @@ public abstract class Activity implements Serializable {
     public String getName(){
         return this.getClass().getSimpleName();
     }
+    
+    public boolean hasMinimumTime() {
+        return duration >= Activity.minimumTime;
+    }  
     
     public boolean aliasOf(Activity a) {
         long currStartTime = this.date.getTimeInMillis();

@@ -92,15 +92,15 @@ public class ActivityInfo implements Serializable{
     }
     
     public boolean addActivity(Activity act) {
-        boolean valid = !isAliasedActivity(act);
+        boolean validTime = !isAliasedActivity(act) && act.hasMinimumTime();
         
-        if(valid) {
+        if(validTime) {
             stats.addStat(act);
             records.addRecords(act);
             activityLog.add(act);
         }
         
-        return valid;        
+        return validTime;        
     }
     
     public boolean removeActivity(Activity act){
