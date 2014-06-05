@@ -9,7 +9,7 @@
  * @author joaorodrigues
  */
 public class EventController {
-    public static final String[] existingActivities = { "Cycling", "Kayaking", "Kendo","Running", "Skating", "Swimming"};
+    public static  String[] existingActivities = { "Cycling", "Kayaking", "Kendo","Running", "Skating", "Swimming"};
     private EventDatabase database;
 
     public EventController() {

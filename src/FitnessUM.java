@@ -619,7 +619,7 @@ public class FitnessUM {
      * 
      */
     public void addEvent(){
-        ArrayList<String> activities =(ArrayList<String>) Arrays.asList(EventController.existingActivities);
+        ArrayList<String> activities = new ArrayList<String>( Arrays.asList(EventController.existingActivities) );
         ( new EventTypeNavigator(activities, this)).navigate();
     }
 
