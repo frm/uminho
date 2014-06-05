@@ -129,7 +129,8 @@ public class ActivityInfo implements Serializable{
     public ArrayList<String> getPracticedActivities(){
         ArrayList<String> result = new ArrayList<String>();
         for( Activity a: activityLog){
-            result.add(a.getName());
+            if(!result.contains( a.getName() ) )
+                    result.add(a.getName());
         }
         return result;
     }

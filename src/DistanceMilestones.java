@@ -18,9 +18,6 @@ public class DistanceMilestones extends Milestones{
     //constructors public
     public DistanceMilestones(){
         super();
-        this.distance = new TreeMap<Integer,Long>();
-        this.reverseD = new TreeMap<Long,Integer>();
-        this.populateMilestones();
     }
 
     public DistanceMilestones(TreeMap<Long,Integer> cms, TreeMap<Integer,Long> rC, TreeMap<Integer,Long> dms, TreeMap<Long,Integer> rD){
@@ -64,6 +61,8 @@ public class DistanceMilestones extends Milestones{
     
     public void populateMilestones(){
         super.populateMilestones();
+        this.distance = new TreeMap<Integer,Long>();
+        this.reverseD = new TreeMap<Long,Integer>();
         this.distance.put(1000,-1L);
         this.distance.put(5000,-1L);
         this.distance.put(10000,-1L);

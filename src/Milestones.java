@@ -18,8 +18,6 @@ public class Milestones implements Serializable{
 
     //constructors
     public Milestones(){
-        this.calories = new TreeMap<Long, Integer>();
-        this.reverseC = new TreeMap<Integer, Long>();
         populateMilestones();
      }
 
@@ -62,6 +60,8 @@ public class Milestones implements Serializable{
     }
     
     public void populateMilestones(){
+        this.calories = new TreeMap<Long, Integer>();
+        this.reverseC = new TreeMap<Integer, Long>();
         this.calories.put(10L,-1);
         this.calories.put(30L,-1);
         this.calories.put(60L,-1);
