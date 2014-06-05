@@ -19,6 +19,7 @@ public class DistanceMilestones extends Milestones{
     public DistanceMilestones(){
         super();
         this.distanceMS = new HashMap<Integer,Long>();
+        this.populateMilestones();
     }
     
     public DistanceMilestones(HashMap<Long,Integer> cms,HashMap<Integer,Long> dms){
@@ -48,10 +49,10 @@ public class DistanceMilestones extends Milestones{
     
     public void populateMilestones(){
         super.populateMilestones();
-        this.distanceMS.put(1000,(long)-1);
-        this.distanceMS.put(5000,(long)-1);
-        this.distanceMS.put(10000,(long)-1);
-        this.distanceMS.put(20000,(long)-1);
+        this.distanceMS.put(1000,-1L);
+        this.distanceMS.put(5000,-1L);
+        this.distanceMS.put(10000,-1L);
+        this.distanceMS.put(20000,-1L);
     }
     
     public void addData(DistanceActivity act){
@@ -74,11 +75,8 @@ public class DistanceMilestones extends Milestones{
     {return new DistanceMilestones(this);}
     
     public String toString(){
-        StringBuilder understring = new StringBuilder();
-        understring.append("\nDistance Milestones: ");
-        understring.append(this.distanceMS.toString());
         
-        return super.toString() + understring.toString();
+        return super.toString() + this.distanceMS.toString();
     }
     
     public boolean equals(Object o){

@@ -19,6 +19,7 @@ public class AltitudeMilestones extends DistanceMilestones{
     public AltitudeMilestones(){
         super();
         this.altitudeMS = new HashMap<Integer,Long>();
+        this.populateMilestones();
     }
     
     public AltitudeMilestones(HashMap<Long,Integer> cms,HashMap<Integer,Long> dms,HashMap<Integer,Long> ams){
@@ -48,11 +49,11 @@ public class AltitudeMilestones extends DistanceMilestones{
     
     public void populateMilestones(){
         super.populateMilestones();
-        this.altitudeMS.put(50,(long)-1);
-        this.altitudeMS.put(100,(long)-1);
-        this.altitudeMS.put(300,(long)-1);
-        this.altitudeMS.put(500,(long)-1);
-        this.altitudeMS.put(1000,(long)-1);
+        this.altitudeMS.put(50,-1L);
+        this.altitudeMS.put(100,-1L);
+        this.altitudeMS.put(300,-1L);
+        this.altitudeMS.put(500,-1L);
+        this.altitudeMS.put(1000,-1L);
     }
     
     public void addData(AltitudeActivity act){
@@ -76,11 +77,7 @@ public class AltitudeMilestones extends DistanceMilestones{
     {return new AltitudeMilestones(this);}
     
     public String toString(){
-        StringBuilder understring = new StringBuilder();
-        understring.append("\nAltitude Milestones: ");
-        understring.append(this.altitudeMS.toString());
-        
-        return super.toString() + understring.toString();
+        return super.toString() + this.altitudeMS.toString();
     }
     
     public boolean equals(Object o){

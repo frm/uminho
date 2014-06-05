@@ -1,8 +1,11 @@
+
+import java.io.Serializable;
+
 /**
  *
  * @author tiago
  */
-public class RecordEntry {
+public class RecordEntry implements Serializable{
     private String name;
     private Milestones milestones;
 
@@ -14,7 +17,6 @@ public class RecordEntry {
     }
     
     public RecordEntry(Activity act){
-        this.milestones = new Milestones();
         this.name = act.getName();
         this.milestones = new Milestones();
         this.milestones.addData(act);
@@ -66,5 +68,9 @@ public class RecordEntry {
         
         RecordEntry re = (RecordEntry) obj;
         return (this.name.equals(re.getName()) );
+    }
+    
+    public String toString(){
+        return ( "Basic Milestones: \n" + this.milestones.toString() );
     }
 }

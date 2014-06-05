@@ -35,7 +35,7 @@ public class RecordsNavigator extends Navigator<String>{
     
     public void select(String s){ 
         RecordEntry re = this.uc.getRecordEntry(s);
-        System.out.println(re.toString());
+        System.out.println( re );
     }
     
     public String emptyMessage() {

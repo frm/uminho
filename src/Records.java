@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.HashMap;
 
 /*
@@ -10,7 +11,7 @@ import java.util.HashMap;
  *
  * @author tiago
  */
-public class Records {
+public class Records implements Serializable{
     private HashMap<String, RecordEntry> records;
     
     //constructors
@@ -65,7 +66,7 @@ public class Records {
     }
     
     public RecordEntry getRecordEntry(String s){
-        return this.records.get(s);
+        return this.records.get(s).clone();
     }
     //essentials
     public Records clone()

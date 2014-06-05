@@ -24,7 +24,7 @@ public class FitnessUM {
    private static final String[] mainOptions = {
 
        "Logout", "My Profile", "Friend Requests", "Friend List", "Friends Feed", "Search User", "My Activity Log",
-       "Add New Activity Session", "Show My Statistics", "Show My Records", "Update Settings"
+       "Add New Activity Session", "Show My Statistics", "Update Settings", "Show My Records"
    };
 
     private static final String[] activityCategories = {
@@ -540,7 +540,8 @@ public class FitnessUM {
             app.setUserController(uc);
             app.run();
         }
-        catch(Exception s){System.out.println("Loading error\n");}
+        catch(IOException e){System.out.println("Loading error\n");}
+        catch(ClassNotFoundException e){System.out.println("Loading error\n");}
     }
 
     /** Scans the user for up to date height, weight and favorite sport
@@ -570,7 +571,7 @@ public class FitnessUM {
     public void userInterpreter() {
         System.out.println( "Choose one of the following options.");
 	    FitnessUM.printMainOptions();
-        int option = Scan.menuOption(0, 9);
+        int option = Scan.menuOption(0, 10);
         this.getMainPrompt()[option].exec();
     }
 
@@ -634,7 +635,7 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.getAddActivityOption(); } },
             new Prompt() { public void exec() { app.getStatsTypeOption(); } },
             new Prompt() { public void exec() { app.updateUser(); } },
-            new Prompt() { public void exec() { app.getRecordsTypeOtion(); } }
+            new Prompt() { public void exec() { app.listPracticedActivities(); } }
         };
     }
 

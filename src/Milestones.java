@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,12 +12,14 @@ import java.util.Map;
  *
  * @author tiago
  */
-public class Milestones {
+public class Milestones implements Serializable{
     private HashMap<Long,Integer> caloriesMS;
 
     //constructors
-    public Milestones()
-    {this.caloriesMS = new HashMap();}
+    public Milestones(){
+        this.caloriesMS = new HashMap();
+        populateMilestones();
+     }
     
     public Milestones(HashMap<Long,Integer> cms)
     {this.caloriesMS = cloneMilestones(cms);}
@@ -40,25 +43,25 @@ public class Milestones {
     }
     
     public void populateMilestones(){
-        this.caloriesMS.put((long)10,-1);
-        this.caloriesMS.put((long)30,-1);
-        this.caloriesMS.put((long)60,-1);
-        this.caloriesMS.put((long)120,-1);
-        this.caloriesMS.put((long)180,-1);
+        this.caloriesMS.put(10L,-1);
+        this.caloriesMS.put(30L,-1);
+        this.caloriesMS.put(60L,-1);
+        this.caloriesMS.put(120L,-1);
+        this.caloriesMS.put(180L,-1);
     }
     
     public void addData(Activity act){
         long actDuration = act.getDuration();
         double actCalories = act.getCalories();
         
-        for(Map.Entry<Long,Integer> pair : caloriesMS.entrySet()){
-            if(actDuration >= pair.getKey()){
-                actCalories = (actCalories*(pair.getKey()))/actDuration;
+        for(Map.Entry<Long,Integer> pair : caloriesMS.entrySet()) {
+            
+            if( actDuration >= pair.getKey() ) {
+                int aux = (int) ( ( actCalories*( pair.getKey() ) )/actDuration);
                 
-                if(actCalories > pair.getValue())
-                    caloriesMS.put(pair.getKey(),(int)actCalories);
+                if(aux > pair.getValue())
+                    caloriesMS.put(pair.getKey(), aux);
             }
-            else break;
         }
     }
     //essentials
