@@ -17,6 +17,7 @@ public class FitnessUM {
 
     private boolean active;
     private UserController userController;
+    private EventController eventController;
 
 
    private static final String[] startOptions = { "Exit", "Register", "Login" };
@@ -49,6 +50,7 @@ public class FitnessUM {
      */
     public FitnessUM() {
         this.userController = new UserController();
+        this.eventController = new EventController();
     }
 
     /** Parameterized constructor
@@ -88,7 +90,16 @@ public class FitnessUM {
         this.userController = uc.clone();
     }
 
+    public EventController getEventController() {
+        return eventController.clone();
+    }
 
+    public void setEventController(EventController eventController) {
+        this.eventController = eventController.clone();
+    }
+
+    
+    
 
     /** Getter for active variable
      * @return active variable
@@ -602,12 +613,24 @@ public class FitnessUM {
             Scan.pressEnterToContinue();
         }
     }
+    
+    
+    /**Starts a navigator, asking the adming for the event type
+     * 
+     */
+    public void addEvent(){
+        ArrayList<String> activities =(ArrayList<String>) Arrays.asList(EventController.existingActivities);
+        ( new EventTypeNavigator(activities, this)).navigate();
+    }
 
     /** Scans the admin for event details, saving the event in the event controller
      */
-    public void addEvent() {
+    public void getEventInfo(String s) {
         String name = Scan.scanString("What is the name of the event?");
-        Event e = new Event(name);
+        GregorianCalendar date = Scan.date("What's the event date?");
+        int capacity = Scan.scanInt("What's the event capacity?");
+        int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
+        Event e = new Event(name, s, capacity, weather, date);
 	this.eventController.addEvent(e);
     }
 

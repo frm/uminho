@@ -30,8 +30,8 @@ public class EventController {
     }
     
     
-    public boolean addEvent(Event e){
-        this.database.addEvent(e);
+    public void addEvent(Event e){
+        this.database.save(e);
     }
     
     public EventController clone(){
