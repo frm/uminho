@@ -19,6 +19,12 @@ public class Kayaking extends DistanceActivity implements WeatherInterface{
         this.setCalories( calculateCalories(duration, distance, w) );
     }
     
+    public Kayaking(DistanceActivity model, int w){
+        super(model);
+        this.weather = new Weather(w);
+        this.setCalories( calculateCalories(model.getDuration(), model.getDistance(), w) );
+    }
+    
     public Kayaking(Kayaking k){
         super(k);
         this.weather = k.getWeather();

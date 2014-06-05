@@ -16,6 +16,11 @@ public class Kendo extends Activity {
         this.setCalories( calculateCalories(duration) );
     }
     
+    public Kendo(Activity model){
+        super(model);
+        this.setCalories( calculateCalories(model.getDuration()) );
+    }
+    
     public Kendo(Kendo k)
     {super(k);}
     

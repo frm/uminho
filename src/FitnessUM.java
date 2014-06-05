@@ -382,8 +382,9 @@ public class FitnessUM {
         endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DATE));
         return endDate.getTimeInMillis() - startDate.getTimeInMillis();
     }
-
-    public void addCycling(){
+ 
+    
+    public AltitudeActivity getAltitudeActivityData(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
 
@@ -396,103 +397,92 @@ public class FitnessUM {
 
         int distance = Scan.scanInt("What was the distance? (meters)");
         int altitude = Scan.scanInt("What was the altitude? (meters)");
-        int weather = Scan.scanInt(this.listWeatherOptions());
+        
+        return (AltitudeActivity) (new Cycling(startDate, duration, distance, altitude));
+    }
+    
+    public DistanceActivity getDistanceActivityData(){
+        GregorianCalendar startDate = new GregorianCalendar();
+        long duration = 0;
 
-        if( ! this.userController.addActivity( new Cycling(startDate, duration, distance, altitude, weather) ) ) {
+        while(duration <= 0){
+            startDate = getStartDate();
+            duration = getDuration(startDate);
+            if (duration <= 0)
+                System.out.println("Invalid finish time\n");
+        }
+
+        int distance = Scan.scanInt("What was the distance? (meters)");
+        
+        return (DistanceActivity) (new Swimming(startDate, duration, distance));
+    }
+    
+    
+    public Activity getBasicActivityData(){
+        GregorianCalendar startDate = new GregorianCalendar();
+        long duration = 0;
+
+        while(duration <= 0){
+            startDate = getStartDate();
+            duration = getDuration(startDate);
+            if (duration <= 0)
+                System.out.println("Invalid finish time\n");
+        }
+
+        return (Activity) (new Kendo(startDate, duration));
+    }
+
+
+    public void addCycling(){
+        AltitudeActivity model = getAltitudeActivityData();
+        int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
+
+        if( ! this.userController.addActivity( new Cycling(model, weather) ) ) {
             System.out.println("\nInvalid activity");
             Scan.pressEnterToContinue();
         }
     }
 
     public void addKayaking(){
-        GregorianCalendar startDate = new GregorianCalendar();
-        long duration = 0;
+        DistanceActivity model = getDistanceActivityData();
+        int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
 
-        while(duration <= 0){
-            startDate = getStartDate();
-            duration = getDuration(startDate);
-            if (duration <= 0)
-                System.out.println("Invalid finish time\n");
-        }
-
-        int distance = Scan.scanInt("What was the distance? (meters)");
-        int weather = Scan.scanInt(this.listWeatherOptions());
-
-        if( !this.userController.addActivity( new Kayaking(startDate, duration, distance, weather) ) ) {
+        if( !this.userController.addActivity( new Kayaking(model, weather) ) ) {
             System.out.println("\nInvalid activity");
             Scan.pressEnterToContinue();
         }
     }
 
     public void addKendo() {
-        GregorianCalendar startDate = new GregorianCalendar();
-        long duration = 0;
+        Activity model = getBasicActivityData();
 
-        while(duration <= 0) {
-            startDate = getStartDate();
-            duration = getDuration(startDate);
-            if (duration <= 0)
-                System.out.println("Invalid finish time\n");
-        }
-
-        if (! this.userController.addActivity( new Kendo(startDate, duration) ) ) {
+        if (! this.userController.addActivity( new Kendo(model) ) ) {
             System.out.println("\nInvalid activity");
             Scan.pressEnterToContinue();
         }
     }
 
     public void addRunning(){
-        GregorianCalendar startDate = new GregorianCalendar();
-        long duration = 0;
-
-        while(duration <= 0){
-            startDate = getStartDate();
-            duration = getDuration(startDate);
-            if (duration <= 0)
-                System.out.println("Invalid finish time\n");
-        }
-
-        int distance = Scan.scanInt("What was the distance? (meters)");
-        int altitude = Scan.scanInt("What was the altitude? (meters)");
+        AltitudeActivity model = getAltitudeActivityData();
         int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
 
-        if( !this.userController.addActivity( new Running(startDate, duration, distance, altitude, weather) ) ) {
+        if( !this.userController.addActivity( new Running(model, weather) ) ) {
             System.out.println("\nInvalid activity");
             Scan.pressEnterToContinue();
         }
     }
 
     public void addSkating(){
-        GregorianCalendar startDate = new GregorianCalendar();
-        long duration = 0;
-
-        while(duration <= 0){
-            startDate = getStartDate();
-            duration = getDuration(startDate);
-            if (duration <= 0)
-                System.out.println("Invalid finish time\n");
-        }
-
-        if( !this.userController.addActivity( new Skating(startDate, duration) ) ) {
+        Activity model = getBasicActivityData();
+        if( !this.userController.addActivity( new Skating(model) ) ) {
             System.out.println("\nInvalid activity");
             Scan.pressEnterToContinue();
         }
     }
 
     public void addSwimming() {
-        GregorianCalendar startDate = new GregorianCalendar();
-        long duration = 0;
-
-        while(duration <= 0){
-            startDate = getStartDate();
-            duration = getDuration(startDate);
-            if (duration <= 0)
-                System.out.println("\nINVALID FINISH TIME\n");
-        }
-
-        int distance = Scan.scanInt("What was the distance? (meters)");
-
-        if( !this.userController.addActivity( new Swimming(startDate, duration, distance) ) ) {
+        DistanceActivity model = getDistanceActivityData();
+        if( !this.userController.addActivity( new Swimming(model) ) ) {
             System.out.println("\nInvalid activity");
             Scan.pressEnterToContinue();
         }

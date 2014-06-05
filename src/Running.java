@@ -19,6 +19,12 @@ public class Running extends AltitudeActivity implements WeatherInterface{
         this.setCalories( calculateCalories(duration, distance, altitude, w) );
     }
     
+    public Running(AltitudeActivity model, int w){
+        super(model);
+        this.weather = new Weather(w);
+        this.setCalories( calculateCalories(model.getDuration(), model.getDistance(), model.getAltitude(), w) );
+    }
+    
     public Running(Running r){
         super(r);
         this.weather = r.getWeather();

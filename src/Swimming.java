@@ -16,6 +16,12 @@ public class Swimming extends DistanceActivity {
         this.setCalories(calculateCalories(duration, distance) );
     }
     
+    public Swimming(DistanceActivity model){
+        super(model);
+        this.setCalories(calculateCalories(model.getDuration(), model.getDistance()) );
+    }
+    
+    
     public Swimming(Swimming s)
     {super(s);}
 

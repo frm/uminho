@@ -15,6 +15,12 @@ public class Skating extends Activity {
         this.setCalories( calculateCalories(duration) );
     }
     
+    public Skating(Activity model){
+        super(model);
+        this.setCalories( calculateCalories(model.getDuration()) );
+    }
+    
+    
     public Skating (Skating s)
     {super(s);}
     

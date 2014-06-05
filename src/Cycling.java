@@ -19,6 +19,17 @@ public class Cycling extends AltitudeActivity implements WeatherInterface{
         this.setCalories( calculateCalories(duration, distance, altitude,  w) );
     }
     
+    public Cycling(GregorianCalendar date, long duration, int distance, int altitude){
+        super(date, duration, distance, altitude);
+    }
+    
+    public Cycling(AltitudeActivity model, int weather){
+        super(model);
+        this.weather = new Weather(weather);
+        this.setCalories( calculateCalories(model.getDuration(), model.getDistance(), model.getAltitude(),  weather) );
+    }
+    
+    
     public Cycling(Cycling c){
         super(c);
         this.weather = c.getWeather();
