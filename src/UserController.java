@@ -385,7 +385,7 @@ public class UserController implements Serializable {
         boolean full = false;
         
         for(Activity act: tenRecent) {
-            tree.add( new Tuple( usr.getName(), act.clone() ) );
+            tree.add( new Tuple<String, Activity>( usr.getName(), act.clone() ) );
 
             if(full) tree.pollLast();
             else if (tree.size() >= 10)

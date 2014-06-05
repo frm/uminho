@@ -17,7 +17,7 @@ public class Milestones implements Serializable{
 
     //constructors
     public Milestones(){
-        this.calories = new HashMap();
+        this.calories = new HashMap<Long, Integer>();
         populateMilestones();
      }
 
