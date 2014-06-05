@@ -1,5 +1,4 @@
-
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 
 /*
@@ -13,46 +12,67 @@ import java.util.Map;
  * @author tiago
  */
 public class DistanceMilestones extends Milestones{
-    private HashMap<Integer,Long> distance;
-
+    private TreeMap<Integer,Long> distance;
+    private TreeMap<Long, Integer> reverseD;
+    
     //constructors public
     public DistanceMilestones(){
         super();
-        this.distance = new HashMap<Integer,Long>();
+        this.distance = new TreeMap<Integer,Long>();
+        this.reverseD = new TreeMap<Long,Integer>();
         this.populateMilestones();
     }
 
-    public DistanceMilestones(HashMap<Long,Integer> cms,HashMap<Integer,Long> dms){
-        super(cms);
+    public DistanceMilestones(TreeMap<Long,Integer> cms, TreeMap<Integer,Long> rC, TreeMap<Integer,Long> dms, TreeMap<Long,Integer> rD){
+        super(cms,rC);
         this.distance = cloneDistanceMilestones(dms);
     }
 
     public DistanceMilestones(DistanceMilestones dms){
         super(dms);
         this.distance = dms.getDistanceMilestones();
+        this.reverseD = dms.getReverseDistanceMilestones();
     }
 
     //setters & getters
-    public HashMap<Integer,Long> getDistanceMilestones()
+    public TreeMap<Integer,Long> getDistanceMilestones()
     {return cloneDistanceMilestones(this.distance);}
 
-    public void setDistance(HashMap<Integer,Long> distance)
+    public TreeMap<Long,Integer> getReverseDistanceMilestones()
+    {return cloneReverseDistanceMilestones(this.reverseD);}
+    
+    public void setDistance(TreeMap<Integer,Long> distance)
     {this.distance = cloneDistanceMilestones(distance);}
 
+    public void setReverseDistance(TreeMap<Long,Integer> rD)
+    {this.reverseD = cloneReverseDistanceMilestones(rD);}
+    
     //methods
-    public HashMap<Integer,Long> cloneDistanceMilestones(HashMap<Integer,Long> dm) {
-        HashMap<Integer,Long> aux = new HashMap<Integer,Long>();
+    public TreeMap<Integer,Long> cloneDistanceMilestones(TreeMap<Integer,Long> dm) {
+        TreeMap<Integer,Long> aux = new TreeMap<Integer,Long>();
         for(Map.Entry<Integer,Long> dms: dm.entrySet())
             aux.put(dms.getKey(), dms.getValue());
         return aux;
     }
 
+    public TreeMap<Long,Integer> cloneReverseDistanceMilestones(TreeMap<Long,Integer> dm) {
+        TreeMap<Long,Integer> aux = new TreeMap<Long,Integer>();
+        for(Map.Entry<Long,Integer> dms: dm.entrySet())
+            aux.put(dms.getKey(), dms.getValue());
+        return aux;
+    }
+    
     public void populateMilestones(){
         super.populateMilestones();
         this.distance.put(1000,-1L);
         this.distance.put(5000,-1L);
         this.distance.put(10000,-1L);
         this.distance.put(20000,-1L);
+        this.reverseD.put(10L,-1);
+        this.reverseD.put(30L,-1);
+        this.reverseD.put(60L,-1);
+        this.reverseD.put(120L,-1);
+        this.reverseD.put(180L,-1);
     }
 
     public void addData(DistanceActivity act){
@@ -67,7 +87,15 @@ public class DistanceMilestones extends Milestones{
                 if(aux > pair.getValue())
                     distance.put( (int)pair.getKey(), aux);
             }
-            else break;
+        }
+        
+        for(Map.Entry<Long,Integer> pair : reverseD.entrySet()){
+            if(actDuration >= pair.getKey()){
+                long aux = ruleOfThree((long) actDistance, actDuration/60000L,  pair.getKey());
+
+                if(aux > pair.getValue())
+                    reverseD.put(pair.getKey(), (int)aux);
+            }
         }
     }
     //essentials
@@ -82,6 +110,13 @@ public class DistanceMilestones extends Milestones{
             result.append( " km: ");
             result.append( StatEntry.formatMillis( pair.getValue() ));
         }
+
+        for(Map.Entry<Long,Integer> pair: this.reverseD.entrySet()){
+            result.append( StatEntry.formatMillis( pair.getKey() ));
+            result.append( " Time: ");
+            result.append( (pair.getValue())/1000 );
+        }
+        
         return ( super.toString() + result.toString() );
     }
 
@@ -91,7 +126,8 @@ public class DistanceMilestones extends Milestones{
         if (o == null || this.getClass() != o.getClass()) return false;
 
         DistanceMilestones dms = (DistanceMilestones) o;
-
-        return this.distance.equals(dms.getDistanceMilestones());
+        DistanceMilestones rD = (DistanceMilestones) o;
+        
+        return (this.distance.equals(dms.getDistanceMilestones()) && this.reverseD.equals(rD.getReverseDistanceMilestones()));
     }
 }

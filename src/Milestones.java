@@ -1,5 +1,5 @@
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 
 /*
@@ -13,42 +13,64 @@ import java.util.Map;
  * @author tiago
  */
 public class Milestones implements Serializable{
-    private HashMap<Long,Integer> calories;
+    private TreeMap<Long,Integer> calories;
+    private TreeMap<Integer,Long> reverseC;
 
     //constructors
     public Milestones(){
-        this.calories = new HashMap<Long, Integer>();
+        this.calories = new TreeMap<Long, Integer>();
+        this.reverseC = new TreeMap<Integer, Long>();
         populateMilestones();
      }
 
-    public Milestones(HashMap<Long,Integer> cms) {
+    public Milestones(TreeMap<Long,Integer> cms, TreeMap<Integer,Long> rC) {
         this.calories = cloneMilestones(cms);
+        this.reverseC = cloneReverseMilestones(rC);
     }
 
-    public Milestones(Milestones m)
-    {this.calories = m.getMilestones();}
+    public Milestones(Milestones m){
+        this.calories = m.getMilestones();
+        this.reverseC = m.getReverseMilestones();
+    }
 
     //getters & setters
-    public HashMap<Long,Integer> getMilestones()
+    public TreeMap<Long,Integer> getMilestones()
     {return cloneMilestones(this.calories);}
+    
+    public TreeMap<Integer,Long> getReverseMilestones()
+    {return cloneReverseMilestones(this.reverseC);}
 
-    public void setCalories(HashMap<Long, Integer> calories)
+    public void setCalories(TreeMap<Long, Integer> calories)
     {this.calories = cloneMilestones(calories);}
+    
+    public void setReverseCalories(TreeMap<Integer,Long> rC)
+    {this.reverseC = cloneReverseMilestones(rC);}
 
     //methods
-    public HashMap<Long, Integer> cloneMilestones(HashMap<Long,Integer> m) {
-        HashMap<Long,Integer> aux = new HashMap<Long,Integer>();
+    public TreeMap<Long, Integer> cloneMilestones(TreeMap<Long,Integer> m) {
+        TreeMap<Long,Integer> aux = new TreeMap<Long,Integer>();
         for(Map.Entry<Long,Integer> cms: m.entrySet())
             aux.put(cms.getKey(), cms.getValue());
         return aux;
     }
 
+    public TreeMap<Integer,Long> cloneReverseMilestones(TreeMap<Integer,Long> r) {
+        TreeMap<Integer,Long> aux = new TreeMap<Integer,Long>();
+        for(Map.Entry<Integer,Long> rms: r.entrySet())
+            aux.put(rms.getKey(), rms.getValue());
+        return aux;
+    }
+    
     public void populateMilestones(){
         this.calories.put(10L,-1);
         this.calories.put(30L,-1);
         this.calories.put(60L,-1);
         this.calories.put(120L,-1);
         this.calories.put(180L,-1);
+        this.reverseC.put(50,-1L);
+        this.reverseC.put(100,-1L);
+        this.reverseC.put(250,-1L);
+        this.reverseC.put(500,-1L);
     }
 
     public void addData(Activity act){
@@ -62,6 +84,17 @@ public class Milestones implements Serializable{
 
                 if(aux > pair.getValue())
                     calories.put(pair.getKey(), aux);
+            }
+        }
+        
+        
+        for(Map.Entry<Integer,Long> pair : reverseC.entrySet()) {
+
+            if( actCalories >= pair.getKey() ) {
+                int aux = (int) ruleOfThree( (long) actCalories, actDuration/60000L, pair.getKey());
+
+                if(aux > pair.getValue())
+                    reverseC.put(pair.getKey(), (long)aux);
             }
         }
     }
@@ -89,6 +122,22 @@ public class Milestones implements Serializable{
             result.append(" kCal\n");
 
         }
+        
+        for(Map.Entry<Integer,Long> pair: this.reverseC.entrySet()){
+            
+            result.append(pair.getKey());
+            result.append(" kCal: ");
+            
+            if(pair.getValue() < 60){
+                result.append(pair.getValue());
+                result.append(" minutes: ");
+            }
+            else {
+                result.append( (pair.getValue())/60 );
+                result.append(" hour(s): ");
+            }
+        }
+        
         return result.toString();
     }
 
@@ -98,8 +147,9 @@ public class Milestones implements Serializable{
         if (o == null || this.getClass() != o.getClass()) return false;
 
         Milestones cms = (Milestones) o;
-
-        return this.calories.equals(cms.getMilestones());
+        Milestones rC = (Milestones) o;
+        
+        return (this.calories.equals(cms.getMilestones()) && this.reverseC.equals(rC.getReverseMilestones()));
     }
 
     public Milestones clone() {

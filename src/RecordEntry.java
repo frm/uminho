@@ -8,7 +8,6 @@ import java.io.Serializable;
 public class RecordEntry implements Serializable{
     private String name;
     private Milestones milestones;
-
     
     public RecordEntry(){
         this.name = "";
