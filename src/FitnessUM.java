@@ -52,7 +52,7 @@ public class FitnessUM {
     }
 
     /** Parameterized constructor
-     * @param users existing UserDatabase
+     * @param userController
      */
     public FitnessUM(UserController userController) {
         this.userController = userController.clone();
@@ -72,11 +72,18 @@ public class FitnessUM {
         return this.userController.getCurrentUser();
     }
 
+    /**
+     *
+     * @return
+     */
     public UserController getUserController() {
         return this.userController.clone();
     }
 
-
+    /**
+     *
+     * @param uc
+     */
     public void setUserController(UserController uc) {
         this.userController = uc.clone();
     }
@@ -124,6 +131,9 @@ public class FitnessUM {
         this.userController.loginUser(email, password);
     }
 
+    /**
+     *
+     */
     public void registerAdmin() {
         String name = Scan.name("\nAdmin name: ");
         String email = Scan.email();
@@ -138,6 +148,9 @@ public class FitnessUM {
         this.userController.registerAdmin(name, password, email);
     }
 
+    /**
+     *
+     */
     public void updateUser() {
         System.out.println("You are about to update your settings.\nIf you do not wish to update a particular field, simply press Enter or input 0 in numeric fields.");
 
@@ -170,6 +183,9 @@ public class FitnessUM {
         new SearchUserNavigator( this.userController.emailSearch(email), this ).navigate();
     }
 
+    /**
+     *
+     */
     public void searchUser() {
         final FitnessUM app = this;
 
@@ -185,6 +201,9 @@ public class FitnessUM {
          p[option].exec();
     }
 
+    /**
+     *
+     */
     public void logoutUser() {
         if ( this.userController.isAdminLogin() )
             this.userController.logoutAdmin();
@@ -219,6 +238,9 @@ public class FitnessUM {
         else greet();
     }
 
+    /**
+     *
+     */
     public void deleteUser() {
         // missing delete from events
         String email = Scan.email();
@@ -244,43 +266,75 @@ public class FitnessUM {
         }
     }
 
+    /**
+     *
+     */
     public void friendsFeed(){
         Set<Tuple<String, Activity>> feed = this.userController.getFriendsFeed();
         for(Tuple<String, Activity> t : feed)
             System.out.println("\t###\nUser: " + t.getKey() + "\n" + t.getValue() + "\t###\n" );
     }
 
+    /**
+     *
+     */
     public void userProfile() {
         System.out.println( this.userController.currentUserProfile() );
         Scan.pressEnterToContinue();
     }
 
+    /**
+     *
+     */
     public void listPracticedActivities() {
         ArrayList<String> list = this.userController.getPracticedActivities();
         new RecordsNavigator(list, this.userController).navigate();
     }
 
-    
+    /**
+     *
+     */
     public void listFriends() {
         new FriendListNavigator( this.userController.getFriendList(), this ).navigate();
     }
 
+    /**
+     *
+     * @param u
+     */
     public void addFriend(User u) {
         this.userController.sendFriendRequest(u);
     }
 
+    /**
+     *
+     * @param u
+     */
     public void deleteFriend(User u) {
         this.userController.deleteFriend(u);
     }
 
+    /**
+     *
+     * @param u
+     */
     public void acceptFriend(User u) {
         this.userController.acceptFriendRequest(u);
     }
 
+    /**
+     *
+     * @param u
+     */
     public void rejectFriend(User u) {
         this.userController.rejectFriendRequest(u);
     }
 
+    /**
+     *
+     * @param u
+     * @return
+     */
     public boolean currentUserHasFriend(User u) {
         return this.userController.getCurrentUser().hasFriend(u);
     }
@@ -289,6 +343,9 @@ public class FitnessUM {
         new FriendRequestsNavigator( this.userController.getFriendRequests(), this ).navigate();
     }
 
+    /**
+     *
+     */
     public void showStatsOverview(){
         try{ 
             System.out.println(userController.showStatsOverview());
@@ -296,6 +353,9 @@ public class FitnessUM {
         catch(StatsNotAvailable s){System.out.println("No Stats Available\n");}
     }
 
+    /**
+     *
+     */
     public void showAnnualStats(){
         int year = Scan.scanInt("Insert the year you want to check.");
         try{
@@ -305,6 +365,9 @@ public class FitnessUM {
 
     }
 
+    /**
+     *
+     */
     public void showMonthlyStats(){
         int year = Scan.intInRange("Insert the year you want to check.", 0, (new GregorianCalendar()).get(Calendar.YEAR) );
         int month = Scan.intInRange("Insert the month (number).", 1, 12);
@@ -315,10 +378,17 @@ public class FitnessUM {
 
     }
 
+    /**
+     *
+     * @param act
+     */
     public void removeActivity(Activity act){
         this.userController.removeActivity(act);
     }
 
+    /**
+     *
+     */
     public void getAddActivityOption(){
         System.out.println("Choose one of the following options.");
         FitnessUM.printActivities();
@@ -326,6 +396,9 @@ public class FitnessUM {
         this.getAddActivityPrompt()[option].exec();
     }
 
+    /**
+     *
+     */
     public void getStatsTypeOption(){
         System.out.println("Choose one of the following options.");
         System.out.println("0.Go Back");
@@ -336,6 +409,10 @@ public class FitnessUM {
         this.getStatsTypePrompt()[option].exec();
     }
     
+    /**
+     *
+     * @return
+     */
     public static String listWeatherOptions(){
         String[] list = Weather.weatherStates;
         StringBuilder result = new StringBuilder();
@@ -368,6 +445,11 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.addSwimming();} }
         };
     }
+
+    /**
+     *
+     * @return
+     */
     public GregorianCalendar getStartDate(){
         GregorianCalendar date = Scan.dateWithHours("When did you practice this activity?(dd-mm-yyyy)", "When did you start (hh:mm:ss)");
         if( this.userController.getCurrentUser().beforeBorn(date) || date.compareTo( new GregorianCalendar() ) > 0 ) {
@@ -377,13 +459,21 @@ public class FitnessUM {
         return date;
     }
 
+    /**
+     *
+     * @param startDate
+     * @return
+     */
     public long getDuration(GregorianCalendar startDate){
         GregorianCalendar endDate = Scan.time("When did you finish? (hh:mm:ss)");
         endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DATE));
         return endDate.getTimeInMillis() - startDate.getTimeInMillis();
     }
  
-    
+    /**
+     *
+     * @return
+     */
     public AltitudeActivity getAltitudeActivityData(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
@@ -401,6 +491,10 @@ public class FitnessUM {
         return (AltitudeActivity) (new Cycling(startDate, duration, distance, altitude));
     }
     
+    /**
+     *
+     * @return
+     */
     public DistanceActivity getDistanceActivityData(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
@@ -417,7 +511,10 @@ public class FitnessUM {
         return (DistanceActivity) (new Swimming(startDate, duration, distance));
     }
     
-    
+    /**
+     *
+     * @return
+     */
     public Activity getBasicActivityData(){
         GregorianCalendar startDate = new GregorianCalendar();
         long duration = 0;
@@ -432,7 +529,9 @@ public class FitnessUM {
         return (Activity) (new Kendo(startDate, duration));
     }
 
-
+    /**
+     *
+     */
     public void addCycling(){
         AltitudeActivity model = getAltitudeActivityData();
         int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
@@ -443,6 +542,9 @@ public class FitnessUM {
         }
     }
 
+    /**
+     *
+     */
     public void addKayaking(){
         DistanceActivity model = getDistanceActivityData();
         int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
@@ -453,6 +555,9 @@ public class FitnessUM {
         }
     }
 
+    /**
+     *
+     */
     public void addKendo() {
         Activity model = getBasicActivityData();
 
@@ -462,6 +567,9 @@ public class FitnessUM {
         }
     }
 
+    /**
+     *
+     */
     public void addRunning(){
         AltitudeActivity model = getAltitudeActivityData();
         int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
@@ -472,6 +580,9 @@ public class FitnessUM {
         }
     }
 
+    /**
+     *
+     */
     public void addSkating(){
         Activity model = getBasicActivityData();
         if( !this.userController.addActivity( new Skating(model) ) ) {
@@ -480,6 +591,9 @@ public class FitnessUM {
         }
     }
 
+    /**
+     *
+     */
     public void addSwimming() {
         DistanceActivity model = getDistanceActivityData();
         if( !this.userController.addActivity( new Swimming(model) ) ) {
@@ -520,6 +634,9 @@ public class FitnessUM {
         return u;
     }
 
+    /**
+     *
+     */
     public static void importData(){
         FitnessUM app = new FitnessUM();
         UserController uc = new UserController();
@@ -635,7 +752,11 @@ public class FitnessUM {
         };
      }
 
-     public Prompt[] getStatsTypePrompt(){
+    /**
+     *
+     * @return
+     */
+    public Prompt[] getStatsTypePrompt(){
         final FitnessUM app = this;
         return new Prompt[]{
             new Prompt() { public void exec() { return; }},
@@ -693,6 +814,10 @@ public class FitnessUM {
         return new FitnessUM(this);
     }
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         System.out.println("Welcome to FitnessUM Dev Prompt.");
         FitnessUM.devPrompt();

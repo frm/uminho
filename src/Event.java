@@ -4,6 +4,10 @@
  */
 import java.util.HashSet;
 
+/**
+ *
+ * @author joaorodrigues
+ */
 public class Event {
     private int id;
     private String name;
@@ -12,7 +16,11 @@ public class Event {
     private UserList entries;
     
     //constructors
-    public Event(){
+
+    /**
+     *
+     */
+        public Event(){
         this.id = -1;
         this.name = "testEvent";
         this.capacity = 10;
@@ -20,6 +28,14 @@ public class Event {
         this.entries = new UserList();  
     }
     
+    /**
+     *
+     * @param id
+     * @param name
+     * @param capacity
+     * @param weatherstr
+     * @param entries
+     */
     public Event(int id, String name, int capacity, String weatherstr, UserList entries){
         this.id = id;
         this.name = name;
@@ -28,6 +44,10 @@ public class Event {
         this.entries = entries.clone();
     }
     
+    /**
+     *
+     * @param e
+     */
     public Event(Event e){
         this.id = e.getId();
         this.name = e.getName();
@@ -36,17 +56,67 @@ public class Event {
         this.entries = e.getEntries();
     }
     //setters
-    public void setId(int id) {this.id = id;}
+
+    /**
+     *
+     * @param id
+     */
+        public void setId(int id) {this.id = id;}
+
+    /**
+     *
+     * @param s
+     */
     public void setName(String s) {this.name = s;}
+
+    /**
+     *
+     * @param c
+     */
     public void setCapacity(int c) {this.capacity = c;}
+
+    /**
+     *
+     * @param w
+     */
     public void setWeather(int w) {this.weather.setWeather(w);}
+
+    /**
+     *
+     * @param e
+     */
     public void setEntries(UserList e) {this.entries = e.clone();}
     
     //getters
-    public int getId() {return this.id;}
+
+    /**
+     *
+     * @return
+     */
+        public int getId() {return this.id;}
+
+    /**
+     *
+     * @return
+     */
     public String getName() {return this.name;}
+
+    /**
+     *
+     * @return
+     */
     public int getCapacity() {return this.capacity;}
+
+    /**
+     *
+     * @return
+     */
     public String getWeather() {return this.weather.getWeather();}
+
+    /**
+     *
+     * @return
+     */
     public UserList getEntries() {return this.entries.clone();}
     
     //methods add, remove, addUser, removeUser

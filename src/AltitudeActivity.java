@@ -1,19 +1,38 @@
 import java.util.GregorianCalendar;
 
+/**
+ *
+ * @author joaorodrigues
+ */
 public abstract class AltitudeActivity extends DistanceActivity{
     int altitude;
     
     //constructors
-    public AltitudeActivity(){
+
+    /**
+     *
+     */
+        public AltitudeActivity(){
        super();
        this.altitude = 0;
    }
    
+    /**
+     *
+     * @param date
+     * @param duration
+     * @param distance
+     * @param altitude
+     */
     public AltitudeActivity(GregorianCalendar date, long duration, int distance, int altitude){
         super(date, duration, distance);
         this.altitude = altitude;
     }
    
+    /**
+     *
+     * @param act
+     */
     public AltitudeActivity(AltitudeActivity act) {
        super(act);
        this.altitude = act.getAltitude();

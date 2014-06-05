@@ -14,25 +14,44 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ *
+ * @author joaorodrigues
+ */
 public class UserList implements Serializable{
     private HashSet<Integer> users;
 
+    /**
+     *
+     */
     public UserList() {
         this.users = new HashSet<Integer>();
     }
 
+    /**
+     *
+     * @param users
+     */
     public UserList(HashSet<Integer> users) {
         this.users = new HashSet<Integer>();
         for(Integer i: users)
             (this.users).add(i);
     }
 
+    /**
+     *
+     * @param userlist
+     */
     public UserList(UserList userlist){
         this.users = new HashSet<Integer>();
         for( Integer i: userlist.getUsers() )
             (this.users).add(i);
     }
 
+    /**
+     *
+     * @return
+     */
     public HashSet<Integer> getUsers() {
         HashSet<Integer> copy = new HashSet<Integer>();
         for (int i : this.users)
@@ -41,6 +60,10 @@ public class UserList implements Serializable{
         return copy;
     }
 
+    /**
+     *
+     * @param users
+     */
     public void setUsers(HashSet<Integer> users) {
         this.users = users;
     }
@@ -79,26 +102,52 @@ public class UserList implements Serializable{
         return true;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void addUser(Integer id){
         users.add(id);
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public boolean removeUser(Integer id){
         return users.remove(id);
     }
 
+    /**
+     *
+     * @return
+     */
     public int numberOfUsers(){
         return users.size();
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public boolean containsUser(Integer id){
         return users.contains(id);
     }
 
+    /**
+     *
+     * @return
+     */
     public Iterator<Integer> iterator()  {
         return this.users.iterator();
     }
 
+    /**
+     *
+     * @return
+     */
     public Set<Integer> toSet() {
         return this.getUsers();
     }

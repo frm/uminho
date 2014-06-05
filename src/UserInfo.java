@@ -7,6 +7,10 @@
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 
+/**
+ *
+ * @author joaorodrigues
+ */
 public class UserInfo implements Serializable{
     private boolean gender;
     private double height;
@@ -14,6 +18,9 @@ public class UserInfo implements Serializable{
     private GregorianCalendar birthDate;
     private String favoriteSport;
 
+    /**
+     *
+     */
     public UserInfo(){
         this.gender = true;
         this.height = 0.0;
@@ -22,6 +29,14 @@ public class UserInfo implements Serializable{
         this.favoriteSport = "";
     }
 
+    /**
+     *
+     * @param gender
+     * @param height
+     * @param weight
+     * @param birthDate
+     * @param favoriteSport
+     */
     public UserInfo(boolean gender,double height, double weight, GregorianCalendar birthDate, String favoriteSport){
         this.gender = gender;
         this.height = height;
@@ -30,6 +45,10 @@ public class UserInfo implements Serializable{
         this.favoriteSport = favoriteSport;
     }
 
+    /**
+     *
+     * @param user
+     */
     public UserInfo(UserInfo user){
         this.gender = user.getGender();
         this.height = user.getHeight();
@@ -89,6 +108,12 @@ public class UserInfo implements Serializable{
             && ( u.getFavoriteSport() ).equals( this.favoriteSport ));
     }
 
+    /**
+     *
+     * @param u
+     * @param ui
+     * @return
+     */
     public static UserInfo generateValidInfo(UserInfo u, UserInfo ui) {
         UserInfo n = new UserInfo(u);
         

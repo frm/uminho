@@ -15,16 +15,31 @@ public class Records implements Serializable{
     private HashMap<String, RecordEntry> records;
     
     //constructors
-    public Records()
+
+    /**
+     *
+     */
+        public Records()
     {this.records = new HashMap<String,RecordEntry>();}
     
+    /**
+     *
+     * @param rec
+     */
     public Records(HashMap<String, RecordEntry> rec)
     {this.records = cloneRecords(rec);}
     
+    /**
+     *
+     * @param rec
+     */
     public Records(Records rec)
     {this.records = rec.getRecords();}
     
-  
+    /**
+     *
+     * @param act
+     */
     public void addRecord(Activity act){
         String name = act.getName();
         if( this.records.containsKey(name)){
@@ -49,20 +64,36 @@ public class Records implements Serializable{
         return result;
     }
     
+    /**
+     *
+     * @param act
+     */
     public void removeRecord(Activity act){
         removeRecord( act.getName() );
     }
     
+    /**
+     *
+     * @param name
+     */
     public void removeRecord(String name){
         this.records.remove(name);
     }
     
     //getters & setters
-    public HashMap<String,RecordEntry> getRecords(){
+
+    /**
+     *
+     * @return
+     */
+        public HashMap<String,RecordEntry> getRecords(){
         return cloneRecords(this.records);
     }
     
-    
+    /**
+     *
+     * @param rec
+     */
     public void setRecords(HashMap<String, RecordEntry> rec)
     {this.records = cloneRecords(rec);}
     
@@ -75,6 +106,11 @@ public class Records implements Serializable{
         return result;
     }
     
+    /**
+     *
+     * @param s
+     * @return
+     */
     public RecordEntry getRecordEntry(String s){
         return this.records.get(s).clone();
     }

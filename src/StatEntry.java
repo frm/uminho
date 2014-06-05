@@ -21,7 +21,10 @@ public class StatEntry implements Serializable{
   private long avgDuration;
   private int nrEntries;
   
-  public StatEntry(){
+    /**
+     *
+     */
+    public StatEntry(){
       this.totalCalories = 0;
       this.avgCalories = 0;
       this.name = "";
@@ -30,6 +33,15 @@ public class StatEntry implements Serializable{
       this.nrEntries = 0;
   }
   
+    /**
+     *
+     * @param name
+     * @param totalCalories
+     * @param avgCalories
+     * @param totalDuration
+     * @param avgDuration
+     * @param nrEntries
+     */
     public StatEntry(String name, int totalCalories, int avgCalories, long totalDuration, long avgDuration, int nrEntries) {
         this.name = name;
         this.totalCalories = totalCalories;
@@ -39,6 +51,12 @@ public class StatEntry implements Serializable{
         this.nrEntries = nrEntries;
     }
     
+    /**
+     *
+     * @param name
+     * @param calories
+     * @param duration
+     */
     public StatEntry(String name, int calories, long duration){
         this.name = name;
         this.totalCalories = 0;
@@ -50,6 +68,10 @@ public class StatEntry implements Serializable{
         updateStat(calories, duration);
     }
     
+    /**
+     *
+     * @param act
+     */
     public StatEntry(Activity act){
         this.name = act.getName();
         this.totalCalories = 0;
@@ -61,6 +83,10 @@ public class StatEntry implements Serializable{
         updateStat(act);
     }
 
+    /**
+     *
+     * @param se
+     */
     public StatEntry(StatEntry se) {
         this.name = se.getName();
         this.totalCalories = se.getTotalCalories();
@@ -70,30 +96,59 @@ public class StatEntry implements Serializable{
         this.nrEntries = se.getNrEntries();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getTotalCalories() {
         return totalCalories;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAvgCalories() {
         return avgCalories;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getTotalDuration() {
         return  totalDuration;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getAvgDuration() {
         return avgDuration;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getNrEntries() {
         return nrEntries;
     }
     
+    /**
+     *
+     * @param millis
+     * @return
+     */
     public static String formatMillis(long millis){
         int seg = (int)millis/1000;
         
@@ -106,33 +161,58 @@ public class StatEntry implements Serializable{
         return (hr + "h" + min + "m" + seg + "s");
     }
     
-
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @param totalCalories
+     */
     public void setTotalCalories(int totalCalories) {
         this.totalCalories = totalCalories;
     }
 
+    /**
+     *
+     * @param avgCalories
+     */
     public void setAvgCalories(int avgCalories) {
         this.avgCalories = avgCalories;
     }
 
+    /**
+     *
+     * @param totalDuration
+     */
     public void setTotalDuration(long totalDuration) {
         this.totalDuration = totalDuration;
     }
 
+    /**
+     *
+     * @param nrEntries
+     */
     public void setNrEntries(int nrEntries) {
         this.nrEntries = nrEntries;
     }
     
-    
-
+    /**
+     *
+     * @param avgDuration
+     */
     public void setAvgDuration(long avgDuration) {
         this.avgDuration = avgDuration;
     }
     
+    /**
+     *
+     * @param act
+     */
     public void updateStat(Activity act){
         double calories = act.getCalories();
         long duration = act.getDuration();
@@ -145,6 +225,11 @@ public class StatEntry implements Serializable{
         this.avgDuration = this.totalDuration/this.nrEntries;
     }
     
+    /**
+     *
+     * @param calories
+     * @param duration
+     */
     public void updateStat(int calories, long duration){
         this.nrEntries++;
         this.totalCalories += calories;
@@ -154,6 +239,10 @@ public class StatEntry implements Serializable{
         this.avgDuration = this.totalDuration/this.nrEntries;
     }
     
+    /**
+     *
+     * @param act
+     */
     public void removeActivityStat(Activity act){
         this.nrEntries--;
         this.totalCalories -= act.getCalories();
