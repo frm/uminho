@@ -13,32 +13,32 @@ import java.util.Map;
  * @author tiago
  */
 public class AltitudeMilestones extends DistanceMilestones{
-    private HashMap<Integer,Long> altitudeMS;
-    
-    //constructors public 
+    private HashMap<Integer,Long> altitude;
+
+    //constructors public
     public AltitudeMilestones(){
         super();
-        this.altitudeMS = new HashMap<Integer,Long>();
+        this.altitude = new HashMap<Integer,Long>();
         this.populateMilestones();
     }
-    
+
     public AltitudeMilestones(HashMap<Long,Integer> cms,HashMap<Integer,Long> dms,HashMap<Integer,Long> ams){
         super(cms, dms);
-        this.altitudeMS = cloneAltitudeMilestones(ams);
+        this.altitude = cloneAltitudeMilestones(ams);
     }
-    
+
     public AltitudeMilestones(AltitudeMilestones ams){
         super(ams);
-        this.altitudeMS = ams.getAltitudeMilestones();
+        this.altitude = ams.getAltitudeMilestones();
     }
-    
+
     //setters & getters
     public HashMap<Integer,Long> getAltitudeMilestones()
-    {return cloneAltitudeMilestones(this.altitudeMS);}
-    
-    public void setAltitudeMS(HashMap<Integer, Long> altitudeMS)
-    {this.altitudeMS = cloneAltitudeMilestones(altitudeMS);}
-    
+    {return cloneAltitudeMilestones(this.altitude);}
+
+    public void setAltitude(HashMap<Integer, Long> altitude)
+    {this.altitude = cloneAltitudeMilestones(altitude);}
+
     //methods
     public HashMap<Integer, Long> cloneAltitudeMilestones(HashMap<Integer,Long> am) {
         HashMap<Integer,Long> aux = new HashMap<Integer,Long>();
@@ -46,54 +46,54 @@ public class AltitudeMilestones extends DistanceMilestones{
             aux.put(ams.getKey(), ams.getValue());
         return aux;
     }
-    
+
     public void populateMilestones(){
         super.populateMilestones();
-        this.altitudeMS.put(50,-1L);
-        this.altitudeMS.put(100,-1L);
-        this.altitudeMS.put(300,-1L);
-        this.altitudeMS.put(500,-1L);
-        this.altitudeMS.put(1000,-1L);
+        this.altitude.put(50,-1L);
+        this.altitude.put(100,-1L);
+        this.altitude.put(300,-1L);
+        this.altitude.put(500,-1L);
+        this.altitude.put(1000,-1L);
     }
-    
+
     public void addData(AltitudeActivity act){
         super.addData(act);
         long actDuration = act.getDuration();
         int actAltitude = act.getAltitude();
-        
-        for(Map.Entry<Integer,Long> pair : altitudeMS.entrySet()){
+
+        for(Map.Entry<Integer,Long> pair : altitude.entrySet()){
             if(actAltitude >= pair.getKey()){
                 long aux = ruleOfThree(actDuration/60000L, (long) actAltitude, pair.getKey());
-                
+
                 if(aux > pair.getValue())
-                    altitudeMS.put((int)pair.getKey(),aux);
+                    altitude.put((int)pair.getKey(),aux);
             }
             else break;
         }
     }
-    
+
     //essentials
     public AltitudeMilestones clone() {
         return new AltitudeMilestones(this);
     }
-    
+
     public String toString(){
         StringBuilder result = new StringBuilder();
-        
-        for(Map.Entry<Integer,Long> pair: this.altitudeMS.entrySet()){
+
+        for(Map.Entry<Integer,Long> pair: this.altitude.entrySet()){
             result.append( pair.getKey());
             result.append( " meters: ");
             result.append( StatEntry.formatMillis( pair.getValue() ));
         }
         return ( super.toString() + result.toString() );
     }
-    
+
     public boolean equals(Object o){
         if (this == o) return true;
-        
+
         if (o == null || this.getClass() != o.getClass()) return false;
-        
+
         AltitudeMilestones dms = (AltitudeMilestones) o;
-        
-        return this.altitudeMS.equals(dms.getDistanceMilestones());
+
+        return this.altitude.equals(dms.getDistanceMilestones());
     }}

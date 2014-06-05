@@ -13,27 +13,27 @@ import java.util.Map;
  * @author tiago
  */
 public class Milestones implements Serializable{
-    private HashMap<Long,Integer> caloriesMS;
+    private HashMap<Long,Integer> calories;
 
     //constructors
     public Milestones(){
-        this.caloriesMS = new HashMap();
+        this.calories = new HashMap();
         populateMilestones();
      }
 
     public Milestones(HashMap<Long,Integer> cms) {
-        this.caloriesMS = cloneMilestones(cms);
+        this.calories = cloneMilestones(cms);
     }
 
     public Milestones(Milestones m)
-    {this.caloriesMS = m.getMilestones();}
+    {this.calories = m.getMilestones();}
 
     //getters & setters
     public HashMap<Long,Integer> getMilestones()
-    {return cloneMilestones(this.caloriesMS);}
+    {return cloneMilestones(this.calories);}
 
-    public void setCaloriesMS(HashMap<Long, Integer> caloriesMS)
-    {this.caloriesMS = cloneMilestones(caloriesMS);}
+    public void setCalories(HashMap<Long, Integer> calories)
+    {this.calories = cloneMilestones(calories);}
 
     //methods
     public HashMap<Long, Integer> cloneMilestones(HashMap<Long,Integer> m) {
@@ -44,24 +44,24 @@ public class Milestones implements Serializable{
     }
 
     public void populateMilestones(){
-        this.caloriesMS.put(10L,-1);
-        this.caloriesMS.put(30L,-1);
-        this.caloriesMS.put(60L,-1);
-        this.caloriesMS.put(120L,-1);
-        this.caloriesMS.put(180L,-1);
+        this.calories.put(10L,-1);
+        this.calories.put(30L,-1);
+        this.calories.put(60L,-1);
+        this.calories.put(120L,-1);
+        this.calories.put(180L,-1);
     }
 
     public void addData(Activity act){
         long actDuration = act.getDuration();
         int actCalories = act.getCalories();
 
-        for(Map.Entry<Long,Integer> pair : caloriesMS.entrySet()) {
+        for(Map.Entry<Long,Integer> pair : calories.entrySet()) {
 
             if( actDuration >= pair.getKey() ) {
                 int aux = (int) ruleOfThree(actDuration/60000L, (long) actCalories, pair.getKey());
 
                 if(aux > pair.getValue())
-                    caloriesMS.put(pair.getKey(), aux);
+                    calories.put(pair.getKey(), aux);
             }
         }
     }
@@ -73,9 +73,9 @@ public class Milestones implements Serializable{
     //essentials
     public String toString(){
         StringBuilder result = new StringBuilder();
-        
-        for(Map.Entry<Long,Integer> pair: this.caloriesMS.entrySet()){
-            
+
+        for(Map.Entry<Long,Integer> pair: this.calories.entrySet()){
+
             if(pair.getKey() < 60){
                 result.append(pair.getKey());
                 result.append(" minutes: ");
@@ -84,10 +84,10 @@ public class Milestones implements Serializable{
                 result.append( (pair.getKey())/60 );
                 result.append(" hour(s): ");
             }
-            
+
             result.append(pair.getValue());
             result.append(" kCal\n");
-            
+
         }
         return result.toString();
     }
@@ -99,7 +99,7 @@ public class Milestones implements Serializable{
 
         Milestones cms = (Milestones) o;
 
-        return this.caloriesMS.equals(cms.getMilestones());
+        return this.calories.equals(cms.getMilestones());
     }
 
     public Milestones clone() {
