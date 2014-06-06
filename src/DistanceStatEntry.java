@@ -55,14 +55,12 @@ public class DistanceStatEntry extends StatEntry{
     
     
     public void updateStat(DistanceActivity act){
-        super.updateStat(act);
         
         this.totalDistance += act.getDistance();
         this.avgDistance = this.totalDistance/this.getNrEntries();
     }
     
     public void updateStat(int calories, long duration, int distance){
-        super.updateStat(calories, duration);
         
         this.totalDistance += distance;
         this.avgDistance = this.totalDistance/this.getNrEntries();

@@ -97,7 +97,6 @@ public class AltitudeStatEntry extends DistanceStatEntry{
      * @param act
      */
     public void updateStat(AltitudeActivity act){
-        super.updateStat(act);
         
         this.totalAltitude += act.getAltitude();
         this.avgAltitude = this.totalAltitude/this.getNrEntries();
@@ -111,7 +110,6 @@ public class AltitudeStatEntry extends DistanceStatEntry{
      * @param altitude
      */
     public void updateStat(int calories, long duration,int distance, int altitude){
-        super.updateStat(calories, duration, distance);
         
         this.totalAltitude += altitude;
         this.avgAltitude = this.totalAltitude/this.getNrEntries();
