@@ -62,7 +62,7 @@ public class Kayaking extends DistanceActivity implements WeatherInterface{
     //methods
     public int calculateCalories(long duration, int distance, int weather){
         double wfac = Weather.calculateWeatherFactor(weather);
-        return (int) ((double)(distance/duration)*650000.0*wfac);
+        return (int) (((double)distance/(double)duration)*650000.0*wfac);
     }
 
     

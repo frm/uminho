@@ -26,6 +26,7 @@ public class DistanceMilestones extends Milestones{
     public DistanceMilestones(TreeMap<Long,Integer> cms, TreeMap<Integer,Long> rC, TreeMap<Long,Integer> dms, TreeMap<Integer,Long> rD){
         super(cms,rC);
         this.distance = cloneDistanceMilestones(dms);
+        this.reverseD = cloneReverseDistanceMilestones(rD);
     }
     
     public DistanceMilestones(DistanceActivity act){
@@ -167,8 +168,11 @@ public class DistanceMilestones extends Milestones{
 
             if(pair.getValue() == -1)
                 result.append(" No info\n");
-            else
-                result.append( StatEntry.formatMillis( pair.getValue() ) + "\n");
+            else{
+                result.append(pair.getValue());
+                result.append(" minutes\n");
+            }
+                
         }
 
         return result.toString();

@@ -29,6 +29,6 @@ public class Swimming extends DistanceActivity {
     {return new Swimming(this);}
     
     public int calculateCalories(long duration, int distance)
-    {return (int) ( (distance/duration)*900000.0) ;}
+    {return (int) ( ((double)distance/(double)duration)*900000) ;}
 }
 
