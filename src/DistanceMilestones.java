@@ -78,10 +78,10 @@ public class DistanceMilestones extends Milestones{
         this.distance.put(60L,-1);
         this.distance.put(120L,-1);
         this.distance.put(180L,-1);
-        this.reverseD.put(1000,-1L);
-        this.reverseD.put(5000,-1L);
-        this.reverseD.put(10000,-1L);
-        this.reverseD.put(20000,-1L);
+        this.reverseD.put(1000,Long.MAX_VALUE);
+        this.reverseD.put(5000,Long.MAX_VALUE);
+        this.reverseD.put(10000,Long.MAX_VALUE);
+        this.reverseD.put(20000,Long.MAX_VALUE);
     }
     
     private void addDistanceData(DistanceActivity act) {
@@ -115,7 +115,7 @@ public class DistanceMilestones extends Milestones{
             
             if( actDistance >= pair.getKey() ) {
                 int aux = (int) ruleOfThree( (long) actDistance, actMinDuration, pair.getKey() );
-                if(aux > pair.getValue())
+                if(aux < pair.getValue())
                     reverseD.put(pair.getKey(), (long)aux);
             }
             
@@ -166,7 +166,7 @@ public class DistanceMilestones extends Milestones{
             result.append( (pair.getKey())/1000);
             result.append( " km: ");
 
-            if(pair.getValue() == -1)
+            if(pair.getValue() == Long.MAX_VALUE)
                 result.append(" No info\n");
             else{
                 result.append(pair.getValue());

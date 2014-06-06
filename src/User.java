@@ -202,7 +202,6 @@ public class User extends BasicUser implements BaseModel {
 
     public boolean addActivity(Activity act) {
         boolean res = activityInfo.addActivity(act);
-        System.out.println(this.activityInfo);
         return res;
     }
 

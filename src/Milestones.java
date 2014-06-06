@@ -73,10 +73,10 @@ public class Milestones implements Serializable{
         this.calories.put(60L,-1);
         this.calories.put(120L,-1);
         this.calories.put(180L,-1);
-        this.reverseC.put(50,-1L);
-        this.reverseC.put(100,-1L);
-        this.reverseC.put(250,-1L);
-        this.reverseC.put(500,-1L);
+        this.reverseC.put(50,Long.MAX_VALUE);
+        this.reverseC.put(100,Long.MAX_VALUE);
+        this.reverseC.put(250,Long.MAX_VALUE);
+        this.reverseC.put(500,Long.MAX_VALUE);
     }
     
     private void addCalorieData(Activity act) {
@@ -110,7 +110,7 @@ public class Milestones implements Serializable{
             
             if( actCalories >= pair.getKey() ) {
                 int aux = (int) ruleOfThree( (long) actCalories, actMinDuration, pair.getKey() );
-                if(aux > pair.getValue())
+                if(aux < pair.getValue())
                     reverseC.put(pair.getKey(), (long)aux);
             }
             
@@ -161,7 +161,7 @@ public class Milestones implements Serializable{
             result.append(pair.getKey());
             result.append(" kCal: ");
             
-            if(pair.getValue() == -1)
+            if(pair.getValue() == Long.MAX_VALUE)
                 result.append(" No info\n");
             else{
                 result.append(pair.getValue());

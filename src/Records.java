@@ -48,7 +48,7 @@ public class Records implements Serializable{
         String name = act.getName();
         if( this.records.containsKey(name)){
             Milestones entry = this.records.get(name);
-            entry.addData(act);
+            addData(entry, act);
             this.records.put(name, entry);
         }
         else{
@@ -82,6 +82,15 @@ public class Records implements Serializable{
      */
     public void removeRecord(String name){
         this.records.remove(name);
+    }
+    
+    public void addData(Milestones entry, Activity act){
+        if(entry instanceof AltitudeMilestones)
+            ( (AltitudeMilestones) entry).addData( (AltitudeActivity) act);
+        else if(entry instanceof DistanceMilestones)
+            ( (DistanceMilestones) entry).addData( (DistanceActivity) act);
+        else
+            entry.addData(act);
     }
     
     //getters & setters

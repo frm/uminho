@@ -79,11 +79,11 @@ public class AltitudeMilestones extends DistanceMilestones{
         this.altitude.put(60L,-1);
         this.altitude.put(120L,-1);
         this.altitude.put(180L,-1);
-        this.reverseA.put(10,-1L);
-        this.reverseA.put(50,-1L);
-        this.reverseA.put(100,-1L);
-        this.reverseA.put(300,-1L);
-        this.reverseA.put(500,-1L);
+        this.reverseA.put(10,Long.MAX_VALUE);
+        this.reverseA.put(50,Long.MAX_VALUE);
+        this.reverseA.put(100,Long.MAX_VALUE);
+        this.reverseA.put(300,Long.MAX_VALUE);
+        this.reverseA.put(500,Long.MAX_VALUE);
     }
 
     public void addAltitudeData(AltitudeActivity act){
@@ -117,7 +117,7 @@ public class AltitudeMilestones extends DistanceMilestones{
             
             if( actAltitude >= pair.getKey() ) {
                 int aux = (int) ruleOfThree( (long) actAltitude, actMinDuration, pair.getKey() );
-                if(aux > pair.getValue())
+                if(aux < pair.getValue())
                     reverseA.put(pair.getKey(), (long)aux);
             }
             
@@ -168,7 +168,7 @@ public class AltitudeMilestones extends DistanceMilestones{
             result.append( pair.getKey());
             result.append( " m: ");
 
-            if(pair.getValue() == -1)
+            if(pair.getValue() == Long.MAX_VALUE)
                 result.append(" No info\n");
             else{
                 result.append(pair.getValue());
