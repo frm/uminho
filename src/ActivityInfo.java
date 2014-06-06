@@ -54,7 +54,7 @@ public class ActivityInfo implements Serializable{
         return this.records.clone();
     }
    
-   public RecordEntry getRecordEntry(String s){
+   public Milestones getMilestones(String s){
        return this.records.getRecordEntry(s);
    }
     
@@ -96,8 +96,8 @@ public class ActivityInfo implements Serializable{
         
         if(validTime) {
             stats.addStat(act);
-            records.addRecord(act);
             activityLog.add(act);
+            records.addRecord(act);
         }
         
         return validTime;        

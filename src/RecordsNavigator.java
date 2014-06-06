@@ -29,7 +29,7 @@ public class RecordsNavigator extends Navigator<String>{
     }
 
     public void select(String s){
-        System.out.println( this.uc.getRecordEntry(s).toString() );
+        System.out.println( this.uc.getMilestones(s) );
     }
 
     public String emptyMessage() {

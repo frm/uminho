@@ -401,8 +401,8 @@ public class UserController implements Serializable {
      * @param s
      * @return
      */
-    public RecordEntry getRecordEntry(String s){
-       return currentUser.getRecordEntry(s);
+    public Milestones getMilestones(String s){
+       return currentUser.getMilestones(s);
    }
    
     /**

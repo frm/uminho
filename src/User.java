@@ -105,8 +105,8 @@ public class User extends BasicUser{
      * @param s
      * @return
      */
-    public RecordEntry getRecordEntry(String s){
-       return activityInfo.getRecordEntry(s);
+    public Milestones getMilestones(String s){
+       return activityInfo.getMilestones(s);
    }
     
     /**

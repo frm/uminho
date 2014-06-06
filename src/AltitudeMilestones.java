@@ -20,6 +20,13 @@ public class AltitudeMilestones extends DistanceMilestones{
     //constructors public
     public AltitudeMilestones(){
         super();
+        populateMilestones();
+    }
+    
+    public AltitudeMilestones(AltitudeActivity act){
+        super(act);
+        populateMilestones();
+        this.addData(act);
     }
 
     public AltitudeMilestones(TreeMap<Long,Integer> cms, TreeMap<Integer,Long> rC, TreeMap<Long,Integer> dms, TreeMap<Integer,Long> rD, TreeMap<Integer,Long> ams, TreeMap<Long,Integer> rA){
@@ -63,7 +70,6 @@ public class AltitudeMilestones extends DistanceMilestones{
     }
     
     public void populateMilestones(){
-        super.populateMilestones();
         this.altitude = new TreeMap<Integer,Long>();
         this.reverseA = new TreeMap<Long,Integer>();
         this.altitude.put(50,-1L);
@@ -90,7 +96,6 @@ public class AltitudeMilestones extends DistanceMilestones{
                 if(aux > pair.getValue())
                     altitude.put((int)pair.getKey(),aux);
             }
-            else break;
         }
         
         for(Map.Entry<Long,Integer> pair : reverseA.entrySet()){
@@ -100,7 +105,6 @@ public class AltitudeMilestones extends DistanceMilestones{
                 if(aux > pair.getKey())
                     reverseA.put(pair.getKey(), (int)aux);
             }
-            else break;
         }
     }
 

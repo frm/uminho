@@ -1,6 +1,7 @@
 import java.io.Serializable;
-import java.util.TreeMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,12 +19,17 @@ public class Milestones implements Serializable{
 
     //constructors
     public Milestones(){
-        populateMilestones();
+        this.populateMilestones();
      }
 
     public Milestones(TreeMap<Long,Integer> cms, TreeMap<Integer,Long> rC) {
         this.calories = cloneMilestones(cms);
         this.reverseC = cloneReverseMilestones(rC);
+    }
+    
+    public Milestones(Activity act){
+        this.populateMilestones();
+        this.addData(act);
     }
 
     public Milestones(Milestones m){
@@ -72,34 +78,49 @@ public class Milestones implements Serializable{
         this.reverseC.put(250,-1L);
         this.reverseC.put(500,-1L);
     }
-
-    public void addData(Activity act){
+    
+    private void addCalorieData(Activity act) {
         int actMinDuration = (int) (act.getDuration()/60000L);
-        long actDuration = act.getDuration();
         int actCalories = act.getCalories();
-
-        for(Map.Entry<Long,Integer> pair : calories.entrySet()) {
-
-            if( actMinDuration >= pair.getKey() ) {
-                int aux = (int) ruleOfThree(actMinDuration, (long) actCalories, pair.getKey());
-
-                if(aux > pair.getValue())
-                    calories.put(pair.getKey(), aux);
+        
+        Iterator it = calories.entrySet().iterator();
+        boolean hasFinished = false;
+        
+        while( it.hasNext() && !hasFinished ) {
+            Map.Entry<Long, Integer> pair = (Map.Entry<Long, Integer>)it.next();
+            
+            if ( actMinDuration >= pair.getKey() ) {
+                int aux = (int) ruleOfThree(actMinDuration, (long)actCalories, pair.getKey() );
+                if( aux > pair.getValue() )
+                    this.calories.put(pair.getKey(), aux);
             }
-            else break;
+            else hasFinished = true;
         }
+    }
+    
+    private void addTimeCalorieData(Activity act) {
+        int actMinDuration = (int) (act.getDuration()/60000L);
+        int actCalories = act.getCalories();
         
+        Iterator it = reverseC.entrySet().iterator();
+        boolean hasFinished = false;
         
-        for(Map.Entry<Integer,Long> pair : reverseC.entrySet()) {
-
+        while( it.hasNext() && !hasFinished) {
+            Map.Entry<Integer, Long> pair = (Map.Entry<Integer, Long>)it.next();
+            
             if( actCalories >= pair.getKey() ) {
-                int aux = (int) ruleOfThree( (long) actCalories, actDuration/60000L, pair.getKey());
-
+                int aux = (int) ruleOfThree( (long) actCalories, actMinDuration, pair.getKey() );
                 if(aux > pair.getValue())
                     reverseC.put(pair.getKey(), (long)aux);
             }
-            else break;
+            
+            else hasFinished = false;
         }
+    }
+
+    public void addData(Activity act){
+        addCalorieData(act);
+        addTimeCalorieData(act);
     }
 
     public static long ruleOfThree(long l1, long l2, long r1){

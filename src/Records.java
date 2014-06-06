@@ -1,6 +1,7 @@
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
  * @author tiago
  */
 public class Records implements Serializable{
-    private HashMap<String, RecordEntry> records;
+    private HashMap<String, Milestones> records;
     
     //constructors
 
@@ -23,13 +24,13 @@ public class Records implements Serializable{
      *
      */
         public Records()
-    {this.records = new HashMap<String,RecordEntry>();}
+    {this.records = new HashMap<String,Milestones>();}
     
     /**
      *
      * @param rec
      */
-    public Records(HashMap<String, RecordEntry> rec)
+    public Records(HashMap<String, Milestones> rec)
     {this.records = cloneRecords(rec);}
     
     /**
@@ -46,24 +47,24 @@ public class Records implements Serializable{
     public void addRecord(Activity act){
         String name = act.getName();
         if( this.records.containsKey(name)){
-            RecordEntry entry = this.records.get(name);
-            entry.updateRecords(act);
+            Milestones entry = this.records.get(name);
+            entry.addData(act);
             this.records.put(name, entry);
         }
         else{
-            this.records.put(name, createNewRecordEntry(act) );
+            this.records.put(name, createNewMilestones(act) );
         }
     }
-    
-    private RecordEntry createNewRecordEntry(Activity act){
-        RecordEntry result;
+   
+    private Milestones createNewMilestones(Activity act){
+        Milestones result;
         if(act instanceof AltitudeActivity)
-            result = new AltitudeRecordEntry(act);
+            result = new AltitudeMilestones( (AltitudeActivity) act);
         else if(act instanceof DistanceActivity)
-            result = new DistanceRecordEntry(act);
+            result = new DistanceMilestones( (DistanceActivity) act);
         else
-            result = new RecordEntry(act);
-        
+            result = new Milestones(act);
+    
         return result;
     }
     
@@ -89,7 +90,7 @@ public class Records implements Serializable{
      *
      * @return
      */
-        public HashMap<String,RecordEntry> getRecords(){
+        public HashMap<String,Milestones> getRecords(){
         return cloneRecords(this.records);
     }
     
@@ -97,14 +98,14 @@ public class Records implements Serializable{
      *
      * @param rec
      */
-    public void setRecords(HashMap<String, RecordEntry> rec)
+    public void setRecords(HashMap<String, Milestones> rec)
     {this.records = cloneRecords(rec);}
     
     //methods
-    private HashMap<String, RecordEntry> cloneRecords(HashMap<String, RecordEntry> entries ) {
-        HashMap<String, RecordEntry> result = new HashMap<String, RecordEntry>();
-        for(RecordEntry rec: entries.values()){
-            result.put(rec.getName(), rec);
+    private HashMap<String, Milestones> cloneRecords(HashMap<String, Milestones> entries ) {
+        HashMap<String, Milestones> result = new HashMap<String, Milestones>();
+        for(Map.Entry<String, Milestones> entry : entries.entrySet() ){
+            result.put( entry.getKey(), entry.getValue().clone() );
         }
         return result;
     }
@@ -114,13 +115,8 @@ public class Records implements Serializable{
      * @param s
      * @return
      */
-    public RecordEntry getRecordEntry(String s) {
-        RecordEntry re = this.records.get(s);
-        if(re instanceof AltitudeRecordEntry)
-            return new AltitudeRecordEntry((AltitudeRecordEntry)re);
-        else if (re instanceof DistanceRecordEntry)
-            return new DistanceRecordEntry( (DistanceRecordEntry)re );
-        else return re.clone();
+    public Milestones getRecordEntry(String s) {
+        return this.records.get(s).clone();
     }
     
     //essentials
