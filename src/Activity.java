@@ -70,10 +70,10 @@ public abstract class Activity implements Serializable {
     public boolean aliasOf(Activity a) {
         long currStartTime = this.date.getTimeInMillis();
         long actStartTime = a.getDate().getTimeInMillis();
-        boolean upperAlias = this.duration + currStartTime > actStartTime && currStartTime < actStartTime;
-        boolean lowerAlias = a.getDuration() + actStartTime > currStartTime && actStartTime < currStartTime;
+        boolean upperAlias = (this.duration + currStartTime >= actStartTime) && (currStartTime <= actStartTime);
+        boolean lowerAlias = (a.getDuration() + actStartTime >= currStartTime) && (actStartTime <= currStartTime);
         
-        return upperAlias || lowerAlias;
+        return (upperAlias || lowerAlias);
     }
  
     public abstract Activity clone();
