@@ -78,45 +78,45 @@ public class FriendList implements Serializable{
             this.requestsReceived.addUser(id);
         }
 
-        public void acceptFriendRequest(User u) throws InexistingUserException {
+        public void acceptFriendRequest(User u) {
             acceptFriendRequest( u.getId() );
         }
 
-        public void acceptFriendRequest(int id) throws InexistingUserException {
+        public void acceptFriendRequest(int id) {
             this.requestsReceived.removeUser(id);
             this.friends.addUser(id);
         }
 
-        public void confirmFriendRequest(User u) throws InexistingUserException {
+        public void confirmFriendRequest(User u) {
             confirmFriendRequest( u.getId() );
         }
 
-        public void confirmFriendRequest(int id) throws InexistingUserException {
+        public void confirmFriendRequest(int id) {
             removeSentRequest(id);
             this.friends.addUser(id);
         }
 
-        public void rejectFriendRequest(User u) throws InexistingUserException {
+        public void rejectFriendRequest(User u) {
             rejectFriendRequest( u.getId() );
         }
 
-        public void rejectFriendRequest(int id) throws InexistingUserException {
+        public void rejectFriendRequest(int id) {
             this.requestsReceived.removeUser(id);
         }
 
-        public void removeSentRequest(User u) throws InexistingUserException {
+        public void removeSentRequest(User u) {
             removeSentRequest( u.getId() );
         }
 
-        public void removeSentRequest(int id) throws InexistingUserException {
+        public void removeSentRequest(int id) {
             this.requestsSent.removeUser(id);
         }
 
-        public void deleteFriend(User u) throws InexistingUserException {
+        public void deleteFriend(User u) {
             deleteFriend( u.getId() );
         }
 
-        public void deleteFriend(int id) throws InexistingUserException {
+        public void deleteFriend(int id) {
             this.friends.removeUser(id);
         }
 

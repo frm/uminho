@@ -4,11 +4,6 @@
  */
 import java.util.GregorianCalendar;
 
-/**
- *
- * @author joaorodrigues
- */
-
 public class Event implements BaseModel {
     private int id;
     private int capacity;
@@ -31,7 +26,7 @@ public class Event implements BaseModel {
         this.date = new GregorianCalendar();
     }
 
-    public Event(int id, String name, String type, int capacity, String weather, UserList participants, GregorianCalendar date){
+    public Event(int id, String name, String type, int capacity, int weather, UserList participants, GregorianCalendar date){
         this.id = id;
         this.name = name;
         this.type = type;
@@ -51,7 +46,7 @@ public class Event implements BaseModel {
         this.date = e.getDate();
     }
 
-    public Event(String name, String type, int capacity, String weather, GregorianCalendar date) {
+    public Event(String name, String type, int capacity, int weather, GregorianCalendar date) {
         this.id = -1;
         this.name = name;
         this.type = type;
@@ -94,7 +89,6 @@ public class Event implements BaseModel {
     /** Sets the participants
      * @param p UserList of participants
      */
-
     public void setParticipants(UserList p) {
         this.participants = p.clone();
     }
@@ -159,7 +153,6 @@ public class Event implements BaseModel {
     public GregorianCalendar getDate() {
         return (GregorianCalendar)this.date.clone();
     }
-
 
     /** Adds a new participant to the event
      * @param u User to be added
@@ -226,7 +219,7 @@ public class Event implements BaseModel {
     }
 
     @Override
-    public boolean eqals(Object o) {
+    public boolean equals(Object o) {
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass()) return false;
 

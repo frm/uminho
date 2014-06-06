@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class UserDatabase implements Serializable, MappedDatabase<User> {
@@ -38,7 +39,6 @@ public class UserDatabase implements Serializable, MappedDatabase<User> {
 
         this.adminEntry = UserDatabase.copyAdmins( db.getAdmins() );
         UserDatabase.copyUsers(this, db);
-
     }
 
     /** Parameterized constructor
@@ -52,11 +52,11 @@ public class UserDatabase implements Serializable, MappedDatabase<User> {
     }
 
     @Override
-    public HashMap<Integer, User> getIdEntry() {
+    public Map<Integer, User> getIdEntry() {
        HashMap<Integer, User> cpy = new HashMap<Integer, User>();
        for (User u : this.idEntry.values() )
             cpy.put( u.getId(), u.clone() );
-       
+
         return cpy;
     }
 
@@ -88,21 +88,32 @@ public class UserDatabase implements Serializable, MappedDatabase<User> {
     }
 
     @Override
-    public User findById(int id) throws InexistingUserException {
-       return this.idEntry.get(id).clone();
+    public User findById(int id) {
+       try {
+           return this.idEntry.get(id).clone();
+       } catch(Exception e) {
+           return null;
+       }
     }
 
     /** Returns a user with the corresponding email or null if not found
      * @param email Wanted user email
      * @return Corresponding user
-     * @throws InexistingUserException
      */
-    public User findByEmail(String email) throws InexistingUserException {
-        return findById( this.emailEntry.get(email) );
+    public User findByEmail(String email) {
+        try {
+            return findById( this.emailEntry.get(email) );
+        } catch(Exception e) {
+            return null;
+        }
     }
 
-    public AdminUser findAdmin(String email) throws InexistingUserException {
-        return this.adminEntry.get(email).clone();
+    public AdminUser findAdmin(String email) {
+        try {
+            return this.adminEntry.get(email).clone();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public ArrayList<User> searchName(String name) {
@@ -136,12 +147,12 @@ public class UserDatabase implements Serializable, MappedDatabase<User> {
     }
 
     @Override
-    public void delete(int userId) throws InexistingUserException {
+    public void delete(int userId) {
         String email = findById(userId).getEmail();
         this.idEntry.remove(userId);
         this.emailEntry.remove(email);
     }
-    
+
     public void delete(String email) {
        int id = this.emailEntry.get(email);
        this.idEntry.remove(id);
@@ -167,7 +178,12 @@ public class UserDatabase implements Serializable, MappedDatabase<User> {
 
         UserDatabase db = (UserDatabase) o;
 
-       return this.idEntry.equals( db.getIdEntry() ) && this.emailEntry.equals( db.getEmailEntry() ) && this.adminEntry.equals( db.getAdmins() );
+       return (
+        this.idEntry.equals( (HashMap<Integer, User>)db.getIdEntry() ) &&
+        this.emailEntry.equals( db.getEmailEntry() ) &&
+        this.adminEntry.equals( db.getAdmins() ) &&
+        this.userCount == db.nrUsers()
+        );
     }
 
     @Override

@@ -98,8 +98,8 @@ public class FitnessUM {
         this.eventController = eventController.clone();
     }
 
-    
-    
+
+
 
     /** Getter for active variable
      * @return active variable
@@ -176,12 +176,7 @@ public class FitnessUM {
         String password = Scan.updatePassword();
         UserInfo info = readUpdateInfo();
 
-        try {
-            this.userController.updateUser(name, email, password, info);
-        } catch (InexistingUserException e) {
-            System.out.println("Fatal error, inexisting user");
-            this.shutdown();
-        }
+        this.userController.updateUser(name, email, password, info);
     }
 
     private void searchUserByName() {
@@ -209,7 +204,7 @@ public class FitnessUM {
         System.out.println("\n0. Go Back\n1. By Name\n2. By Email\n");
 
         int option = Scan.menuOption(0, 2);
-         p[option].exec();
+        p[option].exec();
     }
 
     /**
@@ -262,15 +257,11 @@ public class FitnessUM {
         }
 
         if ( Scan.yesNo("Are you sure you want to delete user with given email?") )
-            try {
-                this.userController.deleteUser(email);
-            } catch (InexistingUserException e) {
-                System.out.println("User does not exist");
-            }
+            this.userController.deleteUser(email);
     }
 
     private void greet() {
-        if( this.userController.getCurrentUser() != null ) {
+        if( this.userController.getCurrentUser() != null ) { // If user is not admin
             System.out.println("\nWelcome "+ this.userController.getCurrentUser().getName() );
             if ( this.userController.hasFriendRequests() )
                 System.out.println("You have friend requests!");
@@ -361,7 +352,7 @@ public class FitnessUM {
         try{
             System.out.println(userController.showStatsOverview());
         }
-        catch(StatsNotAvailable s){System.out.println("No Stats Available\n");}
+        catch(StatsNotAvailableException s){System.out.println("No Stats Available\n");}
     }
 
     /**
@@ -435,7 +426,7 @@ public class FitnessUM {
         return result.toString() ;
     }
 
-    /**Shows the user's ten most recent activitites
+    /**Shows the user's ten most recent activities
     *
     */
     public void myActivityLog(){
@@ -613,16 +604,16 @@ public class FitnessUM {
             Scan.pressEnterToContinue();
         }
     }
-    
-    
+
+
     /**Starts a navigator, asking the adming for the event type
-     * 
+     *
      */
     public void addEvent(){
         ArrayList<String> activities = new ArrayList<String>( Arrays.asList(EventController.existingActivities) );
         ( new EventTypeNavigator(activities, this)).navigate();
     }
-    
+
     public void searchEvent(){
         String terms = Scan.scanString("Insert your search terms");
         try{
@@ -632,13 +623,15 @@ public class FitnessUM {
         catch(NoEventsAvailableException e){System.out.println("No Results");}
         Scan.pressEnterToContinue();
     }
-    
+
     public void listEvents(){
         try{
             ArrayList<Event> events = this.eventController.getEventList();
             (new EventNavigator(events, this)).navigate();
         }
-        catch(NoEventsAvailableException e){System.out.println("No Events Available");}
+        catch(NoEventsAvailableException e){
+            System.out.println("No Events Available");
+        }
         Scan.pressEnterToContinue();
     }
 

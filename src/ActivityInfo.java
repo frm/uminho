@@ -95,8 +95,8 @@ public class ActivityInfo implements Serializable{
         boolean validTime = !isAliasedActivity(act) && act.hasMinimumTime();
         
         if(validTime) {
-            stats.addStat(act);
             activityLog.add(act);
+            stats.addStat(act);
             records.addRecord(act);
         }
         
@@ -110,10 +110,10 @@ public class ActivityInfo implements Serializable{
         return (actRemoval && statRemoval);
     }
     
-    public String statsOverview() throws StatsNotAvailable{
+    public String statsOverview() throws StatsNotAvailableException{
         String result = this.stats.toString();
         if(result.length() == 0)
-            throw(new StatsNotAvailable() );
+            throw(new StatsNotAvailableException() );
         
         return this.stats.toString();
     }
