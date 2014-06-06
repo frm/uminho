@@ -13,12 +13,12 @@ import java.util.ArrayList;
  */
 public class RecordsNavigator extends Navigator<String>{
     private UserController uc;
-    
+
     public RecordsNavigator() {
         super();
         this.uc = new UserController();
     }
-    
+
     public RecordsNavigator(ArrayList<String> list, UserController userc ){
         super(list);
         this.uc = userc.clone();
@@ -27,12 +27,11 @@ public class RecordsNavigator extends Navigator<String>{
     public void print(String s) {
         System.out.println( s );
     }
-    
-    public void select(String s){ 
-        RecordEntry re = this.uc.getRecordEntry(s);
-        System.out.println( re );
+
+    public void select(String s){
+        System.out.println( this.uc.getRecordEntry(s).toString() );
     }
-    
+
     public String emptyMessage() {
         return "\nUser has no activities\n";
     }

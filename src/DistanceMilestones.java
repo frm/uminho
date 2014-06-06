@@ -14,7 +14,7 @@ import java.util.Map;
 public class DistanceMilestones extends Milestones{
     private TreeMap<Integer,Long> distance;
     private TreeMap<Long, Integer> reverseD;
-    
+
     //constructors public
     public DistanceMilestones(){
         super();
@@ -37,13 +37,13 @@ public class DistanceMilestones extends Milestones{
 
     public TreeMap<Long,Integer> getReverseDistanceMilestones()
     {return cloneReverseDistanceMilestones(this.reverseD);}
-    
+
     public void setDistance(TreeMap<Integer,Long> distance)
     {this.distance = cloneDistanceMilestones(distance);}
 
     public void setReverseDistance(TreeMap<Long,Integer> rD)
     {this.reverseD = cloneReverseDistanceMilestones(rD);}
-    
+
     //methods
     public TreeMap<Integer,Long> cloneDistanceMilestones(TreeMap<Integer,Long> dm) {
         TreeMap<Integer,Long> aux = new TreeMap<Integer,Long>();
@@ -58,7 +58,7 @@ public class DistanceMilestones extends Milestones{
             aux.put(dms.getKey(), dms.getValue());
         return aux;
     }
-    
+
     public void populateMilestones(){
         super.populateMilestones();
         this.distance = new TreeMap<Integer,Long>();
@@ -81,7 +81,7 @@ public class DistanceMilestones extends Milestones{
         int actDistance = act.getDistance();
 
         for(Map.Entry<Integer,Long> pair : distance.entrySet()){
-            
+
             if(actDistance >= pair.getKey()){
                 long aux = ruleOfThree(actMinDuration, (long) actDistance, pair.getKey());
 
@@ -90,7 +90,7 @@ public class DistanceMilestones extends Milestones{
             }
             else break;
         }
-        
+
         for(Map.Entry<Long,Integer> pair : reverseD.entrySet()){
             if(actDuration >= pair.getKey()){
                 long aux = ruleOfThree((long) actDistance, actDuration/60000L,  pair.getKey());
@@ -111,39 +111,39 @@ public class DistanceMilestones extends Milestones{
         for(Map.Entry<Integer,Long> pair: this.distance.entrySet()){
             result.append( (pair.getKey())/1000 );
             result.append( " km: ");
-            
+
             if(pair.getValue() == -1)
                 result.append(" No info\n");
             else
                 result.append( StatEntry.formatMillis( pair.getValue() ));
         }
-        
+
         return result.toString();
     }
-    
+
     public String secondtoString(){
         StringBuilder result = new StringBuilder();
 
         for(Map.Entry<Long,Integer> pair: this.reverseD.entrySet()){
             result.append( StatEntry.formatMillis( pair.getKey() ));
             result.append( " : ");
-            
+
             if(pair.getValue() == -1)
                 result.append(" No info\n");
             else
                 result.append( (pair.getValue())/1000 );
         }
-        
+
         return result.toString();
     }
-    
+
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        
+
         sb.append(super.toString());
         sb.append(firsttoString());
         sb.append(secondtoString());
-        
+
         return sb.toString();
     }
 
@@ -154,7 +154,7 @@ public class DistanceMilestones extends Milestones{
 
         DistanceMilestones dms = (DistanceMilestones) o;
         DistanceMilestones rD = (DistanceMilestones) o;
-        
+
         return (this.distance.equals(dms.getDistanceMilestones()) && this.reverseD.equals(rD.getReverseDistanceMilestones()));
     }
 }
