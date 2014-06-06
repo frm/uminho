@@ -116,34 +116,11 @@ public class Records implements Serializable{
      */
     public RecordEntry getRecordEntry(String s) {
         RecordEntry re = this.records.get(s);
-        /* http://stackoverflow.com/questions/9335515/how-do-i-use-getconstructorparams-newinstanceargs
-        Remove Commented Constructor on distance record entry
-        try {
-            return re.getClass().getConstructor().newInstance(re);
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(Records.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(Records.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(Records.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(Records.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(Records.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(Records.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return null; */
-        
-        /*
-        System.out.println(re.getClass().getSimpleName());
         if(re instanceof AltitudeRecordEntry)
-            return ( (AltitudeRecordEntry)re ).clone();
+            return new AltitudeRecordEntry((AltitudeRecordEntry)re);
         else if (re instanceof DistanceRecordEntry)
-            return ( (DistanceRecordEntry)re ).clone();
+            return new DistanceRecordEntry( (DistanceRecordEntry)re );
         else return re.clone();
-                */
     }
     
     //essentials
