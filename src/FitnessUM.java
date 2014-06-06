@@ -17,6 +17,7 @@ public class FitnessUM {
 
     private boolean active;
     private UserController userController;
+    private EventController eventController;
 
 
    private static final String[] startOptions = { "Exit", "Register", "Login" };
@@ -24,7 +25,7 @@ public class FitnessUM {
    private static final String[] mainOptions = {
 
        "Logout", "My Profile", "Friend Requests", "Friend List", "Friends Feed", "Search User", "My Activity Log",
-       "Add New Activity Session", "Show My Statistics", "Update Settings", "Show My Records"
+       "Add New Activity Session", "Show My Statistics", "Update Settings", "Show My Records", "Show Event List", "Search Events"
    };
 
     private static final String[] activityCategories = {
@@ -49,6 +50,7 @@ public class FitnessUM {
      */
     public FitnessUM() {
         this.userController = new UserController();
+        this.eventController = new EventController();
     }
 
     /** Parameterized constructor
@@ -87,6 +89,15 @@ public class FitnessUM {
     public void setUserController(UserController uc) {
         this.userController = uc.clone();
     }
+
+    public EventController getEventController() {
+        return eventController.clone();
+    }
+
+    public void setEventController(EventController eventController) {
+        this.eventController = eventController.clone();
+    }
+
 
 
 
@@ -165,12 +176,7 @@ public class FitnessUM {
         String password = Scan.updatePassword();
         UserInfo info = readUpdateInfo();
 
-        try {
-            this.userController.updateUser(name, email, password, info);
-        } catch (InexistingUserException e) {
-            System.out.println("Fatal error, inexisting user");
-            this.shutdown();
-        }
+        this.userController.updateUser(name, email, password, info);
     }
 
     private void searchUserByName() {
@@ -198,7 +204,7 @@ public class FitnessUM {
         System.out.println("\n0. Go Back\n1. By Name\n2. By Email\n");
 
         int option = Scan.menuOption(0, 2);
-         p[option].exec();
+        p[option].exec();
     }
 
     /**
@@ -251,15 +257,11 @@ public class FitnessUM {
         }
 
         if ( Scan.yesNo("Are you sure you want to delete user with given email?") )
-            try {
-                this.userController.deleteUser(email);
-            } catch (InexistingUserException e) {
-                System.out.println("User does not exist");
-            }
+            this.userController.deleteUser(email);
     }
 
     private void greet() {
-        if( this.userController.getCurrentUser() != null ) {
+        if( this.userController.getCurrentUser() != null ) { // If user is not admin
             System.out.println("\nWelcome "+ this.userController.getCurrentUser().getName() );
             if ( this.userController.hasFriendRequests() )
                 System.out.println("You have friend requests!");
@@ -347,10 +349,10 @@ public class FitnessUM {
      *
      */
     public void showStatsOverview(){
-        try{ 
+        try{
             System.out.println(userController.showStatsOverview());
         }
-        catch(StatsNotAvailable s){System.out.println("No Stats Available\n");}
+        catch(StatsNotAvailableException s){System.out.println("No Stats Available\n");}
     }
 
     /**
@@ -361,7 +363,8 @@ public class FitnessUM {
         try{
         System.out.println( userController.showAnnualStats(year) );
         }
-        catch(StatsNotAvailable s){System.out.println("No Stats Available\n");}
+
+        catch(StatsNotAvailableException s){System.out.println("No Stats Available\n");}
 
     }
 
@@ -373,9 +376,9 @@ public class FitnessUM {
         int month = Scan.intInRange("Insert the month (number).", 1, 12);
         try{
            System.out.println( userController.showMonthlyStats(year, month) );
+        } catch (StatsNotAvailableException s) {
+            System.out.println("No Stats Available\n");
         }
-        catch(StatsNotAvailable s){System.out.println("No Stats Available\n");}
-
     }
 
     /**
@@ -408,7 +411,7 @@ public class FitnessUM {
         int option = Scan.menuOption(0,3);
         this.getStatsTypePrompt()[option].exec();
     }
-    
+
     /**
      *
      * @return
@@ -422,8 +425,8 @@ public class FitnessUM {
         }
         return result.toString() ;
     }
-    
-    /**Shows the user's ten most recent activitites
+
+    /**Shows the user's ten most recent activities
     *
     */
     public void myActivityLog(){
@@ -469,7 +472,7 @@ public class FitnessUM {
         endDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DATE));
         return endDate.getTimeInMillis() - startDate.getTimeInMillis();
     }
- 
+
     /**
      *
      * @return
@@ -487,10 +490,10 @@ public class FitnessUM {
 
         int distance = Scan.scanInt("\nWhat was the distance? (meters)");
         int altitude = Scan.scanInt("\nWhat was the altitude? (meters)");
-        
+
         return (AltitudeActivity) (new Cycling(startDate, duration, distance, altitude));
     }
-    
+
     /**
      *
      * @return
@@ -507,10 +510,10 @@ public class FitnessUM {
         }
 
         int distance = Scan.scanInt("What was the distance? (meters)");
-        
+
         return (DistanceActivity) (new Swimming(startDate, duration, distance));
     }
-    
+
     /**
      *
      * @return
@@ -602,10 +605,45 @@ public class FitnessUM {
         }
     }
 
+
+    /**Starts a navigator, asking the adming for the event type
+     *
+     */
+    public void addEvent(){
+        ArrayList<String> activities = new ArrayList<String>( Arrays.asList(EventController.existingActivities) );
+        ( new EventTypeNavigator(activities, this)).navigate();
+    }
+
+    public void searchEvent(){
+        String terms = Scan.scanString("Insert your search terms");
+        try{
+            ArrayList<String> list = this.eventController.searchEvent(terms);
+            (new SearchEventNavigator(list, this.eventController)).navigate();
+        }
+        catch(NoEventsAvailableException e){System.out.println("No Results");}
+        Scan.pressEnterToContinue();
+    }
+
+    public void listEvents(){
+        try{
+            ArrayList<Event> events = this.eventController.getEventList();
+            (new EventNavigator(events, this)).navigate();
+        }
+        catch(NoEventsAvailableException e){
+            System.out.println("No Events Available");
+        }
+        Scan.pressEnterToContinue();
+    }
+
     /** Scans the admin for event details, saving the event in the event controller
      */
-    public void addEvent() {
-	System.out.println("Yet to be implemented");
+    public void getEventInfo(String s) {
+        String name = Scan.scanString("What is the name of the event?");
+        GregorianCalendar date = Scan.date("What's the event date?");
+        int capacity = Scan.scanInt("What's the event capacity?");
+        int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
+        Event e = new Event(name, s, capacity, weather, date);
+	this.eventController.addEvent(e);
     }
 
     /** Scans the admin for event name, prompting for new event details and updating it
@@ -676,7 +714,7 @@ public class FitnessUM {
     public void userInterpreter() {
         System.out.println( "Choose one of the following options.");
 	    FitnessUM.printMainOptions();
-        int option = Scan.menuOption(0, 10);
+        int option = Scan.menuOption(0, 12);
         this.getMainPrompt()[option].exec();
     }
 
@@ -740,7 +778,9 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.getAddActivityOption(); } },
             new Prompt() { public void exec() { app.getStatsTypeOption(); } },
             new Prompt() { public void exec() { app.updateUser(); } },
-            new Prompt() { public void exec() { app.listPracticedActivities(); } }
+            new Prompt() { public void exec() { app.listPracticedActivities(); } },
+            new Prompt() { public void exec() { app.listEvents(); } },
+            new Prompt() { public void exec() { app.searchEvent(); } }
         };
     }
 

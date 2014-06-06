@@ -76,9 +76,9 @@ public class YearStat implements Serializable{
         this.monthlyStats = Arrays.copyOf(stats, 12);
     }
     
-    public String showMonthlyStats(int month) throws StatsNotAvailable{
+    public String showMonthlyStats(int month) throws StatsNotAvailableException{
         if(this.monthlyStats[month-1] == null)
-            throw new StatsNotAvailable("There are no statistics for that month");
+            throw new StatsNotAvailableException("There are no statistics for that month");
         return this.monthlyStats[month-1].toString();
     }
     

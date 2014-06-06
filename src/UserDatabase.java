@@ -1,6 +1,6 @@
 /** UserDatabase class
- * Consists of a double entry table with shared memory
- * Users can be accessed by id or by email
+ * Consists of a double entry table with memory shared through User IDs
+ * Users can be accessed by id, email or name
  * @author frmendes
  */
 
@@ -8,16 +8,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
-public class UserDatabase implements Serializable{
+public class UserDatabase implements Serializable, MappedDatabase<User> {
 
     // Both HashMaps refer to the same user, pointer is shared
     private HashMap<Integer, User> idEntry;              // User indexation by ID
     private HashMap<String, Integer> emailEntry;         // User indexation by email
     private HashMap<String, AdminUser> adminEntry;       // Admin Indexation by Email
-    private int userCount;                                          // Total number of users that have been saved
+    private int userCount;                               // Total number of users that have been saved
 
     /** Empty constructor
      */
@@ -39,11 +39,11 @@ public class UserDatabase implements Serializable{
 
         this.adminEntry = UserDatabase.copyAdmins( db.getAdmins() );
         UserDatabase.copyUsers(this, db);
-
     }
 
     /** Parameterized constructor
-     * @param ids HashMap of IDs and corresponding Users
+     * @param users HashMap of IDs and corresponding Users
+     * @param admins HashMap of emails and corresponding admins
      */
     public UserDatabase(HashMap<Integer, User> users, HashMap<String, AdminUser> admins)  {
         this.adminEntry = UserDatabase.copyAdmins(admins);
@@ -51,11 +51,12 @@ public class UserDatabase implements Serializable{
             this.save(u);
     }
 
-    private HashMap<Integer, User> getIdEntry() {
-        HashMap<Integer, User> cpy = new HashMap<Integer, User>();
+    @Override
+    public Map<Integer, User> getIdEntry() {
+       HashMap<Integer, User> cpy = new HashMap<Integer, User>();
        for (User u : this.idEntry.values() )
             cpy.put( u.getId(), u.clone() );
-       
+
         return cpy;
     }
 
@@ -72,9 +73,7 @@ public class UserDatabase implements Serializable{
         return this.userCount;
     }
 
-    /** Get all users on the network
-     * @return Set of all users
-     */
+    @Override
     public Set<User> all() {
         HashSet<User> copy = new HashSet<User>();
 
@@ -88,18 +87,13 @@ public class UserDatabase implements Serializable{
         return UserDatabase.copyAdmins(this.adminEntry);
     }
 
-    /** Returns a user with the corresponding id or null if not found
-     * @param id Wanted user id
-     * @return Corresponding user
-     */
+    @Override
     public User findById(int id) {
-        User u;
-        try {
-            u = this.idEntry.get(id).clone();
-        } catch (NullPointerException e) {
-            u = null;
-        }
-        return u;
+       try {
+           return this.idEntry.get(id).clone();
+       } catch(Exception e) {
+           return null;
+       }
     }
 
     /** Returns a user with the corresponding email or null if not found
@@ -107,25 +101,19 @@ public class UserDatabase implements Serializable{
      * @return Corresponding user
      */
     public User findByEmail(String email) {
-        int id;
         try {
-            id = this.emailEntry.get(email);
-        } catch (NullPointerException e) {
+            return findById( this.emailEntry.get(email) );
+        } catch(Exception e) {
             return null;
         }
-        
-        return findById(id);
     }
 
     public AdminUser findAdmin(String email) {
-        AdminUser a;
         try {
-            a = this.adminEntry.get(email).clone();
-        } catch (NullPointerException e) {
-            a = null;
+            return this.adminEntry.get(email).clone();
+        } catch (Exception e) {
+            return null;
         }
-        
-        return a;
     }
 
     public ArrayList<User> searchName(String name) {
@@ -146,37 +134,32 @@ public class UserDatabase implements Serializable{
          addAdmin( new AdminUser(name, password, email) );
      }
 
-    /** Either saves or updates a user
-     * If the user id is < 0, it wasn't created and we need to give it an id, otherwise, we override it
-     * @param u user to save
-     */
+    @Override
     public void save(User u) {
         User newUser = u.clone();
 
         if ( u.getId() < 0 )
-            newUser.setId( ++this.userCount );
+            newUser.setId(++this.userCount);
 
 
         this.idEntry.put( newUser.getId(), newUser );
         this.emailEntry.put( newUser.getEmail(), newUser.getId() );
     }
 
-    /** Deletes a user from the network
-     * userCount is not updated to avoid ID aliasing
-     * @param userId ID of the to delete
-     */
+    @Override
     public void delete(int userId) {
         String email = findById(userId).getEmail();
         this.idEntry.remove(userId);
         this.emailEntry.remove(email);
     }
-    
+
     public void delete(String email) {
        int id = this.emailEntry.get(email);
        this.idEntry.remove(id);
        this.emailEntry.remove(email);
     }
 
+    @Override
     public void delete(User u) {
         this.idEntry.remove( u.getId() );
         this.emailEntry.remove( u.getEmail() );
@@ -195,7 +178,12 @@ public class UserDatabase implements Serializable{
 
         UserDatabase db = (UserDatabase) o;
 
-       return this.idEntry.equals( db.getIdEntry() ) && this.emailEntry.equals( db.getEmailEntry() ) && this.adminEntry.equals( db.getAdmins() );
+       return (
+        this.idEntry.equals( (HashMap<Integer, User>)db.getIdEntry() ) &&
+        this.emailEntry.equals( db.getEmailEntry() ) &&
+        this.adminEntry.equals( db.getAdmins() ) &&
+        this.userCount == db.nrUsers()
+        );
     }
 
     @Override
