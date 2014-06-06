@@ -67,12 +67,12 @@ public class Cycling extends AltitudeActivity implements WeatherInterface{
     }
     
     //methods
-    public int calculateCalories(long duration, int distance, int altitude,  int weather){
+    private int calculateCalories(long duration, int distance, int altitude,  int weather){
         double wfac = calculateWeatherFactor(weather);
         return (int) ( ( (double)(altitude + distance)/(double)duration ) * 95000.0 * wfac );
     }
     
-    double calculateWeatherFactor(int w){
+    private double calculateWeatherFactor(int w){
         if (w < 2) return 1;
         else if (w < 5) return 1.05;
         else if (w == 6) return 1.1;

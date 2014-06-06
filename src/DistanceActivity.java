@@ -20,14 +20,19 @@ public abstract class DistanceActivity extends Activity{
     }
     
     //setters
-    void setDistance(int d) {
+    public void setDistance(int d) {
         this.distance = d;
     }
     
     //getters
-    int getDistance() {
+    public int getDistance() {
         return this.distance;
     }
+    
+    
+    //essentials
+    
+    public abstract DistanceActivity clone();
     
     public String toString(){
         StringBuilder understring = new StringBuilder();
@@ -46,6 +51,7 @@ public abstract class DistanceActivity extends Activity{
        return ( super.equals(o) && this.distance == ad.getDistance() );
    }
 }
+
 
 /*
 import java.util.GregorianCalendar; 
