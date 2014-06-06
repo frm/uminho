@@ -4,6 +4,7 @@
  * @author frmendes
  */
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -25,6 +26,21 @@ public class EventDatabase implements MappedDatabase<Event> {
         this.nameEntry = new HashMap<String, Integer>();
         this.eventCount = ed.nrEvents();
         this.copyEvents(ed);
+    }
+    
+    /**
+     * Searches for an event, by name
+     * @param name
+     * @return  ArrayList with the search results
+     */
+    public ArrayList<String> searchByName(String name) throws NoEventsAvailableException{
+        ArrayList<String> result = new ArrayList<String>();
+        for( String n: this.nameEntry.keySet())
+            if( n.contains(name)) result.add(n);
+        if(result == null)
+            throw new NoEventsAvailableException();
+        
+        return result;
     }
     
     /**
@@ -87,6 +103,21 @@ public class EventDatabase implements MappedDatabase<Event> {
             copy.put(e.getId(), e.clone());
         
         return copy;
+    }
+    
+    /**
+     * Gets the events as an ArrayList, to navigate
+     * @return ArrayList of events
+     */
+    public ArrayList<Event> getEventList() throws NoEventsAvailableException{
+        ArrayList<Event> events = new ArrayList<Event>();
+        for(Event e: this.idEntry.values()){
+            events.add(e);
+        }
+        
+        if(events == null)
+            throw new NoEventsAvailableException();
+        return events;
     }
     
     @Override

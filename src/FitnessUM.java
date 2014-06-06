@@ -25,7 +25,7 @@ public class FitnessUM {
    private static final String[] mainOptions = {
 
        "Logout", "My Profile", "Friend Requests", "Friend List", "Friends Feed", "Search User", "My Activity Log",
-       "Add New Activity Session", "Show My Statistics", "Update Settings", "Show My Records"
+       "Add New Activity Session", "Show My Statistics", "Update Settings", "Show My Records", "Show Event List", "Search Events"
    };
 
     private static final String[] activityCategories = {
@@ -622,6 +622,25 @@ public class FitnessUM {
         ArrayList<String> activities = new ArrayList<String>( Arrays.asList(EventController.existingActivities) );
         ( new EventTypeNavigator(activities, this)).navigate();
     }
+    
+    public void searchEvent(){
+        String terms = Scan.scanString("Insert your search terms");
+        try{
+            ArrayList<String> list = this.eventController.searchEvent(terms);
+            (new SearchEventNavigator(list, this.eventController)).navigate();
+        }
+        catch(NoEventsAvailableException e){System.out.println("No Results");}
+        Scan.pressEnterToContinue();
+    }
+    
+    public void listEvents(){
+        try{
+            ArrayList<Event> events = this.eventController.getEventList();
+            (new EventNavigator(events, this)).navigate();
+        }
+        catch(NoEventsAvailableException e){System.out.println("No Events Available");}
+        Scan.pressEnterToContinue();
+    }
 
     /** Scans the admin for event details, saving the event in the event controller
      */
@@ -702,7 +721,7 @@ public class FitnessUM {
     public void userInterpreter() {
         System.out.println( "Choose one of the following options.");
 	    FitnessUM.printMainOptions();
-        int option = Scan.menuOption(0, 10);
+        int option = Scan.menuOption(0, 12);
         this.getMainPrompt()[option].exec();
     }
 
@@ -766,7 +785,9 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.getAddActivityOption(); } },
             new Prompt() { public void exec() { app.getStatsTypeOption(); } },
             new Prompt() { public void exec() { app.updateUser(); } },
-            new Prompt() { public void exec() { app.listPracticedActivities(); } }
+            new Prompt() { public void exec() { app.listPracticedActivities(); } },
+            new Prompt() { public void exec() { app.listEvents(); } },
+            new Prompt() { public void exec() { app.searchEvent(); } }
         };
     }
 

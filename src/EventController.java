@@ -1,3 +1,6 @@
+
+import java.util.ArrayList;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -30,6 +33,14 @@ public class EventController {
     }
     
     
+    public ArrayList<String> searchEvent(String s) throws NoEventsAvailableException{
+        return this.database.searchByName(s);
+    }
+    
+    public Event getEventByName(String name){
+        return this.database.findByName(name);
+    }
+    
     public void addEvent(Event e){
         this.database.save(e);
     }
@@ -55,6 +66,10 @@ public class EventController {
         EventController ec = (EventController) o;
         
         return this.database.equals(ec.getDatabase());
+    }
+
+    ArrayList<Event> getEventList() throws NoEventsAvailableException{
+        return this.database.getEventList();
     }
     
     
