@@ -22,7 +22,7 @@ public class AltitudeMilestones extends DistanceMilestones{
         super();
     }
 
-    public AltitudeMilestones(TreeMap<Long,Integer> cms, TreeMap<Integer,Long> rC, TreeMap<Integer,Long> dms, TreeMap<Long,Integer> rD, TreeMap<Integer,Long> ams, TreeMap<Long,Integer> rA){
+    public AltitudeMilestones(TreeMap<Long,Integer> cms, TreeMap<Integer,Long> rC, TreeMap<Long,Integer> dms, TreeMap<Integer,Long> rD, TreeMap<Integer,Long> ams, TreeMap<Long,Integer> rA){
         super(cms, rC, dms, rD);
         this.altitude = cloneAltitudeMilestones(ams);
         this.reverseA = cloneReverseAltitudeMilestones(rA);
@@ -122,7 +122,7 @@ public class AltitudeMilestones extends DistanceMilestones{
                 result.append( StatEntry.formatMillis( pair.getValue() ));
         }
         
-        return ( super.toString() + result.toString() );
+        return result.toString();
     }
     
     public String secondtoString(){
@@ -138,12 +138,18 @@ public class AltitudeMilestones extends DistanceMilestones{
                 result.append( pair.getValue());
         }
         
-        return ( super.toString() + result.toString() );
+        return result.toString();
     }
 
     public String toString(){
-        return (firsttoString() + secondtoString());
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(firsttoString());
+        sb.append(secondtoString());
+
+        return sb.toString();
     }
+    
     public boolean equals(Object o){
         if (this == o) return true;
 
