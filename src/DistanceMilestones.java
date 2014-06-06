@@ -69,6 +69,7 @@ public class DistanceMilestones extends Milestones{
     }
 
     public void populateMilestones(){
+        super.populateMilestones();
         this.distance = new TreeMap<Long,Integer>();
         this.reverseD = new TreeMap<Integer,Long>();
         this.distance.put(10L,-1);
@@ -131,7 +132,7 @@ public class DistanceMilestones extends Milestones{
     {return new DistanceMilestones(this);}
 
     
-    public String firsttoString(){
+    public String firsttoStringD(){
         StringBuilder result = new StringBuilder();
 
         for(Map.Entry<Long,Integer> pair: this.distance.entrySet()){
@@ -156,18 +157,18 @@ public class DistanceMilestones extends Milestones{
         return result.toString();
     }
     
-    public String secondtoString(){
+    public String secondtoStringD(){
         StringBuilder result = new StringBuilder();
 
         result.append("\n");
         for(Map.Entry<Integer,Long> pair: this.reverseD.entrySet()){
             result.append( (pair.getKey())/1000);
-            result.append( "\nkm: ");
+            result.append( " km: ");
 
             if(pair.getValue() == -1)
                 result.append(" No info\n");
             else
-                result.append( StatEntry.formatMillis( pair.getValue() ));
+                result.append( StatEntry.formatMillis( pair.getValue() ) + "\n");
         }
 
         return result.toString();
@@ -177,8 +178,9 @@ public class DistanceMilestones extends Milestones{
         StringBuilder sb = new StringBuilder();
         
         sb.append(super.toString());
-        sb.append(firsttoString());
-        sb.append(secondtoString());
+        sb.append("\n###Distance Milestones###\n");
+        sb.append(firsttoStringD());
+        sb.append(secondtoStringD());
 
         return sb.toString();
     }
@@ -191,6 +193,6 @@ public class DistanceMilestones extends Milestones{
         DistanceMilestones dms = (DistanceMilestones) o;
         DistanceMilestones rD = (DistanceMilestones) o;
 
-        return (this.distance.equals(dms.getDistanceMilestones()) && this.reverseD.equals(rD.getReverseDistanceMilestones()));
+        return ( super.equals(o) && this.distance.equals(dms.getDistanceMilestones()) && this.reverseD.equals(rD.getReverseDistanceMilestones()));
     }
 }

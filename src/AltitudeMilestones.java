@@ -70,6 +70,7 @@ public class AltitudeMilestones extends DistanceMilestones{
     }
     
     public void populateMilestones(){
+        super.populateMilestones();
         this.altitude = new TreeMap<Integer,Long>();
         this.reverseA = new TreeMap<Long,Integer>();
         this.altitude.put(50,-1L);
@@ -113,7 +114,7 @@ public class AltitudeMilestones extends DistanceMilestones{
         return new AltitudeMilestones(this);
     }
 
-    public String firsttoString(){
+    public String firsttoStringA(){
         StringBuilder result = new StringBuilder();
 
         for(Map.Entry<Integer,Long> pair: this.altitude.entrySet()){
@@ -123,13 +124,13 @@ public class AltitudeMilestones extends DistanceMilestones{
             if(pair.getValue() == -1)
                 result.append(" No info\n");
             else
-                result.append( StatEntry.formatMillis( pair.getValue() ));
+                result.append( StatEntry.formatMillis( pair.getValue() ) + "\n");
         }
         
         return result.toString();
     }
     
-    public String secondtoString(){
+    public String secondtoStringA(){
         StringBuilder result = new StringBuilder();
         
         for(Map.Entry<Long,Integer> pair: this.reverseA.entrySet()){
@@ -139,7 +140,7 @@ public class AltitudeMilestones extends DistanceMilestones{
             if(pair.getValue() == -1)
                 result.append(" No info\n");
             else
-                result.append( pair.getValue());
+                result.append( pair.getValue() + "\n");
         }
         
         return result.toString();
@@ -147,9 +148,11 @@ public class AltitudeMilestones extends DistanceMilestones{
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-
-        sb.append(firsttoString());
-        sb.append(secondtoString());
+        
+        sb.append(super.toString());
+        sb.append("\n###Altitude Milestones###\n");
+        sb.append(firsttoStringA());
+        sb.append(secondtoStringA());
 
         return sb.toString();
     }
@@ -162,6 +165,6 @@ public class AltitudeMilestones extends DistanceMilestones{
         AltitudeMilestones ams = (AltitudeMilestones) o;
         AltitudeMilestones rms = (AltitudeMilestones) o;
         
-        return (this.altitude.equals(ams.getAltitudeMilestones()) && this.reverseA.equals(rms.getReverseAltitudeMilestones()));
+        return (super.equals(o) && this.altitude.equals(ams.getAltitudeMilestones()) && this.reverseA.equals(rms.getReverseAltitudeMilestones()));
     }}
 

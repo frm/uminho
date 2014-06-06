@@ -416,7 +416,7 @@ public class FitnessUM {
     public static String listWeatherOptions(){
         String[] list = Weather.weatherStates;
         StringBuilder result = new StringBuilder();
-        result.append("How was the weather?\n");
+        result.append("\nHow was the weather?\n");
         for( String w: list){
             result.append(Weather.getIndexOf(w)).append(".").append(w).append("\n");
         }
@@ -485,8 +485,8 @@ public class FitnessUM {
                 System.out.println("Invalid finish time\n");
         }
 
-        int distance = Scan.scanInt("What was the distance? (meters)");
-        int altitude = Scan.scanInt("What was the altitude? (meters)");
+        int distance = Scan.scanInt("\nWhat was the distance? (meters)");
+        int altitude = Scan.scanInt("\nWhat was the altitude? (meters)");
         
         return (AltitudeActivity) (new Cycling(startDate, duration, distance, altitude));
     }

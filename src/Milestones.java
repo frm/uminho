@@ -173,7 +173,11 @@ public class Milestones implements Serializable{
     }
 
     public String toString(){
-        return (firsttoString() + secondtoString());
+        StringBuilder sb = new StringBuilder();
+        sb.append("###Basic Milestones### \n");
+        sb.append(firsttoString());
+        sb.append(secondtoString());
+        return sb.toString();
     }
     
     public boolean equals(Object o){
