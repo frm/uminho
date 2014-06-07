@@ -11,7 +11,7 @@ public abstract class BasicUser implements Serializable{
     private String email;
 
     /**
-     *
+     * Empty constructor
      */
     public BasicUser() {
         this.name = "";
@@ -20,7 +20,7 @@ public abstract class BasicUser implements Serializable{
     }
 
     /**
-     *
+     * Parameterized constructor
      * @param name
      * @param password
      * @param email
@@ -32,7 +32,7 @@ public abstract class BasicUser implements Serializable{
     }
     
     /**
-     *
+     * Copy constructor
      * @param b
      */
     public BasicUser(BasicUser b) {
@@ -42,7 +42,7 @@ public abstract class BasicUser implements Serializable{
     }
     
     /**
-     *
+     * Returns the email
      * @return
      */
     public String getEmail() {
@@ -50,7 +50,7 @@ public abstract class BasicUser implements Serializable{
     }
 
     /**
-     *
+     * Returns the name
      * @return
      */
     public String getName() {
@@ -71,7 +71,7 @@ public abstract class BasicUser implements Serializable{
     }
     
     /**
-     *
+     * Sets the email
      * @param email
      */
     public void setEmail(String email) {
@@ -79,7 +79,7 @@ public abstract class BasicUser implements Serializable{
     }
 
     /**
-     *
+     * Sets the name
      * @param name
      */
     public void setName(String name) {
@@ -87,7 +87,7 @@ public abstract class BasicUser implements Serializable{
     }
 
     /**
-     *
+     * Sets the password
      * @param password
      */
     public void setPassword(String password) {
@@ -95,7 +95,7 @@ public abstract class BasicUser implements Serializable{
     }
     
     /**
-     *
+     * Updates the password. Size verification is made in this method to avoid giving external access to the password
      * @param pw
      */
     public void updatePassword(String pw) {
@@ -111,6 +111,7 @@ public abstract class BasicUser implements Serializable{
         return this.password.equals(password);
     }
     
+    @Override
     public abstract BasicUser clone();
     
     @Override

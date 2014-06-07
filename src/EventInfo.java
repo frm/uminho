@@ -5,9 +5,10 @@ import java.util.GregorianCalendar;
 
 
 /**
- *
+ * Class that contains all important info for an event
  * @author frmendes
  */
+
 public class EventInfo implements Serializable{
     private int capacity;
     private String name;
@@ -20,7 +21,7 @@ public class EventInfo implements Serializable{
     private static final int defaultParticipants = Integer.MAX_VALUE;
     
     /**
-     *
+     * Empty constructor
      */
     public EventInfo() {
         setCapacity(0);
@@ -32,7 +33,7 @@ public class EventInfo implements Serializable{
     }
     
     /**
-     *
+     * Copy constructor
      * @param info
      */
     public EventInfo(EventInfo info) {
@@ -45,7 +46,7 @@ public class EventInfo implements Serializable{
     }
     
     /**
-     *
+     * Parameterized constructor
      * @param capacity
      * @param name
      * @param location
@@ -71,7 +72,7 @@ public class EventInfo implements Serializable{
     }
     
     /**
-     *
+     * Sets the event location
      * @param s
      */
     public void setLocation(String s) {
@@ -79,7 +80,7 @@ public class EventInfo implements Serializable{
     }
     
     /**
-     *
+     * Sets the sign up limit date
      * @param date
      */
     public void setSignupLimit(GregorianCalendar date) {
@@ -108,7 +109,7 @@ public class EventInfo implements Serializable{
     }
     
     /**
-     *
+     * Returns the location of the event
      * @return
      */
     public String getLocation() {
@@ -116,7 +117,7 @@ public class EventInfo implements Serializable{
     }
     
     /**
-     *
+     * Returns the sign up limit date of the event
      * @return
      */
     public GregorianCalendar getSignupLim() {
@@ -156,7 +157,7 @@ public class EventInfo implements Serializable{
     }
     
     /**
-     *
+     * Determines if an event will happen in the future
      * @return
      */
     public boolean isUpcoming() {

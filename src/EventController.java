@@ -7,24 +7,27 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
+/**
+ * Class that contains a database of events and has the necessary methods to manage their interaction<br>
+ * As well as the user interaction
+ */
 
 /**
  *
- * @author joaorodrigues
+ * @author frmendes
  */
 public class EventController implements Serializable{
     private EventDatabase database;
 
     /**
-     *
+     * Empty constructor
      */
     public EventController() {
         this.database = new EventDatabase();
     }
 
     /**
-     *
+     * Parameterized constructor
      * @param ec
      */
     public EventController(EventController ec){
@@ -32,7 +35,7 @@ public class EventController implements Serializable{
     }
 
     /**
-     *
+     * Returns the database
      * @return
      */
     public EventDatabase getDatabase() {
@@ -40,7 +43,7 @@ public class EventController implements Serializable{
     }
 
     /**
-     *
+     * Checks if the given name exists in the event
      * @param e
      * @return
      */
@@ -49,7 +52,7 @@ public class EventController implements Serializable{
     }
 
     /**
-     *
+     * Checks if the given name exists in the event
      * @param name
      * @return
      */
@@ -58,7 +61,7 @@ public class EventController implements Serializable{
     }
 
     /**
-     *
+     * Sets the database
      * @param database
      */
     public void setDatabase(EventDatabase database) {
@@ -66,7 +69,8 @@ public class EventController implements Serializable{
     }
 
     /**
-     *
+     * Returns an ArrayList of Strings containing the name of the searched event
+     * This is useful for usage with a Navigator
      * @param s
      * @return
      */
@@ -75,7 +79,7 @@ public class EventController implements Serializable{
     }
 
     /**
-     *
+     * Returns an event with the given name
      * @param name
      * @return
      */
@@ -84,7 +88,7 @@ public class EventController implements Serializable{
     }
 
     /**
-     *
+     * Returns an event with the corresponding id
      * @param id
      * @return
      */
@@ -93,7 +97,7 @@ public class EventController implements Serializable{
     }
     
     /**
-     *
+     * Adds an user to the given event
      * @param u
      * @param e
      * @throws InvalidParticipantException
@@ -106,7 +110,7 @@ public class EventController implements Serializable{
     }
 
     /**
-     *
+     * Removes the user of a given event
      * @param u
      * @param e
      * @throws InvalidParticipantException
@@ -119,7 +123,7 @@ public class EventController implements Serializable{
     }
     
     /**
-     *
+     * Removes the user of all the events that it participates in
      * @param u
      */
     public void removeUser(User u){
@@ -127,17 +131,19 @@ public class EventController implements Serializable{
     }
 
     /**
-     *
+     * Saves an event to the database
      * @param e
      */
     public void addEvent(Event e){
         this.database.save(e);
     }
 
+    @Override
     public EventController clone() {
         return new EventController(this);
     }
 
+    @Override
     public String toString(){
         StringBuilder result = new StringBuilder();
 
@@ -147,6 +153,7 @@ public class EventController implements Serializable{
         return result.toString();
     }
 
+    @Override
     public boolean equals(Object o){
         if( this == o) return true;
 
@@ -157,20 +164,36 @@ public class EventController implements Serializable{
         return this.database.equals(ec.getDatabase());
     }
 
-    ArrayList<Event> getEventList() {
+    /**
+     * Returns an ArrayList containing all events
+     * Useful for usage with a Navigator
+     * @return 
+     */
+    public ArrayList<Event> getEventList() {
         return this.database.getEventList();
     }
 
-    ArrayList<Event> getUpcomingEvents() {
+    /**
+     * Returns an ArrayList containing all upcoming events
+     * Useful for usage with a Navigator
+     * @return 
+     */
+    public ArrayList<Event> getUpcomingEvents() {
         return this.database.getUpcomingEvents();
     }
 
-    ArrayList<Event> getUpcomingEvents(String name) {
-        return this.database.getUpcomingEvents(name);
+    /**
+     * Returns an ArrayList containing all upcoming events of a given type
+     * Useful for usage with a Navigator
+     * @param type
+     * @return 
+     */
+    public ArrayList<Event> getUpcomingEvents(String type) {
+        return this.database.getUpcomingEvents(type);
     }
 
     /**
-     *
+     * Writes the database to a file
      * @param fich
      * @throws IOException
      */
@@ -181,7 +204,7 @@ public class EventController implements Serializable{
     }
 
     /**
-     *
+     * Reads a event controller from a file, saving the corresponding database
      * @param fich
      * @throws IOException
      * @throws ClassNotFoundException

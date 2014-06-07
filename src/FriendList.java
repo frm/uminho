@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
- *
+ * Class that holds information about the user friends, sent requests and received requests
  * @author frmendes
 */
 public class FriendList implements Serializable{
@@ -12,7 +12,7 @@ public class FriendList implements Serializable{
         private UserList requestsReceived;                 // ids of users who sent requests
 
     /**
-     *
+     * Empty constructor
      */
     public FriendList() {
             this.friends = new UserList();
@@ -21,7 +21,7 @@ public class FriendList implements Serializable{
         }
 
     /**
-     *
+     * Parameterized constructor
      * @param f
      * @param s
      * @param r
@@ -42,36 +42,56 @@ public class FriendList implements Serializable{
             this.requestsReceived = fl.getReceivedRequests();
         }
 
+    /**
+     * Returns the friend list
+     * @return 
+     */
         private UserList getFriends() {
             return this.friends.clone();
         }
 
+        /**
+         * Returns the sent requests list
+         * @return 
+         */
         private UserList getSentRequests() {
             return this.requestsSent.clone();
         }
 
+        /**
+         * Returns the received requests list
+         * @return 
+         */
         private UserList getReceivedRequests() {
             return this.requestsReceived.clone();
         }
 
     /**
-     *
+     * Sets the friends List
      * @param f
      */
     public void setFriends(UserList f) {
             this.friends = f.clone();
         }
 
+    /**
+     * Sets the sent requests list
+     * @param s 
+     */
         private void setSentRequests(UserList s) {
             this.requestsSent = s.clone();
         }
 
+        /**
+         * Sets the received requests list
+         * @param r 
+         */
         private void setReceivedRequests(UserList r) {
             this.requestsReceived = r.clone();
         }
 
     /**
-     *
+     * Returns the received requests list
      * @return
      */
     public Set<Integer> getRequests() {
@@ -79,7 +99,7 @@ public class FriendList implements Serializable{
         }
 
     /**
-     *
+     * Returns the friend list
      * @return
      */
     public Set<Integer> getFriendList() {
@@ -87,7 +107,7 @@ public class FriendList implements Serializable{
         }
 
     /**
-     *
+     * Sends a friend request
      * @param u
      */
     public void sendFriendRequest(User u) {
@@ -95,7 +115,7 @@ public class FriendList implements Serializable{
         }
 
     /**
-     *
+     * Sends a friend request
      * @param id
      */
     public void sendFriendRequest(int id) {
@@ -103,7 +123,7 @@ public class FriendList implements Serializable{
         }
 
     /**
-     *
+     * Receives a friend request
      * @param u
      */
     public void receiveFriendRequest(User u) {
@@ -111,7 +131,7 @@ public class FriendList implements Serializable{
         }
 
     /**
-     *
+     * Receives a friend request
      * @param id
      */
     public void receiveFriendRequest(int id) {
@@ -119,7 +139,7 @@ public class FriendList implements Serializable{
         }
 
     /**
-     *
+     * Accepts a friend request
      * @param u
      */
     public void acceptFriendRequest(User u) {
@@ -127,7 +147,7 @@ public class FriendList implements Serializable{
         }
 
     /**
-     *
+     * Accepts a friend request
      * @param id
      */
     public void acceptFriendRequest(int id) {
@@ -136,7 +156,7 @@ public class FriendList implements Serializable{
         }
 
     /**
-     *
+     * Confirms a friend request
      * @param u
      */
     public void confirmFriendRequest(User u) {
@@ -237,7 +257,7 @@ public class FriendList implements Serializable{
         }
 
     /**
-     *
+     * Determines if a user has received a particular request
      * @param u
      * @return
      */
@@ -246,7 +266,7 @@ public class FriendList implements Serializable{
         }
 
     /**
-     *
+     * Determines if a user has received a particular request
      * @param id
      * @return
      */
@@ -255,13 +275,14 @@ public class FriendList implements Serializable{
         }
 
     /**
-     *
+     * Determines if a user has any received friend requests
      * @return
      */
     public boolean hasFriendRequest() {
             return this.requestsReceived.numberOfUsers() != 0;
         }
 
+        @Override
         public String toString() {
             StringBuilder str = new StringBuilder();
             str.append("Friends: ").append(this.friends);
@@ -270,6 +291,7 @@ public class FriendList implements Serializable{
             return str.toString();
         }
 
+        @Override
         public boolean equals(Object o) {
             if (o == null) {
                 return false;
@@ -286,6 +308,7 @@ public class FriendList implements Serializable{
                 && this.requestsReceived.equals( fl.getReceivedRequests() );
         }
 
+        @Override
         public FriendList clone() {
             return new FriendList(this);
         }

@@ -169,7 +169,7 @@ public class Event implements BaseModel, Serializable {
     }
     
     /** 
-     *
+     * Returns the info class of the event
      * @return
      */
     public EventInfo getInfo() {
@@ -187,7 +187,7 @@ public class Event implements BaseModel, Serializable {
     }
     
     /**
-     *
+     * Checks if the user has valid attributes for the event
      * @param u
      * @return
      * @throws ActivityNotAvailableException
@@ -198,7 +198,7 @@ public class Event implements BaseModel, Serializable {
     }
     
     /**
-     *
+     * Checks if the user is on time for event signup
      * @return
      * @throws LateForEventException
      */
@@ -232,13 +232,19 @@ public class Event implements BaseModel, Serializable {
     }
     
     /**
-     *
+     * Returns a boolean telling if the event is happening in the future
      * @return
      */
     public boolean isUpcoming() {
         return info.isUpcoming();
     }
     
+    /**
+     * Simulates a given km of the event
+     * @param km
+     * @param previousKm
+     * @return 
+     */
     private TreeMap<Long, User> simulateKm(int km, TreeMap<Long, User> previousKm) {
         TreeMap<Long, User> currentKm = new TreeMap<Long, User>( new SimulationComparator() );
         for( Map.Entry<Long, User> u : previousKm.entrySet() )
@@ -246,7 +252,11 @@ public class Event implements BaseModel, Serializable {
         
         return currentKm;
     }
-    
+    /**
+     * Simulates the first km of the event
+     * @param participants
+     * @return 
+     */
     private TreeMap<Long, User> simulateFirstKm(ArrayList<User> participants) {
         TreeMap<Long, User> firstKm = new TreeMap<Long, User>();
         for(User u : participants)
@@ -256,9 +266,9 @@ public class Event implements BaseModel, Serializable {
     }
 
     /**
-     *
-     * @param participants
-     * @return
+     * Simulates the kms of an event
+     * @param participants ArrayList of the participants
+     * @return Classification for every km of the event
      */
     public ArrayList< TreeMap<Long, User> > simulate(ArrayList<User> participants) {
         ArrayList< TreeMap<Long, User> > simulation = new ArrayList< TreeMap<Long, User> >();
@@ -271,7 +281,7 @@ public class Event implements BaseModel, Serializable {
     }
     
     /**
-     *
+     * Returns the string version of a simulated km
      * @param sim
      * @return
      */

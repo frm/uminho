@@ -3,7 +3,7 @@ import java.util.Comparator;
 
 
 /**
- *
+ * Comparator for the events
  * @author joaorodrigues
  */
 public class EventComparator implements Comparator<Event>, Serializable {

@@ -12,17 +12,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- *
- * @author joaorodrigues
- */
 public class EventDatabase implements MappedDatabase<Event>, Serializable {
     private HashMap<Integer, Event> idEntry;
     private HashMap<String, Integer> nameEntry;
     private int eventCount;
 
     /**
-     *
+     * Empty Constructor
      */
     public EventDatabase() {
         this.idEntry = new HashMap<Integer, Event>();
@@ -31,7 +27,7 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
     }
 
     /**
-     *
+     * Copy constructor
      * @param ed
      */
     public EventDatabase(EventDatabase ed) {
@@ -105,7 +101,7 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
     }
 
     /**
-     *
+     * Removes the given user for all events
      * @param u
      */
     public void removeUser(User u){
@@ -116,6 +112,7 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
             catch( InexistingUserException ex){}
         }
     }
+    
     /**
      * Returns the current database entries mapped by name and id
      * @return database name entries
@@ -153,7 +150,7 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
     }
 
     /**
-     *
+     * Returns all upcoming events as an ArrayList. Useful for navigation
      * @return
      */
     public ArrayList<Event> getUpcomingEvents() {
@@ -170,7 +167,7 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
     }
 
     /**
-     *
+     * Returns all upcoming events as an ArrayList. Useful for navigation
      * @param type
      * @return
      */
@@ -254,6 +251,11 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
         }
     }
 
+    /**
+     * Copies a given HashMap to a TreeSet of events
+     * @param map
+     * @return 
+     */
     private TreeSet<Event> toTreeSet( HashMap<Integer, Event> map){
         TreeSet<Event> set = new TreeSet<Event>( new EventComparator() );
 
