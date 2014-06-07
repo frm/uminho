@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class EventDatabase implements MappedDatabase<Event> {
     private HashMap<Integer, Event> idEntry;
@@ -33,12 +34,10 @@ public class EventDatabase implements MappedDatabase<Event> {
      * @param name
      * @return  ArrayList with the search results
      */
-    public ArrayList<String> searchByName(String name) throws NoEventsAvailableException{
+    public ArrayList<String> searchByName(String name) {
         ArrayList<String> result = new ArrayList<String>();
         for( String n: this.nameEntry.keySet())
             if( n.contains(name)) result.add(n);
-        if(result == null)
-            throw new NoEventsAvailableException();
 
         return result;
     }
@@ -112,23 +111,24 @@ public class EventDatabase implements MappedDatabase<Event> {
      * Gets the events as an ArrayList, to navigate
      * @return ArrayList of events
      */
-    public ArrayList<Event> getEventList() throws NoEventsAvailableException{
+    public ArrayList<Event> getEventList(){
+        
+        TreeSet<Event> set = toTreeSet(this.idEntry);
         
         ArrayList<Event> events = new ArrayList<Event>();
-        for(Event e: this.idEntry.values()){
+        for(Event e: set){
             events.add(e);
         }
-        
-        if(events.isEmpty())
-            throw new NoEventsAvailableException();
-        
+
         return events;
     }
     
     public ArrayList<Event> getUpcomingEvents() {
+        TreeSet<Event> set = toTreeSet(this.idEntry);
+        
         ArrayList<Event> list = new ArrayList<Event>();
         
-        for(Event e : this.idEntry.values() ) {
+        for(Event e : set ) {
             if( e.isUpcoming() )
                 list.add( e.clone() );
         }
@@ -136,15 +136,22 @@ public class EventDatabase implements MappedDatabase<Event> {
         return list;
     }
     
-    public ArrayList<Event> getUpcomingEventsOf(String type) {
+    public ArrayList<Event> getUpcomingEvents(String type) {
+        TreeSet<Event> set = toTreeSet(this.idEntry);
+        
         ArrayList<Event> list = new ArrayList<Event>();
         
-        for(Event e : this.idEntry.values() ) {
+        for(Event e : set ) {
             if( e.isUpcoming() && e.getType().equals(type) )
                 list.add( e.clone() );
         }
         
         return list;
+    }
+    
+    public void addUser(User u, Event e) throws InvalidParticipantException, ActivityNotAvailableException{
+        e.addParticipant(u);
+        this.save(e);
     }
 
     @Override
@@ -212,5 +219,15 @@ public class EventDatabase implements MappedDatabase<Event> {
             this.idEntry.put(id, e);
             this.nameEntry.put(e.getName(), id);
         }
+    }
+    
+    private TreeSet<Event> toTreeSet( HashMap<Integer, Event> map){
+        TreeSet<Event> set = new TreeSet<Event>( new EventComparator() );
+        
+        for(Event e: map.values()){
+            set.add(e);
+        }
+        
+        return set;
     }
 }

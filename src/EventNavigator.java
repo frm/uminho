@@ -30,12 +30,11 @@ public class EventNavigator extends Navigator<Event>{
 
     public void select(Event e){
         if( Scan.yesNo("Are you sure you want to join the event?"))
-            /*app.joinEvent(e);*/
-            System.out.println("Not yet implemented");
+            app.joinEvent(e);
     }
 
     public String emptyMessage() {
-        return "\nUser has no activities\n";
+        return "\nNo Events Available\n";
     }
 
 
