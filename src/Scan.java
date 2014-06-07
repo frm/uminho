@@ -153,7 +153,7 @@ public abstract class Scan {
 
         else {
             System.out.println("Invalid date");
-            return Scan.date(message);
+            return Scan.eventDate(message);
         }
     }
     
