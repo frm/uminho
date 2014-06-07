@@ -4,7 +4,7 @@ import java.util.TreeMap;
 import java.util.Map;
 
 
-/**
+/**Milestones for an activity with distance
  *
  * @author tiago
  */
@@ -35,9 +35,9 @@ public class DistanceMilestones extends Milestones{
         this.reverseD = cloneReverseDistanceMilestones(rD);
     }
     
-    /**
+    /**Creates distance milestones from the information in an activity
      *
-     * @param act
+     * @param act activity that supplies the information
      */
     public DistanceMilestones(DistanceActivity act){
         super(act);
@@ -87,9 +87,9 @@ public class DistanceMilestones extends Milestones{
 
     //methods
 
-    /**
+    /**Alternative altitude clone, not shallow
      *
-     * @param dm
+     * @param 
      * @return
      */
         public TreeMap<Long,Integer> cloneDistanceMilestones(TreeMap<Long,Integer> dm) {
@@ -99,9 +99,9 @@ public class DistanceMilestones extends Milestones{
         return aux;
     }
 
-    /**
+    /**Alternative reverseA clone, not shallow
      *
-     * @param dm
+     * @param 
      * @return
      */
     public TreeMap<Integer,Long> cloneReverseDistanceMilestones(TreeMap<Integer,Long> dm) {
@@ -111,7 +111,7 @@ public class DistanceMilestones extends Milestones{
         return aux;
     }
 
-    /**
+    /**Creates default values for the milestones tables after initializing them
      *
      */
     public void populateMilestones(){
@@ -129,6 +129,10 @@ public class DistanceMilestones extends Milestones{
         this.reverseD.put(20000,Long.MAX_VALUE);
     }
     
+    /**updates the distance milestones based on the information in a given activity
+     *
+     * @param act activity that will possibly change the milestones
+     */
     private void addDistanceData(DistanceActivity act) {
         int actMinDuration = (int) (act.getDuration()/60000L);
         int actDistance = act.getDistance();
@@ -148,6 +152,10 @@ public class DistanceMilestones extends Milestones{
         }
     }
     
+    /**updates the reverseD milestones based on the information in a given activity
+     *
+     * @param act activity that will possibly change the milestones
+     */
     private void addTimeDistanceData(DistanceActivity act) {
         int actMinDuration = (int) (act.getDuration()/60000L);
         int actDistance = act.getDistance();
@@ -168,9 +176,9 @@ public class DistanceMilestones extends Milestones{
         }
     }
 
-    /**
+    /**Updates all the milestones based on the information in from a given activity
      *
-     * @param act
+     * @param act activity that will possibly change the milestones
      */
     public void addData(DistanceActivity act){
         super.addData(act);
@@ -178,7 +186,7 @@ public class DistanceMilestones extends Milestones{
         addTimeDistanceData(act);
     }
     
-    /**
+    /**Gets the approximate time the user takes to complete 1 km
      *
      * @return
      */
@@ -190,7 +198,7 @@ public class DistanceMilestones extends Milestones{
             return 0;
     }
     
-    /**
+    /**Gets the largest distance the user has completed
      *
      * @return
      */
@@ -207,7 +215,7 @@ public class DistanceMilestones extends Milestones{
     public DistanceMilestones clone()
     {return new DistanceMilestones(this);}
 
-    /**
+    /**toString for the distance variable
      *
      * @return
      */
@@ -235,8 +243,8 @@ public class DistanceMilestones extends Milestones{
 
         return result.toString();
     }
-    
-    /**
+   
+    /**toString for the reverseD variable
      *
      * @return
      */
@@ -260,6 +268,7 @@ public class DistanceMilestones extends Milestones{
         return result.toString();
     }
 
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         
@@ -271,6 +280,7 @@ public class DistanceMilestones extends Milestones{
         return sb.toString();
     }
 
+    @Override
     public boolean equals(Object o){
         if (this == o) return true;
 

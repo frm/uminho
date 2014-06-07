@@ -1,10 +1,7 @@
-/**
- *
- * @author tiago
- */
+
 import java.util.GregorianCalendar;
 
-/**
+/**Cycling Activity
  *
  * @author joaorodrigues
  */
@@ -35,7 +32,7 @@ public class Cycling extends AltitudeActivity implements WeatherInterface{
         this.setCalories( calculateCalories(duration, distance, altitude,  w) );
     }
     
-    /**
+    /**Constructor with only the basic information
      *
      * @param date
      * @param duration
@@ -46,7 +43,7 @@ public class Cycling extends AltitudeActivity implements WeatherInterface{
         super(date, duration, distance, altitude);
     }
     
-    /**
+    /**Constructor that uses a model AltitudeActivity for part of the information, and info for the weather
      *
      * @param model
      * @param weather
@@ -85,9 +82,11 @@ public class Cycling extends AltitudeActivity implements WeatherInterface{
     
     
     //essentials
+    @Override
     public Cycling clone()
     {return new Cycling(this);}
     
+    @Override
     public String toString(){
         StringBuilder understring = new StringBuilder();
         understring.append("\nWeather: ");
@@ -96,6 +95,7 @@ public class Cycling extends AltitudeActivity implements WeatherInterface{
         return super.toString() + understring.toString();
     }
     
+    @Override
     public boolean equals(Object o) {
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass() ) return false;
@@ -105,13 +105,25 @@ public class Cycling extends AltitudeActivity implements WeatherInterface{
         return ( super.equals(o) && this.weather.equals( c.getWeather() ) );
     }
     
-    //methods
+    /**Calorie calculation for this activity
+     * 
+     * @param duration
+     * @param distance
+     * @param altitude
+     * @param weather
+     * @return 
+     */
     private int calculateCalories(long duration, int distance, int altitude,  int weather){
         double wfac = calculateWeatherFactor(weather);
         int randomVariance = (int) (Math.random()*20);
         return ((int) ( ( (double)(altitude + distance)/(double)duration ) * 95000.0 * wfac )) + randomVariance;
     }
     
+    /**Weather factor calculation
+     * 
+     * @param w
+     * @return 
+     */
     private double calculateWeatherFactor(int w){
         if (w < 2) return 1;
         else if (w < 5) return 1.05;

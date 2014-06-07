@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
+/**The statistics of a user, indexed by year
  *
  * @author joaorodrigues
  */
@@ -33,7 +33,11 @@ public class Stats implements Serializable{
     public Stats(Stats s){
         this.annualStats = s.getAnnualStats();
     }
-
+    /**Alternative clone, not shallow
+     *
+     * @param
+     * @return
+     */
     private HashMap<Integer, YearStat> cloneAnnualStats(HashMap<Integer, YearStat> annualStats) {
         HashMap<Integer, YearStat> result = new HashMap<Integer, YearStat>();
         for(Map.Entry<Integer, YearStat> pair: annualStats.entrySet()){
@@ -58,7 +62,7 @@ public class Stats implements Serializable{
         this.annualStats = cloneAnnualStats(annualStats);
     }
 
-    /**
+    /**Adds statistics based on an activity
      *
      * @param act
      */
@@ -71,14 +75,18 @@ public class Stats implements Serializable{
 
     }
     
-    /**
+    /**Check if annualStats is empty
      *
      * @return
      */
     public boolean isEmpty(){
         return this.annualStats.isEmpty();
     }
-
+    
+    /** Adds a new yearStat
+     * 
+     * @param act 
+     */
     private void addNewYearStat(Activity act){
         YearStat anStat = new YearStat();
         int year = act.getDate().get(Calendar.YEAR);
@@ -86,6 +94,10 @@ public class Stats implements Serializable{
         annualStats.put(year, anStat);
     }
 
+    /**Updates statistics for a year
+     * 
+     * @param act 
+     */
     private void updateYearStat(Activity act){
         int year = act.getDate().get(Calendar.YEAR);
         YearStat ys = this.annualStats.get(year);
@@ -93,7 +105,7 @@ public class Stats implements Serializable{
         this.annualStats.put(year, ys);
     }
 
-    /**
+    /**Removes stats, backtracks the info
      *
      * @param act
      * @return

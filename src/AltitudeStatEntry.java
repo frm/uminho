@@ -1,7 +1,7 @@
 
 
 
-/**
+/**Statistics entry with altitude and distance information
  *
  * @author joaorodrigues
  */
@@ -18,15 +18,6 @@ public class AltitudeStatEntry extends DistanceStatEntry{
         this.avgAltitude = 0.0;
     }
 
-    /**
-     *
-     * @param totalAltitude
-     * @param avgAltitude
-     */
-    public AltitudeStatEntry(int totalAltitude, double avgAltitude) {
-        this.totalAltitude = totalAltitude;
-        this.avgAltitude = avgAltitude;
-    }
 
     /**
      *
@@ -63,7 +54,7 @@ public class AltitudeStatEntry extends DistanceStatEntry{
         this.avgAltitude = avgAltitude;
     }
 
-    /**
+    /**Constructor that gets the info from an activity
      *
      * @param act
      */
@@ -86,7 +77,7 @@ public class AltitudeStatEntry extends DistanceStatEntry{
         this.avgAltitude = ase.getAvgAltitude();
     }
     
-    /**
+    /**Updates the statistics based on the information from an activity
      *
      * @param act
      */
@@ -142,10 +133,12 @@ public class AltitudeStatEntry extends DistanceStatEntry{
     }
     
     
+    @Override
     public AltitudeStatEntry clone() {
        return (new AltitudeStatEntry(this));
     }
     
+    @Override
     public String toString(){
         StringBuilder result = new StringBuilder();
         result.append("\nTotal altitude: ");
@@ -156,6 +149,7 @@ public class AltitudeStatEntry extends DistanceStatEntry{
         return super.toString() + result.toString();
     }
     
+    @Override
     public boolean equals(Object o){
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass() ) return false;

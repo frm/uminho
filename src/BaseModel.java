@@ -1,8 +1,5 @@
-/*
- * Implements classes that will have an id and will be part of a database
- */
 
-/**
+/**Implements classes that will have an id and will be part of a database
  *
  * @author frmendes
  */

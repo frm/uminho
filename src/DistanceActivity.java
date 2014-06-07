@@ -1,6 +1,6 @@
 import java.util.GregorianCalendar; 
 
-/**
+/**Activity that has distance
  *
  * @author joaorodrigues
  */
@@ -60,8 +60,10 @@ public abstract class DistanceActivity extends Activity{
     
     //essentials
     
+    @Override
     public abstract DistanceActivity clone();
     
+    @Override
     public String toString(){
         StringBuilder understring = new StringBuilder();
         understring.append("\nDistance: ");
@@ -70,6 +72,7 @@ public abstract class DistanceActivity extends Activity{
         return super.toString() + understring.toString();
     }
     
+    @Override
     public boolean equals(Object o){
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass() ) return false;

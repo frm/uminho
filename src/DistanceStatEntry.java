@@ -1,5 +1,5 @@
 
-/**
+/**Statistics entry with  distance information
  *
  * @author joaorodrigues
  */
@@ -57,7 +57,7 @@ public class DistanceStatEntry extends StatEntry{
         this.avgDistance = avgDistance;
     }
 
-    /**
+     /**Constructor that gets the info from an activity
      *
      * @param act
      */
@@ -90,11 +90,9 @@ public class DistanceStatEntry extends StatEntry{
         this.avgDistance = this.totalDistance/this.getNrEntries();
     }
     
-    /**
+    /**Updates the statistics based on the information from an activity
      *
-     * @param calories
-     * @param duration
-     * @param distance
+     * @param act
      */
     public void updateStat(int calories, long duration, int distance){
         
@@ -135,10 +133,12 @@ public class DistanceStatEntry extends StatEntry{
     }
     
     
+    @Override
     public DistanceStatEntry clone() {
        return (new DistanceStatEntry(this));
     }
     
+    @Override
     public String toString(){
         StringBuilder result = new StringBuilder();
         result.append("\nTotal distance: ");
@@ -149,6 +149,7 @@ public class DistanceStatEntry extends StatEntry{
         return super.toString() + result.toString();
     }
     
+    @Override
     public boolean equals(Object o){
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass() ) return false;

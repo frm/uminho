@@ -1,5 +1,5 @@
 
-/**
+/**Admin user, can control the system
  *
  * @author frmendes
  */
@@ -30,10 +30,12 @@ public class AdminUser extends BasicUser{
         super(a);
     }
     
+    @Override
     public String toString() {
         return "### Admin: ###" + super.toString();
     }
     
+    @Override
     public AdminUser clone() {
         return new AdminUser(this);
     }

@@ -1,7 +1,7 @@
 
 import java.util.ArrayList;
 
-/**
+/**Navigates the activities
  *
  * @author joaorodrigues
  */
@@ -27,7 +27,7 @@ public class ActivityNavigator extends Navigator<Activity>{
     
     /**
      *
-     * @param app
+     * @param app used to call FitnessUM methods
      * @param list
      */
     public ActivityNavigator( FitnessUM app, ArrayList<Activity> list ){
@@ -35,18 +35,14 @@ public class ActivityNavigator extends Navigator<Activity>{
         this.app = app;
     }
     
-    /**
-     *
-     * @param act
-     */
+    
+    @Override
     public void print(Activity act) {
         System.out.println( act );
     }
     
-    /**
-     *
-     * @param act
-     */
+   
+    @Override
     public void select(Activity act){ 
         if( Scan.yesNo("Are you sure you want to delete the activity?")){
             app.removeActivity(act);
@@ -54,10 +50,8 @@ public class ActivityNavigator extends Navigator<Activity>{
         }
     }
 
-    /**
-     *
-     * @return
-     */
+    
+    @Override
     public String emptyMessage() {
         return "\nUser has no activities\n";
     }

@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.Map;
 
-/**
+/**Milestones for an activity with distance and altitude
  *
  * @author tiago
  */
@@ -17,14 +17,14 @@ public class AltitudeMilestones extends DistanceMilestones{
     /**
      *
      */
-        public AltitudeMilestones(){
+    public AltitudeMilestones(){
         super();
         populateMilestones();
     }
     
-    /**
+    /**Creates altitude milestones from the information in an activity
      *
-     * @param act
+     * @param act activity that supplies the information
      */
     public AltitudeMilestones(AltitudeActivity act){
         super(act);
@@ -59,28 +59,28 @@ public class AltitudeMilestones extends DistanceMilestones{
 
     //setters & getters
 
-    /**
+    /**altitude getter
      *
-     * @return
+     * @return clone of the altitude variable
      */
         public TreeMap<Long,Integer> getAltitudeMilestones()
     {return cloneAltitudeMilestones(this.altitude);}
 
-    /**
+    /**reverseA getter
      *
-     * @return
+     * @return a clone of the reverse altitude milestones
      */
     public TreeMap<Integer,Long> getReverseAltitudeMilestones()
     {return cloneReverseAltitudeMilestones(this.reverseA);}
 
-    /**
+    /**altitude setter
      *
      * @param altitude
      */
     public void setAltitude(TreeMap<Long,Integer> altitude)
     {this.altitude = cloneAltitudeMilestones(altitude);}
 
-    /**
+    /**reverseA setter
      *
      * @param rA
      */
@@ -89,7 +89,7 @@ public class AltitudeMilestones extends DistanceMilestones{
 
     //methods
 
-    /**
+    /**Alternative altitude clone, not shallow
      *
      * @param am
      * @return
@@ -101,7 +101,7 @@ public class AltitudeMilestones extends DistanceMilestones{
         return aux;
     }
 
-    /**
+    /**Alternative reverseA clone, not shallow
      *
      * @param rm
      * @return
@@ -113,7 +113,7 @@ public class AltitudeMilestones extends DistanceMilestones{
         return aux;
     }
     
-    /**
+    /**Creates default values for the milestones tables after initializing them
      *
      */
     public void populateMilestones(){
@@ -132,9 +132,9 @@ public class AltitudeMilestones extends DistanceMilestones{
         this.reverseA.put(500,Long.MAX_VALUE);
     }
 
-    /**
+    /**updates the altitude milestones based on the information in a given activity
      *
-     * @param act
+     * @param act activity that will possibly change the milestones
      */
     public void addAltitudeData(AltitudeActivity act){
         int actMinDuration = (int) (act.getDuration()/60000L);
@@ -155,9 +155,9 @@ public class AltitudeMilestones extends DistanceMilestones{
         }
     }
 
-    /**
+    /**updates the reverseA milestones based on the information in a given activity
      *
-     * @param act
+     * @param act activity that will possibly change the milestones
      */
     public void addTimeAltitudeData(AltitudeActivity act){
         int actMinDuration = (int) (act.getDuration()/60000L);
@@ -179,9 +179,9 @@ public class AltitudeMilestones extends DistanceMilestones{
         }
     }
     
-    /**
+    /**Updates all the milestones based on the information in from a given activity
      *
-     * @param act
+     * @param act activity that will possibly change the milestones
      */
     public void addData(AltitudeActivity act){
         super.addData(act);
@@ -193,7 +193,7 @@ public class AltitudeMilestones extends DistanceMilestones{
         return new AltitudeMilestones(this);
     }
     
-    /**
+    /**toString for the altitude variable
      *
      * @return
      */
@@ -222,7 +222,7 @@ public class AltitudeMilestones extends DistanceMilestones{
         return result.toString();
     }
 
-    /**
+    /**toString for the reverseA variable
      *
      * @return
      */
@@ -245,6 +245,7 @@ public class AltitudeMilestones extends DistanceMilestones{
         return result.toString();
     }
     
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         
@@ -256,6 +257,7 @@ public class AltitudeMilestones extends DistanceMilestones{
         return sb.toString();
     }
     
+    @Override
     public boolean equals(Object o){
         if (this == o) return true;
 

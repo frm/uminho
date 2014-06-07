@@ -2,7 +2,7 @@
 import java.io.Serializable;
 import java.util.Comparator;
 
-/**
+/**Compares activities, is used for Trees
  *
  * @author joaorodrigues
  */

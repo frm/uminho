@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
-/**
+/**Abstract class for an activity without distance or altitude
  *
  * @author joaorodrigues
  */
@@ -17,7 +17,7 @@ public abstract class Activity implements Serializable {
   
     //constructors
 
-    /**
+    /**Empty Constructor
      *
      */
         public Activity(){
@@ -26,7 +26,7 @@ public abstract class Activity implements Serializable {
         this.calories = 0;
     }
     
-    /**
+    /**Parameter constructor
      *
      * @param date
      * @param duration
@@ -36,7 +36,7 @@ public abstract class Activity implements Serializable {
         this.duration = duration;
     }
     
-    /**
+    /**Copy Constructor
      *
      * @param a
      */
@@ -48,7 +48,7 @@ public abstract class Activity implements Serializable {
   
     //setters
     
-    /**
+    /**Date setter
      *
      * @param date
      */
@@ -73,50 +73,50 @@ public abstract class Activity implements Serializable {
         this.calories = calories;
     }
 
-    /**
+    /**Date getter
      *
-     * @return
+     * @return the date
      */
     public GregorianCalendar getDate() {
         return (GregorianCalendar) this.date.clone();
     }
     
-    /**
+    /**Duration getter
      *
-     * @return
+     * @return the duration
      */
     public long getDuration() {
         return this.duration;
     }
     
-    /**
+    /**Calories getter
      *
-     * @return
+     * @return the calories
      */
     public int getCalories() {
         return this.calories;
     }
     
-    /**
+    /** Name getter
      *
-     * @return
+     * @return the name
      */
     public String getName(){
         return this.getClass().getSimpleName();
     }
     
-    /**
+    /**Checks if the duration is at least 1 minute
      *
-     * @return
+     * @return true if the duration is at least 1 minute, else, it returns false
      */
     public boolean hasMinimumTime() {
         return duration >= Activity.minimumTime;
     }  
     
-    /**
+    /**Checks if two activities aren't performed during the same time frame
      *
-     * @param a
-     * @return
+     * @param a Activity to be checked
+     * @return true if aliased
      */
     public boolean aliasOf(Activity a) {
         long currStartTime = this.date.getTimeInMillis();
@@ -127,8 +127,10 @@ public abstract class Activity implements Serializable {
         return (upperAlias || lowerAlias);
     }
  
+  @Override
     public abstract Activity clone();
     
+  @Override
     public String toString(){
         StringBuilder result = new StringBuilder();
         result.append("\nActivity: ");
@@ -143,6 +145,7 @@ public abstract class Activity implements Serializable {
         return result.toString();
     }
     
+  @Override
     public boolean equals(Object o) {
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass() ) return false;

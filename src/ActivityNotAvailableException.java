@@ -1,5 +1,5 @@
 
-/**
+/**Exception for when an activity doesn't exist
  *
  * @author joaorodrigues
  */

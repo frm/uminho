@@ -1,5 +1,5 @@
 
-/**
+/**Exception for when the friend feed is empty
  *
  * @author joaorodrigues
  */
