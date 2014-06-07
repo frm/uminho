@@ -64,6 +64,10 @@ public class EventController {
         e.removeParticipant(u);
         this.database.save(e);
     }
+    
+    public void removeUser(User u){
+        this.database.removeUser(u);
+    }
 
     public void addEvent(Event e){
         this.database.save(e);
