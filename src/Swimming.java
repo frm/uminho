@@ -28,7 +28,9 @@ public class Swimming extends DistanceActivity {
     public Swimming clone()
     {return new Swimming(this);}
     
-    public int calculateCalories(long duration, int distance)
-    {return (int) ( ((double)distance/(double)duration)*900000) ;}
+    public int calculateCalories(long duration, int distance){
+        int randomVariance = (int) (Math.random()*20);
+        return ((int) ( ((double)distance/(double)duration)*900000)) + randomVariance;
+    }
 }
 

@@ -27,6 +27,8 @@ public class Skating extends Activity {
     public Skating clone()
     {return new Skating(this);}
     
-    public int calculateCalories(long duration)
-    {return (int) (duration*0.00006);}
+    public int calculateCalories(long duration){
+        int randomVariance = (int) (Math.random()*20);
+        return ((int) (duration*0.00006)) + randomVariance;
+    }
 }
