@@ -656,6 +656,8 @@ public class FitnessUM {
         } catch (InexistingUserException ex) {
             System.out.println("User does not participate");
         }
+    }
+    
     public void myEvents(){
         HashSet<Integer> ids = this.userController.getCurrentUser().getEvents().getEvents();
         ArrayList<Event> events = new ArrayList<Event>();
@@ -671,8 +673,8 @@ public class FitnessUM {
     
     public void joinEvent(Event e){
         try {
-            this.userController.joinEvent( e.getId() );
             this.eventController.addUser(this.userController.getCurrentUser(), e);
+            this.userController.joinEvent( e.getId() );
         } catch (InvalidParticipantException ex) {
             System.out.println("Invalid Participant");
         } catch (ActivityNotAvailableException ex) {
@@ -718,7 +720,8 @@ public class FitnessUM {
             date = Scan.eventDate("What's the event date?");
             signup = Scan.eventDate("What's the sign-up limit date?");
             if( signup.getTimeInMillis() >= date.getTimeInMillis())
-                valid = false;
+                valid = true;
+            else System.out.println("Invalid event or signup date");
         }    
         
         String location = Scan.scanString("What's the location?");
