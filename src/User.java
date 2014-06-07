@@ -273,10 +273,10 @@ public class User extends BasicUser implements BaseModel {
     }
     
     public long simulateKm(String type, int km, long prevTime) {
-        if(hasquit(type,km))
+        /*if(hasquit(type,km))
             return Long.MAX_VALUE;
-        else
-            return prevTime + ((long)(decay(type,km) * pace(type)));
+        else*/
+            return prevTime + (/*(long)(decay(type,km) * */pace(type));
     }
 
     public long pace(String type){

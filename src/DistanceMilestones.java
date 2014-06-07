@@ -129,9 +129,10 @@ public class DistanceMilestones extends Milestones{
         addTimeDistanceData(act);
     }
     
-    public long getKmTimeAprox(){
-        if(reverseD.containsKey(1))
-            return reverseD.get(1);
+public long getKmTimeAprox(){
+        long km = this.reverseD.get(1000);
+        if(km!=Long.MAX_VALUE)
+            return km;
         else
             return 0;
     }
