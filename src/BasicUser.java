@@ -80,6 +80,8 @@ public abstract class BasicUser implements Serializable{
         return this.password.equals(password);
     }
     
+    public abstract BasicUser clone();
+    
     @Override
    public String toString() {
         StringBuilder result = new StringBuilder();

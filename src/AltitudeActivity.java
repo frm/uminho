@@ -48,6 +48,8 @@ public abstract class AltitudeActivity extends DistanceActivity{
         return this.altitude;
     }
     
+    public abstract AltitudeActivity clone();
+    
     public String toString() {
         StringBuilder understring = new StringBuilder();
         understring.append("\nAltitude difference: ");
