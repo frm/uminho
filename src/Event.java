@@ -2,7 +2,10 @@
  *
  * @author frmendes
  */
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Event implements BaseModel {
     private int id;
@@ -162,6 +165,31 @@ public class Event implements BaseModel {
         return info.isUpcoming();
     }
     
+    private TreeMap<User, Long> simulateKm(int km, TreeMap<User, Long> previousKm) {
+        TreeMap<User, Long> currentKm = new TreeMap<User, Long>( new SimulationComparator() );
+        for( Map.Entry<User, Long> u : previousKm.entrySet() )
+            currentKm.put(u.getKey().clone(), u.getKey().simulateKm(km, u.getValue() ) );
+        
+        return currentKm;
+    }
+    
+    private TreeMap<User, Long> simulateFirstKm(ArrayList<User> participants) {
+        TreeMap<User, Long> firstKm = new TreeMap<User, Long>();
+        for(User u : participants)
+            firstKm.put( u.clone(), u.simulateKm(1, 0) );
+        
+        return firstKm;
+    }
+
+    public ArrayList< TreeMap<User, Long> > simulate(ArrayList<User> participants) {
+        ArrayList< TreeMap<User, Long> > simulation = new ArrayList< TreeMap<User, Long> >();
+        simulation.add(0, simulateFirstKm(participants) );
+        
+        for(int i = 1; i < this.distance; i++)
+            simulation.add(i, simulateKm(i + 1, simulation.get(i - 1) ) );
+            
+        return simulation;
+    }
 
     @Override
     public int hashCode() {
