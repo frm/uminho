@@ -163,7 +163,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Registers an admin
      */
     public void registerAdmin() {
         String name = Scan.name("\nAdmin name: ");
@@ -180,7 +180,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Scans the user for update fields
      */
     public void updateUser() {
         System.out.println("You are about to update your settings.\nIf you do not wish to update a particular field, simply press Enter or input 0 in numeric fields.");
@@ -210,7 +210,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Scans the user for a particular search, proceeding to do it
      */
     public void searchUser() {
         final FitnessUM app = this;
@@ -228,7 +228,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Logs out a user
      */
     public void logoutUser() {
         if ( this.userController.isAdminLogin() )
@@ -265,16 +265,15 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Scans the user for email, so it can delete it
      */
     public void deleteUser() {
-        // missing delete from events
         String email = Scan.email();
         deleteByEmail(email);
     }
     
     /**
-     *
+     * Prompts the user for delete account confirmation
      * @param email
      */
     public void deleteByEmail(String email){
@@ -291,13 +290,14 @@ public class FitnessUM {
     }
     
     /**
-     *
+     * Deletes the current user account
      */
     public void deleteMyAccount(){
         deleteByEmail( this.userController.getCurrentUser().getEmail());
         run();
     }
 
+    
     private void greet() {
         if( this.userController.getCurrentUser() != null ) { // If user is not admin
             System.out.println("\nWelcome "+ this.userController.getCurrentUser().getName() );
@@ -307,7 +307,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Returns a friend feed
      */
     public void friendsFeed(){
         try{
@@ -324,7 +324,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Prints the user profile
      */
     public void userProfile() {
         System.out.println( this.userController.currentUserProfile() );
@@ -332,7 +332,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Lists the user practiced activities
      */
     public void listPracticedActivities() {
         ArrayList<String> list = this.userController.getPracticedActivities();
@@ -340,14 +340,14 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Lists the user friends
      */
     public void listFriends() {
         new FriendListNavigator( this.userController.getFriendList(), this ).navigate();
     }
 
     /**
-     *
+     * Sends a user friend request
      * @param u
      */
     public void addFriend(User u) {
@@ -355,7 +355,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Deletes a friend
      * @param u
      */
     public void deleteFriend(User u) {
@@ -363,7 +363,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Accepts a friend request
      * @param u
      */
     public void acceptFriend(User u) {
@@ -371,7 +371,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Rejects a friend request
      * @param u
      */
     public void rejectFriend(User u) {
@@ -379,7 +379,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Determines if the user has friend requests
      * @param u
      * @return
      */
@@ -387,12 +387,15 @@ public class FitnessUM {
         return this.userController.getCurrentUser().hasFriend(u);
     }
 
+    /**
+     * Lists the friend requests
+     */
     private void viewFriendRequests() {
         new FriendRequestsNavigator( this.userController.getFriendRequests(), this ).navigate();
     }
 
     /**
-     *
+     * Shows the statistics overview
      */
     public void showStatsOverview(){
         try{
@@ -406,7 +409,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Shows the annual statistics, prompting the user for the year
      */
     public void showAnnualStats(){
         int year = Scan.scanInt("Insert the year you want to check.");
@@ -419,7 +422,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Shows the monthly statistics, prompting the user for month and year
      */
     public void showMonthlyStats(){
         int year = Scan.intInRange("Insert the year you want to check.", 0, (new GregorianCalendar()).get(Calendar.YEAR) );
@@ -432,7 +435,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Removes a given activity
      * @param act
      */
     public void removeActivity(Activity act){
@@ -440,7 +443,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Prompts the user for add Activity options
      */
     public void getAddActivityOption(){
         System.out.println("Choose one of the following options.");
@@ -450,7 +453,7 @@ public class FitnessUM {
     }
    
     /**
-     *
+     * Returns the statistics type option
      */
     public void getStatsTypeOption(){
         System.out.println("Choose one of the following options.");
@@ -460,7 +463,7 @@ public class FitnessUM {
     }
 
     /**
-     *
+     * Lists the available weather options
      * @param message
      * @return
      */
@@ -474,14 +477,19 @@ public class FitnessUM {
         return result.toString() ;
     }
 
-    /**Shows the user's ten most recent activities
-    *
+    /**
+     * Shows the user's ten most recent activities
     */
     public void myActivityLog(){
         ArrayList<Activity> list = userController.getMostRecentActivities();
 
         new ActivityNavigator(this,list).navigate();
     }
+    
+    /**
+     * Returns a prompt to add an activity
+     * @return 
+     */
 
     private Prompt[] getAddActivityPrompt(){
         final FitnessUM app = this;

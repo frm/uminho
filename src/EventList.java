@@ -1,29 +1,24 @@
 /**
- *
+ * Class containing a set of Event ids
  * @author tiago
  */
 
 import java.io.Serializable;
 import java.util.HashSet;
 
-/**
- *
- * @author joaorodrigues
- */
+
 public class EventList implements Serializable{
     private HashSet<Integer> events;
     
-    //constructors
-
     /**
-     *
+     * Empty constructor
      */
         public EventList(){
         this.events = new HashSet<Integer>();
     }
     
     /**
-     *
+     * Parameterized constructor
      * @param events
      */
     public EventList(HashSet<Integer> events) {
@@ -31,37 +26,34 @@ public class EventList implements Serializable{
     }
     
     /**
-     *
+     * Copy constructor
      * @param e
      */
     public EventList(EventList e){
         this.events = e.getEvents();
     }
     
-    //getters
 
     /**
-     *
+     * Sets the events
      * @param events
      */
         public void setEvents(HashSet<Integer> events){
         this.events = EventList.copyEvents(events);
     }
     
-    //setters
 
     /**
-     *
+     * Returns a copy of the current set of events
      * @return
      */
         public HashSet<Integer> getEvents(){
         return EventList.copyEvents(this.events);
     }
     
-    //methods
 
     /**
-     *
+     * Adds an event
      * @param id
      */
         public void addEvent(int id) {
@@ -69,7 +61,7 @@ public class EventList implements Serializable{
     }
     
     /**
-     *
+     * Removes an event
      * @param id
      */
     public void removeEvent(int id) {
@@ -77,8 +69,8 @@ public class EventList implements Serializable{
     }
     
     /**
-     *
-     * @param id
+     * Determines if a user has participated in an event
+     * @param id id of the user
      * @return
      */
     public boolean participatedIn(int id) {
@@ -86,7 +78,7 @@ public class EventList implements Serializable{
     }
     
     /**
-     *
+     * Returns the number of events
      * @return
      */
     public int numberOfEvents() {
@@ -94,7 +86,7 @@ public class EventList implements Serializable{
     }
     
     /**
-     *
+     * Determines if an event exists in the current set
      * @param e
      * @return
      */
@@ -102,7 +94,8 @@ public class EventList implements Serializable{
         return this.events.contains(e.getId());
     }
     
-    //essentials
+
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
     
@@ -114,10 +107,16 @@ public class EventList implements Serializable{
         return sb.toString();
     }
     
+    @Override
     public EventList clone(){
         return new EventList(this);
     }
     
+    /**
+     * Makes a copy of the given set of events
+     * @param e
+     * @return 
+     */
     private static HashSet<Integer> copyEvents(HashSet<Integer> e) {
         HashSet<Integer> list = new HashSet<Integer>();
         for(int i : e)

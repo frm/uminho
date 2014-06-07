@@ -41,7 +41,7 @@ public class Seed {
         uc.loginUser("td@gmail.com", "marmitas");
         uc.sendFriendRequest(3);
         uc.acceptFriendRequest(1);
-        uc.loginUser("rod@m.com", "leite");
+        uc.loginUser("rod@m.com", "password2");
         uc.acceptFriendRequest(1);
         this.app.setUserController(uc);
     }

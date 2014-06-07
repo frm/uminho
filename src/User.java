@@ -6,7 +6,7 @@ import java.util.Set;
 
 
 /**
- *
+ * User class containing information 
  * @author frmendes
  */
 
@@ -18,7 +18,7 @@ public class User extends BasicUser implements BaseModel {
     private EventList events;
 
     /**
-     *
+     * Empty Constructor
      */
     public User() {
         super();
@@ -30,7 +30,7 @@ public class User extends BasicUser implements BaseModel {
     }
 
     /**
-     *
+     * Parameterized constructor. Useful for building a user from scanned input
      * @param name
      * @param password
      * @param email
