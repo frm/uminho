@@ -123,6 +123,28 @@ public class EventDatabase implements MappedDatabase<Event> {
         
         return events;
     }
+    
+    public ArrayList<Event> getUpcomingEvents() {
+        ArrayList<Event> list = new ArrayList<Event>();
+        
+        for(Event e : this.idEntry.values() ) {
+            if( e.isUpcoming() )
+                list.add( e.clone() );
+        }
+        
+        return list;
+    }
+    
+    public ArrayList<Event> getUpcomingEventsOf(String type) {
+        ArrayList<Event> list = new ArrayList<Event>();
+        
+        for(Event e : this.idEntry.values() ) {
+            if( e.isUpcoming() && e.getType().equals(type) )
+                list.add( e.clone() );
+        }
+        
+        return list;
+    }
 
     @Override
     public boolean equals(Object o) {

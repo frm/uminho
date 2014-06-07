@@ -26,12 +26,18 @@ public class EventController {
     public EventDatabase getDatabase() {
         return database.clone();
     }
-
+    
+    public boolean validateEventNameUniqueness(Event e) {
+        return database.findByName( e.getName() ) == null;
+    }
+    
+    public boolean validateEventNameUniqueness(String name) {
+        return database.findByName(name) == null;
+    }
 
     public void setDatabase(EventDatabase database) {
         this.database = database.clone();
     }
-
 
     public ArrayList<String> searchEvent(String s) throws NoEventsAvailableException{
         return this.database.searchByName(s);

@@ -606,7 +606,7 @@ public class FitnessUM {
     }
 
 
-    /**Starts a navigator, asking the adming for the event type
+    /**Starts a navigator, asking the admin for the event type
      *
      */
     public void addEvent(){
@@ -639,7 +639,14 @@ public class FitnessUM {
      */
     public void getEventInfo(String s) {
         String name = Scan.scanString("What is the name of the event?");
+        
+        while( !this.eventController.validateEventNameUniqueness(name) ) {
+            System.out.println("Event name has to be unique");
+            name = Scan.scanString("What is the name of the event?");
+        }
+        
         GregorianCalendar date = Scan.date("What's the event date?");
+        
         int capacity = Scan.scanInt("What's the event capacity?");
         int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
         Event e = new Event(name, s, capacity, weather, date);

@@ -6,84 +6,64 @@ import java.util.GregorianCalendar;
 
 public class Event implements BaseModel {
     private int id;
-    private int capacity;
     private String type;
-    private String name;
-    private Weather weather;
     private UserList participants;
-    private GregorianCalendar date;
+    private int distance;
+    private int altitude;
+    private EventInfo info;
 
-    /** Default number of participants, given in case the number is not valid or given */
-    private static final int defaultParticipants = Integer.MAX_VALUE;
 
     public Event() {
         this.id = -1;
-        this.name = "";
         this.type = "";
-        this.capacity = Event.defaultParticipants;
-        this.weather = new Weather();
         this.participants = new UserList();
-        this.date = new GregorianCalendar();
+        this.distance = 1;
+        this.altitude = 1;
+        this.info = new EventInfo();
     }
 
-    public Event(int id, String name, String type, int capacity, int weather, UserList participants, GregorianCalendar date){
+    public Event(int id, String type, int distance, int altitude, UserList participants, EventInfo info) {
         this.id = id;
-        this.name = name;
         this.type = type;
-        this.setCapacity(capacity);
-        this.weather = new Weather(weather);
         this.participants = participants.clone();
-        this.date = (GregorianCalendar)date.clone();
+        this.info = info.clone();
+        this.distance = distance;
+        this.altitude = altitude;
     }
 
     public Event(Event e) {
         this.id = e.getId();
-        this.name = e.getName();
         this.type = e.getType();
-        this.capacity = e.getCapacity();
-        this.weather = new Weather( e.getWeather() );
         this.participants = e.getParticipants();
-        this.date = e.getDate();
+        this.info = e.getInfo();
+        this.distance = e.getDistance();
+        this.altitude = e.getAltitude();
     }
 
-    public Event(String name, String type, int capacity, int weather, GregorianCalendar date) {
+    public Event(String name, String type, int distance, int altitude, EventInfo info) {
         this.id = -1;
-        this.name = name;
         this.type = type;
-        this.setCapacity(capacity);
-        this.weather = new Weather(weather);
         this.participants = new UserList();
-        this.date = (GregorianCalendar)date.clone();
+        this.distance = distance;
+        this.altitude = altitude;
+        this.info = info.clone();
     }
 
     @Override
     public void setId(int id) {
         this.id = id;
     }
-
-    /** Sets the event name
-     * @param s name of the event
-      */
-    public void setName(String s) {
-        this.name = s;
+    
+    public void setInfo(EventInfo e) {
+        this.info = e.clone();
     }
-
-    /** Sets the event capacity
-     * It shall fallback to Event.defaultParticipants in case the given number is < 0
-     * @param c capacity
-     */
-    public void setCapacity(int c) {
-        if (c > 0)
-            this.capacity = c;
-        else
-            this.capacity = Event.defaultParticipants;
+    
+    public void setAltitude(int a) {
+        this.altitude = a;
     }
-
-    /** Sets the expected weather for the event
-     * @param w expected weather
-     */
-    public void setWeather(int w) {
-        this.weather.setWeather(w);
+    
+    public void setDistance(int d) {
+        this.distance = d;
     }
 
     /** Sets the participants
@@ -91,13 +71,6 @@ public class Event implements BaseModel {
      */
     public void setParticipants(UserList p) {
         this.participants = p.clone();
-    }
-
-    /** Sets the date for the event
-     * @param date Date of the event
-     */
-    public void setDate(GregorianCalendar date) {
-        this.date = (GregorianCalendar)date.clone();
     }
 
     /** Sets the type
@@ -123,21 +96,21 @@ public class Event implements BaseModel {
      * @return name of the event
      */
     public String getName() {
-        return this.name;
+        return this.info.getName();
     }
 
     /** Returns the maximum number of users allowed
      * @return capacity of the event
      */
     public int getCapacity() {
-        return this.capacity;
+        return this.info.getCapacity();
     }
 
     /** Returns the expected weather for the event
      * @return event weather
      */
     public String getWeather() {
-        return this.weather.getWeather();
+        return this.info.getWeather();
     }
 
     /** Returns the list of users participating
@@ -146,12 +119,25 @@ public class Event implements BaseModel {
     public UserList getParticipants() {
         return this.participants.clone();
     }
+    
 
     /** Returns the date of the event
      * @return date of the event
      */
     public GregorianCalendar getDate() {
-        return (GregorianCalendar)this.date.clone();
+        return this.info.getDate();
+    }
+    
+    public int getDistance() {
+        return this.distance;
+    }
+    
+    public int getAltitude() {
+        return this.altitude;
+    }
+    
+    public EventInfo getInfo() {
+        return this.info.clone();
     }
 
     /** Adds a new participant to the event
@@ -184,6 +170,11 @@ public class Event implements BaseModel {
         if(! this.participants.removeUser(id) )
             throw new InexistingUserException("User does not exist");
     }
+    
+    public boolean isUpcoming() {
+        return info.isUpcoming();
+    }
+    
 
     @Override
     public int hashCode() {
@@ -227,11 +218,10 @@ public class Event implements BaseModel {
 
         return (
                 this.id == e.getId() &&
-                this.name.equals( e.getName() ) &&
-                this.weather.getWeather().equals( e.getWeather() ) &&
-                this.capacity == e.getCapacity() &&
+                this.distance == e.getDistance() &&
+                this.altitude == e.getAltitude() &&
+                this.info.equals( e.getInfo() ) &&
                 this.participants.equals( e.getParticipants() ) &&
-                this.date.equals( e.getDate() ) &&
                 this.type.equals( e.getType() )
                 );
     }

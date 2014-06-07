@@ -32,6 +32,6 @@ public class EventTypeNavigator extends Navigator<String>{
     }
     
     public String emptyMessage() {
-        return "\nThe app has no activities available\n";
+        return "\nThe app has no Events available\n";
     }
 }
