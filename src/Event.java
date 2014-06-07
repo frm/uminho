@@ -211,7 +211,10 @@ public class Event implements BaseModel, Serializable {
             sb.append(++i + "º: ");
             sb.append( e.getValue().getName() );
             sb.append(" Time: ");
-            sb.append( StatEntry.formatMillis( e.getKey() ) );
+            if( e.getKey() == Long.MAX_VALUE)
+                sb.append("Forfeit");
+            else
+                sb.append( e.getKey() + "min");
             sb.append("\n");
         }
         

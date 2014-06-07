@@ -273,10 +273,10 @@ public class User extends BasicUser implements BaseModel {
     }
     
     public long simulateKm(String type, int km, long prevTime) {
-        /*if(hasquit(type,km))
+        if( prevTime == Long.MAX_VALUE || hasquit(type,km) )
             return Long.MAX_VALUE;
-        else*/
-            return prevTime + (/*(long)(decay(type,km) * */pace(type));
+        else
+            return prevTime + (long)( (decay(type,km)) * ( pace(type) ) );
     }
 
     public long pace(String type){
@@ -295,11 +295,14 @@ public class User extends BasicUser implements BaseModel {
         
         double agefactor = (info.getAgeYears(year)*0.02);
         
-        if (month == 0){
+        if (month == 0) {
                 month = 11;
                 year -= 1;
-            }
-        return (5 - agefactor + (activityInfo.getTotalDuration(type,year,month)*0.05));
+        }
+        double factor = 5 - agefactor + (activityInfo.getTotalDuration(type,year,month)*0.05);
+        if(factor == 0)
+            return 1;
+        else return factor;
     }
     
     @Override
