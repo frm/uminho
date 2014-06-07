@@ -23,15 +23,27 @@ public class EventTypeNavigator extends Navigator<String>{
         this.app = app;
     }
 
+    public FitnessUM getApp() {
+        return app;
+    }
+
+    public void setApp(FitnessUM app) {
+        this.app = app;
+    }
+    
+
+    @Override
     public void print(String s) {
         System.out.println( s );
     }
     
+    @Override
     public void select(String s){ 
         app.getEventInfo(s);
     }
     
+    @Override
     public String emptyMessage() {
-        return "\nThe app has no Events available\n";
+        return "\nThe app has no Activities available\n";
     }
 }

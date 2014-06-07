@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,7 +35,7 @@ public class FitnessUM {
    };
 
    private static final String[] statsOptions = {
-       "Go Back", "Check all the statistics", "Check statistics for one activity"
+       "Go Back", "Statistics Overview", "Statistics for a given year", "Statistics for a given month"
    };
 
    private static final String[] activities = {
@@ -42,6 +44,10 @@ public class FitnessUM {
 
    private static final String[] adminOptions = {
        "Logout", "Add Admin", "Delete User", "Add Event", "Update Event", "Delete Event"
+   };
+   
+   private static final String[] listEventsOptions = {
+       "Go Back", "List All Events", "List Upcoming Events", "List Upcoming Events of a Certain Activity Type"
    };
 
 
@@ -412,16 +418,13 @@ public class FitnessUM {
         int option = Scan.menuOption(0, 6);
         this.getAddActivityPrompt()[option].exec();
     }
-
+   
     /**
      *
      */
     public void getStatsTypeOption(){
         System.out.println("Choose one of the following options.");
-        System.out.println("0.Go Back");
-        System.out.println("1.Statistics Overview");
-        System.out.println("2.Statistics for a given year");
-        System.out.println("3.Statistics for a given year and month");
+        FitnessUM.printStatsOptions();
         int option = Scan.menuOption(0,3);
         this.getStatsTypePrompt()[option].exec();
     }
@@ -462,6 +465,7 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.addSwimming();} }
         };
     }
+
 
     /**
      *
@@ -618,8 +622,7 @@ public class FitnessUM {
             Scan.pressEnterToContinue();
         }
     }
-
-
+    
     /**Starts a navigator, asking the admin for the event type
      *
      */
@@ -630,27 +633,54 @@ public class FitnessUM {
 
     public void searchEvent(){
         String terms = Scan.scanString("Insert your search terms");
-        try{
-            ArrayList<String> list = this.eventController.searchEvent(terms);
-            (new SearchEventNavigator(list, this.eventController)).navigate();
+        ArrayList<String> list = this.eventController.searchEvent(terms);
+        (new SearchEventNavigator(list, this.eventController)).navigate();
+        Scan.pressEnterToContinue();
+    }
+    
+    public void getListEventsOption() {
+        this.startup();
+        System.out.println("Choose one of the following options.");
+        FitnessUM.printListEventsOptions();
+        int option = Scan.menuOption(0, 3);
+        this.getListEventsPrompt()[option].exec();
+    }
+    
+    public void joinEvent(Event e){
+        try {
+            this.eventController.addUser(this.userController.getCurrentUser(), e);
+        } catch (InvalidParticipantException ex) {
+            System.out.println("Invalid Participant");
+        } catch (ActivityNotAvailableException ex) {
+            System.out.println("Activity Not Available");
         }
-        catch(NoEventsAvailableException e){
-            System.out.println("No Results");
-        }
-        //Scan.pressEnterToContinue();
+    }
+    
+    public void listEvents(){
+        getListEventsOption();
     }
 
-    public void listEvents(){
-        try{
+    public void listAllEvents(){
             ArrayList<Event> events = this.eventController.getEventList();
             (new EventNavigator(events, this)).navigate();
-            Scan.pressEnterToContinue();
-        }
-        catch(NoEventsAvailableException e){
-            System.out.println("No Events Available");
-            Scan.pressEnterToContinue();
-        }
+    }
+    
+    public void listUpcomingEvents(){
+        ArrayList<Event> events = this.eventController.getUpcomingEvents();
+        (new EventNavigator(events, this)).navigate();
+    }
+    
+    public void listUpcomingEventsOf(){
         
+        System.out.println("\nWhat's the activity type?\n");
+        ArrayList<String> list = new ArrayList<String>( Arrays.asList(this.activities) );
+        ( new EventTypeUserNavigator(list, this)).navigate();
+    }
+        
+    public void listUpcomingEvents(String name){
+
+        ArrayList<Event> events = this.eventController.getUpcomingEvents(name);
+        (new EventNavigator(events, this)).navigate();
     }
 
     /** Scans the admin for event details, saving the event in the event controller
@@ -851,6 +881,16 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.showMonthlyStats(); } }
         };
     }
+    
+    public Prompt[] getListEventsPrompt(){
+        final FitnessUM app = this;
+        return new Prompt[]{
+            new Prompt() { public void exec() { return; }},
+            new Prompt() { public void exec() { app.listAllEvents(); } },
+            new Prompt() { public void exec() { app.listUpcomingEvents(); } },
+            new Prompt() { public void exec() { app.listUpcomingEventsOf(); } }
+        };
+    }
 
     private static void devPrompt() {
         System.out.println("Do you wish to import an existing network or create a new one?\n0. Exit\n1. Create\n2. Import");
@@ -892,6 +932,12 @@ public class FitnessUM {
     private static void printAdminOptions() {
         int i = 0;
         for(String s : FitnessUM.adminOptions)
+            System.out.println(i++ + ". " + s);
+    }
+    
+    private static void printListEventsOptions() {
+        int i = 0;
+        for (String s : FitnessUM.listEventsOptions)
             System.out.println(i++ + ". " + s);
     }
 

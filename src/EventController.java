@@ -39,14 +39,18 @@ public class EventController {
         this.database = database.clone();
     }
 
-    public ArrayList<String> searchEvent(String s) throws NoEventsAvailableException{
+    public ArrayList<String> searchEvent(String s){
         return this.database.searchByName(s);
     }
 
     public Event getEventByName(String name){
         return this.database.findByName(name);
     }
-
+    
+    public void addUser(User u, Event e) throws InvalidParticipantException, ActivityNotAvailableException{
+        this.database.addUser(u,e);
+    }
+    
     public void addEvent(Event e){
         this.database.save(e);
     }
@@ -74,7 +78,15 @@ public class EventController {
         return this.database.equals(ec.getDatabase());
     }
 
-    ArrayList<Event> getEventList() throws NoEventsAvailableException{
+    ArrayList<Event> getEventList() {
         return this.database.getEventList();
+    }
+    
+    ArrayList<Event> getUpcomingEvents() {
+        return this.database.getUpcomingEvents();
+    }
+    
+    ArrayList<Event> getUpcomingEvents(String name) {
+        return this.database.getUpcomingEvents(name);
     }
 }
