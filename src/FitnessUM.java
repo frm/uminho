@@ -667,16 +667,9 @@ public class FitnessUM {
     
     public void listUpcomingEvents(){
         ArrayList<Event> events = this.eventController.getUpcomingEvents();
-        (new EventNavigator(events, this)).navigate();
+        ( new EventNavigator(events, this)).navigate();
     }
     
-    public void listUpcomingEventsOf(){
-        
-        System.out.println("\nWhat's the activity type?\n");
-        ArrayList<String> list = new ArrayList<String>( Arrays.asList(this.activities) );
-        ( new EventTypeUserNavigator(list, this)).navigate();
-    }
-        
     public void listUpcomingEvents(String name){
 
         ArrayList<Event> events = this.eventController.getUpcomingEvents(name);
@@ -793,6 +786,14 @@ public class FitnessUM {
         int option = Scan.menuOption(0, 12);
         this.getMainPrompt()[option].exec();
     }
+    
+    
+    public void getEventTypeOption() {
+        System.out.println( "What's the type of the event?");
+	    FitnessUM.printActivities();
+        int option = Scan.menuOption(0, 6);
+        this.getEventTypePrompt()[option].exec();
+    }
 
     /** Shows the main options for admin users, reading the input and launching events
      * Beware as these options include creating and destroying events as well destroying users
@@ -888,7 +889,21 @@ public class FitnessUM {
             new Prompt() { public void exec() { return; }},
             new Prompt() { public void exec() { app.listAllEvents(); } },
             new Prompt() { public void exec() { app.listUpcomingEvents(); } },
-            new Prompt() { public void exec() { app.listUpcomingEventsOf(); } }
+            new Prompt() { public void exec() { app.getEventTypeOption(); } }
+        };
+    }
+    
+     private Prompt[] getEventTypePrompt(){
+        final FitnessUM app = this;
+
+        return new Prompt[]{
+            new Prompt() { public void exec() { return;} },
+            new Prompt() { public void exec() { listUpcomingEvents(  app.activities[1]);} },
+            new Prompt() { public void exec() { listUpcomingEvents(  app.activities[2]);} },
+            new Prompt() { public void exec() { listUpcomingEvents(  app.activities[3]);} },
+            new Prompt() { public void exec() { listUpcomingEvents(  app.activities[4]);} },
+            new Prompt() { public void exec() { listUpcomingEvents(  app.activities[5]);} },
+            new Prompt() { public void exec() { listUpcomingEvents(  app.activities[6]);} }
         };
     }
 
@@ -902,12 +917,6 @@ public class FitnessUM {
     private static void printStartOptions() {
         int i = 0;
         for (String s : FitnessUM.startOptions)
-            System.out.println(i++ + ". " + s);
-    }
-
-    private static void printActivityCategories() {
-        int i = 0;
-        for (String s : FitnessUM.activityCategories)
             System.out.println(i++ + ". " + s);
     }
 
