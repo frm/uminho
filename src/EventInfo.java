@@ -1,4 +1,6 @@
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 /*
@@ -11,7 +13,7 @@ import java.util.GregorianCalendar;
  *
  * @author frmendes
  */
-public class EventInfo {
+public class EventInfo implements Serializable{
     private int capacity;
     private String name;
     private String location;
@@ -161,13 +163,13 @@ public class EventInfo {
         sb.append("\nLocation: ");
         sb.append(this.location);
         sb.append("\nDate");
-        sb.append(this.date);
+        sb.append(new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm").format( this.date.getTime() ));
         sb.append("\nWeather Prediction: ");
         sb.append(this.weather);
         sb.append("\nMax entries: ");
         sb.append(this.capacity);
         sb.append("\nSignup Limit: ");
-        sb.append(this.signupLimit);
+        sb.append(new SimpleDateFormat("dd/MM/yyyy 'at' HH:mm").format( this.signupLimit.getTime() ));
         
         return sb.toString();
     }

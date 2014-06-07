@@ -4,6 +4,7 @@
  * @author frmendes
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class EventDatabase implements MappedDatabase<Event> {
+public class EventDatabase implements MappedDatabase<Event>, Serializable {
     private HashMap<Integer, Event> idEntry;
     private HashMap<String, Integer> nameEntry;
     private int eventCount;

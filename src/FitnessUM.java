@@ -127,7 +127,8 @@ public class FitnessUM {
     public void shutdown() {
         try{
             this.active = false;
-            this.userController.writeToFile("dataFile");
+            this.userController.writeToFile("userData.sav");
+            this.eventController.writeToFile("eventData.sav");
         }
         catch(IOException e){System.out.println("Write error");}
     }
@@ -774,8 +775,10 @@ public class FitnessUM {
     public static void importData(){
         FitnessUM app = new FitnessUM();
         UserController uc = new UserController();
+        EventController ec = new EventController();
         try{
-            uc.readFromFile("dataFile");
+            uc.readFromFile("userData.sav");
+            ec.readFromFile("eventData.save");
             app.setUserController(uc);
             app.run();
         }

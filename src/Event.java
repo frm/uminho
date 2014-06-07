@@ -2,12 +2,13 @@
  *
  * @author frmendes
  */
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Event implements BaseModel {
+public class Event implements BaseModel, Serializable {
     private int id;
     private String type;
     private UserList participants;
