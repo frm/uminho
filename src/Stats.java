@@ -107,7 +107,13 @@ public class Stats implements Serializable{
 
 
     public String toString(){
-        return annualStats.toString();
+        StringBuilder result = new StringBuilder();
+        for(Map.Entry<Integer, YearStat> pair : this.annualStats.entrySet()){
+            result.append("\n________Year: " + pair.getKey()+"________\n");
+            result.append( pair.getValue() + "\n");
+        }
+        
+        return result.toString();
     }
 
     public boolean equals(Object o){

@@ -285,6 +285,10 @@ public class UserController implements Serializable {
     public ArrayList<String> getPracticedActivities() {
         return this.currentUser.getPracticedActivities();
     }
+    
+    public User getByEmail(String email){
+        return this.database.findByEmail(email);
+    }
 
     public void removeActivity(Activity act){
         currentUser.removeActivity(act);

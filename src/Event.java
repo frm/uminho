@@ -206,9 +206,6 @@ public class Event implements BaseModel, Serializable {
     public String toString(){
         StringBuilder sb = new StringBuilder();
 
-        sb.append("### Event ###\n");
-        sb.append("Id: ");
-        sb.append(this.id);
         sb.append("\nType: ");
         sb.append(this.type);
         sb.append("\nDistance: ");

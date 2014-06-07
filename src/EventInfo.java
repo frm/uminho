@@ -157,7 +157,6 @@ public class EventInfo implements Serializable{
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Event Info: \n");
         sb.append("\nName: ");
         sb.append(this.name);
         sb.append("\nLocation: ");

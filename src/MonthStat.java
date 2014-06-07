@@ -1,6 +1,7 @@
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 /*
@@ -102,7 +103,13 @@ public class MonthStat implements Serializable{
     }
     
     public String toString(){
-        return this.stats.toString();
+        StringBuilder result = new StringBuilder();
+        for( Map.Entry<String, StatEntry> pair : this.stats.entrySet()){
+            result.append("\n###" + pair.getKey() + "###\n");
+            result.append( pair.getValue() );
+        }
+        
+        return result.toString();
     }
     
     private HashMap<String, StatEntry> cloneStats(HashMap<String, StatEntry> s){

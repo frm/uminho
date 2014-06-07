@@ -92,6 +92,14 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
         return (Set<Event>)copy;
     }
 
+    public void removeUser(User u){
+        for(Event e: this.idEntry.values()){
+            try{
+                e.removeParticipant(u);
+            }
+            catch( InexistingUserException ex){}
+        }
+    }
     /**
      * Returns the current database entries mapped by name and id
      * @return database name entries

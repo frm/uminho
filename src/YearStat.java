@@ -101,7 +101,7 @@ public class YearStat implements Serializable{
         
         for(int i = 0; i<12; i++){
             if(monthlyStats[i] != null){
-                result.append("\n"+YearStat.months[i]+": \n");
+                result.append("\n-----Month: "+YearStat.months[i]+"-----\n");
                 result.append(monthlyStats[i]+"\n");
             }
         }

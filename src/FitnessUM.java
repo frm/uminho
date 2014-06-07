@@ -27,7 +27,7 @@ public class FitnessUM {
    private static final String[] mainOptions = {
 
        "Logout", "My Profile", "Friend Requests", "Friend List", "Friends Feed", "Search User", "My Activity Log","My Events",
-       "Add New Activity Session", "Show My Statistics", "Update Settings", "Show My Records", "Show Event List", "Search Events"
+       "Add New Activity Session", "Show My Statistics", "Update Settings", "Show My Records", "Show Event List", "Search Events", "Delete Account"
    };
 
     private static final String[] activityCategories = {
@@ -43,7 +43,7 @@ public class FitnessUM {
    };
    
    private static final String[] eventActivities = {
-       "Go Back", "Cycling", "Kayaking", "Running", "Swimming"
+       "Cycling", "Kayaking", "Running", "Swimming"
    };
 
    private static final String[] adminOptions = {
@@ -263,14 +263,25 @@ public class FitnessUM {
     public void deleteUser() {
         // missing delete from events
         String email = Scan.email();
-
+        deleteByEmail(email);
+    }
+    
+    public void deleteByEmail(String email){
         while( !this.userController.existsUser(email) ) {
             System.out.println("User does not exist");
             email = Scan.email();
         }
 
-        if ( Scan.yesNo("Are you sure you want to delete user with given email?") )
+        if ( Scan.yesNo("Are you sure you want to delete user with given email?") ){
+            User u = this.userController.getByEmail(email);
             this.userController.deleteUser(email);
+            this.eventController.removeUser(u);
+        }
+    }
+    
+    public void deleteMyAccount(){
+        deleteByEmail( this.userController.getCurrentUser().getEmail());
+        run();
     }
 
     private void greet() {
@@ -821,7 +832,7 @@ public class FitnessUM {
     public void userInterpreter() {
         System.out.println( "Choose one of the following options.");
 	    FitnessUM.printMainOptions();
-        int option = Scan.menuOption(0, 13);
+        int option = Scan.menuOption(0, 14);
         this.getMainPrompt()[option].exec();
     }
     
@@ -896,7 +907,8 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.updateUser(); } },
             new Prompt() { public void exec() { app.listPracticedActivities(); } },
             new Prompt() { public void exec() { app.listEvents(); } },
-            new Prompt() { public void exec() { app.searchEvent(); } }
+            new Prompt() { public void exec() { app.searchEvent(); } },
+            new Prompt() { public void exec() { app.deleteMyAccount(); } }
         };
     }
 
