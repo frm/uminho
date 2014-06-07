@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -779,11 +780,15 @@ public class FitnessUM {
     }
     
     public void simulateEvent(Event e) {
-        new SimulationNavigator(
-                e.simulate(
-                        this.userController.getUsersWithId( e.getParticipants() )
-                )
-        ).navigate();
+        int max = e.getDistance();
+        int km = Scan.intInRange("Chose what kilometer you want to view: [0, " + max, 0, max);
+        ArrayList<TreeMap<Long, User>> sim = e.simulate( this.userController.getUsersWithId( e.getParticipants() ) );
+        
+        while(km != 0) {
+            Event.printSimulatedKm( sim.get(km - 1) );
+            Scan.pressEnterToContinue();
+            km = Scan.intInRange("Chose what kilometer you want to view: [0, " + max, km, max);
+        }
     }
 
     /**
