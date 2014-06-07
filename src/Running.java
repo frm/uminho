@@ -63,8 +63,14 @@ public class Running extends AltitudeActivity implements WeatherInterface{
     //methods
     public int calculateCalories(long duration, int distance, int altitude, int weather){
         double wfac = Weather.calculateWeatherFactor(weather);
-        return (int) ( (  ( (double) (altitude + distance)/ (double) duration) )*950000.0*wfac);
+        return (int) ( (  ( (double) (altitude + distance)/ (double) duration) )*250000.0*wfac);
     }
     
+    private double calculateWeatherFactor(int w){
+        if (w < 2) return 1;
+        else if (w < 5) return 1.05;
+        else if (w == 6) return 1.1;
+        else return 1.2;       
+    }
    
 }

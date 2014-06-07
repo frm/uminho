@@ -65,5 +65,10 @@ public class Kayaking extends DistanceActivity implements WeatherInterface{
         return (int) (((double)distance/(double)duration)*650000.0*wfac);
     }
 
-    
+        private double calculateWeatherFactor(int w){
+        if (w < 2) return 1;
+        else if (w < 5) return 1.05;
+        else if (w == 6) return 1.1;
+        else return 1.2;       
+    }
 }
