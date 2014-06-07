@@ -98,7 +98,10 @@ public class Stats implements Serializable{
     }
 
     public long getTotalDuration(String act, int year ,int month){
+        if(annualStats.containsKey(year))
             return annualStats.get(year).getTotalDuration(act,month);
+        else
+            return 0;
     }
                     
     public Stats clone(){
