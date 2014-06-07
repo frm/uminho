@@ -361,8 +361,12 @@ public class FitnessUM {
     public void showStatsOverview(){
         try{
             System.out.println(userController.showStatsOverview());
+            Scan.pressEnterToContinue();
         }
-        catch(StatsNotAvailableException s){System.out.println("No Stats Available\n");}
+        catch(StatsNotAvailableException s){
+            System.out.println("No Stats Available\n");
+            Scan.pressEnterToContinue();
+        }
     }
 
     /**

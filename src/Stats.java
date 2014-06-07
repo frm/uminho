@@ -53,6 +53,10 @@ public class Stats implements Serializable{
         else addNewYearStat(act);
 
     }
+    
+    public boolean isEmpty(){
+        return this.annualStats.isEmpty();
+    }
 
     private void addNewYearStat(Activity act){
         YearStat anStat = new YearStat();

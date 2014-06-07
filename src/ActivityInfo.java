@@ -111,10 +111,11 @@ public class ActivityInfo implements Serializable{
     }
     
     public String statsOverview() throws StatsNotAvailableException{
-        String result = this.stats.toString();
-        if(result.length() == 0)
+        
+        if(this.stats.isEmpty())
             throw(new StatsNotAvailableException() );
         
+        String result = this.stats.toString();
         return this.stats.toString();
     }
     
