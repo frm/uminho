@@ -272,9 +272,17 @@ public class FitnessUM {
      *
      */
     public void friendsFeed(){
-        Set<Tuple<String, Activity>> feed = this.userController.getFriendsFeed();
-        for(Tuple<String, Activity> t : feed)
+        try{
+            Set<Tuple<String, Activity>> feed = this.userController.getFriendsFeed();
+            for(Tuple<String, Activity> t : feed)
             System.out.println("\t###\nUser: " + t.getKey() + "\n" + t.getValue() + "\t###\n" );
+            Scan.pressEnterToContinue();
+        }
+        catch(EmptyFeedException e){ 
+            System.out.println("\nThe Feed is Empty");
+            Scan.pressEnterToContinue();
+        }
+        
     }
 
     /**
@@ -628,17 +636,20 @@ public class FitnessUM {
         try{
             ArrayList<Event> events = this.eventController.getEventList();
             (new EventNavigator(events, this)).navigate();
+            Scan.pressEnterToContinue();
         }
         catch(NoEventsAvailableException e){
             System.out.println("No Events Available");
+            Scan.pressEnterToContinue();
         }
-        Scan.pressEnterToContinue();
+        
     }
 
     /** Scans the admin for event details, saving the event in the event controller
      */
     public void getEventInfo(String s) {
-      
+        GregorianCalendar date = new GregorianCalendar();
+        GregorianCalendar signup = new GregorianCalendar();
         
         String name = Scan.scanString("What is the name of the event?");
         
@@ -647,9 +658,17 @@ public class FitnessUM {
             name = Scan.scanString("What is the name of the event?");
         }
         
-        GregorianCalendar date = Scan.date("What's the event date?");
+        boolean valid = false;
+        while(!valid){
+            date = Scan.date("What's the event date?");
+            signup = Scan.date("What's the sign-up limit date?");
+            if( signup.getTimeInMillis() >= date.getTimeInMillis())
+                valid = false;
+        }    
         
         String location = Scan.scanString("What's the location?");
+        
+        
         
         int capacity = Scan.scanInt("What's the event capacity?");
         int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);

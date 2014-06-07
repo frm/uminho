@@ -18,35 +18,22 @@ public class YearStat implements Serializable{
     "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     
     private MonthStat[] monthlyStats;
-    private int year;
     
     public YearStat(){
         this.monthlyStats = new MonthStat[12];
-        this.year = 0;
     }
     
     public YearStat(MonthStat[] mStat, int year){
         this.monthlyStats = Arrays.copyOf(mStat, 12);
-        this.year = year;
     }
     
     public YearStat(YearStat stats){
         this.monthlyStats = stats.getMonthlyStats();
-        this.year = stats.getYear();
     }
     
     public MonthStat[] getStats(){
         return Arrays.copyOf(this.monthlyStats, 12);
     }
-    
-    public int getYear(){
-        return this.year;
-    }
-    
-    public void setYear(int year){
-        this.year = year;
-    }
-    
     
     
     public void addStat(Activity act){

@@ -2,6 +2,7 @@
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -30,8 +31,8 @@ public class Stats implements Serializable{
 
     private HashMap<Integer, YearStat> cloneAnnualStats(HashMap<Integer, YearStat> annualStats) {
         HashMap<Integer, YearStat> result = new HashMap<Integer, YearStat>();
-        for(YearStat stat: annualStats.values()){
-            result.put(stat.getYear(), stat.clone());
+        for(Map.Entry<Integer, YearStat> pair: annualStats.entrySet()){
+            result.put(pair.getKey(), pair.getValue().clone());
         }
         return result;
     }
@@ -56,7 +57,6 @@ public class Stats implements Serializable{
     private void addNewYearStat(Activity act){
         YearStat anStat = new YearStat();
         int year = act.getDate().get(Calendar.YEAR);
-        anStat.setYear(year);
         anStat.addStat(act);
         annualStats.put(year, anStat);
     }

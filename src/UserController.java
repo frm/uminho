@@ -408,13 +408,16 @@ public class UserController implements Serializable {
 
     }
 
-    public Set<Tuple<String, Activity>> getFriendsFeed() {
+    public Set<Tuple<String, Activity>> getFriendsFeed() throws EmptyFeedException{
         TreeSet<Tuple<String, Activity>> tree = new TreeSet<Tuple<String, Activity>>( new FeedComparator() );
         ArrayList<User> friends = this.getFriendList();
 
         for(User friend : friends)
             addTenRecent(friend, tree);
-
+        
+        if(tree.isEmpty())
+            throw new EmptyFeedException();
+        
         return tree;
     }
 
