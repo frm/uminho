@@ -29,8 +29,10 @@ public class EventNavigator extends Navigator<Event>{
     }
     public void select(Event e) {
         if (app.getUserController().userParticipatedIn( e.getId() ) ) {
-            if ( Scan.yesNo("Are you sure you want to cancel your participation?") )
+            if ( Scan.yesNo("Are you sure you want to cancel your participation?") ){
                 app.leaveEvent(e);
+                remove(e);
+            }
         }
         
         else
