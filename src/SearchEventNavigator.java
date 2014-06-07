@@ -27,6 +27,6 @@ public class SearchEventNavigator extends Navigator<String>{
     }
     
     public String emptyMessage() {
-        return "\nUser has no activities\n";
+        return "\nNo events available\n";
     }
 }

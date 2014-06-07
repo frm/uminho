@@ -630,8 +630,10 @@ public class FitnessUM {
             ArrayList<String> list = this.eventController.searchEvent(terms);
             (new SearchEventNavigator(list, this.eventController)).navigate();
         }
-        catch(NoEventsAvailableException e){System.out.println("No Results");}
-        Scan.pressEnterToContinue();
+        catch(NoEventsAvailableException e){
+            System.out.println("No Results");
+        }
+        //Scan.pressEnterToContinue();
     }
 
     public void listEvents(){
