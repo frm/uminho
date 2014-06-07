@@ -87,7 +87,7 @@ public abstract class BasicUser implements Serializable{
         StringBuilder result = new StringBuilder();
         result.append("\nName: ");
         result.append(this.name);
-        result.append("\nE-Mail: ");
+        result.append("\tE-Mail: ");
         result.append(this.email);
         
         return result.toString();

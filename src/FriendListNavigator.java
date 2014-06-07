@@ -28,7 +28,7 @@ public class FriendListNavigator extends Navigator<User> {
     }
 
     public void select(final User u) {
-        System.out.println("0. Go Back\n1. View Profile\n 2. Remove Friend");
+        System.out.println("0. Go Back\n1. View Profile\n2. Remove Friend");
         int option = Scan.menuOption(0, 2);
         
 		new Prompt[] {

@@ -80,11 +80,11 @@ public class UserInfo implements Serializable{
 
         result.append("\nHeight: ");
         result.append(this.height);
-        result.append("\nWeight: ");
+        result.append("\t\t\tWeight: ");
         result.append(this.weight);
         result.append("\nBirth Date: ");
         result.append( Scan.dateFormat(this.birthDate) );
-        result.append("\nFavorite Sport: ");
+        result.append("\t\tFavorite Sport: ");
         result.append( this.favoriteSport);
         return result.toString();
     }

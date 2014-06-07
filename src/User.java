@@ -301,9 +301,9 @@ public class User extends BasicUser implements BaseModel {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("### User: ###");
+        result.append("\t### User: ###");
         result.append( super.toString() );
-        result.append("\nInfo: ");
+        result.append("\n\n\tInfo: ");
         result.append(this.info);
         result.append("\nPracticed Activities: ");
         result.append(this.getPracticedActivities().toString() );
