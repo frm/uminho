@@ -134,15 +134,23 @@ public class Event implements BaseModel, Serializable {
     /** Adds a new participant to the event
      * @param u User to be added
      */
-    void addParticipant(User u) throws InvalidParticipantException, ActivityNotAvailableException {
+    void addParticipant(User u) throws InvalidParticipantException, ActivityNotAvailableException, LateForEventException {
         if( validForEvent(u)  )
             this.participants.addUser( u.getId() );
         else
             throw new InvalidParticipantException("User has not participated in a " + this.type + " event");
     }
     
-    public boolean validForEvent(User u) throws ActivityNotAvailableException{
-        return ( u.hasPracticed(this.type) && ( this.info.getCapacity() > ( this.participants.numberOfUsers() + 1) ) );
+    public boolean validForEvent(User u) throws ActivityNotAvailableException, LateForEventException{
+        return ( u.hasPracticed(this.type) && ( this.info.getCapacity() > ( this.participants.numberOfUsers()) ) && inTime());
+    }
+    
+    public boolean inTime() throws LateForEventException{
+        
+        if( (new GregorianCalendar()).compareTo(this.info.getSignupLim()) <= 0 )
+            return true;
+        else 
+            throw (new LateForEventException());
     }
 
     /** Removes a participant from the event

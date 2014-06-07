@@ -690,12 +690,14 @@ public class FitnessUM {
     
     public void joinEvent(Event e){
         try {
-            this.eventController.addUser(this.userController.getCurrentUser(), e);
-            this.userController.joinEvent( e.getId() );
+                this.eventController.addUser(this.userController.getCurrentUser(), e);
+                this.userController.joinEvent( e.getId() );
         } catch (InvalidParticipantException ex) {
             System.out.println("Invalid Participant");
         } catch (ActivityNotAvailableException ex) {
             System.out.println("Activity Not Available");
+        } catch (LateForEventException ex) {
+            System.out.println("You are too late to sign up for the event");
         }
     }
     
