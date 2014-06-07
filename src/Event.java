@@ -165,24 +165,24 @@ public class Event implements BaseModel {
         return info.isUpcoming();
     }
     
-    private TreeMap<User, Long> simulateKm(int km, TreeMap<User, Long> previousKm) {
-        TreeMap<User, Long> currentKm = new TreeMap<User, Long>( new SimulationComparator() );
-        for( Map.Entry<User, Long> u : previousKm.entrySet() )
-            currentKm.put(u.getKey().clone(), u.getKey().simulateKm(km, u.getValue() ) );
+    private TreeMap<Long, User> simulateKm(int km, TreeMap<Long, User> previousKm) {
+        TreeMap<Long, User> currentKm = new TreeMap<Long, User>( new SimulationComparator() );
+        for( Map.Entry<Long, User> u : previousKm.entrySet() )
+            currentKm.put(u.getValue().simulateKm(km, u.getKey() ), u.getValue().clone() );
         
         return currentKm;
     }
     
-    private TreeMap<User, Long> simulateFirstKm(ArrayList<User> participants) {
-        TreeMap<User, Long> firstKm = new TreeMap<User, Long>();
+    private TreeMap<Long, User> simulateFirstKm(ArrayList<User> participants) {
+        TreeMap<Long, User> firstKm = new TreeMap<Long, User>();
         for(User u : participants)
-            firstKm.put( u.clone(), u.simulateKm(1, 0) );
+            firstKm.put( u.simulateKm(1, 0), u.clone() );
         
         return firstKm;
     }
 
-    public ArrayList< TreeMap<User, Long> > simulate(ArrayList<User> participants) {
-        ArrayList< TreeMap<User, Long> > simulation = new ArrayList< TreeMap<User, Long> >();
+    public ArrayList< TreeMap<Long, User> > simulate(ArrayList<User> participants) {
+        ArrayList< TreeMap<Long, User> > simulation = new ArrayList< TreeMap<Long, User> >();
         simulation.add(0, simulateFirstKm(participants) );
         
         for(int i = 1; i < this.distance; i++)
