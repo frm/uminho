@@ -135,10 +135,14 @@ public class Event implements BaseModel, Serializable {
      * @param u User to be added
      */
     void addParticipant(User u) throws InvalidParticipantException, ActivityNotAvailableException {
-        if( u.hasPracticed(this.type) )
+        if( validForEvent(u)  )
             this.participants.addUser( u.getId() );
         else
             throw new InvalidParticipantException("User has not participated in a " + this.type + " event");
+    }
+    
+    public boolean validForEvent(User u) throws ActivityNotAvailableException{
+        return ( u.hasPracticed(this.type) && ( this.info.getCapacity() > ( this.participants.numberOfUsers() + 1) ) );
     }
 
     /** Removes a participant from the event

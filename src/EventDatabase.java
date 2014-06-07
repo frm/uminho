@@ -38,7 +38,10 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
     public ArrayList<String> searchByName(String name) {
         ArrayList<String> result = new ArrayList<String>();
         for( String n: this.nameEntry.keySet())
-            if( n.contains(name)) result.add(n);
+            if( n.contains(name)) {
+                result.add(n);
+                System.out.println("YES\n");
+            }
 
         return result;
     }

@@ -744,7 +744,7 @@ public class FitnessUM {
         
         
         
-        int capacity = Scan.scanInt("What's the event capacity?");
+        int capacity = Scan.intInRange("What's the event capacity?",1, Integer.MAX_VALUE);
         int weather = Scan.intInRange( this.listWeatherOptions("\nWhat's the weather forecast\n"), 0, Weather.weatherStates.length - 1);
         
         EventInfo info = new EventInfo(capacity, name, location, weather, date, signup);
