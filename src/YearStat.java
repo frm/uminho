@@ -69,6 +69,10 @@ public class YearStat implements Serializable{
         return this.monthlyStats[month-1].toString();
     }
     
+    public long getTotalDuration(String act, int month){
+        return monthlyStats[month].getTotalDuration(act);
+    }
+    
     public YearStat clone(){
         YearStat stats = new YearStat();
         

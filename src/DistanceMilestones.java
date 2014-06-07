@@ -128,6 +128,14 @@ public class DistanceMilestones extends Milestones{
         addDistanceData(act);
         addTimeDistanceData(act);
     }
+    
+    public long getKmTimeAprox(){
+        if(reverseD.containsKey(1))
+            return reverseD.get(1);
+        else
+            return 0;
+    }
+    
     //essentials
     public DistanceMilestones clone()
     {return new DistanceMilestones(this);}

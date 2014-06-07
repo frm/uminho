@@ -5,6 +5,7 @@
  */
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -125,5 +126,9 @@ public class UserInfo implements Serializable{
             n.setFavoriteSport( ui.getFavoriteSport() );
 
         return n;
+    }
+    
+    public int getAgeYears(int years){
+        return (years - birthDate.get(Calendar.YEAR));
     }
 }

@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Set;
 
@@ -259,7 +260,34 @@ public class User extends BasicUser implements BaseModel {
     public void unattendEvent(int id) {
         this.events.removeEvent(id);
     }
+    
+    public long simulateKm(String type,int km, long prevTime){                    
+        return prevTime + ((long)(decay(type,km) * pace(type)));
+    }
 
+    public long pace(String type){
+        return activityInfo.getKmTimeAprox(type);
+    }
+    
+    public double decay(String type, int km){
+        double fitF = fitFactor(type);
+        return fitF/(km + fitF);
+    }
+    
+    public double fitFactor(String type){
+        GregorianCalendar c = new GregorianCalendar();
+        int month = c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        
+        double agefactor = (info.getAgeYears(year)*0.02);
+        
+        if (month == 0){
+                month = 11;
+                year -= 1;
+            }
+        return (5 - agefactor + (activityInfo.getTotalDuration(type,year,month)*0.05));
+    }
+    
     @Override
     public int hashCode() {
         return new Integer( this.getId() ).hashCode();

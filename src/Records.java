@@ -128,6 +128,10 @@ public class Records implements Serializable{
         return this.records.get(s).clone();
     }
     
+    public long getKmTimeAprox(String type){
+        return ((DistanceMilestones) records.get(type)).getKmTimeAprox();
+    }
+    
     //essentials
     public Records clone()
     {return new Records(this);}

@@ -97,6 +97,10 @@ public class Stats implements Serializable{
         return yt.showMonthlyStats(month);
     }
 
+    public long getTotalDuration(String act, int year ,int month){
+            return annualStats.get(year).getTotalDuration(act,month);
+    }
+                    
     public Stats clone(){
         return new Stats(this);
     }

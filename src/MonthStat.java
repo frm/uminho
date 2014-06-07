@@ -37,6 +37,7 @@ public class MonthStat implements Serializable{
         return cloneStats(this.stats);
     }
     
+    
     public void setStats(){
         this.stats = cloneStats(this.stats);
     }
@@ -82,6 +83,9 @@ public class MonthStat implements Serializable{
         return true;
     }
     
+    public long getTotalDuration(String act){
+        return stats.get(act).getTotalDuration();
+    }
     
     public MonthStat clone(){
         return new MonthStat(this);

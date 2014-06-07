@@ -147,6 +147,14 @@ public class ActivityInfo implements Serializable{
         return new ActivityInfo(this);
     }
     
+    public long getTotalDuration(String act, int year ,int month){
+        return stats.getTotalDuration(act,year,month);
+    }
+    
+    public long getKmTimeAprox(String type){
+        return records.getKmTimeAprox(type);
+    }
+    
     public boolean equals(Object o){
         if( this == o) return true;
         
