@@ -1,5 +1,5 @@
-/**
- *
+/** Event class that keeps track of the Event id, type, distance, participants and extra info.
+ * It also contains important methods to manage a single event
  * @author frmendes
  */
 import java.io.Serializable;
@@ -8,10 +8,7 @@ import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- *
- * @author joaorodrigues
- */
+
 public class Event implements BaseModel, Serializable {
     private int id;
     private String type;
@@ -19,7 +16,7 @@ public class Event implements BaseModel, Serializable {
     private int distance;
     private EventInfo info;
 
-    /**
+    /** Empty Constructor
      *
      */
     public Event() {
@@ -30,7 +27,7 @@ public class Event implements BaseModel, Serializable {
         this.info = new EventInfo();
     }
 
-    /**
+    /** Parameterized constructor
      *
      * @param id
      * @param type
@@ -46,7 +43,7 @@ public class Event implements BaseModel, Serializable {
         this.distance = distance;
     }
 
-    /**
+    /** Copy constructor
      *
      * @param e
      */
@@ -58,7 +55,7 @@ public class Event implements BaseModel, Serializable {
         this.distance = e.getDistance();
     }
 
-    /**
+    /** Essential constructor. Mostly used in cases when you want to add participants as you go
      *
      * @param type
      * @param distance
@@ -72,7 +69,7 @@ public class Event implements BaseModel, Serializable {
         this.info = info.clone();
     }
 
-    /**
+    /** Sets the id of the event
      *
      * @param id
      */
@@ -81,7 +78,7 @@ public class Event implements BaseModel, Serializable {
         this.id = id;
     }
     
-    /**
+    /** Sets the event info
      *
      * @param e
      */
@@ -89,7 +86,7 @@ public class Event implements BaseModel, Serializable {
         this.info = e.clone();
     }
     
-    /**
+    /** Sets the event distance
      *
      * @param d
      */
@@ -111,7 +108,7 @@ public class Event implements BaseModel, Serializable {
         this.type = type;
     }
 
-    /**
+    /** Returns the id of the event
      *
      * @return
      */
@@ -163,7 +160,7 @@ public class Event implements BaseModel, Serializable {
         return this.info.getDate();
     }
     
-    /**
+    /** Returns the distance of the event
      *
      * @return
      */
@@ -171,7 +168,7 @@ public class Event implements BaseModel, Serializable {
         return this.distance;
     }
     
-    /**
+    /** 
      *
      * @return
      */
@@ -285,7 +282,7 @@ public class Event implements BaseModel, Serializable {
             sb.append(++i + "º: ");
             sb.append( e.getValue().getName() );
             sb.append(" Time: ");
-            if( e.getKey() == Long.MAX_VALUE)
+            if( e.getKey() == Long.MAX_VALUE || e.getKey() == 0)
                 sb.append("Forfeit");
             else
                 sb.append( e.getKey() + "min");

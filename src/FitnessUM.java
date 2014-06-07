@@ -803,7 +803,7 @@ public class FitnessUM {
         EventInfo info = new EventInfo(capacity, name, location, weather, date, signup);
         
        
-        int distance = Scan.scanInt("What is the distance?");
+        int distance = Scan.intInRange("What is the distance? (km)", 1, Integer.MAX_VALUE);
 
         Event e = new Event(s, distance, info);
         
