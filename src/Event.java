@@ -36,7 +36,7 @@ public class Event implements BaseModel {
         this.distance = e.getDistance();
     }
 
-    public Event(String type, int distance, int altitude, EventInfo info) {
+    public Event(String type, int distance, EventInfo info) {
         this.id = -1;
         this.type = type;
         this.participants = new UserList();

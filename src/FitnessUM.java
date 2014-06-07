@@ -56,8 +56,9 @@ public class FitnessUM {
     /** Parameterized constructor
      * @param userController
      */
-    public FitnessUM(UserController userController) {
+    public FitnessUM(UserController userController, EventController eventController) {
         this.userController = userController.clone();
+        this.eventController = eventController.clone();
     }
 
     /** Copy constructor
@@ -65,6 +66,7 @@ public class FitnessUM {
      */
     public FitnessUM(FitnessUM fit) {
         this.userController = fit.getUserController();
+        this.eventController = fit.getEventController();
     }
 
     /** Getter for logged in user ID
