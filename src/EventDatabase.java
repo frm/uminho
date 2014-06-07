@@ -37,11 +37,8 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
      */
     public ArrayList<String> searchByName(String name) {
         ArrayList<String> result = new ArrayList<String>();
-        for( String n: this.nameEntry.keySet())
-            if( n.contains(name)) {
-                result.add(n);
-                System.out.println("YES\n");
-            }
+        for( String n: this.nameEntry.keySet() )
+            if( n.contains(name) ) result.add(n);
 
         return result;
     }
@@ -62,6 +59,7 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
             newEvent.setId(++this.eventCount);
 
         this.idEntry.put( newEvent.getId(), newEvent );
+        this.nameEntry.put( newEvent.getName(), newEvent.getId() );
     }
 
     @Override
@@ -128,9 +126,9 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
      * @return ArrayList of events
      */
     public ArrayList<Event> getEventList(){
-        
+
         TreeSet<Event> set = toTreeSet(this.idEntry);
-        
+
         ArrayList<Event> events = new ArrayList<Event>();
         for(Event e: set){
             events.add(e);
@@ -138,30 +136,30 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
 
         return events;
     }
-    
+
     public ArrayList<Event> getUpcomingEvents() {
         TreeSet<Event> set = toTreeSet(this.idEntry);
-        
+
         ArrayList<Event> list = new ArrayList<Event>();
-        
+
         for(Event e : set ) {
             if( e.isUpcoming() )
                 list.add( e.clone() );
         }
-        
+
         return list;
     }
-    
+
     public ArrayList<Event> getUpcomingEvents(String type) {
         TreeSet<Event> set = toTreeSet(this.idEntry);
-        
+
         ArrayList<Event> list = new ArrayList<Event>();
-        
+
         for(Event e : set ) {
             if( e.isUpcoming() && e.getType().equals(type) )
                 list.add( e.clone() );
         }
-        
+
         return list;
     }
 
@@ -231,14 +229,14 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
             this.nameEntry.put(e.getName(), id);
         }
     }
-    
+
     private TreeSet<Event> toTreeSet( HashMap<Integer, Event> map){
         TreeSet<Event> set = new TreeSet<Event>( new EventComparator() );
-        
+
         for(Event e: map.values()){
             set.add(e);
         }
-        
+
         return set;
     }
 }

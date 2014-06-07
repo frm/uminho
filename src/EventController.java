@@ -30,11 +30,11 @@ public class EventController {
     public EventDatabase getDatabase() {
         return database.clone();
     }
-    
+
     public boolean validateEventNameUniqueness(Event e) {
         return database.findByName( e.getName() ) == null;
     }
-    
+
     public boolean validateEventNameUniqueness(String name) {
         return database.findByName(name) == null;
     }
@@ -50,30 +50,26 @@ public class EventController {
     public Event getEventByName(String name){
         return this.database.findByName(name);
     }
-    
+
     public Event getEventById(int id){
         return this.database.findById(id);
     }
-    
+
     public void addUser(User u, Event e) throws InvalidParticipantException, ActivityNotAvailableException{
         e.addParticipant(u);
         this.database.save(e);
     }
-    
+
     public void removeUser(User u, Event e) throws InvalidParticipantException, ActivityNotAvailableException, InexistingUserException {
         e.removeParticipant(u);
         this.database.save(e);
     }
-    
-    public void removeUser(User u){
-        this.database.removeUser(u);
-    }
-    
+
     public void addEvent(Event e){
         this.database.save(e);
     }
 
-    public EventController clone(){
+    public EventController clone() {
         return new EventController(this);
     }
 
@@ -99,15 +95,15 @@ public class EventController {
     ArrayList<Event> getEventList() {
         return this.database.getEventList();
     }
-    
+
     ArrayList<Event> getUpcomingEvents() {
         return this.database.getUpcomingEvents();
     }
-    
+
     ArrayList<Event> getUpcomingEvents(String name) {
         return this.database.getUpcomingEvents(name);
     }
-    
+
     public void writeToFile(String fich) throws IOException{
         ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(fich) );
         oos.writeObject(this.database);
