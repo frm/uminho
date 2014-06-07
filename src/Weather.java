@@ -3,9 +3,10 @@
  * @author frmendes
  */
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Weather {
+public class Weather implements Serializable{
     private int weatherIndex;
     
     public static final String[] weatherStates = { "Clear Sky", "Cloudy", "Light Rain", "Heavy Rain", "Snowing", "Hailing", "Windy", "Stormy"};

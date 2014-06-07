@@ -3,9 +3,10 @@
  * @author tiago
  */
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public class EventList {
+public class EventList implements Serializable{
     private HashSet<Integer> events;
     
     //constructors

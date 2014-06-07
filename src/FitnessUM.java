@@ -131,9 +131,9 @@ public class FitnessUM {
      */
     public void shutdown() {
         try{
-            this.active = false;
             this.userController.writeToFile("userData.sav");
             this.eventController.writeToFile("eventData.sav");
+            this.active = false;
         }
         catch(IOException e){System.out.println("Write error");}
     }
