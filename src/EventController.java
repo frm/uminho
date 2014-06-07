@@ -1,4 +1,9 @@
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /*
@@ -98,5 +103,18 @@ public class EventController {
     
     ArrayList<Event> getUpcomingEvents(String name) {
         return this.database.getUpcomingEvents(name);
+    }
+    
+    public void writeToFile(String fich) throws IOException{
+        ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(fich) );
+        oos.writeObject(this.database);
+        oos.flush(); oos.close();
+    }
+
+    public void readFromFile(String fich) throws IOException, ClassNotFoundException{
+        ObjectInputStream ois = new ObjectInputStream( new FileInputStream(fich) );
+        EventDatabase restored = (EventDatabase) ois.readObject();
+        ois.close();
+        this.database = restored;
     }
 }

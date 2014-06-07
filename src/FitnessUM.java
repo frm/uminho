@@ -433,10 +433,10 @@ public class FitnessUM {
      *
      * @return
      */
-    public static String listWeatherOptions(){
+    public static String listWeatherOptions(String message){
         String[] list = Weather.weatherStates;
         StringBuilder result = new StringBuilder();
-        result.append("\nHow was the weather?\n");
+        result.append(message);
         for( String w: list){
             result.append(Weather.getIndexOf(w)).append(".").append(w).append("\n");
         }
@@ -555,7 +555,7 @@ public class FitnessUM {
      */
     public void addCycling(){
         AltitudeActivity model = getAltitudeActivityData();
-        int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
+        int weather = Scan.intInRange( this.listWeatherOptions("\nHow was the weather?\n"), 0, Weather.weatherStates.length - 1);
 
         if( ! this.userController.addActivity( new Cycling(model, weather) ) ) {
             System.out.println("\nInvalid activity");
@@ -568,7 +568,7 @@ public class FitnessUM {
      */
     public void addKayaking(){
         DistanceActivity model = getDistanceActivityData();
-        int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
+        int weather = Scan.intInRange( this.listWeatherOptions("\nHow was the weather?\n"), 0, Weather.weatherStates.length - 1);
 
         if( !this.userController.addActivity( new Kayaking(model, weather) ) ) {
             System.out.println("\nInvalid activity");
@@ -593,7 +593,7 @@ public class FitnessUM {
      */
     public void addRunning(){
         AltitudeActivity model = getAltitudeActivityData();
-        int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
+        int weather = Scan.intInRange( this.listWeatherOptions("\nHow was the weather?\n"), 0, Weather.weatherStates.length - 1);
 
         if( !this.userController.addActivity( new Running(model, weather) ) ) {
             System.out.println("\nInvalid activity");
@@ -632,7 +632,7 @@ public class FitnessUM {
     }
 
     public void searchEvent(){
-        String terms = Scan.scanString("Insert your search terms");
+        String terms = ( Scan.scanString("Insert your search terms") ).trim();
         ArrayList<String> list = this.eventController.searchEvent(terms);
         (new SearchEventNavigator(list, this.eventController)).navigate();
     }
@@ -729,7 +729,7 @@ public class FitnessUM {
         
         
         int capacity = Scan.scanInt("What's the event capacity?");
-        int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
+        int weather = Scan.intInRange( this.listWeatherOptions("\nWhat's the weather forecast\n"), 0, Weather.weatherStates.length - 1);
         
         EventInfo info = new EventInfo(capacity, name, location, weather, date, signup);
         
