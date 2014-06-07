@@ -758,12 +758,6 @@ public class FitnessUM {
 	this.eventController.addEvent(e);
     }
 
-    /** Scans the admin for event name, prompting for new event details and updating it
-     */
-    public void updateEvent() {
-    	System.out.println("Yet to be implemented");
-    }
-
     /** Scans the admin for event name, deleting the event
      */
     public void deleteEvent() {
@@ -801,8 +795,9 @@ public class FitnessUM {
         EventController ec = new EventController();
         try{
             uc.readFromFile("userData.sav");
-            ec.readFromFile("eventData.save");
+            ec.readFromFile("eventData.sav");
             app.setUserController(uc);
+            app.setEventController(ec);
             app.run();
         }
         catch(IOException e){System.out.println("Loading error\n");}
@@ -854,7 +849,7 @@ public class FitnessUM {
     public void adminInterpreter() {
         System.out.println("You are on an admin account. We trust you know what you are doing.\nWith great power comes great responsability.\n");
         FitnessUM.printAdminOptions();
-        int option = Scan.menuOption(0, 5);
+        int option = Scan.menuOption(0, 4);
         this.getAdminPrompt()[option].exec();
     }
 
@@ -890,7 +885,6 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.registerAdmin(); } },
             new Prompt() { public void exec() { app.deleteUser(); } },
             new Prompt() { public void exec() { app.addEvent(); } },
-            new Prompt() { public void exec() { app.updateEvent(); } },
             new Prompt() { public void exec() { app.deleteEvent(); } }
         };
     }
