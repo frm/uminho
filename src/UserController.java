@@ -125,6 +125,14 @@ public class UserController implements Serializable {
         al.add( this.database.findByEmail(email) );
         return al;
     }
+    
+    public ArrayList<User> getUsersWithId(UserList ul) {
+        ArrayList<User> list = new ArrayList<User>();
+        for( Integer i : ul.getUsers() )
+            list.add( this.database.findById(i) );
+        
+        return list;
+    }
 
     private boolean normalUserLogin(String email, String password) {
         User u = this.database.findByEmail(email);

@@ -768,6 +768,10 @@ public class FitnessUM {
 
         return u;
     }
+    
+    public void simulateEvent(Event e) {
+        e.simulate( this.userController.getUsersWithId(e.getParticipants()) );
+    }
 
     /**
      *
