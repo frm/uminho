@@ -9,7 +9,6 @@ public class Event implements BaseModel {
     private String type;
     private UserList participants;
     private int distance;
-    private int altitude;
     private EventInfo info;
 
 
@@ -18,17 +17,15 @@ public class Event implements BaseModel {
         this.type = "";
         this.participants = new UserList();
         this.distance = 1;
-        this.altitude = 1;
         this.info = new EventInfo();
     }
 
-    public Event(int id, String type, int distance, int altitude, UserList participants, EventInfo info) {
+    public Event(int id, String type, int distance, UserList participants, EventInfo info) {
         this.id = id;
         this.type = type;
         this.participants = participants.clone();
         this.info = info.clone();
         this.distance = distance;
-        this.altitude = altitude;
     }
 
     public Event(Event e) {
@@ -37,7 +34,6 @@ public class Event implements BaseModel {
         this.participants = e.getParticipants();
         this.info = e.getInfo();
         this.distance = e.getDistance();
-        this.altitude = e.getAltitude();
     }
 
     public Event(String type, int distance, int altitude, EventInfo info) {
@@ -45,7 +41,6 @@ public class Event implements BaseModel {
         this.type = type;
         this.participants = new UserList();
         this.distance = distance;
-        this.altitude = altitude;
         this.info = info.clone();
     }
 
@@ -56,10 +51,6 @@ public class Event implements BaseModel {
     
     public void setInfo(EventInfo e) {
         this.info = e.clone();
-    }
-    
-    public void setAltitude(int a) {
-        this.altitude = a;
     }
     
     public void setDistance(int d) {
@@ -132,10 +123,6 @@ public class Event implements BaseModel {
         return this.distance;
     }
     
-    public int getAltitude() {
-        return this.altitude;
-    }
-    
     public EventInfo getInfo() {
         return this.info.clone();
     }
@@ -195,6 +182,8 @@ public class Event implements BaseModel {
         sb.append(this.id);
         sb.append("\nType: ");
         sb.append(this.type);
+        sb.append("\nDistance: ");
+        sb.append(this.distance);
         sb.append(this.info );
         sb.append("\nParticipants: ");
         sb.append(this.participants);
@@ -212,7 +201,6 @@ public class Event implements BaseModel {
         return (
                 this.id == e.getId() &&
                 this.distance == e.getDistance() &&
-                this.altitude == e.getAltitude() &&
                 this.info.equals( e.getInfo() ) &&
                 this.participants.equals( e.getParticipants() ) &&
                 this.type.equals( e.getType() )

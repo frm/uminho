@@ -158,16 +158,17 @@ public class EventInfo {
         sb.append("Event Info: \n");
         sb.append("\nName: ");
         sb.append(this.name);
+        sb.append("\nLocation: ");
+        sb.append(this.location);
         sb.append("\nDate");
         sb.append(this.date);
         sb.append("\nWeather Prediction: ");
         sb.append(this.weather);
         sb.append("\nMax entries: ");
         sb.append(this.capacity);
+        sb.append("\nSignup Limit: ");
+        sb.append(this.signupLimit);
         
         return sb.toString();
     }
-    
-    
-    
 }
