@@ -14,6 +14,7 @@ public class User extends BasicUser implements BaseModel {
     private FriendList friends;
     private UserInfo info;
     private ActivityInfo activityInfo;
+    private EventList events;
 
     public User() {
         super();
@@ -21,6 +22,7 @@ public class User extends BasicUser implements BaseModel {
         this.info = new UserInfo();
         this.activityInfo = new ActivityInfo();
         this.id = -1;
+        this.events = new EventList();
     }
 
     public User(String name, String password, String email, UserInfo info) {
@@ -29,13 +31,15 @@ public class User extends BasicUser implements BaseModel {
         this.friends = new FriendList();
         this.activityInfo = new ActivityInfo();
         this.id = -1;
+        this.events = new EventList();
     }
 
-    public User(String name, String password, String email, FriendList friendlist, UserInfo info, ActivityInfo actInfo) {
+    public User(String name, String password, String email, FriendList friendlist, UserInfo info, ActivityInfo actInfo, EventList events) {
         super(name, password, email);
         this.friends = friendlist.clone();
         this.info = info.clone();
         this.activityInfo = actInfo.clone();
+        this.events = events.clone();
         this.id = -1;
     }
 
@@ -45,8 +49,10 @@ public class User extends BasicUser implements BaseModel {
         this.info = u.getInfo();
         this.activityInfo = u.getActivityLog();
         this.id = u.getId();
+        this.events = u.getEvents();
     }
 
+    @Override
     public int getId() {
         return this.id;
     }
@@ -57,6 +63,10 @@ public class User extends BasicUser implements BaseModel {
 
     public UserInfo getInfo() {
         return info.clone();
+    }
+    
+    public EventList getEvents() {
+        return this.events.clone();
     }
 
     public ActivityInfo getActivityLog() {
@@ -82,7 +92,10 @@ public class User extends BasicUser implements BaseModel {
     public void setActivityLog(ActivityInfo actInfo) {
         this.activityInfo = actInfo.clone();
     }
-
+    
+    public void setEvents(EventList events) {
+        this.events = events.clone();
+    }
 
     public void setFriends(FriendList friends) {
         this.friends = friends.clone();
@@ -91,7 +104,6 @@ public class User extends BasicUser implements BaseModel {
     public void setActivityInfo(ActivityInfo activityInfo) {
         this.activityInfo = activityInfo.clone();
     }
-
 
     public void confirmFriendRequest(User u) {
         this.friends.confirmFriendRequest(u);
@@ -228,6 +240,14 @@ public class User extends BasicUser implements BaseModel {
 
     public ArrayList<String> getPracticedActivities(){
         return activityInfo.getPracticedActivities();
+    }
+    
+    public void attendEvent(int id) {
+        this.events.addEvent(id);
+    }
+    
+    public void unattendEvent(int id) {
+        this.events.removeEvent(id);
     }
 
     @Override

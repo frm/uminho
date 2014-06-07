@@ -9,34 +9,40 @@ public class EventList {
     private HashSet<Integer> events;
     
     //constructors
-    public EventList(){this.events = new HashSet<Integer>();}
-    
-    public EventList(HashSet<Integer> events){
+    public EventList(){
         this.events = new HashSet<Integer>();
-        for(Integer i: events)
-            (this.events).add(i);
+    }
+    
+    public EventList(HashSet<Integer> events) {
+        this.events = EventList.copyEvents(events);
     }
     
     public EventList(EventList e){
-        this.events = new HashSet<Integer>();
-        for( Integer i: e.getEvents() )
-            (this.events).add(i);
+        this.events = e.getEvents();
     }
     
     //getters
     public void setEvents(HashSet<Integer> events){
-        this.events = events;
+        this.events = EventList.copyEvents(events);
     }
     
     //setters
     public HashSet<Integer> getEvents(){
-        return (HashSet<Integer>)events.clone();
+        return EventList.copyEvents(this.events);
     }
     
     //methods
-    public void addEvent(Integer id) {this.events.add(id);}
-    public void removeEvent(Integer id) {this.events.remove(id);}
-    public Integer numberofEvents() {return this.events.size();}
+    public void addEvent(int id) {
+        this.events.add(id);
+    }
+    
+    public void removeEvent(int id) {
+        this.events.remove(id);
+    }
+    
+    public int numberOfEvents() {
+        return this.events.size();
+    }
     
     //essentials
     public String toString(){
@@ -51,14 +57,16 @@ public class EventList {
     }
     
     public EventList clone(){
-        EventList events2 = new EventList();
-        try {
-            new EventList(this);
-        } catch (IllegalArgumentException e) {
-            System.err.println("Unexisting events2 list");
-            throw new IllegalArgumentException( e.getMessage() );
-        }
-        
-        return events2;
+        return new EventList(this);
     }
+    
+    private static HashSet<Integer> copyEvents(HashSet<Integer> e) {
+        HashSet<Integer> list = new HashSet<Integer>();
+        for(int i : e)
+            list.add(i);
+        
+        return list;
+    }
+    
+    
 }
