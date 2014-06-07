@@ -168,7 +168,7 @@ public class Event implements BaseModel {
     private TreeMap<Long, User> simulateKm(int km, TreeMap<Long, User> previousKm) {
         TreeMap<Long, User> currentKm = new TreeMap<Long, User>( new SimulationComparator() );
         for( Map.Entry<Long, User> u : previousKm.entrySet() )
-            currentKm.put(1L/*u.getValue().simulateKm(km, u.getKey() )*/, u.getValue().clone() );
+            currentKm.put(u.getValue().simulateKm(this.type, km, u.getKey() ), u.getValue().clone() );
         
         return currentKm;
     }
@@ -176,7 +176,7 @@ public class Event implements BaseModel {
     private TreeMap<Long, User> simulateFirstKm(ArrayList<User> participants) {
         TreeMap<Long, User> firstKm = new TreeMap<Long, User>();
         for(User u : participants)
-            firstKm.put( 1L/*u.simulateKm(1, 0)*/, u.clone() );
+            firstKm.put( u.simulateKm(this.type, 1, 0), u.clone() );
         
         return firstKm;
     }

@@ -28,13 +28,8 @@ public class EventNavigator extends Navigator<Event>{
         System.out.println( e );
     }
     public void select(Event e) {
-        if (app.getUserController().userParticipatedIn( e.getId() ) ) {
-            if ( Scan.yesNo("Are you sure you want to cancel your participation?") ){
-                app.leaveEvent(e);
-                remove(e);
-            }
-        }
-        
+        if (app.getUserController().userParticipatedIn( e.getId() ) )
+            simulateDelete(e);        
         else
             if( Scan.yesNo("Are you sure you want to join the event?") )
                 app.joinEvent(e);
@@ -43,6 +38,18 @@ public class EventNavigator extends Navigator<Event>{
 
     public String emptyMessage() {
         return "\nNo Events Available\n";
+    }
+    
+    private void simulateDelete(Event e) {
+        int option = Scan.intInRange("Please select one of these options:\n1. Cancel participation\n2. Simulate", 1, 2);
+        if (option == 1) {
+            if ( Scan.yesNo("Are you sure you want to cancel your participation?") ){
+                app.leaveEvent(e);
+                remove(e);
+            }
+        }
+        else
+            app.simulateEvent(e);
     }
 
 

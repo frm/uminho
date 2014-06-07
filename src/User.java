@@ -261,7 +261,7 @@ public class User extends BasicUser implements BaseModel {
         this.events.removeEvent(id);
     }
     
-    public long simulateKm(String type,int km, long prevTime){                    
+    public long simulateKm(String type, int km, long prevTime) {
         return prevTime + ((long)(decay(type,km) * pace(type)));
     }
 
