@@ -41,6 +41,10 @@ public class FitnessUM {
    private static final String[] activities = {
        "Go Back", "Cycling", "Kayaking", "Kendo", "Running", "Skating", "Swimming"
    };
+   
+   private static final String[] eventActivities = {
+       "Go Back", "Cycling", "Kayaking", "Running", "Swimming"
+   };
 
    private static final String[] adminOptions = {
        "Logout", "Add Admin", "Delete User", "Add Event", "Update Event", "Delete Event"
@@ -628,7 +632,7 @@ public class FitnessUM {
      *
      */
     public void addEvent(){
-        ArrayList<String> activities = new ArrayList<String>( Arrays.asList(EventController.existingActivities) );
+        ArrayList<String> activities = new ArrayList<String>( Arrays.asList(this.eventActivities) );
         ( new EventTypeNavigator(activities, this)).navigate();
     }
 
@@ -709,23 +713,23 @@ public class FitnessUM {
         GregorianCalendar date = new GregorianCalendar();
         GregorianCalendar signup = new GregorianCalendar();
         
-        String name = Scan.scanString("What is the name of the event?");
+        String name = Scan.scanString("\nWhat is the name of the event?");
         
         while( !this.eventController.validateEventNameUniqueness(name) ) {
             System.out.println("Event name has to be unique");
-            name = Scan.scanString("What is the name of the event?");
+            name = Scan.scanString("\nWhat is the name of the event?");
         }
         
         boolean valid = false;
         while(!valid){
-            date = Scan.eventDate("What's the event date?");
-            signup = Scan.eventDate("What's the sign-up limit date?");
-            if( signup.getTimeInMillis() >= date.getTimeInMillis())
+            date = Scan.eventDate("\nWhat's the event date? (dd-mm-yyyy)");
+            signup = Scan.eventDate("\nWhat's the sign-up limit date? (dd-mm-yyyy)");
+            if( signup.getTimeInMillis() <= date.getTimeInMillis())
                 valid = true;
             else System.out.println("Invalid event or signup date");
         }    
         
-        String location = Scan.scanString("What's the location?");
+        String location = Scan.scanString("\nWhat's the location?");
         
         
         
