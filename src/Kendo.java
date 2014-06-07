@@ -27,6 +27,8 @@ public class Kendo extends Activity {
     public Kendo clone()
     {return new Kendo(this);}
     
-    public int calculateCalories(long duration)
-    {return (int) (duration*0.00008);}
+    public int calculateCalories(long duration){        
+        int randomVariance = (int) (Math.random()*20);
+        return ((int) (duration*0.00008)) + randomVariance;
+    }
 }
