@@ -128,6 +128,11 @@ public class UserInfo implements Serializable{
         return n;
     }
     
+    /**
+     *
+     * @param years
+     * @return
+     */
     public int getAgeYears(int years){
         return (years - birthDate.get(Calendar.YEAR));
     }

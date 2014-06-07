@@ -1,6 +1,4 @@
 
-import java.io.Console;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -13,10 +11,18 @@ import java.util.regex.Pattern;
  */
 public abstract class Scan {
 
+    /**
+     *
+     * @param c
+     * @return
+     */
     public static String dateFormat(GregorianCalendar c) {
         return new SimpleDateFormat("dd/MM/yyyy").format( c.getTime() );
     }
 
+    /**
+     *
+     */
     public static void pressEnterToContinue() {
         Scanner scan = new Scanner(System.in);
         System.out.println("\nPress Enter To Continue");
@@ -24,10 +30,21 @@ public abstract class Scan {
         while ( scan.nextLine().length() > 0 );
     }
 
+    /**
+     *
+     * @param min
+     * @param max
+     * @return
+     */
     public static int menuOption(int min, int max) {
         return Scan.intInRange("Please provide a value for the menu.", min, max);
     }
 
+    /**
+     *
+     * @param message
+     * @return
+     */
     public static int scanInt(String message) {
         Scanner scan = new Scanner(System.in);
         System.out.println(message);
@@ -105,11 +122,21 @@ public abstract class Scan {
         return hour;
     }
 
+    /**
+     *
+     * @param date
+     * @return
+     */
     public static boolean validDate(GregorianCalendar date){
         GregorianCalendar now = new GregorianCalendar();
         return date.get(Calendar.YEAR) >= 1900 && date.compareTo(now) == -1;
     }
 
+    /**
+     *
+     * @param date
+     * @return
+     */
     public static boolean validGregorianCalendar(GregorianCalendar date) {
 
         date.setLenient(false);     // Allows for date verification
@@ -157,11 +184,22 @@ public abstract class Scan {
         }
     }
     
+    /**
+     *
+     * @param date
+     * @return
+     */
     public static boolean validEventDate(GregorianCalendar date){
         GregorianCalendar now = new GregorianCalendar();
         return date.compareTo(now) == 1;
     }
 
+    /**
+     *
+     * @param messageForDate
+     * @param messageForTime
+     * @return
+     */
     public static GregorianCalendar dateWithHours(String messageForDate, String messageForTime) {
         int[] day = Scan.dateArray(messageForDate);
         int[] time = Scan.hourArray(messageForTime);
@@ -176,6 +214,11 @@ public abstract class Scan {
         }
     }
 
+    /**
+     *
+     * @param message
+     * @return
+     */
     public static GregorianCalendar time(String message){
         int[] hour = Scan.hourArray(message);
         GregorianCalendar time = new GregorianCalendar(1,1,1, hour[0], hour[1], hour[2]);
@@ -205,6 +248,13 @@ public abstract class Scan {
         return d;
     }
 
+    /**
+     *
+     * @param min
+     * @param max
+     * @param message
+     * @return
+     */
     public static double doubleInRange(double min, double max, String message) {
         double d = Scan.scanDouble(message);
 
@@ -216,6 +266,13 @@ public abstract class Scan {
         return d;
     }
     
+    /**
+     *
+     * @param min
+     * @param max
+     * @param message
+     * @return
+     */
     public static double updateDoubleInRange(double min, double max, String message) {
         double d = Scan.scanDouble(message);
 
@@ -252,23 +309,42 @@ public abstract class Scan {
         return g;
     }
 
+    /**
+     *
+     * @return
+     */
     public static double weight() {
         return Scan.doubleInRange(0.0, 300.0, "\nWhat's your current weight? (kg)");
     }
 
+    /**
+     *
+     * @return
+     */
     public static double height() {
         return Scan.doubleInRange( 20.0, 300.0, "\nHow tall are you? (cm)" );
     }
     
+    /**
+     *
+     * @return
+     */
     public static double updateWeight() {
         return Scan.updateDoubleInRange(0.0, 300.0, "\nWhat's your current weight? (kg)");
     }
 
+    /**
+     *
+     * @return
+     */
     public static double updateHeight() {
         return Scan.updateDoubleInRange( 20.0, 300.0, "\nHow tall are you? (cm)" );
     }
 
-
+    /**
+     *
+     * @return
+     */
     public static String sport() {
         String sport = Scan.scanString("\nShare your favorite sport.").trim();
 
@@ -280,6 +356,10 @@ public abstract class Scan {
         return sport;
     }
     
+    /**
+     *
+     * @return
+     */
     public static String updateSport() {
         String sport = Scan.scanString("\nShare your favorite sport.").trim();
         
@@ -334,6 +414,10 @@ public abstract class Scan {
         }
     }
     
+    /**
+     *
+     * @return
+     */
     public static String updatePassword() {
                 String pw = Scan.scanString("\nEnter password:");
 
@@ -393,6 +477,11 @@ public abstract class Scan {
         return name;
     }
     
+    /**
+     *
+     * @param message
+     * @return
+     */
     public static String updateName(String message) {
         String name = Scan.scanString(message).trim();
 

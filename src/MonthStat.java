@@ -2,13 +2,6 @@
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeSet;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -17,32 +10,57 @@ import java.util.TreeSet;
 public class MonthStat implements Serializable{
     private HashMap<String, StatEntry> stats;
     
+    /**
+     *
+     */
     public MonthStat(){
         this.stats = new HashMap<String, StatEntry>();
     }
     
+    /**
+     *
+     * @param act
+     */
     public MonthStat(Activity act){
         this.stats = new HashMap<String, StatEntry>();
         this.addStat(act);
     }
     
+    /**
+     *
+     * @param stats
+     */
     public MonthStat(HashMap<String, StatEntry> stats){
         this.stats = cloneStats(stats);
     }
     
+    /**
+     *
+     * @param ms
+     */
     public MonthStat(MonthStat ms){
         this.stats = ms.getStats();
     }
     
+    /**
+     *
+     * @return
+     */
     public HashMap<String, StatEntry> getStats(){
         return cloneStats(this.stats);
     }
     
-    
+    /**
+     *
+     */
     public void setStats(){
         this.stats = cloneStats(this.stats);
     }
     
+    /**
+     *
+     * @param act
+     */
     public void addStat(Activity act){
         if(this.stats.containsKey(act.getClass().getSimpleName())) 
             updateStats(act);
@@ -54,6 +72,7 @@ public class MonthStat implements Serializable{
     
      /**Update the statistics for an existing StatEntry
      *
+     * @param act
      */
     public void updateStats(Activity act){
         StatEntry stat = stats.get(act.getClass().getSimpleName() );     
@@ -75,6 +94,11 @@ public class MonthStat implements Serializable{
             return new StatEntry(act); 
     }
     
+    /**
+     *
+     * @param act
+     * @return
+     */
     public boolean removeStat(Activity act){
         StatEntry aux;
         aux = this.stats.get(act.getName());
@@ -84,6 +108,11 @@ public class MonthStat implements Serializable{
         return true;
     }
     
+    /**
+     *
+     * @param act
+     * @return
+     */
     public long getTotalDuration(String act){
         return stats.get(act).getTotalDuration();
     }

@@ -1,12 +1,6 @@
 
 import java.io.Serializable;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author frmendes
@@ -16,28 +10,49 @@ public abstract class BasicUser implements Serializable{
     private String password;
     private String email;
 
+    /**
+     *
+     */
     public BasicUser() {
         this.name = "";
         this.password = "";
         this.email = "";
     }
 
+    /**
+     *
+     * @param name
+     * @param password
+     * @param email
+     */
     public BasicUser(String name, String password, String email) {
         this.name = name;
         this.password = password;
         this.email = email;
     }
     
+    /**
+     *
+     * @param b
+     */
     public BasicUser(BasicUser b) {
         this.name = b.getName();
         this.email = b.getEmail();
         this.password = b.getPassword();
     }
     
+    /**
+     *
+     * @return
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
@@ -55,18 +70,34 @@ public abstract class BasicUser implements Serializable{
         return password;
     }
     
+    /**
+     *
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
     
+    /**
+     *
+     * @param pw
+     */
     public void updatePassword(String pw) {
         if (pw.length() != 0)
             this.password = pw;

@@ -10,16 +10,27 @@ import java.util.Map;
 /**
  *
  * @author frmendes
+ * @param <K>
+ * @param <V>
  */
 public class Tuple<K, V> implements  Map.Entry<K, V>{
     private K key;
     private V value;
     
+    /**
+     *
+     * @param key
+     * @param value
+     */
     public Tuple(K key, V value) {
         this.key = key;
         this.value = value;
     }
     
+    /**
+     *
+     * @param T
+     */
     public Tuple(Tuple T) {
         this.key = (K)T.getKey();
         this.value = (V)T.getValue();

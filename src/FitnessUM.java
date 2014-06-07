@@ -1,6 +1,5 @@
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -8,8 +7,6 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -66,6 +63,7 @@ public class FitnessUM {
 
     /** Parameterized constructor
      * @param userController
+     * @param eventController
      */
     public FitnessUM(UserController userController, EventController eventController) {
         this.userController = userController.clone();
@@ -103,10 +101,18 @@ public class FitnessUM {
         this.userController = uc.clone();
     }
 
+    /**
+     *
+     * @return
+     */
     public EventController getEventController() {
         return eventController.clone();
     }
 
+    /**
+     *
+     * @param eventController
+     */
     public void setEventController(EventController eventController) {
         this.eventController = eventController.clone();
     }
@@ -267,6 +273,10 @@ public class FitnessUM {
         deleteByEmail(email);
     }
     
+    /**
+     *
+     * @param email
+     */
     public void deleteByEmail(String email){
         while( !this.userController.existsUser(email) ) {
             System.out.println("User does not exist");
@@ -280,6 +290,9 @@ public class FitnessUM {
         }
     }
     
+    /**
+     *
+     */
     public void deleteMyAccount(){
         deleteByEmail( this.userController.getCurrentUser().getEmail());
         run();
@@ -448,6 +461,7 @@ public class FitnessUM {
 
     /**
      *
+     * @param message
      * @return
      */
     public static String listWeatherOptions(String message){
@@ -648,12 +662,18 @@ public class FitnessUM {
         ( new EventTypeNavigator(activities, this)).navigate();
     }
 
+    /**
+     *
+     */
     public void searchEvent(){
         String terms = ( Scan.scanString("Insert your search terms") ).trim();
         ArrayList<String> list = this.eventController.searchEvent(terms);
         (new SearchEventNavigator(list, this.eventController)).navigate();
     }
     
+    /**
+     *
+     */
     public void getListEventsOption() {
         this.startup();
         System.out.println("Choose one of the following options.");
@@ -662,6 +682,10 @@ public class FitnessUM {
         this.getListEventsPrompt()[option].exec();
     }
     
+    /**
+     *
+     * @param e
+     */
     public void leaveEvent(Event e) {
         try {
             this.userController.leaveEvent( e.getId() );
@@ -675,6 +699,9 @@ public class FitnessUM {
         }
     }
     
+    /**
+     *
+     */
     public void myEvents(){
         HashSet<Integer> ids = this.userController.getCurrentUser().getEvents().getEvents();
         ArrayList<Event> events = new ArrayList<Event>();
@@ -684,10 +711,19 @@ public class FitnessUM {
         ( new EventNavigator(events, this)).navigate();
     }
     
+    /**
+     *
+     * @param e
+     * @return
+     */
     public boolean userIsInEvent(Event e){
         return this.userController.getCurrentUser().isInEvent(e);
     }
     
+    /**
+     *
+     * @param e
+     */
     public void joinEvent(Event e){
         try {
                 this.eventController.addUser(this.userController.getCurrentUser(), e);
@@ -701,20 +737,33 @@ public class FitnessUM {
         }
     }
     
+    /**
+     *
+     */
     public void listEvents(){
         getListEventsOption();
     }
 
+    /**
+     *
+     */
     public void listAllEvents(){
             ArrayList<Event> events = this.eventController.getEventList();
             (new EventNavigator(events, this)).navigate();
     }
     
+    /**
+     *
+     */
     public void listUpcomingEvents(){
         ArrayList<Event> events = this.eventController.getUpcomingEvents();
         ( new EventNavigator(events, this)).navigate();
     }
     
+    /**
+     *
+     * @param name
+     */
     public void listUpcomingEvents(String name){
 
         ArrayList<Event> events = this.eventController.getUpcomingEvents(name);
@@ -722,6 +771,7 @@ public class FitnessUM {
     }
 
     /** Scans the admin for event details, saving the event in the event controller
+     * @param s
      */
     public void getEventInfo(String s) {
         GregorianCalendar date = new GregorianCalendar();
@@ -781,6 +831,10 @@ public class FitnessUM {
         return u;
     }
     
+    /**
+     *
+     * @param e
+     */
     public void simulateEvent(Event e) {
         int max = e.getDistance();
         int km = Scan.intInRange("Choose what kilometer you want to view: [1, " + max + "] (0 to exit)", 0, max);
@@ -842,7 +896,9 @@ public class FitnessUM {
         this.getMainPrompt()[option].exec();
     }
     
-    
+    /**
+     *
+     */
     public void getEventTypeOption() {
         System.out.println( "What's the type of the event?");
 	    FitnessUM.printActivities();
@@ -938,6 +994,10 @@ public class FitnessUM {
         };
     }
     
+    /**
+     *
+     * @return
+     */
     public Prompt[] getListEventsPrompt(){
         final FitnessUM app = this;
         return new Prompt[]{

@@ -9,24 +9,45 @@ import java.util.ArrayList;
 public class EventNavigator extends Navigator<Event>{
     private FitnessUM app;
 
+    /**
+     *
+     */
     public EventNavigator() {
         super();
         this.app = new FitnessUM();
     }
 
+    /**
+     *
+     * @param list
+     */
     public EventNavigator(ArrayList<Event> list) {
         super(list);
         this.app = new FitnessUM();
     }
 
+    /**
+     *
+     * @param list
+     * @param app
+     */
     public EventNavigator(ArrayList<Event> list, FitnessUM app ){
         super(list);
         this.app = app;
     }
 
+    /**
+     *
+     * @param e
+     */
     public void print(Event e) {
         System.out.println( e );
     }
+
+    /**
+     *
+     * @param e
+     */
     public void select(Event e) {
         if (app.getUserController().userParticipatedIn( e.getId() ) )
             simulateDelete(e);        
@@ -36,6 +57,10 @@ public class EventNavigator extends Navigator<Event>{
 
     }
 
+    /**
+     *
+     * @return
+     */
     public String emptyMessage() {
         return "\nNo Events Available\n";
     }

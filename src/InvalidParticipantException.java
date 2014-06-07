@@ -8,10 +8,17 @@
  */
 public class InvalidParticipantException extends Exception {
     
+    /**
+     *
+     */
     public InvalidParticipantException() {
         super();
     }
     
+    /**
+     *
+     * @param msg
+     */
     public InvalidParticipantException(String msg) {
         super(msg);
     }

@@ -1,8 +1,6 @@
 
 import java.io.Serializable;
 import java.util.Comparator;
-import java.util.Map;
-
 /*
  * Class that compares two entries to the user feed
  * The entries shall be ordered by activity date. If the date is the same, then the draw back shall be the name

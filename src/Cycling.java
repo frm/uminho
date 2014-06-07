@@ -4,41 +4,80 @@
  */
 import java.util.GregorianCalendar;
 
+/**
+ *
+ * @author joaorodrigues
+ */
 public class Cycling extends AltitudeActivity implements WeatherInterface{
     private Weather weather;
     
     //constructors
-    public Cycling() {
+
+    /**
+     *
+     */
+        public Cycling() {
         super();
         this.weather = new Weather();
     }
 
+    /**
+     *
+     * @param date
+     * @param duration
+     * @param distance
+     * @param altitude
+     * @param w
+     */
     public Cycling(GregorianCalendar date, long duration, int distance, int altitude, int w){
         super(date, duration, distance, altitude);
         this.weather = new Weather(w);
         this.setCalories( calculateCalories(duration, distance, altitude,  w) );
     }
     
+    /**
+     *
+     * @param date
+     * @param duration
+     * @param distance
+     * @param altitude
+     */
     public Cycling(GregorianCalendar date, long duration, int distance, int altitude){
         super(date, duration, distance, altitude);
     }
     
+    /**
+     *
+     * @param model
+     * @param weather
+     */
     public Cycling(AltitudeActivity model, int weather){
         super(model);
         this.weather = new Weather(weather);
         this.setCalories( calculateCalories(model.getDuration(), model.getDistance(), model.getAltitude(),  weather) );
     }
     
-    
+    /**
+     *
+     * @param c
+     */
     public Cycling(Cycling c){
         super(c);
         this.weather = c.getWeather();
     }
 
+    /**
+     *
+     * @return
+     */
     public Weather getWeather() {
         return weather;
     }
 
+    /**
+     *
+     * @param weather
+     */
     public void setWeather(Weather weather) {
         this.weather = weather;
     }

@@ -8,11 +8,17 @@
  */
 public class InexistingUserException extends Exception {
 
-    
+    /**
+     *
+     */
     public InexistingUserException() {
         super();
     }
     
+    /**
+     *
+     * @param msg
+     */
     public InexistingUserException(String msg) {
         super(msg);
     }

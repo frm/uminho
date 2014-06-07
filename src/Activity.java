@@ -3,10 +3,10 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
-/*Base Activity(Indoor Activities)
-  class chain: Activity -> ActivityDistance -> ActivityAltitude
-*/
-
+/**
+ *
+ * @author joaorodrigues
+ */
 public abstract class Activity implements Serializable {
   private int calories;
   private GregorianCalendar date;
@@ -16,17 +16,30 @@ public abstract class Activity implements Serializable {
   private static final long minimumTime = 60000;
   
     //constructors
-    public Activity(){
+
+    /**
+     *
+     */
+        public Activity(){
         this.date = new GregorianCalendar();
         this.duration = 0;
         this.calories = 0;
     }
     
+    /**
+     *
+     * @param date
+     * @param duration
+     */
     public Activity(GregorianCalendar date, long duration) {
         this.date = date;
         this.duration = duration;
     }
     
+    /**
+     *
+     * @param a
+     */
     public Activity(Activity a){
         this.date = a.getDate();
         this.duration = a.getDuration();
@@ -35,38 +48,76 @@ public abstract class Activity implements Serializable {
   
     //setters
     
+    /**
+     *
+     * @param date
+     */
+        
     public void setDate(GregorianCalendar date) {
         this.date = (GregorianCalendar) date.clone();
     }
     
+    /**
+     *
+     * @param duration
+     */
     public void setDuration(long duration) {
         this.duration = duration;
     }
     
+    /**
+     *
+     * @param calories
+     */
     public void setCalories(int calories) {
         this.calories = calories;
     }
 
+    /**
+     *
+     * @return
+     */
     public GregorianCalendar getDate() {
         return (GregorianCalendar) this.date.clone();
     }
     
+    /**
+     *
+     * @return
+     */
     public long getDuration() {
         return this.duration;
     }
     
+    /**
+     *
+     * @return
+     */
     public int getCalories() {
         return this.calories;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getName(){
         return this.getClass().getSimpleName();
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean hasMinimumTime() {
         return duration >= Activity.minimumTime;
     }  
     
+    /**
+     *
+     * @param a
+     * @return
+     */
     public boolean aliasOf(Activity a) {
         long currStartTime = this.date.getTimeInMillis();
         long actStartTime = a.getDate().getTimeInMillis();

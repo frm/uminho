@@ -7,6 +7,10 @@
  * @author frmendes
  */
 public interface Prompt {
+
+    /**
+     *
+     */
     public void exec();
 }
 

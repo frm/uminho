@@ -3,11 +3,6 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -24,6 +19,9 @@ public class EventInfo implements Serializable{
     /** Default number of participants, given in case the number is not valid or given */
     private static final int defaultParticipants = Integer.MAX_VALUE;
     
+    /**
+     *
+     */
     public EventInfo() {
         setCapacity(0);
         this.name = "";
@@ -33,6 +31,10 @@ public class EventInfo implements Serializable{
         this.signupLimit = new GregorianCalendar();
     }
     
+    /**
+     *
+     * @param info
+     */
     public EventInfo(EventInfo info) {
         setCapacity( info.getCapacity() );
         this.name = info.getName();
@@ -42,6 +44,15 @@ public class EventInfo implements Serializable{
         this.signupLimit = (GregorianCalendar)info.getSignupLim();
     }
     
+    /**
+     *
+     * @param capacity
+     * @param name
+     * @param location
+     * @param weather
+     * @param date
+     * @param signup
+     */
     public EventInfo(int capacity, String name, String location, int weather, GregorianCalendar date, GregorianCalendar signup) {
         setCapacity(capacity);
         this.name = name;
@@ -59,10 +70,18 @@ public class EventInfo implements Serializable{
         this.name = s;
     }
     
+    /**
+     *
+     * @param s
+     */
     public void setLocation(String s) {
         this.location = s;
     }
     
+    /**
+     *
+     * @param date
+     */
     public void setSignupLimit(GregorianCalendar date) {
         this.signupLimit = (GregorianCalendar)date.clone();
     }
@@ -88,10 +107,18 @@ public class EventInfo implements Serializable{
         return this.name;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getLocation() {
         return this.location;
     }
     
+    /**
+     *
+     * @return
+     */
     public GregorianCalendar getSignupLim() {
         return (GregorianCalendar)this.signupLimit.clone();
     }
@@ -128,6 +155,10 @@ public class EventInfo implements Serializable{
             this.capacity = EventInfo.defaultParticipants;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean isUpcoming() {
         return this.date.compareTo( new GregorianCalendar() ) > 0;
     }

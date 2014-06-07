@@ -8,24 +8,44 @@ public class SearchUserNavigator extends Navigator<User> {
 
     private FitnessUM app;
 
+    /**
+     *
+     */
     public SearchUserNavigator() {
         super();
         this.app = new FitnessUM();
     }
 
+    /**
+     *
+     * @param list
+     */
     public SearchUserNavigator(ArrayList<User> list) {
         super(list);
     }
 
+    /**
+     *
+     * @param list
+     * @param app
+     */
     public SearchUserNavigator(ArrayList<User> list, FitnessUM app) {
         super(list);
         this.app = app;
     }
 
+    /**
+     *
+     * @param u
+     */
     public void print(User u) {
         System.out.println( u.getName() + "\n   " + u.getEmail() );
     }
 
+    /**
+     *
+     * @param u
+     */
     public void select(final User u) {
         System.out.println("0. Go Back\n1. View Profile");
         boolean isFriend = app.currentUserHasFriend(u);
@@ -50,6 +70,10 @@ public class SearchUserNavigator extends Navigator<User> {
             options[i].exec();
     }
 
+    /**
+     *
+     * @return
+     */
     public String emptyMessage() {
         return "\nNo results found.\n";
     }

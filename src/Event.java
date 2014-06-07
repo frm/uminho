@@ -8,6 +8,10 @@ import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ *
+ * @author joaorodrigues
+ */
 public class Event implements BaseModel, Serializable {
     private int id;
     private String type;
@@ -15,7 +19,9 @@ public class Event implements BaseModel, Serializable {
     private int distance;
     private EventInfo info;
 
-
+    /**
+     *
+     */
     public Event() {
         this.id = -1;
         this.type = "";
@@ -24,6 +30,14 @@ public class Event implements BaseModel, Serializable {
         this.info = new EventInfo();
     }
 
+    /**
+     *
+     * @param id
+     * @param type
+     * @param distance
+     * @param participants
+     * @param info
+     */
     public Event(int id, String type, int distance, UserList participants, EventInfo info) {
         this.id = id;
         this.type = type;
@@ -32,6 +46,10 @@ public class Event implements BaseModel, Serializable {
         this.distance = distance;
     }
 
+    /**
+     *
+     * @param e
+     */
     public Event(Event e) {
         this.id = e.getId();
         this.type = e.getType();
@@ -40,6 +58,12 @@ public class Event implements BaseModel, Serializable {
         this.distance = e.getDistance();
     }
 
+    /**
+     *
+     * @param type
+     * @param distance
+     * @param info
+     */
     public Event(String type, int distance, EventInfo info) {
         this.id = -1;
         this.type = type;
@@ -48,15 +72,27 @@ public class Event implements BaseModel, Serializable {
         this.info = info.clone();
     }
 
+    /**
+     *
+     * @param id
+     */
     @Override
     public void setId(int id) {
         this.id = id;
     }
     
+    /**
+     *
+     * @param e
+     */
     public void setInfo(EventInfo e) {
         this.info = e.clone();
     }
     
+    /**
+     *
+     * @param d
+     */
     public void setDistance(int d) {
         this.distance = d;
     }
@@ -75,6 +111,10 @@ public class Event implements BaseModel, Serializable {
         this.type = type;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getId() {
         return this.id;
@@ -123,10 +163,18 @@ public class Event implements BaseModel, Serializable {
         return this.info.getDate();
     }
     
+    /**
+     *
+     * @return
+     */
     public int getDistance() {
         return this.distance;
     }
     
+    /**
+     *
+     * @return
+     */
     public EventInfo getInfo() {
         return this.info.clone();
     }
@@ -141,10 +189,22 @@ public class Event implements BaseModel, Serializable {
             throw new InvalidParticipantException("User has not participated in a " + this.type + " event");
     }
     
+    /**
+     *
+     * @param u
+     * @return
+     * @throws ActivityNotAvailableException
+     * @throws LateForEventException
+     */
     public boolean validForEvent(User u) throws ActivityNotAvailableException, LateForEventException{
         return ( u.hasPracticed(this.type) && ( this.info.getCapacity() > ( this.participants.numberOfUsers()) ) && inTime());
     }
     
+    /**
+     *
+     * @return
+     * @throws LateForEventException
+     */
     public boolean inTime() throws LateForEventException{
         
         if( (new GregorianCalendar()).compareTo(this.info.getSignupLim()) <= 0 )
@@ -174,6 +234,10 @@ public class Event implements BaseModel, Serializable {
             throw new InexistingUserException("User does not exist");
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean isUpcoming() {
         return info.isUpcoming();
     }
@@ -194,6 +258,11 @@ public class Event implements BaseModel, Serializable {
         return firstKm;
     }
 
+    /**
+     *
+     * @param participants
+     * @return
+     */
     public ArrayList< TreeMap<Long, User> > simulate(ArrayList<User> participants) {
         ArrayList< TreeMap<Long, User> > simulation = new ArrayList< TreeMap<Long, User> >();
         simulation.add(0, simulateFirstKm(participants) );
@@ -204,6 +273,11 @@ public class Event implements BaseModel, Serializable {
         return simulation;
     }
     
+    /**
+     *
+     * @param sim
+     * @return
+     */
     public static String getSimulatedKm(TreeMap<Long, User> sim) {
         int i = 0;
         StringBuilder sb = new StringBuilder();

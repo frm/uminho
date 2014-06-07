@@ -12,17 +12,28 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ *
+ * @author joaorodrigues
+ */
 public class EventDatabase implements MappedDatabase<Event>, Serializable {
     private HashMap<Integer, Event> idEntry;
     private HashMap<String, Integer> nameEntry;
     private int eventCount;
 
+    /**
+     *
+     */
     public EventDatabase() {
         this.idEntry = new HashMap<Integer, Event>();
         this.nameEntry = new HashMap<String, Integer>();
         this.eventCount = 0;
     }
 
+    /**
+     *
+     * @param ed
+     */
     public EventDatabase(EventDatabase ed) {
         this.idEntry = new HashMap<Integer, Event>();
         this.nameEntry = new HashMap<String, Integer>();
@@ -93,6 +104,10 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
         return (Set<Event>)copy;
     }
 
+    /**
+     *
+     * @param u
+     */
     public void removeUser(User u){
         for(Event e: this.idEntry.values()){
             try{
@@ -137,6 +152,10 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
         return events;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Event> getUpcomingEvents() {
         TreeSet<Event> set = toTreeSet(this.idEntry);
 
@@ -150,6 +169,11 @@ public class EventDatabase implements MappedDatabase<Event>, Serializable {
         return list;
     }
 
+    /**
+     *
+     * @param type
+     * @return
+     */
     public ArrayList<Event> getUpcomingEvents(String type) {
         TreeSet<Event> set = toTreeSet(this.idEntry);
 

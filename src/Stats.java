@@ -4,12 +4,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author joaorodrigues
@@ -17,14 +11,25 @@ import java.util.Map;
 public class Stats implements Serializable{
     private HashMap<Integer, YearStat> annualStats;
 
+    /**
+     *
+     */
     public Stats(){
         this.annualStats = new HashMap<Integer, YearStat>();
     }
 
+    /**
+     *
+     * @param annualStats
+     */
     public Stats(HashMap<Integer, YearStat> annualStats){
         this.annualStats = cloneAnnualStats(annualStats);
     }
 
+    /**
+     *
+     * @param s
+     */
     public Stats(Stats s){
         this.annualStats = s.getAnnualStats();
     }
@@ -37,14 +42,26 @@ public class Stats implements Serializable{
         return result;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<Integer, YearStat> getAnnualStats(){
         return cloneAnnualStats(this.annualStats);
     }
 
+    /**
+     *
+     * @param annualStats
+     */
     public void setAnnualStats(HashMap<Integer, YearStat> annualStats){
         this.annualStats = cloneAnnualStats(annualStats);
     }
 
+    /**
+     *
+     * @param act
+     */
     public void addStat(Activity act){
         int year = act.getDate().get(Calendar.YEAR);
         if(this.annualStats.containsKey(year)){
@@ -54,6 +71,10 @@ public class Stats implements Serializable{
 
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean isEmpty(){
         return this.annualStats.isEmpty();
     }
@@ -72,6 +93,11 @@ public class Stats implements Serializable{
         this.annualStats.put(year, ys);
     }
 
+    /**
+     *
+     * @param act
+     * @return
+     */
     public boolean removeActivityStat(Activity act){
         int year = act.getDate().get(Calendar.YEAR);
         YearStat ys = this.annualStats.get(year);
@@ -81,7 +107,12 @@ public class Stats implements Serializable{
         return result;
     }
 
-
+    /**
+     *
+     * @param year
+     * @return
+     * @throws StatsNotAvailableException
+     */
     public String showAnnualStats(int year) throws StatsNotAvailableException{
         if(this.annualStats.get(year) == null)
             throw new StatsNotAvailableException();
@@ -89,6 +120,13 @@ public class Stats implements Serializable{
         return this.annualStats.get(year).toString();
     }
 
+    /**
+     *
+     * @param year
+     * @param month
+     * @return
+     * @throws StatsNotAvailableException
+     */
     public String showMonthlyStats(int year, int month) throws StatsNotAvailableException{
         if(this.annualStats.get(year) == null)
             throw new StatsNotAvailableException();
@@ -97,6 +135,13 @@ public class Stats implements Serializable{
         return yt.showMonthlyStats(month);
     }
 
+    /**
+     *
+     * @param act
+     * @param year
+     * @param month
+     * @return
+     */
     public long getTotalDuration(String act, int year ,int month){
         if(annualStats.containsKey(year))
             return annualStats.get(year).getTotalDuration(act,month);

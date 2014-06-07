@@ -8,10 +8,17 @@
  */
 public class InexistingEventException extends Exception {
     
+    /**
+     *
+     */
     public InexistingEventException() {
         super();
     }
     
+    /**
+     *
+     * @param msg
+     */
     public InexistingEventException(String msg) {
         super(msg);
     }

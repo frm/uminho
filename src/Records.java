@@ -1,9 +1,6 @@
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -84,6 +81,11 @@ public class Records implements Serializable{
         this.records.remove(name);
     }
     
+    /**
+     *
+     * @param entry
+     * @param act
+     */
     public void addData(Milestones entry, Activity act){
         if(entry instanceof AltitudeMilestones)
             ( (AltitudeMilestones) entry).addData( (AltitudeActivity) act);
@@ -128,10 +130,20 @@ public class Records implements Serializable{
         return this.records.get(s).clone();
     }
     
+    /**
+     *
+     * @param type
+     * @return
+     */
     public long getKmTimeAprox(String type){
         return ((DistanceMilestones) records.get(type)).getKmTimeAprox();
     }
     
+    /**
+     *
+     * @param type
+     * @return
+     */
     public int getMaxRecordDistance(String type){
         return ((DistanceMilestones) records.get(type)).getMaxRecordDistance();
     }

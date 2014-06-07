@@ -1,11 +1,11 @@
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
 
 /**
  *
  * @author frmendes
+ * @param <T>
  */
 public abstract class Navigator<T> {
     
@@ -16,6 +16,9 @@ public abstract class Navigator<T> {
     
     private static final int NumberDisplays = 10;
     
+    /**
+     *
+     */
     public Navigator() {
         this.navigator = 0;
         this.navigating = false;
@@ -23,6 +26,10 @@ public abstract class Navigator<T> {
         this.optionsParser = Navigator.optionsGenerator(this);
     }
     
+    /**
+     *
+     * @param list
+     */
     public Navigator(ArrayList<T> list) {
         this.navigator = 0;
         this.navigating = false;
@@ -30,8 +37,22 @@ public abstract class Navigator<T> {
         this.optionsParser = Navigator.optionsGenerator(this);
     }
         
+    /**
+     *
+     * @param t
+     */
     public abstract void select(T t);
+
+    /**
+     *
+     * @param t
+     */
     public abstract void print(T t);
+
+    /**
+     *
+     * @return
+     */
     public abstract String emptyMessage();
     
     private boolean reachedEnd() {
@@ -54,6 +75,9 @@ public abstract class Navigator<T> {
         return this.list.size();
     }
     
+    /**
+     *
+     */
     public void navigate() {
         this.startNavigating();
         this.next();
@@ -168,6 +192,10 @@ public abstract class Navigator<T> {
         }
     }
    
+    /**
+     *
+     * @param t
+     */
     public void remove(T t) {
         this.list.remove( this.list.indexOf(t) );
         this.navigator = Math.max(0, this.navigator - 1);

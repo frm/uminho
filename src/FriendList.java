@@ -11,20 +11,32 @@ public class FriendList implements Serializable{
         private UserList requestsSent;                     // ids of users whom requests were sent
         private UserList requestsReceived;                 // ids of users who sent requests
 
-
-        public FriendList() {
+    /**
+     *
+     */
+    public FriendList() {
             this.friends = new UserList();
             this.requestsSent = new UserList();
             this.requestsReceived = new UserList();
         }
 
-        public FriendList(UserList f, UserList s, UserList r) {
+    /**
+     *
+     * @param f
+     * @param s
+     * @param r
+     */
+    public FriendList(UserList f, UserList s, UserList r) {
             this.friends = f.clone();
             this.requestsSent = s.clone();
             this.requestsReceived = s.clone();
         }
 
-        public FriendList(FriendList fl) {
+    /**
+     *
+     * @param fl
+     */
+    public FriendList(FriendList fl) {
             this.friends = fl.getFriends();
             this.requestsSent = fl.getSentRequests();
             this.requestsReceived = fl.getReceivedRequests();
@@ -42,7 +54,11 @@ public class FriendList implements Serializable{
             return this.requestsReceived.clone();
         }
 
-        public void setFriends(UserList f) {
+    /**
+     *
+     * @param f
+     */
+    public void setFriends(UserList f) {
             this.friends = f.clone();
         }
 
@@ -54,97 +70,195 @@ public class FriendList implements Serializable{
             this.requestsReceived = r.clone();
         }
 
-        public Set<Integer> getRequests() {
+    /**
+     *
+     * @return
+     */
+    public Set<Integer> getRequests() {
             return this.requestsReceived.toSet();
         }
 
-        public Set<Integer> getFriendList() {
+    /**
+     *
+     * @return
+     */
+    public Set<Integer> getFriendList() {
             return this.friends.toSet();
         }
 
-        public void sendFriendRequest(User u) {
+    /**
+     *
+     * @param u
+     */
+    public void sendFriendRequest(User u) {
             sendFriendRequest( u.getId() );
         }
 
-        public void sendFriendRequest(int id) {
+    /**
+     *
+     * @param id
+     */
+    public void sendFriendRequest(int id) {
             this.requestsSent.addUser(id);
         }
 
-        public void receiveFriendRequest(User u) {
+    /**
+     *
+     * @param u
+     */
+    public void receiveFriendRequest(User u) {
             receiveFriendRequest( u.getId() );
         }
 
-        public void receiveFriendRequest(int id) {
+    /**
+     *
+     * @param id
+     */
+    public void receiveFriendRequest(int id) {
             this.requestsReceived.addUser(id);
         }
 
-        public void acceptFriendRequest(User u) {
+    /**
+     *
+     * @param u
+     */
+    public void acceptFriendRequest(User u) {
             acceptFriendRequest( u.getId() );
         }
 
-        public void acceptFriendRequest(int id) {
+    /**
+     *
+     * @param id
+     */
+    public void acceptFriendRequest(int id) {
             this.requestsReceived.removeUser(id);
             this.friends.addUser(id);
         }
 
-        public void confirmFriendRequest(User u) {
+    /**
+     *
+     * @param u
+     */
+    public void confirmFriendRequest(User u) {
             confirmFriendRequest( u.getId() );
         }
 
-        public void confirmFriendRequest(int id) {
+    /**
+     *
+     * @param id
+     */
+    public void confirmFriendRequest(int id) {
             removeSentRequest(id);
             this.friends.addUser(id);
         }
 
-        public void rejectFriendRequest(User u) {
+    /**
+     *
+     * @param u
+     */
+    public void rejectFriendRequest(User u) {
             rejectFriendRequest( u.getId() );
         }
 
-        public void rejectFriendRequest(int id) {
+    /**
+     *
+     * @param id
+     */
+    public void rejectFriendRequest(int id) {
             this.requestsReceived.removeUser(id);
         }
 
-        public void removeSentRequest(User u) {
+    /**
+     *
+     * @param u
+     */
+    public void removeSentRequest(User u) {
             removeSentRequest( u.getId() );
         }
 
-        public void removeSentRequest(int id) {
+    /**
+     *
+     * @param id
+     */
+    public void removeSentRequest(int id) {
             this.requestsSent.removeUser(id);
         }
 
-        public void deleteFriend(User u) {
+    /**
+     *
+     * @param u
+     */
+    public void deleteFriend(User u) {
             deleteFriend( u.getId() );
         }
 
-        public void deleteFriend(int id) {
+    /**
+     *
+     * @param id
+     */
+    public void deleteFriend(int id) {
             this.friends.removeUser(id);
         }
 
-        public boolean hasFriend(User u) {
+    /**
+     *
+     * @param u
+     * @return
+     */
+    public boolean hasFriend(User u) {
             return hasFriend( u.getId() );
         }
 
-        public boolean hasFriend(int id) {
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public boolean hasFriend(int id) {
             return this.friends.containsUser(id);
         }
 
-        public boolean hasSentRequest(User u) {
+    /**
+     *
+     * @param u
+     * @return
+     */
+    public boolean hasSentRequest(User u) {
             return hasSentRequest( u.getId() );
         }
 
-        public boolean hasSentRequest(int id) {
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public boolean hasSentRequest(int id) {
             return this.requestsSent.containsUser(id);
         }
 
-        public boolean hasReceivedRequest(User u) {
+    /**
+     *
+     * @param u
+     * @return
+     */
+    public boolean hasReceivedRequest(User u) {
             return hasReceivedRequest( u.getId() );
         }
 
-        public boolean hasReceivedRequest(int id) {
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public boolean hasReceivedRequest(int id) {
             return this.requestsReceived.containsUser(id);
         }
 
-        public boolean hasFriendRequest() {
+    /**
+     *
+     * @return
+     */
+    public boolean hasFriendRequest() {
             return this.requestsReceived.numberOfUsers() != 0;
         }
 

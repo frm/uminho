@@ -3,12 +3,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author tiago
@@ -18,46 +12,91 @@ public class Milestones implements Serializable{
     private TreeMap<Integer,Long> reverseC;
 
     //constructors
-    public Milestones(){
+
+    /**
+     *
+     */
+        public Milestones(){
         this.populateMilestones();
      }
 
+    /**
+     *
+     * @param cms
+     * @param rC
+     */
     public Milestones(TreeMap<Long,Integer> cms, TreeMap<Integer,Long> rC) {
         this.calories = cloneMilestones(cms);
         this.reverseC = cloneReverseMilestones(rC);
     }
     
+    /**
+     *
+     * @param act
+     */
     public Milestones(Activity act){
         this.populateMilestones();
         this.addData(act);
     }
 
+    /**
+     *
+     * @param m
+     */
     public Milestones(Milestones m){
         this.calories = m.getMilestones();
         this.reverseC = m.getReverseMilestones();
     }
 
     //getters & setters
-    public TreeMap<Long,Integer> getMilestones()
+
+    /**
+     *
+     * @return
+     */
+        public TreeMap<Long,Integer> getMilestones()
     {return cloneMilestones(this.calories);}
     
+    /**
+     *
+     * @return
+     */
     public TreeMap<Integer,Long> getReverseMilestones()
     {return cloneReverseMilestones(this.reverseC);}
 
+    /**
+     *
+     * @param calories
+     */
     public void setCalories(TreeMap<Long, Integer> calories)
     {this.calories = cloneMilestones(calories);}
     
+    /**
+     *
+     * @param rC
+     */
     public void setReverseCalories(TreeMap<Integer,Long> rC)
     {this.reverseC = cloneReverseMilestones(rC);}
 
     //methods
-    public TreeMap<Long, Integer> cloneMilestones(TreeMap<Long,Integer> m) {
+
+    /**
+     *
+     * @param m
+     * @return
+     */
+        public TreeMap<Long, Integer> cloneMilestones(TreeMap<Long,Integer> m) {
         TreeMap<Long,Integer> aux = new TreeMap<Long,Integer>();
         for(Map.Entry<Long,Integer> cms: m.entrySet())
             aux.put(cms.getKey(), cms.getValue());
         return aux;
     }
 
+    /**
+     *
+     * @param r
+     * @return
+     */
     public TreeMap<Integer,Long> cloneReverseMilestones(TreeMap<Integer,Long> r) {
         TreeMap<Integer,Long> aux = new TreeMap<Integer,Long>();
         for(Map.Entry<Integer,Long> rms: r.entrySet())
@@ -65,6 +104,9 @@ public class Milestones implements Serializable{
         return aux;
     }
     
+    /**
+     *
+     */
     public void populateMilestones(){
         this.calories = new TreeMap<Long, Integer>();
         this.reverseC = new TreeMap<Integer, Long>();
@@ -118,17 +160,33 @@ public class Milestones implements Serializable{
         }
     }
 
+    /**
+     *
+     * @param act
+     */
     public void addData(Activity act){
         addCalorieData(act);
         addTimeCalorieData(act);
     }
 
+    /**
+     *
+     * @param l1
+     * @param l2
+     * @param r1
+     * @return
+     */
     public static long ruleOfThree(long l1, long l2, long r1){
         return (l2 * r1)/l1;
     }
 
     //essentials
-    public String firsttoString(){
+
+    /**
+     *
+     * @return
+     */
+        public String firsttoString(){
         StringBuilder result = new StringBuilder();
 
         for(Map.Entry<Long,Integer> pair: this.calories.entrySet()){
@@ -152,6 +210,10 @@ public class Milestones implements Serializable{
         return result.toString();
     }
     
+    /**
+     *
+     * @return
+     */
     public String secondtoString(){
         StringBuilder result = new StringBuilder();
         

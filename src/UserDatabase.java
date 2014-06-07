@@ -11,6 +11,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ *
+ * @author joaorodrigues
+ */
 public class UserDatabase implements Serializable, MappedDatabase<User> {
 
     // Both HashMaps refer to the same user, pointer is shared
@@ -108,6 +112,11 @@ public class UserDatabase implements Serializable, MappedDatabase<User> {
         }
     }
 
+    /**
+     *
+     * @param email
+     * @return
+     */
     public AdminUser findAdmin(String email) {
         try {
             return this.adminEntry.get(email).clone();
@@ -116,6 +125,11 @@ public class UserDatabase implements Serializable, MappedDatabase<User> {
         }
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public ArrayList<User> searchName(String name) {
         ArrayList<User> list = new ArrayList<User>();
 
@@ -126,11 +140,21 @@ public class UserDatabase implements Serializable, MappedDatabase<User> {
         return list;
     }
 
-     public void addAdmin(AdminUser au) {
+    /**
+     *
+     * @param au
+     */
+    public void addAdmin(AdminUser au) {
          this.adminEntry.put( au.getEmail(), new AdminUser(au) );
      }
 
-     public void addAdmin(String name, String password, String email) {
+    /**
+     *
+     * @param name
+     * @param password
+     * @param email
+     */
+    public void addAdmin(String name, String password, String email) {
          addAdmin( new AdminUser(name, password, email) );
      }
 
@@ -153,6 +177,10 @@ public class UserDatabase implements Serializable, MappedDatabase<User> {
         this.emailEntry.remove(email);
     }
 
+    /**
+     *
+     * @param email
+     */
     public void delete(String email) {
        int id = this.emailEntry.get(email);
        this.idEntry.remove(id);

@@ -1,5 +1,4 @@
 
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 /**
@@ -10,10 +9,17 @@ public class Seed {
     
     private FitnessUM app;
     
+    /**
+     *
+     */
     public Seed() {
         this.app = new FitnessUM();
     }
     
+    /**
+     *
+     * @param app
+     */
     public Seed(FitnessUM app) {
         this.app = app.clone();
     }
@@ -55,6 +61,10 @@ public class Seed {
         uc.registerUser("João Rodrigues", "rod@m.com", "leite", ui);
     }
     
+    /**
+     *
+     * @return
+     */
     public FitnessUM generate() {
         addTestUsers();
         addAdmin();

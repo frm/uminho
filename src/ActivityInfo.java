@@ -14,45 +14,83 @@ public class ActivityInfo implements Serializable{
     private Stats stats;
     private Records records;
 
+    /**
+     *
+     */
     public ActivityInfo() {
         this.activityLog = new TreeSet<Activity>(new ActivityComparator());
         this.stats = new Stats();
         this.records = new Records();
     }
     
+    /**
+     *
+     * @param activityLog
+     * @param stats
+     * @param records
+     */
     public ActivityInfo(TreeSet<Activity> activityLog, Stats stats, Records records) {
         this.activityLog = cloneActivityLog(activityLog);
         this.stats = stats.clone();
         this.records = records.clone();
     }
     
+    /**
+     *
+     * @param info
+     */
     public ActivityInfo(ActivityInfo info){
         this.activityLog = info.getActivityLog();
         this.stats = info.getStats();
         this.records = info.getRecords();
     }
 
+    /**
+     *
+     * @param activityLog
+     */
     public void setActivityLog(TreeSet<Activity> activityLog) {
         this.activityLog = cloneActivityLog(activityLog);
     }
 
+    /**
+     *
+     * @param stats
+     */
     public void setStats(Stats stats) {
         this.stats = stats.clone();
     }
 
+    /**
+     *
+     * @return
+     */
     public TreeSet<Activity> getActivityLog() {
         return cloneActivityLog(this.activityLog);
     }
 
+    /**
+     *
+     * @return
+     */
     public Stats getStats() {
         return this.stats.clone();
     }
     
+    /**
+     *
+     * @return
+     */
     public Records getRecords() {
         return this.records.clone();
     }
    
-   public Milestones getMilestones(String s){
+    /**
+     *
+     * @param s
+     * @return
+     */
+    public Milestones getMilestones(String s){
        return this.records.getRecordEntry(s);
    }
     
@@ -79,6 +117,11 @@ public class ActivityInfo implements Serializable{
         return result;
     }
     
+    /**
+     *
+     * @param act
+     * @return
+     */
     public boolean isAliasedActivity(Activity act) {
         Iterator<Activity> it = this.activityLog.iterator();
         boolean alias = false;
@@ -89,6 +132,11 @@ public class ActivityInfo implements Serializable{
         return alias;
     }
     
+    /**
+     *
+     * @param act
+     * @return
+     */
     public boolean addActivity(Activity act) {
         boolean validTime = !isAliasedActivity(act) && act.hasMinimumTime();
         
@@ -101,6 +149,11 @@ public class ActivityInfo implements Serializable{
         return validTime;        
     }
     
+    /**
+     *
+     * @param act
+     * @return
+     */
     public boolean removeActivity(Activity act){
         boolean actRemoval = this.activityLog.remove(act);
         boolean statRemoval = this.stats.removeActivityStat(act);
@@ -108,6 +161,11 @@ public class ActivityInfo implements Serializable{
         return (actRemoval && statRemoval);
     }
     
+    /**
+     *
+     * @return
+     * @throws StatsNotAvailableException
+     */
     public String statsOverview() throws StatsNotAvailableException{
         
         if(this.stats.isEmpty())
@@ -117,14 +175,31 @@ public class ActivityInfo implements Serializable{
         return this.stats.toString();
     }
     
+    /**
+     *
+     * @param year
+     * @return
+     * @throws StatsNotAvailableException
+     */
     public String showAnnualStats(int year) throws StatsNotAvailableException{
         return this.stats.showAnnualStats(year);
     }
     
+    /**
+     *
+     * @param year
+     * @param month
+     * @return
+     * @throws StatsNotAvailableException
+     */
     public String showMonthlyStats(int year, int month) throws StatsNotAvailableException{
         return this.stats.showMonthlyStats(year, month);
     }
     
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getPracticedActivities(){
         ArrayList<String> result = new ArrayList<String>();
         for( Activity a: activityLog){
@@ -134,6 +209,10 @@ public class ActivityInfo implements Serializable{
         return result;
     }
     
+    /**
+     *
+     * @param act
+     */
     public void restoreRecords(Activity act){
         this.records.removeRecord( act.getName() );
         
@@ -147,14 +226,31 @@ public class ActivityInfo implements Serializable{
         return new ActivityInfo(this);
     }
     
+    /**
+     *
+     * @param act
+     * @param year
+     * @param month
+     * @return
+     */
     public long getTotalDuration(String act, int year ,int month){
         return stats.getTotalDuration(act,year,month);
     }
     
+    /**
+     *
+     * @param type
+     * @return
+     */
     public long getKmTimeAprox(String type){
         return records.getKmTimeAprox(type);
     }
     
+    /**
+     *
+     * @param type
+     * @return
+     */
     public int getMaxRecordDistance(String type){
         return records.getMaxRecordDistance(type);
     }

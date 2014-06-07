@@ -3,12 +3,6 @@ import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.Map;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author tiago
@@ -19,23 +13,44 @@ public class AltitudeMilestones extends DistanceMilestones{
 
     
     //constructors public
-    public AltitudeMilestones(){
+
+    /**
+     *
+     */
+        public AltitudeMilestones(){
         super();
         populateMilestones();
     }
     
+    /**
+     *
+     * @param act
+     */
     public AltitudeMilestones(AltitudeActivity act){
         super(act);
         populateMilestones();
         this.addData(act);
     }
 
+    /**
+     *
+     * @param cms
+     * @param rC
+     * @param dms
+     * @param rD
+     * @param ams
+     * @param rA
+     */
     public AltitudeMilestones(TreeMap<Long,Integer> cms, TreeMap<Integer,Long> rC, TreeMap<Long,Integer> dms, TreeMap<Integer,Long> rD, TreeMap<Long,Integer> ams, TreeMap<Integer,Long> rA){
         super(cms, rC, dms, rD);
         this.altitude = cloneAltitudeMilestones(ams);
         this.reverseA = cloneReverseAltitudeMilestones(rA);
     }
 
+    /**
+     *
+     * @param ams
+     */
     public AltitudeMilestones(AltitudeMilestones ams){
         super(ams);
         this.altitude = ams.getAltitudeMilestones();
@@ -43,26 +58,54 @@ public class AltitudeMilestones extends DistanceMilestones{
     }
 
     //setters & getters
-    public TreeMap<Long,Integer> getAltitudeMilestones()
+
+    /**
+     *
+     * @return
+     */
+        public TreeMap<Long,Integer> getAltitudeMilestones()
     {return cloneAltitudeMilestones(this.altitude);}
 
+    /**
+     *
+     * @return
+     */
     public TreeMap<Integer,Long> getReverseAltitudeMilestones()
     {return cloneReverseAltitudeMilestones(this.reverseA);}
 
+    /**
+     *
+     * @param altitude
+     */
     public void setAltitude(TreeMap<Long,Integer> altitude)
     {this.altitude = cloneAltitudeMilestones(altitude);}
 
+    /**
+     *
+     * @param rA
+     */
     public void setReverseAltitude(TreeMap<Integer,Long> rA)
     {this.reverseA = cloneReverseAltitudeMilestones(rA);}
 
     //methods
-    public TreeMap<Long,Integer> cloneAltitudeMilestones(TreeMap<Long,Integer> am) {
+
+    /**
+     *
+     * @param am
+     * @return
+     */
+        public TreeMap<Long,Integer> cloneAltitudeMilestones(TreeMap<Long,Integer> am) {
         TreeMap<Long,Integer> aux = new TreeMap<Long,Integer>();
         for(Map.Entry<Long,Integer> ams: am.entrySet())
             aux.put(ams.getKey(), ams.getValue());
         return aux;
     }
 
+    /**
+     *
+     * @param rm
+     * @return
+     */
     public TreeMap<Integer,Long> cloneReverseAltitudeMilestones(TreeMap<Integer,Long> rm) {
         TreeMap<Integer,Long> aux = new TreeMap<Integer,Long>();
         for(Map.Entry<Integer,Long> rms: rm.entrySet())
@@ -70,6 +113,9 @@ public class AltitudeMilestones extends DistanceMilestones{
         return aux;
     }
     
+    /**
+     *
+     */
     public void populateMilestones(){
         super.populateMilestones();
         this.altitude = new TreeMap<Long,Integer>();
@@ -86,6 +132,10 @@ public class AltitudeMilestones extends DistanceMilestones{
         this.reverseA.put(500,Long.MAX_VALUE);
     }
 
+    /**
+     *
+     * @param act
+     */
     public void addAltitudeData(AltitudeActivity act){
         int actMinDuration = (int) (act.getDuration()/60000L);
         int actAltitude = act.getAltitude();
@@ -105,6 +155,10 @@ public class AltitudeMilestones extends DistanceMilestones{
         }
     }
 
+    /**
+     *
+     * @param act
+     */
     public void addTimeAltitudeData(AltitudeActivity act){
         int actMinDuration = (int) (act.getDuration()/60000L);
         int actAltitude = act.getAltitude();
@@ -125,6 +179,10 @@ public class AltitudeMilestones extends DistanceMilestones{
         }
     }
     
+    /**
+     *
+     * @param act
+     */
     public void addData(AltitudeActivity act){
         super.addData(act);
         addAltitudeData(act);
@@ -135,6 +193,10 @@ public class AltitudeMilestones extends DistanceMilestones{
         return new AltitudeMilestones(this);
     }
     
+    /**
+     *
+     * @return
+     */
     public String firsttoStringA(){
         StringBuilder result = new StringBuilder();
         
@@ -160,6 +222,10 @@ public class AltitudeMilestones extends DistanceMilestones{
         return result.toString();
     }
 
+    /**
+     *
+     * @return
+     */
     public String secondtoStringA(){
         StringBuilder result = new StringBuilder();
 

@@ -7,6 +7,16 @@
  * @author frmendes
  */
 public interface BaseModel {
+
+    /**
+     *
+     * @return
+     */
     public int getId();
+
+    /**
+     *
+     * @param id
+     */
     public void setId(int id);    
 }

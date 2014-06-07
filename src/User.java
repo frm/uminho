@@ -17,6 +17,9 @@ public class User extends BasicUser implements BaseModel {
     private ActivityInfo activityInfo;
     private EventList events;
 
+    /**
+     *
+     */
     public User() {
         super();
         this.friends = new FriendList();
@@ -26,6 +29,13 @@ public class User extends BasicUser implements BaseModel {
         this.events = new EventList();
     }
 
+    /**
+     *
+     * @param name
+     * @param password
+     * @param email
+     * @param info
+     */
     public User(String name, String password, String email, UserInfo info) {
         super(name, password, email);
         this.info = info.clone();
@@ -35,6 +45,16 @@ public class User extends BasicUser implements BaseModel {
         this.events = new EventList();
     }
 
+    /**
+     *
+     * @param name
+     * @param password
+     * @param email
+     * @param friendlist
+     * @param info
+     * @param actInfo
+     * @param events
+     */
     public User(String name, String password, String email, FriendList friendlist, UserInfo info, ActivityInfo actInfo, EventList events) {
         super(name, password, email);
         this.friends = friendlist.clone();
@@ -44,6 +64,10 @@ public class User extends BasicUser implements BaseModel {
         this.id = -1;
     }
 
+    /**
+     *
+     * @param u
+     */
     public User(User u) {
         super(u);
         this.friends = u.getFriendList();
@@ -53,6 +77,10 @@ public class User extends BasicUser implements BaseModel {
         this.events = u.getEvents();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getId() {
         return this.id;
@@ -62,180 +90,376 @@ public class User extends BasicUser implements BaseModel {
         return this.friends.clone();
     }
 
+    /**
+     *
+     * @return
+     */
     public UserInfo getInfo() {
         return info.clone();
     }
     
+    /**
+     *
+     * @return
+     */
     public EventList getEvents() {
         return this.events.clone();
     }
 
+    /**
+     *
+     * @return
+     */
     public ActivityInfo getActivityLog() {
         return activityInfo.clone();
     }
 
+    /**
+     *
+     * @param s
+     * @return
+     */
     public Milestones getMilestones(String s){
        return activityInfo.getMilestones(s);
    }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param friendlist
+     */
     public void setFriends(UserList friendlist) {
         this.friends.setFriends(friendlist);
     }
 
+    /**
+     *
+     * @param info
+     */
     public void setInfo(UserInfo info) {
         this.info = info.clone();
     }
 
+    /**
+     *
+     * @param actInfo
+     */
     public void setActivityLog(ActivityInfo actInfo) {
         this.activityInfo = actInfo.clone();
     }
     
+    /**
+     *
+     * @param events
+     */
     public void setEvents(EventList events) {
         this.events = events.clone();
     }
 
+    /**
+     *
+     * @param friends
+     */
     public void setFriends(FriendList friends) {
         this.friends = friends.clone();
     }
 
+    /**
+     *
+     * @param activityInfo
+     */
     public void setActivityInfo(ActivityInfo activityInfo) {
         this.activityInfo = activityInfo.clone();
     }
 
+    /**
+     *
+     * @param u
+     */
     public void confirmFriendRequest(User u) {
         this.friends.confirmFriendRequest(u);
     }
+
+    /**
+     *
+     * @param id
+     */
     public void confirmFriendRequest(int id) {
         this.friends.confirmFriendRequest(id);
     }
 
+    /**
+     *
+     * @param u
+     */
     public void sendFriendRequest(User u) {
         this.friends.sendFriendRequest(u);
     }
 
+    /**
+     *
+     * @param id
+     */
     public void sendFriendRequest(int id) {
         this.friends.sendFriendRequest(id);
     }
 
+    /**
+     *
+     * @param u
+     */
     public void receiveFriendRequest(User u) {
         this.friends.receiveFriendRequest(u);
     }
 
+    /**
+     *
+     * @param id
+     */
     public void receiveFriendRequest(int id) {
         this.friends.receiveFriendRequest(id);
     }
 
+    /**
+     *
+     * @param u
+     */
     public void acceptFriendRequest(User u) {
         this.friends.acceptFriendRequest(u);
     }
 
+    /**
+     *
+     * @param id
+     */
     public void acceptFriendRequest(int id) {
         this.friends.acceptFriendRequest(id);
     }
 
+    /**
+     *
+     * @param u
+     */
     public void rejectFriendRequest(User u) {
         this.friends.rejectFriendRequest(u);
     }
 
+    /**
+     *
+     * @param id
+     */
     public void rejectFriendRequest(int id) {
         this.friends.rejectFriendRequest(id);
     }
 
+    /**
+     *
+     * @param u
+     */
     public void removeSentRequest(User u) {
         this.friends.removeSentRequest(u);
     }
 
+    /**
+     *
+     * @param id
+     */
     public void removeSentRequest(int id) {
         this.friends.removeSentRequest(id);
     }
 
+    /**
+     *
+     * @param u
+     */
     public void deleteFriend(User u) {
         this.friends.deleteFriend(u);
     }
 
+    /**
+     *
+     * @param id
+     */
     public void deleteFriend(int id) {
         this.friends.deleteFriend(id);
     }
 
+    /**
+     *
+     * @param u
+     * @return
+     */
     public boolean hasFriend(User u) {
         return hasFriend( u.getId() );
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public boolean hasFriend(int id) {
         return this.friends.hasFriend(id);
     }
 
+    /**
+     *
+     * @param u
+     * @return
+     */
     public boolean hasSentRequest(User u) {
         return hasSentRequest( u.getId() );
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public boolean hasSentRequest(int id) {
         return this.friends.hasSentRequest(id);
     }
 
+    /**
+     *
+     * @param u
+     * @return
+     */
     public boolean hasReceivedRequest(User u) {
         return hasReceivedRequest( u.getId() );
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public boolean hasReceivedRequest(int id) {
         return this.friends.hasReceivedRequest(id);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean hasFriendRequest() {
         return this.friends.hasFriendRequest();
     }
 
+    /**
+     *
+     * @return
+     */
     public Set<Integer> getFriends() {
         return this.friends.getFriendList();
     }
 
+    /**
+     *
+     * @return
+     */
     public Set<Integer> getRequests() {
         return this.friends.getRequests();
     }
 
-    
-    
+    /**
+     *
+     * @return
+     * @throws StatsNotAvailableException
+     */
     public String showStatsOverview() throws StatsNotAvailableException{
         return this.activityInfo.statsOverview();
     }
 
+    /**
+     *
+     * @param year
+     * @return
+     * @throws StatsNotAvailableException
+     */
     public String showAnnualStats(int year) throws StatsNotAvailableException {
         return this.activityInfo.showAnnualStats(year);
     }
 
+    /**
+     *
+     * @param year
+     * @param month
+     * @return
+     * @throws StatsNotAvailableException
+     */
     public String showMonthlyStats(int year, int month) throws StatsNotAvailableException {
         return this.activityInfo.showMonthlyStats(year, month);
     }
 
+    /**
+     *
+     * @param type
+     * @return
+     * @throws ActivityNotAvailableException
+     */
     public boolean hasPracticed(String type) throws ActivityNotAvailableException {
         return this.activityInfo.getPracticedActivities().contains(type);
     }
 
+    /**
+     *
+     * @param act
+     * @return
+     */
     public boolean addActivity(Activity act) {
         boolean res = activityInfo.addActivity(act);
         return res;
     }
     
+    /**
+     *
+     * @param id
+     * @return
+     */
     public boolean participatedIn(int id) {
         return this.events.participatedIn(id);
     }
 
+    /**
+     *
+     * @param act
+     */
     public void removeActivity(Activity act){
         activityInfo.removeActivity(act);
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Activity> getMostRecentActivities() {
         return activityInfo.getMostRecent();
     }
     
+    /**
+     *
+     * @param e
+     * @return
+     */
     public boolean isInEvent(Event e){
         return this.events.isInEvent(e);
     }
 
+    /**
+     *
+     * @param name
+     * @param email
+     * @param pw
+     * @param info
+     */
     public void updateSettings(String name, String email, String pw, UserInfo info) {
         setInfo(info);
 
@@ -248,19 +472,36 @@ public class User extends BasicUser implements BaseModel {
         super.updatePassword(pw);
     }
 
-
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getPracticedActivities(){
         return activityInfo.getPracticedActivities();
     }
     
+    /**
+     *
+     * @param id
+     */
     public void attendEvent(int id) {
         this.events.addEvent(id);
     }
     
+    /**
+     *
+     * @param id
+     */
     public void unattendEvent(int id) {
         this.events.removeEvent(id);
     }
     
+    /**
+     *
+     * @param type
+     * @param km
+     * @return
+     */
     public boolean hasquit(String type, int km){
         GregorianCalendar c = new GregorianCalendar();
         int year = c.get(Calendar.YEAR);
@@ -272,6 +513,13 @@ public class User extends BasicUser implements BaseModel {
             return false;
     }
     
+    /**
+     *
+     * @param type
+     * @param km
+     * @param prevTime
+     * @return
+     */
     public long simulateKm(String type, int km, long prevTime) {
         if( prevTime == Long.MAX_VALUE || hasquit(type,km) )
             return Long.MAX_VALUE;
@@ -279,15 +527,31 @@ public class User extends BasicUser implements BaseModel {
             return prevTime + (long)( (decay(type,km)) * ( pace(type) ) );
     }
 
+    /**
+     *
+     * @param type
+     * @return
+     */
     public long pace(String type){
         return activityInfo.getKmTimeAprox(type);
     }
     
+    /**
+     *
+     * @param type
+     * @param km
+     * @return
+     */
     public double decay(String type, int km){
         double fitF = fitFactor(type);
         return fitF/(km + fitF);
     }
     
+    /**
+     *
+     * @param type
+     * @return
+     */
     public double fitFactor(String type){
         GregorianCalendar c = new GregorianCalendar();
         int month = c.get(Calendar.MONTH);
@@ -327,6 +591,11 @@ public class User extends BasicUser implements BaseModel {
         return result.toString();
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public boolean hasFriend(Integer id){
         return this.friends.hasFriend(id);
     }
@@ -350,6 +619,11 @@ public class User extends BasicUser implements BaseModel {
         );
     }
 
+    /**
+     *
+     * @param date
+     * @return
+     */
     public boolean beforeBorn(GregorianCalendar date) {
         if ( date.getTimeInMillis() < this.getInfo().getBirthDate().getTimeInMillis() ) return true;
         return false;

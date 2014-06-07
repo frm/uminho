@@ -3,11 +3,6 @@ import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.Map;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -18,23 +13,42 @@ public class DistanceMilestones extends Milestones{
     private TreeMap<Integer,Long> reverseD;
 
     //constructors public
-    public DistanceMilestones(){
+
+    /**
+     *
+     */
+        public DistanceMilestones(){
         super();
         this.populateMilestones();
     }
 
+    /**
+     *
+     * @param cms
+     * @param rC
+     * @param dms
+     * @param rD
+     */
     public DistanceMilestones(TreeMap<Long,Integer> cms, TreeMap<Integer,Long> rC, TreeMap<Long,Integer> dms, TreeMap<Integer,Long> rD){
         super(cms,rC);
         this.distance = cloneDistanceMilestones(dms);
         this.reverseD = cloneReverseDistanceMilestones(rD);
     }
     
+    /**
+     *
+     * @param act
+     */
     public DistanceMilestones(DistanceActivity act){
         super(act);
         this.populateMilestones();
         this.addData(act);
     }
 
+    /**
+     *
+     * @param dms
+     */
     public DistanceMilestones(DistanceMilestones dms){
         super(dms);
         this.distance = dms.getDistanceMilestones();
@@ -42,26 +56,54 @@ public class DistanceMilestones extends Milestones{
     }
 
     //setters & getters
-    public TreeMap<Long,Integer> getDistanceMilestones()
+
+    /**
+     *
+     * @return
+     */
+        public TreeMap<Long,Integer> getDistanceMilestones()
     {return cloneDistanceMilestones(this.distance);}
 
+    /**
+     *
+     * @return
+     */
     public TreeMap<Integer,Long> getReverseDistanceMilestones()
     {return cloneReverseDistanceMilestones(this.reverseD);}
 
+    /**
+     *
+     * @param distance
+     */
     public void setDistance(TreeMap<Long,Integer> distance)
     {this.distance = cloneDistanceMilestones(distance);}
 
+    /**
+     *
+     * @param rD
+     */
     public void setReverseDistance(TreeMap<Integer,Long> rD)
     {this.reverseD = cloneReverseDistanceMilestones(rD);}
 
     //methods
-    public TreeMap<Long,Integer> cloneDistanceMilestones(TreeMap<Long,Integer> dm) {
+
+    /**
+     *
+     * @param dm
+     * @return
+     */
+        public TreeMap<Long,Integer> cloneDistanceMilestones(TreeMap<Long,Integer> dm) {
         TreeMap<Long,Integer> aux = new TreeMap<Long,Integer>();
         for(Map.Entry<Long,Integer> dms: dm.entrySet())
             aux.put(dms.getKey(), dms.getValue());
         return aux;
     }
 
+    /**
+     *
+     * @param dm
+     * @return
+     */
     public TreeMap<Integer,Long> cloneReverseDistanceMilestones(TreeMap<Integer,Long> dm) {
         TreeMap<Integer,Long> aux = new TreeMap<Integer,Long>();
         for(Map.Entry<Integer,Long> dms: dm.entrySet())
@@ -69,6 +111,9 @@ public class DistanceMilestones extends Milestones{
         return aux;
     }
 
+    /**
+     *
+     */
     public void populateMilestones(){
         super.populateMilestones();
         this.distance = new TreeMap<Long,Integer>();
@@ -123,13 +168,21 @@ public class DistanceMilestones extends Milestones{
         }
     }
 
+    /**
+     *
+     * @param act
+     */
     public void addData(DistanceActivity act){
         super.addData(act);
         addDistanceData(act);
         addTimeDistanceData(act);
     }
     
-public long getKmTimeAprox(){
+    /**
+     *
+     * @return
+     */
+    public long getKmTimeAprox(){
         long km = this.reverseD.get(1000);
         if(km!=Long.MAX_VALUE)
             return km;
@@ -137,6 +190,10 @@ public long getKmTimeAprox(){
             return 0;
     }
     
+    /**
+     *
+     * @return
+     */
     public int getMaxRecordDistance(){
         int maxRecordDistance = 0;
         for(Map.Entry<Long,Integer> pair: this.distance.entrySet()){
@@ -150,7 +207,10 @@ public long getKmTimeAprox(){
     public DistanceMilestones clone()
     {return new DistanceMilestones(this);}
 
-    
+    /**
+     *
+     * @return
+     */
     public String firsttoStringD(){
         StringBuilder result = new StringBuilder();
 
@@ -176,6 +236,10 @@ public long getKmTimeAprox(){
         return result.toString();
     }
     
+    /**
+     *
+     * @return
+     */
     public String secondtoStringD(){
         StringBuilder result = new StringBuilder();
 

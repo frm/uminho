@@ -1,31 +1,59 @@
 import java.util.GregorianCalendar; 
 
+/**
+ *
+ * @author joaorodrigues
+ */
 public abstract class DistanceActivity extends Activity{
     int distance;
     
     //constructors
-    public DistanceActivity(){
+
+    /**
+     *
+     */
+        public DistanceActivity(){
         super();
         this.distance = 0;
     }
     
+    /**
+     *
+     * @param date
+     * @param duration
+     * @param distance
+     */
     public DistanceActivity(GregorianCalendar date, long duration, int distance) {
         super(date, duration);
         this.distance = distance;
     }
     
+    /**
+     *
+     * @param ad
+     */
     public DistanceActivity(DistanceActivity ad) {
         super(ad);
         this.distance = ad.getDistance();
     }
     
     //setters
-    public void setDistance(int d) {
+
+    /**
+     *
+     * @param d
+     */
+        public void setDistance(int d) {
         this.distance = d;
     }
     
     //getters
-    public int getDistance() {
+
+    /**
+     *
+     * @return
+     */
+        public int getDistance() {
         return this.distance;
     }
     
