@@ -774,7 +774,11 @@ public class FitnessUM {
     }
     
     public void simulateEvent(Event e) {
-        e.simulate( this.userController.getUsersWithId(e.getParticipants()) );
+        new SimulationNavigator(
+                e.simulate(
+                        this.userController.getUsersWithId( e.getParticipants() )
+                )
+        ).navigate();
     }
 
     /**

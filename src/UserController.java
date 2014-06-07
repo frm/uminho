@@ -124,9 +124,8 @@ public class UserController implements Serializable {
         ArrayList<User> al = new ArrayList<User>();
         User u = this.database.findByEmail(email);
         
-        if(u != null) {
+        if(u != null)
             al.add( this.database.findByEmail(email) );
-        }
         
         return al;
     }
