@@ -35,6 +35,9 @@ public class FriendRequestsNavigator extends Navigator<User> {
             new Prompt() { public void exec() { app.acceptFriend(u); }},
             new Prompt() { public void exec() { app.rejectFriend(u); }}
         }[option].exec();
+        
+        if(option == 2 || option == 3)
+            remove(u);
     }
 
     public String emptyMessage() {

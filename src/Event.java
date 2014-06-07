@@ -191,6 +191,18 @@ public class Event implements BaseModel, Serializable {
             
         return simulation;
     }
+    
+    public static void printSimulatedKm(TreeMap<Long, User> sim) {
+        int i = 0;
+        StringBuilder sb = new StringBuilder();
+        for( Map.Entry<Long, User> e : sim.entrySet() ) {
+            sb.append(++i + "º: ");
+            sb.append( e.getValue().getName() );
+            sb.append(" Time: ");
+            sb.append( StatEntry.formatMillis( e.getKey() ) );
+            sb.append("\n");
+        }
+    }
 
     @Override
     public int hashCode() {
