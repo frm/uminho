@@ -48,7 +48,7 @@ public class FitnessUM {
    };
 
    private static final String[] adminOptions = {
-       "Logout", "Add Admin", "Delete User", "Add Event", "Update Event", "Delete Event"
+       "Logout", "Add Admin", "Delete User", "Add Event"
    };
    
    private static final String[] listEventsOptions = {
@@ -856,7 +856,7 @@ public class FitnessUM {
     public void adminInterpreter() {
         System.out.println("You are on an admin account. We trust you know what you are doing.\nWith great power comes great responsability.\n");
         FitnessUM.printAdminOptions();
-        int option = Scan.menuOption(0, 4);
+        int option = Scan.menuOption(0, 3);
         this.getAdminPrompt()[option].exec();
     }
 
@@ -891,8 +891,7 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.logoutUser(); app.run(); } },
             new Prompt() { public void exec() { app.registerAdmin(); } },
             new Prompt() { public void exec() { app.deleteUser(); } },
-            new Prompt() { public void exec() { app.addEvent(); } },
-            new Prompt() { public void exec() { app.deleteEvent(); } }
+            new Prompt() { public void exec() { app.addEvent(); } }
         };
     }
 
