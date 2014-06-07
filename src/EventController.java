@@ -48,7 +48,13 @@ public class EventController {
     }
     
     public void addUser(User u, Event e) throws InvalidParticipantException, ActivityNotAvailableException{
-        this.database.addUser(u,e);
+        e.addParticipant(u);
+        this.database.save(e);
+    }
+    
+    public void removeUser(User u, Event e) throws InvalidParticipantException, ActivityNotAvailableException, InexistingUserException {
+        e.removeParticipant(u);
+        this.database.save(e);
     }
     
     public void addEvent(Event e){

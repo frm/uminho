@@ -74,7 +74,11 @@ public class EventDatabase implements MappedDatabase<Event> {
      * @return corresponding event
      */
     public Event findByName(String name) {
-        return findById( this.nameEntry.get(name) );
+        try {
+            return findById( this.nameEntry.get(name) );
+        } catch(NullPointerException e) {
+            return null;
+        }
     }
 
     @Override
@@ -147,11 +151,6 @@ public class EventDatabase implements MappedDatabase<Event> {
         }
         
         return list;
-    }
-    
-    public void addUser(User u, Event e) throws InvalidParticipantException, ActivityNotAvailableException{
-        e.addParticipant(u);
-        this.save(e);
     }
 
     @Override

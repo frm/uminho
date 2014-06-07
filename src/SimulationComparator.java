@@ -18,13 +18,13 @@ public class SimulationComparator implements Comparator<Long>, Serializable {
         if(sim1 < sim2) return 1;
         if(sim1 > sim2) return -1;
         else {
-            int rand1 = (int)(Math.random() * 100);
-            int rand2 = (int)(Math.random() * 100);
+            int rand1;
+            int rand2;
             
-            while(rand1 == rand2) {
+            do {
                 rand1 = (int)(Math.random() * 100);
                 rand2 = (int)(Math.random() * 100);
-            }
+            } while(rand1 == rand2);
             
             if(rand1 < rand2) return 1;
             if(rand1 > rand2) return -1;

@@ -635,7 +635,6 @@ public class FitnessUM {
         String terms = Scan.scanString("Insert your search terms");
         ArrayList<String> list = this.eventController.searchEvent(terms);
         (new SearchEventNavigator(list, this.eventController)).navigate();
-        Scan.pressEnterToContinue();
     }
     
     public void getListEventsOption() {
@@ -646,8 +645,22 @@ public class FitnessUM {
         this.getListEventsPrompt()[option].exec();
     }
     
+    public void leaveEvent(Event e) {
+        try {
+            this.userController.leaveEvent( e.getId() );
+            this.eventController.removeUser(this.userController.getCurrentUser(), e);
+        } catch (InvalidParticipantException ex) {
+            System.out.println("Invalid Participant");
+        } catch (ActivityNotAvailableException ex) {
+            System.out.println("Activity Not Available");
+        } catch (InexistingUserException ex) {
+            System.out.println("User does not participate");
+        }
+    }
+    
     public void joinEvent(Event e){
         try {
+            this.userController.joinEvent( e.getId() );
             this.eventController.addUser(this.userController.getCurrentUser(), e);
         } catch (InvalidParticipantException ex) {
             System.out.println("Invalid Participant");

@@ -91,8 +91,6 @@ public class UserController implements Serializable {
     }
 
     public boolean existsEmail(String email) {
-        boolean existsUserEmail = !this.validateEmailUniqueness(email);
-        boolean existsAdminEmail = !this.validAdminUniqueness(email);
         return existsUser(email) || existsAdmin(email);
     }
 
@@ -104,6 +102,19 @@ public class UserController implements Serializable {
         return this.validAdminUniqueness(email) && UserController.isAdminEmail(email);
     }
 
+    public boolean userParticipatedIn(int id) {
+        return this.currentUser.participatedIn(id);
+    }
+    
+    public void joinEvent(int id) {
+        this.currentUser.attendEvent(id);
+        this.database.save(this.currentUser);
+    }
+    
+    public void leaveEvent(int id) {
+        this.currentUser.unattendEvent(id);
+        this.database.save(this.currentUser);
+    }
 
     public ArrayList<User> nameSearch(String name) {
         return this.database.searchName(name);

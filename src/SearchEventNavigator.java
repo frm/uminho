@@ -19,11 +19,11 @@ public class SearchEventNavigator extends Navigator<String>{
     }
 
     public void print(String s) {
-        System.out.println( s );
+        System.out.println(s);
     }
     
     public void select(String s){
-        System.out.println( ec.getEventByName(s));
+        System.out.println( ec.getEventByName(s) );
     }
     
     public String emptyMessage() {

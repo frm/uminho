@@ -40,6 +40,10 @@ public class EventList {
         this.events.remove(id);
     }
     
+    public boolean participatedIn(int id) {
+        return this.events.contains(id);
+    }
+    
     public int numberOfEvents() {
         return this.events.size();
     }

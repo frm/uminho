@@ -216,6 +216,10 @@ public class User extends BasicUser implements BaseModel {
         boolean res = activityInfo.addActivity(act);
         return res;
     }
+    
+    public boolean participatedIn(int id) {
+        return this.events.participatedIn(id);
+    }
 
     public void removeActivity(Activity act){
         activityInfo.removeActivity(act);
