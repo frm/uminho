@@ -122,7 +122,12 @@ public class UserController implements Serializable {
 
     public ArrayList<User> emailSearch(String email) {
         ArrayList<User> al = new ArrayList<User>();
-        al.add( this.database.findByEmail(email) );
+        User u = this.database.findByEmail(email);
+        
+        if(u != null) {
+            al.add( this.database.findByEmail(email) );
+        }
+        
         return al;
     }
     
@@ -340,6 +345,7 @@ public class UserController implements Serializable {
     public void deleteUser(int id) {
         deleteUserFromFriends(id);
         this.database.delete(id);
+        deleteUserRequests(id);
     }
 
     public void deleteUser(String email) {
