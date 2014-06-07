@@ -204,7 +204,7 @@ public class Event implements BaseModel, Serializable {
         return simulation;
     }
     
-    public static void printSimulatedKm(TreeMap<Long, User> sim) {
+    public static String getSimulatedKm(TreeMap<Long, User> sim) {
         int i = 0;
         StringBuilder sb = new StringBuilder();
         for( Map.Entry<Long, User> e : sim.entrySet() ) {
@@ -214,6 +214,8 @@ public class Event implements BaseModel, Serializable {
             sb.append( StatEntry.formatMillis( e.getKey() ) );
             sb.append("\n");
         }
+        
+        return sb.toString();
     }
 
     @Override

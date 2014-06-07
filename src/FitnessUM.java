@@ -787,9 +787,9 @@ public class FitnessUM {
         ArrayList<TreeMap<Long, User>> sim = e.simulate( this.userController.getUsersWithId( e.getParticipants() ) );
         
         while(km != 0) {
-            Event.printSimulatedKm( sim.get(km - 1) );
+            System.out.println( Event.getSimulatedKm( sim.get(km - 1) ) );
             Scan.pressEnterToContinue();
-            km = Scan.intInRange("Chose what kilometer you want to view: [0, " + max, km, max);
+            km = Scan.intInRange("Choose what kilometer you want to view: [1, " + max + "] (0 to exit)", 0, max);
         }
     }
 
