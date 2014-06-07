@@ -638,6 +638,8 @@ public class FitnessUM {
     /** Scans the admin for event details, saving the event in the event controller
      */
     public void getEventInfo(String s) {
+      
+        
         String name = Scan.scanString("What is the name of the event?");
         
         while( !this.eventController.validateEventNameUniqueness(name) ) {
@@ -647,9 +649,19 @@ public class FitnessUM {
         
         GregorianCalendar date = Scan.date("What's the event date?");
         
+        String location = Scan.scanString("What's the location?");
+        
         int capacity = Scan.scanInt("What's the event capacity?");
         int weather = Scan.intInRange( this.listWeatherOptions(), 0, Weather.weatherStates.length - 1);
-        Event e = new Event(name, s, capacity, weather, date);
+        
+        EventInfo info = new EventInfo(capacity, name, location, weather, date, signup);
+        
+       
+        int distance = Scan.scanInt("What is the distance?");
+
+        Event e = new Event(s, distance, info);
+        
+        
 	this.eventController.addEvent(e);
     }
 

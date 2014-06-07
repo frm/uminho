@@ -113,13 +113,13 @@ public class EventDatabase implements MappedDatabase<Event> {
      * @return ArrayList of events
      */
     public ArrayList<Event> getEventList() throws NoEventsAvailableException{
+        if(this.idEntry.isEmpty())
+            throw new NoEventsAvailableException();
+        
         ArrayList<Event> events = new ArrayList<Event>();
         for(Event e: this.idEntry.values()){
             events.add(e);
         }
-
-        if(events == null)
-            throw new NoEventsAvailableException();
         
         return events;
     }

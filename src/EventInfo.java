@@ -154,9 +154,18 @@ public class EventInfo {
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder();
-        s.append("Event Info");
-        s.append()
+        StringBuilder sb = new StringBuilder();
+        sb.append("Event Info: \n");
+        sb.append("\nName: ");
+        sb.append(this.name);
+        sb.append("\nDate");
+        sb.append(this.date);
+        sb.append("\nWeather Prediction: ");
+        sb.append(this.weather);
+        sb.append("\nMax entries: ");
+        sb.append(this.capacity);
+        
+        return sb.toString();
     }
     
     

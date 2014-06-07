@@ -40,7 +40,7 @@ public class Event implements BaseModel {
         this.altitude = e.getAltitude();
     }
 
-    public Event(String name, String type, int distance, int altitude, EventInfo info) {
+    public Event(String type, int distance, int altitude, EventInfo info) {
         this.id = -1;
         this.type = type;
         this.participants = new UserList();
@@ -195,14 +195,7 @@ public class Event implements BaseModel {
         sb.append(this.id);
         sb.append("\nType: ");
         sb.append(this.type);
-        sb.append("\nName: ");
-        sb.append(this.name);
-        sb.append("\nDate");
-        sb.append(this.date);
-        sb.append("\nWeather Prediction: ");
-        sb.append(this.weather);
-        sb.append("\nMax entries: ");
-        sb.append(this.capacity);
+        sb.append(this.info );
         sb.append("\nParticipants: ");
         sb.append(this.participants);
 
