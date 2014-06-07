@@ -132,6 +132,10 @@ public class Records implements Serializable{
         return ((DistanceMilestones) records.get(type)).getKmTimeAprox();
     }
     
+    public int getMaxRecordDistance(String type){
+        return ((DistanceMilestones) records.get(type)).getMaxRecordDistance();
+    }
+    
     //essentials
     public Records clone()
     {return new Records(this);}

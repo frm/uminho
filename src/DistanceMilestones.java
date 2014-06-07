@@ -136,6 +136,15 @@ public class DistanceMilestones extends Milestones{
             return 0;
     }
     
+    public int getMaxRecordDistance(){
+        int maxRecordDistance = 0;
+        for(Map.Entry<Long,Integer> pair: this.distance.entrySet()){
+            if(pair.getValue() > 0)
+                maxRecordDistance = pair.getValue();
+        }
+        return maxRecordDistance;
+    }
+    
     //essentials
     public DistanceMilestones clone()
     {return new DistanceMilestones(this);}

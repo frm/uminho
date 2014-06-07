@@ -261,8 +261,22 @@ public class User extends BasicUser implements BaseModel {
         this.events.removeEvent(id);
     }
     
+    public boolean hasquit(String type, int km){
+        GregorianCalendar c = new GregorianCalendar();
+        int year = c.get(Calendar.YEAR);
+        
+        double quitchance = Math.pow((1.5 - (info.getAgeYears(year))*0.002),(km - 2*activityInfo.getMaxRecordDistance(type)));
+        if ((Math.random()*((100-0)+1)) < quitchance*100)
+            return true;
+        else
+            return false;
+    }
+    
     public long simulateKm(String type, int km, long prevTime) {
-        return prevTime + ((long)(decay(type,km) * pace(type)));
+        if(hasquit(type,km))
+            return Long.MAX_VALUE;
+        else
+            return prevTime + ((long)(decay(type,km) * pace(type)));
     }
 
     public long pace(String type){

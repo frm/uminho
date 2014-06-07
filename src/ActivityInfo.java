@@ -155,6 +155,10 @@ public class ActivityInfo implements Serializable{
         return records.getKmTimeAprox(type);
     }
     
+    public int getMaxRecordDistance(String type){
+        return records.getMaxRecordDistance(type);
+    }
+    
     public boolean equals(Object o){
         if( this == o) return true;
         
