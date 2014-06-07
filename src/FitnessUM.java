@@ -26,7 +26,7 @@ public class FitnessUM {
 
    private static final String[] mainOptions = {
 
-       "Logout", "My Profile", "Friend Requests", "Friend List", "Friends Feed", "Search User", "My Activity Log",
+       "Logout", "My Profile", "Friend Requests", "Friend List", "Friends Feed", "Search User", "My Activity Log","My Events",
        "Add New Activity Session", "Show My Statistics", "Update Settings", "Show My Records", "Show Event List", "Search Events"
    };
 
@@ -656,6 +656,17 @@ public class FitnessUM {
         } catch (InexistingUserException ex) {
             System.out.println("User does not participate");
         }
+    public void myEvents(){
+        HashSet<Integer> ids = this.userController.getCurrentUser().getEvents().getEvents();
+        ArrayList<Event> events = new ArrayList<Event>();
+        for(Integer i: ids){
+            events.add( this.eventController.getEventById(i) );
+        }
+        ( new EventNavigator(events, this)).navigate();
+    }
+    
+    public boolean userIsInEvent(Event e){
+        return this.userController.getCurrentUser().isInEvent(e);
     }
     
     public void joinEvent(Event e){
@@ -704,8 +715,8 @@ public class FitnessUM {
         
         boolean valid = false;
         while(!valid){
-            date = Scan.date("What's the event date?");
-            signup = Scan.date("What's the sign-up limit date?");
+            date = Scan.eventDate("What's the event date?");
+            signup = Scan.eventDate("What's the sign-up limit date?");
             if( signup.getTimeInMillis() >= date.getTimeInMillis())
                 valid = false;
         }    
@@ -796,7 +807,7 @@ public class FitnessUM {
     public void userInterpreter() {
         System.out.println( "Choose one of the following options.");
 	    FitnessUM.printMainOptions();
-        int option = Scan.menuOption(0, 12);
+        int option = Scan.menuOption(0, 13);
         this.getMainPrompt()[option].exec();
     }
     
@@ -865,6 +876,7 @@ public class FitnessUM {
             new Prompt() { public void exec() { app.friendsFeed(); }},
             new Prompt() { public void exec() { app.searchUser(); }},
             new Prompt() { public void exec() { app.myActivityLog(); }},
+            new Prompt() { public void exec() { app.myEvents(); }},
             new Prompt() { public void exec() { app.getAddActivityOption(); } },
             new Prompt() { public void exec() { app.getStatsTypeOption(); } },
             new Prompt() { public void exec() { app.updateUser(); } },

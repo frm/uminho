@@ -65,7 +65,7 @@ public class UserDatabase implements Serializable, MappedDatabase<User> {
         cpy.putAll(this.emailEntry);
         return cpy;
     }
-
+   
     /** Getter for number of users on the network
      * @return Total number of users
      */

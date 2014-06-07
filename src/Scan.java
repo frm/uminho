@@ -138,6 +138,29 @@ public abstract class Scan {
             return Scan.date(message);
         }
     }
+    
+    
+    /** Scans the user for an event date
+     * @param message Message to be print
+     * @return Date given
+     */
+    public static GregorianCalendar eventDate(String message) {
+        int[] numbers = Scan.dateArray(message);
+        GregorianCalendar date = new GregorianCalendar(numbers[2], numbers[1] - 1, numbers[0]);
+
+        if ( Scan.validGregorianCalendar(date) && Scan.validEventDate(date) )
+            return date;
+
+        else {
+            System.out.println("Invalid date");
+            return Scan.date(message);
+        }
+    }
+    
+    public static boolean validEventDate(GregorianCalendar date){
+        GregorianCalendar now = new GregorianCalendar();
+        return date.compareTo(now) == 1;
+    }
 
     public static GregorianCalendar dateWithHours(String messageForDate, String messageForTime) {
         int[] day = Scan.dateArray(messageForDate);

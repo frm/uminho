@@ -47,6 +47,10 @@ public class EventController {
         return this.database.findByName(name);
     }
     
+    public Event getEventById(int id){
+        return this.database.findById(id);
+    }
+    
     public void addUser(User u, Event e) throws InvalidParticipantException, ActivityNotAvailableException{
         e.addParticipant(u);
         this.database.save(e);

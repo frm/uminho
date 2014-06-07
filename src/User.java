@@ -196,6 +196,8 @@ public class User extends BasicUser implements BaseModel {
         return this.friends.getRequests();
     }
 
+    
+    
     public String showStatsOverview() throws StatsNotAvailableException{
         return this.activityInfo.statsOverview();
     }
@@ -227,6 +229,10 @@ public class User extends BasicUser implements BaseModel {
 
     public ArrayList<Activity> getMostRecentActivities() {
         return activityInfo.getMostRecent();
+    }
+    
+    public boolean isInEvent(Event e){
+        return this.events.isInEvent(e);
     }
 
     public void updateSettings(String name, String email, String pw, UserInfo info) {
@@ -295,6 +301,7 @@ public class User extends BasicUser implements BaseModel {
                && u.getInfo().equals(this.info)
                && u.getActivityLog().equals(this.activityInfo)
                && u.getId() == this.id
+               && u.getEvents().equals(this.events)
         );
     }
 

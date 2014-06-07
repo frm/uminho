@@ -48,6 +48,10 @@ public class EventList {
         return this.events.size();
     }
     
+    public boolean isInEvent(Event e){
+        return this.events.contains(e.getId());
+    }
+    
     //essentials
     public String toString(){
         StringBuilder sb = new StringBuilder();
