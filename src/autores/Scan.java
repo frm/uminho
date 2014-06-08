@@ -81,4 +81,13 @@ public class Scan {
 
         return val;
     }
+	
+	/**
+	 * Scans the user for a single character, handling errors
+	 * @param message Message to be displayed
+	 * @return
+	 */
+	public static char scanChar(String message) {
+		return Scan.scanString(message).charAt(0);
+	}
 }

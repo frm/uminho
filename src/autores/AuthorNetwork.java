@@ -16,7 +16,7 @@ public class AuthorNetwork {
 	
 	
 	private static final String[] mainMenuStrings = {
-		"Exit", "Read from file", "Count repeated lines", "Get statistics", "Year Table"
+		"Exit", "Read from file", "Count repeated lines", "Get statistics", "Year Table", "Get Authors By"
 	};
 	
 	
@@ -98,6 +98,17 @@ public class AuthorNetwork {
 		Scan.pressEnterToContinue();
 	}
 	
+	/**
+	 * Prints the list of author names started with a scanned character
+	 */
+	private void getAuthorsBy() {
+		char c = Character.toUpperCase( Scan.scanChar("Enter an initial") );
+		for(String s : this.lobby.getAuthorsBy(c) )
+			System.out.println(s);
+		
+		Scan.pressEnterToContinue();
+	}
+	
 	/* ##### UI methods ##### */
 	
 	/**
@@ -125,7 +136,8 @@ public class AuthorNetwork {
 				new MenuOption() { public void exec() { app.readFromFile(); } },
 				new MenuOption() { public void exec() { app.countLines(); } },
 				new MenuOption() { public void exec() { app.getStatistics(); } },
-				new MenuOption() { public void exec() { app.getYearTable(); } }
+				new MenuOption() { public void exec() { app.getYearTable(); } },
+				new MenuOption() { public void exec() { app.getAuthorsBy(); } }
 		};
 	}
 	

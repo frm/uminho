@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
+import java.util.NavigableSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -23,6 +24,7 @@ import java.util.TreeSet;
 public class Lobby {
 	private String currentFile;
 	private Statistics stats;
+	private AuthorIndex index;
 	
 	/**
 	 * Empty constructor
@@ -30,6 +32,7 @@ public class Lobby {
 	public Lobby() {
 		this.currentFile = "";
 		this.stats = new Statistics();
+		this.index = new AuthorIndex();
 	}
 	
 	/**
@@ -96,6 +99,14 @@ public class Lobby {
 		this.stats = new Statistics();
 		this.currentFile = filename;
 	}
+	/**
+	 * Returns a navigable set of authors started by the given initial
+	 * @param c
+	 * @return
+	 */
+	public NavigableSet<String> getAuthorsBy(char c) {
+		return this.index.getAuthorsBy(c);
+	}
 	
 	/**
 	 * Reads from a file, populating the database
@@ -137,7 +148,9 @@ public class Lobby {
 	 * @param args
 	 */
 	private void processData(List<String> args) {
-		// do something more for the catalog
+		for(String s : args.subList(0, args.size() - 1) )
+			this.index.addAuthor(s);
+		
 		this.stats.process(args);
 	}
 	
@@ -223,7 +236,7 @@ public class Lobby {
 		public NavigableMap<Integer, Integer> getYearTable() {
 			TreeMap<Integer, Integer> cpy = new TreeMap<>();
 			for( Map.Entry<Integer, Integer> pair : this.yearTable.entrySet() )
-				cpy.put( pair.getKey(), pair.getValue() );
+				cpy.put( (Integer)pair.getKey(), (Integer)pair.getValue() );
 			return cpy;
 		}
 		
