@@ -1,5 +1,6 @@
 package autores;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -36,7 +37,12 @@ public class AuthorNetwork {
 	 */
 	private void readFromFile() {
 		String filename = Scan.scanString("Enter a filename, please");
-		System.out.println("Yea... I'm going to read from a file, now: " + filename);
+		try {
+			this.lobby.readFromFile(filename);
+		} catch(IOException e) {
+			System.out.println("File does not exist. Please try again");
+			this.readFromFile();
+		}
 	}
 	
 	/**
@@ -45,9 +51,16 @@ public class AuthorNetwork {
 	 */
 	private void countLines() {
 		String filename = Scan.scanString("Enter a filename: ");
-		int count = this.lobby.countRepeatedLines(filename);
-		System.out.println("Number of repeated lines: " + count);
-		Scan.pressEnterToContinue();
+		int count;
+		
+		try {
+			count = this.lobby.countRepeatedLines(filename);
+			System.out.println("Number of repeated lines: " + count);
+			Scan.pressEnterToContinue();
+		} catch(IOException e) {
+			System.out.println("File does not exist. Let's try that again.");
+			countLines();
+		}
 	}
 	
 	/**
@@ -127,7 +140,12 @@ public class AuthorNetwork {
 	
 	private void bootstrap() {
 		this.isActive = true;
-		this.lobby.readFromFile("test/publicx.txt");
+		try {
+			this.lobby.readFromFile("test/publicx.txt");
+		} catch(IOException e) {
+			System.out.println("FATAL ERROR. BASE FILE NOT FOUND");
+			this.shutdown();
+		}
 	}
 	
 	/**

@@ -22,7 +22,6 @@ import java.util.TreeSet;
 
 public class Lobby {
 	private String currentFile;
-	private int lineNumber;
 	private Statistics stats;
 	
 	/**
@@ -30,7 +29,6 @@ public class Lobby {
 	 */
 	public Lobby() {
 		this.currentFile = "";
-		this.lineNumber = 0;
 		this.stats = new Statistics();
 	}
 	
@@ -43,20 +41,13 @@ public class Lobby {
 	}
 	
 	/**
-	 * Returns the number of articles read
-	 * @return
-	 */
-	public int getNumberArticles() {
-		return this.lineNumber;
-	}
-	
-	/**
 	 * Returns the read filename
 	 * @return
 	 */
 	public String getCurrentFile() {
 		return this.currentFile;
 	}
+	
 	/**
 	 * Returns the total number of solo publications
 	 * @return
@@ -69,7 +60,7 @@ public class Lobby {
 	 * Returns the total number of authors
 	 * @return
 	 */
-	public int getTotalAuthors() {
+	public long getTotalAuthors() {
 		return stats.getTotalNames();
 	}
 	
@@ -98,25 +89,32 @@ public class Lobby {
 	}
 	
 	/**
+	 * Resets the statistics and sets the new filename
+	 * @param filename
+	 */
+	private void reset(String filename) {
+		this.stats = new Statistics();
+		this.currentFile = filename;
+	}
+	
+	/**
 	 * Reads from a file, populating the database
 	 * @param filename name of the file to be read
 	 */
-	public void readFromFile(String filename) {
-		setFilename(filename);
+	public void readFromFile(String filename) throws IOException {
+		this.reset(filename);
 		
-		try ( BufferedReader br = new BufferedReader( new FileReader(filename) ) ) {
-			
-			String line = br.readLine();
-			
-			while(line != null) {
+		BufferedReader br = new BufferedReader( new FileReader(filename) );
+		String line = br.readLine();
+		
+		while(line != null) {
+			if(line.length() > 1)
 				processData( getLineArgs(line) );
-				line = br.readLine();
-			}
 			
-		} catch (IOException e) {
-			e.printStackTrace();
+			line = br.readLine();
 		}
 		
+		br.close(); // I don't know if this won't give some exceptions
 	}
 	
 	/**
@@ -141,7 +139,6 @@ public class Lobby {
 	private void processData(List<String> args) {
 		// do something more for the catalog
 		this.stats.process(args);
-		this.lineNumber++;
 	}
 	
 	/**
@@ -149,31 +146,31 @@ public class Lobby {
 	 * @param filename
 	 * @return
 	 */
-	public int countRepeatedLines(String filename) {
+	public int countRepeatedLines(String filename) throws IOException {
 		TreeSet<String> lineTree = new TreeSet<>();
 		int repeatedLines = 0;
 		
-		try ( BufferedReader br = new BufferedReader( new FileReader(filename) ) ) {
-			
-			String line = br.readLine();
-			
-			while(line != null) {
+		BufferedReader br = new BufferedReader( new FileReader(filename) );
+		String line = br.readLine();
+		
+		while(line != null) {
+			if(line.length() > 1) {
 				if( lineTree.contains(line) ) repeatedLines++;
-				else lineTree.add(line);
-				
-				line = br.readLine();
+				else lineTree.add(line);	
 			}
 			
-		} catch (IOException e) {
-			e.printStackTrace();
+			line = br.readLine();
 		}
+		
+		br.close(); // I don't know if this won't give some exceptions
 		
 		return repeatedLines;
 	}
+	
 
 	private class Statistics {
 		private int totalArticles;
-		private int totalNames;
+		private long totalNames;
 		private int soloArticles;
 		private TreeMap<Integer, Integer> yearTable;
 		
@@ -199,7 +196,7 @@ public class Lobby {
 		 * Returns total number of names read
 		 * @return
 		 */
-		public int getTotalNames() {
+		public long getTotalNames() {
 			return this.totalNames;
 		}
 		

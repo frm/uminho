@@ -36,11 +36,9 @@ public class Scan {
         try {
         	s = scan.nextLine();
         } catch(InputMismatchException e) {
-        	scan.close();
         	System.out.println("Invalid format");
         	return Scan.scanString(message);
         }
-        
         
         return s;
     }
