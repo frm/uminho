@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -17,9 +19,6 @@ import java.util.TreeSet;
  * </ul>
  *
  */
-
-
-
 
 public class Lobby {
 	private String currentFile;
@@ -58,21 +57,44 @@ public class Lobby {
 	public String getCurrentFile() {
 		return this.currentFile;
 	}
-	
+	/**
+	 * Returns the total number of solo publications
+	 * @return
+	 */
 	public int getSoloPublications() {
 		return stats.getSoloArticles();
 	}
 	
+	/**
+	 * Returns the total number of authors
+	 * @return
+	 */
 	public int getTotalAuthors() {
 		return stats.getTotalNames();
 	}
 	
+	/**
+	 * Returns the total number of publications
+	 * @return
+	 */
 	public int getTotalPublications() {
 		return stats.getTotalArticles();
 	}
 	
+	/**
+	 * Returns a tuple containing minimum and maximum years that have publications
+	 * @return
+	 */
 	public Tuple<Integer, Integer> getYearInterval() {
 		return stats.getYearInterval();
+	}
+	
+	/**
+	 * Returns a navigable map of the year table. The table shall contain an association of year - number of publications
+	 * @return
+	 */
+	public NavigableMap<Integer, Integer> getYearTable() {
+		return this.stats.getYearTable();
 	}
 	
 	/**
@@ -155,6 +177,9 @@ public class Lobby {
 		private int soloArticles;
 		private TreeMap<Integer, Integer> yearTable;
 		
+		/**
+		 * Empty constructor
+		 */
 		public Statistics() {
 			this.totalArticles = 0;
 			this.totalNames = 0;
@@ -162,31 +187,66 @@ public class Lobby {
 			this.yearTable = new TreeMap<>();
 		}
 		
+		/**
+		 * Returns total number of articles read
+		 * @return
+		 */
 		public int getTotalArticles() {
 			return this.totalArticles;
 		}
 		
+		/**
+		 * Returns total number of names read
+		 * @return
+		 */
 		public int getTotalNames() {
 			return this.totalNames;
 		}
 		
+		/**
+		 * Returns total number of solo articles
+		 * @return
+		 */
 		public int getSoloArticles() {
 			return this.soloArticles;
 		}
 		
+		/**
+		 * Returns a tuple containing the minimum and maximum years
+		 * @return
+		 */
 		public Tuple<Integer, Integer> getYearInterval() {
 			return new Tuple<>( this.yearTable.firstKey(), this.yearTable.lastKey() );			
 		}
 		
+		/**
+		 * Returns a navigable map of the year table. The table shall contain an association of year - number of publications
+		 * @return
+		 */
+		public NavigableMap<Integer, Integer> getYearTable() {
+			TreeMap<Integer, Integer> cpy = new TreeMap<>();
+			for( Map.Entry<Integer, Integer> pair : this.yearTable.entrySet() )
+				cpy.put( pair.getKey(), pair.getValue() );
+			return cpy;
+		}
+		
+		/**
+		 * Processes a list containing publication info, updating the variables
+		 * @param publication
+		 */
 		public void process(List<String> publication) {
 			updateTotals(publication);
 			int year = Integer.parseInt( publication.get(publication.size() - 1) );
 			updateTable(year);
 		}
 		
+		/**
+		 * Updates the table for a given year
+		 * @param year
+		 */
 		private void updateTable(int year) {
 			
-			if( !this.yearTable.containsKey(year) ) {
+			if( this.yearTable.containsKey(year) ) {
 				int oldTotal = this.yearTable.get(year);
 				this.yearTable.put(year, oldTotal + 1);
 			}
@@ -195,6 +255,10 @@ public class Lobby {
 				this.yearTable.put(year, 0);
 		}
 		
+		/**
+		 * Updates the totals of articles, names and solo articles
+		 * @param publication Information of the publication
+		 */
 		private void updateTotals(List<String> publication) {
 			this.totalArticles++;
 			this.totalNames += (publication.size() - 1);

@@ -1,7 +1,7 @@
 package autores;
 
 /**
- * Interface to allow for display of menus
+ * Interface to allow the display of menus
  *
  */
 

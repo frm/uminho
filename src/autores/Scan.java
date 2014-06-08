@@ -10,12 +10,14 @@ import java.util.Scanner;
 
 public class Scan {
 	
+	private static Scanner scan;
+
 	/**
 	 * Waits for the user to press a single Enter to allow for more displays
 	 */
 	public static void pressEnterToContinue() {
         System.out.println("\nPress Enter To Continue");
-		Scanner scan = new Scanner(System.in);
+		scan = new Scanner(System.in);
 
         while ( scan.nextLine().length() > 0 );
     }
@@ -28,7 +30,7 @@ public class Scan {
 	public static String scanString(String message) {
 
 		System.out.println(message);
-		Scanner scan = new Scanner(System.in);
+		scan = new Scanner(System.in);
         String s;
 		
         try {
@@ -50,7 +52,7 @@ public class Scan {
 	 */
 	public static int scanInt(String message) {
         	System.out.println(message);
-        	Scanner scan = new Scanner(System.in);
+        	scan = new Scanner(System.in);
             
 	        int val;
 	        
