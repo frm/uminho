@@ -9,11 +9,13 @@ public class AuthorNetwork {
 
 	private MenuOption[] mainMenu;
 	private boolean isActive;
+	private Lobby lobby;
 	
 	
 	private static final String[] mainMenuStrings = {
-		"Exit", "Read from file"
+		"Exit", "Read from file", "Count repeated lines"
 	};
+	
 	
 	/**
 	 * Empty constructor
@@ -21,8 +23,32 @@ public class AuthorNetwork {
 	public AuthorNetwork() {
 		this.isActive = true;
 		this.mainMenu = null;
+		this.lobby = new Lobby();
 		this.generateMainMenu(); 
 	}
+	
+	/* ##### Query methods ##### */
+	
+	/**
+	 * Scans the user for a filename, reading from it
+	 */
+	private void readFromFile() {
+		String filename = Scan.scanString("Enter a filename, please");
+		System.out.println("Yea... I'm going to read from a file, now");
+	}
+	
+	private void countLines() {
+		String filename = Scan.scanString("Enter a filename: ");
+		int count = this.lobby.countRepeatedLines(filename);
+		System.out.println("Number of repeated lines: " + count);
+		Scan.pressEnterToContinue();
+	}
+	
+	
+	
+	
+	/* ##### UI methods ##### */
+	
 	/**
 	 * Print a friendly welcome message
 	 */
@@ -39,21 +65,14 @@ public class AuthorNetwork {
 	}
 	
 	/**
-	 * Scans the user for a filename, reading from it
-	 */
-	private void readFromFile() {
-		String filename = Scan.scanString("Enter a filename, please");
-		System.out.println("Yea... I'm going to read from a file, now");
-	}
-	
-	/**
 	 * Generates the main menu option to be selected
 	 */
 	private void generateMainMenu() {
 		final AuthorNetwork app = this; // Put the app in context to generate its Menu Options
 		this.mainMenu = new MenuOption[] {
 				new MenuOption() { public void exec() { app.shutdown(); } },
-				new MenuOption() { public void exec() { app.readFromFile(); } }
+				new MenuOption() { public void exec() { app.readFromFile(); } },
+				new MenuOption() { public void exec() { app.countLines(); } }
 		};
 	}
 	
@@ -72,7 +91,13 @@ public class AuthorNetwork {
 	 */
 	public void commandInterpreter() {
 		AuthorNetwork.printMainMenu();
-		int option = Scan.intInRange("Please select an option", 0, 1);
+		
+		int option = Scan.intInRange(
+				"Please select an option",
+				0,
+				AuthorNetwork.mainMenuStrings.length - 1
+				);
+		
 		this.mainMenu[option].exec();
 	}
 	

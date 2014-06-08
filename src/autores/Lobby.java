@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.TreeSet;
 
 /**
  * Class responsible for:<br>
@@ -95,6 +96,33 @@ public class Lobby {
 	
 	private void processData(Collection<String> args) {
 		
+	}
+	
+	/**
+	 * Counts the number of repeated lines for a given file.
+	 * @param filename
+	 * @return
+	 */
+	public int countRepeatedLines(String filename) {
+		TreeSet<String> lineTree = new TreeSet<>();
+		int repeatedLines = 0;
+		
+		try ( BufferedReader br = new BufferedReader( new FileReader(filename) ) ) {
+			
+			String line = br.readLine();
+			
+			while(line != null) {
+				if( lineTree.contains(line) ) repeatedLines++;
+				else lineTree.add(line);
+				
+				line = br.readLine();
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return repeatedLines;
 	}
 	
 	

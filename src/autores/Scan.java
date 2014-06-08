@@ -18,8 +18,6 @@ public class Scan {
 		Scanner scan = new Scanner(System.in);
 
         while ( scan.nextLine().length() > 0 );
-        
-        scan.close();
     }
 	
 	/**
@@ -41,7 +39,7 @@ public class Scan {
         	return Scan.scanString(message);
         }
         
-        scan.close();
+        
         return s;
     }
 	
@@ -51,20 +49,18 @@ public class Scan {
 	 * @return
 	 */
 	public static int scanInt(String message) {
-        	Scanner scan = new Scanner(System.in);	
         	System.out.println(message);
-
+        	Scanner scan = new Scanner(System.in);
+            
 	        int val;
-
+	        
 	         try {
 	            val = scan.nextInt();
 	        } catch (Exception e) {
 	            System.out.println("Invalid format");
-	            scan.close();
 	            val = Scan.scanInt(message);
 	        }
 	         
-	         scan.close();
 	         return val;
 	 }
 	
