@@ -3,7 +3,7 @@ package autores;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.NavigableSet;
-import java.util.TreeMap;
+import java.util.TreeSet;
 
 
 public class AuthorCatalog {
@@ -27,9 +27,54 @@ public class AuthorCatalog {
 		}
 	}
 	
-	public NavigableSet<String> topPublishers(int first, int last, int numberOfAuthors) {
-		TreeMap<String, Integer> authorsTotal = new TreeMap<String, Integer>();
+	public NavigableSet<Tuple<String, Integer>> topPublishers(int first, int last, int numberOfAuthors) {
+		TreeSet<Tuple<String, Integer>> authorsTotal = new TreeSet<>(new AuthorPubsTupleComparator());
+		Tuple<String, Integer> t;
 		
-		return null;
+		for (AuthorInfo info : this.authors.values()) {
+			t = new Tuple<String, Integer>(info.getName(), info.getTotalPublications());
+			
+			if (authorsTotal.size() < numberOfAuthors) {
+				authorsTotal.add(t);
+			}
+			else {
+				if (t.getSecond() > authorsTotal.first().getSecond()) {
+					authorsTotal.pollFirst();
+					authorsTotal.add(t);
+				}
+			}
+		}
+		
+		return authorsTotal;
+	}
+	
+	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(int first, int last, int numberOfPairs) {
+		TreeSet<Tuple<Tuple<String, String>, Integer>> pairsList = new TreeSet<>(new PairPubsTupleComparator());
+		Tuple<Tuple<String, String>, Integer> outerTuple;
+		Tuple<String, String> innerTuple;
+		
+		for (AuthorInfo info : this.authors.values()) {
+			for (Tuple<String, Integer> t : info.topCoauthorsInInterval(first, last, numberOfPairs)) {
+				if (info.getName().compareTo(t.getFirst()) > 0) {
+					innerTuple = new Tuple<String, String>(t.getFirst(), info.getName());
+				}
+				else {
+					innerTuple = new Tuple<String, String>(info.getName(), t.getFirst());
+				}
+				outerTuple = new Tuple<Tuple<String, String>, Integer>(innerTuple, t.getSecond());
+				
+				if (pairsList.size() < numberOfPairs) {
+					pairsList.add(outerTuple);
+				}
+				else {
+					if (outerTuple.getSecond() > pairsList.first().getSecond()) {
+						pairsList.pollFirst();
+						pairsList.add(outerTuple);
+					}
+				}
+			}
+		}
+		
+		return pairsList;
 	}
 }

@@ -2,6 +2,7 @@ package autores;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -39,6 +40,14 @@ public class AuthorInfo {
 		public Map<String, Integer> getCoauthorsInfo() {
 			return this.coauthorsInfo;
 		}
+		
+		public Set<String> getCoauthors() {
+			return this.coauthorsInfo.keySet();
+		}
+		
+		public int totalCoauthors() {
+			return this.coauthorsInfo.size();
+		}
 	}
 	
 	public AuthorInfo(String name) {
@@ -49,6 +58,10 @@ public class AuthorInfo {
 	
 	public int getTotalPublications() {
 		return this.totalPublications;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 	
 	public void addPublication(int year, Collection<String> coauthors) {
@@ -109,5 +122,24 @@ public class AuthorInfo {
 	
 	public boolean publishedInInterval(int first, int last) {
 		return this.infoByYear.subMap(first, true, last, true).size() == (last - first + 1);
+	}
+
+	public Set<String> getCoAuthors(int first, int last) {
+		HashSet<String> names = new HashSet<String>();
+		
+		for (YearInfo yinfo : this.infoByYear.subMap(first, true, last, true).values()) {
+			names.addAll(yinfo.getCoauthors());
+		}
+		
+		return names;
+	}
+	
+	public boolean onlyPublishedSolo() {
+		for (YearInfo yinfo : this.infoByYear.values()) {
+			if (yinfo.totalCoauthors() > 0)
+				return false;
+		}
+		
+		return true;
 	}
 }
