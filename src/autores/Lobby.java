@@ -4,7 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -22,20 +23,16 @@ import java.util.TreeSet;
 
 public class Lobby {
 	private String currentFile;
+	private int lineNumber;
+	private Statistics stats;
 	
 	/**
 	 * Empty constructor
 	 */
 	public Lobby() {
 		this.currentFile = "";
-	}
-	
-	/**
-	 * Parameterized constructor 
-	 * @param filename
-	 */
-	public Lobby(String filename) {
-		this.currentFile = filename;
+		this.lineNumber = 0;
+		this.stats = new Statistics();
 	}
 	
 	/**
@@ -47,11 +44,35 @@ public class Lobby {
 	}
 	
 	/**
+	 * Returns the number of articles read
+	 * @return
+	 */
+	public int getNumberArticles() {
+		return this.lineNumber;
+	}
+	
+	/**
 	 * Returns the read filename
 	 * @return
 	 */
 	public String getCurrentFile() {
 		return this.currentFile;
+	}
+	
+	public int getSoloPublications() {
+		return stats.getSoloArticles();
+	}
+	
+	public int getTotalAuthors() {
+		return stats.getTotalNames();
+	}
+	
+	public int getTotalPublications() {
+		return stats.getTotalArticles();
+	}
+	
+	public Tuple<Integer, Integer> getYearInterval() {
+		return stats.getYearInterval();
 	}
 	
 	/**
@@ -82,20 +103,23 @@ public class Lobby {
 	 * @param line
 	 * @return
 	 */
-	private Collection<String> getLineArgs(String line) {
+	private List<String> getLineArgs(String line) {
 		ArrayList<String> args = new ArrayList<>();
 		
 		for( String s : line.split(",") )
 			args.add( s.trim() );
 		
-		for(String s : args)
-			System.out.println(s);
-		
 		return args;
 	}
 	
-	private void processData(Collection<String> args) {
-		
+	/**
+	 * Processes the data, inserting to databases
+	 * @param args
+	 */
+	private void processData(List<String> args) {
+		// do something more for the catalog
+		this.stats.process(args);
+		this.lineNumber++;
 	}
 	
 	/**
@@ -124,6 +148,59 @@ public class Lobby {
 		
 		return repeatedLines;
 	}
-	
+
+	private class Statistics {
+		private int totalArticles;
+		private int totalNames;
+		private int soloArticles;
+		private TreeMap<Integer, Integer> yearTable;
+		
+		public Statistics() {
+			this.totalArticles = 0;
+			this.totalNames = 0;
+			this.soloArticles = 0;
+			this.yearTable = new TreeMap<>();
+		}
+		
+		public int getTotalArticles() {
+			return this.totalArticles;
+		}
+		
+		public int getTotalNames() {
+			return this.totalNames;
+		}
+		
+		public int getSoloArticles() {
+			return this.soloArticles;
+		}
+		
+		public Tuple<Integer, Integer> getYearInterval() {
+			return new Tuple<>( this.yearTable.firstKey(), this.yearTable.lastKey() );			
+		}
+		
+		public void process(List<String> publication) {
+			updateTotals(publication);
+			int year = Integer.parseInt( publication.get(publication.size() - 1) );
+			updateTable(year);
+		}
+		
+		private void updateTable(int year) {
+			
+			if( !this.yearTable.containsKey(year) ) {
+				int oldTotal = this.yearTable.get(year);
+				this.yearTable.put(year, oldTotal + 1);
+			}
+			
+			else
+				this.yearTable.put(year, 0);
+		}
+		
+		private void updateTotals(List<String> publication) {
+			this.totalArticles++;
+			this.totalNames += (publication.size() - 1);
+			if(publication.size() == 2)	// if the publication only has one author
+				this.soloArticles++;
+		}
+	}	
 	
 }

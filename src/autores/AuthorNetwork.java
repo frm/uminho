@@ -34,7 +34,7 @@ public class AuthorNetwork {
 	 */
 	private void readFromFile() {
 		String filename = Scan.scanString("Enter a filename, please");
-		System.out.println("Yea... I'm going to read from a file, now");
+		System.out.println("Yea... I'm going to read from a file, now: " + filename);
 	}
 	
 	private void countLines() {
