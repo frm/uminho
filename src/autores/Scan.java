@@ -14,8 +14,8 @@ public class Scan {
 	 * Waits for the user to press a single Enter to allow for more displays
 	 */
 	public static void pressEnterToContinue() {
-        Scanner scan = new Scanner(System.in);
         System.out.println("\nPress Enter To Continue");
+		Scanner scan = new Scanner(System.in);
 
         while ( scan.nextLine().length() > 0 );
         
@@ -28,9 +28,10 @@ public class Scan {
 	 * @return
 	 */
 	public static String scanString(String message) {
+
+		System.out.println(message);
 		Scanner scan = new Scanner(System.in);
         String s;
-		System.out.println(message);
 		
         try {
         	s = scan.nextLine();
@@ -50,14 +51,14 @@ public class Scan {
 	 * @return
 	 */
 	public static int scanInt(String message) {
-	        Scanner scan = new Scanner(System.in);
-	        System.out.println(message);
+        	Scanner scan = new Scanner(System.in);	
+        	System.out.println(message);
 
 	        int val;
 
 	         try {
 	            val = scan.nextInt();
-	        } catch (InputMismatchException e) {
+	        } catch (Exception e) {
 	            System.out.println("Invalid format");
 	            scan.close();
 	            val = Scan.scanInt(message);
