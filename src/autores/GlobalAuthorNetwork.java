@@ -2,7 +2,6 @@ package autores;
 
 import java.util.Collection;
 import java.util.NavigableSet;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -55,15 +54,18 @@ public class GlobalAuthorNetwork {
 	 * @param year
 	 * @param nrAuthors
 	 */
-	private void addYearsTotal(TreeSet<Tuple<String, Integer>> authorsTotal, int year, int nrAuthors) throws NullPointerException {
-		NavigableSet<Tuple<String, Integer>> yearTotal = this.annualNetworks.get(year).topPublishers(nrAuthors);
-		for(Tuple<String, Integer> author : yearTotal) {
-			if (authorsTotal.size() < nrAuthors)
-				authorsTotal.add(author);
-			else {
-				if( author.getSecond() > authorsTotal.first().getSecond() ) {
-					authorsTotal.pollFirst();
+	private void addYearsTotal(TreeSet<Tuple<String, Integer>> authorsTotal, int year, int nrAuthors) {
+		AuthorCatalog catalog = this.annualNetworks.get(year);
+		if(catalog != null) {
+			NavigableSet<Tuple<String, Integer>> yearTotal = catalog.topPublishers(nrAuthors);
+			for(Tuple<String, Integer> author : yearTotal) {
+				if (authorsTotal.size() < nrAuthors)
 					authorsTotal.add(author);
+				else {
+					if( author.getSecond() > authorsTotal.first().getSecond() ) {
+						authorsTotal.pollFirst();
+						authorsTotal.add(author);
+					}
 				}
 			}
 		}
@@ -79,9 +81,7 @@ public class GlobalAuthorNetwork {
 		TreeSet<Tuple<Tuple<String, String>, Integer>> authorPairs = new TreeSet<>( new PairPubsTupleComparator() );
 
 		for(int i = years.getFirst(); i <= years.getSecond(); i++)
-			try {
 				addYearPairs(i, authorPairs, nrAuthors);
-			} catch(NullPointerException e) {}
 		
 		return authorPairs; // return a clone, please
 	}
@@ -92,15 +92,18 @@ public class GlobalAuthorNetwork {
 	 * @param authorPairs
 	 * @param nrAuthors		number of pairs to be considered
 	 */
-	private void addYearPairs(int year, TreeSet<Tuple<Tuple<String, String>, Integer>> authorPairs, int nrAuthors) throws NullPointerException {
-		NavigableSet<Tuple<Tuple<String, String>, Integer>> yearPairs = this.annualNetworks.get(year).topPairs(nrAuthors);
-		for(Tuple<Tuple<String, String>, Integer> pair : yearPairs) {
-			if(authorPairs.size() < nrAuthors)
-				authorPairs.add(pair);
-			else {
-				if( pair.getSecond() > authorPairs.first().getSecond() ) {
-					authorPairs.pollFirst();
+	private void addYearPairs(int year, TreeSet<Tuple<Tuple<String, String>, Integer>> authorPairs, int nrAuthors) {
+		AuthorCatalog catalog = this.annualNetworks.get(year);
+		if(catalog != null) {
+			NavigableSet<Tuple<Tuple<String, String>, Integer>> yearPairs = catalog.topPairs(nrAuthors);
+			for(Tuple<Tuple<String, String>, Integer> pair : yearPairs) {
+				if(authorPairs.size() < nrAuthors)
 					authorPairs.add(pair);
+				else {
+					if( pair.getSecond() > authorPairs.first().getSecond() ) {
+						authorPairs.pollFirst();
+						authorPairs.add(pair);
+					}
 				}
 			}
 		}
@@ -110,8 +113,9 @@ public class GlobalAuthorNetwork {
 	 * Returns a NavigableSet with all the authors that were published in every year of the given interval
 	 * @param interval
 	 * @return
+	 * @throws NoAuthorsInIntervalException 
 	 */
-	public NavigableSet<String> authorsInInterval(Tuple<Integer, Integer> interval) {
+	public NavigableSet<String> authorsInInterval(Tuple<Integer, Integer> interval) throws NoAuthorsInIntervalException {
 		return authorsInInterval( interval.getFirst(), interval.getSecond() );
 	}
 	
@@ -120,8 +124,9 @@ public class GlobalAuthorNetwork {
 	 * @param min
 	 * @param max
 	 * @return
+	 * @throws NoAuthorsInIntervalException 
 	 */
-	public NavigableSet<String> authorsInInterval(int min, int max) {
+	public NavigableSet<String> authorsInInterval(int min, int max) throws NoAuthorsInIntervalException {
 		NavigableSet<String> authors = getAuthorsInYear(min, max);
 		if(authors == null)
 			throw new NoAuthorsInIntervalException();
