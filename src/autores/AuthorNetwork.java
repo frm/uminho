@@ -109,6 +109,14 @@ public class AuthorNetwork {
 		Scan.pressEnterToContinue();
 	}
 	
+	
+	private void getTopAuthorsInInterval() {
+		int min = Scan.scanInt("Please enter the first year");
+		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
+		
+		
+	}
+	
 	/* ##### UI methods ##### */
 	
 	/**
@@ -141,6 +149,7 @@ public class AuthorNetwork {
 		};
 	}
 	
+	
 	/**
 	 * Prints the main menu options
 	 */
@@ -150,6 +159,10 @@ public class AuthorNetwork {
 			System.out.println( (i++) + ". " + s);
 	}
 	
+	
+	/**
+	 * Bootstraps the application, making it ready to go
+	 */
 	private void bootstrap() {
 		this.isActive = true;
 		try {

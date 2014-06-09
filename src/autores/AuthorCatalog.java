@@ -2,8 +2,10 @@ package autores;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 
@@ -110,5 +112,13 @@ public class AuthorCatalog {
 	
 	public boolean hasAuthor(String name) {
 		return this.authors.keySet().contains(name);
+	}
+	
+	public Map<String, Integer> authorByPublications() {
+		TreeMap<String, Integer> authorPubl = new TreeMap<>();
+		for( Map.Entry<String, AuthorInfo> info : this.authors.entrySet() )
+			authorPubl.put( info.getKey(), info.getValue().getTotalPublications() );
+		
+		return authorPubl;
 	}
 }

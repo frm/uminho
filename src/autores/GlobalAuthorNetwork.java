@@ -1,6 +1,7 @@
 package autores;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.NavigableSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -33,17 +34,12 @@ public class GlobalAuthorNetwork {
 	 * @param nrAuthors number of names to be retrieved
 	 * @return
 	 */
-	public NavigableSet<String> topPublishers(Tuple<Integer, Integer> interval, int nrAuthors) {
-		TreeSet<Tuple<String, Integer>> authorsTotal = new TreeSet<>(new AuthorPubsTupleComparator());
+	public NavigableSet<Tuple<String, Integer>> topPublishers(int min, int max, int nrAuthors) {
+		TreeMap<String, Integer> authorsTotal = new TreeMap<>();
+		for(int i = min; i <= max; i++)
+			addYearsTotal(authorsTotal, i, nrAuthors);
 		
-		for(int i = interval.getFirst(); i <= interval.getSecond(); i++)
-				addYearsTotal(authorsTotal, i, nrAuthors);
-		
-		TreeSet<String> orderedAuthors = new TreeSet<String>();
-		for(Tuple<String, Integer> author : authorsTotal)
-			orderedAuthors.add( author.getFirst() );
-		
-		return orderedAuthors;
+		return GlobalAuthorNetwork.functorAddMax(authorsTotal, nrAuthors);
 	}
 	
 	/**
@@ -52,20 +48,11 @@ public class GlobalAuthorNetwork {
 	 * @param year
 	 * @param nrAuthors
 	 */
-	private void addYearsTotal(TreeSet<Tuple<String, Integer>> authorsTotal, int year, int nrAuthors) {
+	private void addYearsTotal(TreeMap<String, Integer> authorsTotal, int year, int max) {
 		AuthorCatalog catalog = this.annualNetworks.get(year);
 		if(catalog != null) {
-			NavigableSet<Tuple<String, Integer>> yearTotal = catalog.topPublishers(nrAuthors);
-			for(Tuple<String, Integer> author : yearTotal) {
-				if (authorsTotal.size() < nrAuthors)
-					authorsTotal.add(author);
-				else {
-					if( author.getSecond() > authorsTotal.first().getSecond() ) {
-						authorsTotal.pollFirst();
-						authorsTotal.add(author);
-					}
-				}
-			}
+			Map<String, Integer> yearTotal = catalog.authorByPublications();
+			GlobalAuthorNetwork.functorMapAdd(authorsTotal, yearTotal, max);
 		}
 	}
 	
@@ -96,21 +83,7 @@ public class GlobalAuthorNetwork {
 			NavigableSet<Tuple<Tuple<String, String>, Integer>> yearPairs = catalog.topPairs(nrAuthors);
 			GlobalAuthorNetwork.functorSwap(authorPairs, yearPairs, nrAuthors);
 		}
-	}
-	
-	private static void functorSwap(TreeSet<Tuple<?, Integer>> totals, NavigableSet<Tuple<?, Integer>> target, int max) {
-		for(Tuple<?, Integer> pair : target) {
-				if(totals.size() < max)
-					totals.add(pair);
-				else {
-					if( pair.getSecond() > totals.first().getSecond() ) {
-						totals.pollFirst();
-						totals.add(pair);
-				}
-			}
-		}
-	}
-	
+	}	
 
 	/**
 	 * Returns a NavigableSet with all the authors that were published in every year of the given interval
@@ -152,7 +125,7 @@ public class GlobalAuthorNetwork {
 	 * @param max
 	 * @return
 	 */
-	public NavigableSet<String> getAuthorsInYear(int min, int max) {
+	private NavigableSet<String> getAuthorsInYear(int min, int max) {
 		try {
 			return annualNetworks.get(min).getAuthors();
 		} catch(NullPointerException e) {
@@ -160,6 +133,7 @@ public class GlobalAuthorNetwork {
 			else return getAuthorsInYear(min + 1, max);
 		}
 	}
+	
 	
 	/**
 	 * Returns a NavigableSet of all the coauthors of a given author
@@ -173,6 +147,39 @@ public class GlobalAuthorNetwork {
 				coauthors.addAll( ac.getCoauthors(name) );
 		
 		return coauthors;
+	}
+		
+	/**
+	 * Updates a TreeSet with data from a target.
+	 * If max is reached, data is swapped if the first has smaller value than the contendent
+	 * @param totals
+	 * @param target
+	 * @param max
+	 */
+	private static <T> void functorMapAdd(TreeMap<T, Integer> totals, Map<T, Integer> target, int max) {
+		for( Map.Entry<T, Integer> p : target.entrySet() ) {
+			if( totals.containsKey(p.getKey() ) ) {
+				int newVal = p.getValue() + totals.get( p.getKey() );
+				totals.put(p.getKey(), newVal);
+			}
+			else
+				totals.put( p.getKey(), p.getValue() );
+		}
+	}
+	
+	private static <T> NavigableSet< Tuple<T, Integer> > functorAddMax(Map<T, Integer> totals, int max) {
+		TreeSet< Tuple<T, Integer> > orderedAuthors = new TreeSet<>();
+		for( Map.Entry<T, Integer> p : totals.entrySet() ) {
+			if(orderedAuthors.size() < max)
+				orderedAuthors.add( new Tuple<T, Integer>( p.getKey(), p.getValue() ) );
+			else {
+				if( p.getValue() > orderedAuthors.first().getSecond() ) {
+					orderedAuthors.pollFirst();
+					orderedAuthors.add( new Tuple<T, Integer>( p.getKey(), p.getValue() ) );
+				}
+			}
+		}
+		return orderedAuthors;
 	}
 	
 }
