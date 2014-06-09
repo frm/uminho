@@ -81,6 +81,20 @@ public class AuthorInfo {
 		return this.coauthorsInfo.keySet();
 	}
 	
+	public Map<Tuple<String, String>, Integer> getAuthorPairs() {
+		TreeMap<Tuple<String, String>, Integer> pairs = new TreeMap<>( new AuthorTupleComparator() );
+		for( Map.Entry<String, Integer> coauthor : this.coauthorsInfo.entrySet() ) {
+			int val = coauthor.getValue();
+			String coauthorName = coauthor.getKey();
+			if( this.name.compareTo(coauthorName) < 0 )
+				pairs.put(new Tuple<String, String>(this.name, coauthorName), val);
+			else
+				pairs.put(new Tuple<String, String>(coauthorName, this.name), val);
+		}
+		
+		return pairs;
+	}
+	
 	public int totalCoauthors() {
 		return this.coauthorsInfo.size();
 	}

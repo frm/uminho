@@ -63,12 +63,12 @@ public class GlobalAuthorNetwork {
 	 * @return
 	 */
 	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(Tuple<Integer, Integer> years, int nrAuthors) {
-		TreeSet<Tuple<Tuple<String, String>, Integer>> authorPairs = new TreeSet<>( new PairPubsTupleComparator() );
+		TreeMap<Tuple<String, String>, Integer> authorPairs = new TreeMap<>( new AuthorTupleComparator() );
 
 		for(int i = years.getFirst(); i <= years.getSecond(); i++)
-				addYearPairs(i, authorPairs, nrAuthors);
+				addYearPairs(authorPairs, i, nrAuthors);
 		
-		return authorPairs; // return a clone, please
+		return GlobalAuthorNetwork.functorAddMax(authorPairs, nrAuthors); // return a clone, please
 	}
 	
 	/**
@@ -77,11 +77,11 @@ public class GlobalAuthorNetwork {
 	 * @param authorPairs
 	 * @param nrAuthors		number of pairs to be considered
 	 */
-	private void addYearPairs(int year, TreeSet<Tuple<Tuple<String, String>, Integer>> authorPairs, int nrAuthors) {
+	private void addYearPairs(TreeMap<Tuple<String, String>, Integer> authorPairs, int year, int max) {
 		AuthorCatalog catalog = this.annualNetworks.get(year);
 		if(catalog != null) {
-			NavigableSet<Tuple<Tuple<String, String>, Integer>> yearPairs = catalog.topPairs(nrAuthors);
-			GlobalAuthorNetwork.functorSwap(authorPairs, yearPairs, nrAuthors);
+			Map<Tuple<String, String>, Integer> yearPairs = catalog.authorPairs();
+			GlobalAuthorNetwork.functorMapAdd(authorPairs, yearPairs, max);
 		}
 	}	
 
@@ -150,8 +150,8 @@ public class GlobalAuthorNetwork {
 	}
 		
 	/**
-	 * Updates a TreeSet with data from a target.
-	 * If max is reached, data is swapped if the first has smaller value than the contendent
+	 * Goes through a target Map of &#060T, Integer&#62, adding each value to the existing one in the totals &#060T, Integer&#062 TreeMap.<br>
+	 * If the value does not exist, it shall be added.
 	 * @param totals
 	 * @param target
 	 * @param max
@@ -167,6 +167,12 @@ public class GlobalAuthorNetwork {
 		}
 	}
 	
+	/**
+	 * Goes through the totals Map, returning a new NavigableSet ordered by Integer, limited to the given max.
+	 * @param totals
+	 * @param max
+	 * @return
+	 */
 	private static <T> NavigableSet< Tuple<T, Integer> > functorAddMax(Map<T, Integer> totals, int max) {
 		TreeSet< Tuple<T, Integer> > orderedAuthors = new TreeSet<>();
 		for( Map.Entry<T, Integer> p : totals.entrySet() ) {

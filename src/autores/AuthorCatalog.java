@@ -121,4 +121,12 @@ public class AuthorCatalog {
 		
 		return authorPubl;
 	}
+	
+	public Map<Tuple<String, String>, Integer> authorPairs() {
+		TreeMap<Tuple<String, String>, Integer> pairs = new TreeMap<>( new AuthorTupleComparator() );
+		for( AuthorInfo a : this.authors.values() )
+			pairs.putAll( a.getAuthorPairs() );
+		
+		return pairs;
+	}
 }
