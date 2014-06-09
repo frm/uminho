@@ -40,9 +40,9 @@ public class AuthorInfo {
 		
 		for (String coauthor : coauthors) {
 			if (!coauthor.equals(this.name)) {
-				coauthorTotal = this.coauthorsInfo.get(name);
-				if (coauthorTotal == null) this.coauthorsInfo.put(name, 1);
-				else this.coauthorsInfo.put(name, coauthorTotal + 1);
+				coauthorTotal = this.coauthorsInfo.get(coauthor);
+				if (coauthorTotal == null) this.coauthorsInfo.put(coauthor, 1);
+				else this.coauthorsInfo.put(coauthor, coauthorTotal + 1);
 			}
 		}
 		

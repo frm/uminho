@@ -38,7 +38,7 @@ public class GlobalAuthorNetwork {
 	public NavigableSet<Tuple<String, Integer>> topPublishers(int min, int max, int nrAuthors) {
 		TreeMap<String, Integer> authorsTotal = new TreeMap<>();
 		for(int i = min; i <= max; i++)
-			addYearsTotal(authorsTotal, i, nrAuthors);
+			addYearsTotal(authorsTotal, i);
 		
 		return GlobalAuthorNetwork.functorAddMax( authorsTotal, nrAuthors, new AuthorPubsTupleComparator() );
 	}
@@ -49,11 +49,11 @@ public class GlobalAuthorNetwork {
 	 * @param year
 	 * @param nrAuthors
 	 */
-	private void addYearsTotal(TreeMap<String, Integer> authorsTotal, int year, int max) {
+	private void addYearsTotal(TreeMap<String, Integer> authorsTotal, int year) {
 		AuthorCatalog catalog = this.annualNetworks.get(year);
 		if(catalog != null) {
 			Map<String, Integer> yearTotal = catalog.authorByPublications();
-			GlobalAuthorNetwork.functorMapAdd(authorsTotal, yearTotal, max);
+			GlobalAuthorNetwork.functorMapAdd(authorsTotal, yearTotal);
 		}
 	}
 	
@@ -67,7 +67,7 @@ public class GlobalAuthorNetwork {
 		TreeMap<Tuple<String, String>, Integer> authorPairs = new TreeMap<>( new AuthorTupleComparator() );
 
 		for(int i = years.getFirst(); i <= years.getSecond(); i++)
-				addYearPairs(authorPairs, i, nrAuthors);
+				addYearPairs(authorPairs, i);
 		
 		return GlobalAuthorNetwork.functorAddMax( authorPairs, nrAuthors, new PairPubsTupleComparator() ); // return a clone, please
 	}
@@ -78,11 +78,11 @@ public class GlobalAuthorNetwork {
 	 * @param authorPairs
 	 * @param nrAuthors		number of pairs to be considered
 	 */
-	private void addYearPairs(TreeMap<Tuple<String, String>, Integer> authorPairs, int year, int max) {
+	private void addYearPairs(TreeMap<Tuple<String, String>, Integer> authorPairs, int year) {
 		AuthorCatalog catalog = this.annualNetworks.get(year);
 		if(catalog != null) {
 			Map<Tuple<String, String>, Integer> yearPairs = catalog.authorPairs();
-			GlobalAuthorNetwork.functorMapAdd(authorPairs, yearPairs, max);
+			GlobalAuthorNetwork.functorMapAdd(authorPairs, yearPairs);
 		}
 	}	
 
@@ -155,11 +155,10 @@ public class GlobalAuthorNetwork {
 	 * If the value does not exist, it shall be added.
 	 * @param totals
 	 * @param target
-	 * @param max
 	 */
-	private static <T> void functorMapAdd(TreeMap<T, Integer> totals, Map<T, Integer> target, int max) {
+	private static <T> void functorMapAdd(TreeMap<T, Integer> totals, Map<T, Integer> target) {
 		for( Map.Entry<T, Integer> p : target.entrySet() ) {
-			if( totals.containsKey(p.getKey() ) ) {
+			if( totals.containsKey( p.getKey() ) ) {
 				int newVal = p.getValue() + totals.get( p.getKey() );
 				totals.put(p.getKey(), newVal);
 			}

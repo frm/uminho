@@ -7,7 +7,7 @@ public class PairPubsTupleComparator implements Comparator<Tuple<Tuple<String, S
 	public int compare(Tuple<Tuple<String, String>, Integer> t1, Tuple<Tuple<String, String>, Integer> t2) {
 		int v;
 		if (t1.getSecond() > t2.getSecond()) return 1;
-		else if (t1.getSecond() > t2.getSecond()) return -1;
+		else if (t1.getSecond() < t2.getSecond()) return -1;
 		else {
 			if ((v = t1.getFirst().getFirst().compareTo(t2.getFirst().getFirst())) != 0) {
 				return v;
