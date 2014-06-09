@@ -159,7 +159,7 @@ public class Lobby {
 	 */
 	private void processData(List<String> args) {
 		int year = Integer.parseInt( args.get(args.size() - 1) );
-		List<String> authorArgs = args.subList(0, args.size() - 2);
+		List<String> authorArgs = args.subList(0, args.size() - 1);
 		
 		for(String s : authorArgs)
 			this.index.addAuthor(s);
