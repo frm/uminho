@@ -2,6 +2,7 @@ package autores;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.TreeMap;
@@ -99,8 +100,8 @@ public class GlobalAuthorNetwork {
 	/**
 	 * Returns a NavigableSet with all the authors that were published in every year of the given interval
 	 * @param min
-	 * @param max
 	 * @return
+	 * @param max
 	 * @throws NoAuthorsInIntervalException 
 	 */
 	public NavigableSet<String> authorsInInterval(int min, int max) throws NoAuthorsInIntervalException {
@@ -109,15 +110,18 @@ public class GlobalAuthorNetwork {
 			throw new NoAuthorsInIntervalException();
 		
 		for(int i = min + 1; i <= max; i++) {
-			for(String s : getAuthorsInYear(min, max))
-				if(!authors.contains(s))
-					authors.remove(s);
+			NavigableSet<String> currentYear = getAuthorsInYear(i, max);
+			if(currentYear != null) {
+				Iterator<String> it = authors.iterator();
+				while( it.hasNext() ) {
+					if( !currentYear.contains( it.next() ) )
+						it.remove();
+				}
+			}
 		}
 		
 		return authors;
 	}
-	
-	
 	
 	
 	/**
