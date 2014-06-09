@@ -2,6 +2,7 @@ package autores;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.NavigableSet;
 
 /**
  * Main class of the project, responsible for UI and delegation of user commands to the correct handlers
@@ -16,7 +17,7 @@ public class AuthorNetwork {
 	
 	
 	private static final String[] mainMenuStrings = {
-		"Exit", "Read from file", "Count repeated lines", "Get statistics", "Year Table", "Get Authors By"
+		"Exit", "Read from file", "Count repeated lines", "Get statistics", "Year Table", "Get Authors By", "Get Top Authors In Interval"
 	};
 	
 	
@@ -114,7 +115,13 @@ public class AuthorNetwork {
 		int min = Scan.scanInt("Please enter the first year");
 		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
 		
+		int nrAuthors = 0;
+		while(nrAuthors < 1)
+			nrAuthors = Scan.scanInt("Enter the desired number of authors.");
 		
+		NavigableSet<Tuple<String, Integer>> authors = this.lobby.topPublishersInInterval(min, max, nrAuthors);
+		for(Tuple<String, Integer> a : authors)
+			System.out.println("Author: " + a.getFirst() + " Publications: " + a.getSecond() );
 	}
 	
 	/* ##### UI methods ##### */
@@ -145,7 +152,8 @@ public class AuthorNetwork {
 				new MenuOption() { public void exec() { app.countLines(); } },
 				new MenuOption() { public void exec() { app.getStatistics(); } },
 				new MenuOption() { public void exec() { app.getYearTable(); } },
-				new MenuOption() { public void exec() { app.getAuthorsBy(); } }
+				new MenuOption() { public void exec() { app.getAuthorsBy(); } },
+				new MenuOption() { public void exec() { app.getTopAuthorsInInterval(); } }
 		};
 	}
 	

@@ -25,6 +25,7 @@ public class Lobby {
 	private String currentFile;
 	private Statistics stats;
 	private AuthorIndex index;
+	private GlobalAuthorNetwork network;
 	
 	/**
 	 * Empty constructor
@@ -33,6 +34,7 @@ public class Lobby {
 		this.currentFile = "";
 		this.stats = new Statistics();
 		this.index = new AuthorIndex();
+		this.network = new GlobalAuthorNetwork();
 	}
 	
 	/**
@@ -89,6 +91,10 @@ public class Lobby {
 	 */
 	public NavigableMap<Integer, Integer> getYearTable() {
 		return this.stats.getYearTable();
+	}
+	
+	public NavigableSet<Tuple<String, Integer>> topPublishersInInterval(int min, int max, int nrAuthors) {
+		return this.network.topPublishers(min, max, nrAuthors);
 	}
 	
 	/**
@@ -154,7 +160,7 @@ public class Lobby {
 		for(String s : authorArgs )
 			this.index.addAuthor(s);
 		
-		this.catalog.addPublication(year, authorArgs);
+		this.network.addPublication(year, authorArgs);
 		
 		this.stats.process(year, authorArgs);
 	}
