@@ -60,41 +60,6 @@ public class AuthorCatalog {
 		return authorsTotal;
 	}
 	
-	/**
-	 * Returns the top pairs of authors, along with their number of publications
-	 * @param numberOfPairs number of pairs to be considered
-	 * @return
-	 */
-	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(int numberOfPairs) {
-		TreeSet<Tuple<Tuple<String, String>, Integer>> pairsList = new TreeSet<>(new PairPubsTupleComparator());
-		Tuple<Tuple<String, String>, Integer> outerTuple;
-		Tuple<String, String> innerTuple;
-		
-		for (AuthorInfo info : this.authors.values()) {
-			for (Tuple<String, Integer> t : info.topCoauthors(numberOfPairs)) {
-				if (info.getName().compareTo(t.getFirst()) > 0) {
-					innerTuple = new Tuple<String, String>(t.getFirst(), info.getName());
-				}
-				else {
-					innerTuple = new Tuple<String, String>(info.getName(), t.getFirst());
-				}
-				outerTuple = new Tuple<Tuple<String, String>, Integer>(innerTuple, t.getSecond());
-				
-				if (pairsList.size() < numberOfPairs) {
-					pairsList.add(outerTuple);
-				}
-				else {
-					if (outerTuple.getSecond() > pairsList.first().getSecond()) {
-						pairsList.pollFirst();
-						pairsList.add(outerTuple);
-					}
-				}
-			}
-		}
-		
-		return pairsList;
-	}
-	
 	public NavigableSet<String> getAuthors() {
 		// Does putAll clone?
 		TreeSet<String> authors = new TreeSet<>();
