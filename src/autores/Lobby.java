@@ -97,6 +97,10 @@ public class Lobby {
 		return this.network.topPublishers(min, max, nrAuthors);
 	}
 	
+	public NavigableSet<String> authorsInInterval(int min, int max) throws NoAuthorsInIntervalException {
+		return this.network.authorsInInterval(min, max);
+	}
+	
 	/**
 	 * Resets the statistics and sets the new filename
 	 * @param filename
@@ -154,10 +158,10 @@ public class Lobby {
 	 * @param args
 	 */
 	private void processData(List<String> args) {
-		int year = Integer.parseInt( args.get( args.size() - 1) );
-		List<String> authorArgs = args.subList(0, args.size() - 1);
+		int year = Integer.parseInt( args.get(args.size() - 1) );
+		List<String> authorArgs = args.subList(0, args.size() - 2);
 		
-		for(String s : authorArgs )
+		for(String s : authorArgs)
 			this.index.addAuthor(s);
 		
 		this.network.addPublication(year, authorArgs);
@@ -189,6 +193,10 @@ public class Lobby {
 		br.close(); // I don't know if this won't give some exceptions
 		
 		return repeatedLines;
+	}
+	
+	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(int min, int max, int nrAuthors) {
+		return this.network.topPairs(min, max, nrAuthors);
 	}
 	
 

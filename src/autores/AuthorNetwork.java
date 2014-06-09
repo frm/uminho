@@ -17,7 +17,9 @@ public class AuthorNetwork {
 	
 	
 	private static final String[] mainMenuStrings = {
-		"Exit", "Read from file", "Count repeated lines", "Get statistics", "Year Table", "Get Authors By", "Get Top Authors In Interval"
+		"Exit", "Read from file", "Count repeated lines",
+		"Get statistics", "Year Table", "Get Authors By",
+		"Get Top Authors In Interval", "Get Top Pairs In Interval", "Get Published Authors In Interval"
 	};
 	
 	
@@ -121,7 +123,37 @@ public class AuthorNetwork {
 		
 		NavigableSet<Tuple<String, Integer>> authors = this.lobby.topPublishersInInterval(min, max, nrAuthors);
 		for(Tuple<String, Integer> a : authors)
-			System.out.println("Author: " + a.getFirst() + "\n\t* Publications: " + a.getSecond() +"\n");
+			System.out.println("Author: " + a.getFirst() + "\n\t# Publications: " + a.getSecond() +"\n");
+		
+		Scan.pressEnterToContinue();
+	}
+	
+	public void getTopPairsInInterval() {
+		int min = Scan.scanInt("Please enter the first year");
+		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
+		
+		int nrAuthors = 0;
+		while(nrAuthors < 1)
+			nrAuthors = Scan.scanInt("Enter the desired number of authors.");
+		
+		NavigableSet<Tuple<Tuple<String, String>, Integer>> authors = this.lobby.topPairs(min, max, nrAuthors);
+		for(Tuple<Tuple<String, String>, Integer> t : authors)
+			System.out.println(t.getFirst().getFirst() + " & " + t.getFirst().getSecond() + "\n\t# Publications: " + t.getSecond() +"\n");
+		
+		Scan.pressEnterToContinue();
+	}
+	
+	public void getAuthorsInInterval() {
+		int min = Scan.scanInt("Please enter the first year");
+		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
+		
+		try {
+			NavigableSet<String> authors = this.lobby.authorsInInterval(min, max);
+			for(String s : authors)
+				System.out.println(s);
+		} catch (NoAuthorsInIntervalException e) {
+			System.out.println("No authors available in given interval");
+		}
 		
 		Scan.pressEnterToContinue();
 	}
@@ -155,7 +187,9 @@ public class AuthorNetwork {
 				new MenuOption() { public void exec() { app.getStatistics(); } },
 				new MenuOption() { public void exec() { app.getYearTable(); } },
 				new MenuOption() { public void exec() { app.getAuthorsBy(); } },
-				new MenuOption() { public void exec() { app.getTopAuthorsInInterval(); } }
+				new MenuOption() { public void exec() { app.getTopAuthorsInInterval(); } },
+				new MenuOption() { public void exec() { app.getTopPairsInInterval(); } },
+				new MenuOption() { public void exec() { app.getAuthorsInInterval(); } }
 		};
 	}
 	

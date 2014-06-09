@@ -63,10 +63,10 @@ public class GlobalAuthorNetwork {
 	 * @param nrAuthors number of pairs to be considered
 	 * @return
 	 */
-	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(Tuple<Integer, Integer> years, int nrAuthors) {
+	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(int min, int max, int nrAuthors) {
 		TreeMap<Tuple<String, String>, Integer> authorPairs = new TreeMap<>( new AuthorTupleComparator() );
 
-		for(int i = years.getFirst(); i <= years.getSecond(); i++)
+		for(int i = min; i <= max; i++)
 				addYearPairs(authorPairs, i);
 		
 		return GlobalAuthorNetwork.functorAddMax( authorPairs, nrAuthors, new PairPubsTupleComparator() ); // return a clone, please
@@ -116,6 +116,8 @@ public class GlobalAuthorNetwork {
 		
 		return authors;
 	}
+	
+	
 	
 	
 	/**
