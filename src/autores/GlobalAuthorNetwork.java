@@ -37,7 +37,7 @@ public class GlobalAuthorNetwork {
 		TreeSet<Tuple<String, Integer>> authorsTotal = new TreeSet<>(new AuthorPubsTupleComparator());
 		
 		for(int i = interval.getFirst(); i <= interval.getSecond(); i++)
-			addYearsTotal(authorsTotal, i, nrAuthors);
+				addYearsTotal(authorsTotal, i, nrAuthors);
 		
 		TreeSet<String> orderedAuthors = new TreeSet<String>();
 		for(Tuple<String, Integer> author : authorsTotal)
@@ -94,19 +94,24 @@ public class GlobalAuthorNetwork {
 		AuthorCatalog catalog = this.annualNetworks.get(year);
 		if(catalog != null) {
 			NavigableSet<Tuple<Tuple<String, String>, Integer>> yearPairs = catalog.topPairs(nrAuthors);
-			for(Tuple<Tuple<String, String>, Integer> pair : yearPairs) {
-				if(authorPairs.size() < nrAuthors)
-					authorPairs.add(pair);
+			GlobalAuthorNetwork.functorSwap(authorPairs, yearPairs, nrAuthors);
+		}
+	}
+	
+	private static void functorSwap(TreeSet<Tuple<?, Integer>> totals, NavigableSet<Tuple<?, Integer>> target, int max) {
+		for(Tuple<?, Integer> pair : target) {
+				if(totals.size() < max)
+					totals.add(pair);
 				else {
-					if( pair.getSecond() > authorPairs.first().getSecond() ) {
-						authorPairs.pollFirst();
-						authorPairs.add(pair);
-					}
+					if( pair.getSecond() > totals.first().getSecond() ) {
+						totals.pollFirst();
+						totals.add(pair);
 				}
 			}
 		}
 	}
 	
+
 	/**
 	 * Returns a NavigableSet with all the authors that were published in every year of the given interval
 	 * @param interval
