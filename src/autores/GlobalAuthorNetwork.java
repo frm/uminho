@@ -37,9 +37,7 @@ public class GlobalAuthorNetwork {
 		TreeSet<Tuple<String, Integer>> authorsTotal = new TreeSet<>(new AuthorPubsTupleComparator());
 		
 		for(int i = interval.getFirst(); i <= interval.getSecond(); i++)
-			try {
-				addYearsTotal(authorsTotal, i, nrAuthors);
-			} catch(NullPointerException e) {}
+			addYearsTotal(authorsTotal, i, nrAuthors);
 		
 		TreeSet<String> orderedAuthors = new TreeSet<String>();
 		for(Tuple<String, Integer> author : authorsTotal)
