@@ -45,6 +45,9 @@ public class AuthorInfo {
 				else this.coauthorsInfo.put(name, coauthorTotal + 1);
 			}
 		}
+		
+		if(coauthors.size() == 1) this.soloPublications++;
+		else this.jointPublications++;
 	}
 	
 

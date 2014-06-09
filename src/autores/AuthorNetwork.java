@@ -121,7 +121,9 @@ public class AuthorNetwork {
 		
 		NavigableSet<Tuple<String, Integer>> authors = this.lobby.topPublishersInInterval(min, max, nrAuthors);
 		for(Tuple<String, Integer> a : authors)
-			System.out.println("Author: " + a.getFirst() + " Publications: " + a.getSecond() );
+			System.out.println("Author: " + a.getFirst() + "\n\t* Publications: " + a.getSecond() +"\n");
+		
+		Scan.pressEnterToContinue();
 	}
 	
 	/* ##### UI methods ##### */

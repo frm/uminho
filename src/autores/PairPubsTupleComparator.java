@@ -2,14 +2,10 @@ package autores;
 
 import java.util.Comparator;
 
-public class PairPubsTupleComparator implements Comparator<Object> {
+public class PairPubsTupleComparator implements Comparator<Tuple<Tuple<String, String>, Integer>> {
 	
-	@SuppressWarnings("unchecked")
-	public int compare(Object o1, Object o2) {
+	public int compare(Tuple<Tuple<String, String>, Integer> t1, Tuple<Tuple<String, String>, Integer> t2) {
 		int v;
-		Tuple<Tuple<String, String>, Integer> t1 = (Tuple<Tuple<String, String>, Integer>)o1;
-		Tuple<Tuple<String, String>, Integer> t2 = (Tuple<Tuple<String, String>, Integer>)o2;
-		
 		if (t1.getSecond() > t2.getSecond()) return 1;
 		else if (t1.getSecond() > t2.getSecond()) return -1;
 		else {

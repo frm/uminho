@@ -1,6 +1,7 @@
 package autores;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.TreeMap;
@@ -19,7 +20,7 @@ public class GlobalAuthorNetwork {
 	 * @param authors
 	 */
 	public void addPublication(int year, Collection<String> authors) {
-		if( this.annualNetworks.containsKey(year) ) {
+		if( !this.annualNetworks.containsKey(year) ) {
 			AuthorCatalog newCatalog = new AuthorCatalog();
 			newCatalog.addPublication(authors);
 			this.annualNetworks.put(year, newCatalog);
@@ -39,7 +40,7 @@ public class GlobalAuthorNetwork {
 		for(int i = min; i <= max; i++)
 			addYearsTotal(authorsTotal, i, nrAuthors);
 		
-		return GlobalAuthorNetwork.functorAddMax(authorsTotal, nrAuthors);
+		return GlobalAuthorNetwork.functorAddMax( authorsTotal, nrAuthors, new AuthorPubsTupleComparator() );
 	}
 	
 	/**
@@ -68,7 +69,7 @@ public class GlobalAuthorNetwork {
 		for(int i = years.getFirst(); i <= years.getSecond(); i++)
 				addYearPairs(authorPairs, i, nrAuthors);
 		
-		return GlobalAuthorNetwork.functorAddMax(authorPairs, nrAuthors); // return a clone, please
+		return GlobalAuthorNetwork.functorAddMax( authorPairs, nrAuthors, new PairPubsTupleComparator() ); // return a clone, please
 	}
 	
 	/**
@@ -173,8 +174,8 @@ public class GlobalAuthorNetwork {
 	 * @param max
 	 * @return
 	 */
-	private static <T> NavigableSet< Tuple<T, Integer> > functorAddMax(Map<T, Integer> totals, int max) {
-		TreeSet< Tuple<T, Integer> > orderedAuthors = new TreeSet<>();
+	private static <T> NavigableSet< Tuple<T, Integer> > functorAddMax(Map<T, Integer> totals, int max, Comparator<Tuple<T, Integer>> c) {
+		TreeSet< Tuple<T, Integer> > orderedAuthors = new TreeSet<>(c);
 		for( Map.Entry<T, Integer> p : totals.entrySet() ) {
 			if(orderedAuthors.size() < max)
 				orderedAuthors.add( new Tuple<T, Integer>( p.getKey(), p.getValue() ) );
