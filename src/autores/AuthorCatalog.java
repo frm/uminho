@@ -13,7 +13,7 @@ public class AuthorCatalog {
 		this.authors = new HashMap<String, AuthorInfo>();
 	}
 	
-	public void addPublication(int year, Collection<String> coauthors) {
+	public void addPublication(Collection<String> coauthors) {
 		
 		for (String coauthor : coauthors) {
 			AuthorInfo info = this.authors.get(coauthor);
@@ -23,11 +23,11 @@ public class AuthorCatalog {
 				this.authors.put(coauthor, info);
 			}
 			
-			info.addPublication(year, coauthors);
+			info.addPublication(coauthors);
 		}
 	}
 	
-	public NavigableSet<Tuple<String, Integer>> topPublishers(int first, int last, int numberOfAuthors) {
+	public NavigableSet<Tuple<String, Integer>> topPublishers(int numberOfAuthors) {
 		TreeSet<Tuple<String, Integer>> authorsTotal = new TreeSet<>(new AuthorPubsTupleComparator());
 		Tuple<String, Integer> t;
 		
@@ -48,13 +48,13 @@ public class AuthorCatalog {
 		return authorsTotal;
 	}
 	
-	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(int first, int last, int numberOfPairs) {
+	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(int numberOfPairs) {
 		TreeSet<Tuple<Tuple<String, String>, Integer>> pairsList = new TreeSet<>(new PairPubsTupleComparator());
 		Tuple<Tuple<String, String>, Integer> outerTuple;
 		Tuple<String, String> innerTuple;
 		
 		for (AuthorInfo info : this.authors.values()) {
-			for (Tuple<String, Integer> t : info.topCoauthorsInInterval(first, last, numberOfPairs)) {
+			for (Tuple<String, Integer> t : info.topCoauthors(numberOfPairs)) {
 				if (info.getName().compareTo(t.getFirst()) > 0) {
 					innerTuple = new Tuple<String, String>(t.getFirst(), info.getName());
 				}

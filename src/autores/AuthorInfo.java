@@ -1,8 +1,6 @@
 package autores;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -10,104 +8,51 @@ import java.util.TreeSet;
 
 public class AuthorInfo {
 	private String name;
-	private int totalPublications;
-	private TreeMap<Integer, YearInfo> infoByYear;
-	
-	private class YearInfo {
-		private int totalPublications;
-		private TreeMap<String, Integer> coauthorsInfo; 
-		
-		public YearInfo() {
-			this.totalPublications = 0;
-			this.coauthorsInfo = new TreeMap<String, Integer>();
-		}
-		
-		public int getTotalPublications() {
-			return this.totalPublications;
-		}
-		
-		public void incCoauthor(String name) {
-			Integer coauthorTotal = this.coauthorsInfo.get(name);
-			
-			if (coauthorTotal == null) this.coauthorsInfo.put(name, 1);
-			else this.coauthorsInfo.put(name, coauthorTotal + 1);
-		}
-		
-		public void inc() {
-			this.totalPublications++;
-		}
-		
-		public Map<String, Integer> getCoauthorsInfo() {
-			return this.coauthorsInfo;
-		}
-		
-		public Set<String> getCoauthors() {
-			return this.coauthorsInfo.keySet();
-		}
-		
-		public int totalCoauthors() {
-			return this.coauthorsInfo.size();
-		}
-	}
-	
+	private int soloPublications;
+	private int jointPublications;
+	private TreeMap<String, Integer> coauthorsInfo; 
+
 	public AuthorInfo(String name) {
 		this.name = name;
-		this.totalPublications = 0;
-		this.infoByYear = new TreeMap<Integer, YearInfo>();
-	}
-	
-	public int getTotalPublications() {
-		return this.totalPublications;
+		this.soloPublications = 0;
+		this.jointPublications = 0;
+		this.coauthorsInfo = new TreeMap<>();
 	}
 	
 	public String getName() {
 		return this.name;
 	}
 	
-	public void addPublication(int year, Collection<String> coauthors) {
-		YearInfo yinfo = this.infoByYear.get(year);
-		
-		if (yinfo == null) {
-			yinfo = new YearInfo();
-			this.infoByYear.put(year, yinfo);
-		}
-		
-		yinfo.inc();
+	public int getTotalPublications() {
+		return this.soloPublications + this.jointPublications;
+	}
+	
+	public int getSoloPublications() {
+		return this.soloPublications;
+	}
+	
+	public int getJointPublications() {
+		return this.jointPublications;
+	}
+	
+	public void addPublication(Collection<String> coauthors) {
+		Integer coauthorTotal;
 		
 		for (String coauthor : coauthors) {
-			if (!coauthor.equals(this.name)) yinfo.incCoauthor(coauthor);
-		}
-	}
-	
-	public int publicationsInInterval(int first, int last) {
-		Integer total = 0;
-		
-		for (YearInfo yinfo : this.infoByYear.subMap(first, true, last, true).values()) {
-			total += yinfo.getTotalPublications();
-		}
-		
-		return total;
-	}
-	
-	public Set<Tuple<String, Integer>> topCoauthorsInInterval(int first, int last, int numberOfCoauthors) {
-		HashMap<String, Integer> coauthors = new HashMap<String, Integer>();
-		TreeSet<Tuple<String, Integer>> ret = new TreeSet<Tuple<String, Integer>>(new AuthorPubsTupleComparator());
-		Integer total;
-		Tuple<String, Integer> t;
-		
-		for (YearInfo yinfo : this.infoByYear.subMap(first, true, last, true).values()) {
-			for (Map.Entry<String, Integer> entry : yinfo.getCoauthorsInfo().entrySet()) {
-				total = coauthors.get(entry.getKey());
-				if (total == null) {
-					coauthors.put(entry.getKey(), entry.getValue());
-				}
-				else {
-					coauthors.put(entry.getKey(), total + entry.getValue());
-				}
+			if (!coauthor.equals(this.name)) {
+				coauthorTotal = this.coauthorsInfo.get(name);
+				if (coauthorTotal == null) this.coauthorsInfo.put(name, 1);
+				else this.coauthorsInfo.put(name, coauthorTotal + 1);
 			}
 		}
+	}
+	
+	
+	public Set<Tuple<String, Integer>> topCoauthors(int numberOfCoauthors) {
+		TreeSet<Tuple<String, Integer>> ret = new TreeSet<Tuple<String, Integer>>(new AuthorPubsTupleComparator());
+		Tuple<String, Integer> t;
 		
-		for (Map.Entry<String, Integer> entry : coauthors.entrySet()) {
+		for (Map.Entry<String, Integer> entry : this.coauthorsInfo.entrySet()) {
 			t = new Tuple<String, Integer>(entry.getKey(), entry.getValue());
 			
 			if (ret.size() < numberOfCoauthors) ret.add(t);
@@ -120,26 +65,23 @@ public class AuthorInfo {
 		return ret;
 	}
 	
-	public boolean publishedInInterval(int first, int last) {
-		return this.infoByYear.subMap(first, true, last, true).size() == (last - first + 1);
-	}
-
-	public Set<String> getCoAuthors(int first, int last) {
-		HashSet<String> names = new HashSet<String>();
-		
-		for (YearInfo yinfo : this.infoByYear.subMap(first, true, last, true).values()) {
-			names.addAll(yinfo.getCoauthors());
-		}
-		
-		return names;
+	public boolean onlySolo() {
+		return this.jointPublications == 0;
 	}
 	
-	public boolean onlyPublishedSolo() {
-		for (YearInfo yinfo : this.infoByYear.values()) {
-			if (yinfo.totalCoauthors() > 0)
-				return false;
-		}
-		
-		return true;
+	public boolean neverSolo() {
+		return this.soloPublications == 0;
+	}
+	
+	public Map<String, Integer> getCoauthorsInfo() {
+		return this.coauthorsInfo;
+	}
+	
+	public Set<String> getCoauthors() {
+		return this.coauthorsInfo.keySet();
+	}
+	
+	public int totalCoauthors() {
+		return this.coauthorsInfo.size();
 	}
 }
