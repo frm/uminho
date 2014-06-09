@@ -47,7 +47,7 @@ public class AuthorInfo {
 		}
 	}
 	
-	
+
 	public Set<Tuple<String, Integer>> topCoauthors(int numberOfCoauthors) {
 		TreeSet<Tuple<String, Integer>> ret = new TreeSet<Tuple<String, Integer>>(new AuthorPubsTupleComparator());
 		Tuple<String, Integer> t;

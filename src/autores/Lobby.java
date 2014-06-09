@@ -148,10 +148,15 @@ public class Lobby {
 	 * @param args
 	 */
 	private void processData(List<String> args) {
-		for(String s : args.subList(0, args.size() - 1) )
+		int year = Integer.parseInt( args.get( args.size() - 1) );
+		List<String> authorArgs = args.subList(0, args.size() - 1);
+		
+		for(String s : authorArgs )
 			this.index.addAuthor(s);
 		
-		this.stats.process(args);
+		this.catalog.addPublication(year, authorArgs);
+		
+		this.stats.process(year, authorArgs);
 	}
 	
 	/**
@@ -244,9 +249,8 @@ public class Lobby {
 		 * Processes a list containing publication info, updating the variables
 		 * @param publication
 		 */
-		public void process(List<String> publication) {
+		public void process(int year, List<String> publication) {
 			updateTotals(publication);
-			int year = Integer.parseInt( publication.get(publication.size() - 1) );
 			updateTable(year);
 		}
 		
@@ -271,8 +275,8 @@ public class Lobby {
 		 */
 		private void updateTotals(List<String> publication) {
 			this.totalArticles++;
-			this.totalNames += (publication.size() - 1);
-			if(publication.size() == 2)	// if the publication only has one author
+			this.totalNames += publication.size();
+			if(publication.size() == 1)	// if the publication only has one author
 				this.soloArticles++;
 		}
 	}	

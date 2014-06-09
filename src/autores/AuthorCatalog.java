@@ -3,6 +3,7 @@ package autores;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.NavigableSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 
@@ -13,6 +14,10 @@ public class AuthorCatalog {
 		this.authors = new HashMap<String, AuthorInfo>();
 	}
 	
+	/**
+	 * Receives a collection of authors, adding the co-authors to each of them
+	 * @param coauthors
+	 */
 	public void addPublication(Collection<String> coauthors) {
 		
 		for (String coauthor : coauthors) {
@@ -27,6 +32,11 @@ public class AuthorCatalog {
 		}
 	}
 	
+	/**
+	 * Returns the top publishers of a catalog
+	 * @param numberOfAuthors number of top authors to be considered
+	 * @return
+	 */
 	public NavigableSet<Tuple<String, Integer>> topPublishers(int numberOfAuthors) {
 		TreeSet<Tuple<String, Integer>> authorsTotal = new TreeSet<>(new AuthorPubsTupleComparator());
 		Tuple<String, Integer> t;
@@ -48,6 +58,11 @@ public class AuthorCatalog {
 		return authorsTotal;
 	}
 	
+	/**
+	 * Returns the top pairs of authors, along with their number of publications
+	 * @param numberOfPairs number of pairs to be considered
+	 * @return
+	 */
 	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(int numberOfPairs) {
 		TreeSet<Tuple<Tuple<String, String>, Integer>> pairsList = new TreeSet<>(new PairPubsTupleComparator());
 		Tuple<Tuple<String, String>, Integer> outerTuple;
@@ -76,5 +91,24 @@ public class AuthorCatalog {
 		}
 		
 		return pairsList;
+	}
+	
+	public NavigableSet<String> getAuthors() {
+		// Does putAll clone?
+		TreeSet<String> authors = new TreeSet<>();
+		for( String s : this.authors.keySet() )
+			authors.add(s);
+		
+		return authors;
+	}
+	
+	public Set<String> getCoauthors(String author) {
+		AuthorInfo info = this.authors.get(author);
+		if(info != null) return info.getCoauthors();
+		else return null;
+	}
+	
+	public boolean hasAuthor(String name) {
+		return this.authors.keySet().contains(name);
 	}
 }
