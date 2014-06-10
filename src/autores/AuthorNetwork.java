@@ -1,8 +1,8 @@
 package autores;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
 
@@ -131,8 +131,10 @@ public class AuthorNetwork {
 			args = Scan.scanString("Please enter a maximum of 3 names separated by commas").split(",");
 		while(args.length > 3);
 		
-		String head = args[0];
-		List<String> tail = Arrays.asList(args).subList(1, args.length);
+		String head = args[0].trim();
+		ArrayList<String> tail = new ArrayList<String>();
+		for( String s : Arrays.asList(args).subList(1, args.length) )
+			tail.add( s.trim() );
 		
 		NavigableSet<String> res = this.lobby.commonCoauthors(head, tail);
 		

@@ -92,11 +92,6 @@ public class AuthorCatalog {
 		for( AuthorInfo a : this.authors.values() )
 			pairs.putAll( a.getAuthorPairs() );
 
-		System.out.println("\n\nPrinting author pairs in the catalog");
-		for(Map.Entry<Tuple<String, String>, Integer> p : pairs.entrySet())
-			System.out.println( p.getKey().getFirst() + " & " + p.getKey().getSecond() + ": " + p.getValue());
-		System.out.println("########################\n");
-		
 		return pairs;
 	}
 	
