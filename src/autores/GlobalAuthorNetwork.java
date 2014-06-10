@@ -2,9 +2,11 @@ package autores;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NavigableSet;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -163,7 +165,34 @@ public class GlobalAuthorNetwork {
 		
 		return coauthors;
 	}
+	
+	/**
+	 * Returns a set with the authors who only published alone
+	 * @return
+	 */
+	public Set<String> getSoloAuthors() {
+		HashSet<String> soloAuthors = new HashSet<>();
 		
+		for (AuthorCatalog catalog : this.annualNetworks.values()) {
+			soloAuthors.addAll(catalog.getSoloAuthors());
+		}
+		
+		return soloAuthors;
+	}
+		
+	/**
+	 * Return the authors who never punlished alone
+	 */
+	public Set<String> getNonSoloAuthors() {
+		HashSet<String> nonSoloAuthors = new HashSet<>();
+		
+		for (AuthorCatalog catalog : this.annualNetworks.values()) {
+			nonSoloAuthors.addAll(catalog.getNonSoloAuthors());
+		}
+		
+		return nonSoloAuthors;
+	}
+	
 	/**
 	 * Goes through a target Map of &#060T, Integer&#62, adding each value to the existing one in the totals &#060T, Integer&#062 TreeMap.<br>
 	 * If the value does not exist, it shall be added.

@@ -1,4 +1,5 @@
 bin/
+doc/
 # Object files
 *.o
 *.ko

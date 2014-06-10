@@ -69,26 +69,36 @@ public class AuthorNetwork {
 	/**
 	 * Prints the statistics for the read file
 	 */
-	private void getStatistics() {
+	private void getFileStatistics() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\nStatistics for ");
 		sb.append( this.lobby.getCurrentFile() );
 		sb.append("\nTotal number of articles: ");
 		sb.append( this.lobby.getTotalPublications() );
-		sb.append("\nTotal number of authors: ");
-		sb.append( this.lobby.getTotalAuthors() );
-		sb.append("\nTotal number of solo authors: ");
-		sb.append("INFORMATION PENDING"); // replace this
-		sb.append("\nTotal number of non-solo authors: ");
-		sb.append("INFORMATION PENDING"); // replace this
+		sb.append("\nTotal number of names: ");
+		sb.append( this.lobby.getTotalNamesRead() );
 		sb.append("\nTotal number of different authors: ");
-		sb.append("INFORMATION PENDING"); // replace this
-		sb.append("\nTotal number of solo publications: ");
-		sb.append( this.lobby.getSoloPublications() );
+		sb.append( this.lobby.getTotalAuthors());
 		sb.append("\nYear interval: ");
 		Tuple<Integer, Integer> interval = this.lobby.getYearInterval();
 		sb.append("[" + interval.getFirst() + ", " + interval.getSecond() + "]");
 		System.out.println( sb.toString() );
+		Scan.pressEnterToContinue();
+	}
+	
+	/**
+	 * Prints the statistics for the read file
+	 */
+	private void getDataStatistics(int n_publications) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\nTotal number of solo publications: ");
+		sb.append( this.lobby.getSoloPublications() );
+		sb.append("\nTotal number of solo authors: ");
+		sb.append( this.lobby.getTotalSoloAuthors() );
+		sb.append("\nTotal number of non-solo authors: ");
+		sb.append( this.lobby.getTotalNonSoloAuthors() );
+		sb.append("\nTotal numbe of authors who published more than " + n_publications + " publications: ");
+		//sb.append( this.lobby.getTotal) 
 		Scan.pressEnterToContinue();
 	}
 	
@@ -184,7 +194,7 @@ public class AuthorNetwork {
 				new MenuOption() { public void exec() { app.shutdown(); } },
 				new MenuOption() { public void exec() { app.readFromFile(); } },
 				new MenuOption() { public void exec() { app.countLines(); } },
-				new MenuOption() { public void exec() { app.getStatistics(); } },
+				new MenuOption() { public void exec() { app.getFileStatistics(); } },
 				new MenuOption() { public void exec() { app.getYearTable(); } },
 				new MenuOption() { public void exec() { app.getAuthorsBy(); } },
 				new MenuOption() { public void exec() { app.getTopAuthorsInInterval(); } },

@@ -62,10 +62,33 @@ public class Lobby {
 	}
 	
 	/**
+	 * Return the number of authors who only published alone
+	 * @return 
+	 */
+	public int getTotalSoloAuthors() {
+		return this.network.getSoloAuthors().size();
+	}
+	
+	/**
+	 * Return the number of authors who never published alone
+	 * @return 
+	 */
+	public int getTotalNonSoloAuthors() {
+		return this.network.getNonSoloAuthors().size();
+	}
+	
+	/**
 	 * Returns the total number of authors
 	 * @return
 	 */
-	public long getTotalAuthors() {
+	public int getTotalAuthors() {
+		return index.totalAuthors();
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getTotalNamesRead() {
 		return stats.getTotalNames();
 	}
 	
@@ -199,10 +222,9 @@ public class Lobby {
 		return this.network.topPairs(min, max, nrAuthors);
 	}
 	
-
 	private class Statistics {
 		private int totalArticles;
-		private long totalNames;
+		private int totalNames;
 		private int soloArticles;
 		private TreeMap<Integer, Integer> yearTable;
 		
@@ -228,7 +250,7 @@ public class Lobby {
 		 * Returns total number of names read
 		 * @return
 		 */
-		public long getTotalNames() {
+		public int getTotalNames() {
 			return this.totalNames;
 		}
 		

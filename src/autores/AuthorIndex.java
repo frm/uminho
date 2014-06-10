@@ -2,6 +2,7 @@ package autores;
 
 import java.util.ArrayList;
 import java.util.NavigableSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -42,6 +43,20 @@ public class AuthorIndex {
 	}
 	
 	/**
+	 * Returns the total number of authors found in the file read
+	 * @return
+	 */
+	public int totalAuthors() {
+		int total = 0;
+		
+		for (Set<String> s : this.index) {
+			total += s.size();
+		}
+		
+		return total;
+	}
+	
+	/**
 	 * Returns the index of the array list where the initial of the given name should be
 	 * @param name
 	 * @return
@@ -64,4 +79,5 @@ public class AuthorIndex {
 		
 		return i;
 	}
+	
 }
