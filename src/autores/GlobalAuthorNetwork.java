@@ -255,6 +255,24 @@ public class GlobalAuthorNetwork implements Serializable {
 		return common;
 	}
 	
+	public Tuple<Set<String>, Integer> authorPartnershipInfo(String author) {
+		Tuple<Set<String>, Integer> t = new Tuple<Set<String>, Integer>(new HashSet<String>(), 0);
+		Tuple<Set<String>, Integer> temp;
+		
+		for (AuthorCatalog catalog : this.annualNetworks.values()) {
+			try {
+				temp = catalog.authorPartnershipInfo(author);
+				t.getFirst().addAll(temp.getFirst());
+				t.setSecond(t.getSecond() + temp.getSecond());
+			}
+			catch (NoSuchAuthorException e) {
+				continue;
+			}
+		}
+		
+		return t;
+	}
+	
 	/**
 	 * Goes through a target Map of &#060T, Integer&#62, adding each value to the existing one in the totals &#060T, Integer&#062 TreeMap.<br>
 	 * If the value does not exist, it shall be added.
@@ -292,5 +310,4 @@ public class GlobalAuthorNetwork implements Serializable {
 		}
 		return orderedAuthors;
 	}
-	
 }

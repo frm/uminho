@@ -2,6 +2,7 @@ package autores;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -102,6 +103,16 @@ public class AuthorInfo implements Serializable {
 	
 	public int totalCoauthors() {
 		return this.coauthorsInfo.size();
+	}
+	
+	public Tuple<Set<String>, Integer> partnershipInfo() {
+		Tuple<Set<String>, Integer> t = new Tuple<Set<String>, Integer>(new HashSet<String>(), 0); 
+		for (Map.Entry<String, Integer> entry : this.coauthorsInfo.entrySet()) {
+			t.getFirst().add(entry.getKey());
+			t.setSecond(t.getSecond() + entry.getValue());
+		}
+		
+		return t;
 	}
 	
 	public String toString() {
