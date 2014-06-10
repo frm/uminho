@@ -92,6 +92,7 @@ public class AuthorCatalogTest {
 
 	@Test
 	public void testAuthorPairs() {
+		/*
 		Map<Tuple<String, String>, Integer> map = authorCatalog.authorPairs();
 		int i = map.size();
 		assertEquals(5, i);
@@ -99,5 +100,28 @@ public class AuthorCatalogTest {
 		assertEquals(2, i);
 		i = map.get(new Tuple<String, String>("Maybe Tua Prima", "Trol"));
 		assertEquals(1, i);
+		*/
+		AuthorCatalog catalog = new AuthorCatalog();
+		//catalog.addPublication(Arrays.asList(new String[]{"Tua Prima", "Trol"}));
+		//catalog.addPublication(Arrays.asList(new String[]{"Tua Prima", "Crol", "Maybe Tua Prima"}));
+		catalog.addPublication(Arrays.asList(new String[]{"Tua Prima", "Brol"}));
+		catalog.addPublication(Arrays.asList(new String[]{"Tua Prima", "Brol"}));
+		catalog.addPublication(Arrays.asList(new String[]{"Tua Prima", "Brol"}));
+		catalog.addPublication(Arrays.asList(new String[]{"Tua Prima", "Crol", "Brol"}));
+		//catalog.addPublication(Arrays.asList(new String[]{"Tua Prima", "Trol"}));
+		//catalog.addPublication(Arrays.asList(new String[]{"Tua Prima", "Trol"}));
+		//catalog.addPublication(Arrays.asList(new String[]{"Tua Prima", "Trol"}));
+		//catalog.addPublication(Arrays.asList(new String[]{"Tua Prima", "Trol"}));
+		Map<Tuple<String, String>, Integer> map = catalog.authorPairs();
+		int i = map.size();
+		assertEquals(3, i);
+		i = map.get(new Tuple<String, String>("Brol", "Tua Prima"));
+		assertEquals(4, i);
+		i = map.get(new Tuple<String, String>("Brol", "Crol"));
+		assertEquals(1, i);
+		i = map.get(new Tuple<String, String>("Crol", "Tua Prima"));
+		assertEquals(1, i);
+		//i = map.get(new Tuple<String, String>("Maybe Tua Prima", "Tua Prima"));
+		//assertEquals(1, i);
 	}
 }

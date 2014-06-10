@@ -28,8 +28,9 @@ public class GlobalAuthorNetwork {
 			newCatalog.addPublication(authors);
 			this.annualNetworks.put(year, newCatalog);
 		}
-		else
+		else {
 			this.annualNetworks.get(year).addPublication(authors);
+		}
 	}
 	
 	/**

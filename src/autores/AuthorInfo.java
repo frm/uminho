@@ -95,11 +95,6 @@ public class AuthorInfo {
 				pairs.put(new Tuple<String, String>(coauthorName, this.name), val);
 		}
 		
-		System.out.println("!!! Printing author pairs in the info");
-		System.out.println("Pairs of " + this.name);
-		for(Map.Entry<Tuple<String, String>, Integer> p : pairs.entrySet())
-			System.out.println( p.getKey().getFirst() + " & " + p.getKey().getSecond() + ": " + p.getValue());
-		
 		return pairs;
 	}
 	
