@@ -146,4 +146,15 @@ public class AuthorCatalog {
 		
 		return map;
 	}
+	
+	public Tuple<Set<String>, Integer> authorPartnershipInfo(String author) throws NoSuchAuthorException {
+		AuthorInfo aut = authors.get(author);
+		
+		if (aut == null) {
+			throw new NoSuchAuthorException(author + " not found.");
+		}
+		else {
+			return aut.partnershipInfo();
+		}
+	}
 }
