@@ -1,12 +1,14 @@
 package autores;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-public class AuthorInfo {
+@SuppressWarnings("serial")
+public class AuthorInfo implements Serializable {
 	private String name;
 	private int soloPublications;
 	private int jointPublications;

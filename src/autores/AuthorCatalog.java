@@ -1,5 +1,6 @@
 package autores;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +10,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 
-public class AuthorCatalog {
+@SuppressWarnings("serial")
+public class AuthorCatalog implements Serializable {
 	private HashMap<String, AuthorInfo> authors;
 	private int nrPublications;
 	

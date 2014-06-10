@@ -22,7 +22,7 @@ public class AuthorNetwork {
 		"Exit", "Read from file", "Count repeated lines",
 		"Get File Statistics", "Get Data Statistics", "Year Table", "Get Authors By",
 		"Get Top Authors In Interval", "Get Top Pairs In Interval", "Get Published Authors In Interval",
-		"Get Common Coauthors"
+		"Get Common Coauthors", "Save", "Load"
 	};
 	
 	
@@ -205,6 +205,34 @@ public class AuthorNetwork {
 		Scan.pressEnterToContinue();
 	}
 	
+	public void save() {
+		String filename = Scan.scanString("Enter a filename").trim();
+		if(!filename.contains(".obj"))
+			filename += ".obj";
+		
+		try {
+			this.lobby.writeToFile(filename);
+		} catch (IOException e) {
+			System.out.println("Write error");
+		}
+	}
+	
+	
+	public void load() {
+		String filename = Scan.scanString("Enter a filename").trim();
+		if(!filename.contains(".obj"))
+			filename += ".obj";
+		
+		try {
+			this.lobby = Lobby.readLobbyFromFile(filename);
+		} catch (IOException e) {
+			System.out.println("Read error");
+		} catch(ClassNotFoundException e) {
+			System.out.println("Read error, class doesn't exist");
+		}
+	}
+	
+	
 	/* ##### UI methods ##### */
 	
 	/**
@@ -238,7 +266,9 @@ public class AuthorNetwork {
 				new MenuOption() { public void exec() { app.getTopAuthorsInInterval(); } },
 				new MenuOption() { public void exec() { app.getTopPairsInInterval(); } },
 				new MenuOption() { public void exec() { app.getAuthorsInInterval(); } },
-				new MenuOption() { public void exec() { app.getCommonCoauthors(); } }
+				new MenuOption() { public void exec() { app.getCommonCoauthors(); } },
+				new MenuOption() { public void exec() { app.save(); } },
+				new MenuOption() { public void exec() { app.load(); } }
 		};
 	}
 	

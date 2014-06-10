@@ -1,15 +1,18 @@
 package autores;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -22,7 +25,8 @@ import java.util.TreeSet;
  *
  */
 
-public class Lobby {
+@SuppressWarnings("serial")
+public class Lobby  implements Serializable {
 	private String currentFile;
 	private Statistics stats;
 	private AuthorIndex index;
@@ -223,6 +227,22 @@ public class Lobby {
 	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(int min, int max, int nrAuthors) {
 		return this.network.topPairs(min, max, nrAuthors);
 	}
+	
+	
+	public void writeToFile(String filename) throws IOException{
+        ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(filename) );
+        oos.writeObject(this);
+        oos.flush();
+        oos.close();
+    }
+	
+	public static Lobby readLobbyFromFile(String filename) throws IOException, ClassNotFoundException {
+		ObjectInputStream ois = new ObjectInputStream( new FileInputStream (filename) );
+		Lobby l = (Lobby) ois.readObject();
+		ois.close();
+		return l;
+	}
+	
 	
 	private class Statistics {
 		private int totalArticles;

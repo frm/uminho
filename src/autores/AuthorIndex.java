@@ -1,5 +1,6 @@
 package autores;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.NavigableSet;
 import java.util.Set;
@@ -10,7 +11,8 @@ import java.util.TreeSet;
  *
  *
  */
-public class AuthorIndex {
+@SuppressWarnings("serial")
+public class AuthorIndex implements Serializable{
 	ArrayList< TreeSet<String> > index;
 	
 	public AuthorIndex() {

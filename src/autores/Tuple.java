@@ -1,6 +1,9 @@
 package autores;
 
-public class Tuple<F, S> {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Tuple<F, S> implements Serializable {
 	private F first;
 	private S second;
 	

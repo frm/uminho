@@ -1,8 +1,10 @@
 package autores;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class PairPubsTupleComparator implements Comparator<Tuple<Tuple<String, String>, Integer>> {
+@SuppressWarnings("serial")
+public class PairPubsTupleComparator implements Serializable, Comparator<Tuple<Tuple<String, String>, Integer>> {
 	
 	public int compare(Tuple<Tuple<String, String>, Integer> t1, Tuple<Tuple<String, String>, Integer> t2) {
 		int v;
