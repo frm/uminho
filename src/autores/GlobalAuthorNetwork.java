@@ -2,6 +2,7 @@ package autores;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -178,26 +179,44 @@ public class GlobalAuthorNetwork {
 	 * @return
 	 */
 	public Set<String> getSoloAuthors() {
-		HashSet<String> soloAuthors = new HashSet<>();
+		HashMap<String, Boolean> map = new HashMap<>();
+		HashSet<String> set = new HashSet<>();
 		
 		for (AuthorCatalog catalog : this.annualNetworks.values()) {
-			soloAuthors.addAll(catalog.getSoloAuthors());
+			for (Map.Entry<String, Boolean> entry : catalog.getSoloAuthors().entrySet()) {
+				Boolean b = map.get(entry.getKey());
+				
+				if (b == null) map.put(entry.getKey(), entry.getValue());
+				else map.put(entry.getKey(), b && entry.getValue());
+			}
 		}
 		
-		return soloAuthors;
+		for (Map.Entry<String, Boolean> entry : map.entrySet()) {
+			if (entry.getValue()) set.add(entry.getKey());
+		}
+		return set;
 	}
 		
 	/**
 	 * Return the authors who never published alone
 	 */
 	public Set<String> getNonSoloAuthors() {
-		HashSet<String> nonSoloAuthors = new HashSet<>();
+		HashMap<String, Boolean> map = new HashMap<>();
+		HashSet<String> set = new HashSet<>();
 		
 		for (AuthorCatalog catalog : this.annualNetworks.values()) {
-			nonSoloAuthors.addAll(catalog.getNonSoloAuthors());
+			for (Map.Entry<String, Boolean> entry : catalog.getNonSoloAuthors().entrySet()) {
+				Boolean b = map.get(entry.getKey());
+				
+				if (b == null) map.put(entry.getKey(), entry.getValue());
+				else map.put(entry.getKey(), b && entry.getValue());
+			}
 		}
 		
-		return nonSoloAuthors;
+		for (Map.Entry<String, Boolean> entry : map.entrySet()) {
+			if (entry.getValue()) set.add(entry.getKey());
+		}
+		return set;
 	}
 	
 	/**

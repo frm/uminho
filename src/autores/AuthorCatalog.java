@@ -2,7 +2,6 @@ package autores;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Set;
@@ -113,27 +112,27 @@ public class AuthorCatalog {
 	 * Returns a set with the authors who only published alone
 	 * @return
 	 */
-	public Set<String> getSoloAuthors() {
-		HashSet<String> soloAuthors = new HashSet<>();
+	public Map<String, Boolean> getSoloAuthors() {
+		HashMap<String, Boolean> map = new HashMap<String, Boolean>();
 		
 		for (AuthorInfo author : authors.values()) {
-			if (author.onlySolo()) soloAuthors.add(author.getName());
+			map.put(author.getName(), author.onlySolo());
 		}
 		
-		return soloAuthors;
+		return map;
 	}
 	
 	/**
 	 * Returns a set with the authors who never published alone
 	 * @return
 	 */
-	public Set<String> getNonSoloAuthors() {
-		HashSet<String> nonSoloAuthors = new HashSet<>();
+	public Map<String, Boolean> getNonSoloAuthors() {
+		HashMap<String, Boolean> map = new HashMap<String, Boolean>();
 		
 		for (AuthorInfo author : authors.values()) {
-			if (author.neverSolo()) nonSoloAuthors.add(author.getName());
+			map.put(author.getName(), author.neverSolo());
 		}
 		
-		return nonSoloAuthors;
+		return map;
 	}
 }
