@@ -1,6 +1,8 @@
 package autores;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
 
@@ -19,7 +21,8 @@ public class AuthorNetwork {
 	private static final String[] mainMenuStrings = {
 		"Exit", "Read from file", "Count repeated lines",
 		"Get statistics", "Year Table", "Get Authors By",
-		"Get Top Authors In Interval", "Get Top Pairs In Interval", "Get Published Authors In Interval"
+		"Get Top Authors In Interval", "Get Top Pairs In Interval", "Get Published Authors In Interval",
+		"Get Common Coauthors"
 	};
 	
 	
@@ -122,6 +125,34 @@ public class AuthorNetwork {
 		Scan.pressEnterToContinue();
 	}
 	
+	private void getCommonCoauthors() {
+		String[] args;
+		do
+			args = Scan.scanString("Please enter a maximum of 3 names separated by commas").split(",");
+		while(args.length > 3);
+		
+		String head = args[0];
+		List<String> tail = Arrays.asList(args).subList(1, args.length);
+		
+		NavigableSet<String> res = this.lobby.commonCoauthors(head, tail);
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("Common coauthors to " + head);
+		for(String s : tail) {
+			sb.append(" & ");
+			sb.append(s);
+		}
+		
+		sb.append(":\n");
+		
+		System.out.println(sb);		
+		for(String s : res)
+			System.out.println(s);
+		
+		Scan.pressEnterToContinue();
+		
+	}
+	
 	
 	private void getTopAuthorsInInterval() {
 		int min = Scan.scanInt("Please enter the first year");
@@ -199,7 +230,8 @@ public class AuthorNetwork {
 				new MenuOption() { public void exec() { app.getAuthorsBy(); } },
 				new MenuOption() { public void exec() { app.getTopAuthorsInInterval(); } },
 				new MenuOption() { public void exec() { app.getTopPairsInInterval(); } },
-				new MenuOption() { public void exec() { app.getAuthorsInInterval(); } }
+				new MenuOption() { public void exec() { app.getAuthorsInInterval(); } },
+				new MenuOption() { public void exec() { app.getCommonCoauthors(); } }
 		};
 	}
 	

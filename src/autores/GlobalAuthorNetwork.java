@@ -187,7 +187,7 @@ public class GlobalAuthorNetwork {
 	}
 		
 	/**
-	 * Return the authors who never punlished alone
+	 * Return the authors who never published alone
 	 */
 	public Set<String> getNonSoloAuthors() {
 		HashSet<String> nonSoloAuthors = new HashSet<>();
@@ -197,6 +197,26 @@ public class GlobalAuthorNetwork {
 		}
 		
 		return nonSoloAuthors;
+	}
+	
+	/**
+	 * Returns the navigable set of common authors to the given authors 
+	 * @param head First author to search for
+	 * @param tail Rest of the authors to search for
+	 * @return
+	 */
+	public NavigableSet<String> getCommonCoauthors(String head, Collection<String> tail) {
+		NavigableSet<String> common = getCoauthorsOf(head);
+		for(String s : tail) {
+			NavigableSet<String> current = getCoauthorsOf(s);
+			
+			Iterator<String> it = common.iterator();
+			while( it.hasNext() )
+				if( !current.contains( it.next() ) )
+					it.remove();
+		}
+		
+		return common;
 	}
 	
 	/**

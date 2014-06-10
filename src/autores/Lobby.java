@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
@@ -217,6 +218,11 @@ public class Lobby {
 		
 		return repeatedLines;
 	}
+	
+	public NavigableSet<String> commonCoauthors(String head, Collection<String> tail) {
+		return this.network.getCommonCoauthors(head, tail);
+	}
+	
 	
 	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(int min, int max, int nrAuthors) {
 		return this.network.topPairs(min, max, nrAuthors);
