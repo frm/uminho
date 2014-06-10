@@ -76,10 +76,10 @@ public class GlobalAuthorNetwork {
 		for(Map.Entry<Tuple<String, String>, Integer> p : authorPairs.entrySet())
 			System.out.println( p.getKey().getFirst() + " & " + p.getKey().getSecond() + ": " + p.getValue() );
 		
-		System.out.println("\n### PRINTING THE CATALOG ###\n");
+		/*System.out.println("\n### PRINTING THE CATALOG ###\n");
 		for( Map.Entry<Integer, AuthorCatalog> s : this.annualNetworks.entrySet() )
 			System.out.println(s.getKey() + " : " + s.getValue());
-		
+		*/
 		return GlobalAuthorNetwork.functorAddMax( authorPairs, nrAuthors, new PairPubsTupleComparator() ); // return a clone, please
 	}
 	
@@ -92,7 +92,13 @@ public class GlobalAuthorNetwork {
 	private void addYearPairs(TreeMap<Tuple<String, String>, Integer> authorPairs, int year) {
 		AuthorCatalog catalog = this.annualNetworks.get(year);
 		if(catalog != null) {
+			System.out.println("For year: " + year);
 			Map<Tuple<String, String>, Integer> yearPairs = catalog.authorPairs();
+			/*System.out.println("!!! GETTING CATALOG AUTHOR PAIRS FOR " + year);
+			
+			for(Map.Entry<Tuple<String, String>, Integer> p : yearPairs.entrySet())
+				System.out.println( p.getKey().getFirst() + " & " + p.getKey().getSecond() + ": " + p.getValue() );
+			*/
 			GlobalAuthorNetwork.functorMapAdd(authorPairs, yearPairs);
 		}
 	}	
