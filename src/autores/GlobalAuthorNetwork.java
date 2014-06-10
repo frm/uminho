@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeMap;
@@ -32,6 +33,20 @@ public class GlobalAuthorNetwork {
 		else {
 			this.annualNetworks.get(year).addPublication(authors);
 		}
+	}
+	
+	public NavigableMap<Integer, Integer> getYearTable() {
+		TreeMap<Integer, Integer> table = new TreeMap<>();
+		for(Map.Entry<Integer, AuthorCatalog> entry : this.annualNetworks.entrySet() )
+			table.put( entry.getKey(), entry.getValue().getNrPublications() );
+		
+		return table;
+	}
+	
+	public Tuple<Integer, Integer> getYearInterval() {
+		int min = this.annualNetworks.firstKey();
+		int max = this.annualNetworks.lastKey();
+		return new Tuple<Integer, Integer>(min, max);
 	}
 	
 	/**

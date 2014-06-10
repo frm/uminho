@@ -37,15 +37,7 @@ public class Lobby {
 		this.index = new AuthorIndex();
 		this.network = new GlobalAuthorNetwork();
 	}
-	
-	/**
-	 * Sets the read filename
-	 * @param filename
-	 */
-	public void setFilename(String filename) {
-		this.currentFile = filename;
-	}
-	
+
 	/**
 	 * Returns the read filename
 	 * @return
@@ -106,7 +98,7 @@ public class Lobby {
 	 * @return
 	 */
 	public Tuple<Integer, Integer> getYearInterval() {
-		return stats.getYearInterval();
+		return network.getYearInterval();
 	}
 	
 	/**
@@ -114,7 +106,7 @@ public class Lobby {
 	 * @return
 	 */
 	public NavigableMap<Integer, Integer> getYearTable() {
-		return this.stats.getYearTable();
+		return this.network.getYearTable();
 	}
 	
 	public NavigableSet<Tuple<String, Integer>> topPublishersInInterval(int min, int max, int nrAuthors) {
@@ -194,7 +186,7 @@ public class Lobby {
 		
 		this.network.addPublication(year, authorArgs);
 		
-		this.stats.process(year, authorArgs);
+		this.stats.process(authorArgs);
 	}
 	
 	/**
@@ -236,7 +228,6 @@ public class Lobby {
 		private int totalArticles;
 		private int totalNames;
 		private int soloArticles;
-		private TreeMap<Integer, Integer> yearTable;
 		
 		/**
 		 * Empty constructor
@@ -245,7 +236,6 @@ public class Lobby {
 			this.totalArticles = 0;
 			this.totalNames = 0;
 			this.soloArticles = 0;
-			this.yearTable = new TreeMap<>();
 		}
 		
 		/**
@@ -273,53 +263,10 @@ public class Lobby {
 		}
 		
 		/**
-		 * Returns a tuple containing the minimum and maximum years
-		 * @return
-		 */
-		public Tuple<Integer, Integer> getYearInterval() {
-			return new Tuple<>( this.yearTable.firstKey(), this.yearTable.lastKey() );			
-		}
-		
-		/**
-		 * Returns a navigable map of the year table. The table shall contain an association of year - number of publications
-		 * @return
-		 */
-		public NavigableMap<Integer, Integer> getYearTable() {
-			TreeMap<Integer, Integer> cpy = new TreeMap<>();
-			for( Map.Entry<Integer, Integer> pair : this.yearTable.entrySet() )
-				cpy.put( (Integer)pair.getKey(), (Integer)pair.getValue() );
-			return cpy;
-		}
-		
-		/**
-		 * Processes a list containing publication info, updating the variables
-		 * @param publication
-		 */
-		public void process(int year, List<String> publication) {
-			updateTotals(publication);
-			updateTable(year);
-		}
-		
-		/**
-		 * Updates the table for a given year
-		 * @param year
-		 */
-		private void updateTable(int year) {
-			
-			if( this.yearTable.containsKey(year) ) {
-				int oldTotal = this.yearTable.get(year);
-				this.yearTable.put(year, oldTotal + 1);
-			}
-			
-			else
-				this.yearTable.put(year, 0);
-		}
-		
-		/**
 		 * Updates the totals of articles, names and solo articles
 		 * @param publication Information of the publication
 		 */
-		private void updateTotals(List<String> publication) {
+		public void process(List<String> publication) {
 			this.totalArticles++;
 			this.totalNames += publication.size();
 			if(publication.size() == 1)	// if the publication only has one author

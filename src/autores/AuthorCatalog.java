@@ -11,9 +11,11 @@ import java.util.TreeSet;
 
 public class AuthorCatalog {
 	private HashMap<String, AuthorInfo> authors;
+	private int nrPublications;
 	
 	public AuthorCatalog() {
 		this.authors = new HashMap<String, AuthorInfo>();
+		this.nrPublications = 0;
 	}
 	
 	/**
@@ -32,6 +34,12 @@ public class AuthorCatalog {
 			
 			info.addPublication(coauthors);
 		}
+		
+		this.nrPublications++;
+	}
+	
+	public int getNrPublications() {
+		return this.nrPublications;
 	}
 	
 	/**
