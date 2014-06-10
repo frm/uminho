@@ -125,6 +125,10 @@ public class Lobby {
 		return this.network.authorsInInterval(min, max);
 	}
 	
+	public int nrAuthorsWithOver(int nrPublications) {
+		return this.network.nrAuthorsWithOver(nrPublications);
+	}
+	
 	/**
 	 * Resets the statistics and sets the new filename
 	 * @param filename

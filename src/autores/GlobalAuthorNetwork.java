@@ -147,6 +147,18 @@ public class GlobalAuthorNetwork {
 	}
 	
 	
+	public int nrAuthorsWithOver(int nrPublications) {
+		TreeMap<String, Integer> totals = new TreeMap<>();
+		for( AuthorCatalog a : this.annualNetworks.values() )
+			GlobalAuthorNetwork.functorMapAdd( totals, a.getAuthorPublications() );
+		
+		int total = 0;
+		for( Integer i : totals.values() )
+			if(i > nrPublications) total++;
+		
+		return total;
+	}
+	
 	/**
 	 * Returns a NavigableSet of all the coauthors of a given author
 	 * @param name
@@ -232,7 +244,7 @@ public class GlobalAuthorNetwork {
 	 * @param totals
 	 * @param target
 	 */
-	private static <T> void functorMapAdd(TreeMap<T, Integer> totals, Map<T, Integer> target) {
+	private static <T> void functorMapAdd(Map<T, Integer> totals, Map<T, Integer> target) {
 		for( Map.Entry<T, Integer> p : target.entrySet() ) {
 			if( totals.containsKey( p.getKey() ) ) {
 				int newVal = p.getValue() + totals.get( p.getKey() );

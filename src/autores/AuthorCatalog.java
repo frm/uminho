@@ -103,6 +103,14 @@ public class AuthorCatalog {
 		return sb.toString();
 	}
 	
+	public Map<String, Integer> getAuthorPublications() {
+		TreeMap<String, Integer> pairs = new TreeMap<>();
+		for( AuthorInfo a : this.authors.values() )
+			pairs.put( a.getName(), a.getTotalPublications() );
+		
+		return pairs;
+	}
+	
 	/**
 	 * Returns a set with the authors who only published alone
 	 * @return

@@ -20,7 +20,7 @@ public class AuthorNetwork {
 	
 	private static final String[] mainMenuStrings = {
 		"Exit", "Read from file", "Count repeated lines",
-		"Get statistics", "Year Table", "Get Authors By",
+		"Get File Statistics", "Get Data Statistics", "Year Table", "Get Authors By",
 		"Get Top Authors In Interval", "Get Top Pairs In Interval", "Get Published Authors In Interval",
 		"Get Common Coauthors"
 	};
@@ -92,7 +92,9 @@ public class AuthorNetwork {
 	/**
 	 * Prints the statistics for the read file
 	 */
-	private void getDataStatistics(int n_publications) {
+	private void getDataStatistics() {
+		int nPublications = Scan.scanInt("Enter a number for the author minimum publications");
+		
 		StringBuilder sb = new StringBuilder();
 		sb.append("\nTotal number of solo publications: ");
 		sb.append( this.lobby.getSoloPublications() );
@@ -100,8 +102,10 @@ public class AuthorNetwork {
 		sb.append( this.lobby.getTotalSoloAuthors() );
 		sb.append("\nTotal number of non-solo authors: ");
 		sb.append( this.lobby.getTotalNonSoloAuthors() );
-		sb.append("\nTotal numbe of authors who published more than " + n_publications + " publications: ");
-		//sb.append( this.lobby.getTotal) 
+		sb.append("\nTotal number of authors who published more than " + nPublications + " publications: ");
+		sb.append( this.lobby.nrAuthorsWithOver(nPublications) );
+		
+		System.out.println(sb);
 		Scan.pressEnterToContinue();
 	}
 	
@@ -228,6 +232,7 @@ public class AuthorNetwork {
 				new MenuOption() { public void exec() { app.readFromFile(); } },
 				new MenuOption() { public void exec() { app.countLines(); } },
 				new MenuOption() { public void exec() { app.getFileStatistics(); } },
+				new MenuOption() { public void exec() { app.getDataStatistics(); } },
 				new MenuOption() { public void exec() { app.getYearTable(); } },
 				new MenuOption() { public void exec() { app.getAuthorsBy(); } },
 				new MenuOption() { public void exec() { app.getTopAuthorsInInterval(); } },
