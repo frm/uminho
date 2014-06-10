@@ -8,7 +8,8 @@ public class AuthorTupleComparator implements Comparator<Tuple<String, String>> 
 		int i = t1.getFirst().compareTo( t2.getFirst() );
 		if(i < 0) return -1;
 		if(i > 0) return 1;
-		else return t2.getSecond().compareTo( t2.getSecond() );
+		if( t2.getSecond().compareTo( t2.getSecond() ) == 0 ) return 0;
+		else return i;
 	}
 	
 }

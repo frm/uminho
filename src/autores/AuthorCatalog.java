@@ -94,4 +94,13 @@ public class AuthorCatalog {
 		
 		return pairs;
 	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for(AuthorInfo a : this.authors.values())
+			sb.append(a + "\n");
+		
+		return sb.toString();
+	}
+	
 }

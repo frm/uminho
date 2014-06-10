@@ -70,6 +70,14 @@ public class GlobalAuthorNetwork {
 		for(int i = min; i <= max; i++)
 				addYearPairs(authorPairs, i);
 		
+		System.out.println("### Printing the addPairs result added for every year ###\n");
+		for(Map.Entry<Tuple<String, String>, Integer> p : authorPairs.entrySet())
+			System.out.println( p.getKey().getFirst() + " & " + p.getKey().getSecond() + ": " + p.getValue() );
+		
+		System.out.println("\n### PRINTING THE CATALOG ###\n");
+		for( Map.Entry<Integer, AuthorCatalog> s : this.annualNetworks.entrySet() )
+			System.out.println(s.getKey() + " : " + s.getValue());
+		
 		return GlobalAuthorNetwork.functorAddMax( authorPairs, nrAuthors, new PairPubsTupleComparator() ); // return a clone, please
 	}
 	

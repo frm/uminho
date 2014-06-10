@@ -101,4 +101,24 @@ public class AuthorInfo {
 	public int totalCoauthors() {
 		return this.coauthorsInfo.size();
 	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Name: ");
+		sb.append(name);
+		sb.append("\nSolo publications: ");
+		sb.append(this.soloPublications);
+		sb.append("\nJoint publications: ");
+		sb.append(this.jointPublications);
+		for(Map.Entry<String, Integer> coauthor : this.coauthorsInfo.entrySet()) {
+			sb.append("\n\t: ");
+			sb.append(coauthor.getKey());
+			sb.append("- ");
+			sb.append(coauthor.getValue());
+		}
+		
+		return sb.toString();
+	}
+	
+	
 }
