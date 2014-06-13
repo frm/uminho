@@ -255,21 +255,12 @@ public class GlobalAuthorNetwork implements Serializable {
 		return common;
 	}
 	
-	public Tuple<Set<String>, Integer> authorPartnershipInfo(String author) {
-		Tuple<Set<String>, Integer> t = new Tuple<Set<String>, Integer>(new HashSet<String>(), 0);
-		Tuple<Set<String>, Integer> temp;
+	public Tuple<Set<String>, Integer> authorPartnershipInfo(int year, String author) throws NoSuchYearException, NoSuchAuthorException {
+		AuthorCatalog an = annualNetworks.get(year); 
 		
-		for (AuthorCatalog catalog : this.annualNetworks.values()) {
-			try {
-				temp = catalog.authorPartnershipInfo(author);
-				t.getFirst().addAll(temp.getFirst());
-				t.setSecond(t.getSecond() + temp.getSecond());
-			}
-			catch (NoSuchAuthorException e) {
-				continue;
-			}
-		}		
-		return t;
+		if (an == null) throw new NoSuchYearException(year + " does not exist");
+		
+		return an.authorPartnershipInfo(author);
 	}
 	
 	public NavigableSet<String> getAuthorsBy(char c) {
