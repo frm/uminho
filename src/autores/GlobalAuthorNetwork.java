@@ -268,9 +268,25 @@ public class GlobalAuthorNetwork implements Serializable {
 			catch (NoSuchAuthorException e) {
 				continue;
 			}
-		}
-		
+		}		
 		return t;
+	}
+	
+	public NavigableSet<String> getAuthorsBy(char c) {
+		TreeSet<String> authors = new TreeSet<>();
+		for( AuthorCatalog ac : this.annualNetworks.values() )
+			authors.addAll( ac.getAuthorsBy(c) );
+		
+		
+		return authors;
+	}
+	
+	public int totalAuthors() {
+		TreeSet<String> authors = new TreeSet<>();
+		for( AuthorCatalog ac : this.annualNetworks.values() )
+			authors.addAll( ac.getAuthors() );
+		
+		return authors.size();
 	}
 	
 	/**

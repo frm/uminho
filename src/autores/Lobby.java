@@ -29,7 +29,6 @@ import java.util.TreeSet;
 public class Lobby  implements Serializable {
 	private String currentFile;
 	private Statistics stats;
-	private AuthorIndex index;
 	private GlobalAuthorNetwork network;
 	
 	/**
@@ -38,7 +37,6 @@ public class Lobby  implements Serializable {
 	public Lobby() {
 		this.currentFile = "";
 		this.stats = new Statistics();
-		this.index = new AuthorIndex();
 		this.network = new GlobalAuthorNetwork();
 	}
 
@@ -79,7 +77,7 @@ public class Lobby  implements Serializable {
 	 * @return
 	 */
 	public int getTotalAuthors() {
-		return index.totalAuthors();
+		return network.totalAuthors();
 	}
 	
 	/**
@@ -132,6 +130,7 @@ public class Lobby  implements Serializable {
 	private void reset(String filename) {
 		this.stats = new Statistics();
 		this.currentFile = filename;
+		this.network = new GlobalAuthorNetwork();
 	}
 	/**
 	 * Returns a navigable set of authors started by the given initial
@@ -139,7 +138,7 @@ public class Lobby  implements Serializable {
 	 * @return
 	 */
 	public NavigableSet<String> getAuthorsBy(char c) {
-		return this.index.getAuthorsBy(c);
+		return this.network.getAuthorsBy(c);
 	}
 	
 	/**
@@ -184,9 +183,6 @@ public class Lobby  implements Serializable {
 	private void processData(List<String> args) {
 		int year = Integer.parseInt( args.get(args.size() - 1) );
 		List<String> authorArgs = args.subList(0, args.size() - 1);
-		
-		for(String s : authorArgs)
-			this.index.addAuthor(s);
 		
 		this.network.addPublication(year, authorArgs);
 		
@@ -244,7 +240,7 @@ public class Lobby  implements Serializable {
 	}
 	
 	
-	private class Statistics {
+	private class Statistics implements Serializable {
 		private int totalArticles;
 		private int totalNames;
 		private int soloArticles;

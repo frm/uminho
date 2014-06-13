@@ -44,6 +44,15 @@ public class AuthorCatalog implements Serializable {
 		return this.nrPublications;
 	}
 	
+	public NavigableSet<String> getAuthorsBy(char c) {
+		TreeSet<String> authors = new TreeSet<>();
+		for( AuthorInfo ai : this.authors.values() )
+			if( ai.getName().charAt(0) == c )
+				authors.add( ai.getName() );
+		
+		return authors;
+	}
+	
 	/**
 	 * Returns the top publishers of a catalog
 	 * @param numberOfAuthors number of top authors to be considered
