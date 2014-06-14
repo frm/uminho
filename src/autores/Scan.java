@@ -2,15 +2,145 @@ package autores;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import static java.lang.System.out;
+import static java.lang.System.in;
 
 /**
- * Class containing a set of Scanners with error handling
+ * Classe que abstrai a utilização da classe Scanner, escondendo todos os
+ * problemas relacionados com excepções, e que oferece métodos simples e
+ * robustos para a leitura de valores de tipos simples.
  *
+ * -----  Utilização: Exemplos
+ *
+ * int i = Input.lerInt();
+ * String linha = Input.lerString();
+ * double raio = Input.lerDouble();
+ * ---------------------------------------
+ *
+ * @author F. Mário Martins
+ * @version 1.0 (6/2006)
  */
+
 
 public class Scan {
 	
 	private static Scanner scan;
+	
+	public static String lerString() {
+	     scan = new Scanner(in);
+	     boolean ok = false; 
+	     String txt = "";
+	     while(!ok) {
+	         try {
+	             txt = scan.nextLine();
+	             ok = true;
+	         }
+	         catch(InputMismatchException e) 
+	             { out.println("Texto Inválido"); 
+	               out.print("Novo valor: ");
+	               scan.nextLine(); 
+	             }
+	     }
+	     
+         //input.close();
+	     return txt;
+	  } 
+
+	 
+	 public static int lerInt() {
+	     scan = new Scanner(in);
+	     boolean ok = false; 
+	     int i = 0; 
+	     while(!ok) {
+	         try {
+	             i = scan.nextInt();
+	             ok = true;
+	         }
+	         catch(InputMismatchException e) 
+	             { out.println("Inteiro Inválido"); 
+	               out.print("Novo valor: ");
+	               scan.nextLine(); 
+	             }
+	     }
+	     //input.close();
+	     return i;
+	  } 
+	  
+	  public static double lerDouble() {
+	     scan = new Scanner(in);
+	     boolean ok = false; 
+	     double d = 0.0; 
+	     while(!ok) {
+	         try {
+	             d = scan.nextDouble();
+	             ok = true;
+	         }
+	         catch(InputMismatchException e) 
+	             { out.println("Valor real Inválido"); 
+	               out.print("Novo valor: ");
+	               scan.nextLine(); 
+	             }
+	     }
+	     //input.close();
+	     return d;
+	  }  
+	  
+	   public static float lerFloat() {
+	     scan = new Scanner(in);
+	     boolean ok = false; 
+	     float f = 0.0f; 
+	     while(!ok) {
+	         try {
+	             f = scan.nextFloat();
+	             ok = true;
+	         }
+	         catch(InputMismatchException e) 
+	             { out.println("Valor real Inválido"); 
+	               out.print("Novo valor: ");
+	               scan.nextLine(); 
+	             }
+	     }
+	     //input.close();
+	     return f;
+	  }  
+	  
+	   public static boolean lerBoolean() {
+	     scan = new Scanner(in);
+	     boolean ok = false; 
+	     boolean b = false; 
+	     while(!ok) {
+	         try {
+	             b = scan.nextBoolean();
+	             ok = true;
+	         }
+	         catch(InputMismatchException e) 
+	             { out.println("Booleano Inválido"); 
+	               out.print("Novo valor: ");
+	               scan.nextLine(); 
+	             }
+	     }
+	     //input.close();
+	     return b;
+	  } 
+	  
+	  public static short lerShort() {
+	     scan = new Scanner(in);
+	     boolean ok = false; 
+	     short s = 0; 
+	     while(!ok) {
+	         try {
+	             s = scan.nextShort();
+	             ok = true;
+	         }
+	         catch(InputMismatchException e) 
+	             { out.println("Short Inválido"); 
+	               out.print("Novo valor: ");
+	               scan.nextLine(); 
+	             }
+	     }
+	     scan.close();
+	     return s;
+	  }   
 
 	/**
 	 * Waits for the user to press a single Enter to allow for more displays
@@ -28,19 +158,8 @@ public class Scan {
 	 * @return
 	 */
 	public static String scanString(String message) {
-
 		System.out.println(message);
-		scan = new Scanner(System.in);
-        String s;
-		
-        try {
-        	s = scan.nextLine();
-        } catch(InputMismatchException e) {
-        	System.out.println("Invalid format");
-        	return Scan.scanString(message);
-        }
-        
-        return s;
+        return Scan.lerString();
     }
 	
 	/**
@@ -49,19 +168,8 @@ public class Scan {
 	 * @return
 	 */
 	public static int scanInt(String message) {
-        	System.out.println(message);
-        	scan = new Scanner(System.in);
-            
-	        int val;
-	        
-	         try {
-	            val = scan.nextInt();
-	        } catch (Exception e) {
-	            System.out.println("Invalid format");
-	            val = Scan.scanInt(message);
-	        }
-	         
-	         return val;
+        	System.out.println(message);	         
+	         return Scan.lerInt();
 	 }
 	
 	/**
@@ -88,6 +196,11 @@ public class Scan {
 	 * @return
 	 */
 	public static char scanChar(String message) {
-		return Scan.scanString(message).charAt(0);
+		String line = Scan.scanString(message);
+		while( line.equals("") )
+			Scan.scanString("Invalid value." + message);
+		
+		return line.charAt(0);
 	}
+	
 }
