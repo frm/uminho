@@ -48,7 +48,7 @@ public class Gestauts {
 	 * Scans the user for a filename, reading from it
 	 */
 	private void readFromFile() {
-		String filename = Scan.scanString("Enter a filename, please");
+		String filename = Input.scanString("Enter a filename, please");
 		try {
 			Crono.start();
 			this.network.readFromFile(filename);
@@ -65,7 +65,7 @@ public class Gestauts {
 	 * Proceeds to count the repeated lines.
 	 */
 	private void countLines() {
-		String filename = Scan.scanString("Enter a filename: ");
+		String filename = Input.scanString("Enter a filename: ");
 		int count;
 		
 		try {
@@ -74,7 +74,7 @@ public class Gestauts {
 			Crono.stop();
 			System.out.println(Crono.print());
 			System.out.println("Number of repeated lines: " + count);
-			Scan.pressEnterToContinue();
+			Input.pressEnterToContinue();
 		} catch(IOException e) {
 			System.out.println("File does not exist. Let's try that again.");
 			countLines();
@@ -101,14 +101,14 @@ public class Gestauts {
 		Crono.stop();
 		System.out.println(Crono.print());
 		System.out.println( sb.toString() );
-		Scan.pressEnterToContinue();
+		Input.pressEnterToContinue();
 	}
 	
 	/**
 	 * Prints the statistics for the read file
 	 */
 	private void getDataStatistics() {
-		int nPublications = Scan.scanInt("Enter a number for the author minimum publications");
+		int nPublications = Input.scanInt("Enter a number for the author minimum publications");
 		
 		Crono.start();
 		
@@ -126,7 +126,7 @@ public class Gestauts {
 		System.out.println(Crono.print());
 		
 		System.out.println(sb);
-		Scan.pressEnterToContinue();
+		Input.pressEnterToContinue();
 	}
 	
 	/**
@@ -144,7 +144,7 @@ public class Gestauts {
 	 * Prints the list of author names started with a scanned character
 	 */
 	private void getAuthorsBy() {
-		char c = Character.toUpperCase( Scan.scanChar("Enter an initial") );
+		char c = Character.toUpperCase( Input.scanChar("Enter an initial") );
 		
 		Crono.start();
 		Set<String> s = this.network.getAuthorsBy(c);
@@ -160,15 +160,15 @@ public class Gestauts {
 	private void getCommonCoauthors() {
 		String[] args;
 		do
-			args = Scan.scanString("Please enter a maximum of 3 names separated by commas").split(",");
+			args = Input.scanString("Please enter a maximum of 3 names separated by commas").split(",");
 		while(args.length > 3);
 		
 		ArrayList<String> authors = new ArrayList<String>();
 		for( String s : Arrays.asList(args))
 			authors.add( s.trim() );
 		
-		int min = Scan.scanInt("Please enter the first year");
-		int max = Scan.intInRange("Please enter the second year", min + 1, Integer.MAX_VALUE);
+		int min = Input.scanInt("Please enter the first year");
+		int max = Input.intInRange("Please enter the second year", min + 1, Integer.MAX_VALUE);
 
 		Crono.start();
 		NavigableSet<String> res = this.network.commonCoauthors(authors, min, max);
@@ -191,12 +191,12 @@ public class Gestauts {
 	 * Top authors in interval view
 	 */
 	private void getTopAuthorsInInterval() {
-		int min = Scan.scanInt("Please enter the first year");
-		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
+		int min = Input.scanInt("Please enter the first year");
+		int max = Input.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
 		
 		int nrAuthors = 0;
 		while(nrAuthors < 1)
-			nrAuthors = Scan.scanInt("Enter the desired number of authors.");
+			nrAuthors = Input.scanInt("Enter the desired number of authors.");
 		
 		TreeSet<String> authors = new TreeSet<>();
 		
@@ -216,12 +216,12 @@ public class Gestauts {
 	 * Top pairs of authors in interval view
 	 */
 	public void getTopPairsInInterval() {
-		int min = Scan.scanInt("Please enter the first year");
-		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
+		int min = Input.scanInt("Please enter the first year");
+		int max = Input.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
 		
 		int nrAuthors = 0;
 		while(nrAuthors < 1)
-			nrAuthors = Scan.scanInt("Enter the desired number of authors.");
+			nrAuthors = Input.scanInt("Enter the desired number of authors.");
 		
 		Crono.start();
 		NavigableSet<Tuple<Tuple<String, String>, Integer>> authors = this.network.topPairs(min, max, nrAuthors);
@@ -234,8 +234,8 @@ public class Gestauts {
 	 * Authors in interval view
 	 */
 	public void getAuthorsInInterval() {
-		int min = Scan.scanInt("Please enter the first year");
-		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
+		int min = Input.scanInt("Please enter the first year");
+		int max = Input.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
 		
 		try {
 			Crono.start();
@@ -248,7 +248,7 @@ public class Gestauts {
 		} catch (NoAuthorsInIntervalException e) {
 			System.out.println("No authors available in given interval");
 			
-			Scan.pressEnterToContinue();
+			Input.pressEnterToContinue();
 		}
 	}
 	
@@ -256,13 +256,13 @@ public class Gestauts {
 	 * Coauthor info view
 	 */
 	public void getCoauthorInfo() {
-		int year = Scan.scanInt("Please enter a year");
+		int year = Input.scanInt("Please enter a year");
 		
 		Tuple<Integer, Integer> interval = this.network.getYearInterval();
 		while(year < interval.getFirst() || year > interval.getSecond() )
-			year = Scan.scanInt("Invalid year.\nPlease enter a year");
+			year = Input.scanInt("Invalid year.\nPlease enter a year");
 		
-		String author = Scan.scanString("Enter an author name.");
+		String author = Input.scanString("Enter an author name.");
 		
 		Tuple<Set<String>, Integer> info;
 		try {
@@ -283,7 +283,7 @@ public class Gestauts {
 	 * Coauthors of an author view
 	 */
 	public void getCoauthorsOf() {
-		String author = Scan.scanString("Please enter an author name");
+		String author = Input.scanString("Please enter an author name");
 		
 		Crono.start();
 		NavigableSet<String> coauthors = this.network.getCoauthorsOf(author);
@@ -302,7 +302,7 @@ public class Gestauts {
 	 * Save structure to file view
 	 */
 	public void save() {
-		String filename = Scan.scanString("Enter a filename").trim();
+		String filename = Input.scanString("Enter a filename").trim();
 		if(!filename.contains(".obj"))
 			filename += ".obj";
 		
@@ -320,7 +320,7 @@ public class Gestauts {
 	 * Load structure view
 	 */
 	public void load() {
-		String filename = Scan.scanString("Enter a filename").trim();
+		String filename = Input.scanString("Enter a filename").trim();
 		if(!filename.contains(".obj"))
 			filename += ".obj";
 		
@@ -434,7 +434,7 @@ public class Gestauts {
 	        		}
 	        		System.out.println("(Q) - Quit\n");
 	        		
-	        		char option = Character.toUpperCase(Scan.scanChar(""));
+	        		char option = Character.toUpperCase(Input.scanChar(""));
 	        		
 	        		if (option == 'B' && (bf & 1) > 0) {
         				try {
@@ -531,7 +531,7 @@ public class Gestauts {
 	public void commandInterpreter() {
 		Gestauts.printMainMenu();
 		
-		int option = Scan.intInRange(
+		int option = Input.intInRange(
 				"Please select an option",
 				0,
 				Gestauts.mainMenuStrings.length - 1

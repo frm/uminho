@@ -22,7 +22,7 @@ import static java.lang.System.in;
  */
 
 
-public class Scan {
+public class Input {
 	
 	private static Scanner scan;
 	
@@ -159,7 +159,7 @@ public class Scan {
 	 */
 	public static String scanString(String message) {
 		System.out.println(message);
-        return Scan.lerString();
+        return Input.lerString();
     }
 	
 	/**
@@ -169,7 +169,7 @@ public class Scan {
 	 */
 	public static int scanInt(String message) {
         	System.out.println(message);	         
-	         return Scan.lerInt();
+	         return Input.lerInt();
 	 }
 	
 	/**
@@ -180,11 +180,11 @@ public class Scan {
 	 * @return
 	 */
 	public static int intInRange(String message, int min, int max) {
-        int val = Scan.scanInt(message);
+        int val = Input.scanInt(message);
 
         while ( val < min || val > max ) {
             System.out.println("Value is out of bounds\n");
-            val = Scan.intInRange(message, min, max);
+            val = Input.intInRange(message, min, max);
         }
 
         return val;
@@ -196,9 +196,9 @@ public class Scan {
 	 * @return
 	 */
 	public static char scanChar(String message) {
-		String line = Scan.scanString(message);
+		String line = Input.scanString(message);
 		while( line.equals("") )
-			Scan.scanString("Invalid value." + message);
+			Input.scanString("Invalid value." + message);
 		
 		return line.charAt(0);
 	}
