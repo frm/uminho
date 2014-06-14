@@ -227,7 +227,7 @@ public class Gestauts {
 		NavigableSet<Tuple<Tuple<String, String>, Integer>> authors = this.network.topPairs(min, max, nrAuthors);
 		Crono.stop();
 		System.out.println(Crono.print());
-		strStrIntNavigation("BROL TROL\n", authors.descendingSet());
+		strStrIntNavigation("Top " + nrAuthors + " in [" + min + ", " + max + "]\n", authors.descendingSet());
 	}
 	
 	/**
@@ -243,13 +243,11 @@ public class Gestauts {
 			Crono.stop();
 			System.out.println(Crono.print());
 			
-			strNavigation("TROL BROL CROL\n", t);
+			strNavigation("Authors that published every year between " + min + " and " + max +".\n", t);
 			
 		} catch (NoAuthorsInIntervalException e) {
 			System.out.println("No authors available in given interval");
 		}
-		
-		Scan.pressEnterToContinue();
 	}
 	
 	/**
