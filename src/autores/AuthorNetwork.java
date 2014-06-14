@@ -1,469 +1,302 @@
 package autores;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Main class of the project, responsible for UI and delegation of user commands to the correct handlers
+ * Class responsible for:<br>
+ * <ul>
+ * 		<li>Reading from a file;</li>
+ * 		<li>Populating the database accordingly;</li>
+ * 		<li>Communicating with the structures</li>
+ * </ul>
  *
  */
 
-public class AuthorNetwork {
-
-	private MenuOption[] mainMenu;
-	private boolean isActive;
-	private Lobby lobby;
-	
-	
-	private static final String[] mainMenuStrings = {
-		"Exit", "Read from file", "Count repeated lines",
-		"Get File Statistics", "Get Data Statistics", "Year Table", "Get Authors By",
-		"Get Top Authors In Interval", "Get Top Pairs In Interval", "Get Published Authors In Interval",
-		"Get Common Coauthors", "Get Coauthor Info", "Get Coauthors Of", "Save", "Load"
-	};
-	
-	private interface PrintFunction<T> {
-		public void exec(T arg);
-	}
+@SuppressWarnings("serial")
+public class AuthorNetwork  implements Serializable {
+	private String currentFile;
+	private Statistics stats;
+	private GlobalAuthorNetwork network;
 	
 	/**
 	 * Empty constructor
 	 */
 	public AuthorNetwork() {
-		this.isActive = false;
-		this.mainMenu = null;
-		this.lobby = new Lobby();
-		this.generateMainMenu(); 
+		this.currentFile = "";
+		this.stats = new Statistics();
+		this.network = new GlobalAuthorNetwork();
 	}
-	
-	/* ##### Query methods ##### */
-	
-	/**
-	 * Scans the user for a filename, reading from it
-	 */
-	private void readFromFile() {
-		String filename = Scan.scanString("Enter a filename, please");
-		try {
-			Crono.start();
-			this.lobby.readFromFile(filename);
-			Crono.stop();
-			System.out.println(Crono.print());
-		} catch(IOException e) {
-			System.out.println("File does not exist. Please try again");
-			this.readFromFile();
-		}
-	}
-	
-	/**
-	 * Scans the user for a file name.<br>
-	 * Proceeds to count the repeated lines.
-	 */
-	private void countLines() {
-		String filename = Scan.scanString("Enter a filename: ");
-		int count;
-		
-		try {
-			count = this.lobby.countRepeatedLines(filename);
-			System.out.println("Number of repeated lines: " + count);
-			Scan.pressEnterToContinue();
-		} catch(IOException e) {
-			System.out.println("File does not exist. Let's try that again.");
-			countLines();
-		}
-	}
-	
-	/**
-	 * Prints the statistics for the read file
-	 */
-	private void getFileStatistics() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("\nStatistics for ");
-		sb.append( this.lobby.getCurrentFile() );
-		sb.append("\nTotal number of articles: ");
-		sb.append( this.lobby.getTotalPublications() );
-		sb.append("\nTotal number of names: ");
-		sb.append( this.lobby.getTotalNamesRead() );
-		sb.append("\nTotal number of different authors: ");
-		sb.append( this.lobby.getTotalAuthors());
-		sb.append("\nYear interval: ");
-		Tuple<Integer, Integer> interval = this.lobby.getYearInterval();
-		sb.append("[" + interval.getFirst() + ", " + interval.getSecond() + "]");
-		System.out.println( sb.toString() );
-		Scan.pressEnterToContinue();
-	}
-	
-	/**
-	 * Prints the statistics for the read file
-	 */
-	private void getDataStatistics() {
-		int nPublications = Scan.scanInt("Enter a number for the author minimum publications");
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("\nTotal number of solo publications: ");
-		sb.append( this.lobby.getSoloPublications() );
-		sb.append("\nTotal number of solo authors: ");
-		sb.append( this.lobby.getTotalSoloAuthors() );
-		sb.append("\nTotal number of non-solo authors: ");
-		sb.append( this.lobby.getTotalNonSoloAuthors() );
-		sb.append("\nTotal number of authors who published more than " + nPublications + " publications: ");
-		sb.append( this.lobby.nrAuthorsWithOver(nPublications) );
-		
-		System.out.println(sb);
-		Scan.pressEnterToContinue();
-	}
-	
-	/**
-	 * Prints a table of year-number of publications pair
-	 */
-	private void getYearTable() {
-		yearEntryNavigation("SHIT, FUCK!", this.lobby.getYearTable().entrySet());
-	}
-	
-	/**
-	 * Prints the list of author names started with a scanned character
-	 */
-	private void getAuthorsBy() {
-		char c = Character.toUpperCase( Scan.scanChar("Enter an initial") );
-		
-		strNavigation(c + "\n", this.lobby.getAuthorsBy(c));
-	}
-	
-	private void getCommonCoauthors() {
-		String[] args;
-		do
-			args = Scan.scanString("Please enter a maximum of 3 names separated by commas").split(",");
-		while(args.length > 3);
-		
-		ArrayList<String> authors = new ArrayList<String>();
-		for( String s : Arrays.asList(args))
-			authors.add( s.trim() );
-		
-		int min = Scan.scanInt("Please enter the first year");
-		int max = Scan.intInRange("Please enter the second year", min + 1, Integer.MAX_VALUE);
 
-		
-		NavigableSet<String> res = this.lobby.commonCoauthors(authors, min, max);
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("Common coauthors to " + authors.get(0));
-		for(String s : authors.subList(1, authors.size())) {
-			sb.append(" & ");
-			sb.append(s);
-		}
-		
-		sb.append(":\n");
-		
-		strNavigation(sb.toString(), res);
+	/**
+	 * Returns the read filename
+	 * @return
+	 */
+	public String getCurrentFile() {
+		return this.currentFile;
 	}
 	
-	
-	private void getTopAuthorsInInterval() {
-		int min = Scan.scanInt("Please enter the first year");
-		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
-		
-		int nrAuthors = 0;
-		while(nrAuthors < 1)
-			nrAuthors = Scan.scanInt("Enter the desired number of authors.");
-		
-		TreeSet<String> authors = new TreeSet<>();
-		
-		for (Tuple<String, Integer> t : this.lobby.topPublishersInInterval(min, max, nrAuthors)) {
-			authors.add(t.getFirst());
-		}
-		
-		strNavigation("BROL TROL\n", authors);
+	/**
+	 * Returns the total number of solo publications
+	 * @return
+	 */
+	public int getSoloPublications() {
+		return stats.getSoloArticles();
 	}
 	
-	public void getTopPairsInInterval() {
-		int min = Scan.scanInt("Please enter the first year");
-		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
-		
-		int nrAuthors = 0;
-		while(nrAuthors < 1)
-			nrAuthors = Scan.scanInt("Enter the desired number of authors.");
-		
-		NavigableSet<Tuple<Tuple<String, String>, Integer>> authors = this.lobby.topPairs(min, max, nrAuthors);
-		strStrIntNavigation("BROL TROL\n", authors.descendingSet());
+	/**
+	 * Return the number of authors who only published alone
+	 * @return 
+	 */
+	public int getTotalSoloAuthors() {
+		return this.network.getSoloAuthors().size();
 	}
 	
-	public void getAuthorsInInterval() {
-		int min = Scan.scanInt("Please enter the first year");
-		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
+	/**
+	 * Return the number of authors who never published alone
+	 * @return 
+	 */
+	public int getTotalNonSoloAuthors() {
+		return this.network.getNonSoloAuthors().size();
+	}
+	
+	/**
+	 * Returns the total number of authors
+	 * @return
+	 */
+	public int getTotalAuthors() {
+		return network.totalAuthors();
+	}
+	
+	/**
+	 * @return
+	 */
+	public int getTotalNamesRead() {
+		return stats.getTotalNames();
+	}
+	
+	/**
+	 * Returns the total number of publications
+	 * @return
+	 */
+	public int getTotalPublications() {
+		return stats.getTotalArticles();
+	}
+	
+	/**
+	 * Returns a tuple containing minimum and maximum years that have publications
+	 * @return
+	 */
+	public Tuple<Integer, Integer> getYearInterval() {
+		return network.getYearInterval();
+	}
+	
+	public NavigableSet<String> getCoauthorsOf(String name) {
+		return this.network.getCoauthorsOf(name);
+	}
+	
+	/**
+	 * Returns a navigable map of the year table. The table shall contain an association of year - number of publications
+	 * @return
+	 */
+	public NavigableMap<Integer, Integer> getYearTable() {
+		return this.network.getYearTable();
+	}
+	
+	public NavigableSet<Tuple<String, Integer>> topPublishersInInterval(int min, int max, int nrAuthors) {
+		return this.network.topPublishers(min, max, nrAuthors);
+	}
+	
+	public NavigableSet<String> authorsInInterval(int min, int max) throws NoAuthorsInIntervalException {
+		return this.network.authorsInInterval(min, max);
+	}
+	
+	public int nrAuthorsWithOver(int nrPublications) {
+		return this.network.nrAuthorsWithOver(nrPublications);
+	}
+	
+	public Tuple<Set<String>, Integer> authorPartnershipInfo(int year, String author) throws NoSuchYearException, NoSuchAuthorException {
+		return this.network.authorPartnershipInfo(year, author);
+	}
+	
+	/**
+	 * Resets the statistics and sets the new filename
+	 * @param filename
+	 */
+	private void reset(String filename) {
+		this.stats = new Statistics();
+		this.currentFile = filename;
+		this.network = new GlobalAuthorNetwork();
+	}
+	/**
+	 * Returns a navigable set of authors started by the given initial
+	 * @param c
+	 * @return
+	 */
+	public NavigableSet<String> getAuthorsBy(char c) {
+		return this.network.getAuthorsBy(c);
+	}
+	
+	/**
+	 * Reads from a file, populating the database
+	 * @param filename name of the file to be read
+	 */
+	public void readFromFile(String filename) throws IOException {
+		this.reset(filename);
 		
-		try {
-			TreeSet<String> t = new TreeSet<String>(this.lobby.authorsInInterval(min, max));
-
-			strNavigation("TROL BROL CROL\n", t);
+		BufferedReader br = new BufferedReader( new FileReader(filename) );
+		String line = br.readLine();
+		
+		while(line != null) {
+			if(line.length() > 1)
+				processData( getLineArgs(line) );
 			
-		} catch (NoAuthorsInIntervalException e) {
-			System.out.println("No authors available in given interval");
+			line = br.readLine();
 		}
 		
-		Scan.pressEnterToContinue();
-	}
-	
-	public void getCoauthorInfo() {
-		int year = Scan.scanInt("Please enter a year");
-		
-		Tuple<Integer, Integer> interval = this.lobby.getYearInterval();
-		while(year < interval.getFirst() || year > interval.getSecond() )
-			year = Scan.scanInt("Invalid year.\nPlease enter a year");
-		
-		String author = Scan.scanString("Enter an author name.");
-		
-		Tuple<Set<String>, Integer> info;
-		try {
-			info = this.lobby.authorPartnershipInfo(year, author);
-
-			strNavigation("Partnership Information:\nTotal Publications: " + info.getSecond() + "\nCo-authors:\n", info.getFirst());
-		} catch(NoSuchAuthorException e) {
-			System.out.println( e.getMessage() );
-		} catch(NoSuchYearException e) {
-			System.out.println( e.getMessage() );
-		}		
-	}
-	
-	public void getCoauthorsOf() {
-		String author = Scan.scanString("Please enter an author name");
-		NavigableSet<String> coauthors = this.lobby.getCoauthorsOf(author);
-		if( coauthors.size() == 0 )
-			System.out.println("Author does not exist");
-		else {
-			strNavigation("Coauthors of " + author, coauthors);
-		}
-			
-	}
-	
-	public void save() {
-		String filename = Scan.scanString("Enter a filename").trim();
-		if(!filename.contains(".obj"))
-			filename += ".obj";
-		
-		try {
-			this.lobby.writeToFile(filename);
-		} catch (IOException e) {
-			System.out.println("Write error");
-		}
-	}
-	
-	
-	public void load() {
-		String filename = Scan.scanString("Enter a filename").trim();
-		if(!filename.contains(".obj"))
-			filename += ".obj";
-		
-		try {
-			this.lobby = Lobby.readLobbyFromFile(filename);
-		} catch (IOException e) {
-			System.out.println("Read error");
-		} catch(ClassNotFoundException e) {
-			System.out.println("Read error, class doesn't exist");
-		}
-	}
-	
-	
-	/* ##### UI methods ##### */
-	
-	private static void yearEntryNavigation(String header, Set<Map.Entry<Integer, Integer>> s) {
-		Navigator<Map.Entry<Integer, Integer>> nav = new Navigator<Map.Entry<Integer, Integer>>(s);
-		PrintFunction<Map.Entry<Integer, Integer>> pf = new PrintFunction<Map.Entry<Integer, Integer>>() {
-			public void exec(Map.Entry<Integer, Integer> entry) {
-				System.out.println(entry.getKey() + ": " + entry.getValue());
-			}
-		};
-		__navigation(nav, pf, header, 20);
-	}
-	
-	private static void strStrIntNavigation(String header, Set<Tuple<Tuple<String, String>, Integer>> s) {
-		Navigator<Tuple<Tuple<String, String>, Integer>> nav = new Navigator<Tuple< Tuple<String, String>, Integer>>(s);
-		PrintFunction<Tuple<Tuple<String, String>, Integer>> pf = new PrintFunction<Tuple<Tuple<String, String>, Integer>>() { 
-			public void exec(Tuple<Tuple<String, String>, Integer> arg) { 
-				System.out.println(arg.getSecond() + " -\t" + arg.getFirst().getFirst() + " & " + arg.getFirst().getSecond()); 
-			} 
-		};
-		__navigation(nav, pf, header, 20);
-	}
-	
-	private static void strIntNavigation(String header, Set<Tuple<String, Integer>> s) {
-		Navigator<Tuple<String, Integer>> nav = new Navigator<Tuple<String, Integer>>(s);
-		PrintFunction<Tuple<String, Integer>> pf = new PrintFunction<Tuple<String, Integer>>() { 
-			public void exec(Tuple<String, Integer> arg) { 
-				System.out.println(arg.getSecond() + " -\t" + arg.getFirst()); 
-			} 
-		};
-		
-		__navigation(nav, pf, header, 20);
-	}
-	
-	private static void strNavigation(String header, Set<String> s) {
-		Navigator<String> nav = new Navigator<>(s);
-		PrintFunction<String> pf = new PrintFunction<String>() { public void exec(String arg) { System.out.println(arg); } };
-		__navigation(nav, pf, header, 20);
-	}
-	
-	private static <T> void __navigation(Navigator<T> nav, PrintFunction<T> pf, String header, int blockSize) {
-        List<T> items = null;
-        boolean quit = false;
-        
-        while (!quit) {
-        	try {
-        		items = nav.getNext(blockSize);
-        		
-        		System.out.println("\n" + header);
-        		
-        		for (T item : items) {
-        			pf.exec(item);
-        		}
-        		
-        		System.out.println("\n Showing " + (nav.current() - items.size() + 1)
-        				           + " - " + nav.current() + " of " + nav.size() + "\n");
-        	}
-        	catch (NoMoreItemsException e) {
-        		System.out.println("No more items available\n");
-        	}
-        	finally {
-        		int bf = 0;
-        		
-        		for (;;) {
-	        		if (nav.current() > blockSize) {
-	        			System.out.print("(B) - Back     ");
-	        			bf |= 1;
-	        		}
-	        		if (nav.itemsLeft() > 0) {
-	        			System.out.print("(N) - Next     ");
-	        			bf |= 2;
-	        		}
-	        		System.out.println("(Q) - Quit\n");
-	        		
-	        		char option = Character.toUpperCase(Scan.scanChar(""));
-	        		
-	        		if (option == 'B' && (bf & 1) > 0) {
-        				try {
-        					if (items != null) nav.back(items.size());
-        					nav.back(blockSize);
-        				}
-        				catch (NoMoreItemsException e) {
-        					
-        				}
-	        		}
-	        		else if (option == 'N' && (bf & 2) > 0) {
-	        			
-	        		}
-	        		else if (option == 'Q') {
-	        			quit = true;
-	        		}
-	        		else {
-	        			System.out.println("Invalid option!");
-	        			continue;
-	        		}
-	        		
-	        		break;
-        		}
-        	}
-        }
+		br.close(); // I don't know if this won't give some exceptions
 	}
 	
 	/**
-	 * Print a friendly welcome message
+	 * Receives a line, splitting it into valid information to be processed
+	 * The information shall be returned as a Collection
+	 * @param line
+	 * @return
 	 */
-	private static void greet() {
-		System.out.println("Hello and welcome to the Author Network.");
-	}
-	
-	/**
-	 * Print a friendly goodbye message, setting the app to inactive 
-	 */
-	private void shutdown() {
-		System.out.println("Bye bye.");
-		this.isActive = false;
-	}
-	
-	/**
-	 * Generates the main menu option to be selected
-	 */
-	private void generateMainMenu() {
-		final AuthorNetwork app = this; // Put the app in context to generate its Menu Options
-		this.mainMenu = new MenuOption[] {
-				new MenuOption() { public void exec() { app.shutdown(); } },
-				new MenuOption() { public void exec() { app.readFromFile(); } },
-				new MenuOption() { public void exec() { app.countLines(); } },
-				new MenuOption() { public void exec() { app.getFileStatistics(); } },
-				new MenuOption() { public void exec() { app.getDataStatistics(); } },
-				new MenuOption() { public void exec() { app.getYearTable(); } },
-				new MenuOption() { public void exec() { app.getAuthorsBy(); } },
-				new MenuOption() { public void exec() { app.getTopAuthorsInInterval(); } },
-				new MenuOption() { public void exec() { app.getTopPairsInInterval(); } },
-				new MenuOption() { public void exec() { app.getAuthorsInInterval(); } },
-				new MenuOption() { public void exec() { app.getCommonCoauthors(); } },
-				new MenuOption() { public void exec() { app.getCoauthorInfo(); } },
-				new MenuOption() { public void exec() { app.getCoauthorsOf(); } },
-				new MenuOption() { public void exec() { app.save(); } },
-				new MenuOption() { public void exec() { app.load(); } }
-		};
-	}
-	
-	/**
-	 * Prints the main menu options
-	 */
-	private static void printMainMenu() {
-		int i = 0;
-		for(String s : AuthorNetwork.mainMenuStrings)
-			System.out.println( (i++) + ". " + s);
-	}
-	
-	
-	/**
-	 * Bootstraps the application, making it ready to go
-	 */
-	private void bootstrap() {
-		this.isActive = true;
-		try {
-			this.lobby.readFromFile("test/publicx.txt");
-		} catch(IOException e) {
-			System.out.println("FATAL ERROR. BASE FILE NOT FOUND");
-			this.shutdown();
-		}
-	}
-	
-	/**
-	 * Runs a command interpreter, printing the options and scanning the user.
-	 * It then proceeds to call the selected functionality 
-	 */
-	public void commandInterpreter() {
-		AuthorNetwork.printMainMenu();
+	private List<String> getLineArgs(String line) {
+		ArrayList<String> args = new ArrayList<>();
 		
-		int option = Scan.intInRange(
-				"Please select an option",
-				0,
-				AuthorNetwork.mainMenuStrings.length - 1
-				);
+		for( String s : line.split(",") )
+			args.add( s.trim() );
 		
-		this.mainMenu[option].exec();
+		return args;
 	}
 	
 	/**
-	 * Keeps the app in a cycle while it is active
-	 * The user should select the shutdown option to mark it as "inactive"
-	 */
-	public void run() {
-		this.bootstrap();
-		while(this.isActive)
-			this.commandInterpreter();
-	}
-	
-	/**
-	 * Let the party start
+	 * Processes the data, inserting to databases
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		AuthorNetwork.greet();
-		new AuthorNetwork().run();
+	private void processData(List<String> args) {
+		int year = Integer.parseInt( args.get(args.size() - 1) );
+		List<String> authorArgs = args.subList(0, args.size() - 1);
+		
+		this.network.addPublication(year, authorArgs);
+		
+		this.stats.process(authorArgs);
 	}
-
+	
+	/**
+	 * Counts the number of repeated lines for a given file.
+	 * @param filename
+	 * @return
+	 */
+	public int countRepeatedLines(String filename) throws IOException {
+		TreeSet<String> lineTree = new TreeSet<>();
+		int repeatedLines = 0;
+		
+		BufferedReader br = new BufferedReader( new FileReader(filename) );
+		String line = br.readLine();
+		
+		while(line != null) {
+			if(line.length() > 1) {
+				if( lineTree.contains(line) ) repeatedLines++;
+				else lineTree.add(line);	
+			}
+			
+			line = br.readLine();
+		}
+		
+		br.close(); // I don't know if this won't give some exceptions
+		
+		return repeatedLines;
+	}
+	
+	public NavigableSet<String> commonCoauthors(Collection<String> authors, int min, int max) {
+		return this.network.getCommonCoauthors(authors, min, max);
+	}
+	
+	
+	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(int min, int max, int nrAuthors) {
+		return this.network.topPairs(min, max, nrAuthors);
+	}
+	
+	
+	public void writeToFile(String filename) throws IOException{
+        ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(filename) );
+        oos.writeObject(this);
+        oos.flush();
+        oos.close();
+    }
+	
+	public static AuthorNetwork readLobbyFromFile(String filename) throws IOException, ClassNotFoundException {
+		ObjectInputStream ois = new ObjectInputStream( new FileInputStream (filename) );
+		AuthorNetwork l = (AuthorNetwork) ois.readObject();
+		ois.close();
+		return l;
+	}
+	
+	
+	private class Statistics implements Serializable {
+		private int totalArticles;
+		private int totalNames;
+		private int soloArticles;
+		
+		/**
+		 * Empty constructor
+		 */
+		public Statistics() {
+			this.totalArticles = 0;
+			this.totalNames = 0;
+			this.soloArticles = 0;
+		}
+		
+		/**
+		 * Returns total number of articles read
+		 * @return
+		 */
+		public int getTotalArticles() {
+			return this.totalArticles;
+		}
+		
+		/**
+		 * Returns total number of names read
+		 * @return
+		 */
+		public int getTotalNames() {
+			return this.totalNames;
+		}
+		
+		/**
+		 * Returns total number of solo articles
+		 * @return
+		 */
+		public int getSoloArticles() {
+			return this.soloArticles;
+		}
+		
+		/**
+		 * Updates the totals of articles, names and solo articles
+		 * @param publication Information of the publication
+		 */
+		public void process(List<String> publication) {
+			this.totalArticles++;
+			this.totalNames += publication.size();
+			if(publication.size() == 1)	// if the publication only has one author
+				this.soloArticles++;
+		}
+	}	
+	
 }
