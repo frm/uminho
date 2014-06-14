@@ -247,6 +247,8 @@ public class Gestauts {
 			
 		} catch (NoAuthorsInIntervalException e) {
 			System.out.println("No authors available in given interval");
+			
+			Scan.pressEnterToContinue();
 		}
 	}
 	
