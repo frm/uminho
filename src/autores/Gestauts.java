@@ -122,7 +122,7 @@ public class Gestauts {
 	 * Prints a table of year-number of publications pair
 	 */
 	private void getYearTable() {
-		yearEntryNavigation("SHIT, FUCK!", this.network.getYearTable().entrySet());
+		yearEntryNavigation("Table of Years", this.network.getYearTable().entrySet());
 	}
 	
 	/**
@@ -177,7 +177,7 @@ public class Gestauts {
 			authors.add(t.getFirst());
 		}
 		
-		strNavigation("BROL TROL\n", authors);
+		strNavigation("Top Authors in [" + min + ", " + max + "]\n", authors);
 	}
 	
 	public void getTopPairsInInterval() {

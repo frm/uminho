@@ -43,7 +43,7 @@ public class AuthorNetwork  implements Serializable {
 
 	/**
 	 * Returns the read filename
-	 * @return
+	 * @return read file name
 	 */
 	public String getCurrentFile() {
 		return this.currentFile;
@@ -51,7 +51,7 @@ public class AuthorNetwork  implements Serializable {
 	
 	/**
 	 * Returns the total number of solo publications
-	 * @return
+	 * @return total number of solo publications
 	 */
 	public int getSoloPublications() {
 		return stats.getSoloArticles();
@@ -59,7 +59,7 @@ public class AuthorNetwork  implements Serializable {
 	
 	/**
 	 * Return the number of authors who only published alone
-	 * @return 
+	 * @return number of authors who only published alone
 	 */
 	public int getTotalSoloAuthors() {
 		return this.network.getSoloAuthors().size();
@@ -67,7 +67,7 @@ public class AuthorNetwork  implements Serializable {
 	
 	/**
 	 * Return the number of authors who never published alone
-	 * @return 
+	 * @return number of authors who never published alone
 	 */
 	public int getTotalNonSoloAuthors() {
 		return this.network.getNonSoloAuthors().size();
@@ -75,14 +75,15 @@ public class AuthorNetwork  implements Serializable {
 	
 	/**
 	 * Returns the total number of authors
-	 * @return
+	 * @return total number of authors
 	 */
 	public int getTotalAuthors() {
 		return network.totalAuthors();
 	}
 	
 	/**
-	 * @return
+	 * Returns the total number of names read
+	 * @return total number of names read
 	 */
 	public int getTotalNamesRead() {
 		return stats.getTotalNames();
@@ -90,7 +91,7 @@ public class AuthorNetwork  implements Serializable {
 	
 	/**
 	 * Returns the total number of publications
-	 * @return
+	 * @return total number of publications
 	 */
 	public int getTotalPublications() {
 		return stats.getTotalArticles();
@@ -98,36 +99,68 @@ public class AuthorNetwork  implements Serializable {
 	
 	/**
 	 * Returns a tuple containing minimum and maximum years that have publications
-	 * @return
+	 * @return tuple containing minimum and maximum years that have publications
 	 */
 	public Tuple<Integer, Integer> getYearInterval() {
 		return network.getYearInterval();
 	}
 	
+	/**
+	 * Returns a set containing the name of all the coauthors of the author with the given name
+	 * @param name
+	 * @return set containing the name of all the coauthors of the author with the given name
+	 */
 	public NavigableSet<String> getCoauthorsOf(String name) {
 		return this.network.getCoauthorsOf(name);
 	}
 	
 	/**
 	 * Returns a navigable map of the year table. The table shall contain an association of year - number of publications
-	 * @return
+	 * @return navigable map of the year table. The table shall contain an association of year - number of publications
 	 */
 	public NavigableMap<Integer, Integer> getYearTable() {
 		return this.network.getYearTable();
 	}
 	
+	/**
+	 * Returns a set with a certain number of authors that published in the year interval
+	 * @param min first year of the interval
+	 * @param max last year of the interval
+	 * @param nrAuthors maximum number of authors to display
+	 * @return set with a certain number of authors that published in the year interval
+	 */
 	public NavigableSet<Tuple<String, Integer>> topPublishersInInterval(int min, int max, int nrAuthors) {
 		return this.network.topPublishers(min, max, nrAuthors);
 	}
 	
+	/**
+	 * Returns a set with the names of authors that published in the given year interval
+	 * @param min first year of the interval
+	 * @param max last year of the interval
+	 * @return set with the names of authors that published in the given year interval
+	 * @throws NoAuthorsInIntervalException
+	 */
 	public NavigableSet<String> authorsInInterval(int min, int max) throws NoAuthorsInIntervalException {
 		return this.network.authorsInInterval(min, max);
 	}
 	
+	/**
+	 * Returns the number of authors with more publications than the given number
+	 * @param nrPublications
+	 * @return number of authors with more publications than the given number
+	 */
 	public int nrAuthorsWithOver(int nrPublications) {
 		return this.network.nrAuthorsWithOver(nrPublications);
 	}
 	
+	/**
+	 * Returns a set of strings with the co-author information for the given author in the given year
+	 * @param year
+	 * @param author
+	 * @return set of strings with the co-author information for the given author in the given year
+	 * @throws NoSuchYearException
+	 * @throws NoSuchAuthorException
+	 */
 	public Tuple<Set<String>, Integer> authorPartnershipInfo(int year, String author) throws NoSuchYearException, NoSuchAuthorException {
 		return this.network.authorPartnershipInfo(year, author);
 	}
@@ -144,7 +177,7 @@ public class AuthorNetwork  implements Serializable {
 	/**
 	 * Returns a navigable set of authors started by the given initial
 	 * @param c
-	 * @return
+	 * @return navigable set of authors started by the given initial
 	 */
 	public NavigableSet<String> getAuthorsBy(char c) {
 		return this.network.getAuthorsBy(c);
@@ -174,7 +207,7 @@ public class AuthorNetwork  implements Serializable {
 	 * Receives a line, splitting it into valid information to be processed
 	 * The information shall be returned as a Collection
 	 * @param line
-	 * @return
+	 * @return 
 	 */
 	private List<String> getLineArgs(String line) {
 		ArrayList<String> args = new ArrayList<>();
@@ -201,7 +234,7 @@ public class AuthorNetwork  implements Serializable {
 	/**
 	 * Counts the number of repeated lines for a given file.
 	 * @param filename
-	 * @return
+	 * @return number of repeated lines for a given file.
 	 */
 	public int countRepeatedLines(String filename) throws IOException {
 		TreeSet<String> lineTree = new TreeSet<>();
@@ -219,15 +252,21 @@ public class AuthorNetwork  implements Serializable {
 			line = br.readLine();
 		}
 		
-		br.close(); // I don't know if this won't give some exceptions
+		br.close();
 		
 		return repeatedLines;
 	}
 	
+	/**
+	 * Returns a set list of common coauthors between a collection of a maximum of 3 authors. They must be in a year interval
+	 * @param authors
+	 * @param min first year of the interval
+	 * @param max last year of the interval
+	 * @return
+	 */
 	public NavigableSet<String> commonCoauthors(Collection<String> authors, int min, int max) {
 		return this.network.getCommonCoauthors(authors, min, max);
 	}
-	
 	
 	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(int min, int max, int nrAuthors) {
 		return this.network.topPairs(min, max, nrAuthors);
