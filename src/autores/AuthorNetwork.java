@@ -3,6 +3,7 @@ package autores;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Set;
@@ -26,6 +27,9 @@ public class AuthorNetwork {
 		"Get Common Coauthors", "Get Coauthor Info", "Get Coauthors Of", "Save", "Load"
 	};
 	
+	private interface PrintFunction<T> {
+		public void exec(T arg);
+	}
 	
 	/**
 	 * Empty constructor
@@ -45,7 +49,10 @@ public class AuthorNetwork {
 	private void readFromFile() {
 		String filename = Scan.scanString("Enter a filename, please");
 		try {
+			Crono.start();
 			this.lobby.readFromFile(filename);
+			Crono.stop();
+			System.out.println(Crono.print());
 		} catch(IOException e) {
 			System.out.println("File does not exist. Please try again");
 			this.readFromFile();
@@ -124,10 +131,8 @@ public class AuthorNetwork {
 	 */
 	private void getAuthorsBy() {
 		char c = Character.toUpperCase( Scan.scanChar("Enter an initial") );
-		for(String s : this.lobby.getAuthorsBy(c) )
-			System.out.println(s);
 		
-		Scan.pressEnterToContinue();
+		stringNavigation(c + "\n", this.lobby.getAuthorsBy(c));
 	}
 	
 	private void getCommonCoauthors() {
@@ -156,12 +161,9 @@ public class AuthorNetwork {
 		
 		sb.append(":\n");
 		
-		System.out.println(sb);		
-		for(String s : res)
-			System.out.println(s);
+		System.out.println(sb);
 		
-		Scan.pressEnterToContinue();
-		
+		stringNavigation(sb.toString(), res);
 	}
 	
 	
@@ -174,10 +176,7 @@ public class AuthorNetwork {
 			nrAuthors = Scan.scanInt("Enter the desired number of authors.");
 		
 		NavigableSet<Tuple<String, Integer>> authors = this.lobby.topPublishersInInterval(min, max, nrAuthors);
-		for(Tuple<String, Integer> a : authors)
-			System.out.println("Author: " + a.getFirst() + "\n\t# Publications: " + a.getSecond() +"\n");
-		
-		Scan.pressEnterToContinue();
+		stringIntTupleNavigation("BROL TROL\n", authors);
 	}
 	
 	public void getTopPairsInInterval() {
@@ -275,6 +274,79 @@ public class AuthorNetwork {
 	
 	/* ##### UI methods ##### */
 	
+	private static void stringIntTupleNavigation(String header, Set<Tuple<String, Integer>> s) {
+		Navigator<Tuple<String, Integer>> nav = new Navigator<Tuple<String, Integer>>(s);
+		PrintFunction<Tuple<String, Integer>> pf = new PrintFunction<Tuple<String, Integer>>() { public void exec(Tuple<String, Integer> arg) { System.out.println(arg.getSecond() + " -\t" + arg.getFirst()); } };
+		__navigation(nav, pf, header, 20);
+	}
+	
+	private static void stringNavigation(String header, Set<String> s) {
+		Navigator<String> nav = new Navigator<>(s);
+		PrintFunction<String> pf = new PrintFunction<String>() { public void exec(String arg) { System.out.println(arg); } };
+		__navigation(nav, pf, header, 20);
+	}
+	
+	private static <T> void __navigation(Navigator<T> nav, PrintFunction<T> pf, String header, int blockSize) {
+        List<T> items = null;
+        boolean quit = false;
+        
+        while (!quit) {
+        	try {
+        		items = nav.getNext(blockSize);
+        		
+        		System.out.println("\n" + header);
+        		
+        		for (T item : items) {
+        			pf.exec(item);
+        		}
+        		
+        		System.out.println("\n Showing " + (nav.current() - items.size() + 1)
+        				           + " - " + nav.current() + " of " + nav.size() + "\n");
+        	}
+        	catch (NoMoreItemsException e) {
+        		System.out.println("No more items available");
+        	}
+        	finally {
+        		int bf = 0;
+        		
+        		for (;;) {
+	        		if (nav.current() > blockSize) {
+	        			System.out.print("(B) - Back     ");
+	        			bf |= 1;
+	        		}
+	        		if (nav.itemsLeft() > 0) {
+	        			System.out.print("(N) - Next     ");
+	        			bf |= 2;
+	        		}
+	        		System.out.println("(Q) - Quit\n");
+	        		
+	        		char option = Character.toUpperCase(Scan.scanChar(""));
+	        		
+	        		if (option == 'B' && (bf & 1) > 0) {
+        				try {
+        					if (items != null) nav.back(items.size());
+        					nav.back(blockSize);
+        				}
+        				catch (NoMoreItemsException e) {
+        					
+        				}
+	        		}
+	        		else if (option == 'N' && (bf & 2) > 0) {
+	        			
+	        		}
+	        		else if (option == 'Q') {
+	        			quit = true;
+	        		}
+	        		else {
+	        			System.out.println("Invalid option!");
+	        			continue;
+	        		}
+	        		
+	        		break;
+        		}
+        	}
+        }
+	}
 	/**
 	 * Print a friendly welcome message
 	 */
@@ -313,7 +385,6 @@ public class AuthorNetwork {
 				new MenuOption() { public void exec() { app.load(); } }
 		};
 	}
-	
 	
 	/**
 	 * Prints the main menu options
