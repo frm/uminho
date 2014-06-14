@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Main class of the project, responsible for UI and delegation of user commands to the correct handlers
@@ -121,9 +122,7 @@ public class AuthorNetwork {
 	 * Prints a table of year-number of publications pair
 	 */
 	private void getYearTable() {
-		for(Map.Entry<Integer, Integer> pair : this.lobby.getYearTable().entrySet() )
-			System.out.println(pair.getKey() + ": " + pair.getValue() );
-		Scan.pressEnterToContinue();
+		yearEntryNavigation("SHIT, FUCK!", this.lobby.getYearTable().entrySet());
 	}
 	
 	/**
@@ -195,9 +194,9 @@ public class AuthorNetwork {
 		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
 		
 		try {
-			NavigableSet<String> authors = this.lobby.authorsInInterval(min, max);
+			TreeSet<String> t = new TreeSet<String>(this.lobby.authorsInInterval(min, max));
 
-			strNavigation("TROL BROL CROL\n", authors);
+			strNavigation("TROL BROL CROL\n", t);
 			
 		} catch (NoAuthorsInIntervalException e) {
 			System.out.println("No authors available in given interval");
@@ -268,14 +267,34 @@ public class AuthorNetwork {
 	
 	/* ##### UI methods ##### */
 	
-	private static void strStrIntNavigation(String header, Set<Tuple<Tuple<String, String>, Integer>> s) {
-		Navigator<Tuple<Tuple<String, String>, Integer>> nav = new Navigator<Tuple< Tuple<String, String>, Integer>>(s);
-		PrintFunction<Tuple<Tuple<String, String>, Integer>> pf = new PrintFunction<Tuple<Tuple<String, String>, Integer>>() { public void exec(Tuple<Tuple<String, String>, Integer> arg) { System.out.println(arg.getSecond() + " -\t" + arg.getFirst().getFirst() + " & " + arg.getFirst().getSecond()); } };
+	private static void yearEntryNavigation(String header, Set<Map.Entry<Integer, Integer>> s) {
+		Navigator<Map.Entry<Integer, Integer>> nav = new Navigator<Map.Entry<Integer, Integer>>(s);
+		PrintFunction<Map.Entry<Integer, Integer>> pf = new PrintFunction<Map.Entry<Integer, Integer>>() {
+			public void exec(Map.Entry<Integer, Integer> entry) {
+				System.out.println(entry.getKey() + ": " + entry.getValue());
+			}
+		};
 		__navigation(nav, pf, header, 20);
 	}
+	
+	private static void strStrIntNavigation(String header, Set<Tuple<Tuple<String, String>, Integer>> s) {
+		Navigator<Tuple<Tuple<String, String>, Integer>> nav = new Navigator<Tuple< Tuple<String, String>, Integer>>(s);
+		PrintFunction<Tuple<Tuple<String, String>, Integer>> pf = new PrintFunction<Tuple<Tuple<String, String>, Integer>>() { 
+			public void exec(Tuple<Tuple<String, String>, Integer> arg) { 
+				System.out.println(arg.getSecond() + " -\t" + arg.getFirst().getFirst() + " & " + arg.getFirst().getSecond()); 
+			} 
+		};
+		__navigation(nav, pf, header, 20);
+	}
+	
 	private static void strIntNavigation(String header, Set<Tuple<String, Integer>> s) {
 		Navigator<Tuple<String, Integer>> nav = new Navigator<Tuple<String, Integer>>(s);
-		PrintFunction<Tuple<String, Integer>> pf = new PrintFunction<Tuple<String, Integer>>() { public void exec(Tuple<String, Integer> arg) { System.out.println(arg.getSecond() + " -\t" + arg.getFirst()); } };
+		PrintFunction<Tuple<String, Integer>> pf = new PrintFunction<Tuple<String, Integer>>() { 
+			public void exec(Tuple<String, Integer> arg) { 
+				System.out.println(arg.getSecond() + " -\t" + arg.getFirst()); 
+			} 
+		};
+		
 		__navigation(nav, pf, header, 20);
 	}
 	
