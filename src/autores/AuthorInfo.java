@@ -8,6 +8,11 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+/**
+ * Class used to store information about an author
+ * 
+ */
+
 @SuppressWarnings("serial")
 public class AuthorInfo implements Serializable {
 	private String name;
@@ -33,11 +38,14 @@ public class AuthorInfo implements Serializable {
 	public int getSoloPublications() {
 		return this.soloPublications;
 	}
-	
+
 	public int getJointPublications() {
 		return this.jointPublications;
 	}
 	
+	/**
+	 * adds a publication to the author
+	 */
 	public void addPublication(Collection<String> coauthors) {
 		Integer coauthorTotal;
 		
@@ -54,6 +62,11 @@ public class AuthorInfo implements Serializable {
 	}
 	
 
+	/**
+	 * Returns the coauthors who published the most with the author
+	 * @param numberOfCoauthors
+	 * @return coauthors who published the most with the author
+	 */
 	public Set<Tuple<String, Integer>> topCoauthors(int numberOfCoauthors) {
 		TreeSet<Tuple<String, Integer>> ret = new TreeSet<Tuple<String, Integer>>(new AuthorPubsTupleComparator());
 		Tuple<String, Integer> t;
@@ -71,22 +84,42 @@ public class AuthorInfo implements Serializable {
 		return ret;
 	}
 	
+	/**
+	 * Returns true if the author only published alone
+	 * @return true if the author only published alone
+	 */
 	public boolean onlySolo() {
 		return this.jointPublications == 0;
 	}
 	
+	/**
+	 * Returns true if the author never published alone
+	 * @return true if the author never published alone
+	 */
 	public boolean neverSolo() {
 		return this.soloPublications == 0;
 	}
 	
+	/**
+	 * Returns information about coauthors as a map, mapping the name to the number of publications with the coauthor
+	 * @return information about coauthors as a map, mapping the name to the number of publications with the coauthor
+	 */
 	public Map<String, Integer> getCoauthorsInfo() {
 		return this.coauthorsInfo;
 	}
 	
+	/**
+	 * Returns a set with all the coauthors
+	 * @return set with all the coauthors
+	 */
 	public Set<String> getCoauthors() {
 		return this.coauthorsInfo.keySet();
 	}
 	
+	/** 
+	 * Returns information about coauthors as a map, mapping a tuple with the both the author's and coauthor's names to the number of publications
+	 * @return information about coauthors as a map, mapping a tuple with the both the author's and coauthor's names to the number of publications
+	 */
 	public Map<Tuple<String, String>, Integer> getAuthorPairs() {
 		TreeMap<Tuple<String, String>, Integer> pairs = new TreeMap<>( new AuthorTupleComparator() );
 		for( Map.Entry<String, Integer> coauthor : this.coauthorsInfo.entrySet() ) {
@@ -101,10 +134,18 @@ public class AuthorInfo implements Serializable {
 		return pairs;
 	}
 	
+	/**
+	 * Returns total number of coauthors
+	 * @return total number of coauthors
+	 */
 	public int totalCoauthors() {
 		return this.coauthorsInfo.size();
 	}
 	
+	/**
+	 * Returns a Tuple with a Set containing the coauthors with whom the author published and the total publications with them
+	 * @return Tuple with a Set containing the coauthors with whom the author published and the total publications with them
+	 */
 	public Tuple<Set<String>, Integer> partnershipInfo() {
 		Tuple<Set<String>, Integer> t = new Tuple<Set<String>, Integer>(new HashSet<String>(), 0); 
 		for (Map.Entry<String, Integer> entry : this.coauthorsInfo.entrySet()) {
@@ -115,6 +156,7 @@ public class AuthorInfo implements Serializable {
 		return t;
 	}
 	
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Name: ");
