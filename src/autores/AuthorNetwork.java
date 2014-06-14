@@ -171,8 +171,13 @@ public class AuthorNetwork {
 		while(nrAuthors < 1)
 			nrAuthors = Scan.scanInt("Enter the desired number of authors.");
 		
-		NavigableSet<Tuple<String, Integer>> authors = this.lobby.topPublishersInInterval(min, max, nrAuthors);
-		strIntNavigation("BROL TROL\n", authors.descendingSet());
+		TreeSet<String> authors = new TreeSet<>();
+		
+		for (Tuple<String, Integer> t : this.lobby.topPublishersInInterval(min, max, nrAuthors)) {
+			authors.add(t.getFirst());
+		}
+		
+		strNavigation("BROL TROL\n", authors);
 	}
 	
 	public void getTopPairsInInterval() {
@@ -184,9 +189,7 @@ public class AuthorNetwork {
 			nrAuthors = Scan.scanInt("Enter the desired number of authors.");
 		
 		NavigableSet<Tuple<Tuple<String, String>, Integer>> authors = this.lobby.topPairs(min, max, nrAuthors);
-		strStrIntNavigation("BROL TROL\n", authors);
-		
-		Scan.pressEnterToContinue();
+		strStrIntNavigation("BROL TROL\n", authors.descendingSet());
 	}
 	
 	public void getAuthorsInInterval() {
@@ -218,7 +221,7 @@ public class AuthorNetwork {
 		try {
 			info = this.lobby.authorPartnershipInfo(year, author);
 
-			strNavigation("Partnership Information:\nTotalPublications: " + info.getSecond() + "\nCo-authors:\n", info.getFirst());
+			strNavigation("Partnership Information:\nTotal Publications: " + info.getSecond() + "\nCo-authors:\n", info.getFirst());
 		} catch(NoSuchAuthorException e) {
 			System.out.println( e.getMessage() );
 		} catch(NoSuchYearException e) {
