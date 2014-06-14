@@ -137,7 +137,7 @@ public class Gestauts {
 		Set<Map.Entry<Integer, Integer>> entrySet = this.network.getYearTable().entrySet();
 		Crono.stop();
 		System.out.println(Crono.print());
-		yearEntryNavigation("Table of Years", entrySet);
+		yearEntryNavigation("Table of Years\n", entrySet);
 	}
 	
 	/**
@@ -184,7 +184,7 @@ public class Gestauts {
 		
 		sb.append(":\n");
 		
-		strNavigation(sb.toString(), res);
+		strNavigation(sb.toString() + "\n", res);
 	}
 	
 	/**
@@ -274,8 +274,10 @@ public class Gestauts {
 			strNavigation("Partnership Information:\nTotal Publications: " + info.getSecond() + "\nCo-authors:\n", info.getFirst());
 		} catch(NoSuchAuthorException e) {
 			System.out.println( e.getMessage() );
+			Input.pressEnterToContinue();
 		} catch(NoSuchYearException e) {
 			System.out.println( e.getMessage() );
+			Input.pressEnterToContinue();
 		}		
 	}
 	
@@ -290,10 +292,12 @@ public class Gestauts {
 		Crono.stop();
 		System.out.println(Crono.print());
 		
-		if( coauthors.size() == 0 )
+		if( coauthors.size() == 0 ) {
 			System.out.println("Author does not exist");
+			Input.pressEnterToContinue();
+		}
 		else {
-			strNavigation("Coauthors of " + author, coauthors);
+			strNavigation("Coauthors of " + author + "\n", coauthors);
 		}
 			
 	}
