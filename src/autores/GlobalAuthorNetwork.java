@@ -246,7 +246,7 @@ public class GlobalAuthorNetwork implements Serializable {
 		ArrayList<TreeSet<String>> coauthors = new ArrayList<TreeSet<String>>();
 		int i;
 		
-		for (i = 0; i < authors.size(); i++) coauthors.set(i, new TreeSet<String>());
+		for (i = 0; i < authors.size(); i++) coauthors.add(new TreeSet<String>());
 		
 		for (AuthorCatalog catalog : this.annualNetworks.subMap(min, true, max, true).values()) {
 			i = 0;

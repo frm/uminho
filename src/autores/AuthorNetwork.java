@@ -160,8 +160,6 @@ public class AuthorNetwork {
 		
 		sb.append(":\n");
 		
-		System.out.println(sb);
-		
 		strNavigation(sb.toString(), res);
 	}
 	
