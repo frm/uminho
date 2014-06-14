@@ -141,20 +141,19 @@ public class AuthorNetwork {
 			args = Scan.scanString("Please enter a maximum of 3 names separated by commas").split(",");
 		while(args.length > 3);
 		
-		String head = args[0].trim();
-		ArrayList<String> tail = new ArrayList<String>();
-		for( String s : Arrays.asList(args).subList(1, args.length) )
-			tail.add( s.trim() );
+		ArrayList<String> authors = new ArrayList<String>();
+		for( String s : Arrays.asList(args))
+			authors.add( s.trim() );
 		
 		int min = Scan.scanInt("Please enter the first year");
 		int max = Scan.intInRange("Please enter the second year", min + 1, Integer.MAX_VALUE);
 
 		
-		NavigableSet<String> res = this.lobby.commonCoauthors(head, tail, min, max);
+		NavigableSet<String> res = this.lobby.commonCoauthors(authors, min, max);
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append("Common coauthors to " + head);
-		for(String s : tail) {
+		sb.append("Common coauthors to " + authors.get(0));
+		for(String s : authors.subList(1, authors.size())) {
 			sb.append(" & ");
 			sb.append(s);
 		}
@@ -306,7 +305,7 @@ public class AuthorNetwork {
         				           + " - " + nav.current() + " of " + nav.size() + "\n");
         	}
         	catch (NoMoreItemsException e) {
-        		System.out.println("No more items available");
+        		System.out.println("No more items available\n");
         	}
         	finally {
         		int bf = 0;
@@ -349,6 +348,7 @@ public class AuthorNetwork {
         	}
         }
 	}
+	
 	/**
 	 * Print a friendly welcome message
 	 */

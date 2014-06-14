@@ -1,6 +1,7 @@
 package autores;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -241,18 +242,24 @@ public class GlobalAuthorNetwork implements Serializable {
 	 * @param tail Rest of the authors to search for
 	 * @return
 	 */
-	public NavigableSet<String> getCommonCoauthors(String head, Collection<String> tail, int min, int max) {
-		NavigableSet<String> common = getCoauthorsOf(head);
-		for(String s : tail) {
-			NavigableSet<String> current = getCoauthorsOf(s);
-			
-			Iterator<String> it = common.iterator();
-			while( it.hasNext() )
-				if( !current.contains( it.next() ) )
-					it.remove();
+	public NavigableSet<String> getCommonCoauthors(Collection<String> authors, int min, int max) {
+		ArrayList<TreeSet<String>> coauthors = new ArrayList<TreeSet<String>>();
+		int i;
+		
+		for (i = 0; i < authors.size(); i++) coauthors.set(i, new TreeSet<String>());
+		
+		for (AuthorCatalog catalog : this.annualNetworks.subMap(min, true, max, true).values()) {
+			i = 0;
+			for (String s : authors) {
+				if (catalog.hasAuthor(s)) 
+					coauthors.get(i).addAll( catalog.getCoauthors(s) );
+			i++;
+			}
 		}
 		
-		return common;
+		for (i = 1; i < authors.size(); i++) coauthors.get(0).retainAll(coauthors.get(i));
+		
+		return coauthors.get(0);
 	}
 	
 	public Tuple<Set<String>, Integer> authorPartnershipInfo(int year, String author) throws NoSuchYearException, NoSuchAuthorException {

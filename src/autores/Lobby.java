@@ -224,8 +224,8 @@ public class Lobby  implements Serializable {
 		return repeatedLines;
 	}
 	
-	public NavigableSet<String> commonCoauthors(String head, Collection<String> tail, int min, int max) {
-		return this.network.getCommonCoauthors(head, tail, min, max);
+	public NavigableSet<String> commonCoauthors(Collection<String> authors, int min, int max) {
+		return this.network.getCommonCoauthors(authors, min, max);
 	}
 	
 	
