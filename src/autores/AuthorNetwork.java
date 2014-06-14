@@ -132,7 +132,7 @@ public class AuthorNetwork {
 	private void getAuthorsBy() {
 		char c = Character.toUpperCase( Scan.scanChar("Enter an initial") );
 		
-		stringNavigation(c + "\n", this.lobby.getAuthorsBy(c));
+		strNavigation(c + "\n", this.lobby.getAuthorsBy(c));
 	}
 	
 	private void getCommonCoauthors() {
@@ -163,7 +163,7 @@ public class AuthorNetwork {
 		
 		System.out.println(sb);
 		
-		stringNavigation(sb.toString(), res);
+		strNavigation(sb.toString(), res);
 	}
 	
 	
@@ -176,7 +176,7 @@ public class AuthorNetwork {
 			nrAuthors = Scan.scanInt("Enter the desired number of authors.");
 		
 		NavigableSet<Tuple<String, Integer>> authors = this.lobby.topPublishersInInterval(min, max, nrAuthors);
-		stringIntTupleNavigation("BROL TROL\n", authors);
+		strIntNavigation("BROL TROL\n", authors.descendingSet());
 	}
 	
 	public void getTopPairsInInterval() {
@@ -188,8 +188,7 @@ public class AuthorNetwork {
 			nrAuthors = Scan.scanInt("Enter the desired number of authors.");
 		
 		NavigableSet<Tuple<Tuple<String, String>, Integer>> authors = this.lobby.topPairs(min, max, nrAuthors);
-		for(Tuple<Tuple<String, String>, Integer> t : authors)
-			System.out.println(t.getFirst().getFirst() + " & " + t.getFirst().getSecond() + "\n\t# Publications: " + t.getSecond() +"\n");
+		strStrIntNavigation("BROL TROL\n", authors);
 		
 		Scan.pressEnterToContinue();
 	}
@@ -200,8 +199,9 @@ public class AuthorNetwork {
 		
 		try {
 			NavigableSet<String> authors = this.lobby.authorsInInterval(min, max);
-			for(String s : authors)
-				System.out.println(s);
+
+			strNavigation("TROL BROL CROL\n", authors);
+			
 		} catch (NoAuthorsInIntervalException e) {
 			System.out.println("No authors available in given interval");
 		}
@@ -221,10 +221,8 @@ public class AuthorNetwork {
 		Tuple<Set<String>, Integer> info;
 		try {
 			info = this.lobby.authorPartnershipInfo(year, author);
-			System.out.println("Partnership Information:\nTotalPublications: " + info.getSecond() );
-			System.out.println("Co-authors:");
-			for(String s : info.getFirst() )
-				System.out.println(s);
+
+			strNavigation("Partnership Information:\nTotalPublications: " + info.getSecond() + "\nCo-authors:\n", info.getFirst());
 		} catch(NoSuchAuthorException e) {
 			System.out.println( e.getMessage() );
 		} catch(NoSuchYearException e) {
@@ -238,8 +236,7 @@ public class AuthorNetwork {
 		if( coauthors.size() == 0 )
 			System.out.println("Author does not exist");
 		else {
-			for(String s : coauthors)
-				System.out.println(s);
+			strNavigation("Coauthors of " + author, coauthors);
 		}
 			
 	}
@@ -274,13 +271,18 @@ public class AuthorNetwork {
 	
 	/* ##### UI methods ##### */
 	
-	private static void stringIntTupleNavigation(String header, Set<Tuple<String, Integer>> s) {
+	private static void strStrIntNavigation(String header, Set<Tuple<Tuple<String, String>, Integer>> s) {
+		Navigator<Tuple<Tuple<String, String>, Integer>> nav = new Navigator<Tuple< Tuple<String, String>, Integer>>(s);
+		PrintFunction<Tuple<Tuple<String, String>, Integer>> pf = new PrintFunction<Tuple<Tuple<String, String>, Integer>>() { public void exec(Tuple<Tuple<String, String>, Integer> arg) { System.out.println(arg.getSecond() + " -\t" + arg.getFirst().getFirst() + " & " + arg.getFirst().getSecond()); } };
+		__navigation(nav, pf, header, 20);
+	}
+	private static void strIntNavigation(String header, Set<Tuple<String, Integer>> s) {
 		Navigator<Tuple<String, Integer>> nav = new Navigator<Tuple<String, Integer>>(s);
 		PrintFunction<Tuple<String, Integer>> pf = new PrintFunction<Tuple<String, Integer>>() { public void exec(Tuple<String, Integer> arg) { System.out.println(arg.getSecond() + " -\t" + arg.getFirst()); } };
 		__navigation(nav, pf, header, 20);
 	}
 	
-	private static void stringNavigation(String header, Set<String> s) {
+	private static void strNavigation(String header, Set<String> s) {
 		Navigator<String> nav = new Navigator<>(s);
 		PrintFunction<String> pf = new PrintFunction<String>() { public void exec(String arg) { System.out.println(arg); } };
 		__navigation(nav, pf, header, 20);
