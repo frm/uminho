@@ -268,11 +268,23 @@ public class AuthorNetwork  implements Serializable {
 		return this.network.getCommonCoauthors(authors, min, max);
 	}
 	
+	/**
+	 * Returns a set with the pairs of authors who published the most in the given interval
+	 * @param min first year
+	 * @param max last year
+	 * @param nrAuthors number of authors
+	 * @return
+	 */
 	public NavigableSet<Tuple<Tuple<String, String>, Integer>> topPairs(int min, int max, int nrAuthors) {
 		return this.network.topPairs(min, max, nrAuthors);
 	}
 	
 	
+	/**
+	 * Writes the structure to a file
+	 * @param filename
+	 * @throws IOException
+	 */
 	public void writeToFile(String filename) throws IOException{
         ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(filename) );
         oos.writeObject(this);
@@ -280,7 +292,14 @@ public class AuthorNetwork  implements Serializable {
         oos.close();
     }
 	
-	public static AuthorNetwork readLobbyFromFile(String filename) throws IOException, ClassNotFoundException {
+	/**
+	 * Reads the structure from a file
+	 * @param filename
+	 * @return structure
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public static AuthorNetwork readStructureFromFile(String filename) throws IOException, ClassNotFoundException {
 		ObjectInputStream ois = new ObjectInputStream( new FileInputStream (filename) );
 		AuthorNetwork l = (AuthorNetwork) ois.readObject();
 		ois.close();

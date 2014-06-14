@@ -154,6 +154,9 @@ public class Gestauts {
 		strNavigation(c + "\n", s);
 	}
 	
+	/**
+	 * Common coauthors view
+	 */
 	private void getCommonCoauthors() {
 		String[] args;
 		do
@@ -184,7 +187,9 @@ public class Gestauts {
 		strNavigation(sb.toString(), res);
 	}
 	
-	
+	/**
+	 * Top authors in interval view
+	 */
 	private void getTopAuthorsInInterval() {
 		int min = Scan.scanInt("Please enter the first year");
 		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
@@ -207,6 +212,9 @@ public class Gestauts {
 		strNavigation("Top Authors in [" + min + ", " + max + "]\n", authors);
 	}
 	
+	/**
+	 * Top pairs of authors in interval view
+	 */
 	public void getTopPairsInInterval() {
 		int min = Scan.scanInt("Please enter the first year");
 		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
@@ -222,6 +230,9 @@ public class Gestauts {
 		strStrIntNavigation("BROL TROL\n", authors.descendingSet());
 	}
 	
+	/**
+	 * Authors in interval view
+	 */
 	public void getAuthorsInInterval() {
 		int min = Scan.scanInt("Please enter the first year");
 		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
@@ -241,6 +252,9 @@ public class Gestauts {
 		Scan.pressEnterToContinue();
 	}
 	
+	/**
+	 * Coauthor info view
+	 */
 	public void getCoauthorInfo() {
 		int year = Scan.scanInt("Please enter a year");
 		
@@ -265,6 +279,9 @@ public class Gestauts {
 		}		
 	}
 	
+	/**
+	 * Coauthors of an author view
+	 */
 	public void getCoauthorsOf() {
 		String author = Scan.scanString("Please enter an author name");
 		
@@ -281,6 +298,9 @@ public class Gestauts {
 			
 	}
 	
+	/**
+	 * Save structure to file view
+	 */
 	public void save() {
 		String filename = Scan.scanString("Enter a filename").trim();
 		if(!filename.contains(".obj"))
@@ -296,7 +316,9 @@ public class Gestauts {
 		}
 	}
 	
-	
+	/**
+	 * Load structure view
+	 */
 	public void load() {
 		String filename = Scan.scanString("Enter a filename").trim();
 		if(!filename.contains(".obj"))
@@ -304,7 +326,7 @@ public class Gestauts {
 		
 		try {
 			Crono.start();
-			this.network = AuthorNetwork.readLobbyFromFile(filename);
+			this.network = AuthorNetwork.readStructureFromFile(filename);
 			Crono.stop();
 			System.out.println(Crono.print());
 		} catch (IOException e) {
@@ -317,8 +339,13 @@ public class Gestauts {
 	
 	/* ##### UI methods ##### */
 	
-	private static void yearEntryNavigation(String header, Set<Map.Entry<Integer, Integer>> s) {
-		Navigator<Map.Entry<Integer, Integer>> nav = new Navigator<Map.Entry<Integer, Integer>>(s);
+	/**
+	 * Navigation for a set of pairs of years and publications
+	 * @param header
+	 * @param s
+	 */
+	private static void yearEntryNavigation(String header, Set<Map.Entry<Integer, Integer>> set) {
+		Navigator<Map.Entry<Integer, Integer>> nav = new Navigator<Map.Entry<Integer, Integer>>(set);
 		PrintFunction<Map.Entry<Integer, Integer>> pf = new PrintFunction<Map.Entry<Integer, Integer>>() {
 			public void exec(Map.Entry<Integer, Integer> entry) {
 				System.out.println(entry.getKey() + ": " + entry.getValue());
@@ -327,8 +354,13 @@ public class Gestauts {
 		__navigation(nav, pf, header, 20);
 	}
 	
-	private static void strStrIntNavigation(String header, Set<Tuple<Tuple<String, String>, Integer>> s) {
-		Navigator<Tuple<Tuple<String, String>, Integer>> nav = new Navigator<Tuple< Tuple<String, String>, Integer>>(s);
+	/**
+	 * Navigation for a set of Tuple<Tuple<String, String>, Integer>
+	 * @param header
+	 * @param set
+	 */
+	private static void strStrIntNavigation(String header, Set<Tuple<Tuple<String, String>, Integer>> set) {
+		Navigator<Tuple<Tuple<String, String>, Integer>> nav = new Navigator<Tuple< Tuple<String, String>, Integer>>(set);
 		PrintFunction<Tuple<Tuple<String, String>, Integer>> pf = new PrintFunction<Tuple<Tuple<String, String>, Integer>>() { 
 			public void exec(Tuple<Tuple<String, String>, Integer> arg) { 
 				System.out.println(arg.getSecond() + " -\t" + arg.getFirst().getFirst() + " & " + arg.getFirst().getSecond()); 
@@ -350,12 +382,24 @@ public class Gestauts {
 	}
 	*/
 	
-	private static void strNavigation(String header, Set<String> s) {
-		Navigator<String> nav = new Navigator<>(s);
+	/**
+	 * Navigation for a set of strings
+	 * @param header
+	 * @param s
+	 */
+	private static void strNavigation(String header, Set<String> set) {
+		Navigator<String> nav = new Navigator<>(set);
 		PrintFunction<String> pf = new PrintFunction<String>() { public void exec(String arg) { System.out.println(arg); } };
 		__navigation(nav, pf, header, 20);
 	}
 	
+	/**
+	 * Navigation
+	 * @param nav
+	 * @param pf
+	 * @param header
+	 * @param blockSize
+	 */
 	private static <T> void __navigation(Navigator<T> nav, PrintFunction<T> pf, String header, int blockSize) {
         List<T> items = null;
         boolean quit = false;
