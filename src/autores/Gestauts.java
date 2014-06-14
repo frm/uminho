@@ -69,7 +69,10 @@ public class Gestauts {
 		int count;
 		
 		try {
+			Crono.start();
 			count = this.network.countRepeatedLines(filename);
+			Crono.stop();
+			System.out.println(Crono.print());
 			System.out.println("Number of repeated lines: " + count);
 			Scan.pressEnterToContinue();
 		} catch(IOException e) {
@@ -82,6 +85,7 @@ public class Gestauts {
 	 * Prints the statistics for the read file
 	 */
 	private void getFileStatistics() {
+		Crono.start();
 		StringBuilder sb = new StringBuilder();
 		sb.append("\nStatistics for ");
 		sb.append( this.network.getCurrentFile() );
@@ -94,6 +98,8 @@ public class Gestauts {
 		sb.append("\nYear interval: ");
 		Tuple<Integer, Integer> interval = this.network.getYearInterval();
 		sb.append("[" + interval.getFirst() + ", " + interval.getSecond() + "]");
+		Crono.stop();
+		System.out.println(Crono.print());
 		System.out.println( sb.toString() );
 		Scan.pressEnterToContinue();
 	}
@@ -103,6 +109,8 @@ public class Gestauts {
 	 */
 	private void getDataStatistics() {
 		int nPublications = Scan.scanInt("Enter a number for the author minimum publications");
+		
+		Crono.start();
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("\nTotal number of solo publications: ");
@@ -114,6 +122,9 @@ public class Gestauts {
 		sb.append("\nTotal number of authors who published more than " + nPublications + " publications: ");
 		sb.append( this.network.nrAuthorsWithOver(nPublications) );
 		
+		Crono.stop();
+		System.out.println(Crono.print());
+		
 		System.out.println(sb);
 		Scan.pressEnterToContinue();
 	}
@@ -122,7 +133,12 @@ public class Gestauts {
 	 * Prints a table of year-number of publications pair
 	 */
 	private void getYearTable() {
-		yearEntryNavigation("SHIT, FUCK!", this.network.getYearTable().entrySet());
+		Crono.start();
+		Set<Map.Entry<Integer, Integer>> entrySet = this.network.getYearTable().entrySet();
+		Crono.stop();
+		System.out.println(Crono.print());
+		
+		yearEntryNavigation("SHIT, FUCK!", entrySet);
 	}
 	
 	/**
@@ -131,7 +147,12 @@ public class Gestauts {
 	private void getAuthorsBy() {
 		char c = Character.toUpperCase( Scan.scanChar("Enter an initial") );
 		
-		strNavigation(c + "\n", this.network.getAuthorsBy(c));
+		Crono.start();
+		Set<String> s = this.network.getAuthorsBy(c);
+		Crono.stop();
+		System.out.println(Crono.print());
+		
+		strNavigation(c + "\n", s);
 	}
 	
 	private void getCommonCoauthors() {
@@ -147,8 +168,10 @@ public class Gestauts {
 		int min = Scan.scanInt("Please enter the first year");
 		int max = Scan.intInRange("Please enter the second year", min + 1, Integer.MAX_VALUE);
 
-		
+		Crono.start();
 		NavigableSet<String> res = this.network.commonCoauthors(authors, min, max);
+		Crono.stop();
+		System.out.println(Crono.print());
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("Common coauthors to " + authors.get(0));
@@ -173,7 +196,12 @@ public class Gestauts {
 		
 		TreeSet<String> authors = new TreeSet<>();
 		
-		for (Tuple<String, Integer> t : this.network.topPublishersInInterval(min, max, nrAuthors)) {
+		Crono.start();
+		Set<Tuple<String, Integer>> s = this.network.topPublishersInInterval(min, max, nrAuthors);
+		Crono.stop();
+		System.out.println(Crono.print());
+		
+		for (Tuple<String, Integer> t : s) {
 			authors.add(t.getFirst());
 		}
 		
@@ -188,7 +216,10 @@ public class Gestauts {
 		while(nrAuthors < 1)
 			nrAuthors = Scan.scanInt("Enter the desired number of authors.");
 		
+		Crono.start();
 		NavigableSet<Tuple<Tuple<String, String>, Integer>> authors = this.network.topPairs(min, max, nrAuthors);
+		Crono.stop();
+		System.out.println(Crono.print());
 		strStrIntNavigation("BROL TROL\n", authors.descendingSet());
 	}
 	
@@ -197,8 +228,11 @@ public class Gestauts {
 		int max = Scan.intInRange("Please enter the second year", min, Integer.MAX_VALUE);
 		
 		try {
+			Crono.start();
 			TreeSet<String> t = new TreeSet<String>(this.network.authorsInInterval(min, max));
-
+			Crono.stop();
+			System.out.println(Crono.print());
+			
 			strNavigation("TROL BROL CROL\n", t);
 			
 		} catch (NoAuthorsInIntervalException e) {
@@ -219,8 +253,11 @@ public class Gestauts {
 		
 		Tuple<Set<String>, Integer> info;
 		try {
+			Crono.start();
 			info = this.network.authorPartnershipInfo(year, author);
-
+			Crono.stop();
+			System.out.println(Crono.print());
+			
 			strNavigation("Partnership Information:\nTotal Publications: " + info.getSecond() + "\nCo-authors:\n", info.getFirst());
 		} catch(NoSuchAuthorException e) {
 			System.out.println( e.getMessage() );
@@ -231,7 +268,12 @@ public class Gestauts {
 	
 	public void getCoauthorsOf() {
 		String author = Scan.scanString("Please enter an author name");
+		
+		Crono.start();
 		NavigableSet<String> coauthors = this.network.getCoauthorsOf(author);
+		Crono.stop();
+		System.out.println(Crono.print());
+		
 		if( coauthors.size() == 0 )
 			System.out.println("Author does not exist");
 		else {
@@ -246,7 +288,10 @@ public class Gestauts {
 			filename += ".obj";
 		
 		try {
+			Crono.start();
 			this.network.writeToFile(filename);
+			Crono.stop();
+			System.out.println(Crono.print());
 		} catch (IOException e) {
 			System.out.println("Write error");
 		}
@@ -259,7 +304,10 @@ public class Gestauts {
 			filename += ".obj";
 		
 		try {
+			Crono.start();
 			this.network = AuthorNetwork.readLobbyFromFile(filename);
+			Crono.stop();
+			System.out.println(Crono.print());
 		} catch (IOException e) {
 			System.out.println("Read error");
 		} catch(ClassNotFoundException e) {
