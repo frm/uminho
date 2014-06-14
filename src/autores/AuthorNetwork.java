@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.NavigableSet;
+import java.util.Set;
 
 /**
  * Main class of the project, responsible for UI and delegation of user commands to the correct handlers
@@ -22,7 +23,7 @@ public class AuthorNetwork {
 		"Exit", "Read from file", "Count repeated lines",
 		"Get File Statistics", "Get Data Statistics", "Year Table", "Get Authors By",
 		"Get Top Authors In Interval", "Get Top Pairs In Interval", "Get Published Authors In Interval",
-		"Get Common Coauthors", "Get Coauthor Info", "Save", "Load"
+		"Get Common Coauthors", "Get Coauthor Info", "Get Coauthors Of", "Save", "Load"
 	};
 	
 	
@@ -140,7 +141,11 @@ public class AuthorNetwork {
 		for( String s : Arrays.asList(args).subList(1, args.length) )
 			tail.add( s.trim() );
 		
-		NavigableSet<String> res = this.lobby.commonCoauthors(head, tail);
+		int min = Scan.scanInt("Please enter the first year");
+		int max = Scan.intInRange("Please enter the second year", min + 1, Integer.MAX_VALUE);
+
+		
+		NavigableSet<String> res = this.lobby.commonCoauthors(head, tail, min, max);
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("Common coauthors to " + head);
@@ -207,6 +212,37 @@ public class AuthorNetwork {
 	
 	public void getCoauthorInfo() {
 		int year = Scan.scanInt("Please enter a year");
+		
+		Tuple<Integer, Integer> interval = this.lobby.getYearInterval();
+		while(year < interval.getFirst() || year > interval.getSecond() )
+			year = Scan.scanInt("Invalid year.\nPlease enter a year");
+		
+		String author = Scan.scanString("Enter an author name.");
+		
+		Tuple<Set<String>, Integer> info;
+		try {
+			info = this.lobby.authorPartnershipInfo(year, author);
+			System.out.println("Partnership Information:\nTotalPublications: " + info.getSecond() );
+			System.out.println("Co-authors:");
+			for(String s : info.getFirst() )
+				System.out.println(s);
+		} catch(NoSuchAuthorException e) {
+			System.out.println( e.getMessage() );
+		} catch(NoSuchYearException e) {
+			System.out.println( e.getMessage() );
+		}		
+	}
+	
+	public void getCoauthorsOf() {
+		String author = Scan.scanString("Please enter an author name");
+		NavigableSet<String> coauthors = this.lobby.getCoauthorsOf(author);
+		if( coauthors.size() == 0 )
+			System.out.println("Author does not exist");
+		else {
+			for(String s : coauthors)
+				System.out.println(s);
+		}
+			
 	}
 	
 	public void save() {
@@ -272,6 +308,7 @@ public class AuthorNetwork {
 				new MenuOption() { public void exec() { app.getAuthorsInInterval(); } },
 				new MenuOption() { public void exec() { app.getCommonCoauthors(); } },
 				new MenuOption() { public void exec() { app.getCoauthorInfo(); } },
+				new MenuOption() { public void exec() { app.getCoauthorsOf(); } },
 				new MenuOption() { public void exec() { app.save(); } },
 				new MenuOption() { public void exec() { app.load(); } }
 		};

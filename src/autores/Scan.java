@@ -74,7 +74,7 @@ public class Scan {
 	public static int intInRange(String message, int min, int max) {
         int val = Scan.scanInt(message);
 
-        while ( val < min || val > max || max < min ) {
+        while ( val < min || val > max ) {
             System.out.println("Value is out of bounds\n");
             val = Scan.intInRange(message, min, max);
         }

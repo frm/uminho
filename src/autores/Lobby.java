@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -103,6 +104,10 @@ public class Lobby  implements Serializable {
 		return network.getYearInterval();
 	}
 	
+	public NavigableSet<String> getCoauthorsOf(String name) {
+		return this.network.getCoauthorsOf(name);
+	}
+	
 	/**
 	 * Returns a navigable map of the year table. The table shall contain an association of year - number of publications
 	 * @return
@@ -121,6 +126,10 @@ public class Lobby  implements Serializable {
 	
 	public int nrAuthorsWithOver(int nrPublications) {
 		return this.network.nrAuthorsWithOver(nrPublications);
+	}
+	
+	public Tuple<Set<String>, Integer> authorPartnershipInfo(int year, String author) throws NoSuchYearException, NoSuchAuthorException {
+		return this.network.authorPartnershipInfo(year, author);
 	}
 	
 	/**
@@ -215,8 +224,8 @@ public class Lobby  implements Serializable {
 		return repeatedLines;
 	}
 	
-	public NavigableSet<String> commonCoauthors(String head, Collection<String> tail) {
-		return this.network.getCommonCoauthors(head, tail);
+	public NavigableSet<String> commonCoauthors(String head, Collection<String> tail, int min, int max) {
+		return this.network.getCommonCoauthors(head, tail, min, max);
 	}
 	
 	

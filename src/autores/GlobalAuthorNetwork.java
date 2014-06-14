@@ -241,7 +241,7 @@ public class GlobalAuthorNetwork implements Serializable {
 	 * @param tail Rest of the authors to search for
 	 * @return
 	 */
-	public NavigableSet<String> getCommonCoauthors(String head, Collection<String> tail) {
+	public NavigableSet<String> getCommonCoauthors(String head, Collection<String> tail, int min, int max) {
 		NavigableSet<String> common = getCoauthorsOf(head);
 		for(String s : tail) {
 			NavigableSet<String> current = getCoauthorsOf(s);
