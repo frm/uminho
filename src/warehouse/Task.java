@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by joaorodrigues on 14 Dec 14.
@@ -15,6 +16,7 @@ public class Task {
     private int doing;
     private Set<Integer> subscribers;
     private Map<String, Integer> needs;
+    private ReentrantLock taskLock;
 
     //Constructors
 
@@ -24,6 +26,7 @@ public class Task {
         doing = 0;
         subscribers = new HashSet<Integer>();
         needs = new HashMap<String, Integer>();
+        taskLock = new ReentrantLock();
     }
 
     public Task(String na, Map<String, Integer> ne) {
@@ -32,27 +35,36 @@ public class Task {
         doing = 0;
         subscribers = new HashSet<Integer>();
         needs = ne;
+        taskLock = new ReentrantLock();
     }
 
 
     //Subscribe and unsubscribe
 
-    public synchronized void addSubscriber(int i){
+    public void addSubscriber(int i){
+        taskLock.lock();
         subscribers.add(i);
+        taskLock.unlock();
     }
 
-    public synchronized void removeSubscriber(int i){
+    public void removeSubscriber(int i){
+        taskLock.lock();
         subscribers.remove(i);
+        taskLock.unlock();
     }
 
     //start and stop, for when a client starts or stops doing a task
 
     public synchronized void start(){
+        taskLock.lock();
         doing++;
+        taskLock.unlock();
     }
 
     public synchronized void stop(){
+        taskLock.lock();
         doing--;
+        taskLock.unlock();
     }
 
     public synchronized boolean running(){
