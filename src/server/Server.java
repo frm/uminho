@@ -1,6 +1,5 @@
 package server;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import warehouse.Warehouse;
 
 import java.io.BufferedReader;
@@ -14,10 +13,23 @@ public class Server {
     private final Warehouse warehouse = new Warehouse();
     private ServerSocket serverSocket;
 
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
+    public Server(int startingPort) {
+        while (true) {
+            try {
+                this.serverSocket = new ServerSocket(startingPort);
+                System.err.println("Server socket created on port " + startingPort);
+                break;
+            } catch (IOException e) {
+                System.err.println("Port " + startingPort + " occupied. Trying again...");
+                startingPort++;
+            }
+        }
+    }
+
+    public Worker newWorker() throws IOException {
+        return new Worker(serverSocket.accept(), warehouse);
+    }
+
     private class Worker implements Runnable {
         private Socket socket;
         private Warehouse warehouse;
@@ -26,8 +38,8 @@ public class Server {
         BufferedReader in;
 
         Worker(Socket s, Warehouse w) throws IOException {
-            socket=s;
-            warehouse=w;
+            socket = s;
+            warehouse = w;
 
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(
@@ -48,27 +60,6 @@ public class Server {
         public void run() {
             // nothing yet
         }
-    }
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-
-    Server(int startingPort){
-        while (true) {
-            try {
-                this.serverSocket = new ServerSocket(startingPort);
-                System.err.println("Server socket created on port " + startingPort);
-                break;
-            } catch (IOException e) {
-                System.err.println("Port " + startingPort + " occupied. Trying again...");
-                startingPort++;
-            }
-        }
-    }
-
-    public Worker newWorker() throws IOException {
-        return new Worker(serverSocket.accept(), warehouse);
     }
 
     public static void main(String[] args) throws IOException{
