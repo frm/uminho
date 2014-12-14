@@ -1,5 +1,6 @@
 package warehouse;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -24,7 +25,10 @@ public class Warehouse {
     }
 
     public void startTask(int id) throws InexistentTaskException {
+        tasksLock.lock();
         Task t = tasks.get(id);
+        tasksLock.unlock();
+
         if(t == null)
             throw new InexistentTaskException("User referenced task with id: " + id + " but was not found");
 
