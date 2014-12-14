@@ -1,18 +1,16 @@
 package warehouse;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Warehouse {
-    private Set<Task> tasks;
+    private Map<Integer, Task> tasks;
     private Map<String, Integer> stock;
     private ReentrantLock stockLock;
     private ReentrantLock tasksLock;
 
     public Warehouse() {
-        tasks = new HashSet<Task>();
+        tasks = new HashMap<Integer, Task>();
         stockLock = new ReentrantLock();
         tasksLock = new ReentrantLock();
     }
@@ -25,8 +23,12 @@ public class Warehouse {
         // TODO
     }
 
-    public void startTask(int id) {
-        // TODO
+    public void startTask(int id) throws InexistentTaskException {
+        Task t = tasks.get(id);
+        if(t == null)
+            throw new InexistentTaskException("User referenced task with id: " + id + " but was not found");
+
+        t.start();
     }
 
     public void endTask(int id) {
