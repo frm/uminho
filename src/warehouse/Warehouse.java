@@ -1,6 +1,8 @@
 package warehouse;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -25,13 +27,13 @@ public class Warehouse {
 
         if( tasks.containsKey(name)) {
             tasksLock.unlock();
-            throw new WarehouseException("TaskAlreadyExistsException");
+            throw new TaskAlreadyExistsException();
         }
 
         tasksLock.unlock();
         Task newTask = new Task(name, items);
         int newTaskId = newTask.getId();
-        
+
         tasksLock.lock();
 
         tasks.put(newTaskId, newTask);
@@ -54,5 +56,17 @@ public class Warehouse {
 
     public void endTask(int id) {
         // TODO
+    }
+
+    //Get list of tasks currently being done
+    public List<String> getRunningTasks(){
+        ArrayList<String> result = new ArrayList<String>();
+        tasksLock.lock();
+        for( Task t : tasks.values() ) {
+            if( t.running() )
+                result.add(t.getName());
+        }
+        tasksLock.unlock();
+        return result;
     }
 }

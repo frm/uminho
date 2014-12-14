@@ -55,7 +55,9 @@ public class Task {
         doing--;
     }
 
-
+    public synchronized boolean running(){
+        return (doing > 0);
+    }
 
 
 
