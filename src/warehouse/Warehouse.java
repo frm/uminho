@@ -21,14 +21,23 @@ public class Warehouse {
     }
 
     public int addTask(String name, Map<String, Integer> items) throws WarehouseException {
-        if( tasks.containsKey(name))
+        tasksLock.lock();
+
+        if( tasks.containsKey(name)) {
+            tasksLock.unlock();
             throw new WarehouseException("TaskAlreadyExistsException");
-        else {
-            Task newTask = new Task(name, items);
-            int newTaskId = newTask.getId();
-            tasks.put(newTaskId, newTask);
-            return newTaskId;
         }
+
+        tasksLock.unlock();
+        Task newTask = new Task(name, items);
+        int newTaskId = newTask.getId();
+        
+        tasksLock.lock();
+
+        tasks.put(newTaskId, newTask);
+
+        tasksLock.unlock();
+        return newTaskId;
 
     }
 
