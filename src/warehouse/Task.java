@@ -55,20 +55,23 @@ public class Task {
 
     //start and stop, for when a client starts or stops doing a task
 
-    public synchronized void start(){
+    public void start(){
         taskLock.lock();
         doing++;
         taskLock.unlock();
     }
 
-    public synchronized void stop(){
+    public void stop(){
         taskLock.lock();
         doing--;
         taskLock.unlock();
     }
 
-    public synchronized boolean running(){
-        return (doing > 0);
+    public boolean running(){
+        taskLock.lock();
+        boolean result = doing > 0;
+        taskLock.unlock();
+        return result;
     }
 
 
