@@ -1,4 +1,4 @@
-package pt.uminho.di.sd.proj2014;
+package client;
 
 public class Client {
 
