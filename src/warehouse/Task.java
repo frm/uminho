@@ -18,7 +18,7 @@ public class Task {
 
     //Constructors
 
-    public Task(){
+    public Task() {
         id = ++idCount;
         name = "";
         doing = 0;
@@ -26,7 +26,7 @@ public class Task {
         needs = new HashMap<String, Integer>();
     }
 
-    public Task(String na, Map<String, Integer> ne){
+    public Task(String na, Map<String, Integer> ne) {
         id = ++idCount;
         name = na;
         doing = 0;

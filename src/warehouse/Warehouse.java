@@ -22,6 +22,9 @@ public class Warehouse {
 
     public int addTask(String name, Map<String, Integer> items) {
         // TODO
+        // nevermind this getId, it's just to stop the annoying warning
+        Task t = new Task();
+        return t.getId();
     }
 
     public void startTask(int id) throws InexistentTaskException {
