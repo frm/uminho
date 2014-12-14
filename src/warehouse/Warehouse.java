@@ -16,12 +16,14 @@ public class Warehouse {
         tasksLock = new ReentrantLock();
     }
 
-    public void stockUp(String item, int quantity) {
+    public void stockUp(String item, int quantity) throws InvalidItemQuantityException {
         stockLock.lock();
         Integer currentQnt = stock.get(item);
 
         if(currentQnt == null)
             currentQnt = 0;
+        if(quantity <= 0)
+            throw new InvalidItemQuantityException("Quantity received: " + quantity + ". Must be > 0.");
 
         stock.put(item, currentQnt + quantity);
         stockLock.unlock();

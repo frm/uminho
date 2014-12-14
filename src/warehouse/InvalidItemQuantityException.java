@@ -6,6 +6,6 @@ package warehouse;
 public class InvalidItemQuantityException extends WarehouseException{
     public InvalidItemQuantityException() { super("InvalidItemQuantityException"); }
 
-    public InvalidItemQuantityException() { super("InvalidItemQuantityException", msg); }
+    public InvalidItemQuantityException(String msg) { super("InvalidItemQuantityException", msg); }
 
 }
