@@ -38,7 +38,6 @@ public class Task {
         taskLock = new ReentrantLock();
     }
 
-
     //Subscribe and unsubscribe
 
     public void addSubscriber(int i){

@@ -8,33 +8,38 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Warehouse {
     private Map<Integer, Task> tasks;
-    private Map<String, Integer> stock;
+    private Map<String, Item> stock;
     private ReentrantLock stockLock;
     private ReentrantLock tasksLock;
 
     public Warehouse() {
         tasks = new HashMap<Integer, Task>();
+        stock = new HashMap<String, Item>();
         stockLock = new ReentrantLock();
         tasksLock = new ReentrantLock();
     }
 
-    public void stockUp(String item, int quantity) throws InvalidItemQuantityException {
+    // TODO: can that lock mixup cause a deadlock?
+    public void stockUp(String itemName, int quantity) throws InvalidItemQuantityException {
         stockLock.lock();
-        Integer currentQnt = stock.get(item);
+        Item i = stock.get(itemName);
 
-        if(currentQnt == null)
-            currentQnt = 0;
-        if(quantity <= 0)
-            throw new InvalidItemQuantityException("Quantity received: " + quantity + ". Must be > 0.");
+        if(i == null)
+            i = new Item(itemName);
 
-        stock.put(item, currentQnt + quantity);
+        i.lock();
+        i.add(quantity);
+
+        stock.put(itemName, i);
+
+        i.unlock();
         stockLock.unlock();
     }
 
     public int addTask(String name, Map<String, Integer> items) throws WarehouseException {
         tasksLock.lock();
 
-        if( tasks.containsKey(name)) {
+        if( tasks.containsKey(name) ) {
             tasksLock.unlock();
             throw new TaskAlreadyExistsException();
         }
@@ -49,10 +54,9 @@ public class Warehouse {
 
         tasksLock.unlock();
         return newTaskId;
-
     }
 
-    public void startTask(int id) throws InexistentTaskException {
+    public void startTask(int id) throws InexistentTaskException, InexistentItemException {
         tasksLock.lock();
         Task t = tasks.get(id);
         tasksLock.unlock();
@@ -60,6 +64,7 @@ public class Warehouse {
         if(t == null)
             throw new InexistentTaskException("User referenced task with id: " + id + " but was not found");
 
+        requestMaterial(t.getNeeds());
         t.start();
     }
 
@@ -68,14 +73,32 @@ public class Warehouse {
     }
 
     //Get list of tasks currently being done
-    public List<String> getRunningTasks(){
+    public List<String> getRunningTasks() {
         ArrayList<String> result = new ArrayList<String>();
         tasksLock.lock();
-        for( Task t : tasks.values() ) {
-            if( t.running() )
+
+        for (Task t : tasks.values()) {
+            if (t.running())
                 result.add(t.getName());
         }
+
         tasksLock.unlock();
         return result;
+    }
+
+    // TODO: remove should check if the value is bigger than the quantity and throw a new exception
+    // TODO: Guiao 5, ex 2: nao esperar nos locks. eu tenho isto feito, e so juntar. Mendes
+    private void requestMaterial(Map<String, Integer> material) throws InexistentItemException {
+        stockLock.lock();
+        for (Map.Entry<String, Integer> pair : material.entrySet()) {
+            Item i = stock.get(pair.getKey());
+            if(i == null)
+                throw new InexistentItemException("User requested " + pair.getKey());
+
+            i.lock();
+            i.remove(pair.getValue());
+            i.unlock();
+        }
+        stockLock.unlock();
     }
 }
