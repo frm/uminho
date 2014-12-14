@@ -8,7 +8,8 @@ import java.util.Map;
  */
 public class WarehouseException extends Exception {
     private static Map<String, String> EXCEPTIONS = new HashMap<String, String>() {{
-       this.put("InexistentTaskException", "You referenced a task that does not exist.");
+        this.put("InexistentTaskException", "You referenced a task that does not exist.");
+        this.put("TaskAlreadyExistsException", "The task you tried to add already exists");
     }};
 
     public WarehouseException() {

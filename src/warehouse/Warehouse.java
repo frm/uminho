@@ -20,11 +20,16 @@ public class Warehouse {
         // TODO
     }
 
-    public int addTask(String name, Map<String, Integer> items) {
-        // TODO
-        // nevermind this getId, it's just to stop the annoying warning
-        Task t = new Task();
-        return t.getId();
+    public int addTask(String name, Map<String, Integer> items) throws WarehouseException {
+        if( tasks.containsKey(name))
+            throw new WarehouseException("TaskAlreadyExistsException");
+        else {
+            Task newTask = new Task(name, items);
+            int newTaskId = newTask.getId();
+            tasks.put(newTaskId, newTask);
+            return newTaskId;
+        }
+
     }
 
     public void startTask(int id) throws InexistentTaskException {
