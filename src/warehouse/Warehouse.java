@@ -17,7 +17,14 @@ public class Warehouse {
     }
 
     public void stockUp(String item, int quantity) {
-        // TODO
+        stockLock.lock();
+        Integer currentQnt = stock.get(item);
+
+        if(currentQnt == null)
+            currentQnt = 0;
+
+        stock.put(item, currentQnt + quantity);
+        stockLock.unlock();
     }
 
     public int addTask(String name, Map<String, Integer> items) {
