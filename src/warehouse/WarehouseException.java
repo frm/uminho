@@ -12,7 +12,7 @@ public class WarehouseException extends Exception {
         this.put("TaskAlreadyExistsException", "The task you tried to add already exists");
         this.put("NotBeingDoneException", "The task can't be stopped because it's not being done by any thread");
         this.put("NotSubscribingException", "That ID is not subscribed to that task");
-        this.put("AlreadySubscribingException", "That ID is already subscribe")
+        this.put("AlreadySubscribingException", "That ID is already subscribe");
     }};
 
     public WarehouseException() {
