@@ -9,10 +9,10 @@ import java.util.Map;
 public class WarehouseException extends Exception {
     private static Map<String, String> EXCEPTIONS = new HashMap<String, String>() {{
         this.put("InexistentTaskException", "You referenced a task that does not exist.");
-        this.put("TaskAlreadyExistsException", "The task you tried to add already exists");
-        this.put("NotBeingDoneException", "The task can't be stopped because it's not being done by any thread");
-        this.put("NotSubscribingException", "That ID is not subscribed to that task");
-        this.put("AlreadySubscribingException", "That ID is already subscribe");
+        this.put("ExistentException", "The task you tried to add already exists");
+        this.put("TaskNotRunningException", "The task can't be stopped because it's not being done by any client");
+        this.put("NotSubscribedException", "That ID is not subscribed to that task");
+        this.put("AlreadySubscribedException", "That ID is already subscribed to that task");
     }};
 
     public WarehouseException() {
