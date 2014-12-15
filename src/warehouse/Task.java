@@ -40,19 +40,19 @@ public class Task {
 
     //Subscribe and unsubscribe to the task
 
-    public void addSubscriber(int i) throws AlreadySubscribingException {
+    public void addSubscriber(int i) throws AlreadySubscribedException {
         taskLock.lock();
         if(subscribers.contains(i)){
-            throw new AlreadySubscribingException();
+            throw new AlreadySubscribedException();
         }
         subscribers.add(i);
         taskLock.unlock();
     }
 
-    public void removeSubscriber(int i) throws NotSubscribingException {
+    public void removeSubscriber(int i) throws NotSubscribedException {
         taskLock.lock();
         if( !subscribers.contains(i)){
-            throw new NotSubscribingException();
+            throw new NotSubscribedException();
         }
         subscribers.remove(i);
         taskLock.unlock();
@@ -66,10 +66,10 @@ public class Task {
         taskLock.unlock();
     }
 
-    public void stop() throws NotBeingDoneException {
+    public void stop() throws TaskNotRunningException {
         taskLock.lock();
         if(doing == 0){
-            throw new NotBeingDoneException();
+            throw new TaskNotRunningException();
         }
         doing--;
         taskLock.unlock();

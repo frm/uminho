@@ -40,7 +40,7 @@ public class Warehouse {
 
         if( tasks.containsKey(name) ) {
             tasksLock.unlock();
-            throw new TaskAlreadyExistsException();
+            throw new ExistentTaskException();
         }
 
         tasksLock.unlock();
