@@ -26,22 +26,29 @@ public class Item {
     }
 
     public void lock() {
-        this.lock();
+        this.lock.lock();
     }
 
     public void unlock() {
-        this.unlock();
+        this.lock.unlock();
     }
 
     public void add(int quantity) {
+        this.lock();
         this.quantity += quantity;
+        this.unlock();
     }
 
     public void remove(int quantity) {
+        this.lock();
         this.quantity -= quantity;
+        this.unlock();
     }
 
     public int getQuantity() {
-        return this.quantity;
+        this.lock();
+        int qnt = this.quantity;
+        this.unlock();
+        return qnt;
     }
 }
