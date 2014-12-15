@@ -70,8 +70,16 @@ public class Warehouse {
         t.start();
     }
 
-    public void endTask(int id) {
-        // TODO
+    public void endTask(int id) throws InexistentTaskException, InexistentItemException {
+        tasksLock.lock();
+        Task t = tasks.get(id);
+        tasksLock.unlock();
+
+        if(t == null)
+            throw new InexistentTaskException("User referenced task with id: " + id + " but was not found");
+
+        putBackMaterial(t.getNeeds());
+        t.stop();
     }
 
     //Get list of tasks currently being done
@@ -90,6 +98,7 @@ public class Warehouse {
 
     // TODO: remove should check if the value is bigger than the quantity and throw a new exception
     // TODO: Guiao 5, ex 2: nao esperar nos locks. eu tenho isto feito, e so juntar. Mendes
+    // TODO: implementei variáveis de condição. usa-as aqui com os métodos signalAll e await do item.
     private void requestMaterial(Map<String, Integer> material) throws InexistentItemException {
         stockLock.lock();
         for (Map.Entry<String, Integer> pair : material.entrySet()) {
@@ -99,6 +108,20 @@ public class Warehouse {
 
             i.lock();
             i.remove(pair.getValue());
+            i.unlock();
+        }
+        stockLock.unlock();
+    }
+
+    private void putBackMaterial(Map<String, Integer> material) throws InexistentItemException {
+        stockLock.lock();
+        for (Map.Entry<String, Integer> pair : material.entrySet()) {
+            Item i = stock.get(pair.getKey());
+            if(i == null)
+                throw new InexistentItemException("User put back " + pair.getKey());
+
+            i.lock();
+            i.add(pair.getValue());
             i.unlock();
         }
         stockLock.unlock();
