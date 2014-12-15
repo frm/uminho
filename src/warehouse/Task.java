@@ -24,8 +24,8 @@ public class Task {
         id = ++idCount;
         name = "";
         doing = 0;
-        subscribers = new HashSet<Integer>();
-        needs = new HashMap<String, Integer>();
+        subscribers = new HashSet<>();
+        needs = new HashMap<>();
         taskLock = new ReentrantLock();
     }
 
@@ -33,8 +33,8 @@ public class Task {
         id = ++idCount;
         name = na;
         doing = 0;
-        subscribers = new HashSet<Integer>();
-        needs = ne;
+        subscribers = new HashSet<>();
+        needs = new HashMap<>(ne);
         taskLock = new ReentrantLock();
     }
 
