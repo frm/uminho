@@ -23,6 +23,7 @@ public class Warehouse {
     public void stockUp(String itemName, int quantity) throws InvalidItemQuantityException {
         stockLock.lock();
         Item i = stock.get(itemName);
+        stockLock.unlock();
 
         if(i == null)
             i = new Item(itemName);
@@ -30,6 +31,7 @@ public class Warehouse {
         i.lock();
         i.add(quantity);
 
+        stockLock.lock();
         stock.put(itemName, i);
 
         i.unlock();
