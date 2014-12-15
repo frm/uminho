@@ -78,7 +78,7 @@ public class Warehouse {
         if(t == null)
             throw new InexistentTaskException("User referenced task with id: " + id + " but was not found");
 
-        putBackMaterial(t.getNeeds());
+        returnMaterial(t.getNeeds());
         t.stop();
     }
 
@@ -113,16 +113,14 @@ public class Warehouse {
         stockLock.unlock();
     }
 
-    private void putBackMaterial(Map<String, Integer> material) throws InexistentItemException {
+    private void returnMaterial(Map<String, Integer> material) throws InexistentItemException {
         stockLock.lock();
         for (Map.Entry<String, Integer> pair : material.entrySet()) {
             Item i = stock.get(pair.getKey());
             if(i == null)
-                throw new InexistentItemException("User put back " + pair.getKey());
+                throw new InexistentItemException("User returned " + pair.getKey());
 
-            i.lock();
             i.add(pair.getValue());
-            i.unlock();
         }
         stockLock.unlock();
     }
