@@ -5,10 +5,10 @@ package warehouse;
  */
 public class ExistentTaskException extends WarehouseException {
     public ExistentTaskException() {
-        super("xistentTaskException");
+        super("ExistentTaskException");
     }
 
     public ExistentTaskException(String msg) {
-        super("xistentTaskException", msg);
+        super("ExistentTaskException", msg);
     }
 }
