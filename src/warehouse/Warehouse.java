@@ -1,9 +1,6 @@
 package warehouse;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Warehouse {
@@ -96,32 +93,86 @@ public class Warehouse {
         return result;
     }
 
-    // TODO: remove should check if the value is bigger than the quantity and throw a new exception
-    // TODO: Guiao 5, ex 2: nao esperar nos locks. eu tenho isto feito, e so juntar. Mendes
-    // TODO: implementei variáveis de condição. usa-as aqui com os métodos signalAll e await do item.
     private void requestMaterial(Map<String, Integer> material) throws InexistentItemException {
-        stockLock.lock();
-        for (Map.Entry<String, Integer> pair : material.entrySet()) {
-            Item i = stock.get(pair.getKey());
-            if(i == null)
-                throw new InexistentItemException("User requested " + pair.getKey());
+        while(true) {
+            stockLock.lock();
 
-            i.lock();
-            i.remove(pair.getValue());
-            i.unlock();
+            Map<Item, Integer> requests = new HashMap<>(); // to unlock stock earlier
+
+            // lock the itens
+            try {
+                for (Map.Entry<String, Integer> pair : material.entrySet()) {
+                    Item i = stock.get(pair.getKey());
+
+                    if (i == null)
+                        throw new InexistentItemException("User requested " + pair.getKey());
+
+                    i.lock();
+                    requests.put(i, pair.getValue()); //save name and item
+                }
+            } catch (Exception e) {
+                //unlock everything because there was an InexistentItemException
+                for (Map.Entry<Item, Integer> pair : requests.entrySet())
+                    pair.getKey().unlock();
+
+                throw e; // deal with the exception somewhere else
+            } finally {
+                stockLock.unlock();
+            }
+
+            // check quantities
+            Item unavailable = null;
+            for (Map.Entry<Item, Integer> pair : requests.entrySet()) {
+                if (pair.getKey().getQuantity() - pair.getValue() < 0) {
+                    // out of stock!
+                    unavailable = pair.getKey();
+                    break;
+                }
+            }
+
+            // if there was an unavailable item, start all over
+            if(unavailable != null){
+                requests.remove(unavailable); //save it for last
+
+                // unlock everything else
+                for (Map.Entry<Item, Integer> pair : requests.entrySet())
+                    pair.getKey().unlock();
+
+                // wait for it
+                try {
+                    unavailable.await(); //when it awakes, it will try the whole thing again
+                } catch (InterruptedException e) {
+                    // nevermind this one, proceed
+                }
+
+                continue; // start all over.
+            }
+
+            // everything we need is available, remove quantities
+            for (Map.Entry<Item, Integer> pair : requests.entrySet()) {
+                pair.getKey().remove(pair.getValue());
+                pair.getKey().unlock();
+            }
+
+            // getting here means the needed quantities have been removed.
+            break;
         }
-        stockLock.unlock();
     }
 
     private void returnMaterial(Map<String, Integer> material) throws InexistentItemException {
         stockLock.lock();
-        for (Map.Entry<String, Integer> pair : material.entrySet()) {
-            Item i = stock.get(pair.getKey());
-            if(i == null)
-                throw new InexistentItemException("User returned " + pair.getKey());
 
-            i.add(pair.getValue());
+        try {
+            for (Map.Entry<String, Integer> pair : material.entrySet()) {
+                Item i = stock.get(pair.getKey());
+
+                if (i == null)
+                    throw new InexistentItemException("User returned " + pair.getKey());
+
+                i.add(pair.getValue());
+            }
+        }finally {
+            stockLock.unlock();
         }
-        stockLock.unlock();
     }
 }
