@@ -1,9 +1,6 @@
 package warehouse;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Warehouse {
@@ -70,8 +67,16 @@ public class Warehouse {
         t.start();
     }
 
-    public void endTask(int id) {
-        // TODO
+    public void endTask(int id) throws InexistentTaskException, InexistentItemException {
+        tasksLock.lock();
+        Task t = tasks.get(id);
+        tasksLock.unlock();
+
+        if(t == null)
+            throw new InexistentTaskException("User referenced task with id: " + id + " but was not found");
+
+        returnMaterial(t.getNeeds());
+        t.stop();
     }
 
     //Get list of tasks currently being done
@@ -102,5 +107,22 @@ public class Warehouse {
             i.unlock();
         }
         stockLock.unlock();
+    }
+
+    private void returnMaterial(Map<String, Integer> material) throws InexistentItemException {
+        stockLock.lock();
+
+        try {
+            for (Map.Entry<String, Integer> pair : material.entrySet()) {
+                Item i = stock.get(pair.getKey());
+
+                if (i == null)
+                    throw new InexistentItemException("User returned " + pair.getKey());
+
+                i.add(pair.getValue());
+            }
+        }finally {
+            stockLock.unlock();
+        }
     }
 }
