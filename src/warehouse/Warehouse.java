@@ -43,34 +43,46 @@ public class Warehouse {
         TaskType newTaskType = new TaskType(name, items);
 
         taskTypesLock.lock();
+        try {
+            if (taskTypes.containsKey(name)) {
+                taskTypesLock.unlock();
+                throw new ExistentTaskException();
+            }
 
-        if( taskTypes.containsKey(name) ) {
+            taskTypes.put(name, newTaskType);
+        }
+        finally {
             taskTypesLock.unlock();
-            throw new ExistentTaskException();
         }
 
-        taskTypes.put(name, newTaskType);
-
-        taskTypesLock.unlock();
     }
 
-    public int startTask(String typeName) throws InexistentTaskException, InexistentItemException {
+    public int startTask(String typeName) throws InexistentTaskTypeException, InexistentItemException {
 
         Task t = new Task(/* TODO: USER ID */, typeName);
-        t.start( /* TODO: USER ID */);
-
         int taskId = t.getId();
+        TaskType type;
 
-        tasksLock.lock();
-        TaskType type = taskTypes.get(typeName);
+        taskTypesLock.lock();
+        try {
+            type = taskTypes.get(typeName);
 
+            if (type == null)
+                throw new InexistentTaskTypeException("User referenced task type with name: " + typeName + " but was not found");
 
-        if(type == null)
-            throw new InexistentTaskException("User referenced task type with name: " + typeName + " but was not found");
+            tasksLock.lock();
 
-        type.addTask( taskId );
+            tasks.put(taskId, t);
 
-        tasksLock.unlock();
+            type.addTask(taskId);
+            taskTypes.put(typeName, type);
+
+            tasksLock.unlock();
+        }
+        finally {
+            taskTypesLock.unlock();
+        }
+
 
         requestMaterial(type.getNeeds());
 
@@ -79,15 +91,22 @@ public class Warehouse {
 
     public void endTask(int id) throws InexistentTaskException, InexistentItemException {
         tasksLock.lock();
-        Task t = tasks.get(id);
-        tasksLock.unlock();
+        TaskType type;
+        Task t;
 
-        if(t == null)
-            throw new InexistentTaskException("User referenced task with id: " + id + " but was not found");
+        try {
+            t = tasks.get(id);
 
-        taskTypesLock.lock();
-        TaskType type = taskTypes.get( t.getTypeName() );
-        taskTypesLock.unlock();
+            if (t == null)
+                throw new InexistentTaskException("User referenced task with id: " + id + " but was not found");
+
+            taskTypesLock.lock();
+
+            type = taskTypes.get(t.getTypeName());
+        }
+        finally{
+            tasksLock.unlock();
+        }
 
         returnMaterial( type.getNeeds() );
         t.stop();

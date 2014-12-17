@@ -12,7 +12,7 @@ public class TaskType {
     private String name;
     private Set<Integer> running;
     private Map<String, Integer> needs;
-    private ReentrantLock lock;
+    private ReentrantLock needsLock;
 
     //Constructors
 
@@ -21,7 +21,7 @@ public class TaskType {
         name = "";
         running = new HashSet<>();
         needs = new HashMap<>();
-        lock = new ReentrantLock();
+        needsLock = new ReentrantLock();
     }
 
     public TaskType(String na, Map<String, Integer> ne) {
@@ -29,11 +29,13 @@ public class TaskType {
         name = na;
         running = new HashSet<Integer>();
         needs = new HashMap<>(ne);
-        lock = new ReentrantLock();
+        needsLock = new ReentrantLock();
     }
 
-    public void addTask(int id){
+    public synchronized void addTask(int id){
+        needsLock.lock();
         running.add(id);
+        needsLock.unlock();
     }
 
 
@@ -49,7 +51,10 @@ public class TaskType {
 
 
     public Map<String, Integer> getNeeds() {
-        return new HashMap<String, Integer>(needs);
+        needsLock.lock();
+        HashMap<String, Integer> result = new HashMap<String, Integer>(needs);
+        needsLock.unlock();
+        return result;
     }
 
     public void setId(int id) {
