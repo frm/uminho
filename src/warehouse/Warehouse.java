@@ -4,16 +4,20 @@ import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Warehouse {
+    private Map<String, TaskType> taskTypes;
     private Map<Integer, Task> tasks;
     private Map<String, Item> stock;
     private ReentrantLock stockLock;
     private ReentrantLock tasksLock;
+    private ReentrantLock taskTypesLock;
 
     public Warehouse() {
-        tasks = new HashMap<Integer, Task>();
-        stock = new HashMap<String, Item>();
+        taskTypes = new HashMap<>();
+        tasks = new HashMap<>();
+        stock = new HashMap<>();
         stockLock = new ReentrantLock();
         tasksLock = new ReentrantLock();
+        taskTypesLock = new ReentrantLock();
     }
 
     // TODO: can that lock mixup cause a deadlock?
@@ -35,36 +39,42 @@ public class Warehouse {
         stockLock.unlock();
     }
 
-    public int addTask(String name, Map<String, Integer> items) throws WarehouseException {
-        tasksLock.lock();
+    public void newTaskType(String name, Map<String, Integer> items) throws WarehouseException {
+        TaskType newTaskType = new TaskType(name, items);
 
-        if( tasks.containsKey(name) ) {
-            tasksLock.unlock();
+        taskTypesLock.lock();
+
+        if( taskTypes.containsKey(name) ) {
+            taskTypesLock.unlock();
             throw new ExistentTaskException();
         }
 
-        tasksLock.unlock();
-        Task newTask = new Task(name, items);
-        int newTaskId = newTask.getId();
+        taskTypes.put(name, newTaskType);
 
-        tasksLock.lock();
-
-        tasks.put(newTaskId, newTask);
-
-        tasksLock.unlock();
-        return newTaskId;
+        taskTypesLock.unlock();
     }
 
-    public void startTask(int id) throws InexistentTaskException, InexistentItemException {
+    public int startTask(String typeName) throws InexistentTaskException, InexistentItemException {
+
+        Task t = new Task(/* TODO: USER ID */, typeName);
+        t.start( /* TODO: USER ID */);
+
+        int taskId = t.getId();
+
         tasksLock.lock();
-        Task t = tasks.get(id);
+        TaskType type = taskTypes.get(typeName);
+
+
+        if(type == null)
+            throw new InexistentTaskException("User referenced task type with name: " + typeName + " but was not found");
+
+        type.addTask( taskId );
+
         tasksLock.unlock();
 
-        if(t == null)
-            throw new InexistentTaskException("User referenced task with id: " + id + " but was not found");
+        requestMaterial(type.getNeeds());
 
-        requestMaterial(t.getNeeds());
-        t.start();
+        return taskId;
     }
 
     public void endTask(int id) throws InexistentTaskException, InexistentItemException {
@@ -75,23 +85,29 @@ public class Warehouse {
         if(t == null)
             throw new InexistentTaskException("User referenced task with id: " + id + " but was not found");
 
-        returnMaterial(t.getNeeds());
+        taskTypesLock.lock();
+        TaskType type = taskTypes.get( t.getTypeName() );
+        taskTypesLock.unlock();
+
+        returnMaterial( type.getNeeds() );
         t.stop();
     }
 
     //Get list of tasks currently being done
     public List<String> getRunningTasks() {
-        ArrayList<String> result = new ArrayList<String>();
+
+        ArrayList<String> result = new ArrayList<>();
         tasksLock.lock();
 
-        for (Task t : tasks.values()) {
-            if (t.running())
-                result.add(t.getName());
+        for(Task t: tasks.values()){
+            result.add(t.toString());
         }
 
         tasksLock.unlock();
         return result;
     }
+
+
 
     // TODO: remove should check if the value is bigger than the quantity and throw a new exception
     // TODO: Guiao 5, ex 2: nao esperar nos locks. eu tenho isto feito, e so juntar. Mendes
