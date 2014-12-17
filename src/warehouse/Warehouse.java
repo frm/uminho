@@ -5,18 +5,14 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Warehouse {
     private Map<String, TaskType> taskTypes;
-    private Map<Integer, Task> tasks;
     private Map<String, Item> stock;
     private ReentrantLock stockLock;
-    private ReentrantLock tasksLock;
     private ReentrantLock taskTypesLock;
 
     public Warehouse() {
         taskTypes = new HashMap<>();
-        tasks = new HashMap<>();
         stock = new HashMap<>();
         stockLock = new ReentrantLock();
-        tasksLock = new ReentrantLock();
         taskTypesLock = new ReentrantLock();
     }
 
@@ -58,26 +54,18 @@ public class Warehouse {
     }
 
     public int startTask(String typeName) throws InexistentTaskTypeException, InexistentItemException {
-
-        Task t = new Task(/* TODO: USER ID */, typeName);
-        int taskId = t.getId();
         TaskType type;
-
         taskTypesLock.lock();
+        int taskId;
         try {
             type = taskTypes.get(typeName);
 
             if (type == null)
                 throw new InexistentTaskTypeException("User referenced task type with name: " + typeName + " but was not found");
 
-            tasksLock.lock();
-
-            tasks.put(taskId, t);
-
-            type.addTask(taskId);
-            taskTypes.put(typeName, type);
-
-            tasksLock.unlock();
+            type.lock();
+            taskId = type.startTask(/*TODO: USER ID*/);
+            type.unlock();
         }
         finally {
             taskTypesLock.unlock();
@@ -90,40 +78,35 @@ public class Warehouse {
     }
 
     public void endTask(int id) throws InexistentTaskException, InexistentItemException {
-        tasksLock.lock();
-        TaskType type;
-        Task t;
 
-        try {
-            t = tasks.get(id);
+        int typeId = TaskType.getTypeOfTask(id);
 
-            if (t == null)
-                throw new InexistentTaskException("User referenced task with id: " + id + " but was not found");
+        taskTypesLock.lock();
 
-            taskTypesLock.lock();
+        TaskType type = taskTypes.get(typeId);
 
-            type = taskTypes.get(t.getTypeName());
-        }
-        finally{
-            tasksLock.unlock();
-        }
+        type.endTask(id);
 
-        returnMaterial( type.getNeeds() );
-        t.stop();
+        taskTypesLock.lock();
+
+        returnMaterial( type.getNeeds());
     }
 
     //Get list of tasks currently being done
-    public List<String> getRunningTasks() {
+    public String getRunningTasks() {
+        StringBuilder result = new StringBuilder();
 
-        ArrayList<String> result = new ArrayList<>();
-        tasksLock.lock();
+        taskTypesLock.lock();
 
-        for(Task t: tasks.values()){
-            result.add(t.toString());
+        for( TaskType type: taskTypes.values()){
+            taskTypesLock.unlock();
+            result.append( type.getRunningString() );
+            taskTypesLock.lock();
         }
+        taskTypesLock.unlock();
 
-        tasksLock.unlock();
-        return result;
+        return result.toString();
+
     }
 
 

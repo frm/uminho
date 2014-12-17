@@ -27,17 +27,9 @@ public class Task {
 
 
     public void notifySubscribers(){
-        lock.lock();
-        for( int sub : subscribers){
             //TODO : tratar do user e das subs, depois voltar a isto
-        }
-        lock.unlock();
     }
 
-
-    public void stop(){
-
-    }
 
 
 

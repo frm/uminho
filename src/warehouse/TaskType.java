@@ -8,34 +8,89 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class TaskType {
     private static int idCount = 0;
+    private static HashMap<Integer, Integer> taskIndex = new HashMap<>();
+    private static ReentrantLock indexLock = new ReentrantLock();
+
     private int id;
     private String name;
-    private Set<Integer> running;
+
+    private Map<Integer, Task> running;
     private Map<String, Integer> needs;
-    private ReentrantLock needsLock;
+
+    private ReentrantLock runningLock;
+    private ReentrantLock mainLock;
 
     //Constructors
 
     public TaskType() {
         id = ++idCount;
         name = "";
-        running = new HashSet<>();
+        running = new HashMap<>();
         needs = new HashMap<>();
-        needsLock = new ReentrantLock();
+        runningLock = new ReentrantLock();
+        mainLock = new ReentrantLock();
     }
 
     public TaskType(String na, Map<String, Integer> ne) {
         id = ++idCount;
         name = na;
-        running = new HashSet<Integer>();
+        running = new HashMap<>();
         needs = new HashMap<>(ne);
-        needsLock = new ReentrantLock();
+        runningLock = new ReentrantLock();
+        mainLock = new ReentrantLock();
     }
 
-    public synchronized void addTask(int id){
-        needsLock.lock();
-        running.add(id);
-        needsLock.unlock();
+
+    public void startTask(int userId){
+        Task t = new Task(userId, name);
+
+        indexLock.lock();
+        taskIndex.put(t.getId(), this.id);
+        indexLock.unlock();
+
+        runningLock.lock();
+        running.put( t.getId(), t);
+        runningLock.unlock();
+    }
+
+
+    public void endTask( int taskId ){
+        runningLock.lock();
+        // TODO: notifySubscribers
+        running.remove(taskId);
+        runningLock.unlock();
+    }
+
+    public static int getTypeOfTask(int taskId) throws InexistentTaskException {
+        Integer typeId;
+        indexLock.lock();
+        try{
+            typeId = taskIndex.get(taskId);
+
+            if(typeId == null)
+                throw new InexistentTaskException("User referenced task with id: " + taskId + " but was not found");
+        }
+        finally{
+            indexLock.unlock();
+        }
+        return typeId;
+    }
+
+    public void lock(){
+        mainLock.lock();
+    }
+
+    public void unlock(){
+        mainLock.unlock();
+    }
+
+    public String getRunningString(){
+        StringBuilder result = new StringBuilder();
+        result.append(id + " -- " + name + ":\n");
+        for(Task t: running.values()){
+            result.append("--- " + t.getId() + ": " +t.getClientId() + '\n');
+        }
+        return result.toString();
     }
 
 
@@ -51,9 +106,7 @@ public class TaskType {
 
 
     public Map<String, Integer> getNeeds() {
-        needsLock.lock();
         HashMap<String, Integer> result = new HashMap<String, Integer>(needs);
-        needsLock.unlock();
         return result;
     }
 
@@ -69,11 +122,12 @@ public class TaskType {
         needs = new HashMap<>(ne);
     }
 
-    public Set<Integer> getRunning() {
-        return new HashSet<Integer>(running);
+    public Map<Integer, Task> getRunning() {
+        return new HashMap<Integer, Task>(running);
     }
 
-    public void setRunning(Set<Integer> running) {
-        this.running = new HashSet<Integer>(running);
+    public void setRunning(Map<Integer, Task> running) {
+        this.running = new HashMap<Integer, Task>(running);
     }
+
 }
