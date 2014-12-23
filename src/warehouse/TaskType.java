@@ -7,12 +7,12 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by joaorodrigues on 14 Dec 14.
  */
 public class TaskType {
-    private static int idCount = 0;
+    private static int nextId = 0;
     private static HashMap<Integer, Integer> taskIndex = new HashMap<>();
     private static ReentrantLock indexLock = new ReentrantLock();
 
-    private int id;
-    private String name;
+    private final int id = ++nextId;
+    private final String name;
 
     private Map<Integer, Task> running;
     private Map<String, Integer> needs;
@@ -22,17 +22,7 @@ public class TaskType {
 
     //Constructors
 
-    public TaskType() {
-        id = ++idCount;
-        name = "";
-        running = new HashMap<>();
-        needs = new HashMap<>();
-        runningLock = new ReentrantLock();
-        mainLock = new ReentrantLock();
-    }
-
     public TaskType(String na, Map<String, Integer> ne) {
-        id = ++idCount;
         name = na;
         running = new HashMap<>();
         needs = new HashMap<>(ne);
@@ -108,14 +98,6 @@ public class TaskType {
     public Map<String, Integer> getNeeds() {
         HashMap<String, Integer> result = new HashMap<String, Integer>(needs);
         return result;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setNeeds(Map<String, Integer> ne) {

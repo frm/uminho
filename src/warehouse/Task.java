@@ -9,16 +9,15 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by joaorodrigues on 17 Dec 14.
  */
 public class Task {
-    private static int idCount = 0;
-    private int id;
-    private int clientId;
+    private static int nextId = 0;
+    private final int id = ++nextId;
+    private final int clientId;
     private Set<Integer> subscribers;
-    private String typeName;
+    private final String typeName;
     private ReentrantLock lock;
 
 
     public Task(int client, String type){
-        id = ++idCount;
         clientId = client;
         subscribers = new HashSet<>();
         typeName = type;
@@ -60,21 +59,6 @@ public class Task {
         return subscribers;
     }
 
-    public static void setIdCount(int idCount) {
-        Task.idCount = idCount;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
-    }
-
-    public static int getIdCount() {
-        return idCount;
-    }
 
     public int getId() {
         return id;
@@ -89,7 +73,4 @@ public class Task {
         return typeName;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
 }
