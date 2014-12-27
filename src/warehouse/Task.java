@@ -1,128 +1,76 @@
 package warehouse;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by joaorodrigues on 14 Dec 14.
+ * Created by joaorodrigues on 17 Dec 14.
  */
 public class Task {
-    private static int idCount = 0;
-    private int id;
-    private String name;
-    private int doing;
+    private static int nextId = 0;
+    private final int id = ++nextId;
+    private final int clientId;
     private Set<Integer> subscribers;
-    private Map<String, Integer> needs;
-    private ReentrantLock taskLock;
+    private final String typeName;
+    private ReentrantLock lock;
 
-    //Constructors
 
-    public Task() {
-        id = ++idCount;
-        name = "";
-        doing = 0;
+    public Task(int client, String type){
+        clientId = client;
         subscribers = new HashSet<>();
-        needs = new HashMap<>();
-        taskLock = new ReentrantLock();
+        typeName = type;
+        lock = new ReentrantLock();
     }
 
-    public Task(String na, Map<String, Integer> ne) {
-        id = ++idCount;
-        name = na;
-        doing = 0;
-        subscribers = new HashSet<>();
-        needs = new HashMap<>(ne);
-        taskLock = new ReentrantLock();
-    }
 
-    //Subscribe and unsubscribe to the task
-
-    public void addSubscriber(int i) throws AlreadySubscribedException {
-        taskLock.lock();
-        if(subscribers.contains(i)){
-            throw new AlreadySubscribedException();
-        }
-        subscribers.add(i);
-        taskLock.unlock();
-    }
-
-    public void removeSubscriber(int i) throws NotSubscribedException {
-        taskLock.lock();
-        if( !subscribers.contains(i)){
-            throw new NotSubscribedException();
-        }
-        subscribers.remove(i);
-        taskLock.unlock();
-    }
-
-    //start and stop, for when a client starts or stops doing a task
-
-    public void start(){
-        taskLock.lock();
-        doing++;
-        taskLock.unlock();
-    }
-
-    public void stop() throws TaskNotRunningException {
-        taskLock.lock();
-        if(doing == 0){
-            throw new TaskNotRunningException();
-        }
-        doing--;
-        taskLock.unlock();
-    }
-
-    public boolean running(){
-        taskLock.lock();
-        boolean result = doing > 0;
-        taskLock.unlock();
-        return result;
+    public void notifySubscribers(){
+            //TODO : tratar do user e das subs, depois voltar a isto
     }
 
 
 
-    //Getters & Setters
+
+
+
+    @Override
+    public String toString(){
+        StringBuilder result = new StringBuilder();
+
+        lock.lock();
+        result.append(typeName);
+        result.append(" task (ID: ");
+        result.append(id);
+        result.append(" ran by client ");
+        result.append(clientId);
+        lock.unlock();
+        
+        return result.toString();
+    }
+
+
+
+    public void setSubscribers(Set<Integer> subscribers) {
+        this.subscribers = subscribers;
+    }
+
+    public Set<Integer> getSubscribers() {
+        return subscribers;
+    }
+
 
     public int getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public int getClientId() {
+        return clientId;
     }
 
-    public int getDoing() {
-        return doing;
+
+    public String getTypeName() {
+        return typeName;
     }
 
-    public Set<Integer> getSubscribers() {
-        return new HashSet<Integer>(subscribers);
-    }
-
-    public Map<String, Integer> getNeeds() {
-        return new HashMap<String, Integer>(needs);
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDoing(int doing) {
-        this.doing = doing;
-    }
-
-    public void setSubscribers(Set<Integer> subs) {
-        subscribers = new HashSet<Integer>(subs);
-    }
-
-    public void setNeeds(Map<String, Integer> ne) {
-        needs = new HashMap<>(ne);
-    }
 }
