@@ -15,12 +15,12 @@ import java.util.GregorianCalendar;
 class Payment {
     private int id;
     private String status;
-    private float value;
+    private float cost;
     GregorianCalendar date;
 
     public Payment(String status, float value, GregorianCalendar date) {
         this.status = status;
-        this.value = value;
+        this.cost = value;
         this.date = date;
     }
 
@@ -32,8 +32,8 @@ class Payment {
         return status;
     }
 
-    public float getValue() {
-        return value;
+    public float getCost() {
+        return cost;
     }
 
     public GregorianCalendar getDate() {
@@ -44,8 +44,8 @@ class Payment {
         this.status = status;
     }
 
-    public void setValue(float value) {
-        this.value = value;
+    public void setCost(float cost) {
+        this.cost = cost;
     }
 
     public void setDate(GregorianCalendar date) {

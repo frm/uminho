@@ -6,6 +6,7 @@
 
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +21,32 @@ public class Family{
     private String address;
     private Representative representative;
     private List<SimpleMember> members;
+    private List<Application> applications;
 
+    public Family(float income, String notes, String address, Representative representative, List<SimpleMember> members) {
+        this.income = income;
+        this.notes = notes;
+        this.address = address;
+        this.representative = representative;
+        this.members = members;
+        
+        this.id = -1;
+        this.approved = false;
+        this.applications = new ArrayList<Application>();
+    }
+
+    public List<Application> getApplications() {
+        return new ArrayList<Application>(applications);
+    }
+
+    public void setMembers(List<SimpleMember> members) {
+        this.members = new ArrayList<SimpleMember>(members);
+    }
+
+    public void setApplications(List<Application> applications) {
+        this.applications = new ArrayList<Application>(applications);
+    }
+    
     public float getIncome() {
         return income;
     }

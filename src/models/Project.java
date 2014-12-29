@@ -6,6 +6,8 @@
 
 package models;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.GregorianCalendar;
 
 /**
@@ -24,8 +26,9 @@ public class Project {
     private float finalCost;
     private String notes;
     private PaymentPlan paymentPlan;
+    private Collection<Task> tasks;
 
-    public Project(String name, float budget, GregorianCalendar eta, String notes, PaymentPlan payment) {
+    public Project(String name, float budget, GregorianCalendar eta, String notes, PaymentPlan payment, Collection<Task> tasks) {
         this.id = -1;
         this.name = name;
         this.startDate = new GregorianCalendar();
@@ -33,6 +36,7 @@ public class Project {
         this.eta = eta;
         this.notes = notes;
         this.paymentPlan = payment;
+        this.tasks = new ArrayList<Task>(tasks);
     }
 
     public PaymentPlan getPayment() {
@@ -117,6 +121,22 @@ public class Project {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public PaymentPlan getPaymentPlan() {
+        return paymentPlan;
+    }
+
+    public Collection<Task> getTasks() {
+        return new ArrayList<Task>(tasks);
+    }
+
+    public void setPaymentPlan(PaymentPlan paymentPlan) {
+        this.paymentPlan = paymentPlan;
+    }
+
+    public void setTasks(Collection<Task> tasks) {
+        this.tasks = new ArrayList<Task>(tasks);
     }
     
     

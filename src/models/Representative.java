@@ -8,6 +8,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -20,23 +21,54 @@ class Representative extends Member{
     private String maritalStatus;
     private String education;
     private String nationality;
+    private String birthPlace;
     private String activity;
     private Collection<Integer> contacts;
 
-    public Representative(String nib, String nif, String maritalStatus, String education, String nationality,String activity, Collection<Integer> contacts) {
+    public Representative(String name, GregorianCalendar birthDate, String nib, String nif, String maritalStatus, String education, String nationality, String birthPlace, String activity, Collection<Integer> contacts) {
+        super(name, birthDate);
         this.id = -1;
         this.nib = nib;
         this.nif = nif;
         this.maritalStatus = maritalStatus;
         this.education = education;
         this.nationality = nationality;
+        this.birthPlace = birthPlace;
         this.activity = activity;
         this.contacts = new ArrayList<Integer>(contacts);
     }
-    
-    
-    
-    
+
+    public String getEducation() {
+        return education;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public String getBirthPlace() {
+        return birthPlace;
+    }
+
+    public String getActivity() {
+        return activity;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public void setBirthPlace(String birthPlace) {
+        this.birthPlace = birthPlace;
+    }
+
+    public void setActivity(String activity) {
+        this.activity = activity;
+    }
     
     public int getId() {
         return id;
@@ -54,16 +86,8 @@ class Representative extends Member{
         return maritalStatus;
     }
 
-    public String getEscolaridade() {
-        return education;
-    }
-
-    public String getNacionalidade() {
-        return nationality;
-    }
-
     public Collection<Integer> getContacts() {
-        return new ArrayList<Integer>(contacts);
+        return contacts;
     }
 
     public void setNib(String nib) {
@@ -78,16 +102,8 @@ class Representative extends Member{
         this.maritalStatus = maritalStatus;
     }
 
-    public void setEscolaridade(String education) {
-        this.education = education;
-    }
-
-    public void setNacionalidade(String nationality) {
-        this.nationality = nationality;
-    }
-
     public void setContacts(Collection<Integer> contacts) {
-        this.contacts = new ArrayList<Integer>(contacts);
+        this.contacts = contacts;
     }
         @Override
     public boolean equals(Object obj) {

@@ -20,9 +20,6 @@ public abstract class Member {
         this.name = name;
         this.birthDate = birthDate;
     }
-
-    public Member() {
-    }
     
     
     public String getName() {
