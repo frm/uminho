@@ -98,9 +98,7 @@ public class Warehouse {
         taskTypesLock.lock();
 
         for( TaskType type: taskTypes.values()){
-            taskTypesLock.unlock();
             result.append( type.getRunningString() );
-            taskTypesLock.lock();
         }
         taskTypesLock.unlock();
 
