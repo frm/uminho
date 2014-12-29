@@ -7,7 +7,7 @@
 package models;
 
 import java.util.GregorianCalendar;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 /**
  *
@@ -35,7 +35,7 @@ public class Volunteer extends BaseEntity{
         this.file = "Nothing here...";
     }
 
-    public Volunteer(String name, String adress, String nif, String nib, String activity, TreeSet<Integer> contacts, GregorianCalendar birthDate, String education, String nacionality, String citizenship, String maritalStatus, String observations, String file) {
+    public Volunteer(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, GregorianCalendar birthDate, String education, String nacionality, String citizenship, String maritalStatus, String observations, String file) {
         super(name, adress, nif, nib, activity, contacts);
         this.birthDate = birthDate;
         this.education = education;

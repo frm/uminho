@@ -7,8 +7,8 @@
 package models;
 
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Objects;
-import java.util.TreeSet;
 
 /**
  *
@@ -22,7 +22,7 @@ public class Employee extends BaseEntity{
     private String citizenship;
     private String maritalStatus;
     private float salary;
-    private TreeSet<Integer> teams;
+    private HashSet<Team> teams;
 
     public Employee() {
         super();
@@ -33,10 +33,10 @@ public class Employee extends BaseEntity{
         this.citizenship = "Nothing here....";
         this.maritalStatus = "Nothing here....";
         this.salary = -1;
-        this.teams = new TreeSet();
+        this.teams = new HashSet();
     }
 
-    public Employee(String name, String adress, String nif, String nib, String activity, TreeSet<Integer> contacts, GregorianCalendar birthDate, String education, String nacionality, String citizenship, String maritalStatus, float salary, TreeSet<Integer> teams) {
+    public Employee(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, GregorianCalendar birthDate, String education, String nacionality, String citizenship, String maritalStatus, float salary, HashSet<Team> teams) {
         super(name, adress, nif, nib, activity, contacts);
         this.id = -1;
         this.birthDate = birthDate;
@@ -45,7 +45,7 @@ public class Employee extends BaseEntity{
         this.citizenship = citizenship;
         this.maritalStatus = maritalStatus;
         this.salary = salary;
-        this.teams = new TreeSet(teams);
+        this.teams = new HashSet(teams);
     }
     
     public Employee(Employee f){
@@ -88,8 +88,8 @@ public class Employee extends BaseEntity{
         return salary;
     }
 
-    public TreeSet<Integer> getTeams() {
-        return new TreeSet(teams);
+    public HashSet<Team> getTeams() {
+        return new HashSet(teams);
     }
 
     public void setDateOfBirth(GregorianCalendar dateOfBirth) {
@@ -116,8 +116,8 @@ public class Employee extends BaseEntity{
         this.salary = salary;
     }
 
-    public void setTeams(TreeSet<Integer> teams) {
-        this.teams = new TreeSet(teams);
+    public void setTeams(HashSet<Team> teams) {
+        this.teams = new HashSet(teams);
     }
     
     

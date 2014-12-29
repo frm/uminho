@@ -7,7 +7,7 @@
 package models;
 
 import java.util.GregorianCalendar;
-import java.util.TreeSet;
+import java.util.HashSet;
 
 /**
  *
@@ -20,7 +20,7 @@ public class Event {
     private int participantsNr;
     private String location;
     private String observations;
-    private TreeSet<Integer> volunteers;
+    private HashSet<Integer> volunteers;
 
     public Event() {
         this.id = -1;
@@ -29,17 +29,17 @@ public class Event {
         this.participantsNr = -1;
         this.location = "Nothing here...";
         this.observations = "Nothing here...";
-        this.volunteers = new TreeSet<Integer>();
+        this.volunteers = new HashSet<Integer>();
     }
     
-    public Event(GregorianCalendar date, float amountRaised, int participantsNr, String location, String observations, TreeSet<Integer> volunteers) {
+    public Event(GregorianCalendar date, float amountRaised, int participantsNr, String location, String observations, HashSet<Integer> volunteers) {
         this.id = -1;
         this.date = date;
         this.amountRaised = amountRaised;
         this.participantsNr = participantsNr;
         this.location = location;
         this.observations = observations;
-        this.volunteers = new TreeSet(volunteers);
+        this.volunteers = new HashSet(volunteers);
     }
     
     public Event(Event e) {
@@ -75,8 +75,8 @@ public class Event {
         return observations;
     }
 
-    public TreeSet<Integer> getVolunteers() {
-        return new TreeSet(volunteers);
+    public HashSet<Integer> getVolunteers() {
+        return new HashSet(volunteers);
     }
 
     public void setDate(GregorianCalendar date) {
@@ -99,7 +99,7 @@ public class Event {
         this.observations = observations;
     }
 
-    public void setVolunteers(TreeSet<Integer> volunteers) {
+    public void setVolunteers(HashSet<Integer> volunteers) {
         this.volunteers = volunteers;
     }
     

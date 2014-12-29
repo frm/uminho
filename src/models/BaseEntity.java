@@ -6,8 +6,8 @@
 
 package models;
 
+import java.util.HashSet;
 import models.Contact;
-import java.util.TreeSet;
 
 /**
  *
@@ -19,7 +19,7 @@ public abstract class BaseEntity {
     private String nif;
     private String nib;
     private String activity;
-    private TreeSet<Integer> contacts;
+    private HashSet<Contact> contacts;
 
     public BaseEntity() {
         this.name = "Nothing here...";
@@ -27,16 +27,16 @@ public abstract class BaseEntity {
         this.nif = "Nothing here...";
         this.nib = "Nothing here...";
         this.activity = "Nothing here...";
-        this.contacts = contacts;
+        this.contacts = new HashSet();
     }
     
-    public BaseEntity(String name, String adress, String nif, String nib, String activity, TreeSet<Integer> contacts) {
+    public BaseEntity(String name, String address, String nif, String nib, String activity, HashSet<Contact> contacts) {
         this.name = name;
-        this.address = adress;
+        this.address = address;
         this.nif = nif;
         this.nib = nib;
         this.activity = activity;
-        this.contacts = new TreeSet(contacts);
+        this.contacts = new HashSet(contacts);
     }
     
     public BaseEntity(BaseEntity be) {
@@ -70,8 +70,8 @@ public abstract class BaseEntity {
         return activity;
     }
     
-    public TreeSet<Integer> getContacts() {
-        return new TreeSet(contacts);
+    public HashSet<Contact> getContacts() {
+        return new HashSet(contacts);
     }
 
     //setters
@@ -95,14 +95,11 @@ public abstract class BaseEntity {
         this.activity = activity;
     }
 
-    public void setContacts(TreeSet<Contact> contacts) {
-        this.contacts = new TreeSet(contacts);
+    public void setContacts(HashSet<Contact> contacts) {
+        this.contacts = new HashSet(contacts);
     }
     
     //methods
-    public void addContact(int cId){
-        this.contacts.add(cId);
-    }
     
     public void removeContact(int cId){
         if( contacts.contains(cId) )

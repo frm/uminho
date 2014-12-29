@@ -6,7 +6,7 @@
 
 package models;
 
-import java.util.TreeSet;
+import java.util.HashSet;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Donor extends BaseEntity{
     private String dType;
     private String occupation;
     private String observations;
-    private TreeSet<Donation> donations;
+    private HashSet<Donation> donations;
 
     public Donor() {
         super();
@@ -25,16 +25,16 @@ public class Donor extends BaseEntity{
         this.dType = "Nothing here...";
         this.occupation = "Nothing here...";
         this.observations = "Nothing here...";
-        this.donations = new TreeSet();
+        this.donations = new HashSet();
     }
     
-    public Donor(String name, String adress, String nif, String nib, String activity, TreeSet<Integer> contacts, String dType, String occupation, String observations, TreeSet<Donation> donations) {
+    public Donor(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, String dType, String occupation, String observations, HashSet<Donation> donations) {
         super(name, adress, nif, nib, activity, contacts);
         this.id = -1;
         this.dType = dType;
         this.occupation = occupation;
         this.observations = observations;
-        this.donations = new TreeSet(donations);
+        this.donations = new HashSet(donations);
     }
     
     public Donor(Donor d){
@@ -62,8 +62,8 @@ public class Donor extends BaseEntity{
         return observations;
     }
 
-    public TreeSet<Donation> getDonations() {
-        return new TreeSet(donations);
+    public HashSet<Donation> getDonations() {
+        return new HashSet(donations);
     }
 
     public void setdType(String dType) {
@@ -78,8 +78,8 @@ public class Donor extends BaseEntity{
         this.observations = observations;
     }
 
-    public void setDonations(TreeSet<Donation> donations) {
-        this.donations = new TreeSet(donations);
+    public void setDonations(HashSet<Donation> donations) {
+        this.donations = new HashSet(donations);
     }
     
     public void addDonation(){
