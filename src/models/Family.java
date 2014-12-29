@@ -13,13 +13,13 @@ import java.util.List;
  * @author joaorodrigues
  */
 public class Family{
-    int id;
-    float income;
-    String notes;
-    boolean approved;
-    String address;
-    Representative representative;
-    List<SimpleMember> members;
+    private int id;
+    private float income;
+    private String notes;
+    private boolean approved;
+    private String address;
+    private Representative representative;
+    private List<SimpleMember> members;
 
     public float getIncome() {
         return income;
@@ -68,4 +68,20 @@ public class Family{
     public int getId() {
         return id;
     }
+    
+       @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        
+        if(obj == null || this.getClass() != obj.getClass())
+            return false;
+        
+        Family f = (Family) obj;
+        
+        return (f.getId() == id );
+    }
+    
+    
 }

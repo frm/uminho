@@ -89,5 +89,17 @@ class Representative extends Member{
     public void setContacts(Collection<Integer> contacts) {
         this.contacts = new ArrayList<Integer>(contacts);
     }
-     
+        @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        
+        if(obj == null || this.getClass() != obj.getClass())
+            return false;
+        
+        Representative r = (Representative) obj;
+        
+        return (r.getId() == id );
+    }
  }

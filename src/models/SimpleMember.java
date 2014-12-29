@@ -13,10 +13,12 @@ import java.util.GregorianCalendar;
  * @author joaorodrigues
  */
 public class SimpleMember extends Member{
-    String grauParentesco;
+    private int id;
+    private String grauParentesco;
 
     public SimpleMember(String grauParentesco, String name, GregorianCalendar birthDate) {
         super(name, birthDate);
+        this.id = -1;
         this.grauParentesco = grauParentesco;
     }
 
@@ -35,7 +37,22 @@ public class SimpleMember extends Member{
     public String getGrauParentesco() {
         return grauParentesco;
     }
+
+    public int getId() {
+        return id;
+    }
     
-    
-    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        
+        if(obj == null || this.getClass() != obj.getClass())
+            return false;
+        
+        SimpleMember sm = (SimpleMember) obj;
+        
+        return (sm.getId() == id );
+    }
 }

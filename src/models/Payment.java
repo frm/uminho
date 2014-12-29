@@ -54,5 +54,17 @@ class Payment {
     
     
             
-    
+       @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        
+        if(obj == null || this.getClass() != obj.getClass())
+            return false;
+        
+        Payment p = (Payment) obj;
+        
+        return (p.getId() == id );
+    }
 }

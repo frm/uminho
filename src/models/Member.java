@@ -13,8 +13,8 @@ import java.util.GregorianCalendar;
  * @author joaorodrigues
  */
 public abstract class Member {
-    String name;
-    GregorianCalendar birthDate;
+    private String name;
+    private GregorianCalendar birthDate;
 
     public Member(String name, GregorianCalendar birthDate) {
         this.name = name;

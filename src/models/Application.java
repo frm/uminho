@@ -9,22 +9,23 @@ package models;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *
  * @author joaorodrigues
  */
 public class Application {
-    int id;
-    GregorianCalendar applicationDate;
-    String file;
-    boolean status;
-    String priority;
-    String notes;
-    String location;
-    GregorianCalendar approvalDate;
-    Map<Integer, String> questionnaire;
-    Project projeto;
+    private int id;
+    private GregorianCalendar applicationDate;
+    private String file;
+    private boolean status;
+    private String priority;
+    private String notes;
+    private String location;
+    private GregorianCalendar approvalDate;
+    private Map<Integer, String> questionnaire;
+    private Project projeto;
 
     public Application(GregorianCalendar applicationDate, String file, String priority, String notes, String location, Map<Integer, String> questionnaire) {
         this.applicationDate = applicationDate;
@@ -37,7 +38,6 @@ public class Application {
         this.id = -1;
         this.status = false;
         this.applicationDate = new GregorianCalendar();
-        this.projeto = null;
     }
     
     
@@ -121,7 +121,20 @@ public class Application {
     public void setQuestionnaire(Map<Integer, String> questionnaire) {
         this.questionnaire = questionnaire;
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        
+        if(obj == null || this.getClass() != obj.getClass())
+            return false;
+        
+        Application a = (Application) obj;
+        
+        return (a.getId() == id );
+    }
     
     
 }

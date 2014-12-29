@@ -11,9 +11,9 @@ package models;
  * @author joaorodrigues
  */
 public class Question {
-    int id;
-    boolean enabled;
-    String text;
+    private int id;
+    private boolean enabled;
+    private String text;
 
     public Question(boolean enabled, String text) {
         this.id = -1;
@@ -50,5 +50,17 @@ public class Question {
         this.text = text;
     }
     
-    
+       @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        
+        if(obj == null || this.getClass() != obj.getClass())
+            return false;
+        
+        Question q = (Question) obj;
+        
+        return (q.getId() == id );
+    }
 }
