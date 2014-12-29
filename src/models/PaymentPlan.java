@@ -54,8 +54,7 @@ class PaymentPlan {
         this.payments = new ArrayList<Payment>();
     }
     
-    
-       @Override
+    @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

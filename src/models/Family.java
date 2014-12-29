@@ -82,6 +82,5 @@ public class Family{
         
         return (f.getId() == id );
     }
-    
-    
+
 }

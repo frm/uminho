@@ -121,7 +121,7 @@ public class Application {
     public void setQuestionnaire(Map<Integer, String> questionnaire) {
         this.questionnaire = questionnaire;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -135,6 +135,5 @@ public class Application {
         
         return (a.getId() == id );
     }
-    
     
 }

@@ -52,9 +52,7 @@ class Payment {
         this.date = date;
     }
     
-    
-            
-       @Override
+     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
