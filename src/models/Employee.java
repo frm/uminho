@@ -14,54 +14,58 @@ import java.util.TreeSet;
  *
  * @author tiago
  */
-public class Funcionario extends BaseEntity{
+public class Employee extends BaseEntity{
     private int id;
-    private GregorianCalendar dateOfBirth;
+    private GregorianCalendar birthDate;
     private String education;
     private String nacionality;
     private String citizenship;
     private String maritalStatus;
     private float salary;
+    private TreeSet<Integer> teams;
 
-    public Funcionario() {
+    public Employee() {
         super();
         this.id = -1;
-        this.dateOfBirth = new GregorianCalendar();
+        this.birthDate = new GregorianCalendar();
         this.education = "Nothing here....";
         this.nacionality = "Nothing here....";
         this.citizenship = "Nothing here....";
         this.maritalStatus = "Nothing here....";
         this.salary = -1;
+        this.teams = new TreeSet();
     }
 
-    public Funcionario(String name, String adress, String nif, String nib, TreeSet<Integer> contacts, GregorianCalendar dateOfBirth, String education, String nacionality, String citizenship, String maritalStatus, float salary) {
-        super(name, adress, nif, nib, contacts);
+    public Employee(String name, String adress, String nif, String nib, String activity, TreeSet<Integer> contacts, GregorianCalendar birthDate, String education, String nacionality, String citizenship, String maritalStatus, float salary, TreeSet<Integer> teams) {
+        super(name, adress, nif, nib, activity, contacts);
         this.id = -1;
-        this.dateOfBirth = dateOfBirth;
+        this.birthDate = birthDate;
         this.education = education;
         this.nacionality = nacionality;
         this.citizenship = citizenship;
         this.maritalStatus = maritalStatus;
         this.salary = salary;
+        this.teams = new TreeSet(teams);
     }
     
-    public Funcionario(Funcionario f){
+    public Employee(Employee f){
         super(f);
         this.id = -1;
-        this.dateOfBirth = dateOfBirth;
-        this.education = education;
-        this.nacionality = nacionality;
-        this.citizenship = citizenship;
-        this.maritalStatus = maritalStatus;
-        this.salary = salary;
+        this.birthDate = f.getBirthDate();
+        this.education = f.getEducation();
+        this.nacionality = f.getNacionality();
+        this.citizenship = f.getCitizenship();
+        this.maritalStatus = f.getMaritalStatus();
+        this.salary = f.getSalary();
+        this.teams = f.getTeams();
     }
 
     public int getId() {
         return id;
     }
 
-    public GregorianCalendar getDateOfBirth() {
-        return dateOfBirth;
+    public GregorianCalendar getBirthDate() {
+        return birthDate;
     }
 
     public String getEducation() {
@@ -84,12 +88,12 @@ public class Funcionario extends BaseEntity{
         return salary;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public TreeSet<Integer> getTeams() {
+        return new TreeSet(teams);
     }
 
     public void setDateOfBirth(GregorianCalendar dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+        this.birthDate = dateOfBirth;
     }
 
     public void setEducation(String education) {
@@ -111,18 +115,25 @@ public class Funcionario extends BaseEntity{
     public void setSalary(float salary) {
         this.salary = salary;
     }
+
+    public void setTeams(TreeSet<Integer> teams) {
+        this.teams = new TreeSet(teams);
+    }
+    
+    
     
     @Override
-    public Funcionario clone(){
-        return new Funcionario(this);
+    public Employee clone(){
+        return new Employee(this);
     }
 
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("\nID: ");
         sb.append(id);
         sb.append("\nData Nascimento: ");
-        sb.append(dateOfBirth);
+        sb.append(birthDate);
         sb.append("\nEscolaridade: ");
         sb.append(education);
         sb.append("\nNacionalidade: ");
@@ -137,36 +148,13 @@ public class Funcionario extends BaseEntity{
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Funcionario other = (Funcionario) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.dateOfBirth, other.dateOfBirth)) {
-            return false;
-        }
-        if (!Objects.equals(this.education, other.education)) {
-            return false;
-        }
-        if (!Objects.equals(this.nacionality, other.nacionality)) {
-            return false;
-        }
-        if (!Objects.equals(this.citizenship, other.citizenship)) {
-            return false;
-        }
-        if (!Objects.equals(this.maritalStatus, other.maritalStatus)) {
-            return false;
-        }
-        if (Float.floatToIntBits(this.salary) != Float.floatToIntBits(other.salary)) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || this.getClass() != o.getClass() ) return false;
+       
+        Employee f = (Employee) o;
+        
+        return (super.equals(o) && this.birthDate.equals(f.getBirthDate()) && this.education.equals(f.getEducation()) && this.nacionality.equals(f.getNacionality()) && this.citizenship.equals(f.getCitizenship()) && this.maritalStatus.equals(f.getMaritalStatus()) && this.salary == f.getSalary());
     }
     
     

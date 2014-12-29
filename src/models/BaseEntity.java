@@ -18,21 +18,24 @@ public abstract class BaseEntity {
     private String address;
     private String nif;
     private String nib;
+    private String activity;
     private TreeSet<Integer> contacts;
 
     public BaseEntity() {
-        this.name = "Nothing here";
-        this.address = "Nothing here";
-        this.nif = "Nothing here";
-        this.nib = "Nothing here";
+        this.name = "Nothing here...";
+        this.address = "Nothing here...";
+        this.nif = "Nothing here...";
+        this.nib = "Nothing here...";
+        this.activity = "Nothing here...";
         this.contacts = contacts;
     }
     
-    public BaseEntity(String name, String adress, String nif, String nib, TreeSet<Integer> contacts) {
+    public BaseEntity(String name, String adress, String nif, String nib, String activity, TreeSet<Integer> contacts) {
         this.name = name;
         this.address = adress;
         this.nif = nif;
         this.nib = nib;
+        this.activity = activity;
         this.contacts = new TreeSet(contacts);
     }
     
@@ -41,6 +44,7 @@ public abstract class BaseEntity {
         this.address = be.getAddress();
         this.nif = be.getNif();
         this.nib = be.getNib();
+        this.activity = be.getActivity();
         this.contacts = be.getContacts();
     }
 
@@ -62,6 +66,10 @@ public abstract class BaseEntity {
         return nib;
     }
 
+    public String getActivity() {
+        return activity;
+    }
+    
     public TreeSet<Integer> getContacts() {
         return new TreeSet(contacts);
     }
@@ -81,6 +89,10 @@ public abstract class BaseEntity {
 
     public void setNib(String nib) {
         this.nib = nib;
+    }
+    
+    public void setActivity(String activity){
+        this.activity = activity;
     }
 
     public void setContacts(TreeSet<Contact> contacts) {
@@ -106,14 +118,16 @@ public abstract class BaseEntity {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Nome: ");
+        sb.append("\nNome: ");
         sb.append(name);
-        sb.append("Morada: ");
+        sb.append("\nMorada: ");
         sb.append(address);
-        sb.append("NIF: ");
+        sb.append("\nNIF: ");
         sb.append(nif);
-        sb.append("NIB: ");
+        sb.append("\nNIB: ");
         sb.append(nib);
+        sb.append("\nAtividade Profissional: ");
+        sb.append(activity);
         return sb.toString();
     }
     
@@ -123,6 +137,6 @@ public abstract class BaseEntity {
        
         BaseEntity be = (BaseEntity) o;
         
-        return (this.name.equals(be.getName()) && this.address.equals(be.getAddress()) && this.nif == be.getNif() && this.nib == be.getNib());
+        return (this.name.equals(be.getName()) && this.address.equals(be.getAddress()) && this.nif.equals(be.getNif()) && this.nib.equals(be.getNib()) && this.activity.equals(be.getActivity()));
     }
 }

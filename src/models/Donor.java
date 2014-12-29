@@ -28,8 +28,8 @@ public class Donor extends BaseEntity{
         this.donations = new TreeSet();
     }
     
-    public Donor(String name, String adress, String nif, String nib, TreeSet<Integer> contacts, String dType, String occupation, String observations, TreeSet<Donation> donations) {
-        super(name, adress, nif, nib, contacts);
+    public Donor(String name, String adress, String nif, String nib, String activity, TreeSet<Integer> contacts, String dType, String occupation, String observations, TreeSet<Donation> donations) {
+        super(name, adress, nif, nib, activity, contacts);
         this.id = -1;
         this.dType = dType;
         this.occupation = occupation;
@@ -66,10 +66,6 @@ public class Donor extends BaseEntity{
         return new TreeSet(donations);
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setdType(String dType) {
         this.dType = dType;
     }
@@ -90,10 +86,12 @@ public class Donor extends BaseEntity{
         //TODO
     }
     
+    @Override
     public Donor clone(){
         return new Donor(this);
     }
     
+    @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("\nID: ");
@@ -107,13 +105,14 @@ public class Donor extends BaseEntity{
         return super.toString() + sb.toString();
     }
     
+    @Override
     public boolean equals(Object o){
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass() ) return false;
        
         Donor d = (Donor) o;
         
-        return (super.equals(o) && this.id == d.getId() && this.dType == d.getdType() && this.occupation.equals(d.getOccupation()) && this.observations.equals(d.getObservations()));
+        return (super.equals(o) && this.dType == d.getdType() && this.occupation.equals(d.getOccupation()) && this.observations.equals(d.getObservations()));
     }
     
 }

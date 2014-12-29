@@ -45,10 +45,6 @@ public class Material {
         return quantity;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -56,21 +52,23 @@ public class Material {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    
+
     @Override
     public Material clone(){
         return new Material(this);
     }
-    
+
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
+        
         sb.append("ID: ");
         sb.append(id);
         sb.append("Nome: ");
         sb.append(name);
         sb.append("Quantidade: ");
         sb.append(quantity);
+        
         return sb.toString();
     }
     
@@ -81,6 +79,6 @@ public class Material {
        
         Material m = (Material) o;
     
-        return (this.id == m.getId() && this.name.equals(m.getName()) && this.quantity == m.getQuantity());
+        return ( this.name.equals(m.getName()) && this.quantity == m.getQuantity() );
     }
 }

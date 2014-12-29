@@ -63,10 +63,6 @@ public class Donation {
         return amount;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setDonationType(int donationType) {
         this.donationType = donationType;
     }
@@ -111,6 +107,6 @@ public class Donation {
        
         Donation don = (Donation) o;
         
-        return (this.id == don.getId() && this.donationType == don.getDonationType() && this.donationDate.equals(don.getDonationDate()) && this.amount == don.getAmount() && this.quantity == don.getQuantity());
+        return ( this.donationType == don.getDonationType() && this.donationDate.equals(don.getDonationDate()) && this.amount == don.getAmount() && this.quantity == don.getQuantity() );
     }
 }
