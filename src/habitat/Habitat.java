@@ -6,7 +6,7 @@
 package habitat;
 
 import controllers.*;
-import data.UsersRepository;
+import data.VolunteersRepository;
 import java.util.HashMap;
 import models.Session;
 import models.User;
@@ -22,7 +22,7 @@ public class Habitat {
      */
     public static void main(String[] args) {
         System.out.println(User.passwordHash("tiagoddinis"));
-        UsersRepository repo = new UsersRepository("name", "pw", "url");
+        VolunteersRepository repo = new VolunteersRepository("name", "pw", "url");
         repo.findBy(
                 new HashMap<String, Object>() {{
                     put("username", "my_un");

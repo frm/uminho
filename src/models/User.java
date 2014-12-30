@@ -29,7 +29,7 @@ public class User {
     /**
      * Gets user unique identifier
      * @return unique identifier
-     */
+      */
     public int getId() {
         return id;
     }
