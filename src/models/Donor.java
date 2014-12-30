@@ -94,13 +94,13 @@ public class Donor extends BaseEntity{
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("\nID: ");
+        sb.append("\n");
         sb.append(id);
-        sb.append("\nDonor Type: ");
+        sb.append(", ");
         sb.append(dType);
-        sb.append("\nOccupation: ");
+        sb.append(", ");
         sb.append(occupation);
-        sb.append("\nObservations: ");
+        sb.append(", ");
         sb.append(observations);
         return super.toString() + sb.toString();
     }

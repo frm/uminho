@@ -18,6 +18,7 @@ public class Donation {
     private GregorianCalendar donationDate;
     private int quantity;
     private double amount;
+    private String observations;
 
     public Donation() {
         this.id = -1;
@@ -25,14 +26,16 @@ public class Donation {
         this.donationDate = new GregorianCalendar();
         this.quantity = -1;
         this.amount = -1.0;
+        this.observations = "Nothing here...";
     }
     
-    public Donation(int donationType, GregorianCalendar dontationDate, int quantity, double amount) {
+    public Donation(int donationType, GregorianCalendar dontationDate, int quantity, double amount, String observations) {
         this.id = -1;
         this.donationType = donationType;
         this.donationDate = dontationDate;
         this.quantity = quantity;
         this.amount = amount;
+        this.observations = observations;
     }
     
     public Donation(Donation don){
@@ -41,6 +44,7 @@ public class Donation {
         this.donationDate = don.getDonationDate();
         this.quantity = don.getQuantity();
         this.amount = don.getAmount();
+        this.observations = don.getObservations();
     }
 
     public int getId() {
@@ -63,6 +67,10 @@ public class Donation {
         return amount;
     }
 
+    public String getObservations() {
+        return observations;
+    }
+
     public void setDonationType(int donationType) {
         this.donationType = donationType;
     }
@@ -78,6 +86,10 @@ public class Donation {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }
     
     @Override
     public Donation clone(){
@@ -87,15 +99,15 @@ public class Donation {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("ID: ");
+        sb.append("\n");
         sb.append(id);
-        sb.append("Tipo de doação");
+        sb.append(", ");
         sb.append(donationType);
-        sb.append("Data doação: ");
+        sb.append(", ");
         sb.append(donationDate);
-        sb.append("Valor: ");
+        sb.append(", ");
         sb.append(amount);
-        sb.append("Quantidade: ");
+        sb.append(", ");
         sb.append(quantity);
         return sb.toString();
     }

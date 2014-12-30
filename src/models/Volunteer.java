@@ -121,21 +121,21 @@ public class Volunteer extends BaseEntity{
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("\nID: ");
+        sb.append("\n");
         sb.append(id);
-        sb.append("\nData Nascimento: ");
+        sb.append(", ");
         sb.append(birthDate);
-        sb.append("\nEscolaridade: ");
+        sb.append(", ");
         sb.append(education);
-        sb.append("\nNacionalidade: ");
+        sb.append(", ");
         sb.append(nacionality);
-        sb.append("\nNaturalidade: ");
+        sb.append(", ");
         sb.append(citizenship);
-        sb.append("\nEstado Civil: ");
+        sb.append(", ");
         sb.append(maritalStatus);
-        sb.append("\nObservações: ");
+        sb.append(", ");
         sb.append(observations);
-        sb.append("\nFicheiro: ");
+        sb.append(", ");
         sb.append(file);
         return super.toString() + sb.toString();
     }

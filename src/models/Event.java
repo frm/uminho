@@ -112,12 +112,18 @@ public class Event {
     public String toString(){
         StringBuilder sb = new StringBuilder();
         
-        sb.append("\nID: ");
-        sb.append("\nData: ");
-        sb.append("\nQuantia levantada: ");
-        sb.append("\nNr Participantes: ");
-        sb.append("\nLocal: ");
-        sb.append("\nObservações: ");
+        sb.append("\n");
+        sb.append(id);
+        sb.append(", ");
+        sb.append(date);
+        sb.append(", ");
+        sb.append(amountRaised);
+        sb.append(", ");
+        sb.append(participantsNr);
+        sb.append(", ");
+        sb.append(location);
+        sb.append(", ");
+        sb.append(observations);
         
         return sb.toString();
     }

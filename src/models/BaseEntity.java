@@ -115,15 +115,15 @@ public abstract class BaseEntity {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("\nNome: ");
+        sb.append("\n");
         sb.append(name);
-        sb.append("\nMorada: ");
+        sb.append(", ");
         sb.append(address);
-        sb.append("\nNIF: ");
+        sb.append(", ");
         sb.append(nif);
-        sb.append("\nNIB: ");
+        sb.append(", ");
         sb.append(nib);
-        sb.append("\nAtividade Profissional: ");
+        sb.append(", ");
         sb.append(activity);
         return sb.toString();
     }

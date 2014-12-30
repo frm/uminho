@@ -65,4 +65,24 @@ public class Contact {
     public Contact clone(){
         return new Contact(this);
     }
+    
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n");
+        sb.append(cId);
+        sb.append(", ");
+        sb.append(cType);
+        sb.append(", ");
+        sb.append(cValue);
+        return sb.toString();
+    }
+    
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || this.getClass() != o.getClass() ) return false;
+       
+        Contact c = (Contact) o;
+        
+        return (this.cType == c.getcType() && this.cValue == c.getcValue());
+    }
 }

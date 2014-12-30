@@ -73,13 +73,13 @@ public class Team {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("\nID: ");
+        sb.append("\n");
         sb.append(id);
-        sb.append("\nNome: ");
+        sb.append(", ");
         sb.append(name);
-        sb.append("\nFuncionario Responsavel: ");
+        sb.append(", ");
         sb.append(manager);
-        sb.append("\nNr Voluntários: ");
+        sb.append(", ");
         sb.append(volunteersNr);
         return sb.toString();
     }

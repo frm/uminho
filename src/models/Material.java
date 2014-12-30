@@ -62,11 +62,11 @@ public class Material {
     public String toString(){
         StringBuilder sb = new StringBuilder();
         
-        sb.append("ID: ");
+        sb.append("\n");
         sb.append(id);
-        sb.append("Nome: ");
+        sb.append(", ");
         sb.append(name);
-        sb.append("Quantidade: ");
+        sb.append(", ");
         sb.append(quantity);
         
         return sb.toString();
