@@ -14,10 +14,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 import models.Volunteer;
 import org.apache.commons.lang3.text.WordUtils;
@@ -57,8 +59,44 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
     }
 
     @Override
-    public Volunteer find(int id) { return new Volunteer(); }
-
+    public Volunteer find(int id) throws DataException {
+        try {
+            Volunteer v;
+            Connection connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement statement = connection.prepareStatement( getFindQuery(id) );
+            ResultSet result = statement.executeQuery();
+            
+            try {
+                if ( result.next() ) {
+                    v = new Volunteer();
+                    v.setId( result.getInt( getColumnAttr("id") ) );
+                    v.setName( result.getString( getColumnAttr("name") ) );
+                    v.setAddress( result.getString( getColumnAttr("address") ) );
+                    v.setNib( result.getString( getColumnAttr("nib") ) );
+                    v.setNif( result.getString( getColumnAttr("nif") ) );
+                    v.setBirthDate( result.getDate( getColumnAttr("birthDate") ) );
+                    v.setNationality( result.getString( getColumnAttr("nationality") ) );
+                    v.setCitizenship( result.getString( getColumnAttr("citizenship") ) );
+                    v.setMaritalStatus( result.getString( getColumnAttr("maritalStatus") ) );
+                    v.setObservations( result.getString( getColumnAttr("observations") ) );
+                    v.setFile( result.getString( getColumnAttr("file") ) );
+                    }
+                else {
+                    v = null;
+                }
+            }
+            finally {
+                result.close();
+                statement.close();
+                connection.close();
+            }
+            
+            return v;
+        } catch (Exception e) {
+            throw new DataException("Error finding volunteer with id: " + id);
+        }
+    }
+    
     /**
      *
      * @param v
@@ -66,7 +104,7 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
      */
     @Override
     public void save(Volunteer v) throws DataException {
-        String query = null;
+        String query;
         int generatedKeys;
 
         if (v.getId() < 0) {
@@ -82,9 +120,12 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
         try {
             connection = DriverManager.getConnection(url, username, password);
             statement = connection.prepareStatement(query, generatedKeys);
-
+            
+            System.out.println(query);
             statement.executeUpdate();
+            System.out.println("\n\nYAY");
             ResultSet keys = statement.getGeneratedKeys();
+            
 
             try {
                 if( keys.next() ) {
@@ -113,9 +154,9 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
         Iterator it = params.entrySet().iterator();
         while(it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
-            query.append( COLUMN_ATTR.get(WordUtils.capitalize((String) pair.getKey())) )
+            query.append( getColumnAttr( (String) pair.getKey() ) )
                  .append("=")
-                 .append( attributeToQuery(pair.getValue()) );
+                 .append( attributeToQuery( pair.getValue() ) );
 
             String nextLine = it.hasNext() ? " AND " : ";";
             query.append(nextLine);
@@ -126,17 +167,18 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
         return new ArrayList<Volunteer>();
     }
     
-    private static String getUpdateQuery(Volunteer v) {
+    public static String getUpdateQuery(Volunteer v) {
         StringBuilder query = new StringBuilder("UPDATE ")
                                                         .append(DB_TABLE)
                                                         .append(" SET ");
         
-        Map<String, String> serializedObj = serialize(v, true, false);
+        Map<String, String> serializedObj = serialize(v, true, false, new HashSet<String>(){{ add("Activity"); }});
         Iterator<Map.Entry<String, String>> entry = serializedObj.entrySet().iterator();
         
         while( entry.hasNext() ) {
             Map.Entry<String, String> attr = entry.next();
-            if(attr.getKey().equals("id")) continue;
+            
+            if(attr.getKey().equals(getColumnAttr("id"))) continue;
             
             query.append(attr.getKey())
                             .append("=")
@@ -146,18 +188,21 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
             query.append(s);
         }
         
-        query.append("WHERE id=")
-                    .append(serializedObj.get("id"));
+        query.append("WHERE ")
+                    .append(getColumnAttr("id"))
+                    .append("=")
+                    .append(serializedObj.get(getColumnAttr("id")))
+                    .append(";");
         
         return query.toString();
     }
 
-    private static String getInsertQuery(Volunteer v) {
+    public static String getInsertQuery(Volunteer v) {
         StringBuilder sp = new StringBuilder("CALL ")
                                                 .append(INSERT_PROCEDURE)
                                                 .append("(");
         
-        Map<String, String> serializedObj = serialize(v, false, true);
+        Map<String, String> serializedObj = serialize(v, false, true, null);
         
         Iterator<Map.Entry<String, String>> entry = serializedObj.entrySet().iterator();
         while( entry.hasNext() ) {
@@ -168,12 +213,28 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
         
         return sp.toString();
     }
+    
+    public static String getFindQuery(int id) {
+        return new StringBuilder("SELECT * FROM ")
+                                                        .append(DB_TABLE)
+                                                        .append(" WHERE ")
+                                                        .append( getColumnAttr("id") )
+                                                        .append("=")
+                                                        .append(id)
+                                                        .append(";")
+                                                        .toString();
+    }
 
-    private static Map<String, String> serialize(Volunteer v, boolean includeId, boolean allowNull) {
+    private static Map<String, String> serialize(Volunteer v, boolean includeId, boolean allowNull, Set<String> ignoredAttributes) {
+        if (ignoredAttributes == null)
+            ignoredAttributes = new HashSet<String>();
+        
         LinkedHashMap<String, String> serialObj = new LinkedHashMap<>();
 
         for( Map.Entry<String, String> entry : COLUMN_ATTR.entrySet() ) {
-            if(!includeId && entry.getValue().equals("id"))
+            String attr = entry.getValue();
+            
+            if( (!includeId && attr.equals("id") ) || ignoredAttributes.contains(entry.getKey()) )
                 continue;
 
             try {
@@ -184,7 +245,7 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
                     continue;
                 
                 String formatedValue = attributeToQuery(result);
-                serialObj.put(entry.getValue(), formatedValue);
+                serialObj.put(attr, formatedValue);
             } catch (Exception e) {}
         }
 
@@ -200,10 +261,14 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
 
         return value;
     }
+
+    private static String getColumnAttr(String attr) {
+        return COLUMN_ATTR.get( WordUtils.capitalize(attr) );
+    }
     
-    public static void main(String args[]) {
+    public static void main(String args[]) throws DataException {
         // To run this put getInsertQuery and getUpdateQuery to public
-        VolunteersRepository repo = new VolunteersRepository("a", "b", "c");
+        VolunteersRepository repo = new VolunteersRepository("habitat_admin", "testuser123", "jdbc:mysql://localhost:3306/habitat");
         Volunteer v = new Volunteer();
         Map query = new HashMap<String, Object>() {{
             put("id", 1);
@@ -218,5 +283,11 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
             new TreeSet<Integer>(), null, "education", "nacionality", "citizenship",
             "maritalStatus", "observations", "file");
         System.out.println(VolunteersRepository.getUpdateQuery(v2));
+        System.out.println(VolunteersRepository.getFindQuery(0));
+        
+        System.out.println(repo.find(1));
+        v2.setId(1);
+        repo.save(v2);
+        System.out.println(repo.find(1));
     }
 }

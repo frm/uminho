@@ -11,15 +11,14 @@ package data;
  */
 public class RepositoryFactory {
     
-    private static VolunteersRepository usersRepository;
+    private static VolunteersRepository volunteersRepository;
     
-    // TODO create valid login credentials
     private static final String USERNAME = System.getenv("HBT_USR");
     private static final String PASSWORD = System.getenv("HBT_PW");
     private static final String URL = "jdbc:mysql://localhost/habitat";
     
     public RepositoryFactory() {
-        usersRepository = new VolunteersRepository(getURL(), USERNAME, PASSWORD);
+        volunteersRepository = new VolunteersRepository(getURL(), USERNAME, PASSWORD);
     }
     
     // TODO change this to generate valid mysql db url
@@ -28,10 +27,10 @@ public class RepositoryFactory {
     }
     
     public static VolunteersRepository getUsersRepository() {
-        if (usersRepository == null)
-            usersRepository = new VolunteersRepository(getURL(), USERNAME, PASSWORD);
+        if (volunteersRepository == null)
+            volunteersRepository = new VolunteersRepository(getURL(), USERNAME, PASSWORD);
         
-        return usersRepository;
+        return volunteersRepository;
     }
     
 }
