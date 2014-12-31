@@ -145,8 +145,6 @@ public class Project {
         this.tasks = new ArrayList<Task>(tasks);
     }
     
-    
-    
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {

@@ -130,7 +130,7 @@ public class Volunteer extends BaseEntity{
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("\n");
+        sb.append(", ");
         sb.append(id);
         sb.append(", ");
         sb.append(birthDate);

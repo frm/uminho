@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import models.Contact;
 import models.Volunteer;
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -46,10 +47,10 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
        put("Nationality", "Nacionalidade");
        put("Citizenship", "Naturalidade");
        put("MaritalStatus", "EstadoCivil");
-       put("Education", "Educacao");
+       put("Education", "Escolaridade");
        put("Observations", "Observacoes");
        put("File", "Ficheiro");
-       put("Activity", "Atividade");
+       put("Activity", "AtividadeID");
     }};
 
     public VolunteersRepository(String username, String password, String url) {
@@ -72,6 +73,7 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
                     v.setId( result.getInt( getColumnAttr("id") ) );
                     v.setName( result.getString( getColumnAttr("name") ) );
                     v.setAddress( result.getString( getColumnAttr("address") ) );
+                    v.setActivity( Integer.toString( result.getInt( getColumnAttr("activity") ) ) );
                     v.setNib( result.getString( getColumnAttr("nib") ) );
                     v.setNif( result.getString( getColumnAttr("nif") ) );
                     v.setBirthDate( result.getDate( getColumnAttr("birthDate") ) );
@@ -123,13 +125,12 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
             
             System.out.println(query);
             statement.executeUpdate();
-            System.out.println("\n\nYAY");
             ResultSet keys = statement.getGeneratedKeys();
-            
 
             try {
-                if( keys.next() ) {
+                if( keys.next() && v.getId() > 0 ) {
                     v.setId( (int)keys.getLong(1) );
+                                System.out.println("\n\nYAY");     
                 } else {
                     throw new DataException("Error getting id for: " + v);
                 }
@@ -280,7 +281,7 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
         System.out.println(VolunteersRepository.getInsertQuery(v));
         
         Volunteer v2 = new Volunteer("myName", "myAddress", null, "nib", "myActivity",
-            new TreeSet<Integer>(), null, "education", "nacionality", "citizenship",
+            new HashSet<Contact>(), null, "education", "nacionality", "citizenship",
             "maritalStatus", "observations", "file");
         System.out.println(VolunteersRepository.getUpdateQuery(v2));
         System.out.println(VolunteersRepository.getFindQuery(0));
