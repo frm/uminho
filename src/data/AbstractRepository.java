@@ -17,16 +17,13 @@ import java.util.Map;
  */
 public abstract class AbstractRepository<T> implements Repository<T> {
     
-    public abstract String getTableName();
     
-    public abstract String getColumnFor(String attribute);
-    
-    public void saveAll(Collection<T> entities) {
+    public void saveAll(Collection<T> entities) throws DataException {
         for(T e : entities)
             save(e);
     }
     
-    public Collection<T> findAll(Collection<Integer> ids) {
+    public Collection<T> findAll(Collection<Integer> ids) throws DataException {
         Collection<T> entities = new ArrayList<T>();
         for (int id : ids)
             entities.add( find(id) );
@@ -35,39 +32,12 @@ public abstract class AbstractRepository<T> implements Repository<T> {
     }
     
     public boolean exists(int id) {
-        return find(id) != null;
-    }
-    
-    // TODO: add DAO sql query here
-    @Override
-    public List<T> findBy(Map<String, Object> params) {
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT * FROM ")
-             .append(getTableName())
-             .append(" WHERE ");
-        
-        Iterator it = params.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            query.append( getColumnFor((String) pair.getKey()) )
-                 .append("=")
-                 .append( attributeToQuery(pair.getValue()) );
-            
-            String nextLine = it.hasNext() ? " AND " : ";";
-            query.append(nextLine);
+        boolean b;
+        try {
+            b = find(id) != null;
+        } catch(DataException e) {
+            b = false;
         }
-        
-        System.out.println(query);
-        
-        return new ArrayList<T>();
-    }
-    
-    private static String attributeToQuery(Object attribute) {
-        String value = attribute.toString();
-        if (attribute instanceof String)
-            value = String.format("'%s'", value);
-        
-        return value;
-    }
-    
+        return b;
+    }    
 }

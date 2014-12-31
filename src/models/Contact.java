@@ -66,6 +66,10 @@ public class Contact {
         return new Contact(this);
     }
     
+    public int hash()  {
+        return id;
+    }
+    
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");

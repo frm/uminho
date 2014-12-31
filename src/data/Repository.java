@@ -13,7 +13,7 @@ import java.util.Map;
  * @author frmendes
  */
 public interface Repository<T> {
-    public void save(T entity);
-    public T find(int id);
-    public List<T> findBy(Map<String, Object> params);
+    public void save(T entity) throws DataException;
+    public T find(int id) throws DataException;
+    public List<T> findBy(Map<String, Object> params) throws DataException;
 }

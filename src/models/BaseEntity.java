@@ -94,7 +94,6 @@ public abstract class BaseEntity {
     public void setActivity(String activity){
         this.activity = activity;
     }
-
     public void setContacts(HashSet<Contact> contacts) {
         this.contacts = new HashSet(contacts);
     }
