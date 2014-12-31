@@ -27,11 +27,12 @@ public class Question {
         this.text = "";
     }
     
-    
-    
-    
-    public int getId() {
+        public int getId() {
         return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isEnabled() {

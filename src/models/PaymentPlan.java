@@ -29,6 +29,10 @@ class PaymentPlan {
     public int getId() {
         return id;
     }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public float getNextPayment() {
         return nextPayment;

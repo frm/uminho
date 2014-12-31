@@ -40,9 +40,6 @@ public class Application {
         this.applicationDate = new GregorianCalendar();
     }
     
-    
-    
-
     public Application(String location, Map<Integer, String> questionnaire) {
         int id = -1;
         this.status = false;
@@ -56,6 +53,10 @@ public class Application {
 
     public int getId() {
         return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
 
     public GregorianCalendar getApplicationDate() {

@@ -95,6 +95,10 @@ public class Family{
         return id;
     }
     
+    public void setId(int id) {
+        this.id = id;
+    }
+    
        @Override
     public boolean equals(Object obj) {
         if (obj == this) {
