@@ -6,6 +6,7 @@
 
 package models;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Objects;
@@ -63,6 +64,10 @@ public class Employee extends BaseEntity{
     public int getId() {
         return id;
     }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public GregorianCalendar getBirthDate() {
         return birthDate;
@@ -92,8 +97,12 @@ public class Employee extends BaseEntity{
         return new HashSet(teams);
     }
 
-    public void setDateOfBirth(GregorianCalendar dateOfBirth) {
-        this.birthDate = dateOfBirth;
+   public void setBirthDate(GregorianCalendar birthDate) {
+        this.birthDate = birthDate;
+    }
+    
+    public void setBirthDate(Date birthDate) {
+        this.birthDate.setTimeInMillis(birthDate.getTime());
     }
 
     public void setEducation(String education) {

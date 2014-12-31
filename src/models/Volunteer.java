@@ -6,6 +6,7 @@
 
 package models;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 
@@ -17,7 +18,7 @@ public class Volunteer extends BaseEntity{
     private int id;
     private GregorianCalendar birthDate;
     private String education;
-    private String nacionality;
+    private String nationality;
     private String citizenship;
     private String maritalStatus;
     private String observations;
@@ -28,18 +29,18 @@ public class Volunteer extends BaseEntity{
         this.id = -1;
         this.birthDate = new GregorianCalendar();
         this.education = "Nothing here...";
-        this.nacionality = "Nothing here...";
+        this.nationality = "Nothing here...";
         this.citizenship = "Nothing here...";
         this.maritalStatus = "Nothing here...";
         this.observations = "Nothing here...";
         this.file = "Nothing here...";
     }
 
-    public Volunteer(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, GregorianCalendar birthDate, String education, String nacionality, String citizenship, String maritalStatus, String observations, String file) {
+    public Volunteer(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, GregorianCalendar birthDate, String education, String nationality, String citizenship, String maritalStatus, String observations, String file) {
         super(name, adress, nif, nib, activity, contacts);
         this.birthDate = birthDate;
         this.education = education;
-        this.nacionality = nacionality;
+        this.nationality = nationality;
         this.citizenship = citizenship;
         this.maritalStatus = maritalStatus;
         this.observations = observations;
@@ -50,7 +51,7 @@ public class Volunteer extends BaseEntity{
         super(v);
         this.birthDate = v.getBirthDate();
         this.education = v.getEducation();
-        this.nacionality = v.getNacionality();
+        this.nationality = v.getNationality();
         this.citizenship = v.getCitizenship();
         this.maritalStatus = v.getMaritalStatus();
         this.observations = v.getObservations();
@@ -65,8 +66,8 @@ public class Volunteer extends BaseEntity{
         return education;
     }
 
-    public String getNacionality() {
-        return nacionality;
+    public String getNationality() {
+        return nationality;
     }
 
     public String getCitizenship() {
@@ -84,17 +85,29 @@ public class Volunteer extends BaseEntity{
     public String getFile() {
         return file;
     }
+    
+    public int getId() {
+        return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setBirthDate(GregorianCalendar birthDate) {
         this.birthDate = birthDate;
+    }
+    
+    public void setBirthDate(Date birthDate) {
+        this.birthDate.setTimeInMillis(birthDate.getTime());
     }
 
     public void setEducation(String education) {
         this.education = education;
     }
 
-    public void setNacionality(String nacionality) {
-        this.nacionality = nacionality;
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 
     public void setCitizenship(String citizenship) {
@@ -128,7 +141,7 @@ public class Volunteer extends BaseEntity{
         sb.append(", ");
         sb.append(education);
         sb.append(", ");
-        sb.append(nacionality);
+        sb.append(nationality);
         sb.append(", ");
         sb.append(citizenship);
         sb.append(", ");
@@ -146,6 +159,13 @@ public class Volunteer extends BaseEntity{
        
         Volunteer v = (Volunteer) o;
         
-        return (super.equals(o) && this.birthDate.equals(v.getBirthDate()) && this.education.equals(v.getEducation()) && this.nacionality.equals(v.getNacionality()) && this.citizenship.equals(v.getCitizenship()) && this.maritalStatus.equals(v.getMaritalStatus()) && this.observations.equals(v.getObservations()) && this.file.equals(v.getFile()));
+        return (super.equals(o)
+                && this.birthDate.equals(v.getBirthDate())
+                && this.education.equals(v.getEducation())
+                && this.nationality.equals(v.getNationality())
+                && this.citizenship.equals(v.getCitizenship())
+                && this.maritalStatus.equals(v.getMaritalStatus())
+                && this.observations.equals(v.getObservations())
+                && this.file.equals(v.getFile()));
     }
 }

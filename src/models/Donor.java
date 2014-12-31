@@ -14,7 +14,7 @@ import java.util.HashSet;
  */
 public class Donor extends BaseEntity{
     private int id;
-    private String dType;
+    private String type;
     private String occupation;
     private String observations;
     private HashSet<Donation> donations;
@@ -22,7 +22,7 @@ public class Donor extends BaseEntity{
     public Donor() {
         super();
         this.id = -1;
-        this.dType = "Nothing here...";
+        this.type = "Nothing here...";
         this.occupation = "Nothing here...";
         this.observations = "Nothing here...";
         this.donations = new HashSet();
@@ -31,7 +31,7 @@ public class Donor extends BaseEntity{
     public Donor(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, String dType, String occupation, String observations, HashSet<Donation> donations) {
         super(name, adress, nif, nib, activity, contacts);
         this.id = -1;
-        this.dType = dType;
+        this.type = dType;
         this.occupation = occupation;
         this.observations = observations;
         this.donations = new HashSet(donations);
@@ -40,7 +40,7 @@ public class Donor extends BaseEntity{
     public Donor(Donor d){
         super(d);
         this.id = d.getId();
-        this.dType = d.getdType();
+        this.type = d.getType();
         this.occupation = d.getOccupation();
         this.observations = d.getObservations();
         this.donations = d.getDonations();
@@ -49,9 +49,13 @@ public class Donor extends BaseEntity{
     public int getId() {
         return id;
     }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getdType() {
-        return dType;
+    public String getType() {
+        return type;
     }
 
     public String getOccupation() {
@@ -66,8 +70,8 @@ public class Donor extends BaseEntity{
         return new HashSet(donations);
     }
 
-    public void setdType(String dType) {
-        this.dType = dType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public void setOccupation(String occupation) {
@@ -82,8 +86,8 @@ public class Donor extends BaseEntity{
         this.donations = new HashSet(donations);
     }
     
-    public void addDonation(){
-        //TODO
+    public void addDonation(Donation d){
+        this.donations.add(d);
     }
     
     @Override
@@ -97,7 +101,7 @@ public class Donor extends BaseEntity{
         sb.append("\n");
         sb.append(id);
         sb.append(", ");
-        sb.append(dType);
+        sb.append(type);
         sb.append(", ");
         sb.append(occupation);
         sb.append(", ");
@@ -112,7 +116,7 @@ public class Donor extends BaseEntity{
        
         Donor d = (Donor) o;
         
-        return (super.equals(o) && this.dType == d.getdType() && this.occupation.equals(d.getOccupation()) && this.observations.equals(d.getObservations()));
+        return (super.equals(o) && this.type == d.getType() && this.occupation.equals(d.getOccupation()) && this.observations.equals(d.getObservations()));
     }
     
 }

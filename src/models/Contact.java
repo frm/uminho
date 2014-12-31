@@ -11,55 +11,55 @@ package models;
  * @author tiago
  */
 public class Contact {
-    private int cId;
-    private String cType;
-    private String cValue;
+    private int id;
+    private String type;
+    private String value;
     
     public Contact(){
-        cId = -1;
-        cType = "Nothing here...";
-        cValue = "Nothing here...";
+        id = -1;
+        type = "Nothing here...";
+        value = "Nothing here...";
     }
     
     public Contact(String ct, String cv){
-        cId = -1;
-        cType = ct;
-        cValue = cv;
+        id = -1;
+        type = ct;
+        value = cv;
     }
 
     public Contact(Contact c){
-        cId = c.getcId();
-        cType = c.getcType();
-        cValue = c.getcValue();
+        id = c.getId();
+        type = c.getType();
+        value = c.getValue();
     }
 
-    public int getcId() {
-        return cId;
+    public int getId() {
+        return id;
     }
     
-    public String getcType() {
-        return cType;
+    public String getType() {
+        return type;
     }
 
-    public String getcValue() {
-        return cValue;
+    public String getValue() {
+        return value;
     }
 
-    public void setcId(int cId) {
-        this.cId = cId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setcType(String cType) {
-        this.cType = cType;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setcValue(String cValue) {
-        this.cValue = cValue;
+    public void setValue(String value) {
+        this.value = value;
     }
     
     public void editContact(String ctype, String cvalue){
-        this.setcType(ctype);
-        this.setcValue(cvalue);
+        this.setType(ctype);
+        this.setValue(cvalue);
     }
     
     public Contact clone(){
@@ -69,11 +69,11 @@ public class Contact {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
-        sb.append(cId);
+        sb.append(id);
         sb.append(", ");
-        sb.append(cType);
+        sb.append(type);
         sb.append(", ");
-        sb.append(cValue);
+        sb.append(value);
         return sb.toString();
     }
     
@@ -83,6 +83,6 @@ public class Contact {
        
         Contact c = (Contact) o;
         
-        return (this.cType == c.getcType() && this.cValue == c.getcValue());
+        return (this.type == c.getType() && this.value == c.getValue());
     }
 }
