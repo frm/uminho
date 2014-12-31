@@ -126,6 +126,10 @@ public class Volunteer extends BaseEntity{
         this.file = file;
     }
     
+    public int hashCode()  {
+        return id;
+    }
+    
     @Override
     public Volunteer clone(){
         return new Volunteer(this);

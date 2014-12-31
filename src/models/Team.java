@@ -75,6 +75,10 @@ public class Team {
         return new Team(this);
     }
     
+    public int hashCode()  {
+        return id;
+    }
+    
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();

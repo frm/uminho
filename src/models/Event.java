@@ -20,7 +20,7 @@ public class Event {
     private int participantsNr;
     private String location;
     private String observations;
-    private HashSet<Integer> volunteers;
+    private HashSet<Volunteer> volunteers;
 
     public Event() {
         this.id = -1;
@@ -29,10 +29,10 @@ public class Event {
         this.participantsNr = -1;
         this.location = "Nothing here...";
         this.observations = "Nothing here...";
-        this.volunteers = new HashSet<Integer>();
+        this.volunteers = new HashSet<Volunteer>();
     }
     
-    public Event(GregorianCalendar date, float amountRaised, int participantsNr, String location, String observations, HashSet<Integer> volunteers) {
+    public Event(GregorianCalendar date, float amountRaised, int participantsNr, String location, String observations, HashSet<Volunteer> volunteers) {
         this.id = -1;
         this.date = date;
         this.amountRaised = amountRaised;
@@ -104,7 +104,7 @@ public class Event {
         this.observations = observations;
     }
 
-    public void setVolunteers(HashSet<Integer> volunteers) {
+    public void setVolunteers(HashSet<Volunteer> volunteers) {
         this.volunteers = volunteers;
     }
     
@@ -112,7 +112,7 @@ public class Event {
      public Event clone(){
         return new Event(this);
     }
-     
+        
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();

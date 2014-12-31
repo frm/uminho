@@ -101,6 +101,10 @@ public class Donation {
         return new Donation(this);
     }
     
+    public int hashCode()  {
+        return id;
+    }
+    
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();

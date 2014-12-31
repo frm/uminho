@@ -66,7 +66,7 @@ public class Contact {
         return new Contact(this);
     }
     
-    public int hash()  {
+    public int hashCode()  {
         return id;
     }
     
