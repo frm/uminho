@@ -125,14 +125,16 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
             
             System.out.println(query);
             statement.executeUpdate();
+            
+            if(v.getId() > 0)
+                return;
+            
             ResultSet keys = statement.getGeneratedKeys();
 
             try {
-                if( keys.next() && v.getId() > 0 ) {
+                
+                if( keys.next() ) {
                     v.setId( (int)keys.getLong(1) );
-                                System.out.println("\n\nYAY");     
-                } else {
-                    throw new DataException("Error getting id for: " + v);
                 }
             } finally {
                 keys.close();
@@ -168,7 +170,7 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
         return new ArrayList<Volunteer>();
     }
     
-    public static String getUpdateQuery(Volunteer v) {
+    private static String getUpdateQuery(Volunteer v) {
         StringBuilder query = new StringBuilder("UPDATE ")
                                                         .append(DB_TABLE)
                                                         .append(" SET ");
@@ -198,7 +200,7 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
         return query.toString();
     }
 
-    public static String getInsertQuery(Volunteer v) {
+    private static String getInsertQuery(Volunteer v) {
         StringBuilder sp = new StringBuilder("CALL ")
                                                 .append(INSERT_PROCEDURE)
                                                 .append("(");
@@ -215,7 +217,7 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
         return sp.toString();
     }
     
-    public static String getFindQuery(int id) {
+    private static String getFindQuery(int id) {
         return new StringBuilder("SELECT * FROM ")
                                                         .append(DB_TABLE)
                                                         .append(" WHERE ")
@@ -265,30 +267,5 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
 
     private static String getColumnAttr(String attr) {
         return COLUMN_ATTR.get( WordUtils.capitalize(attr) );
-    }
-    
-    public static void main(String args[]) throws DataException {
-        // To run this put getInsertQuery and getUpdateQuery to public
-        VolunteersRepository repo = new VolunteersRepository("habitat_admin", "testuser123", "jdbc:mysql://localhost:3306/habitat");
-        Volunteer v = new Volunteer();
-        Map query = new HashMap<String, Object>() {{
-            put("id", 1);
-            put ("name", "myName");
-            put("address", "here");
-        }};
-        
-        repo.findBy(query);
-        System.out.println(VolunteersRepository.getInsertQuery(v));
-        
-        Volunteer v2 = new Volunteer("myName", "myAddress", null, "nib", "myActivity",
-            new HashSet<Contact>(), null, "education", "nacionality", "citizenship",
-            "maritalStatus", "observations", "file");
-        System.out.println(VolunteersRepository.getUpdateQuery(v2));
-        System.out.println(VolunteersRepository.getFindQuery(0));
-        
-        System.out.println(repo.find(1));
-        v2.setId(1);
-        repo.save(v2);
-        System.out.println(repo.find(1));
     }
 }
