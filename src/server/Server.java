@@ -149,6 +149,8 @@ public class Server {
                         doListAll((ListAll) obj);
                     else if (obj instanceof ListWorking)
                         doListWorking((ListWorking) obj);
+                    else if (obj instanceof Login)
+                        doLogin((Login) obj);
                     else if (obj instanceof Store)
                         doStore((Store) obj);
                     else if (obj instanceof Subscribe)
