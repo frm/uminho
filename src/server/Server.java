@@ -137,7 +137,8 @@ public class Server {
 
             if (obj.q_createUser) {
                 if(u == null) {
-                    Server.users.put(obj.q_username, new User(obj.q_username, obj.q_password));
+                    u = new User(obj.q_username, obj.q_password);
+                    Server.users.put(obj.q_username, u);
                     u.login();
                     logged = true;
                 }
