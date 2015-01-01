@@ -1,7 +1,9 @@
 package server;
 
+import warehouse.ExistentTaskException;
 import warehouse.UnknownPacketException;
 import warehouse.Warehouse;
+import warehouse.WarehouseException;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -52,8 +54,14 @@ public class Server {
             return (Serializable)in.readObject();
         }
 
-        private void doCreateTask(CreateTask obj){
+        private void doCreateTaskType(CreateTaskType obj) throws IOException {
+            try {
+                warehouse.newTaskType(obj.q_name, obj.q_itens);
+            } catch (ExistentTaskException e) {
+                obj.r_error = e.getUserMessage();
+            }
 
+            send(obj);
         }
 
         private void doStartTask(StartTask obj){
@@ -89,10 +97,10 @@ public class Server {
             try {
                 Serializable obj = receive();
 
-                if(obj instanceof CreateTask)
-                    doCreateTask( (CreateTask)obj );
+                if(obj instanceof CreateTaskType)
+                    doCreateTaskType((CreateTaskType) obj);
                 else if(obj instanceof StartTask)
-                    doStartTask( (StartTask)obj );
+                    doStartTask((StartTask) obj);
                 else if(obj instanceof FinishTask)
                     doFinishTask((FinishTask) obj);
                 else if(obj instanceof ListAll)
@@ -106,13 +114,15 @@ public class Server {
                 else if(obj instanceof Subscribe)
                     doSubscribe( (Subscribe)obj );
                 else
-                    throw new UnknownPacketException("Server received an unknown packet.");
+                    throw new UnknownPacketException("Server received an unexpected packet.");
 
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (UnknownPacketException e) {
+                e.printStackTrace();
+            } catch (WarehouseException e) {
                 e.printStackTrace();
             }
         }

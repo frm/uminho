@@ -14,7 +14,10 @@ public class WarehouseException extends Exception {
         this.put("TaskNotRunningException", "The task can't be stopped because it's not being done by any client");
         this.put("NotSubscribedException", "That ID is not subscribed to that task");
         this.put("AlreadySubscribedException", "That ID is already subscribed to that task");
+        this.put("UnknownPacketException", "Received an unexpected packet");
     }};
+
+    private String className;
 
     public WarehouseException() {
         super();
@@ -22,10 +25,16 @@ public class WarehouseException extends Exception {
 
     public WarehouseException(String className) {
         super(EXCEPTIONS.get(className));
+        this.className = className;
     }
 
     public WarehouseException(String className, String message) {
         super(EXCEPTIONS.get(className));
+        this.className = className;
         System.err.println(message);
+    }
+
+    public String getUserMessage(){
+        return "[" + className + "] " + EXCEPTIONS.get(className);
     }
 }

@@ -35,7 +35,7 @@ public class Warehouse {
         stockLock.unlock();
     }
 
-    public void newTaskType(String name, Map<String, Integer> items) throws WarehouseException {
+    public void newTaskType(String name, Map<String, Integer> items) throws ExistentTaskException {
         TaskType newTaskType = new TaskType(name, items);
 
         taskTypesLock.lock();
@@ -88,7 +88,7 @@ public class Warehouse {
 
         taskTypesLock.unlock();
 
-        returnMaterial( type.getNeeds());
+        returnMaterial(type.getNeeds());
     }
 
     //Get list of tasks currently being done
