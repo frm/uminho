@@ -6,10 +6,16 @@ import warehouse.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Server {
     private final Warehouse warehouse = new Warehouse();
     private ServerSocket serverSocket;
+    private static Map<String, User> users;
+    private static ReentrantLock userLock;
 
     public Server(int startingPort) {
         while (true) {
@@ -22,6 +28,9 @@ public class Server {
                 startingPort++;
             }
         }
+
+        users = new HashMap<String, User>();
+        userLock = new ReentrantLock();
     }
 
     public Worker newWorker() throws IOException {
@@ -98,8 +107,37 @@ public class Server {
             send(obj);
         }
 
-        private void doLogin(Login obj){
+        private boolean doLogin(Login obj) {
+            boolean logged = false;
+            String error = null;
+            Server.userLock.lock();
+            User u = Server.users.get(obj.q_username);
 
+            if (obj.q_createUser) {
+                if(u == null) {
+                    Server.users.put(obj.q_username, new User(obj.q_username, obj.q_password));
+                    u.login();
+                    logged = true;
+                }
+                else
+                    error = "Username already exists";
+            }
+            else {
+                if(u == null)
+                    error = "User does not exist";
+                else if(u.isLoggedIn())
+                    error = "Already logged in";
+                else if(!u.matchPassword(obj.q_password))
+                    error = "Invalid username/password";
+                else {
+                    u.login();
+                    logged = true;
+                }
+            }
+
+            obj.r_errors.add(error);
+            Server.userLock.unlock();
+            return logged;
         }
 
         private void doStore(Store obj) throws IOException {
@@ -122,17 +160,16 @@ public class Server {
             try {
                 Serializable obj = receive();
 
-                if (obj instanceof Login)
-                    doLogin((Login) obj);
-                else
+                if (!(obj instanceof Login))
                     throw new UnknownPacketException("Server received an unexpected packet.");
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            if(/* failed login */){
-                // disconnect and exit this thread
+            if(!doLogin(obj)){
+                send(obj);
+                return;
             }
 
 
@@ -150,7 +187,7 @@ public class Server {
                         doListAll((ListAll) obj);
                     else if (obj instanceof ListWorking)
                         doListWorking((ListWorking) obj);
-                    else if (obj instanceof Login)
+                    else if (obj instanceof Login) // change this here
                         doLogin((Login) obj);
                     else if (obj instanceof Store)
                         doStore((Store) obj);
