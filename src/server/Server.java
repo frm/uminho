@@ -59,7 +59,32 @@ public class Server {
         }
 
         private Serializable receive() throws IOException, ClassNotFoundException {
-            return (Serializable)in.readObject();
+            try {
+                return (Serializable) in.readObject();
+            }catch (IOException | ClassNotFoundException e){
+                throw e;
+            } catch (Exception e){
+                // make end of stream or any other exceptions an IOexception to close the socket
+                throw new IOException();
+            }
+        }
+
+        // TODO: have a similar method for closing the connection on the client
+        private void closeConnection(){
+            try {
+                socket.shutdownOutput(); // Sends the 'FIN' on the network
+            } catch (Exception e) {} // for when the stream is somehow damaged
+
+            try {
+                InputStream is = socket.getInputStream(); // obtain stream
+                while (is.read() >= 0) ; // "read()" returns '-1' when the 'FIN' is reached
+            } catch (Exception e) {} // for when the stream is somehow damaged
+
+            try {
+                socket.close(); // Now we can close the Socket
+            } catch (Exception e) {} // for when something is somehow damaged
+
+            socket = null; //now it's closed!
         }
 
         private void doCreateTaskType(CreateTaskType obj) throws IOException {
@@ -75,9 +100,7 @@ public class Server {
         private void doStartTask(StartTask obj) throws IOException {
             try {
                 warehouse.startTask(obj.q_name);
-            } catch (InexistentTaskTypeException e) {
-                obj.r_errors.add(e.getUserMessage());
-            } catch (InexistentItemException e) {
+            } catch (WarehouseException e) {
                 obj.r_errors.add(e.getUserMessage());
             }
 
@@ -87,9 +110,7 @@ public class Server {
         private void doFinishTask(FinishTask obj) throws IOException {
             try {
                 warehouse.endTask(obj.q_taskID);
-            } catch (InexistentTaskException e) {
-                obj.r_errors.add(e.getUserMessage());
-            } catch (InexistentItemException e) {
+            } catch (WarehouseException e) {
                 obj.r_errors.add(e.getUserMessage());
             }
 
@@ -168,14 +189,15 @@ public class Server {
 
                 loggedin = doLogin((Login)obj);
                 send(obj);
-            } catch (Exception e) {
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+            } catch (UnknownPacketException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                closeConnection();
             }
 
-            if(!loggedin)
-                return;
-
-            while(/* connection open */) {
+            while(loggedin && socket != null) {
                 try {
                     Serializable obj = receive();
 
@@ -196,10 +218,17 @@ public class Server {
                     else
                         throw new UnknownPacketException("Server received an unexpected packet.");
 
-                } catch (Exception e) {
+                } catch (ClassNotFoundException e) {
                     e.printStackTrace();
+                } catch (UnknownPacketException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    closeConnection();
                 }
             }
+
+            if(socket != null)
+                closeConnection();
         }
     }
 
