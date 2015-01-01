@@ -58,7 +58,7 @@ public class Server {
             try {
                 warehouse.newTaskType(obj.q_name, obj.q_itens);
             } catch (ExistentTaskException e) {
-                obj.r_error = e.getUserMessage();
+                obj.r_errors.add(e.getUserMessage());
             }
 
             send(obj);
