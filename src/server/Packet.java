@@ -21,6 +21,7 @@ class CreateTaskType implements Serializable{
 
 class StartTask implements Serializable{
     //query
+    public String q_name;
 
     //reply
     public Collection<String> r_errors = new ArrayList<>();
@@ -28,6 +29,7 @@ class StartTask implements Serializable{
 
 class FinishTask implements Serializable {
     //query
+    public Integer q_taskID;
 
     //reply
     public Collection<String> r_errors = new ArrayList<>();
@@ -35,23 +37,27 @@ class FinishTask implements Serializable {
 
 class ListAll implements Serializable {
     //query
+    //no query attributes, just the packet is enough
 
     //reply
     public Collection<String> r_errors = new ArrayList<>();
+    public Map<String, Collection<Integer>> r_instances;
 }
 
 class ListWorking implements Serializable {
     //query
+    //no query attributes, just the packet is enough
 
     //reply
     public Collection<String> r_errors = new ArrayList<>();
+    public Map<String, Collection<Integer>> r_instances;
 }
 
 class Login implements Serializable {
     //query
-    public Boolean createUser;
-    public String username;
-    public String password;
+    public Boolean q_createUser;
+    public String q_username;
+    public String q_password;
 
     //reply
     public Collection<String> r_errors = new ArrayList<>();
@@ -59,6 +65,8 @@ class Login implements Serializable {
 
 class Store implements Serializable {
     //query
+    public String q_name;
+    public Integer q_quantity;
 
     //reply
     public Collection<String> r_errors = new ArrayList<>();
@@ -66,6 +74,7 @@ class Store implements Serializable {
 
 class Subscribe implements Serializable {
     //query
+    public Collection<Integer> q_ids;
 
     //reply
     public Collection<String> r_errors = new ArrayList<>();
