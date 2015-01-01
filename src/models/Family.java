@@ -14,16 +14,18 @@ import java.util.List;
  * @author joaorodrigues
  */
 public class Family{
-    private int id;
-    private float income;
+    private Integer id;
+    private Float income;
     private String notes;
-    private boolean approved;
+    private Boolean approved;
     private String address;
     private Representative representative;
     private List<SimpleMember> members;
     private List<Application> applications;
 
-    public Family(float income, String notes, String address, Representative representative, List<SimpleMember> members) {
+    public Family(){}
+    
+    public Family(Float income, String notes, String address, Representative representative, List<SimpleMember> members) {
         this.income = income;
         this.notes = notes;
         this.address = address;
@@ -47,7 +49,7 @@ public class Family{
         this.applications = new ArrayList<Application>(applications);
     }
     
-    public float getIncome() {
+    public Float getIncome() {
         return income;
     }
 
@@ -55,7 +57,7 @@ public class Family{
         return notes;
     }
 
-    public boolean isApproved() {
+    public Boolean isApproved() {
         return approved;
     }
 
@@ -67,7 +69,7 @@ public class Family{
         return representative;
     }
 
-    public void setIncome(float income) {
+    public void setIncome(Float income) {
         this.income = income;
     }
 
@@ -75,7 +77,7 @@ public class Family{
         this.notes = notes;
     }
 
-    public void setApproved(boolean approved) {
+    public void setApproved(Boolean approved) {
         this.approved = approved;
     }
 
@@ -91,11 +93,11 @@ public class Family{
         return members;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     

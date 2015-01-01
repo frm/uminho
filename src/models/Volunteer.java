@@ -15,7 +15,7 @@ import java.util.HashSet;
  * @author tiago
  */
 public class Volunteer extends BaseEntity{
-    private int id;
+    private Integer id;
     private GregorianCalendar birthDate;
     private String education;
     private String nationality;
@@ -26,14 +26,6 @@ public class Volunteer extends BaseEntity{
 
     public Volunteer() {
         super();
-        this.id = -1;
-        this.birthDate = new GregorianCalendar();
-        this.education = "Nothing here...";
-        this.nationality = "Nothing here...";
-        this.citizenship = "Nothing here...";
-        this.maritalStatus = "Nothing here...";
-        this.observations = "Nothing here...";
-        this.file = "Nothing here...";
     }
 
     public Volunteer(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, GregorianCalendar birthDate, String education, String nationality, String citizenship, String maritalStatus, String observations, String file) {
@@ -86,11 +78,11 @@ public class Volunteer extends BaseEntity{
         return file;
     }
     
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

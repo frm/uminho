@@ -14,25 +14,17 @@ import java.util.HashSet;
  * @author tiago
  */
 public class Event {
-    private int id;
+    private Integer id;
     private GregorianCalendar date;
-    private float amountRaised;
-    private int participantsNr;
+    private Float amountRaised;
+    private Integer participantsNr;
     private String location;
     private String observations;
     private HashSet<Volunteer> volunteers;
 
-    public Event() {
-        this.id = -1;
-        this.date = new GregorianCalendar();
-        this.amountRaised = -1;
-        this.participantsNr = -1;
-        this.location = "Nothing here...";
-        this.observations = "Nothing here...";
-        this.volunteers = new HashSet<Volunteer>();
-    }
+    public Event() {}
     
-    public Event(GregorianCalendar date, float amountRaised, int participantsNr, String location, String observations, HashSet<Volunteer> volunteers) {
+    public Event(GregorianCalendar date, Float amountRaised, Integer participantsNr, String location, String observations, HashSet<Volunteer> volunteers) {
         this.id = -1;
         this.date = date;
         this.amountRaised = amountRaised;
@@ -51,11 +43,11 @@ public class Event {
         this.observations = e.getObservations();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -64,11 +56,11 @@ public class Event {
         return date;
     }
 
-    public float getAmountRaised() {
+    public Float getAmountRaised() {
         return amountRaised;
     }
 
-    public int getParticipantsNr() {
+    public Integer getParticipantsNr() {
         return participantsNr;
     }
 
@@ -88,11 +80,11 @@ public class Event {
         this.date = date;
     }
 
-    public void setAmountRaised(float amountRaised) {
+    public void setAmountRaised(Float amountRaised) {
         this.amountRaised = amountRaised;
     }
 
-    public void setParticipantsNr(int participantsNr) {
+    public void setParticipantsNr(Integer participantsNr) {
         this.participantsNr = participantsNr;
     }
 

@@ -17,9 +17,11 @@ public class User {
     private String name;
     private String username;
     private String password;
-    private int id;
+    private Integer id;
     
-    public User(String name, String username, String password, int id) {
+    public User(){}
+    
+    public User(String name, String username, String password, Integer id) {
         this.name = name;
         this.username = username;
         this.password = User.passwordHash(password);
@@ -30,7 +32,7 @@ public class User {
      * Gets user unique identifier
      * @return unique identifier
       */
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -38,7 +40,7 @@ public class User {
      * Sets user unique identifier
      * @param id new identifier
      */
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     

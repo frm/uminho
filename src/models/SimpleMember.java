@@ -13,8 +13,12 @@ import java.util.GregorianCalendar;
  * @author joaorodrigues
  */
 public class SimpleMember extends Member{
-    private int id;
+    private Integer id;
     private String grauParentesco;
+    
+    public SimpleMember(){
+        super();
+    }
 
     public SimpleMember(String grauParentesco, String name, GregorianCalendar birthDate) {
         super(name, birthDate);
@@ -34,11 +38,11 @@ public class SimpleMember extends Member{
         return grauParentesco;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     

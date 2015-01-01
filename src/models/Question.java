@@ -11,31 +11,27 @@ package models;
  * @author joaorodrigues
  */
 public class Question {
-    private int id;
-    private boolean enabled;
+    private Integer id;
+    private Boolean enabled;
     private String text;
 
-    public Question(boolean enabled, String text) {
+    public Question(Boolean enabled, String text) {
         this.id = -1;
         this.enabled = enabled;
         this.text = text;
     }
 
-    public Question() {
-        this.id = -1;
-        this.enabled = false;
-        this.text = "";
-    }
+    public Question() {}
     
-        public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public boolean isEnabled() {
+    public Boolean isEnabled() {
         return enabled;
     }
 
@@ -43,7 +39,7 @@ public class Question {
         return text;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 

@@ -15,7 +15,7 @@ import java.util.GregorianCalendar;
  * @author joaorodrigues
  */
 class Representative extends Member{
-    private int id;
+    private Integer id;
     private String nib;
     private String nif;
     private String maritalStatus;
@@ -24,6 +24,10 @@ class Representative extends Member{
     private String birthPlace;
     private String activity;
     private Collection<Integer> contacts;
+    
+    public Representative(){
+        super();
+    }
 
     public Representative(String name, GregorianCalendar birthDate, String nib, String nif, String maritalStatus, String education, String nationality, String birthPlace, String activity, Collection<Integer> contacts) {
         super(name, birthDate);
@@ -70,11 +74,11 @@ class Representative extends Member{
         this.activity = activity;
     }
     
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

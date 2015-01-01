@@ -11,19 +11,14 @@ package models;
  * @author tiago
  */
 public class Team {
-    private int id;
+    private Integer id;
     private String name;
-    private int manager;
-    private int volunteersNr;
+    private Integer manager;
+    private Integer volunteersNr;
     
-    public Team(){
-        this.id = -1;
-        this.name = "Nothing here...";
-        this.manager = -1;
-        this.volunteersNr = -1;
-    }
+    public Team(){}
 
-    public Team(String name, int manager, int volunteersNr) {
+    public Team(String name, Integer manager, Integer volunteersNr) {
         this.id = -1;
         this.name = name;
         this.manager = manager;
@@ -37,11 +32,11 @@ public class Team {
         this.volunteersNr = t.getVolunteersNr();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -50,11 +45,11 @@ public class Team {
         return name;
     }
 
-    public int getManager() {
+    public Integer getManager() {
         return manager;
     }
 
-    public int getVolunteersNr() {
+    public Integer getVolunteersNr() {
         return volunteersNr;
     }
 
@@ -62,11 +57,11 @@ public class Team {
         this.name = name;
     }
 
-    public void setManager(int manager) {
+    public void setManager(Integer manager) {
         this.manager = manager;
     }
 
-    public void setVolunteersNr(int volunteersNr) {
+    public void setVolunteersNr(Integer volunteersNr) {
         this.volunteersNr = volunteersNr;
     }
     

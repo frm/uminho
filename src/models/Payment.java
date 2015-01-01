@@ -13,22 +13,24 @@ import java.util.GregorianCalendar;
  * @author joaorodrigues
  */
 class Payment {
-    private int id;
+    private Integer id;
     private String status;
-    private float cost;
+    private Float cost;
     GregorianCalendar date;
 
-    public Payment(String status, float value, GregorianCalendar date) {
+    public Payment(){}
+    
+    public Payment(String status, Float value, GregorianCalendar date) {
         this.status = status;
         this.cost = value;
         this.date = date;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -36,7 +38,7 @@ class Payment {
         return status;
     }
 
-    public float getCost() {
+    public Float getCost() {
         return cost;
     }
 
@@ -48,7 +50,7 @@ class Payment {
         this.status = status;
     }
 
-    public void setCost(float cost) {
+    public void setCost(Float cost) {
         this.cost = cost;
     }
 

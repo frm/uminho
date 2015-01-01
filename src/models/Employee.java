@@ -15,28 +15,20 @@ import java.util.HashSet;
  * @author tiago
  */
 public class Employee extends BaseEntity{
-    private int id;
+    private Integer id;
     private GregorianCalendar birthDate;
     private String education;
     private String nacionality;
     private String citizenship;
     private String maritalStatus;
-    private float salary;
+    private Float salary;
     private HashSet<Team> teams;
 
     public Employee() {
         super();
-        this.id = -1;
-        this.birthDate = new GregorianCalendar();
-        this.education = "Nothing here....";
-        this.nacionality = "Nothing here....";
-        this.citizenship = "Nothing here....";
-        this.maritalStatus = "Nothing here....";
-        this.salary = -1;
-        this.teams = new HashSet();
     }
 
-    public Employee(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, GregorianCalendar birthDate, String education, String nacionality, String citizenship, String maritalStatus, float salary, HashSet<Team> teams) {
+    public Employee(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, GregorianCalendar birthDate, String education, String nacionality, String citizenship, String maritalStatus, Float salary, HashSet<Team> teams) {
         super(name, adress, nif, nib, activity, contacts);
         this.id = -1;
         this.birthDate = birthDate;
@@ -60,11 +52,11 @@ public class Employee extends BaseEntity{
         this.teams = f.getTeams();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -88,7 +80,7 @@ public class Employee extends BaseEntity{
         return maritalStatus;
     }
 
-    public float getSalary() {
+    public Float getSalary() {
         return salary;
     }
 
@@ -120,7 +112,7 @@ public class Employee extends BaseEntity{
         this.maritalStatus = maritalStatus;
     }
 
-    public void setSalary(float salary) {
+    public void setSalary(Float salary) {
         this.salary = salary;
     }
 

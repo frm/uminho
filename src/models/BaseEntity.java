@@ -21,14 +21,7 @@ public abstract class BaseEntity {
     private String activity;
     private HashSet<Contact> contacts;
 
-    public BaseEntity() {
-        this.name = "Nothing here...";
-        this.address = "Nothing here...";
-        this.nif = "Nothing here...";
-        this.nib = "Nothing here...";
-        this.activity = "Nothing here...";
-        this.contacts = new HashSet();
-    }
+    public BaseEntity() {}
     
     public BaseEntity(String name, String address, String nif, String nib, String activity, HashSet<Contact> contacts) {
         this.name = name;

@@ -14,27 +14,29 @@ import java.util.Collection;
  * @author joaorodrigues
  */
 class PaymentPlan {
-    private int id;
-    private float nextPayment;
+    private Integer id;
+    private Float nextPayment;
     private String notes;
     private Collection<Payment> payments;
 
-    public PaymentPlan(float nextPayment, String notes ) {
+    public PaymentPlan(){}
+    
+    public PaymentPlan(Float nextPayment, String notes ) {
         this.id = -1;
         this.nextPayment = nextPayment;
         this.notes = notes;
         this.payments = new ArrayList<Payment>();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public float getNextPayment() {
+    public Float getNextPayment() {
         return nextPayment;
     }
 
@@ -42,7 +44,7 @@ class PaymentPlan {
         return notes;
     }
 
-    public void setnextPayment(float nextPayment) {
+    public void setnextPayment(Float nextPayment) {
         this.nextPayment = nextPayment;
     }
 

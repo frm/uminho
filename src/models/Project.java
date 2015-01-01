@@ -15,20 +15,22 @@ import java.util.GregorianCalendar;
  * @author joaorodrigues
  */
 public class Project {
-    private int id;
+    private Integer id;
     private String name;
     private GregorianCalendar startDate;
-    private float budget;
+    private Float budget;
     private GregorianCalendar eta;
     private GregorianCalendar endDate;
     private GregorianCalendar signDate;
     private GregorianCalendar deliveryDate;
-    private float finalCost;
+    private Float finalCost;
     private String notes;
     private PaymentPlan paymentPlan;
     private Collection<Task> tasks;
 
-    public Project(String name, float budget, GregorianCalendar eta, String notes, PaymentPlan payment, Collection<Task> tasks) {
+    public Project(){}
+    
+    public Project(String name, Float budget, GregorianCalendar eta, String notes, PaymentPlan payment, Collection<Task> tasks) {
         this.id = -1;
         this.name = name;
         this.startDate = new GregorianCalendar();
@@ -47,11 +49,11 @@ public class Project {
         this.paymentPlan = payment;
     }
    
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     
@@ -63,7 +65,7 @@ public class Project {
         return startDate;
     }
 
-    public float getBudget() {
+    public Float getBudget() {
         return budget;
     }
 
@@ -83,7 +85,7 @@ public class Project {
         return deliveryDate;
     }
 
-    public float getFinalCost() {
+    public Float getFinalCost() {
         return finalCost;
     }
 
@@ -99,7 +101,7 @@ public class Project {
         this.startDate = startDate;
     }
 
-    public void setBudget(float budget) {
+    public void setBudget(Float budget) {
         this.budget = budget;
     }
 
@@ -119,7 +121,7 @@ public class Project {
         this.deliveryDate = deliveryDate;
     }
 
-    public void setFinalCost(float finalCost) {
+    public void setFinalCost(Float finalCost) {
         this.finalCost = finalCost;
     }
 

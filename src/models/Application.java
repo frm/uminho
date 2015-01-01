@@ -16,16 +16,18 @@ import java.util.Objects;
  * @author joaorodrigues
  */
 public class Application {
-    private int id;
+    private Integer id;
     private GregorianCalendar applicationDate;
     private String file;
-    private boolean status;
+    private Boolean status;
     private String priority;
     private String notes;
     private String location;
     private GregorianCalendar approvalDate;
     private Map<Integer, String> questionnaire;
     private Project projeto;
+    
+    public Application(){}
 
     public Application(GregorianCalendar applicationDate, String file, String priority, String notes, String location, Map<Integer, String> questionnaire) {
         this.applicationDate = applicationDate;
@@ -41,7 +43,7 @@ public class Application {
     }
     
     public Application(String location, Map<Integer, String> questionnaire) {
-        int id = -1;
+        Integer id = -1;
         this.status = false;
         this.file = null;
         this.applicationDate = new GregorianCalendar();
@@ -51,11 +53,11 @@ public class Application {
         this.questionnaire = questionnaire;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -67,7 +69,7 @@ public class Application {
         return file;
     }
 
-    public boolean getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
@@ -99,7 +101,7 @@ public class Application {
         this.file = file;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 

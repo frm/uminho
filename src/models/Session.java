@@ -11,7 +11,9 @@ package models;
  */
 public class Session {
     
-    private int id;
+    private Integer id;
+    
+    public Session(){}
     
     public Session(User u) {
         this.id = u.getId();

@@ -15,14 +15,16 @@ import java.util.Map;
  * @author joaorodrigues
  */
 class Task {
-    private int id;
+    private Integer id;
     private String name;
     private GregorianCalendar startDate;
     private GregorianCalendar endDate;
     private String status;
-    private int hours;
+    private Integer hours;
     private Map<Volunteer, Integer> volunteers;
 
+    public Task(){}
+    
     public Task(String name, GregorianCalendar startDate, GregorianCalendar endDate, Map<Volunteer, Integer> volunteers) {
         this.id = -1;
         this.name = name;
@@ -32,7 +34,7 @@ class Task {
         this.volunteers = volunteers;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -52,7 +54,7 @@ class Task {
         this.status = status;
     }
 
-    public void setHours(int hours) {
+    public void setHours(Integer hours) {
         this.hours = hours;
     }
 
@@ -60,7 +62,7 @@ class Task {
         this.volunteers = new HashMap<Volunteer, Integer>(volunteers);
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -80,7 +82,7 @@ class Task {
         return status;
     }
 
-    public int getHours() {
+    public Integer getHours() {
         return hours;
     }
 

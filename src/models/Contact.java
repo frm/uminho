@@ -11,15 +11,11 @@ package models;
  * @author tiago
  */
 public class Contact {
-    private int id;
+    private Integer id;
     private String type;
     private String value;
     
-    public Contact(){
-        id = -1;
-        type = "Nothing here...";
-        value = "Nothing here...";
-    }
+    public Contact(){}
     
     public Contact(String ct, String cv){
         id = -1;
@@ -33,7 +29,7 @@ public class Contact {
         value = c.getValue();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
@@ -45,7 +41,7 @@ public class Contact {
         return value;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

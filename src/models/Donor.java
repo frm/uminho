@@ -13,7 +13,7 @@ import java.util.HashSet;
  * @author tiago
  */
 public class Donor extends BaseEntity{
-    private int id;
+    private Integer id;
     private String type;
     private String occupation;
     private String observations;
@@ -21,11 +21,6 @@ public class Donor extends BaseEntity{
 
     public Donor() {
         super();
-        this.id = -1;
-        this.type = "Nothing here...";
-        this.occupation = "Nothing here...";
-        this.observations = "Nothing here...";
-        this.donations = new HashSet();
     }
     
     public Donor(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, String dType, String occupation, String observations, HashSet<Donation> donations) {
@@ -46,11 +41,11 @@ public class Donor extends BaseEntity{
         this.donations = d.getDonations();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

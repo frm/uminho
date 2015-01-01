@@ -15,7 +15,9 @@ import java.util.GregorianCalendar;
  */
 public abstract class Member {
     private String name;
-    private GregorianCalendar birthDate;   
+    private GregorianCalendar birthDate;
+    
+    public Member(){}
 
     public Member(String name, GregorianCalendar birthDate) {
         this.name = name;

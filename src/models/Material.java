@@ -11,17 +11,13 @@ package models;
  * @author tiago
  */
 public class Material {
-    private int id;
+    private Integer id;
     private String name;
-    private int quantity;
+    private Integer quantity;
 
-    public Material() {
-        this.id = -1;
-        this.name = "Nothing here...";
-        this.quantity = -1;
-    }
+    public Material() {}
 
-    public Material(String name, int quantity) {
+    public Material(String name, Integer quantity) {
         this.id = -1;
         this.name = name;
         this.quantity = quantity;
@@ -33,11 +29,11 @@ public class Material {
         this.quantity = m.getQuantity();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -46,7 +42,7 @@ public class Material {
         return name;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
@@ -54,7 +50,7 @@ public class Material {
         this.name = name;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 

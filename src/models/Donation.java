@@ -13,28 +13,23 @@ import java.util.GregorianCalendar;
  * @author tiago
  */
 public class Donation {
-    private int id;
-    private int donationType;
+    private Integer id;
+    private Integer donationType;
     private GregorianCalendar donationDate;
-    private int quantity;
-    private double amount;
+    private Integer quantity;
+    private Double amount;
+    private Boolean used;
     private String observations;
 
-    public Donation() {
-        this.id = -1;
-        this.donationType = -1;
-        this.donationDate = new GregorianCalendar();
-        this.quantity = -1;
-        this.amount = -1.0;
-        this.observations = "Nothing here...";
-    }
+    public Donation() {}
     
-    public Donation(int donationType, GregorianCalendar dontationDate, int quantity, double amount, String observations) {
+    public Donation(Integer donationType, GregorianCalendar dontationDate, Integer quantity, Double amount, Boolean used, String observations) {
         this.id = -1;
         this.donationType = donationType;
         this.donationDate = dontationDate;
         this.quantity = quantity;
         this.amount = amount;
+        this.used=used;
         this.observations = observations;
     }
     
@@ -44,19 +39,20 @@ public class Donation {
         this.donationDate = don.getDonationDate();
         this.quantity = don.getQuantity();
         this.amount = don.getAmount();
+        this.used=don.getUsed();
         this.observations = don.getObservations();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
 
-    public int getDonationType() {
+    public Integer getDonationType() {
         return donationType;
     }
 
@@ -64,19 +60,23 @@ public class Donation {
         return donationDate;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
+    }
+    
+    public Boolean getUsed() {
+        return used;
     }
 
     public String getObservations() {
         return observations;
     }
 
-    public void setDonationType(int donationType) {
+    public void setDonationType(Integer donationType) {
         this.donationType = donationType;
     }
 
@@ -84,12 +84,16 @@ public class Donation {
         this.donationDate = dontationDate;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
+    }
+    
+    public void setUsed(Boolean used) {
+        this.used=used;
     }
 
     public void setObservations(String observations) {
