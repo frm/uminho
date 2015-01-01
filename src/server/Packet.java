@@ -2,7 +2,7 @@ package server;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 /*
@@ -16,35 +16,35 @@ class CreateTaskType implements Serializable{
     public Map<String, Integer> q_itens;
 
     //reply
-    public List<String> r_errors = new ArrayList<>();
+    public Collection<String> r_errors = new ArrayList<>();
 }
 
 class StartTask implements Serializable{
     //query
 
     //reply
-    public List<String> r_errors = new ArrayList<>();
+    public Collection<String> r_errors = new ArrayList<>();
 }
 
 class FinishTask implements Serializable {
     //query
 
     //reply
-    public List<String> r_errors = new ArrayList<>();
+    public Collection<String> r_errors = new ArrayList<>();
 }
 
 class ListAll implements Serializable {
     //query
 
     //reply
-    public List<String> r_errors = new ArrayList<>();
+    public Collection<String> r_errors = new ArrayList<>();
 }
 
 class ListWorking implements Serializable {
     //query
 
     //reply
-    public List<String> r_errors = new ArrayList<>();
+    public Collection<String> r_errors = new ArrayList<>();
 }
 
 class Login implements Serializable {
@@ -54,19 +54,19 @@ class Login implements Serializable {
     public String password;
 
     //reply
-    public List<String> r_errors = new ArrayList<>();
+    public Collection<String> r_errors = new ArrayList<>();
 }
 
 class Store implements Serializable {
     //query
 
     //reply
-    public List<String> r_errors = new ArrayList<>();
+    public Collection<String> r_errors = new ArrayList<>();
 }
 
 class Subscribe implements Serializable {
     //query
 
     //reply
-    public List<String> r_errors = new ArrayList<>();
+    public Collection<String> r_errors = new ArrayList<>();
 }
