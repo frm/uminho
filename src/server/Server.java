@@ -1,9 +1,6 @@
 package server;
 
-import warehouse.ExistentTaskException;
-import warehouse.UnknownPacketException;
-import warehouse.Warehouse;
-import warehouse.WarehouseException;
+import warehouse.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -64,66 +61,106 @@ public class Server {
             send(obj);
         }
 
-        private void doStartTask(StartTask obj){
+        private void doStartTask(StartTask obj) throws IOException {
+            try {
+                warehouse.startTask(obj.q_name);
+            } catch (InexistentTaskTypeException e) {
+                obj.r_errors.add(e.getUserMessage());
+            } catch (InexistentItemException e) {
+                obj.r_errors.add(e.getUserMessage());
+            }
 
+            send(obj);
         }
 
-        private void doFinishTask(FinishTask obj){
+        private void doFinishTask(FinishTask obj) throws IOException {
+            try {
+                warehouse.endTask(obj.q_taskID);
+            } catch (InexistentTaskException e) {
+                obj.r_errors.add(e.getUserMessage());
+            } catch (InexistentItemException e) {
+                obj.r_errors.add(e.getUserMessage());
+            }
 
+            send(obj);
         }
 
-        private void doListAll(ListAll obj){
+        private void doListAll(ListAll obj) throws IOException {
+            obj.r_instances = warehouse.getRunningTasks();
 
+            send(obj);
         }
 
         private void doListWorking(ListWorking obj){
+            obj.r_instances = warehouse.getUserTasks(userid);
 
+            send(obj);
         }
 
         private void doLogin(Login obj){
 
         }
 
-        private void doStore(Store obj){
+        private void doStore(Store obj) throws IOException {
+            try {
+                warehouse.stockUp(obj.q_name, obj.q_quantity);
+            } catch (InvalidItemQuantityException e) {
+                obj.r_errors.add(e.getUserMessage());
+            }
 
+            send(obj);
         }
 
         private void doSubscribe(Subscribe obj){
-
+            //TODO
         }
 
         @Override
         public void run() {
+            // try to authenticate before anything else
             try {
                 Serializable obj = receive();
 
-                if(obj instanceof CreateTaskType)
-                    doCreateTaskType((CreateTaskType) obj);
-                else if(obj instanceof StartTask)
-                    doStartTask((StartTask) obj);
-                else if(obj instanceof FinishTask)
-                    doFinishTask((FinishTask) obj);
-                else if(obj instanceof ListAll)
-                    doListAll((ListAll) obj);
-                else if(obj instanceof ListWorking)
-                    doListWorking((ListWorking) obj);
-                else if(obj instanceof Login)
+                if (obj instanceof Login)
                     doLogin((Login) obj);
-                else if(obj instanceof Store)
-                    doStore((Store) obj);
-                else if(obj instanceof Subscribe)
-                    doSubscribe( (Subscribe)obj );
                 else
                     throw new UnknownPacketException("Server received an unexpected packet.");
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (UnknownPacketException e) {
-                e.printStackTrace();
-            } catch (WarehouseException e) {
-                e.printStackTrace();
+            }
+
+            if(/* failed login */){
+                // disconnect and exit this thread
+            }
+
+
+            while(/* connection open */) {
+                try {
+                    Serializable obj = receive();
+
+                    if (obj instanceof CreateTaskType)
+                        doCreateTaskType((CreateTaskType) obj);
+                    else if (obj instanceof StartTask)
+                        doStartTask((StartTask) obj);
+                    else if (obj instanceof FinishTask)
+                        doFinishTask((FinishTask) obj);
+                    else if (obj instanceof ListAll)
+                        doListAll((ListAll) obj);
+                    else if (obj instanceof ListWorking)
+                        doListWorking((ListWorking) obj);
+                    else if (obj instanceof Login)
+                        doLogin((Login) obj);
+                    else if (obj instanceof Store)
+                        doStore((Store) obj);
+                    else if (obj instanceof Subscribe)
+                        doSubscribe((Subscribe) obj);
+                    else
+                        throw new UnknownPacketException("Server received an unexpected packet.");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
