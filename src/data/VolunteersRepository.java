@@ -134,7 +134,7 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
             try {
                 
                 if( keys.next() ) {
-                    v.setId( (int)keys.getLong(1) );
+                    v.setId( keys.getInt(1) );
                 }
             } finally {
                 keys.close();
