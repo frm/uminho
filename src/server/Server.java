@@ -101,12 +101,6 @@ public class Server {
             send(obj);
         }
 
-        private void doListWorking(ListWorking obj){
-            obj.r_instances = warehouse.getUserTasks(userid);
-
-            send(obj);
-        }
-
         private boolean doLogin(Login obj) {
             boolean logged = false;
             String error = null;
@@ -185,8 +179,6 @@ public class Server {
                         doFinishTask((FinishTask) obj);
                     else if (obj instanceof ListAll)
                         doListAll((ListAll) obj);
-                    else if (obj instanceof ListWorking)
-                        doListWorking((ListWorking) obj);
                     else if (obj instanceof Store)
                         doStore((Store) obj);
                     else if (obj instanceof Subscribe)
