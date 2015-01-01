@@ -6,6 +6,7 @@ import warehouse.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -156,6 +157,8 @@ public class Server {
 
         @Override
         public void run() {
+            Boolean loggedin = false;
+
             // try to authenticate before anything else
             try {
                 Serializable obj = receive();
@@ -163,15 +166,14 @@ public class Server {
                 if (!(obj instanceof Login))
                     throw new UnknownPacketException("Server received an unexpected packet.");
 
+                loggedin = doLogin((Login)obj);
+                send(obj);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            if(!doLogin(obj)){
-                send(obj);
+            if(!loggedin)
                 return;
-            }
-
 
             while(/* connection open */) {
                 try {
