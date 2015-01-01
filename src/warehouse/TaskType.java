@@ -104,8 +104,12 @@ public class TaskType {
         needs = new HashMap<>(ne);
     }
 
-    public Map<Integer, Task> getRunning() {
-        return new HashMap<Integer, Task>(running);
+    public Collection<Integer> getRunningIDs() {
+        runningLock.lock();
+        ArrayList<Integer> ids = new ArrayList<>( running.keySet() );
+        runningLock.unlock();
+
+        return ids;
     }
 
     public void setRunning(Map<Integer, Task> running) {
