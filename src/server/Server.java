@@ -56,6 +56,10 @@ public class Server {
 
         }
 
+        private void doStartTask(StartTask obj){
+
+        }
+
         private void doFinishTask(FinishTask obj){
 
         }
@@ -87,16 +91,18 @@ public class Server {
 
                 if(obj instanceof CreateTask)
                     doCreateTask( (CreateTask)obj );
+                else if(obj instanceof StartTask)
+                    doStartTask( (StartTask)obj );
                 else if(obj instanceof FinishTask)
-                    doFinishTask( (FinishTask)obj );
+                    doFinishTask((FinishTask) obj);
                 else if(obj instanceof ListAll)
-                    doListAll( (ListAll)obj );
+                    doListAll((ListAll) obj);
                 else if(obj instanceof ListWorking)
-                    doListWorking( (ListWorking)obj );
+                    doListWorking((ListWorking) obj);
                 else if(obj instanceof Login)
-                    doLogin( (Login)obj );
+                    doLogin((Login) obj);
                 else if(obj instanceof Store)
-                    doStore( (Store)obj );
+                    doStore((Store) obj);
                 else if(obj instanceof Subscribe)
                     doSubscribe( (Subscribe)obj );
                 else

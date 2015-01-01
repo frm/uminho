@@ -6,6 +6,10 @@ class CreateTask implements Serializable{
     
 }
 
+class StartTask implements Serializable{
+
+}
+
 class FinishTask implements Serializable {
 
 }
