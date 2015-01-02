@@ -1,6 +1,5 @@
 package cli;
 
-import asg.cliche.Command;
 import asg.cliche.ShellFactory;
 import server.Server;
 

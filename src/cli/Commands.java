@@ -1,13 +1,10 @@
 package cli;
 
 import asg.cliche.Command;
-import asg.cliche.InputConverter;
-import asg.cliche.ShellFactory;
 import packet.*;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class Commands {
     private Dispatcher dispatcher;
