@@ -92,17 +92,18 @@ public class Warehouse {
     }
 
     //Get list of tasks currently being done
-    public String getRunningTasks() {
-        StringBuilder result = new StringBuilder();
+    public Map<String, Collection<Integer>> getRunningTasks() {
+
+        Map<String, Collection<Integer>> result = new HashMap<>();
 
         taskTypesLock.lock();
 
-        for( TaskType type: taskTypes.values()){
-            result.append( type.getRunningString() );
-        }
+        for( TaskType type : taskTypes.values())
+            result.put(type.getName(), type.getRunningIDs());
+
         taskTypesLock.unlock();
 
-        return result.toString();
+        return result;
 
     }
 
