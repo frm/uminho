@@ -7,11 +7,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by joaorodrigues on 14 Dec 14.
  */
 public class TaskType {
-    private static int nextId = 0;
-    private static HashMap<Integer, Integer> taskIndex = new HashMap<>();
+    private static HashMap<Integer, String> taskIndex = new HashMap<>();
     private static ReentrantLock indexLock = new ReentrantLock();
 
-    private final int id = ++nextId;
     private final String name;
 
     private Map<Integer, Task> running;
@@ -31,39 +29,41 @@ public class TaskType {
     }
 
 
-    public void startTask(int userId){
-        Task t = new Task(userId, name);
-
+    public int startTask(){
+        Task t = new Task();
+        int taskId = t.getId();
         indexLock.lock();
-        taskIndex.put(t.getId(), this.id);
+        taskIndex.put(taskId, this.name);
         indexLock.unlock();
 
         runningLock.lock();
-        running.put( t.getId(), t);
+        running.put( taskId, t);
         runningLock.unlock();
+
+        return taskId;
     }
 
 
     public void endTask( int taskId ){
         runningLock.lock();
-        // TODO: notifySubscribers
+        ( running.get(taskId) ).end();
         running.remove(taskId);
         runningLock.unlock();
     }
 
-    public static int getTypeOfTask(int taskId) throws InexistentTaskException {
-        Integer typeId;
+    public static String getTypeOfTask(int taskId) throws InexistentTaskException {
+        String type;
         indexLock.lock();
         try{
-            typeId = taskIndex.get(taskId);
+            type = taskIndex.get(taskId);
 
-            if(typeId == null)
-                throw new InexistentTaskException("User referenced task with id: " + taskId + " but was not found");
+            if(type == null)
+                throw new InexistentTaskException("User referenced task with name: " + type + " but was not found");
         }
         finally{
             indexLock.unlock();
         }
-        return typeId;
+        return type;
     }
 
     public void lock(){
@@ -74,26 +74,15 @@ public class TaskType {
         mainLock.unlock();
     }
 
-    public String getRunningString(){
-        StringBuilder result = new StringBuilder();
-        result.append(id + " -- " + name + ":\n");
-        for(Task t: running.values()){
-            result.append("--- " + t.getId() + ": " +t.getClientId() + '\n');
-        }
-        return result.toString();
+    public Task getTask(int id){
+        return running.get(id);
     }
-
 
     //Getters & Setters
-
-    public int getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
     }
-
 
     public Map<String, Integer> getNeeds() {
         HashMap<String, Integer> result = new HashMap<String, Integer>(needs);
