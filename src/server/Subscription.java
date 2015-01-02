@@ -45,7 +45,7 @@ public class Subscription {
             int result;
             counterLock.lock();
             result = finished;
-            counterLock.lock();
+            counterLock.unlock();
             return result;
         }
     }
@@ -83,10 +83,9 @@ public class Subscription {
         counter = new TaskCounter();
     }
 
-    public void subscribeTo(ArrayList<Integer> list) throws InexistentTaskException {
+    public void subscribeTo(ArrayList<Task> list) throws InexistentTaskException {
         int nrTasks = list.size();
-        for (int id : list) {
-            Task t = warehouse.getTask(id);
+        for (Task t : list) {
             (new Thread(new SubscriptionWorker(t, counter, allDone))).start();
         }
 

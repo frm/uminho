@@ -76,7 +76,7 @@ public class Warehouse {
         return taskId;
     }
 
-    public void endTask(int id) throws InexistentTaskException, InexistentItemException {
+    public void endTask(int id) throws InexistentTaskTypeException, InexistentItemException {
 
         String typeName = TaskType.getTypeOfTask(id);
 
@@ -107,7 +107,7 @@ public class Warehouse {
 
     }
 
-    public Task getTask(int id) throws InexistentTaskException {
+    public Task getTask(int id) throws InexistentTaskTypeException, InexistentTaskException {
         String typeName = TaskType.getTypeOfTask(id);
         TaskType type = taskTypes.get(typeName);
 
