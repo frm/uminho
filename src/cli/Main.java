@@ -42,7 +42,7 @@ public class Main {
         return resultado;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         if(!validArguments(args)){
             printUsage();
             return;
@@ -50,7 +50,16 @@ public class Main {
 
         Dispatcher dispatcher = isServer ? new Dispatcher(Server.startNewServer(port)) : new Dispatcher(port);
 
-        ShellFactory.createConsoleShell("cliche", "", new Commands(dispatcher))
-                .commandLoop();
+        try {
+            ShellFactory.createConsoleShell("cliche", "", new Commands(dispatcher))
+                    .commandLoop();
+        } catch (IOException e) {
+            // ignore io exceptions
+        } catch (Exception e){
+            // debug the others
+            e.printStackTrace();
+        }
+
+        System.err.println("Terminated.");
     }
 }
