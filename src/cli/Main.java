@@ -52,7 +52,7 @@ public class Main {
             Dispatcher dispatcher = isServer ? new Dispatcher(Server.startNewServer(port)) : new Dispatcher(port);
 
             try {
-                ShellFactory.createConsoleShell("cliche", "", new Commands(dispatcher))
+                ShellFactory.createConsoleShell("", "", new Commands(dispatcher))
                         .commandLoop();
             } catch (IOException e) {
                 // ignore io exceptions
