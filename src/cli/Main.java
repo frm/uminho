@@ -48,19 +48,23 @@ public class Main {
             return;
         }
 
-        Dispatcher dispatcher = isServer ? new Dispatcher(Server.startNewServer(port)) : new Dispatcher(port);
-
         try {
-            ShellFactory.createConsoleShell("cliche", "", new Commands(dispatcher))
-                    .commandLoop();
+            Dispatcher dispatcher = isServer ? new Dispatcher(Server.startNewServer(port)) : new Dispatcher(port);
+
+            try {
+                ShellFactory.createConsoleShell("cliche", "", new Commands(dispatcher))
+                        .commandLoop();
+            } catch (IOException e) {
+                // ignore io exceptions
+            } catch (Exception e) {
+                // debug the others
+                e.printStackTrace();
+            }
+
+            dispatcher.terminate();
         } catch (IOException e) {
-            // ignore io exceptions
-        } catch (Exception e){
-            // debug the others
             e.printStackTrace();
         }
-
-        dispatcher.terminate();
 
         System.err.println("Terminated.");
     }

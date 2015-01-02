@@ -102,7 +102,6 @@ public class Server {
             }
         }
 
-        // TODO: have a similar method for closing the connection on the client
         private void closeConnection(){
             try {
                 socket.shutdownOutput(); // Sends the 'FIN' on the network
