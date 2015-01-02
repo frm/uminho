@@ -31,6 +31,10 @@ public class Server {
         userLock = new ReentrantLock();
     }
 
+    public Warehouse getWarehouse(){
+        return warehouse;
+    }
+
     public Worker newWorker() throws IOException {
         return new Worker(serverSocket.accept(), warehouse);
     }
