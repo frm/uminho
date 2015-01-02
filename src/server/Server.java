@@ -15,6 +15,8 @@ public class Server {
     private static Map<String, User> users;
     private static ReentrantLock userLock;
 
+    private Thread loopThread;
+
     public Server(int startingPort) {
         while (true) {
             try {
@@ -29,6 +31,36 @@ public class Server {
 
         users = new HashMap<String, User>();
         userLock = new ReentrantLock();
+
+
+        final Server self = this;
+        loopThread = new Thread(
+            new Runnable() {
+                public void run() {
+                    while(!serverSocket.isClosed()) {
+                        try {
+                            new Thread(self.newWorker()).start();
+                        } catch (IOException e) {
+                            //e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+    public void start(){
+        loopThread.start();
+    }
+
+    public void stop(){
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        loopThread.interrupt();
     }
 
     public Warehouse getWarehouse(){
@@ -246,21 +278,7 @@ public class Server {
 
     public static Server startNewServer(Integer port) {
         final Server server = new Server(port);
-
-        new Thread(
-            new Runnable() {
-                public void run() {
-                    while(true) {
-                        try {
-                            new Thread(server.newWorker()).start();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        ).start();
-
+        server.start();
         return server;
     }
 }
