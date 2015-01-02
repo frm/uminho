@@ -2,7 +2,6 @@ package cli;
 
 import packet.*;
 import server.Server;
-import warehouse.Warehouse;
 
 import java.io.IOException;
 import java.io.InputStream;

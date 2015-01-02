@@ -65,6 +65,8 @@ public class Main {
             e.printStackTrace();
         }
 
+        dispatcher.terminate();
+
         System.err.println("Terminated.");
     }
 }
