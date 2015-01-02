@@ -63,10 +63,6 @@ public class Server {
         loopThread.interrupt();
     }
 
-    public Warehouse getWarehouse(){
-        return warehouse;
-    }
-
     public Worker newWorker() throws IOException {
         return new Worker(serverSocket.accept(), warehouse);
     }

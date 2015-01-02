@@ -12,4 +12,7 @@ public class ListAll implements Serializable {
     //reply
     public Collection<String> r_errors = new ArrayList<>();
     public Map<String, Collection<Integer>> r_instances;
+
+    // special
+    public Integer id;
 }

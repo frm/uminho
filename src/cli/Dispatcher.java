@@ -2,6 +2,7 @@ package cli;
 
 import packet.*;
 import server.Server;
+import warehouse.Warehouse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +14,7 @@ public class Dispatcher {
     Integer port;
     Server server;
     Socket clientSocket;
+    Fetcher fetcher;
 
     // start in client mode and connect to server through socket
     Dispatcher(Integer port) throws IOException {
@@ -20,6 +22,8 @@ public class Dispatcher {
         this.port = port;
         this.server = null;
         clientSocket = new Socket("127.0.0.1", port);
+        fetcher = new Fetcher(clientSocket);
+        new Thread(fetcher).start();
     }
 
     // start in server mode and start a new server
@@ -54,8 +58,13 @@ public class Dispatcher {
 
     }
 
-    public void doStartTask(StartTask obj) {
-
+    public StartTask doStartTask(StartTask obj) {
+        if(isServer){
+            //return server.doStartTask(obj);
+        }else{
+            Receiver<StartTask> r = new Receiver<>(fetcher);
+            return r.get();
+        }
     }
 
     public void doFinishTask(FinishTask obj) {
