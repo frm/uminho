@@ -109,9 +109,17 @@ public class Warehouse {
 
     public Task getTask(int id) throws InexistentTaskTypeException, InexistentTaskException {
         String typeName = TaskType.getTypeOfTask(id);
+
+        taskTypesLock.lock();
         TaskType type = taskTypes.get(typeName);
 
-        return type.getTask(id);
+        type.lock();
+        taskTypesLock.unlock();
+
+        Task result = type.getTask(id);
+
+        type.unlock();
+        return result;
     }
 
 

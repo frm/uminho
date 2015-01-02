@@ -77,12 +77,13 @@ public class TaskType {
     public Task getTask(int id) throws InexistentTaskException {
         Task result;
 
+        runningLock.lock();
         result = running.get(id);
-
+        runningLock.unlock();
         if(result == null)
             throw new InexistentTaskException("User referenced task with id: " + id + " but was not found");
 
-        return running.get(id);
+        return result;
     }
 
     //Getters & Setters

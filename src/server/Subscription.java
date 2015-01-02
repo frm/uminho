@@ -1,6 +1,5 @@
 package server;
 
-import warehouse.InexistentTaskException;
 import warehouse.Task;
 import warehouse.Warehouse;
 
@@ -78,12 +77,11 @@ public class Subscription {
     //////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////
 
-    public Subscription(Warehouse w) {
-        warehouse = w;
+    public Subscription() {
         counter = new TaskCounter();
     }
 
-    public void subscribeTo(ArrayList<Task> list) throws InexistentTaskException {
+    public void subscribeTo(ArrayList<Task> list) throws InterruptedException {
         int nrTasks = list.size();
         for (Task t : list) {
             (new Thread(new SubscriptionWorker(t, counter, allDone))).start();
@@ -94,8 +92,6 @@ public class Subscription {
             while (counter.getValue() < nrTasks) {
                 allDone.await();
             }
-        } catch (InterruptedException e) {
-            System.err.println("Interrupted");
         } finally {
             lk.unlock();
         }
