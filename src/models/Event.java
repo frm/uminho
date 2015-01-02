@@ -13,7 +13,7 @@ import java.util.HashSet;
  *
  * @author tiago
  */
-public class Event {
+public class Event extends BasicModel {
     private Integer id;
     private GregorianCalendar date;
     private Float amountRaised;
@@ -25,7 +25,6 @@ public class Event {
     public Event() {}
     
     public Event(GregorianCalendar date, Float amountRaised, Integer participantsNr, String location, String observations, HashSet<Volunteer> volunteers) {
-        this.id = -1;
         this.date = date;
         this.amountRaised = amountRaised;
         this.participantsNr = participantsNr;
@@ -35,7 +34,6 @@ public class Event {
     }
     
     public Event(Event e) {
-        this.id = e.getId();
         this.date = e.getDate();
         this.amountRaised = e.getAmountRaised();
         this.participantsNr = e.getParticipantsNr();
@@ -43,15 +41,6 @@ public class Event {
         this.observations = e.getObservations();
     }
 
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    
     public GregorianCalendar getDate() {
         return date;
     }
@@ -107,10 +96,7 @@ public class Event {
         
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        
-        sb.append("\n");
-        sb.append(id);
+        StringBuilder sb = new StringBuilder(super.toString());
         sb.append(", ");
         sb.append(date);
         sb.append(", ");
@@ -132,6 +118,6 @@ public class Event {
        
         Event e = (Event) o;
         
-        return (this.date.equals(e.getDate()) && this.amountRaised == e.getAmountRaised() && this.participantsNr == e.getParticipantsNr() && this.location.equals(e.getLocation()) && this.observations.equals(e.getObservations()));
+        return (super.equals(o) && this.date.equals(e.getDate()) && this.amountRaised == e.getAmountRaised() && this.participantsNr == e.getParticipantsNr() && this.location.equals(e.getLocation()) && this.observations.equals(e.getObservations()));
     }
 }

@@ -13,8 +13,7 @@ import java.util.Collection;
  *
  * @author joaorodrigues
  */
-class PaymentPlan {
-    private Integer id;
+class PaymentPlan extends BasicModel {
     private Float nextPayment;
     private String notes;
     private Collection<Payment> payments;
@@ -22,18 +21,10 @@ class PaymentPlan {
     public PaymentPlan(){}
     
     public PaymentPlan(Float nextPayment, String notes ) {
-        this.id = -1;
+        super(-1);
         this.nextPayment = nextPayment;
         this.notes = notes;
         this.payments = new ArrayList<Payment>();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Float getNextPayment() {
@@ -71,7 +62,7 @@ class PaymentPlan {
         
         PaymentPlan p = (PaymentPlan) obj;
         
-        return (p.getId() == id );
+        return ( super.equals(obj) );
     }
     
 }

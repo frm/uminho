@@ -10,27 +10,18 @@ package models;
  *
  * @author joaorodrigues
  */
-public class Question {
-    private Integer id;
+public class Question extends BasicModel {
     private Boolean enabled;
     private String text;
 
     public Question(Boolean enabled, String text) {
-        this.id = -1;
+        super(-1);
         this.enabled = enabled;
         this.text = text;
     }
 
     public Question() {}
     
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public Boolean isEnabled() {
         return enabled;
     }
@@ -58,6 +49,6 @@ public class Question {
         
         Question q = (Question) obj;
         
-        return (q.getId() == id );
+        return ( super.equals(obj) );
     }
 }

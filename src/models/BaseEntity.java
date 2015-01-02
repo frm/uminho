@@ -7,13 +7,12 @@
 package models;
 
 import java.util.HashSet;
-import models.Contact;
 
 /**
  *
  * @author tiago
  */
-public abstract class BaseEntity {
+public abstract class BaseEntity extends BasicModel {
     private String name;
     private String address;
     private String nif;
@@ -24,6 +23,7 @@ public abstract class BaseEntity {
     public BaseEntity() {}
     
     public BaseEntity(String name, String address, String nif, String nib, String activity, HashSet<Contact> contacts) {
+        super(-1);
         this.name = name;
         this.address = address;
         this.nif = nif;
@@ -33,6 +33,7 @@ public abstract class BaseEntity {
     }
     
     public BaseEntity(BaseEntity be) {
+        super(be.getId());
         this.name = be.getName();
         this.address = be.getAddress();
         this.nif = be.getNif();
@@ -40,7 +41,6 @@ public abstract class BaseEntity {
         this.activity = be.getActivity();
         this.contacts = be.getContacts();
     }
-
     
     //getters
     public String getName() {
@@ -102,12 +102,13 @@ public abstract class BaseEntity {
         //TODO
     }
     
+    @Override
     public abstract BaseEntity clone();
     
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n");
+        StringBuilder sb = new StringBuilder(super.toString());
+        sb.append(", ");
         sb.append(name);
         sb.append(", ");
         sb.append(address);
@@ -120,12 +121,13 @@ public abstract class BaseEntity {
         return sb.toString();
     }
     
+    @Override
     public boolean equals(Object o){
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass() ) return false;
        
         BaseEntity be = (BaseEntity) o;
         
-        return (this.name.equals(be.getName()) && this.address.equals(be.getAddress()) && this.nif.equals(be.getNif()) && this.nib.equals(be.getNib()) && this.activity.equals(be.getActivity()));
+        return (super.equals(o) && this.name.equals(be.getName()) && this.address.equals(be.getAddress()) && this.nif.equals(be.getNif()) && this.nib.equals(be.getNib()) && this.activity.equals(be.getActivity()));
     }
 }

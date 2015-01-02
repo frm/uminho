@@ -6,17 +6,15 @@
 
 package models;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.sql.Date;
 import java.util.HashSet;
 
 /**
  *
  * @author tiago
  */
-public class Volunteer extends BaseEntity{
-    private Integer id;
-    private GregorianCalendar birthDate;
+public class Volunteer extends BaseEntity {
+    private Date birthDate;
     private String education;
     private String nationality;
     private String citizenship;
@@ -28,8 +26,8 @@ public class Volunteer extends BaseEntity{
         super();
     }
 
-    public Volunteer(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, GregorianCalendar birthDate, String education, String nationality, String citizenship, String maritalStatus, String observations, String file) {
-        super(name, adress, nif, nib, activity, contacts);
+    public Volunteer(String name, String address, String nif, String nib, String activity, HashSet<Contact> contacts, Date birthDate, String education, String nationality, String citizenship, String maritalStatus, String observations, String file) {
+        super(name, address, nif, nib, activity, contacts);
         this.birthDate = birthDate;
         this.education = education;
         this.nationality = nationality;
@@ -50,7 +48,7 @@ public class Volunteer extends BaseEntity{
         this.file = v.getFile();
     }
 
-    public GregorianCalendar getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
@@ -78,22 +76,10 @@ public class Volunteer extends BaseEntity{
         return file;
     }
     
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setBirthDate(GregorianCalendar birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
     
-    public void setBirthDate(Date birthDate) {
-        this.birthDate.setTimeInMillis(birthDate.getTime());
-    }
-
     public void setEducation(String education) {
         this.education = education;
     }
@@ -118,10 +104,6 @@ public class Volunteer extends BaseEntity{
         this.file = file;
     }
     
-    public int hashCode()  {
-        return id;
-    }
-    
     @Override
     public Volunteer clone(){
         return new Volunteer(this);
@@ -129,9 +111,7 @@ public class Volunteer extends BaseEntity{
     
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append(", ");
-        sb.append(id);
+        StringBuilder sb = new StringBuilder(super.toString());
         sb.append(", ");
         sb.append(birthDate);
         sb.append(", ");
@@ -146,7 +126,7 @@ public class Volunteer extends BaseEntity{
         sb.append(observations);
         sb.append(", ");
         sb.append(file);
-        return super.toString() + sb.toString();
+        return sb.toString();
     }
     
     public boolean equals(Object o) {

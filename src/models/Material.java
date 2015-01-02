@@ -10,33 +10,23 @@ package models;
  *
  * @author tiago
  */
-public class Material {
-    private Integer id;
+public class Material extends BasicModel {
     private String name;
     private Integer quantity;
 
     public Material() {}
 
     public Material(String name, Integer quantity) {
-        this.id = -1;
+        super(-1);
         this.name = name;
         this.quantity = quantity;
     }
     
     public Material(Material m){
-        this.id = m.getId();
+        super(m.getId());
         this.name = m.getName();
         this.quantity = m.getQuantity();
     }
-
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
 
     public String getName() {
         return name;
@@ -61,10 +51,7 @@ public class Material {
 
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        
-        sb.append("\n");
-        sb.append(id);
+        StringBuilder sb = new StringBuilder(super.toString());
         sb.append(", ");
         sb.append(name);
         sb.append(", ");
@@ -80,6 +67,6 @@ public class Material {
        
         Material m = (Material) o;
     
-        return ( this.name.equals(m.getName()) && this.quantity == m.getQuantity() );
+        return ( super.equals(o) && this.name.equals(m.getName()) && this.quantity == m.getQuantity() );
     }
 }

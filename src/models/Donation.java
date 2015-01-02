@@ -12,8 +12,7 @@ import java.util.GregorianCalendar;
  *
  * @author tiago
  */
-public class Donation {
-    private Integer id;
+public class Donation extends BasicModel {
     private Integer donationType;
     private GregorianCalendar donationDate;
     private Integer quantity;
@@ -24,7 +23,7 @@ public class Donation {
     public Donation() {}
     
     public Donation(Integer donationType, GregorianCalendar dontationDate, Integer quantity, Double amount, Boolean used, String observations) {
-        this.id = -1;
+        super(-1);
         this.donationType = donationType;
         this.donationDate = dontationDate;
         this.quantity = quantity;
@@ -34,7 +33,7 @@ public class Donation {
     }
     
     public Donation(Donation don){
-        this.id = don.getId();
+        super( don.getId() );
         this.donationType = don.getDonationType();
         this.donationDate = don.getDonationDate();
         this.quantity = don.getQuantity();
@@ -42,15 +41,6 @@ public class Donation {
         this.used=don.getUsed();
         this.observations = don.getObservations();
     }
-
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
 
     public Integer getDonationType() {
         return donationType;
@@ -105,15 +95,11 @@ public class Donation {
         return new Donation(this);
     }
     
-    public int hashCode()  {
-        return id;
-    }
+
     
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n");
-        sb.append(id);
+        StringBuilder sb = new StringBuilder(super.toString());
         sb.append(", ");
         sb.append(donationType);
         sb.append(", ");
@@ -132,6 +118,6 @@ public class Donation {
        
         Donation don = (Donation) o;
         
-        return ( this.donationType == don.getDonationType() && this.donationDate.equals(don.getDonationDate()) && this.amount == don.getAmount() && this.quantity == don.getQuantity() );
+        return ( super.equals(o) && this.donationType.equals( don.getDonationType() ) && this.donationDate.equals(don.getDonationDate()) && this.amount == don.getAmount() && this.quantity == don.getQuantity() );
     }
 }

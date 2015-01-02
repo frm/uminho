@@ -10,8 +10,7 @@ package models;
  *
  * @author tiago
  */
-public class Team {
-    private Integer id;
+public class Team extends BasicModel {
     private String name;
     private Integer manager;
     private Integer volunteersNr;
@@ -19,28 +18,19 @@ public class Team {
     public Team(){}
 
     public Team(String name, Integer manager, Integer volunteersNr) {
-        this.id = -1;
+        super(-1);
         this.name = name;
         this.manager = manager;
         this.volunteersNr = volunteersNr;
     }
     
     public Team(Team t){
-        this.id = t.getId();
+        super(t.getId());
         this.name = t.getName();
         this.manager = t.getManager();
         this.volunteersNr = t.getVolunteersNr();
     }
-
-    public Integer getId() {
-        return id;
-    }
     
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-
     public String getName() {
         return name;
     }
@@ -70,15 +60,9 @@ public class Team {
         return new Team(this);
     }
     
-    public int hashCode()  {
-        return id;
-    }
-    
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append(", ");
-        sb.append(id);
+        StringBuilder sb = new StringBuilder(super.toString());
         sb.append(", ");
         sb.append(name);
         sb.append(", ");
@@ -95,7 +79,7 @@ public class Team {
        
         Team t = (Team) o;
         
-        return (this.name.equals(t.getName()) && this.manager == t.getManager() && this.volunteersNr == t.getVolunteersNr());
+        return (super.equals(o) && this.name.equals(t.getName()) && this.manager == t.getManager() && this.volunteersNr == t.getVolunteersNr());
     }
     
 }

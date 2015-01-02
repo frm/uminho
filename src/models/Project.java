@@ -14,7 +14,7 @@ import java.util.GregorianCalendar;
  *
  * @author joaorodrigues
  */
-public class Project {
+public class Project extends BasicModel {
     private Integer id;
     private String name;
     private GregorianCalendar startDate;
@@ -47,14 +47,6 @@ public class Project {
 
     public void setPayment(PaymentPlan payment) {
         this.paymentPlan = payment;
-    }
-   
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
     }
     
     public String getName() {

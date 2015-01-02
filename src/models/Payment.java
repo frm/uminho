@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
  *
  * @author joaorodrigues
  */
-class Payment {
+class Payment extends BasicModel {
     private Integer id;
     private String status;
     private Float cost;
@@ -21,17 +21,10 @@ class Payment {
     public Payment(){}
     
     public Payment(String status, Float value, GregorianCalendar date) {
+        super(-1);
         this.status = status;
         this.cost = value;
         this.date = date;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getStatus() {
@@ -69,6 +62,6 @@ class Payment {
         
         Payment p = (Payment) obj;
         
-        return (p.getId() == id );
+        return ( super.equals(obj) );
     }
 }
