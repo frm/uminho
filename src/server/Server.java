@@ -244,10 +244,23 @@ public class Server {
         }
     }
 
-    public static void main(String[] args) throws IOException{
-        Server server = new Server(4000);
+    public static Server startNewServer(Integer port) {
+        final Server server = new Server(port);
 
-        while(true)
-            new Thread(server.newWorker()).start();
+        new Thread(
+            new Runnable() {
+                public void run() {
+                    while(true) {
+                        try {
+                            new Thread(server.newWorker()).start();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        ).start();
+
+        return server;
     }
 }
