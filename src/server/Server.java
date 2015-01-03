@@ -67,17 +67,48 @@ public class Server {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private abstract class Worker implements Runnable {
-        protected Socket socket;
-        protected Warehouse warehouse;
-
         protected ObjectOutputStream out;
         protected ObjectInputStream in;
+
+
+
+        void send(Object obj) throws IOException {
+            out.writeObject(obj);
+            out.flush();
+        }
+
+        Serializable receive() throws IOException, ClassNotFoundException {
+            try {
+                return (Serializable) in.readObject();
+            }catch (IOException | ClassNotFoundException e){
+                throw e;
+            } catch (Exception e){
+                // make end of stream or any other exceptions an IOexception to close the socket
+                throw new IOException();
+            }
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    private class LocalWorker extends Worker implements Runnable {
 
+        @Override
+        void send(Object obj) throws IOException {
+
+        }
+
+        @Override
+        Serializable receive() throws IOException, ClassNotFoundException {
+            return null;
+        }
+
+        @Override
+        public void run() {
+
+        }
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,28 +118,15 @@ public class Server {
     }
 
     private class RemoteWorker extends Worker implements Runnable {
+        private Socket socket;
+        private Warehouse warehouse;
+
         RemoteWorker(Socket s, Warehouse w) throws IOException {
             socket = s;
             warehouse = w;
 
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-        }
-
-        private void send(Object obj) throws IOException {
-            out.writeObject(obj);
-            out.flush();
-        }
-
-        private Serializable receive() throws IOException, ClassNotFoundException {
-            try {
-                return (Serializable) in.readObject();
-            }catch (IOException | ClassNotFoundException e){
-                throw e;
-            } catch (Exception e){
-                // make end of stream or any other exceptions an IOexception to close the socket
-                throw new IOException();
-            }
         }
 
         private void closeConnection(){
