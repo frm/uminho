@@ -17,7 +17,7 @@ public class Server {
     private static ReentrantLock userLock;
     private final Pipe pipe;
 
-    public Server(int startingPort, Pipe p) {
+    public Server(int startingPort, Pipe p) throws IOException {
         while (true) {
             try {
                 this.serverSocket = new ServerSocket(startingPort);
@@ -48,6 +48,9 @@ public class Server {
                 }
             }
         ).start();
+
+        LocalWorker localWorker = new LocalWorker(warehouse, p.getOut(), p.getIn());
+        new Thread(localWorker).start();
     }
 
     public void stop(){
@@ -239,12 +242,8 @@ public class Server {
 
     private class LocalWorker extends Worker implements Runnable {
 
-        LocalWorker(Warehouse w, OutputStream o, InputStream i) throws IOException {
-            super(
-                    w,
-                    new ObjectOutputStream(o),
-                    new ObjectInputStream(i)
-            );
+        LocalWorker(Warehouse w, ObjectOutputStream o, ObjectInputStream i) throws IOException {
+            super(w, o, i);
         }
 
         @Override
