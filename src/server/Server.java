@@ -1,6 +1,5 @@
 package server;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import packet.*;
 import warehouse.*;
 
@@ -181,23 +180,8 @@ public class Server {
         }
 
         protected void doSubscribe(Subscribe obj) {
-            ArrayList<Integer> ids = new ArrayList<>(obj.q_ids);
-            ArrayList<Task> tasks = new ArrayList<>();
-
-            try {
-
-                for(int id: ids) {
-                    tasks.add(warehouse.getTask(id));
-                }
-
-            } catch (InexistentTaskTypeException e) {
-                obj.r_errors.add( e.getUserMessage() );
-            } catch (InexistentTaskException e) {
-                obj.r_errors.add(e.getUserMessage() );
-            }
-
             (new Thread(
-                    new Subscription(out, obj, tasks) )
+                    new SubscriptionHandler(out, obj, warehouse) )
             ).start();
         }
 
