@@ -244,8 +244,12 @@ public class Server {
 
     private class LocalWorker extends Worker implements Runnable {
 
-        LocalWorker(Warehouse w, ObjectOutputStream o, ObjectInputStream i){
-            super(w,o,i);
+        LocalWorker(Warehouse w, OutputStream o, InputStream i) throws IOException {
+            super(
+                    w,
+                    new ObjectOutputStream(o),
+                    new ObjectInputStream(i)
+            );
         }
 
         @Override

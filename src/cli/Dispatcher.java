@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-// Sends queries to server, through proxy or not
 public class Dispatcher {
     Boolean isServer;
     Integer port;
