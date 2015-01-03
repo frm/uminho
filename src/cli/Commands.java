@@ -24,7 +24,7 @@ public class Commands {
 
         lg = dispatcher.doLogin(lg);
 
-        if(lg.r_errors != null) {
+        if(lg.r_errors.size() > 0) {
             System.err.println("\nUps");
             for (String s : lg.r_errors)
                 System.err.println(s);
@@ -63,7 +63,7 @@ public class Commands {
 
         ctt = dispatcher.doCreateTaskType(ctt);
 
-        if(ctt.r_errors != null) {
+        if(ctt.r_errors.size() > 0) {
             System.err.println("\nUps");
             for (String s : ctt.r_errors)
                 System.err.println(s);
@@ -78,7 +78,7 @@ public class Commands {
         st.q_name = name;
         st = dispatcher.doStartTask(st);
 
-        if(st.r_errors != null) {
+        if(st.r_errors.size() > 0) {
             System.err.println("\nUps");
             for (String s : st.r_errors)
                 System.err.println(s);
@@ -94,7 +94,7 @@ public class Commands {
         ft.q_taskID = i;
         ft = dispatcher.doFinishTask(ft);
 
-        if(ft.r_errors != null) {
+        if(ft.r_errors.size() > 0) {
             System.err.println("\nUps");
             for (String s : ft.r_errors)
                 System.err.println(s);
@@ -108,7 +108,7 @@ public class Commands {
 
         la = dispatcher.doListAll(la);
 
-        if(la.r_errors != null) {
+        if(la.r_errors.size() > 0) {
             System.err.println("\nUps");
             for (String s : la.r_errors)
                 System.err.println(s);
@@ -131,7 +131,7 @@ public class Commands {
         s.q_quantity = amount;
         s = dispatcher.doStore(s);
 
-        if(s.r_errors != null) {
+        if(s.r_errors.size() > 0) {
             System.err.println("\nUps");
             for (String str : s.r_errors)
                 System.err.println(str);
