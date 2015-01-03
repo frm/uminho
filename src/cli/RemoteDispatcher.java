@@ -7,7 +7,6 @@ import java.net.Socket;
 
 public class RemoteDispatcher extends Dispatcher {
     Socket clientSocket;
-    Fetcher fetcher;
     ObjectOutputStream out;
 
     RemoteDispatcher(Integer p) throws IOException {
