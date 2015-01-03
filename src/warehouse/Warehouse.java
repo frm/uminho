@@ -35,8 +35,13 @@ public class Warehouse {
         stockLock.unlock();
     }
 
-    public void newTaskType(String name, Map<String, Integer> items) throws ExistentTaskException {
-        TaskType newTaskType = new TaskType(name, items);
+    public void newTaskType(String name, Map<String, Integer> needs) throws ExistentTaskException, InvalidItemQuantityException {
+        for(int i: needs.values()){
+            if(i <= 0)
+                throw new InvalidItemQuantityException();
+        }
+
+        TaskType newTaskType = new TaskType(name, needs);
 
         taskTypesLock.lock();
         try {
