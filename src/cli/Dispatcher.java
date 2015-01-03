@@ -9,6 +9,7 @@ import java.net.Socket;
 
 public abstract class Dispatcher {
     Integer port;
+    Fetcher fetcher;
 
     Dispatcher(Integer port) {
         this.port = port;
@@ -16,7 +17,7 @@ public abstract class Dispatcher {
 
     public abstract void terminate();
 
-    abstract void send(Object obj);
+    abstract void send(Object obj) throws IOException;
 
     /*
     ~~doStartTask example:

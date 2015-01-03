@@ -11,14 +11,18 @@ public class LocalDispatcher extends Dispatcher {
     LocalDispatcher(Integer p) throws IOException {
         super(p);
         pipe = new Pipe();
-
+        fetcher = new LocalFetcher(pipe);
         server = new Server(p, pipe.reversed());
-
-        this.port = null;
     }
 
     @Override
     public void terminate() {
+        pipe.close();
+        server.stop();
+    }
 
+    @Override
+    void send(Object obj) throws IOException {
+        pipe.write(obj);
     }
 }
