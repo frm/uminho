@@ -66,7 +66,7 @@ public class Warehouse {
                 throw new InexistentTaskTypeException("User referenced task type with name: " + typeName + " but was not found");
 
             type.lock();
-            taskId = type.startTask(/*TODO: USER ID*/);
+            taskId = type.startTask();
             type.unlock();
         }
         finally {
@@ -76,13 +76,13 @@ public class Warehouse {
         return taskId;
     }
 
-    public void endTask(int id) throws InexistentTaskException, InexistentItemException {
+    public void endTask(int id) throws InexistentTaskTypeException, InexistentItemException {
 
-        int typeId = TaskType.getTypeOfTask(id);
+        String typeName = TaskType.getTypeOfTask(id);
 
         taskTypesLock.lock();
 
-        TaskType type = taskTypes.get(typeId);
+        TaskType type = taskTypes.get(typeName);
 
         type.endTask(id);
 
@@ -105,6 +105,21 @@ public class Warehouse {
 
         return result;
 
+    }
+
+    public Task getTask(int id) throws InexistentTaskTypeException, InexistentTaskException {
+        String typeName = TaskType.getTypeOfTask(id);
+
+        taskTypesLock.lock();
+        TaskType type = taskTypes.get(typeName);
+
+        type.lock();
+        taskTypesLock.unlock();
+
+        Task result = type.getTask(id);
+
+        type.unlock();
+        return result;
     }
 
 

@@ -6,10 +6,7 @@ import warehouse.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Server {
@@ -167,8 +164,15 @@ public class Server {
             send(obj);
         }
 
-        private void doSubscribe(Subscribe obj){
-            //TODO
+        private void doSubscribe(Subscribe obj) throws InexistentTaskTypeException, InexistentTaskException, InterruptedException {
+            ArrayList<Integer> ids = new ArrayList<>(obj.q_ids);
+            ArrayList<Task> tasks = new ArrayList<>();
+
+            for(int id: ids){
+                tasks.add(warehouse.getTask(id));
+            }
+
+            (new Subscription()).subscribeTo(tasks);
         }
 
         @Override

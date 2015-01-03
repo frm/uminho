@@ -3,6 +3,7 @@ package warehouse;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -11,66 +12,40 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Task {
     private static int nextId = 0;
     private final int id = ++nextId;
-    private final int clientId;
-    private Set<Integer> subscribers;
-    private final String typeName;
-    private ReentrantLock lock;
+    private ReentrantLock lock = new ReentrantLock();
+    private boolean running;
+    private final Condition subscription = lock.newCondition();
 
 
-    public Task(int client, String type){
-        clientId = client;
-        subscribers = new HashSet<>();
-        typeName = type;
-        lock = new ReentrantLock();
+    public Task(){
+        running = true;
     }
 
 
-    public void notifySubscribers(){
-            //TODO : tratar do user e das subs, depois voltar a isto
-    }
-
-
-
-
-
-
-    @Override
-    public String toString(){
-        StringBuilder result = new StringBuilder();
-
+    public void end(){
         lock.lock();
-        result.append(typeName);
-        result.append(" task (ID: ");
-        result.append(id);
-        result.append(" ran by client ");
-        result.append(clientId);
+        running = false;
+        subscription.signalAll();
         lock.unlock();
-        
-        return result.toString();
     }
 
 
+    public void subscribe() throws InterruptedException {
+        lock.lock();
+        try {
+            while (running) {
+                subscription.await();
+            }
+        }
+        finally{
+            lock.unlock();
+        }
 
-    public void setSubscribers(Set<Integer> subscribers) {
-        this.subscribers = subscribers;
-    }
-
-    public Set<Integer> getSubscribers() {
-        return subscribers;
     }
 
 
     public int getId() {
         return id;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-
-    public String getTypeName() {
-        return typeName;
     }
 
 }
