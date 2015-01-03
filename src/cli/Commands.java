@@ -15,7 +15,7 @@ public class Commands {
     }
 
     @Command(name = "register", abbrev = "rg")
-    public void register(String username, String password){
+    public boolean register(String username, String password){
         Login lg = new Login();
 
         lg.q_createUser = true;
@@ -25,15 +25,17 @@ public class Commands {
         lg = dispatcher.doLogin(lg);
 
         if(lg.r_errors.size() > 0) {
-            System.err.println("\nUps");
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
             for (String s : lg.r_errors)
-                System.err.println(s);
-            return;
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
+            return false;
         }
+        return true;
     }
 
     @Command(name = "login", abbrev = "lg")
-    public void login(String username, String password){
+    public boolean login(String username, String password){
         Login lg = new Login();
 
         lg.q_createUser = false;
@@ -43,11 +45,13 @@ public class Commands {
         lg = dispatcher.doLogin(lg);
 
         if(lg.r_errors.size() > 0) {
-            System.err.println("\nUps");
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
             for (String s : lg.r_errors)
-                System.err.println(s);
-            return;
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
+            return false;
         }
+        return true;
     }
 
     @Command(name="createTaskType", abbrev = "ctt")
@@ -82,9 +86,10 @@ public class Commands {
         ctt = dispatcher.doCreateTaskType(ctt);
 
         if(ctt.r_errors.size() > 0) {
-            System.err.println("\nUps");
-            for (String s : ctt.r_errors)
-                System.err.println(s);
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
+            for (String s : lg.r_errors)
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
             return;
         }
     }
@@ -97,9 +102,10 @@ public class Commands {
         st = dispatcher.doStartTask(st);
 
         if(st.r_errors.size() > 0) {
-            System.err.println("\nUps");
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
             for (String s : st.r_errors)
-                System.err.println(s);
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
             return;
         }
     }
@@ -113,9 +119,10 @@ public class Commands {
         ft = dispatcher.doFinishTask(ft);
 
         if(ft.r_errors.size() > 0) {
-            System.err.println("\nUps");
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
             for (String s : ft.r_errors)
-                System.err.println(s);
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
             return;
         }
     }
@@ -127,9 +134,10 @@ public class Commands {
         la = dispatcher.doListAll(la);
 
         if(la.r_errors.size() > 0) {
-            System.err.println("\nUps");
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
             for (String s : la.r_errors)
-                System.err.println(s);
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
             return;
         }
 
@@ -150,9 +158,10 @@ public class Commands {
         s = dispatcher.doStore(s);
 
         if(s.r_errors.size() > 0) {
-            System.err.println("\nUps");
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
             for (String str : s.r_errors)
-                System.err.println(str);
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
             return;
         }
     }
