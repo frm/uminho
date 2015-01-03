@@ -39,7 +39,7 @@ public class Server {
                 public void run() {
                     while(!serverSocket.isClosed()) {
                         try {
-                            new Thread(self.newWorker()).start();
+                            new Thread(self.newRemoteWorker()).start();
                         } catch (IOException e) {
                             //e.printStackTrace();
                         }
@@ -63,22 +63,31 @@ public class Server {
         loopThread.interrupt();
     }
 
-    public Warehouse getWarehouse(){
-        return warehouse;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private abstract class Worker implements Runnable {
+        protected Socket socket;
+        protected Warehouse warehouse;
+
+        protected ObjectOutputStream out;
+        protected ObjectInputStream in;
     }
 
-    public Worker newWorker() throws IOException {
-        return new Worker(serverSocket.accept(), warehouse);
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private RemoteWorker newRemoteWorker() throws IOException {
+        return new RemoteWorker(serverSocket.accept(), warehouse);
     }
 
-    private class Worker implements Runnable {
-        private Socket socket;
-        private Warehouse warehouse;
-
-        ObjectOutputStream out;
-        ObjectInputStream in;
-
-        Worker(Socket s, Warehouse w) throws IOException {
+    private class RemoteWorker extends Worker implements Runnable {
+        RemoteWorker(Socket s, Warehouse w) throws IOException {
             socket = s;
             warehouse = w;
 
@@ -119,7 +128,7 @@ public class Server {
             socket = null; //now it's closed!
         }
 
-        private void doCreateTaskType(CreateTaskType obj) throws IOException {
+        protected void doCreateTaskType(CreateTaskType obj) throws IOException {
             try {
                 warehouse.newTaskType(obj.q_name, obj.q_itens);
             } catch (ExistentTaskException e) {
@@ -129,7 +138,7 @@ public class Server {
             send(obj);
         }
 
-        private void doStartTask(StartTask obj) throws IOException {
+        protected void doStartTask(StartTask obj) throws IOException {
             try {
                 warehouse.startTask(obj.q_name);
             } catch (WarehouseException e) {
@@ -139,7 +148,7 @@ public class Server {
             send(obj);
         }
 
-        private void doFinishTask(FinishTask obj) throws IOException {
+        protected void doFinishTask(FinishTask obj) throws IOException {
             try {
                 warehouse.endTask(obj.q_taskID);
             } catch (WarehouseException e) {
@@ -149,13 +158,13 @@ public class Server {
             send(obj);
         }
 
-        private void doListAll(ListAll obj) throws IOException {
+        protected void doListAll(ListAll obj) throws IOException {
             obj.r_instances = warehouse.getRunningTasks();
 
             send(obj);
         }
 
-        private boolean doLogin(Login obj) {
+        protected boolean doLogin(Login obj) {
             boolean logged = false;
             String error = null;
             Server.userLock.lock();
@@ -189,7 +198,7 @@ public class Server {
             return logged;
         }
 
-        private void doStore(Store obj) throws IOException {
+        protected void doStore(Store obj) throws IOException {
             try {
                 warehouse.stockUp(obj.q_name, obj.q_quantity);
             } catch (InvalidItemQuantityException e) {
@@ -274,6 +283,10 @@ public class Server {
                 closeConnection();
         }
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static Server startNewServer(Integer port) {
         final Server server = new Server(port);
