@@ -16,6 +16,10 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class SubscriptionManager {
     private int finished;
+<<<<<<< HEAD
+=======
+    private final ReentrantLock counterLock = new ReentrantLock();
+>>>>>>> Improved the subscriptions and newTaskType
     private final ReentrantLock lk = new ReentrantLock();
     private final Condition allDone = lk.newCondition();
 
@@ -23,8 +27,15 @@ public class SubscriptionManager {
         finished = 0;
     }
 
+<<<<<<< HEAD
     public synchronized void finish() {
         finished++;
+=======
+    public void finish() {
+        counterLock.lock();
+        finished++;
+        counterLock.unlock();
+>>>>>>> Improved the subscriptions and newTaskType
         allDone.signalAll();
     }
 
