@@ -3,6 +3,7 @@ package cli;
 import packet.*;
 import warehouse.UnknownPacketException;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;

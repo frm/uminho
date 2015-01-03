@@ -14,11 +14,29 @@ public class Commands {
         dispatcher = d;
     }
 
-    @Command(name = "login", abbrev = "lg")
-    public void login(boolean cUser, String username, String password){
+    @Command(name = "register", abbrev = "rg")
+    public void register(String username, String password){
         Login lg = new Login();
 
-        lg.q_createUser = cUser;
+        lg.q_createUser = true;
+        lg.q_username = username;
+        lg.q_password = password;
+
+        lg = dispatcher.doLogin(lg);
+
+        if(lg.r_errors.size() > 0) {
+            System.err.println("\nUps");
+            for (String s : lg.r_errors)
+                System.err.println(s);
+            return;
+        }
+    }
+
+    @Command(name = "login", abbrev = "lg")
+    public void login(String username, String password){
+        Login lg = new Login();
+
+        lg.q_createUser = false;
         lg.q_username = username;
         lg.q_password = password;
 
