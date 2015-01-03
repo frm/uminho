@@ -1,5 +1,6 @@
 package server;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import packet.*;
 import warehouse.*;
 
@@ -67,17 +68,26 @@ public class Server {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private abstract class Worker implements Runnable {
+        protected Warehouse warehouse;
+
         protected ObjectOutputStream out;
         protected ObjectInputStream in;
 
+        protected abstract void closeConnection();
+        protected abstract Boolean isStreamOK();
 
+        Worker(Warehouse w, ObjectOutputStream o, ObjectInputStream i){
+            warehouse = w;
+            out = o;
+            in = i;
+        }
 
-        void send(Object obj) throws IOException {
+        protected void send(Object obj) throws IOException {
             out.writeObject(obj);
             out.flush();
         }
 
-        Serializable receive() throws IOException, ClassNotFoundException {
+        protected Serializable receive() throws IOException, ClassNotFoundException {
             try {
                 return (Serializable) in.readObject();
             }catch (IOException | ClassNotFoundException e){
@@ -87,69 +97,13 @@ public class Server {
                 throw new IOException();
             }
         }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private class LocalWorker extends Worker implements Runnable {
-
-        @Override
-        void send(Object obj) throws IOException {
-
-        }
-
-        @Override
-        Serializable receive() throws IOException, ClassNotFoundException {
-            return null;
-        }
-
-        @Override
-        public void run() {
-
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private RemoteWorker newRemoteWorker() throws IOException {
-        return new RemoteWorker(serverSocket.accept(), warehouse);
-    }
-
-    private class RemoteWorker extends Worker implements Runnable {
-        private Socket socket;
-        private Warehouse warehouse;
-
-        RemoteWorker(Socket s, Warehouse w) throws IOException {
-            socket = s;
-            warehouse = w;
-
-            out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
-        }
-
-        private void closeConnection(){
-            try {
-                socket.shutdownOutput(); // Sends the 'FIN' on the network
-            } catch (Exception e) {} // for when the stream is somehow damaged
-
-            try {
-                InputStream is = socket.getInputStream(); // obtain stream
-                while (is.read() >= 0) ; // "read()" returns '-1' when the 'FIN' is reached
-            } catch (Exception e) {} // for when the stream is somehow damaged
-
-            try {
-                socket.close(); // Now we can close the Socket
-            } catch (Exception e) {} // for when something is somehow damaged
-
-            socket = null; //now it's closed!
-        }
 
         protected void doCreateTaskType(CreateTaskType obj) throws IOException {
             try {
                 warehouse.newTaskType(obj.q_name, obj.q_itens);
             } catch (ExistentTaskException e) {
+                obj.r_errors.add(e.getUserMessage());
+            } catch (InvalidItemQuantityException e) {
                 obj.r_errors.add(e.getUserMessage());
             }
 
@@ -226,7 +180,7 @@ public class Server {
             send(obj);
         }
 
-        private void doSubscribe(Subscribe obj) {
+        protected void doSubscribe(Subscribe obj) {
             ArrayList<Integer> ids = new ArrayList<>(obj.q_ids);
             ArrayList<Task> tasks = new ArrayList<>();
 
@@ -244,12 +198,11 @@ public class Server {
 
             (new Thread(
                     new Subscription(out, obj, tasks) )
-                        ).start();
+            ).start();
         }
 
-
         @Override
-        public void run() {
+        public void run(){
             Boolean loggedin = false;
 
             // try to authenticate before anything else
@@ -269,7 +222,7 @@ public class Server {
                 closeConnection();
             }
 
-            while(loggedin && socket != null) {
+            while(loggedin && isStreamOK()) {
                 try {
                     Serializable obj = receive();
 
@@ -297,8 +250,80 @@ public class Server {
                 }
             }
 
-            if(socket != null)
+            if(isStreamOK())
                 closeConnection();
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private class LocalWorker extends Worker implements Runnable {
+
+        LocalWorker(Warehouse w, ObjectOutputStream o, ObjectInputStream i){
+            super(w,o,i);
+        }
+
+        @Override
+        protected Boolean isStreamOK() {
+            return out != null && in != null;
+        }
+
+        @Override
+        protected void closeConnection() {
+            try {
+                out.close();
+            } catch (IOException e) {}
+            out = null;
+
+            try {
+                in.close();
+            } catch (IOException e) {}
+            in = null;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private RemoteWorker newRemoteWorker() throws IOException {
+        return new RemoteWorker(serverSocket.accept(), warehouse);
+    }
+
+    private class RemoteWorker extends Worker implements Runnable {
+        private Socket socket;
+
+        RemoteWorker(Socket s, Warehouse w) throws IOException {
+            super(
+                    w,
+                    new ObjectOutputStream(s.getOutputStream()),
+                    new ObjectInputStream(s.getInputStream())
+            );
+
+            socket = s;
+        }
+
+        @Override
+        protected void closeConnection(){
+            try {
+                socket.shutdownOutput(); // Sends the 'FIN' on the network
+            } catch (Exception e) {} // for when the stream is somehow damaged
+
+            try {
+                InputStream is = socket.getInputStream(); // obtain stream
+                while (is.read() >= 0) ; // "read()" returns '-1' when the 'FIN' is reached
+            } catch (Exception e) {} // for when the stream is somehow damaged
+
+            try {
+                socket.close(); // Now we can close the Socket
+            } catch (Exception e) {} // for when something is somehow damaged
+
+            socket = null; //now it's closed!
+        }
+
+        @Override
+        protected Boolean isStreamOK() {
+            return socket != null && !socket.isClosed();
         }
     }
 
