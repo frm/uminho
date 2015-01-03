@@ -14,22 +14,44 @@ public class Commands {
         dispatcher = d;
     }
 
-    @Command(name = "login", abbrev = "lg")
-    public void login(boolean cUser, String username, String password){
+    @Command(name = "register", abbrev = "rg")
+    public boolean register(String username, String password){
         Login lg = new Login();
 
-        lg.q_createUser = cUser;
+        lg.q_createUser = true;
         lg.q_username = username;
         lg.q_password = password;
 
         lg = dispatcher.doLogin(lg);
 
-        if(lg.r_errors != null) {
-            System.err.println("\nUps");
+        if(lg.r_errors.size() > 0) {
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
             for (String s : lg.r_errors)
-                System.err.println(s);
-            return;
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
+            return false;
         }
+        return true;
+    }
+
+    @Command(name = "login", abbrev = "lg")
+    public boolean login(String username, String password){
+        Login lg = new Login();
+
+        lg.q_createUser = false;
+        lg.q_username = username;
+        lg.q_password = password;
+
+        lg = dispatcher.doLogin(lg);
+
+        if(lg.r_errors.size() > 0) {
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
+            for (String s : lg.r_errors)
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
+            return false;
+        }
+        return true;
     }
 
     @Command(name="createTaskType", abbrev = "ctt")
@@ -63,10 +85,11 @@ public class Commands {
 
         ctt = dispatcher.doCreateTaskType(ctt);
 
-        if(ctt.r_errors != null) {
-            System.err.println("\nUps");
+        if(ctt.r_errors.size() > 0) {
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
             for (String s : ctt.r_errors)
-                System.err.println(s);
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
             return;
         }
     }
@@ -78,10 +101,11 @@ public class Commands {
         st.q_name = name;
         st = dispatcher.doStartTask(st);
 
-        if(st.r_errors != null) {
-            System.err.println("\nUps");
+        if(st.r_errors.size() > 0) {
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
             for (String s : st.r_errors)
-                System.err.println(s);
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
             return;
         }
     }
@@ -94,10 +118,11 @@ public class Commands {
         ft.q_taskID = i;
         ft = dispatcher.doFinishTask(ft);
 
-        if(ft.r_errors != null) {
-            System.err.println("\nUps");
+        if(ft.r_errors.size() > 0) {
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
             for (String s : ft.r_errors)
-                System.err.println(s);
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
             return;
         }
     }
@@ -108,19 +133,35 @@ public class Commands {
 
         la = dispatcher.doListAll(la);
 
-        if(la.r_errors != null) {
-            System.err.println("\nUps");
+        if(la.r_errors.size() > 0) {
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
             for (String s : la.r_errors)
-                System.err.println(s);
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
             return;
         }
 
+        StringBuilder sb = new StringBuilder();
+        sb.append(la.r_instances.size()).append(" task types\n");
+
+        int totalInstances = 0;
+        for(String t : la.r_instances.keySet())
+            totalInstances += la.r_instances.get(t).size();
+        sb.append(totalInstances).append(" tasks currently running");
+
         for(String t : la.r_instances.keySet()) {
-            System.out.println("Tipo: " + t);
-            Collection c = la.r_instances.get(t);
-            for(Object i : c)
-                System.out.println(" >id: " + i);
-            }
+            sb.append("\n  ")
+                    .append(t)
+                    .append("(")
+                    .append(la.r_instances.get(t).size())
+                    .append("): ");
+
+            Collection<Integer> c = la.r_instances.get(t);
+            for (Integer i : c)
+                sb.append(i).append(", ");
+        }
+        sb.delete(sb.length()-2, sb.length()-1).append("\n");
+        System.out.print(sb.toString());
     }
 
     @Command(name = "store", abbrev = "s")
@@ -131,10 +172,11 @@ public class Commands {
         s.q_quantity = amount;
         s = dispatcher.doStore(s);
 
-        if(s.r_errors != null) {
-            System.err.println("\nUps");
+        if(s.r_errors.size() > 0) {
+            StringBuilder sb = new StringBuilder("\nError(s):\n");
             for (String str : s.r_errors)
-                System.err.println(str);
+                sb.append(s).append("\n");
+            System.err.println(sb.toString());
             return;
         }
     }
@@ -148,7 +190,9 @@ public class Commands {
             ids.add(i);
 
         sb.q_ids = new HashSet<>(ids);
-        sb = dispatcher.doSubscribe(sb);
+        if( !dispatcher.doSubscribe(sb) ){
+            System.err.println("Could not send the subscribe packet.");
+        }
     }
 
     public int goodInput(String str){

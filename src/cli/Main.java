@@ -48,13 +48,13 @@ public class Main {
         }
 
         try {
-            Dispatcher dispatcher = isServer ? new Dispatcher(Server.startNewServer(port)) : new Dispatcher(port);
+            Dispatcher dispatcher = isServer ? new LocalDispatcher(port) : new RemoteDispatcher(port);
 
             try {
                 ShellFactory.createConsoleShell("", "", new Commands(dispatcher))
                         .commandLoop();
             } catch (IOException e) {
-                // ignore io exceptions
+                // ignore io exceptions (CTRL+D causes IOException)
             } catch (Exception e) {
                 // debug the others
                 e.printStackTrace();
@@ -63,10 +63,8 @@ public class Main {
             dispatcher.terminate();
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            System.err.println("Terminated.");
         }
-
-        dispatcher.terminate();
-
-        System.err.println("Terminated.");
     }
 }

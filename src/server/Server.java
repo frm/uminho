@@ -1,5 +1,6 @@
 package server;
 
+import cli.Pipe;
 import packet.*;
 import warehouse.*;
 
@@ -14,10 +15,9 @@ public class Server {
     private ServerSocket serverSocket;
     private static Map<String, User> users;
     private static ReentrantLock userLock;
+    private final Pipe pipe;
 
-    private Thread loopThread;
-
-    public Server(int startingPort) {
+    public Server(int startingPort, Pipe p) throws IOException {
         while (true) {
             try {
                 this.serverSocket = new ServerSocket(startingPort);
@@ -29,12 +29,13 @@ public class Server {
             }
         }
 
+        pipe = p;
         users = new HashMap<String, User>();
         userLock = new ReentrantLock();
 
 
         final Server self = this;
-        loopThread = new Thread(
+        new Thread(
             new Runnable() {
                 public void run() {
                     while(!serverSocket.isClosed()) {
@@ -46,11 +47,10 @@ public class Server {
                     }
                 }
             }
-        );
-    }
+        ).start();
 
-    public void start(){
-        loopThread.start();
+        LocalWorker localWorker = new LocalWorker(warehouse, p.getOut(), p.getIn());
+        new Thread(localWorker).start();
     }
 
     public void stop(){
@@ -59,8 +59,6 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        loopThread.interrupt();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,7 +162,8 @@ public class Server {
                 }
             }
 
-            obj.r_errors.add(error);
+            if(error != null)
+                obj.r_errors.add(error);
             Server.userLock.unlock();
             return logged;
         }
@@ -190,20 +189,22 @@ public class Server {
             Boolean loggedin = false;
 
             // try to authenticate before anything else
-            try {
-                Serializable obj = receive();
+            while (!loggedin && isStreamOK()) {
+                try {
+                    Serializable obj = receive();
 
-                if (!(obj instanceof Login))
-                    throw new UnknownPacketException("Server received an unexpected packet.");
+                    if (!(obj instanceof Login))
+                        throw new UnknownPacketException("Server received an unexpected packet.");
 
-                loggedin = doLogin((Login)obj);
-                send(obj);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (UnknownPacketException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                closeConnection();
+                    loggedin = doLogin((Login) obj);
+                    send(obj);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (UnknownPacketException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    closeConnection();
+                }
             }
 
             while(loggedin && isStreamOK()) {
@@ -244,8 +245,8 @@ public class Server {
 
     private class LocalWorker extends Worker implements Runnable {
 
-        LocalWorker(Warehouse w, ObjectOutputStream o, ObjectInputStream i){
-            super(w,o,i);
+        LocalWorker(Warehouse w, ObjectOutputStream o, ObjectInputStream i) throws IOException {
+            super(w, o, i);
         }
 
         @Override
@@ -309,15 +310,5 @@ public class Server {
         protected Boolean isStreamOK() {
             return socket != null && !socket.isClosed();
         }
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public static Server startNewServer(Integer port) {
-        final Server server = new Server(port);
-        server.start();
-        return server;
     }
 }

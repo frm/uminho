@@ -7,82 +7,101 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-// Sends queries to server, through proxy or not
-public class Dispatcher {
-    Boolean isServer;
+public abstract class Dispatcher {
     Integer port;
-    Server server;
-    Socket clientSocket;
     Fetcher fetcher;
 
-    // start in client mode and connect to server through socket
-    Dispatcher(Integer port) throws IOException {
-        isServer = false;
+    Dispatcher(Integer port) {
         this.port = port;
-        this.server = null;
-        clientSocket = new Socket("127.0.0.1", port);
-        fetcher = new Fetcher(clientSocket);
-        new Thread(fetcher).start();
     }
 
-    // start in server mode and start a new server
-    Dispatcher(Server server){
-        isServer = true;
-        this.port = null;
-        this.server = server;
-    }
+    public abstract void terminate();
 
-    public void terminate(){
-        if(isServer){
-            server.stop();
-        }else{
-            try {
-                clientSocket.shutdownOutput(); // Sends the 'FIN' on the network
-            } catch (Exception e) {} // for when the stream is somehow damaged
+    abstract void send(Object obj) throws IOException;
 
-            try {
-                InputStream is = clientSocket.getInputStream(); // obtain stream
-                while (is.read() >= 0) ; // "read()" returns '-1' when the 'FIN' is reached
-            } catch (Exception e) {} // for when the stream is somehow damaged
-
-            try {
-                clientSocket.close(); // Now we can close the Socket
-            } catch (Exception e) {} // for when something is somehow damaged
-
-            clientSocket = null; //now it's closed!
+    public CreateTaskType doCreateTaskType(CreateTaskType obj){
+        Receiver<CreateTaskType> r = new Receiver<>(fetcher);
+        obj.id = r.id;
+        try {
+            send(obj);
+        } catch (IOException e) {
+            obj.r_errors.add("Could not send the create task type packet.");
+            return obj;
         }
+        return r.get();
     }
 
-    public CreateTaskType doCreateTaskType(CreateTaskType obj) {
-
-    }
-
-    public StartTask doStartTask(StartTask obj) {
-        if(isServer){
-            //return server.doStartTask(obj);
-        }else{
-            Receiver<StartTask> r = new Receiver<>(fetcher);
-            return r.get();
+    public StartTask doStartTask(StartTask obj){
+        Receiver<StartTask> r = new Receiver<>(fetcher);
+        obj.id = r.id;
+        try {
+            send(obj);
+        } catch (IOException e) {
+            obj.r_errors.add("Could not send the start task packet.");
+            return obj;
         }
+        return r.get();
     }
 
-    public FinishTask doFinishTask(FinishTask obj) {
-
+    public FinishTask doFinishTask(FinishTask obj){
+        Receiver<FinishTask> r = new Receiver<>(fetcher);
+        obj.id = r.id;
+        try {
+            send(obj);
+        } catch (IOException e) {
+            obj.r_errors.add("Could not send the finish task packet.");
+            return obj;
+        }
+        return r.get();
     }
 
-    public ListAll doListAll(ListAll obj) {
-
+    public ListAll doListAll(ListAll obj){
+        Receiver<ListAll> r = new Receiver<>(fetcher);
+        obj.id = r.id;
+        try {
+            send(obj);
+        } catch (IOException e) {
+            obj.r_errors.add("Could not send the listAll packet.");
+            return obj;
+        }
+        return r.get();
     }
 
-    public Login doLogin(Login obj) {
-
+    public Login doLogin(Login obj){
+        Receiver<Login> r = new Receiver<>(fetcher);
+        obj.id = r.id;
+        try {
+            send(obj);
+        } catch (IOException e) {
+            obj.r_errors.add("Could not send the login packet.");
+            return obj;
+        }
+        return r.get();
     }
 
-    public Store doStore(Store obj) {
-
+    public Store doStore(Store obj){
+        Receiver<Store> r = new Receiver<>(fetcher);
+        obj.id = r.id;
+        try {
+            send(obj);
+        } catch (IOException e) {
+            obj.r_errors.add("Could not send the store packet.");
+            return obj;
+        }
+        return r.get();
     }
 
-    public void doSubscribe(Subscribe obj){
-
+    public Boolean doSubscribe(Subscribe obj) {
+        Receiver<Subscribe> r = new Receiver<>(fetcher);
+        obj.id = r.id;
+        Thread t = new Thread(new Subscriber(r));
+        t.start();
+        try {
+            send(obj);
+        } catch (IOException e) {
+            t.interrupt();
+            return false;
+        }
+        return true;
     }
 }
