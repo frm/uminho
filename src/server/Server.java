@@ -162,7 +162,8 @@ public class Server {
                 }
             }
 
-            obj.r_errors.add(error);
+            if(error != null)
+                obj.r_errors.add(error);
             Server.userLock.unlock();
             return logged;
         }
@@ -188,20 +189,22 @@ public class Server {
             Boolean loggedin = false;
 
             // try to authenticate before anything else
-            try {
-                Serializable obj = receive();
+            while (!loggedin && isStreamOK()) {
+                try {
+                    Serializable obj = receive();
 
-                if (!(obj instanceof Login))
-                    throw new UnknownPacketException("Server received an unexpected packet.");
+                    if (!(obj instanceof Login))
+                        throw new UnknownPacketException("Server received an unexpected packet.");
 
-                loggedin = doLogin((Login)obj);
-                send(obj);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (UnknownPacketException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                closeConnection();
+                    loggedin = doLogin((Login) obj);
+                    send(obj);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (UnknownPacketException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    closeConnection();
+                }
             }
 
             while(loggedin && isStreamOK()) {

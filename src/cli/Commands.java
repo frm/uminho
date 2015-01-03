@@ -87,7 +87,7 @@ public class Commands {
 
         if(ctt.r_errors.size() > 0) {
             StringBuilder sb = new StringBuilder("\nError(s):\n");
-            for (String s : lg.r_errors)
+            for (String s : ctt.r_errors)
                 sb.append(s).append("\n");
             System.err.println(sb.toString());
             return;
@@ -141,12 +141,27 @@ public class Commands {
             return;
         }
 
+        StringBuilder sb = new StringBuilder();
+        sb.append(la.r_instances.size()).append(" task types\n");
+
+        int totalInstances = 0;
+        for(String t : la.r_instances.keySet())
+            totalInstances += la.r_instances.get(t).size();
+        sb.append(totalInstances).append(" tasks currently running");
+
         for(String t : la.r_instances.keySet()) {
-            System.out.println("Tipo: " + t);
-            Collection c = la.r_instances.get(t);
-            for(Object i : c)
-                System.out.println(" >id: " + i);
-            }
+            sb.append("\n  ")
+                    .append(t)
+                    .append("(")
+                    .append(la.r_instances.get(t).size())
+                    .append("): ");
+
+            Collection<Integer> c = la.r_instances.get(t);
+            for (Integer i : c)
+                sb.append(i).append(", ");
+        }
+        sb.delete(sb.length()-2, sb.length()-1).append("\n");
+        System.out.print(sb.toString());
     }
 
     @Command(name = "store", abbrev = "s")
