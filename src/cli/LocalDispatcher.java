@@ -13,6 +13,7 @@ public class LocalDispatcher extends Dispatcher {
         pipe = new Pipe();
         fetcher = new LocalFetcher(pipe);
         server = new Server(p, pipe.reversed());
+        new Thread(fetcher).start();
     }
 
     @Override

@@ -12,6 +12,8 @@ public class Pipe {
 
     private PipedOutputStream out_remote;
     private PipedInputStream in_remote;
+    private ObjectOutputStream r_out;
+    private ObjectInputStream r_in;
 
     Pipe() throws IOException {
         isClosed = false;
@@ -25,12 +27,13 @@ public class Pipe {
         out_local.connect(in_remote);
         in_local.connect(out_remote);
 
-        new ObjectOutputStream(out_remote).flush();
+        r_out = new ObjectOutputStream(out_remote);
+        r_out.flush();
+        in = new ObjectInputStream(in_local);
 
         out = new ObjectOutputStream(out_local);
         out.flush();
-
-        in = new ObjectInputStream(in_local);
+        r_in = new ObjectInputStream(in_remote);
     }
 
     private Pipe(Pipe p) throws IOException {
@@ -39,8 +42,11 @@ public class Pipe {
         out_local = p.out_remote;
         in_local = p.in_remote;
 
-        out = new ObjectOutputStream(out_local);
-        in = new ObjectInputStream(in_local);
+        out = p.r_out;
+        in = p.r_in;
+
+        r_out = p.out;
+        r_in = p.in;
 
         out_remote = p.out_local;
         in_remote = p.in_local;

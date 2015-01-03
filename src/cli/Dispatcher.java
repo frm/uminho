@@ -21,6 +21,7 @@ public abstract class Dispatcher {
 
     public CreateTaskType doCreateTaskType(CreateTaskType obj){
         Receiver<CreateTaskType> r = new Receiver<>(fetcher);
+        obj.id = r.id;
         try {
             send(obj);
         } catch (IOException e) {
@@ -32,6 +33,7 @@ public abstract class Dispatcher {
 
     public StartTask doStartTask(StartTask obj){
         Receiver<StartTask> r = new Receiver<>(fetcher);
+        obj.id = r.id;
         try {
             send(obj);
         } catch (IOException e) {
@@ -43,6 +45,7 @@ public abstract class Dispatcher {
 
     public FinishTask doFinishTask(FinishTask obj){
         Receiver<FinishTask> r = new Receiver<>(fetcher);
+        obj.id = r.id;
         try {
             send(obj);
         } catch (IOException e) {
@@ -54,6 +57,7 @@ public abstract class Dispatcher {
 
     public ListAll doListAll(ListAll obj){
         Receiver<ListAll> r = new Receiver<>(fetcher);
+        obj.id = r.id;
         try {
             send(obj);
         } catch (IOException e) {
@@ -65,6 +69,7 @@ public abstract class Dispatcher {
 
     public Login doLogin(Login obj){
         Receiver<Login> r = new Receiver<>(fetcher);
+        obj.id = r.id;
         try {
             send(obj);
         } catch (IOException e) {
@@ -76,6 +81,7 @@ public abstract class Dispatcher {
 
     public Store doStore(Store obj){
         Receiver<Store> r = new Receiver<>(fetcher);
+        obj.id = r.id;
         try {
             send(obj);
         } catch (IOException e) {
@@ -87,6 +93,7 @@ public abstract class Dispatcher {
 
     public Boolean doSubscribe(Subscribe obj) {
         Receiver<Subscribe> r = new Receiver<>(fetcher);
+        obj.id = r.id;
         Thread t = new Thread(new Subscriber(r));
         t.start();
         try {

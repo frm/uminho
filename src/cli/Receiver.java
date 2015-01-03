@@ -10,6 +10,7 @@ public class Receiver<T extends Serializable>{
     Boolean hasValue;
     ReentrantLock lock;
     Condition valueSet;
+    Integer id;
 
     private static Integer nextID = 0;
     private static ReentrantLock idLock = new ReentrantLock();
@@ -28,8 +29,12 @@ public class Receiver<T extends Serializable>{
         hasValue = false;
         lock = new ReentrantLock();
         valueSet = lock.newCondition();
+        id = getNextID();
+        fetcher.addReceiver(id, this);
+    }
 
-        fetcher.addReceiver(getNextID(), this);
+    public Integer getID(){
+        return id;
     }
 
     public T get(){
@@ -53,9 +58,10 @@ public class Receiver<T extends Serializable>{
         lock.lock();
 
         obj = value;
-
-        lock.unlock();
+        hasValue = true;
 
         valueSet.signalAll();
+        lock.unlock();
+
     }
 }
