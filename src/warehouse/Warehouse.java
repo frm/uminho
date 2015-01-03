@@ -48,9 +48,19 @@ public class Warehouse {
     }
 
     public void newTaskType(String name, Map<String, Integer> needs) throws ExistentTaskException, InvalidItemQuantityException {
-        for(int i: needs.values()){
-            if(i <= 0)
+        for(Map.Entry<String, Integer> pair: needs.entrySet()){
+
+            if(pair.getValue() <= 0)
                 throw new InvalidItemQuantityException();
+
+            String itemName = pair.getKey();
+
+            stockLock.lock();
+
+            if( stock.get(itemName) == null )
+                stock.put(itemName, new Item(itemName));
+
+            stockLock.unlock();
         }
 
         TaskType newTaskType = new TaskType(name, needs);
@@ -146,6 +156,23 @@ public class Warehouse {
 
         type.unlock();
         return result;
+    }
+
+    public void subscribeTo(Collection<Integer> ids) throws InexistentTaskTypeException, InexistentTaskException, InterruptedException {
+        ArrayList<Task> tasks = new ArrayList<>();
+        int nrTasks = ids.size();
+
+        for(int id: ids) {
+            tasks.add(getTask(id));
+        }
+
+        SubscriptionManager manager = new SubscriptionManager();
+
+        for (Task t : tasks)
+            ( new Thread( new SubscriptionWorker(t, manager) ) ).start();
+
+        manager.waitForAll(nrTasks);
+
     }
 
     private void requestMaterial(Map<String, Integer> material) throws InexistentItemException, InterruptedException {
