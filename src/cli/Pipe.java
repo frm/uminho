@@ -19,14 +19,14 @@ public class Pipe {
         out_local = new PipedOutputStream();
         in_local = new PipedInputStream();
 
-        out = new ObjectOutputStream(out_local);
-        in = new ObjectInputStream(in_local);
-
         out_remote = new PipedOutputStream();
         in_remote = new PipedInputStream();
 
         out_local.connect(in_remote);
         in_local.connect(out_remote);
+
+        in = new ObjectInputStream(in_local);
+        out = new ObjectOutputStream(out_local);
     }
 
     private Pipe(Pipe p) throws IOException {
