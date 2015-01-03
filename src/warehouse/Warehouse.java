@@ -121,7 +121,6 @@ public class Warehouse {
         try {
             returnMaterial(type.getNeeds());
         } catch (InvalidItemQuantityException e) {} // Since we are returning a value that is already valid, the exception never occurs
-
     }
 
     //Get list of tasks currently being done
