@@ -5,12 +5,21 @@ import packet.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.*;
 
 public class Commands {
     private Dispatcher dispatcher;
+    private ObjectInputStream inStream;
 
-    Commands(Dispatcher d){
+    Commands(Dispatcher d, ObjectInputStream ois){
         dispatcher = d;
+        try {
+            ois = new ObjectInputStream(d.clientSocket.getInputStream());
+        } catch (IOException e) {
+            System.err.println("IO problem when creating ObjectInputStream");
+        }
     }
 
     @Command(name = "login", abbrev = "lg")
@@ -22,6 +31,21 @@ public class Commands {
         lg.q_password = password;
 
         dispatcher.doLogin(lg);
+
+        try {
+            lg = (Login) inStream.readObject();
+        } catch (IOException e) {
+            System.err.println("Exception when trying to obtain reply from server");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Exception when trying to obtain reply from server - ClassNotFound");
+        }
+
+        if(lg.r_errors != null) {
+            System.err.println("\nUps");
+            for (String s : lg.r_errors)
+                System.err.println(s);
+            return;
+        }
     }
 
     @Command(name="createTaskType", abbrev = "ctt")
@@ -54,6 +78,21 @@ public class Commands {
         ctt.q_itens = itens;
 
         dispatcher.doCreateTaskType(ctt);
+
+        try {
+            ctt = (CreateTaskType) inStream.readObject();
+        } catch (IOException e) {
+            System.err.println("Exception when trying to obtain reply from server");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Exception when trying to obtain reply from server - ClassNotFound");
+        }
+
+        if(ctt.r_errors != null) {
+            System.err.println("\nUps");
+            for (String s : ctt.r_errors)
+                System.err.println(s);
+            return;
+        }
     }
 
     @Command(name = "startTask", abbrev = "st")
@@ -62,6 +101,21 @@ public class Commands {
 
         st.q_name = name;
         dispatcher.doStartTask(st);
+
+        try {
+             st = (StartTask) inStream.readObject();
+        } catch (IOException e) {
+            System.err.println("Exception when trying to obtain reply from server");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Exception when trying to obtain reply from server - ClassNotFound");
+        }
+
+        if(st.r_errors != null) {
+            System.err.println("\nUps");
+            for (String s : st.r_errors)
+                System.err.println(s);
+            return;
+        }
     }
 
 
@@ -71,6 +125,21 @@ public class Commands {
 
         ft.q_taskID = i;
         dispatcher.doFinishTask(ft);
+
+        try {
+            ft = (FinishTask) inStream.readObject();
+        } catch (IOException e) {
+            System.err.println("Exception when trying to obtain reply from server");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Exception when trying to obtain reply from server - ClassNotFound");
+        }
+
+        if(ft.r_errors != null) {
+            System.err.println("\nUps");
+            for (String s : ft.r_errors)
+                System.err.println(s);
+            return;
+        }
     }
 
     @Command(name = "listAll", abbrev = "la")
@@ -78,6 +147,28 @@ public class Commands {
         ListAll la = new ListAll();
 
         dispatcher.doListAll(la);
+
+        try {
+            la = (ListAll) inStream.readObject();
+        } catch (IOException e) {
+            System.out.println("Exception when trying to obtain reply from server");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Exception when trying to obtain reply from server - ClassNotFound");
+        }
+
+        if(la.r_errors != null) {
+            System.out.println("\nUps");
+            for (String s : la.r_errors)
+                System.out.println(s);
+            return;
+        }
+
+        for(String t : la.r_instances.keySet()) {
+            System.out.println("Tipo: " + t);
+            Collection c = la.r_instances.get(t);
+            for(Object i : c)
+                System.out.println(" >id: " + i);
+            }
     }
 
     @Command(name = "store", abbrev = "s")
@@ -87,6 +178,21 @@ public class Commands {
         s.q_name = name;
         s.q_quantity = amount;
         dispatcher.doStore(s);
+
+        try {
+            s = (Store) inStream.readObject();
+        } catch (IOException e) {
+            System.err.println("Exception when trying to obtain reply from server");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Exception when trying to obtain reply from server - ClassNotFound");
+        }
+
+        if(s.r_errors != null) {
+            System.err.println("\nUps");
+            for (String str : s.r_errors)
+                System.err.println(str);
+            return;
+        }
     }
 
     @Command(name = "subscribe", abbrev = "sub")
@@ -99,6 +205,21 @@ public class Commands {
 
         sb.q_ids = new HashSet<>(ids);
         dispatcher.doSubscribe(sb);
+
+        try {
+            sb = (Subscribe) inStream.readObject();
+        } catch (IOException e) {
+            System.err.println("Exception when trying to obtain reply from server");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Exception when trying to obtain reply from server - ClassNotFound");
+        }
+
+        if(sb.r_errors != null) {
+            System.err.println("\nUps");
+            for (String s : sb.r_errors)
+                System.err.println(s);
+            return;
+        }
     }
 
     public int goodInput(String str){
