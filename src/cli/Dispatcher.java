@@ -87,9 +87,12 @@ public abstract class Dispatcher {
 
     public Boolean doSubscribe(Subscribe obj) {
         Receiver<Subscribe> r = new Receiver<>(fetcher);
+        Thread t = new Thread(new Subscriber(r));
+        t.start();
         try {
             send(obj);
         } catch (IOException e) {
+            t.interrupt();
             return false;
         }
         return true;
