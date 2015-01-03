@@ -4,7 +4,6 @@ import asg.cliche.ShellFactory;
 import server.Server;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 
 public class Main {
     private static Boolean isServer = false;
@@ -50,10 +49,9 @@ public class Main {
 
         try {
             Dispatcher dispatcher = isServer ? new Dispatcher(Server.startNewServer(port)) : new Dispatcher(port);
-            ObjectInputStream objInStream = new ObjectInputStream(dispatcher.clientSocket.getInputStream());;
 
             try {
-                ShellFactory.createConsoleShell("", "", new Commands(dispatcher, objInStream))
+                ShellFactory.createConsoleShell("", "", new Commands(dispatcher))
                         .commandLoop();
             } catch (IOException e) {
                 // ignore io exceptions
