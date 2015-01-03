@@ -7,13 +7,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Fetcher implements Runnable{
-    Socket clientSocket;
+public abstract class Fetcher implements Runnable{
     private static Map<Integer, Receiver> receivers;
     private static ReentrantLock receiversLock;
+    private ObjectInputStream in;
 
     public void addReceiver(Integer id, Receiver receiver){
         receiversLock.lock();
@@ -21,19 +22,20 @@ public class Fetcher implements Runnable{
         receiversLock.unlock();
     }
 
-    Fetcher(Socket clientSocket){
-        this.clientSocket = clientSocket;
+    Fetcher(ObjectInputStream in){
+        this.in = in;
+        receiversLock = new ReentrantLock();
+        receivers = new HashMap<>();
     }
+
+    abstract Boolean streamIsOK();
 
     @Override
     public void run() {
-        ObjectInputStream in;
         try {
-            in = new ObjectInputStream(clientSocket.getInputStream());
-
             Integer id;
 
-            while(!clientSocket.isClosed()){
+            while(streamIsOK()){
                 try {
                     Object obj = in.readObject();
 
@@ -77,6 +79,8 @@ public class Fetcher implements Runnable{
                     }
                 } catch (ClassNotFoundException | UnknownPacketException e) {
                     e.printStackTrace();
+                } catch (IOException e) {
+                    throw e; //send it to the outer try block
                 } catch (Exception e){
                     e.printStackTrace();
                 }

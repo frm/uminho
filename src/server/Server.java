@@ -1,5 +1,6 @@
 package server;
 
+import cli.Pipe;
 import packet.*;
 import warehouse.*;
 
@@ -14,10 +15,9 @@ public class Server {
     private ServerSocket serverSocket;
     private static Map<String, User> users;
     private static ReentrantLock userLock;
+    private final Pipe pipe;
 
-    private Thread loopThread;
-
-    public Server(int startingPort) {
+    public Server(int startingPort, Pipe p) {
         while (true) {
             try {
                 this.serverSocket = new ServerSocket(startingPort);
@@ -29,12 +29,13 @@ public class Server {
             }
         }
 
+        pipe = p;
         users = new HashMap<String, User>();
         userLock = new ReentrantLock();
 
 
         final Server self = this;
-        loopThread = new Thread(
+        new Thread(
             new Runnable() {
                 public void run() {
                     while(!serverSocket.isClosed()) {
@@ -46,11 +47,7 @@ public class Server {
                     }
                 }
             }
-        );
-    }
-
-    public void start(){
-        loopThread.start();
+        ).start();
     }
 
     public void stop(){
@@ -59,8 +56,6 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        loopThread.interrupt();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -319,8 +314,8 @@ public class Server {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static Server startNewServer(Integer port) {
-        final Server server = new Server(port);
+    public static Server startNewServer(Integer port, Pipe pipe) {
+        final Server server = new Server(port, pipe);
         server.start();
         return server;
     }

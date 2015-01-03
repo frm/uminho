@@ -7,81 +7,52 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-public class Dispatcher {
-    Boolean isServer;
+public abstract class Dispatcher {
     Integer port;
-    Server server;
-    Socket clientSocket;
-    Fetcher fetcher;
 
-    // start in client mode and connect to server through socket
-    Dispatcher(Integer port) throws IOException {
-        isServer = false;
+    Dispatcher(Integer port) {
         this.port = port;
-        this.server = null;
-        clientSocket = new Socket("127.0.0.1", port);
-        fetcher = new Fetcher(clientSocket);
-        new Thread(fetcher).start();
     }
 
-    // start in server mode and start a new server
-    Dispatcher(Server server){
-        isServer = true;
-        this.port = null;
-        this.server = server;
+    public abstract void terminate();
+
+    abstract void send(Object obj);
+
+    /*
+    ~~doStartTask example:
+    if(isServer){
+        //return server.doStartTask(obj);
+    }else{
+        Receiver<StartTask> r = new Receiver<>(fetcher);
+        return r.get();
+    }
+    */
+
+    public CreateTaskType doCreateTaskType(CreateTaskType obj){
+        return null;
     }
 
-    public void terminate(){
-        if(isServer){
-            server.stop();
-        }else{
-            try {
-                clientSocket.shutdownOutput(); // Sends the 'FIN' on the network
-            } catch (Exception e) {} // for when the stream is somehow damaged
-
-            try {
-                InputStream is = clientSocket.getInputStream(); // obtain stream
-                while (is.read() >= 0) ; // "read()" returns '-1' when the 'FIN' is reached
-            } catch (Exception e) {} // for when the stream is somehow damaged
-
-            try {
-                clientSocket.close(); // Now we can close the Socket
-            } catch (Exception e) {} // for when something is somehow damaged
-
-            clientSocket = null; //now it's closed!
-        }
+    public StartTask doStartTask(StartTask obj){
+        return null;
     }
 
-    public CreateTaskType doCreateTaskType(CreateTaskType obj) {
-
+    public FinishTask doFinishTask(FinishTask obj){
+        return null;
     }
 
-    public StartTask doStartTask(StartTask obj) {
-        if(isServer){
-            //return server.doStartTask(obj);
-        }else{
-            Receiver<StartTask> r = new Receiver<>(fetcher);
-            return r.get();
-        }
+    public ListAll doListAll(ListAll obj){
+        return null;
     }
 
-    public FinishTask doFinishTask(FinishTask obj) {
-
+    public Login doLogin(Login obj){
+        return null;
     }
 
-    public ListAll doListAll(ListAll obj) {
-
+    public Store doStore(Store obj){
+        return null;
     }
 
-    public Login doLogin(Login obj) {
-
-    }
-
-    public Store doStore(Store obj) {
-
-    }
-
-    public void doSubscribe(Subscribe obj){
+    public void doSubscribe(Subscribe obj) {
 
     }
 }

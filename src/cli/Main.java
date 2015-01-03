@@ -48,7 +48,7 @@ public class Main {
         }
 
         try {
-            Dispatcher dispatcher = isServer ? new Dispatcher(Server.startNewServer(port)) : new Dispatcher(port);
+            Dispatcher dispatcher = isServer ? new LocalDispatcher(port) : new RemoteDispatcher(port);
 
             try {
                 ShellFactory.createConsoleShell("", "", new Commands(dispatcher))
