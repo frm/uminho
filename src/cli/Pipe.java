@@ -25,8 +25,12 @@ public class Pipe {
         out_local.connect(in_remote);
         in_local.connect(out_remote);
 
-        in = new ObjectInputStream(in_local);
+        new ObjectOutputStream(out_remote).flush();
+
         out = new ObjectOutputStream(out_local);
+        out.flush();
+
+        in = new ObjectInputStream(in_local);
     }
 
     private Pipe(Pipe p) throws IOException {
