@@ -25,7 +25,6 @@ public class SubscriptionManager {
 
     public synchronized void finish() {
         finished++;
-
         allDone.signalAll();
     }
 
