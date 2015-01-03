@@ -164,16 +164,25 @@ public class Server {
             send(obj);
         }
 
-        private void doSubscribe(Subscribe obj) throws InexistentTaskTypeException, InexistentTaskException, InterruptedException {
+        private void doSubscribe(Subscribe obj) {
             ArrayList<Integer> ids = new ArrayList<>(obj.q_ids);
             ArrayList<Task> tasks = new ArrayList<>();
-
-            for(int id: ids){
-                tasks.add(warehouse.getTask(id));
+            try {
+                for(int id: ids) {
+                    tasks.add(warehouse.getTask(id));
+                }
+                (new Subscription()).subscribeTo(tasks);
+            } catch (InexistentTaskTypeException e) {
+                obj.r_errors.add( e.getUserMessage() );
+            } catch (InexistentTaskException e) {
+                obj.r_errors.add(e.getUserMessage() );
+            } catch (InterruptedException e) {
+                obj.r_errors.add("Interrupted");
             }
 
-            (new Subscription()).subscribeTo(tasks);
+            send(obj);
         }
+
 
         @Override
         public void run() {
