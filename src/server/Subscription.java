@@ -1,7 +1,6 @@
 package server;
 
 import warehouse.Task;
-import warehouse.Warehouse;
 
 import java.util.ArrayList;
 import java.util.concurrent.locks.Condition;
@@ -21,7 +20,7 @@ public class Subscription {
             ( new Thread( new SubscriptionWorker(t, helper) ) ).start();
         }
 
-        helper.waitForDone(nrTasks);
+        helper.waitForAll(nrTasks);
 
     }
 
@@ -68,14 +67,14 @@ public class Subscription {
         }
 
 
-        public void waitForDone(int nrTasks) throws InterruptedException {
-        lk.lock();
-        try {
-            while (finished < nrTasks) {
-                allDone.await();
-            }
-        } finally {
-            lk.unlock();
+        public void waitForAll(int nrTasks) throws InterruptedException {
+            lk.lock();
+            try {
+                while (finished < nrTasks) {
+                    allDone.await();
+                }
+            } finally {
+                lk.unlock();
             }
         }
 
