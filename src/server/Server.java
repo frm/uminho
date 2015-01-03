@@ -167,20 +167,22 @@ public class Server {
         private void doSubscribe(Subscribe obj) {
             ArrayList<Integer> ids = new ArrayList<>(obj.q_ids);
             ArrayList<Task> tasks = new ArrayList<>();
+
             try {
+
                 for(int id: ids) {
                     tasks.add(warehouse.getTask(id));
                 }
-                (new Subscription()).subscribeTo(tasks);
+
             } catch (InexistentTaskTypeException e) {
                 obj.r_errors.add( e.getUserMessage() );
             } catch (InexistentTaskException e) {
                 obj.r_errors.add(e.getUserMessage() );
-            } catch (InterruptedException e) {
-                obj.r_errors.add("Interrupted");
             }
 
-            send(obj);
+            (new Thread(
+                    new Subscription(out, obj, tasks) )
+                        ).start();
         }
 
 

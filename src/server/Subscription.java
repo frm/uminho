@@ -1,7 +1,10 @@
 package server;
 
+import packet.Subscribe;
 import warehouse.Task;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -9,18 +12,37 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Created by joaorodrigues on 2 Jan 15.
  */
-public class Subscription {
+public class Subscription implements Runnable{
+    private ObjectOutputStream stream;
+    private Subscribe obj;
+    private ArrayList<Task> list;
 
+    public Subscription(ObjectOutputStream s, Subscribe o, ArrayList<Task> l ){
+        stream = s;
+        obj = o;
+        list = l;
+    }
 
-    public void subscribeTo(ArrayList<Task> list) throws InterruptedException {
+    public void run(){
         int nrTasks = list.size();
         SubscriptionHelper helper = new SubscriptionHelper();
 
-        for (Task t : list) {
+        for (Task t : list)
             ( new Thread( new SubscriptionWorker(t, helper) ) ).start();
+
+        try {
+
+            helper.waitForAll(nrTasks);
+            stream.writeObject(obj);
+            stream.flush();
+
+        } catch (InterruptedException e) {
+            obj.r_errors.add("Interrupted");
+        } catch( IOException e){
+            e.printStackTrace();
         }
 
-        helper.waitForAll(nrTasks);
+
 
     }
 
@@ -41,7 +63,7 @@ public class Subscription {
                 task.subscribe();
                 helper.finish();
             } catch (InterruptedException e) {
-                System.err.println("Interrupted");
+                e.printStackTrace();
             }
         }
     }
