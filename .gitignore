@@ -92,3 +92,6 @@ Session.vim
 **/.idea/workspace.xml
 **/.idea/tasks.xml
 out/
+
+### Include Libraries ###
+!lib/*

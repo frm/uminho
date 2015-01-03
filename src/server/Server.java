@@ -15,6 +15,8 @@ public class Server {
     private static Map<String, User> users;
     private static ReentrantLock userLock;
 
+    private Thread loopThread;
+
     public Server(int startingPort) {
         while (true) {
             try {
@@ -29,33 +31,53 @@ public class Server {
 
         users = new HashMap<String, User>();
         userLock = new ReentrantLock();
+
+
+        final Server self = this;
+        loopThread = new Thread(
+            new Runnable() {
+                public void run() {
+                    while(!serverSocket.isClosed()) {
+                        try {
+                            new Thread(self.newRemoteWorker()).start();
+                        } catch (IOException e) {
+                            //e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        );
     }
 
-    public Worker newWorker() throws IOException {
-        return new Worker(serverSocket.accept(), warehouse);
+    public void start(){
+        loopThread.start();
     }
 
-    private class Worker implements Runnable {
-        private Socket socket;
-        private Warehouse warehouse;
-
-        ObjectOutputStream out;
-        ObjectInputStream in;
-
-        Worker(Socket s, Warehouse w) throws IOException {
-            socket = s;
-            warehouse = w;
-
-            out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
+    public void stop(){
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        private void send(Object obj) throws IOException {
+        loopThread.interrupt();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private abstract class Worker implements Runnable {
+        protected ObjectOutputStream out;
+        protected ObjectInputStream in;
+
+
+
+        void send(Object obj) throws IOException {
             out.writeObject(obj);
             out.flush();
         }
 
-        private Serializable receive() throws IOException, ClassNotFoundException {
+        Serializable receive() throws IOException, ClassNotFoundException {
             try {
                 return (Serializable) in.readObject();
             }catch (IOException | ClassNotFoundException e){
@@ -65,8 +87,48 @@ public class Server {
                 throw new IOException();
             }
         }
+    }
 
-        // TODO: have a similar method for closing the connection on the client
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private class LocalWorker extends Worker implements Runnable {
+
+        @Override
+        void send(Object obj) throws IOException {
+
+        }
+
+        @Override
+        Serializable receive() throws IOException, ClassNotFoundException {
+            return null;
+        }
+
+        @Override
+        public void run() {
+
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private RemoteWorker newRemoteWorker() throws IOException {
+        return new RemoteWorker(serverSocket.accept(), warehouse);
+    }
+
+    private class RemoteWorker extends Worker implements Runnable {
+        private Socket socket;
+        private Warehouse warehouse;
+
+        RemoteWorker(Socket s, Warehouse w) throws IOException {
+            socket = s;
+            warehouse = w;
+
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
+        }
+
         private void closeConnection(){
             try {
                 socket.shutdownOutput(); // Sends the 'FIN' on the network
@@ -84,7 +146,7 @@ public class Server {
             socket = null; //now it's closed!
         }
 
-        private void doCreateTaskType(CreateTaskType obj) throws IOException {
+        protected void doCreateTaskType(CreateTaskType obj) throws IOException {
             try {
                 warehouse.newTaskType(obj.q_name, obj.q_itens);
             } catch (ExistentTaskException e) {
@@ -94,7 +156,7 @@ public class Server {
             send(obj);
         }
 
-        private void doStartTask(StartTask obj) throws IOException {
+        protected void doStartTask(StartTask obj) throws IOException {
             try {
                 warehouse.startTask(obj.q_name);
             } catch (WarehouseException e) {
@@ -104,7 +166,7 @@ public class Server {
             send(obj);
         }
 
-        private void doFinishTask(FinishTask obj) throws IOException {
+        protected void doFinishTask(FinishTask obj) throws IOException {
             try {
                 warehouse.endTask(obj.q_taskID);
             } catch (WarehouseException e) {
@@ -114,13 +176,13 @@ public class Server {
             send(obj);
         }
 
-        private void doListAll(ListAll obj) throws IOException {
+        protected void doListAll(ListAll obj) throws IOException {
             obj.r_instances = warehouse.getRunningTasks();
 
             send(obj);
         }
 
-        private boolean doLogin(Login obj) {
+        protected boolean doLogin(Login obj) {
             boolean logged = false;
             String error = null;
             Server.userLock.lock();
@@ -154,7 +216,7 @@ public class Server {
             return logged;
         }
 
-        private void doStore(Store obj) throws IOException {
+        protected void doStore(Store obj) throws IOException {
             try {
                 warehouse.stockUp(obj.q_name, obj.q_quantity);
             } catch (InvalidItemQuantityException e) {
@@ -240,10 +302,13 @@ public class Server {
         }
     }
 
-    public static void main(String[] args) throws IOException{
-        Server server = new Server(4000);
 
-        while(true)
-            new Thread(server.newWorker()).start();
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static Server startNewServer(Integer port) {
+        final Server server = new Server(port);
+        server.start();
+        return server;
     }
 }

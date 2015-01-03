@@ -10,4 +10,7 @@ public class Subscribe implements Serializable {
 
     //reply
     public Collection<String> r_errors = new ArrayList<>();
+
+    // special
+    public Integer id;
 }

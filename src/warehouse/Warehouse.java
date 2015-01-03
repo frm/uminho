@@ -61,7 +61,7 @@ public class Warehouse {
     public int startTask(String typeName) throws InexistentTaskTypeException, InexistentItemException {
         TaskType type;
 
-        requestMaterial(type.getNeeds());
+        //requestMaterial(type.getNeeds());
         taskTypesLock.lock();
         int taskId;
         try {
