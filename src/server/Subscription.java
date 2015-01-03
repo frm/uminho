@@ -11,42 +11,18 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by joaorodrigues on 2 Jan 15.
  */
 public class Subscription {
-    private Warehouse warehouse;
-    private TaskCounter counter;
-    private final ReentrantLock lk = new ReentrantLock();
-    private final Condition allDone = lk.newCondition();
 
 
-    //////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////
+    public void subscribeTo(ArrayList<Task> list) throws InterruptedException {
+        int nrTasks = list.size();
+        SubscriptionHelper helper = new SubscriptionHelper();
 
-    public class TaskCounter {
-        private int finished;
-        private final ReentrantLock counterLock = new ReentrantLock();
-
-        public TaskCounter() {
-            finished = 0;
+        for (Task t : list) {
+            ( new Thread( new SubscriptionWorker(t, helper) ) ).start();
         }
 
-        public void increment() {
-            counterLock.lock();
-            finished++;
-            counterLock.unlock();
-        }
+        helper.waitForDone(nrTasks);
 
-        public void decrement() {
-            counterLock.lock();
-            finished--;
-            counterLock.unlock();
-        }
-
-        public int getValue() {
-            int result;
-            counterLock.lock();
-            result = finished;
-            counterLock.unlock();
-            return result;
-        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////
@@ -54,20 +30,17 @@ public class Subscription {
 
     public class SubscriptionWorker implements Runnable {
         private Task task;
-        private TaskCounter counter;
-        private Condition allDone;
+        private SubscriptionHelper helper;
 
-        public SubscriptionWorker(Task t, TaskCounter c, Condition cond) {
+        public SubscriptionWorker(Task t, SubscriptionHelper h) {
             task = t;
-            this.counter = c;
-            this.allDone = cond;
+            helper = h;
         }
 
         public void run() {
             try {
                 task.subscribe();
-                this.counter.increment();
-                allDone.signalAll();
+                helper.finish();
             } catch (InterruptedException e) {
                 System.err.println("Interrupted");
             }
@@ -77,23 +50,35 @@ public class Subscription {
     //////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////
 
-    public Subscription() {
-        counter = new TaskCounter();
-    }
+    public class SubscriptionHelper {
+        private int finished;
+        private final ReentrantLock counterLock = new ReentrantLock();
+        private final ReentrantLock lk = new ReentrantLock();
+        private final Condition allDone = lk.newCondition();
 
-    public void subscribeTo(ArrayList<Task> list) throws InterruptedException {
-        int nrTasks = list.size();
-        for (Task t : list) {
-            (new Thread(new SubscriptionWorker(t, counter, allDone))).start();
+        public SubscriptionHelper() {
+            finished = 0;
         }
 
+        public void finish() {
+            counterLock.lock();
+            finished++;
+            counterLock.unlock();
+            allDone.signalAll();
+        }
+
+
+        public void waitForDone(int nrTasks) throws InterruptedException {
         lk.lock();
         try {
-            while (counter.getValue() < nrTasks) {
+            while (finished < nrTasks) {
                 allDone.await();
             }
         } finally {
             lk.unlock();
+            }
         }
+
     }
+
 }
