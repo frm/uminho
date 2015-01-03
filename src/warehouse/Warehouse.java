@@ -29,12 +29,15 @@ public class Warehouse {
     public void stockUp(String itemName, int quantity) throws InvalidItemQuantityException {
         stockLock.lock();
         Item i = stock.get(itemName);
-        stockLock.unlock();
+
 
         if(i == null)
             i = new Item(itemName);
 
         i.lock();
+
+        stockLock.unlock();
+
         i.add(quantity);
 
         stockLock.lock();
@@ -55,7 +58,6 @@ public class Warehouse {
         taskTypesLock.lock();
         try {
             if (taskTypes.containsKey(name)) {
-                taskTypesLock.unlock();
                 throw new ExistentTaskException();
             }
 
@@ -98,13 +100,18 @@ public class Warehouse {
 
         TaskType type = taskTypes.get(typeName);
 
-        type.endTask(id);
-
+        type.lock();
         taskTypesLock.unlock();
+
+        type.endTask(id);
+        Map<String, Integer> needs = type.getNeeds();
+
+        type.unlock();
 
         try {
             returnMaterial(type.getNeeds());
         } catch (InvalidItemQuantityException e) {} // Since we are returning a value that is already valid, the exception never occurs
+
     }
 
     //Get list of tasks currently being done
@@ -114,8 +121,11 @@ public class Warehouse {
 
         taskTypesLock.lock();
 
-        for( TaskType type : taskTypes.values())
+        for( TaskType type : taskTypes.values()) {
+            type.lock();
             result.put(type.getName(), type.getRunningIDs());
+            type.unlock();
+        }
 
         taskTypesLock.unlock();
 
@@ -180,21 +190,26 @@ public class Warehouse {
         this.turn.signalAll();
         stockLock.unlock();
     }
+
     
     private void returnMaterial(Map<String, Integer> material) throws InexistentItemException {
+
         stockLock.lock();
 
-        try {
             for (Map.Entry<String, Integer> pair : material.entrySet()) {
                 Item i = stock.get(pair.getKey());
 
-                if (i == null)
-                    throw new InexistentItemException("User returned " + pair.getKey());
+                i.lock();
+                stockLock.unlock();
 
                 i.add(pair.getValue());
+
+                i.unlock();
+                stockLock.lock();
+
+
             }
-        }finally {
-            stockLock.unlock();
-        }
+
+        stockLock.unlock();
     }
 }
