@@ -54,7 +54,7 @@ public class Dispatcher {
         }
     }
 
-    public void doCreateTaskType(CreateTaskType obj) {
+    public CreateTaskType doCreateTaskType(CreateTaskType obj) {
 
     }
 
@@ -67,19 +67,19 @@ public class Dispatcher {
         }
     }
 
-    public void doFinishTask(FinishTask obj) {
+    public FinishTask doFinishTask(FinishTask obj) {
 
     }
 
-    public void doListAll(ListAll obj) {
+    public ListAll doListAll(ListAll obj) {
 
     }
 
-    public void doLogin(Login obj) {
+    public Login doLogin(Login obj) {
 
     }
 
-    public void doStore(Store obj) {
+    public Store doStore(Store obj) {
 
     }
 
