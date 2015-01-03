@@ -19,41 +19,79 @@ public abstract class Dispatcher {
 
     abstract void send(Object obj) throws IOException;
 
-    /*
-    ~~doStartTask example:
-    if(isServer){
-        //return server.doStartTask(obj);
-    }else{
-        Receiver<StartTask> r = new Receiver<>(fetcher);
-        return r.get();
-    }
-    */
-
     public CreateTaskType doCreateTaskType(CreateTaskType obj){
-        return null;
+        Receiver<CreateTaskType> r = new Receiver<>(fetcher);
+        try {
+            send(obj);
+        } catch (IOException e) {
+            obj.r_errors.add("Could not send the create task type packet.");
+            return obj;
+        }
+        return r.get();
     }
 
     public StartTask doStartTask(StartTask obj){
-        return null;
+        Receiver<StartTask> r = new Receiver<>(fetcher);
+        try {
+            send(obj);
+        } catch (IOException e) {
+            obj.r_errors.add("Could not send the start task packet.");
+            return obj;
+        }
+        return r.get();
     }
 
     public FinishTask doFinishTask(FinishTask obj){
-        return null;
+        Receiver<FinishTask> r = new Receiver<>(fetcher);
+        try {
+            send(obj);
+        } catch (IOException e) {
+            obj.r_errors.add("Could not send the finish task packet.");
+            return obj;
+        }
+        return r.get();
     }
 
     public ListAll doListAll(ListAll obj){
-        return null;
+        Receiver<ListAll> r = new Receiver<>(fetcher);
+        try {
+            send(obj);
+        } catch (IOException e) {
+            obj.r_errors.add("Could not send the listAll packet.");
+            return obj;
+        }
+        return r.get();
     }
 
     public Login doLogin(Login obj){
-        return null;
+        Receiver<Login> r = new Receiver<>(fetcher);
+        try {
+            send(obj);
+        } catch (IOException e) {
+            obj.r_errors.add("Could not send the login packet.");
+            return obj;
+        }
+        return r.get();
     }
 
     public Store doStore(Store obj){
-        return null;
+        Receiver<Store> r = new Receiver<>(fetcher);
+        try {
+            send(obj);
+        } catch (IOException e) {
+            obj.r_errors.add("Could not send the store packet.");
+            return obj;
+        }
+        return r.get();
     }
 
-    public void doSubscribe(Subscribe obj) {
-
+    public Boolean doSubscribe(Subscribe obj) {
+        Receiver<Subscribe> r = new Receiver<>(fetcher);
+        try {
+            send(obj);
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 }

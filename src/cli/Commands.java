@@ -148,7 +148,9 @@ public class Commands {
             ids.add(i);
 
         sb.q_ids = new HashSet<>(ids);
-        sb = dispatcher.doSubscribe(sb);
+        if( !dispatcher.doSubscribe(sb) ){
+            System.err.println("Could not send the subscribe packet.");
+        }
     }
 
     public int goodInput(String str){
