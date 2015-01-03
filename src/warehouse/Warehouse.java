@@ -1,6 +1,7 @@
 package warehouse;
 
 import java.util.*;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Warehouse {
@@ -8,12 +9,20 @@ public class Warehouse {
     private Map<String, Item> stock;
     private ReentrantLock stockLock;
     private ReentrantLock taskTypesLock;
+    Condition turn;
+    PriorityQueue<Long> removeQueue;
+    long nextTicket;
+
+    private static final int REM_QUEUE_LIMIT = 4;
 
     public Warehouse() {
         taskTypes = new HashMap<>();
         stock = new HashMap<>();
         stockLock = new ReentrantLock();
         taskTypesLock = new ReentrantLock();
+        this.turn = stockLock.newCondition();
+        this.removeQueue = new PriorityQueue<Long>();
+        this.nextTicket = 1;
     }
 
     // TODO: can that lock mixup cause a deadlock?
@@ -93,7 +102,9 @@ public class Warehouse {
 
         taskTypesLock.unlock();
 
-        returnMaterial(type.getNeeds());
+        try {
+            returnMaterial(type.getNeeds());
+        } catch (InvalidItemQuantityException e) {} // Since we are returning a value that is already valid, the exception never occurs
     }
 
     //Get list of tasks currently being done
@@ -127,24 +138,49 @@ public class Warehouse {
         return result;
     }
 
-
-
-    // TODO: remove should check if the value is bigger than the quantity and throw a new exception
-    // TODO: Guiao 5, ex 2: nao esperar nos locks. eu tenho isto feito, e so juntar. Mendes
-    private void requestMaterial(Map<String, Integer> material) throws InexistentItemException {
+    private void requestMaterial(Map<String, Integer> material) throws InexistentItemException, InterruptedException {
         stockLock.lock();
-        for (Map.Entry<String, Integer> pair : material.entrySet()) {
-            Item i = stock.get(pair.getKey());
-            if(i == null)
-                throw new InexistentItemException("User requested " + pair.getKey());
 
-            i.lock();
-            i.remove(pair.getValue());
-            i.unlock();
+        long myTurn = nextTicket++;
+        Iterator<Map.Entry<String, Integer>> it = material.entrySet().iterator();
+
+        while( it.hasNext() ) {
+            Map.Entry<String, Integer> pair = it.next();
+            Item i = stock.get(pair.getKey());
+            boolean waited = false;
+
+            while( !i.isAvailable( pair.getValue() ) ) {
+                stockLock.unlock();
+                i.waitForMore();
+                stockLock.lock();
+                waited = true;
+                it = material.entrySet().iterator();        // rewinding the iterator
+            }
+
+            if(waited)
+                continue;
+
+            Long next = removeQueue.peek();
+
+            while(next != null && myTurn > next.longValue() + REM_QUEUE_LIMIT) { // peek returns null if the queue is empty
+                removeQueue.add(myTurn);
+                this.turn.await();
+                removeQueue.remove(myTurn);
+                next = removeQueue.peek();
+                it = material.entrySet().iterator();        // rewinding the iterator
+            }
         }
+
+        for(Map.Entry<String, Integer> pair : material.entrySet()) {
+            try {
+                stock.get( pair.getKey() ).remove( pair.getValue() );
+            } catch (InvalidItemQuantityException e) {} // never occurs because the task validates its needs upon creation. we always remove valid values
+        }
+
+        this.turn.signalAll();
         stockLock.unlock();
     }
-
+    
     private void returnMaterial(Map<String, Integer> material) throws InexistentItemException {
         stockLock.lock();
 

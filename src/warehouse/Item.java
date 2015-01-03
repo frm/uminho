@@ -10,7 +10,7 @@ public class Item {
     String name;
     int quantity;
     ReentrantLock lock;
-    Condition notEmpty; //wake up when not empty
+    Condition available; //wake up when not empty
 
     public Item(String name) {
         this.name = name;
@@ -29,12 +29,12 @@ public class Item {
 
     // wakes up all threads waiting for this item
     public void signalAll(){
-        this.notEmpty.signalAll();
+        this.available.signalAll();
     }
 
     // go to sleep until we have this item
-    public void await() throws InterruptedException {
-        this.notEmpty.await();
+    public void waitForMore() throws InterruptedException {
+        this.available.await();
     }
 
     public void lock() {
@@ -45,17 +45,31 @@ public class Item {
         this.lock.unlock();
     }
 
-    public void add(int quantity) {
+    public void add(int quantity) throws InvalidItemQuantityException {
         this.lock();
-        this.quantity += quantity;
-        this.unlock();
-        this.signalAll();
+
+        try {
+            if(quantity <= 0)
+                throw new InvalidItemQuantityException("Quantity received: " + quantity + ". Must be > 0.");
+
+            this.quantity += quantity;
+            this.signalAll();
+        } finally {
+            this.unlock();
+        }
+
     }
 
-    public void remove(int quantity) {
+    public void remove(int quantity) throws InvalidItemQuantityException {
         this.lock();
-        this.quantity -= quantity;
-        this.unlock();
+        try {
+            if(this.quantity < quantity)
+                throw new InvalidItemQuantityException("Quantity received: " + quantity + ". Must be > " + this.quantity);
+
+            this.quantity -= quantity;
+        } finally {
+            this.unlock();
+        }
     }
 
     public int getQuantity() {
@@ -63,5 +77,16 @@ public class Item {
         int qnt = this.quantity;
         this.unlock();
         return qnt;
+    }
+
+    public boolean isAvailable(int quantity) {
+        this.lock();
+        boolean b = quantity >= this.quantity;
+        this.unlock();
+        return b;
+    }
+
+    public boolean isAvailable() {
+        return this.isAvailable(0);
     }
 }
