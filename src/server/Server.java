@@ -115,8 +115,9 @@ public class Server {
 
         protected void doStartTask(StartTask obj) throws IOException {
             try {
-                warehouse.startTask(obj.q_name, currentUser.getId());
+                int id = warehouse.startTask(obj.q_name, currentUser.getId());
                 obj.r_success.add("Started new task!");
+                obj.r_taskId = (id);
             } catch (WarehouseException e) {
                 obj.r_errors.add(e.getUserMessage());
             } catch (InterruptedException e) {

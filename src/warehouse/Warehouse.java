@@ -29,20 +29,21 @@ public class Warehouse {
         stockLock.lock();
         Item i = stock.get(itemName);
 
-
         if(i == null)
             i = new Item(itemName);
 
         i.lock();
-
         stockLock.unlock();
 
-        i.add(quantity);
+        try {
+            i.add(quantity);
+        } finally {
+            i.unlock();
+        }
 
         stockLock.lock();
         stock.put(itemName, i);
 
-        i.unlock();
         stockLock.unlock();
     }
 
@@ -105,7 +106,7 @@ public class Warehouse {
         return taskId;
     }
 
-    public void endTask(int id, int userId) throws InexistentTaskTypeException, InexistentItemException, UserNotAllowedException {
+    public void endTask(int id, int userId) throws InexistentTaskException, InexistentItemException, UserNotAllowedException {
         String typeName = TaskType.getTypeOfTask(id);
 
         taskTypesLock.lock();
