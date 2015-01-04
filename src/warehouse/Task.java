@@ -1,8 +1,5 @@
 package warehouse;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -18,17 +15,20 @@ public class Task {
     private int userId;
 
 
-    public Task(){
-        running = true;
-    }
-
+    /**
+     * Constructor
+     * @param userId id of the owner
+     */
     public Task(int userId) {
         this.running = true;
         this.userId = userId;
     }
 
-
-    public void end(){
+    /**
+     * Terminate a task.
+     * Signals all subscribers that it has ended.
+     */
+    public void end() {
         lock.lock();
         running = false;
         subscription.signalAll();
@@ -36,6 +36,10 @@ public class Task {
     }
 
 
+    /**
+     * Sets the current thread to await until the it is ends.
+     * @throws InterruptedException
+     */
     public void subscribe() throws InterruptedException {
         lock.lock();
         try {
@@ -48,10 +52,19 @@ public class Task {
         }
     }
 
+    /**
+     *
+     * @return owner id
+     */
     public int getUserId() {
         return this.userId;
     }
 
+    /**
+     * checks if a task belongs to a user
+     * @param userId
+     * @return
+     */
     public boolean belongsTo(int userId) {
         this.lock.lock();
         boolean b = this.userId == userId;
@@ -60,6 +73,10 @@ public class Task {
     }
 
 
+    /**
+     *
+     * @return task id
+     */
     public int getId() {
         return id;
     }
