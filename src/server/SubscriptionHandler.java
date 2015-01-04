@@ -6,27 +6,23 @@ import warehouse.InexistentTaskTypeException;
 import warehouse.Warehouse;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Created by joaorodrigues on 3 Jan 15.
- */
 public class SubscriptionHandler implements Runnable{
-    private ObjectOutputStream stream;
+    private Sender sender;
     private Subscribe obj;
     private Warehouse warehouse;
     private Collection<Integer> ids;
 
 
-    public SubscriptionHandler(ObjectOutputStream s, Subscribe o, Warehouse w){
-        stream = s;
+    public SubscriptionHandler(Sender s, Subscribe o, Warehouse w){
+        sender = s;
         obj = o;
         warehouse = w;
         ids = o.q_ids;
     }
 
+    @Override
     public void run(){
         try {
             warehouse.subscribeTo(ids);
@@ -39,8 +35,7 @@ public class SubscriptionHandler implements Runnable{
         }
 
         try{
-            stream.writeObject(obj);
-            stream.flush();
+            sender.send(obj);
         } catch (IOException e) {
             e.printStackTrace();
         }

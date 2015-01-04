@@ -75,15 +75,17 @@ public class Server {
 
         protected User currentUser;
 
+        protected final Sender sender;
+
         Worker(Warehouse w, ObjectOutputStream o, ObjectInputStream i){
             warehouse = w;
             out = o;
             in = i;
+            sender = new Sender(out);
         }
 
         protected void send(Packet p) throws IOException {
-            out.writeObject(p);
-            out.flush();
+            sender.send(p);
         }
 
         protected Packet receive() throws IOException, ClassNotFoundException {
@@ -200,7 +202,7 @@ public class Server {
 
         protected void doSubscribe(Subscribe obj) {
             (new Thread(
-                    new SubscriptionHandler(out, obj, warehouse) )
+                    new SubscriptionHandler(sender, obj, warehouse) )
             ).start();
         }
 
@@ -237,7 +239,7 @@ public class Server {
                     Packet obj = receive();
 
                     if (obj instanceof Login)
-                        doLogin((Login)obj);
+                        doLogin((Login) obj);
                     else if (obj instanceof CreateTaskType)
                         doCreateTaskType((CreateTaskType) obj);
                     else if (obj instanceof StartTask)
