@@ -16,15 +16,17 @@ public class Item {
         this.name = name;
         this.quantity = 0;
         this.lock = new ReentrantLock();
+        this.available = lock.newCondition();
     }
 
     public Item(String name, int quantity) throws InvalidItemQuantityException {
-        if (quantity <= 0)
+        if (quantity < 0)
             throw new InvalidItemQuantityException("Quantity received: " + quantity + ". Must be > 0.");
 
         this.name = name;
         this.quantity = quantity;
         this.lock = new ReentrantLock();
+        available = lock.newCondition();
     }
 
     // wakes up all threads waiting for this item
@@ -34,7 +36,9 @@ public class Item {
 
     // go to sleep until we have this item
     public void waitForMore() throws InterruptedException {
+        this.lock();
         this.available.await();
+        this.unlock();
     }
 
     public void lock() {
@@ -49,7 +53,7 @@ public class Item {
         this.lock();
 
         try {
-            if(quantity <= 0)
+            if(quantity < 0)
                 throw new InvalidItemQuantityException("Quantity received: " + quantity + ". Must be > 0.");
 
             this.quantity += quantity;
@@ -64,7 +68,7 @@ public class Item {
         this.lock();
         try {
             if(this.quantity < quantity)
-                throw new InvalidItemQuantityException("Quantity received: " + quantity + ". Must be > " + this.quantity);
+                throw new InvalidItemQuantityException("Tried to remove: " + quantity + ". Has " + this.quantity);
 
             this.quantity -= quantity;
         } finally {
@@ -81,7 +85,7 @@ public class Item {
 
     public boolean isAvailable(int quantity) {
         this.lock();
-        boolean b = quantity >= this.quantity;
+        boolean b = (quantity <= this.quantity);
         this.unlock();
         return b;
     }

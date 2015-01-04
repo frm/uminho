@@ -112,6 +112,8 @@ public class Server {
                 warehouse.startTask(obj.q_name);
             } catch (WarehouseException e) {
                 obj.r_errors.add(e.getUserMessage());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             send(obj);

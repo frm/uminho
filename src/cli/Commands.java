@@ -51,6 +51,8 @@ public class Commands {
             System.err.println(sb.toString());
             return false;
         }
+
+        System.out.println("Welcome!");
         return true;
     }
 

@@ -79,10 +79,9 @@ public class Warehouse {
 
     }
 
-    public int startTask(String typeName) throws InexistentTaskTypeException, InexistentItemException {
+    public int startTask(String typeName) throws InexistentTaskTypeException, InexistentItemException, InterruptedException {
         TaskType type;
 
-        requestMaterial(type.getNeeds());
         taskTypesLock.lock();
         int taskId;
         try {
@@ -90,6 +89,11 @@ public class Warehouse {
 
             if (type == null)
                 throw new InexistentTaskTypeException("User referenced task type with name: " + typeName + " but was not found");
+
+            taskTypesLock.unlock();
+            Map<String, Integer> needs = type.getNeeds();
+            requestMaterial(needs);
+            taskTypesLock.lock();
 
             type.lock();
             taskId = type.startTask();
@@ -187,16 +191,20 @@ public class Warehouse {
             boolean waited = false;
 
             while( !i.isAvailable( pair.getValue() ) ) {
+                System.out.println(i + " 1 " + pair);
                 stockLock.unlock();
                 i.waitForMore();
+                System.out.println(i + " 2 " + pair);
                 stockLock.lock();
                 waited = true;
-                it = material.entrySet().iterator();        // rewinding the iterator
+                it = material.entrySet().iterator();// rewinding the iterator
+                System.out.println(i + " 3 " + pair);
             }
 
             if(waited)
                 continue;
 
+            System.out.println(i + " 4 " + pair);
             Long next = removeQueue.peek();
 
             while(next != null && myTurn > next.longValue() + REM_QUEUE_LIMIT) { // peek returns null if the queue is empty
@@ -206,6 +214,8 @@ public class Warehouse {
                 next = removeQueue.peek();
                 it = material.entrySet().iterator();        // rewinding the iterator
             }
+
+            System.out.println(i + " 5 " + pair);
         }
 
         for(Map.Entry<String, Integer> pair : material.entrySet()) {
@@ -219,7 +229,7 @@ public class Warehouse {
     }
 
     
-    private void returnMaterial(Map<String, Integer> material) throws InexistentItemException {
+    private void returnMaterial(Map<String, Integer> material) throws InexistentItemException, InvalidItemQuantityException {
 
         stockLock.lock();
 
