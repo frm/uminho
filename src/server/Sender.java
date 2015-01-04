@@ -57,6 +57,7 @@ public class Sender implements Runnable{
 
             try {
                 out.writeObject(objects.remove());
+                out.flush();
             } catch (IOException e) {
                 streamOK = false;
                 exceptionLock.lock();
