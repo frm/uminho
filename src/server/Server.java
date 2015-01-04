@@ -82,6 +82,7 @@ public class Server {
             out = o;
             in = i;
             sender = new Sender(out);
+            new Thread(sender).start();
         }
 
         protected void send(Packet p) throws IOException {
