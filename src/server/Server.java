@@ -245,12 +245,15 @@ public class Server {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    users.get(currentUser.getUsername()).logout();
                     closeConnection();
                 }
             }
 
-            if(isStreamOK())
+            if(isStreamOK()) {
+                users.get(currentUser.getUsername()).logout();
                 closeConnection();
+            }
         }
     }
 
