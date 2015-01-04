@@ -177,7 +177,7 @@ public class Commands {
         if(s.r_errors.size() > 0) {
             StringBuilder sb = new StringBuilder("\nError(s):\n");
             for (String str : s.r_errors)
-                sb.append(s).append("\n");
+                sb.append(str).append("\n");
             System.err.println(sb.toString());
             return;
         }
