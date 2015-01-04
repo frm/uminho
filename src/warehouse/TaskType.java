@@ -20,6 +20,11 @@ public class TaskType {
 
     //Constructors
 
+    /**
+     *
+     * @param na name of the task type
+     * @param ne Map of article name/quantity that the task needs
+     */
     public TaskType(String na, Map<String, Integer> ne) {
         name = na;
         running = new HashMap<>();
@@ -29,6 +34,11 @@ public class TaskType {
     }
 
 
+    /**
+     * Sets a task of this type, setting it to a owner
+     * @param userId owner id
+     * @return
+     */
     public int startTask(int userId){
         Task t = new Task(userId);
         int taskId = t.getId();
@@ -44,6 +54,13 @@ public class TaskType {
     }
 
 
+    /**
+     * Ends the task with the given id.
+     * The userId is for to validate permissions.
+     * @param taskId task id
+     * @param userId id of the user that issued the end request
+     * @throws UserNotAllowedException
+     */
     public void endTask(int taskId, int userId ) throws UserNotAllowedException {
         runningLock.lock();
         Task t = running.get(taskId);
@@ -61,6 +78,12 @@ public class TaskType {
         runningLock.unlock();
     }
 
+    /**
+     * Returns the type of the task with the given id
+     * @param taskId
+     * @return
+     * @throws InexistentTaskException
+     */
     public static String getTypeOfTask(int taskId) throws InexistentTaskException {
         String type;
         indexLock.lock();
@@ -76,14 +99,26 @@ public class TaskType {
         return type;
     }
 
+    /**
+     * Locks the object
+     */
     public void lock(){
         mainLock.lock();
     }
 
+    /**
+     * unlocks the object
+     */
     public void unlock(){
         mainLock.unlock();
     }
 
+    /**
+     * Returns the task with the given id
+     * @param id
+     * @return
+     * @throws InexistentTaskException
+     */
     public Task getTask(int id) throws InexistentTaskException {
         Task result;
 
@@ -98,19 +133,35 @@ public class TaskType {
 
     //Getters & Setters
 
+    /**
+     *
+     * @return name of this type
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @return Map of item name/quantity that this type needs
+     */
     public Map<String, Integer> getNeeds() {
         HashMap<String, Integer> result = new HashMap<String, Integer>(needs);
         return result;
     }
 
+    /**
+     * Updates the Map of Item name/quantity
+     * @param ne
+     */
     public void setNeeds(Map<String, Integer> ne) {
         needs = new HashMap<>(ne);
     }
 
+    /**
+     * Returns the collection of ids of the tasks that are currently active
+     * @return
+     */
     public Collection<Integer> getRunningIDs() {
         runningLock.lock();
         ArrayList<Integer> ids = new ArrayList<>( running.keySet() );
@@ -118,9 +169,4 @@ public class TaskType {
 
         return ids;
     }
-
-    public void setRunning(Map<Integer, Task> running) {
-        this.running = new HashMap<Integer, Task>(running);
-    }
-
 }

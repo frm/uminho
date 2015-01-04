@@ -8,6 +8,11 @@ import warehouse.Warehouse;
 import java.io.IOException;
 import java.util.Collection;
 
+/**
+ * Runnable class used to handle a subscription
+ * Used to handle subscriptions asynchronously
+ * Bridges Server and Warehouse
+ */
 public class SubscriptionHandler implements Runnable{
     private Sender sender;
     private Subscribe obj;

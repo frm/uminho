@@ -1,17 +1,11 @@
 package warehouse;
 
-import packet.Subscribe;
-import warehouse.Task;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by joaorodrigues on 2 Jan 15.
+ * Class responsible for managing SubscriptionWorker objects.
  */
 
 public class SubscriptionManager {
@@ -23,6 +17,9 @@ public class SubscriptionManager {
         finished = 0;
     }
 
+    /**
+     * Increase the number of finished Tasks
+     */
     public synchronized void finish() {
         finished++;
         lk.lock();
@@ -30,7 +27,10 @@ public class SubscriptionManager {
         lk.unlock();
     }
 
-
+    /**
+     * Waits for all Tasks to finish
+     * Uses a condition variable, signalled everytime a task is finished
+     */
     public void waitForAll(int nrTasks) throws InterruptedException {
         lk.lock();
         try {
