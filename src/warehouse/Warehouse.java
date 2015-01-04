@@ -1,9 +1,12 @@
 package warehouse;
 
+
 import java.util.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-
+/**
+ * Class used to manage stock, tasks and subscriptions
+ */
 public class Warehouse {
     private Map<String, TaskType> taskTypes;
     private Map<String, Item> stock;
@@ -13,21 +16,28 @@ public class Warehouse {
     PriorityQueue<Long> removeQueue;
     long nextTicket;
 
-    //Maximum of users that can overtake the current (for concurrence control)
+    /**
+     * Static variable that limits the number of times the current user can be overtaken (concurrency control)
+     */
     private static final int REM_QUEUE_LIMIT = 4;
 
-    //Constructor
+    /**
+     * Empty Constructor
+     * All data structures start empty
+     */
     public Warehouse() {
         taskTypes = new HashMap<>();
         stock = new HashMap<>();
         stockLock = new ReentrantLock();
         taskTypesLock = new ReentrantLock();
         this.turn = stockLock.newCondition();
-        this.removeQueue = new PriorityQueue<Long>();
+        this.removeQueue = new PriorityQueue<>();
         this.nextTicket = 1;
     }
 
-    //Increase the quantity of an item. If the item does not exist, create it.
+    /**
+     * Increase the quantity of an item. If the item does not exist, create it.
+     */
     public void stockUp(String itemName, int quantity) throws InvalidItemQuantityException {
         stockLock.lock();
         Item i = stock.get(itemName);
@@ -50,7 +60,9 @@ public class Warehouse {
         stockLock.unlock();
     }
 
-    //Create a new task type
+    /**
+     * Creates a new task type
+     */
     public void newTaskType(String name, Map<String, Integer> needs) throws ExistentTaskException, InvalidItemQuantityException {
         for(Map.Entry<String, Integer> pair: needs.entrySet()){
 
@@ -83,6 +95,11 @@ public class Warehouse {
 
     }
 
+    /**
+     * Starts a task
+     * Removes the material from the stock and adds the task to the "taskIndex" and "tasks"
+     * @return The created task's ID
+     */
     public int startTask(String typeName, int userId) throws InexistentTaskTypeException, InexistentItemException, InterruptedException {
         TaskType type;
 
@@ -110,6 +127,10 @@ public class Warehouse {
         return taskId;
     }
 
+    /**
+     * Finished a task
+     * Returns the material to the stock and removes the task from "taskIndex" and "tasks"
+     */
     public void endTask(int id, int userId) throws InexistentTaskException, InexistentItemException, UserNotAllowedException {
         String typeName = TaskType.getTypeOfTask(id);
 
@@ -134,7 +155,10 @@ public class Warehouse {
 
     }
 
-    //Get list of tasks currently being done
+    /**
+     * Gathers the task types and their instances
+     * @return A Map with the type name (String) and the ids of its instances (Collection<Integer>)
+     */
     public Map<String, Collection<Integer>> getRunningTasks() {
 
         Map<String, Collection<Integer>> result = new HashMap<>();
@@ -153,6 +177,10 @@ public class Warehouse {
 
     }
 
+    /**
+     * Gets the task with ID "id"
+     * @return Task with ID == "id"
+     */
     public Task getTask(int id) throws InexistentTaskTypeException, InexistentTaskException {
         String typeName = TaskType.getTypeOfTask(id);
 
@@ -168,6 +196,11 @@ public class Warehouse {
         return result;
     }
 
+    /**
+     * Subscribes the current user to the tasks with the given IDs
+     * Starts a thread for each Task to wait for its termination
+     * The main thread waits until all tasks are done
+     */
     public void subscribeTo(Collection<Integer> ids) throws InexistentTaskTypeException, InexistentTaskException, InterruptedException {
         ArrayList<Task> tasks = new ArrayList<>();
         int nrTasks = ids.size();
@@ -185,6 +218,11 @@ public class Warehouse {
 
     }
 
+
+    /**
+     * Removes the given quantities of the given items from the stock
+     * @param material Map with the item names (String) and the quantity (Integer) to remove from that item in the stock
+     */
     private void requestMaterial(Map<String, Integer> material) throws InexistentItemException, InterruptedException {
         stockLock.lock();
 
@@ -229,7 +267,10 @@ public class Warehouse {
         stockLock.unlock();
     }
 
-    
+    /**
+     * Returns the given quantities of the given items to the stock
+     * @param material Map with the item names (String) and the quantity (Integer) to return to that item in the stock
+     */
     private void returnMaterial(Map<String, Integer> material) throws InexistentItemException, InvalidItemQuantityException {
 
         stockLock.lock();
