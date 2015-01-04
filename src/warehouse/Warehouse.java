@@ -13,8 +13,10 @@ public class Warehouse {
     PriorityQueue<Long> removeQueue;
     long nextTicket;
 
+    //Maximum of users that can overtake the current (for concurrence control)
     private static final int REM_QUEUE_LIMIT = 4;
 
+    //Constructor
     public Warehouse() {
         taskTypes = new HashMap<>();
         stock = new HashMap<>();
@@ -25,6 +27,7 @@ public class Warehouse {
         this.nextTicket = 1;
     }
 
+    //Increase the quantity of an item. If the item does not exist, create it.
     public void stockUp(String itemName, int quantity) throws InvalidItemQuantityException {
         stockLock.lock();
         Item i = stock.get(itemName);
@@ -47,6 +50,7 @@ public class Warehouse {
         stockLock.unlock();
     }
 
+    //Create a new task type
     public void newTaskType(String name, Map<String, Integer> needs) throws ExistentTaskException, InvalidItemQuantityException {
         for(Map.Entry<String, Integer> pair: needs.entrySet()){
 
