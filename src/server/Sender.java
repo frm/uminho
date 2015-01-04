@@ -1,6 +1,5 @@
 package server;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 import packet.Packet;
 
 import java.io.IOException;
