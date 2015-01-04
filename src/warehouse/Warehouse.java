@@ -56,7 +56,7 @@ public class Warehouse {
 
         stockLock.lock();
         stock.put(itemName, i);
-
+        i.signalAll();
         stockLock.unlock();
     }
 

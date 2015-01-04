@@ -40,7 +40,7 @@ public class Item {
     }
 
     // wakes up all threads waiting for this item
-    private void signalAll(){
+    public void signalAll(){
         this.available.signalAll();
     }
 
@@ -81,7 +81,6 @@ public class Item {
                 throw new InvalidItemQuantityException("Quantity received: " + quantity + ". Must be > 0.");
 
             this.quantity += quantity;
-            this.signalAll();
         } finally {
             this.unlock();
         }
