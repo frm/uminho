@@ -75,6 +75,11 @@ public abstract class Fetcher implements Runnable{
                         receiversLock.lock();
                         receivers.get(o.id).set(o);
                         receiversLock.unlock();
+                    } else if (obj instanceof Packet) {
+                        Packet o = (Packet) obj;
+                        receiversLock.lock();
+                        receivers.get(o.id).set(o);
+                        receiversLock.unlock();
                     } else {
                         throw new UnknownPacketException("Fetcher got an unexpected packet.");
                     }

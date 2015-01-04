@@ -5,9 +5,6 @@ public class Store extends Packet {
     public String q_name;
     public Integer q_quantity;
 
-    // special
-    public Integer id;
-
     public Store() {
         super();
         this.q_name = new String();

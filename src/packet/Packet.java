@@ -12,8 +12,12 @@ public class Packet implements Serializable {
     public Collection<String> r_errors;
     public Collection<String> r_success;
 
+    // special
+    public Integer id;
+
     public Packet() {
         this.r_errors = new ArrayList<>();
         this.r_success = new ArrayList<>();
+        this.id = -1;
     }
 }

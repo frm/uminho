@@ -140,7 +140,7 @@ public class Server {
             send(obj);
         }
 
-        protected boolean doLogin(Login obj) {
+        protected boolean doLogin(Login obj) throws IOException {
             boolean logged = false;
             String error = null;
             Server.userLock.lock();
@@ -176,6 +176,7 @@ public class Server {
             if(error != null)
                 obj.r_errors.add(error);
             Server.userLock.unlock();
+            send(obj);
             return logged;
         }
 
@@ -212,11 +213,15 @@ public class Server {
                     }
 
                     loggedin = doLogin((Login) obj);
-                    send(obj);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
-                    closeConnection();
+                    if (currentUser != null) {
+                        Server.userLock.lock();
+                        users.get(currentUser.getUsername()).logout();
+                        Server.userLock.unlock();
+                        closeConnection();
+                    }
                 }
             }
 
@@ -236,6 +241,8 @@ public class Server {
                         doStore((Store) obj);
                     else if (obj instanceof Subscribe)
                         doSubscribe((Subscribe) obj);
+                    else if (obj instanceof Login)
+                        doLogin((Login)obj);
                     else {
                         Packet p = new Packet();
                         p.r_errors.add("Server received an unexpected packet.");

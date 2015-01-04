@@ -11,12 +11,8 @@ public class ListAll extends Packet {
     //reply
     public Map<String, Collection<Integer>> r_instances;
 
-    // special
-    public Integer id;
-
     public ListAll() {
         super();
         this.r_instances = new HashMap<>();
-        this.id = -1;
     }
 }
