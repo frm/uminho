@@ -1,7 +1,7 @@
 package warehouse;
 
 /**
- * Created by joaorodrigues on 3 Jan 15.
+ * Runnable class used to wait for the end of one Task ( using Task#subscribe ) and alert its manager once that happens.
  */
 public class SubscriptionWorker implements Runnable {
     private Task task;
