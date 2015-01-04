@@ -79,7 +79,7 @@ public class Warehouse {
 
     }
 
-    public int startTask(String typeName) throws InexistentTaskTypeException, InexistentItemException, InterruptedException {
+    public int startTask(String typeName, int userId) throws InexistentTaskTypeException, InexistentItemException, InterruptedException {
         TaskType type;
 
         taskTypesLock.lock();
@@ -96,7 +96,7 @@ public class Warehouse {
             taskTypesLock.lock();
 
             type.lock();
-            taskId = type.startTask();
+            taskId = type.startTask(userId);
             type.unlock();
         }
         finally {
@@ -106,7 +106,7 @@ public class Warehouse {
         return taskId;
     }
 
-    public void endTask(int id, int userId) throws InexistentTaskTypeException, InexistentItemException, UserNotAllowException {
+    public void endTask(int id, int userId) throws InexistentTaskTypeException, InexistentItemException, UserNotAllowedException {
         String typeName = TaskType.getTypeOfTask(id);
 
         taskTypesLock.lock();
@@ -116,10 +116,13 @@ public class Warehouse {
         type.lock();
         taskTypesLock.unlock();
 
-        type.endTask(id);
-        Map<String, Integer> needs = type.getNeeds();
-
-        type.unlock();
+        Map<String, Integer> needs = null;
+        try {
+            type.endTask(id, userId);
+            needs = type.getNeeds();
+        } finally {
+            type.unlock();
+        }
 
         try {
                 returnMaterial(needs);

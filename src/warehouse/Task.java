@@ -15,10 +15,16 @@ public class Task {
     private ReentrantLock lock = new ReentrantLock();
     private boolean running;
     private final Condition subscription = lock.newCondition();
+    private int userId;
 
 
     public Task(){
         running = true;
+    }
+
+    public Task(int userId) {
+        this.running = true;
+        this.userId = userId;
     }
 
 
@@ -40,7 +46,17 @@ public class Task {
         finally{
             lock.unlock();
         }
+    }
 
+    public int getUserId() {
+        return this.userId;
+    }
+
+    public boolean belongsTo(int userId) {
+        this.lock.lock();
+        boolean b = this.userId == userId;
+        this.lock.unlock();
+        return b;
     }
 
 

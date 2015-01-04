@@ -29,8 +29,8 @@ public class TaskType {
     }
 
 
-    public int startTask(){
-        Task t = new Task();
+    public int startTask(int userId){
+        Task t = new Task(userId);
         int taskId = t.getId();
         indexLock.lock();
         taskIndex.put(taskId, this.name);
@@ -44,9 +44,16 @@ public class TaskType {
     }
 
 
-    public void endTask( int taskId ){
+    public void endTask(int taskId, int userId ) throws UserNotAllowedException {
         runningLock.lock();
-        ( running.get(taskId) ).end();
+        Task t = running.get(taskId);
+
+        if( !t.belongsTo(userId) ) {
+            runningLock.unlock();
+            throw new UserNotAllowedException("You don't have permissions to do that");
+        }
+
+        t.end();
         running.remove(taskId);
         runningLock.unlock();
     }

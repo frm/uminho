@@ -112,7 +112,7 @@ public class Server {
 
         protected void doStartTask(StartTask obj) throws IOException {
             try {
-                warehouse.startTask(obj.q_name);
+                warehouse.startTask(obj.q_name, currentUser.getId());
                 obj.r_success.add("Started new task!");
             } catch (WarehouseException e) {
                 obj.r_errors.add(e.getUserMessage());
