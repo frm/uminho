@@ -73,20 +73,22 @@ public class Server {
         protected abstract void closeConnection();
         protected abstract Boolean isStreamOK();
 
+        protected User currentUser;
+
         Worker(Warehouse w, ObjectOutputStream o, ObjectInputStream i){
             warehouse = w;
             out = o;
             in = i;
         }
 
-        protected void send(Object obj) throws IOException {
-            out.writeObject(obj);
+        protected void send(Packet p) throws IOException {
+            out.writeObject(p);
             out.flush();
         }
 
-        protected Serializable receive() throws IOException, ClassNotFoundException {
+        protected Packet receive() throws IOException, ClassNotFoundException {
             try {
-                return (Serializable) in.readObject();
+                return (Packet) in.readObject();
             }catch (IOException | ClassNotFoundException e){
                 throw e;
             } catch (Exception e){
@@ -98,6 +100,7 @@ public class Server {
         protected void doCreateTaskType(CreateTaskType obj) throws IOException {
             try {
                 warehouse.newTaskType(obj.q_name, obj.q_itens);
+                obj.r_success.add("Created a new Task Type");
             } catch (ExistentTaskException e) {
                 obj.r_errors.add(e.getUserMessage());
             } catch (InvalidItemQuantityException e) {
@@ -110,6 +113,7 @@ public class Server {
         protected void doStartTask(StartTask obj) throws IOException {
             try {
                 warehouse.startTask(obj.q_name);
+                obj.r_success.add("Started new task!");
             } catch (WarehouseException e) {
                 obj.r_errors.add(e.getUserMessage());
             } catch (InterruptedException e) {
@@ -121,7 +125,8 @@ public class Server {
 
         protected void doFinishTask(FinishTask obj) throws IOException {
             try {
-                warehouse.endTask(obj.q_taskID);
+                warehouse.endTask(obj.q_taskID, currentUser.getId());
+                obj.r_success.add("Task is finished!");
             } catch (WarehouseException e) {
                 obj.r_errors.add(e.getUserMessage());
             }
@@ -147,6 +152,8 @@ public class Server {
                     Server.users.put(obj.q_username, u);
                     u.login();
                     logged = true;
+                    currentUser = u;
+                    obj.r_success.add("Logged in!");
                 }
                 else
                     error = "Username already exists";
@@ -161,6 +168,8 @@ public class Server {
                 else {
                     u.login();
                     logged = true;
+                    currentUser = u;
+                    obj.r_success.add("Logged in!");
                 }
             }
 
@@ -173,6 +182,7 @@ public class Server {
         protected void doStore(Store obj) throws IOException {
             try {
                 warehouse.stockUp(obj.q_name, obj.q_quantity);
+                obj.r_success.add("Added to stock!");
             } catch (InvalidItemQuantityException e) {
                 obj.r_errors.add(e.getUserMessage());
             }
@@ -193,16 +203,17 @@ public class Server {
             // try to authenticate before anything else
             while (!loggedin && isStreamOK()) {
                 try {
-                    Serializable obj = receive();
+                    Packet obj = receive();
 
-                    if (!(obj instanceof Login))
-                        throw new UnknownPacketException("Server received an unexpected packet.");
+                    if (!(obj instanceof Login)) {
+                        obj.r_errors.add("You need to login first.");
+                        send(obj);
+                        continue;
+                    }
 
                     loggedin = doLogin((Login) obj);
                     send(obj);
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (UnknownPacketException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     closeConnection();
@@ -211,7 +222,7 @@ public class Server {
 
             while(loggedin && isStreamOK()) {
                 try {
-                    Serializable obj = receive();
+                    Packet obj = receive();
 
                     if (obj instanceof CreateTaskType)
                         doCreateTaskType((CreateTaskType) obj);
@@ -225,12 +236,13 @@ public class Server {
                         doStore((Store) obj);
                     else if (obj instanceof Subscribe)
                         doSubscribe((Subscribe) obj);
-                    else
-                        throw new UnknownPacketException("Server received an unexpected packet.");
+                    else {
+                        Packet p = new Packet();
+                        p.r_errors.add("Server received an unexpected packet.");
+                        send(p);
+                    }
 
                 } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (UnknownPacketException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     closeConnection();

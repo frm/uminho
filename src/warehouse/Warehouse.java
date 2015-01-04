@@ -106,8 +106,7 @@ public class Warehouse {
         return taskId;
     }
 
-    public void endTask(int id) throws InexistentTaskTypeException, InexistentItemException {
-
+    public void endTask(int id, int userId) throws InexistentTaskTypeException, InexistentItemException, UserNotAllowException {
         String typeName = TaskType.getTypeOfTask(id);
 
         taskTypesLock.lock();
@@ -123,7 +122,7 @@ public class Warehouse {
         type.unlock();
 
         try {
-            returnMaterial(type.getNeeds());
+                returnMaterial(needs);
         } catch (InvalidItemQuantityException e) {} // Since we are returning a value that is already valid, the exception never occurs
 
     }

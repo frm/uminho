@@ -37,5 +37,9 @@ public class User {
     public boolean isLoggedIn() {
         return this.logged;
     }
+
+    public int getId() {
+        return this.id;
+    }
 }
 
