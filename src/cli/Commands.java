@@ -72,8 +72,10 @@ public class Commands {
                 shouldStr = true;
                 itens.put(str,i);
             }
-            else
+            else {
+                System.out.println( str + " not taken into account as need. " + name + " must have, at least, 1 valid need to be created");
                 return;
+            }
         }
 
         if(itens.isEmpty()){
