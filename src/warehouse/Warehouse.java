@@ -62,6 +62,8 @@ public class Warehouse {
 
     /**
      * Creates a new task type
+     * @param name name of the task type
+     * @param needs item quantities required to start the task
      */
     public void newTaskType(String name, Map<String, Integer> needs) throws ExistentTaskException, InvalidItemQuantityException {
         for(Map.Entry<String, Integer> pair: needs.entrySet()){
