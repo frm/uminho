@@ -15,18 +15,31 @@ public class Sender implements Runnable{
     private Condition hasObjects;
     private ObjectOutputStream out;
 
+    private IOException exception;
+    private ReentrantLock exceptionLock;
+
     Sender(ObjectOutputStream o){
         out = o;
+
         objects = new LinkedList<>();
         objectsLock = new ReentrantLock();
         hasObjects = objectsLock.newCondition();
+
+        exception = null;
+        exceptionLock = new ReentrantLock();
     }
 
-    public void send(Packet p){
+    public void send(Packet p) throws IOException{
+        // is stream ok?
+        exceptionLock.lock();
+        if( exception != null ) {
+            exceptionLock.unlock();
+            throw exception;
+        }
+        exceptionLock.unlock();
+
         objectsLock.lock();
-
         objects.add(p);
-
         hasObjects.signalAll();
         objectsLock.unlock();
     }
@@ -46,6 +59,9 @@ public class Sender implements Runnable{
                 out.writeObject(objects.remove());
             } catch (IOException e) {
                 streamOK = false;
+                exceptionLock.lock();
+                exception = e;
+                exceptionLock.unlock();
             } finally {
                 objectsLock.unlock();
             }
