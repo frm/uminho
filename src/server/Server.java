@@ -92,7 +92,7 @@ public class Server {
             }catch (IOException | ClassNotFoundException e){
                 throw e;
             } catch (Exception e){
-                // make end of stream or any other exceptions an IOexception to close the socket
+                // make end of stream or any other exceptions an IOException to close the socket
                 throw new IOException();
             }
         }
@@ -128,7 +128,7 @@ public class Server {
                 warehouse.endTask(obj.q_taskID, currentUser.getId());
                 obj.r_success.add("Task is finished!");
             } catch (WarehouseException e) {
-                obj.r_errors.add(e.getUserMessage());
+                obj.r_errors.add(e.getMessage());
             }
 
             send(obj);
@@ -236,7 +236,9 @@ public class Server {
                 try {
                     Packet obj = receive();
 
-                    if (obj instanceof CreateTaskType)
+                    if (obj instanceof Login)
+                        doLogin((Login)obj);
+                    else if (obj instanceof CreateTaskType)
                         doCreateTaskType((CreateTaskType) obj);
                     else if (obj instanceof StartTask)
                         doStartTask((StartTask) obj);
@@ -248,8 +250,6 @@ public class Server {
                         doStore((Store) obj);
                     else if (obj instanceof Subscribe)
                         doSubscribe((Subscribe) obj);
-                    else if (obj instanceof Login)
-                        doLogin((Login)obj);
                     else {
                         throw new UnknownPacketException("Server received an unexpected packet.");
                     }
