@@ -1,6 +1,7 @@
 package cli;
 
 import asg.cliche.Command;
+import asg.cliche.Param;
 import packet.*;
 
 import java.util.HashMap;
@@ -14,8 +15,13 @@ public class Commands {
         dispatcher = d;
     }
 
-    @Command(name = "register", abbrev = "rg")
-    public boolean register(String username, String password){
+    @Command(name = "register", abbrev = "rg", description = "Creates a user account")
+    public boolean register(
+            @Param(name="username", description="->Username of new account")
+            String username,
+            @Param(name="password", description="->Password of new account")
+            String password){
+
         Login lg = new Login();
 
         lg.q_createUser = true;
@@ -34,8 +40,13 @@ public class Commands {
         return true;
     }
 
-    @Command(name = "login", abbrev = "lg")
-    public boolean login(String username, String password){
+    @Command(name = "login", abbrev = "lg", description = "Tries to login user")
+    public boolean login(
+            @Param(name="username", description="->Username of account")
+            String username,
+            @Param(name="password", description="->Password of account")
+            String password){
+
         Login lg = new Login();
 
         lg.q_createUser = false;
@@ -56,8 +67,13 @@ public class Commands {
         return true;
     }
 
-    @Command(name="createTaskType", abbrev = "ctt")
-    public void createTaskType(String name, String... argsS){
+    @Command(name="createTaskType", abbrev = "ctt", description = "Creates a new Task Type")
+    public void createTaskType(
+            @Param(name="name", description="->Name of new Task Type")
+            String name,
+            @Param(name="needs", description="->Needs of Task Type | format:\'material quantity\'")
+            String... argsS){
+
         HashMap<String, Integer> itens = new HashMap<>();
         boolean shouldStr = true;
         String str="";
@@ -98,8 +114,11 @@ public class Commands {
         }
     }
 
-    @Command(name = "startTask", abbrev = "st")
-    public void startTask(String name){
+    @Command(name = "startTask", abbrev = "st", description = "Starts a task with the given type")
+    public void startTask(
+            @Param(name = "type", description = "->Type of task")
+            String name){
+
         StartTask st = new StartTask();
 
         st.q_name = name;
@@ -112,11 +131,16 @@ public class Commands {
             System.err.println(sb.toString());
             return;
         }
+
+        System.out.println("Sucessfully created task with id: " + st.r_taskId);
+
     }
 
 
-    @Command(name = "finishTask", abbrev = "ft")
-    public void finishTask(int i){
+    @Command(name = "finishTask", abbrev = "ft", description = "Finishes a task with given id")
+    public void finishTask(
+            @Param(name = "id", description = "->Id of the task to be finished")
+            int i){
         FinishTask ft = new FinishTask();
 
         ft.q_taskID = i;
@@ -131,7 +155,7 @@ public class Commands {
         }
     }
 
-    @Command(name = "listAll", abbrev = "la")
+    @Command(name = "listAll", abbrev = "la", description = "Lists every task type and every running task")
     public void listAll(){
         ListAll la = new ListAll();
 
@@ -168,8 +192,12 @@ public class Commands {
         System.out.print(sb.toString());
     }
 
-    @Command(name = "store", abbrev = "s")
-    public void store(String name, int amount){
+    @Command(name = "store", abbrev = "s", description = "Stores the given amount of the resource")
+    public void store(
+            @Param(name = "resource", description = "->Resource name")
+            String name,
+            @Param(name = "amount", description = "->Resource amount")
+            int amount){
         Store s = new Store();
 
         s.q_name = name;
@@ -185,8 +213,10 @@ public class Commands {
         }
     }
 
-    @Command(name = "subscribe", abbrev = "sub")
-    public void subscribe(int... argsI){
+    @Command(name = "subscribe", abbrev = "sub", description = "Subscribes user to the given task and notifies when they are finished")
+    public void subscribe(
+            @Param(name = "taskIDs", description = "->Task IDs to be subscribed")
+            int... argsI){
         Subscribe sb = new Subscribe();
         HashSet<Integer> ids = new HashSet<Integer>();
 
