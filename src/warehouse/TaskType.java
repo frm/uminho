@@ -60,14 +60,14 @@ public class TaskType {
         runningLock.unlock();
     }
 
-    public static String getTypeOfTask(int taskId) throws InexistentTaskTypeException {
+    public static String getTypeOfTask(int taskId) throws InexistentTaskException {
         String type;
         indexLock.lock();
         try{
             type = taskIndex.get(taskId);
 
             if(type == null)
-                throw new InexistentTaskTypeException("User referenced task type with name: " + type + " but was not found");
+                throw new InexistentTaskException("User referenced task type with id: " + taskId + " but was not found");
         }
         finally{
             indexLock.unlock();

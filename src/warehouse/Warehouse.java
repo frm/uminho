@@ -105,7 +105,7 @@ public class Warehouse {
         return taskId;
     }
 
-    public void endTask(int id, int userId) throws InexistentTaskTypeException, InexistentItemException, UserNotAllowedException {
+    public void endTask(int id, int userId) throws InexistentTaskException, InexistentItemException, UserNotAllowedException {
         String typeName = TaskType.getTypeOfTask(id);
 
         taskTypesLock.lock();
