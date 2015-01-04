@@ -1,5 +1,6 @@
 package server;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 import packet.Packet;
 
 import java.io.IOException;
@@ -56,15 +57,16 @@ public class Sender implements Runnable{
                 } catch (InterruptedException e) {}
 
             try {
-                out.writeObject(objects.remove());
+                Packet obj = objects.remove();
+                objectsLock.unlock();
+
+                out.writeObject(obj);
                 out.flush();
             } catch (IOException e) {
                 streamOK = false;
                 exceptionLock.lock();
                 exception = e;
                 exceptionLock.unlock();
-            } finally {
-                objectsLock.unlock();
             }
         }
 
