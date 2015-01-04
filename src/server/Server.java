@@ -245,7 +245,9 @@ public class Server {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    Server.userLock.lock();
                     users.get(currentUser.getUsername()).logout();
+                    Server.userLock.unlock();
                     closeConnection();
                 }
             }
