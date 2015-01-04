@@ -1,18 +1,20 @@
 package packet;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
-public class CreateTaskType implements Serializable {
+public class CreateTaskType extends Packet {
     //query
     public String q_name;
     public Map<String, Integer> q_itens;
 
-    //reply
-    public Collection<String> r_errors = new ArrayList<>();
-
     // special
     public Integer id;
+
+    public CreateTaskType() {
+        super();
+        this.q_name = new String();
+        this.q_itens = new HashMap<>();
+        this.id = -1;
+    }
 }

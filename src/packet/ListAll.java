@@ -1,18 +1,22 @@
 package packet;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
-public class ListAll implements Serializable {
+public class ListAll extends Packet {
     //query
     //no query attributes, just the packet is enough
 
     //reply
-    public Collection<String> r_errors = new ArrayList<>();
     public Map<String, Collection<Integer>> r_instances;
 
     // special
     public Integer id;
+
+    public ListAll() {
+        super();
+        this.r_instances = new HashMap<>();
+        this.id = -1;
+    }
 }

@@ -1,11 +1,12 @@
 package cli;
 
 
-import java.io.Serializable;
+import packet.Packet;
+
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Receiver<T extends Serializable>{
+public class Receiver<T extends Packet>{
     private T obj;
     Boolean hasValue;
     ReentrantLock lock;

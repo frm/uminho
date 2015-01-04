@@ -1,16 +1,18 @@
 package packet;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Subscribe implements Serializable {
+public class Subscribe extends Packet {
     //query
     public Collection<Integer> q_ids;
 
-    //reply
-    public Collection<String> r_errors = new ArrayList<>();
-
     // special
     public Integer id;
+
+    public Subscribe() {
+        super();
+        this.q_ids = new ArrayList<>();
+        this.id = -1;
+    }
 }

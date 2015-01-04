@@ -28,7 +28,17 @@ public abstract class Dispatcher {
             obj.r_errors.add("Could not send the create task type packet.");
             return obj;
         }
-        return r.get();
+
+        Packet p = r.get();
+        CreateTaskType ret;
+        if(! (p instanceof CreateTaskType) ) {
+            ret = new CreateTaskType();
+            ret.r_errors = p.r_errors;
+        } else {
+            ret = (CreateTaskType) p;
+        }
+
+        return ret;
     }
 
     public StartTask doStartTask(StartTask obj){
@@ -40,7 +50,16 @@ public abstract class Dispatcher {
             obj.r_errors.add("Could not send the start task packet.");
             return obj;
         }
-        return r.get();
+        Packet p = r.get();
+        StartTask ret;
+        if(! (p instanceof StartTask) ) {
+            ret = new StartTask();
+            ret.r_errors = p.r_errors;
+        } else {
+            ret = (StartTask) p;
+        }
+
+        return ret;
     }
 
     public FinishTask doFinishTask(FinishTask obj){
@@ -52,7 +71,16 @@ public abstract class Dispatcher {
             obj.r_errors.add("Could not send the finish task packet.");
             return obj;
         }
-        return r.get();
+        Packet p = r.get();
+        FinishTask ret;
+        if(! (p instanceof FinishTask) ) {
+            ret = new FinishTask();
+            ret.r_errors = p.r_errors;
+        } else {
+            ret = (FinishTask) p;
+        }
+
+        return ret;
     }
 
     public ListAll doListAll(ListAll obj){
@@ -64,7 +92,16 @@ public abstract class Dispatcher {
             obj.r_errors.add("Could not send the listAll packet.");
             return obj;
         }
-        return r.get();
+        Packet p = r.get();
+        ListAll ret;
+        if(! (p instanceof ListAll) ) {
+            ret = new ListAll();
+            ret.r_errors = p.r_errors;
+        } else {
+            ret = (ListAll) p;
+        }
+
+        return ret;
     }
 
     public Login doLogin(Login obj){
@@ -76,7 +113,16 @@ public abstract class Dispatcher {
             obj.r_errors.add("Could not send the login packet.");
             return obj;
         }
-        return r.get();
+        Packet p = r.get();
+        Login ret;
+        if(! (p instanceof Login) ) {
+            ret = new Login();
+            ret.r_errors = p.r_errors;
+        } else {
+            ret = (Login) p;
+        }
+
+        return ret;
     }
 
     public Store doStore(Store obj){
@@ -88,7 +134,16 @@ public abstract class Dispatcher {
             obj.r_errors.add("Could not send the store packet.");
             return obj;
         }
-        return r.get();
+        Packet p = r.get();
+        Store ret;
+        if(! (p instanceof Store) ) {
+            ret = new Store();
+            ret.r_errors = p.r_errors;
+        } else {
+            ret = (Store) p;
+        }
+
+        return ret;
     }
 
     public Boolean doSubscribe(Subscribe obj) {

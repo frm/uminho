@@ -1,17 +1,16 @@
 package packet;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-
-public class Store implements Serializable {
+public class Store extends Packet {
     //query
     public String q_name;
     public Integer q_quantity;
 
-    //reply
-    public Collection<String> r_errors = new ArrayList<>();
-
     // special
     public Integer id;
+
+    public Store() {
+        super();
+        this.q_name = new String();
+        this.q_quantity = 0;
+    }
 }

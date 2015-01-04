@@ -1,16 +1,15 @@
 package packet;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-
-public class StartTask implements Serializable {
+public class StartTask extends Packet {
     //query
     public String q_name;
 
-    //reply
-    public Collection<String> r_errors = new ArrayList<>();
-
     // special
     public Integer id;
+
+    public StartTask() {
+        super();
+        this.q_name = new String();
+        this.id = -1;
+    }
 }
