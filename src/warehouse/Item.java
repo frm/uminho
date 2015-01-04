@@ -30,7 +30,7 @@ public class Item {
     }
 
     // wakes up all threads waiting for this item
-    public void signalAll(){
+    private void signalAll(){
         this.available.signalAll();
     }
 

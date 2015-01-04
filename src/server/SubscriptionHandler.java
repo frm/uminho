@@ -29,9 +29,7 @@ public class SubscriptionHandler implements Runnable{
 
     public void run(){
         try {
-
             warehouse.subscribeTo(ids);
-
         } catch (InexistentTaskTypeException e) {
             obj.r_errors.add(e.getUserMessage());
         } catch (InexistentTaskException e) {

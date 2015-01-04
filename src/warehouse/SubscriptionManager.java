@@ -25,7 +25,9 @@ public class SubscriptionManager {
 
     public synchronized void finish() {
         finished++;
+        lk.lock();
         allDone.signalAll();
+        lk.unlock();
     }
 
 
