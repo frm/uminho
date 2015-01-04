@@ -251,7 +251,9 @@ public class Server {
             }
 
             if(isStreamOK()) {
+                Server.userLock.lock();
                 users.get(currentUser.getUsername()).logout();
+                Server.userLock.unlock();
                 closeConnection();
             }
         }
