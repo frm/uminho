@@ -32,7 +32,6 @@ public class WarehouseException extends Exception {
     public WarehouseException(String className, String message) {
         super(EXCEPTIONS.get(className));
         this.className = className;
-        System.err.println(message);
     }
 
     public String getUserMessage(){
