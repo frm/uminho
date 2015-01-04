@@ -144,10 +144,14 @@ public class Server {
             boolean logged = false;
             String error = null;
             Server.userLock.lock();
+
             User u = Server.users.get(obj.q_username);
 
             if (obj.q_createUser) {
                 if(u == null) {
+                    if (currentUser != null)
+                        currentUser.logout();
+
                     u = new User(obj.q_username, obj.q_password);
                     Server.users.put(obj.q_username, u);
                     u.login();
@@ -166,6 +170,9 @@ public class Server {
                 else if(!u.matchPassword(obj.q_password))
                     error = "Invalid username/password";
                 else {
+                    if (currentUser != null)
+                        currentUser.logout();
+
                     u.login();
                     logged = true;
                     currentUser = u;
@@ -244,12 +251,12 @@ public class Server {
                     else if (obj instanceof Login)
                         doLogin((Login)obj);
                     else {
-                        Packet p = new Packet();
-                        p.r_errors.add("Server received an unexpected packet.");
-                        send(p);
+                        throw new UnknownPacketException("Server received an unexpected packet.");
                     }
 
                 } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (UnknownPacketException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     Server.userLock.lock();

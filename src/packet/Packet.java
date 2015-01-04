@@ -7,7 +7,7 @@ import java.util.Collection;
 /**
  * Created by frmendes on 1/4/15.
  */
-public class Packet implements Serializable {
+public abstract class Packet implements Serializable {
     //reply
     public Collection<String> r_errors;
     public Collection<String> r_success;
