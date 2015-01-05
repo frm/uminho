@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package habitatinterface;
+package habitat;
 
 import javax.swing.table.DefaultTableModel;
 

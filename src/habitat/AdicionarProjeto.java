@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package habitatinterface;
+package habitat;
 
-import habitatinterface.AdicionarTarefa;
 import java.awt.Frame;
 import java.awt.Window;
 import javax.swing.JFrame;

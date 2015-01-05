@@ -26,7 +26,7 @@ public class RepositoryFactory {
         return URL;
     }
     
-    public static VolunteersRepository getUsersRepository() {
+    public static VolunteersRepository getVolunteersRepository() {
         if (volunteersRepository == null)
             volunteersRepository = new VolunteersRepository(getURL(), USERNAME, PASSWORD);
         
