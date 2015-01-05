@@ -12,9 +12,12 @@ package data;
 public class RepositoryFactory {
     
     private static VolunteersRepository volunteersRepository;
+    private static ActivityRepository activityRepository;
     
-    private static final String USERNAME = System.getenv("HBT_USR");
-    private static final String PASSWORD = System.getenv("HBT_PW");
+    //private static final String USERNAME = System.getenv("HBT_USR");
+    //private static final String PASSWORD = System.getenv("HBT_PW");
+    private static final String USERNAME = "habitat";
+    private static final String PASSWORD = "testuser123";
     private static final String URL = "jdbc:mysql://localhost/habitat";
     
     public RepositoryFactory() {
@@ -31,6 +34,13 @@ public class RepositoryFactory {
             volunteersRepository = new VolunteersRepository(getURL(), USERNAME, PASSWORD);
         
         return volunteersRepository;
+    }
+    
+    public static ActivityRepository getActivityRepository() {
+        if (activityRepository == null)
+            activityRepository = new ActivityRepository(getURL(), USERNAME, PASSWORD);
+        
+        return activityRepository;
     }
     
 }

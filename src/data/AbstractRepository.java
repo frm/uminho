@@ -14,8 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -23,8 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import models.BasicModel;
-import models.Contact;
-import models.Volunteer;
 import org.apache.commons.lang3.text.WordUtils;
 
 /**
@@ -118,7 +114,7 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
             query = getUpdateQuery(t);
             generatedKeys = Statement.NO_GENERATED_KEYS;
         }
-
+        
         Connection connection;
         PreparedStatement statement;
         try {

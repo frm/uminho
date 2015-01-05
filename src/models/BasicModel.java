@@ -38,18 +38,22 @@ public class BasicModel {
         return this.id;
     }
     
+    @Override
     public int hashCode()  {
         return id;
     }
     
+    @Override
     public BasicModel clone() {
         return new BasicModel(this);
     }
     
+    @Override
     public String toString() {
         return id.toString();
     }
     
+    @Override
     public boolean equals(Object o) {
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass() ) return false;

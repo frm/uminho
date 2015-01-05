@@ -6,20 +6,17 @@
 
 package models;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 /**
  *
  * @author joaorodrigues
  */
 public abstract class Member extends BasicModel {
     private String name;
-    private GregorianCalendar birthDate;
+    private String birthDate;
     
     public Member(){}
 
-    public Member(String name, GregorianCalendar birthDate) {
+    public Member(String name, String birthDate) {
         this.name = name;
         this.birthDate = birthDate;
     }
@@ -28,7 +25,7 @@ public abstract class Member extends BasicModel {
         return name;
     }
 
-    public GregorianCalendar getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
@@ -36,12 +33,8 @@ public abstract class Member extends BasicModel {
         this.name = name;
     }
 
-    public void setBirthDate(GregorianCalendar birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
-    }
-    
-    public void setBirthDate(Date birthDate) {
-        this.birthDate.setTimeInMillis(birthDate.getTime());
     }
 }
 

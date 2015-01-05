@@ -7,7 +7,6 @@ package data;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 import models.Volunteer;
@@ -25,17 +24,18 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
        put("Address", "Morada");
        put("Nif", "NIF");
        put("Nib", "NIB");
-       put("SQLBirthDate", "DataNascimento");
+       put("BirthDate", "DataNascimento");
        put("Nationality", "Nacionalidade");
        put("Citizenship", "Naturalidade");
        put("MaritalStatus", "EstadoCivil");
        put("Education", "Escolaridade");
        put("Observations", "Observacoes");
        put("File", "Ficheiro");
-       put("Activity", "Atividade");
+       put("ActivityID", "Atividade");
+       put("CurrentTeam", "EquipaAtual");
     }};
 
-    public VolunteersRepository(String username, String password, String url) {
+    public VolunteersRepository(String url, String username, String password) {
         super(url, username, password, DB_TABLE, COLUMN_ATTR);
     }
 
@@ -46,10 +46,10 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
             v.setId( result.getInt( getColumnAttr("id") ) );
             v.setName( result.getString( getColumnAttr("name") ) );
             v.setAddress( result.getString( getColumnAttr("address") ) );
-            v.setActivity( Integer.toString( result.getInt( getColumnAttr("activity") ) ) );
+            v.setActivity( RepositoryFactory.getActivityRepository().find( result.getInt( getColumnAttr("activityID") ) ) );
             v.setNib( result.getString( getColumnAttr("nib") ) );
             v.setNif( result.getString( getColumnAttr("nif") ) );
-            v.setBirthDate( result.getDate( getColumnAttr("SQLBirthDate") ) );
+            v.setBirthDate( result.getString( getColumnAttr("BirthDate") ) );
             v.setNationality( result.getString( getColumnAttr("nationality") ) );
             v.setCitizenship( result.getString( getColumnAttr("citizenship") ) );
             v.setMaritalStatus( result.getString( getColumnAttr("maritalStatus") ) );
@@ -63,11 +63,11 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
 
     @Override
     protected Set<String> getInsertIgnores() {
-        return new HashSet<String>() {{ add("Activity"); }};
+        return null;
     }
 
     @Override
     protected Set<String> getUpdateIgnores() {
-        return new HashSet<String>() {{ add("Activity"); }};
+        return null;
     }
 }

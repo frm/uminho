@@ -15,7 +15,7 @@ import java.util.HashSet;
  * @author tiago
  */
 public class Employee extends BaseEntity{
-    private GregorianCalendar birthDate;
+    private String birthDate;
     private String education;
     private String nacionality;
     private String citizenship;
@@ -25,7 +25,7 @@ public class Employee extends BaseEntity{
 
     public Employee() { }
 
-    public Employee(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, GregorianCalendar birthDate, String education, String nacionality, String citizenship, String maritalStatus, Float salary, HashSet<Team> teams) {
+    public Employee(String name, String adress, String nif, String nib, Activity activity, HashSet<Contact> contacts, String birthDate, String education, String nacionality, String citizenship, String maritalStatus, Float salary, HashSet<Team> teams) {
         super(name, adress, nif, nib, activity, contacts);
         this.birthDate = birthDate;
         this.education = education;
@@ -47,7 +47,7 @@ public class Employee extends BaseEntity{
         this.teams = f.getTeams();
     }
 
-    public GregorianCalendar getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
@@ -75,12 +75,8 @@ public class Employee extends BaseEntity{
         return new HashSet(teams);
     }
 
-   public void setBirthDate(GregorianCalendar birthDate) {
+   public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
-    }
-    
-    public void setBirthDate(Date birthDate) {
-        this.birthDate.setTimeInMillis(birthDate.getTime());
     }
 
     public void setEducation(String education) {
