@@ -4,17 +4,31 @@ import asg.cliche.Command;
 import asg.cliche.Param;
 import packet.*;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.*;
 
+
+/**
+ *Class with
+ */
 public class Commands {
     private Dispatcher dispatcher;
 
+    /**
+     * Constructor
+     * @param d dispatcher
+     */
     Commands(Dispatcher d){
         dispatcher = d;
     }
 
+    /**
+     * Creates a new user account
+     * @param username username of new account
+     * @param password password of new account
+     * @return
+     */
     @Command(name = "register", abbrev = "rg", description = "Creates a user account")
     public boolean register(
             @Param(name="username", description="->Username of new account")
@@ -40,6 +54,12 @@ public class Commands {
         return true;
     }
 
+    /**
+     * Tries to login with given data
+     * @param username username of account
+     * @param password password of account
+     * @return
+     */
     @Command(name = "login", abbrev = "lg", description = "Tries to login user")
     public boolean login(
             @Param(name="username", description="->Username of account")
@@ -67,6 +87,11 @@ public class Commands {
         return true;
     }
 
+    /**
+     * Creates a new Task Type
+     * @param name name of new Task Type
+     * @param argsS needs of Task Type
+     */
     @Command(name="createTaskType", abbrev = "ctt", description = "Creates a new Task Type")
     public void createTaskType(
             @Param(name="name", description="->Name of new Task Type")
@@ -114,7 +139,12 @@ public class Commands {
         }
     }
 
-    @Command(name = "startTask", abbrev = "st", description = "Starts a task with the given type")
+    /**
+     * Starts a task of the given type
+     * @param name name of task Type
+     * @return id of new task
+     */
+    @Command(name = "startTask", abbrev = "st", description = "Starts a task of the given type")
     public void startTask(
             @Param(name = "type", description = "->Type of task")
             String name){
@@ -136,7 +166,10 @@ public class Commands {
 
     }
 
-
+    /**
+     * Finishes task with given id
+     * @param i id of the task
+     */
     @Command(name = "finishTask", abbrev = "ft", description = "Finishes a task with given id")
     public void finishTask(
             @Param(name = "id", description = "->Id of the task to be finished")
@@ -155,6 +188,9 @@ public class Commands {
         }
     }
 
+    /**
+     * Prints every task type and correspondent task ids
+     */
     @Command(name = "listAll", abbrev = "la", description = "Lists every task type and every running task")
     public void listAll(){
         ListAll la = new ListAll();
@@ -192,6 +228,11 @@ public class Commands {
         System.out.print(sb.toString());
     }
 
+    /**
+     * Stores the amount of the given resource
+     * @param name name of resource
+     * @param amount amount of resource
+     */
     @Command(name = "store", abbrev = "s", description = "Stores the given amount of the resource")
     public void store(
             @Param(name = "resource", description = "->Resource name")
@@ -213,6 +254,10 @@ public class Commands {
         }
     }
 
+    /**
+     * Subscribes user to the given tasks and notifies when they have all finished
+     * @param argsI ids of tasks to be subscribed
+     */
     @Command(name = "subscribe", abbrev = "sub", description = "Subscribes user to the given task and notifies when they are finished")
     public void subscribe(
             @Param(name = "taskIDs", description = "->Task IDs to be subscribed")
@@ -229,6 +274,11 @@ public class Commands {
         }
     }
 
+    /**
+     * Tests if string can be parsed as an Integer
+     * @param str string to be parsed
+     * @return the parsed string as Integer, or -1 if it couldn't be parsed
+     */
     public int goodInput(String str){
         int res;
 
