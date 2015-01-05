@@ -2,37 +2,43 @@
 # NOTE: run this as '. ./init_db.sh'
 
 echo "Setting up environment variables..."
-export HBT_USR='habitat_admin'
+export HBT_USR='habitat'
 export HBT_PW='testuser123'
 echo "Done!"
 
-if [[ `uname -s` == "DARWIN" ]];
-then
+function init_osx () {
     echo "### OS X system ###"
     echo "Environment variables are set."
     echo "Please start MySQL Server in System Preferences";
-    exit
-fi
+}
 
-if which systemctl > /dev/null;
+function init_linux () {
+    if which systemctl > /dev/null
+    then
+        SYS="Arch"
+        SQL_CMD="sudo systemctl start mysqld.service"
+
+    elif [ -f /etc/init.d/mysql ]
+    then
+        SYS="Debian"
+        SQL_CMD="sudo /etc/init.d/mysql start"
+    else
+        echo "ERROR: Unknown Operating System or MySQL Server not installed!"
+    fi
+
+    echo "\n### $SYS based system ###"
+    echo "Starting MySQL Server..."
+    eval $SQL_CMD
+    echo "Done!"
+
+    echo "\nDatabase is running and you now have the correct variable config."
+
+}
+
+
+if [[ `uname -s` == "Darwin" ]]
 then
-    SYS="Arch"
-    SQL_CMD="sudo systemctl start mysqld.service"
-
-elif [ -f /etc/init.d/mysql ];
-then
-    SYS="Debian"
-    SQL_CMD="sudo /etc/init.d/mysql start"
-
+init_osx
 else
-    echo "ERROR: Unknown Operating System or MySQL Server not installed!"
-    exit
+init_linux
 fi
-
-
-echo "\n### $SYS based system ###"
-echo "Starting MySQL Server..."
-eval $SQL_CMD
-echo "Done!"
-
-echo "\nDatabase is running and you now have the correct variable config."
