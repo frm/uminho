@@ -14,8 +14,7 @@ import java.util.Map;
  *
  * @author joaorodrigues
  */
-class Task {
-    private Integer id;
+class Task extends BasicModel {
     private String name;
     private GregorianCalendar startDate;
     private GregorianCalendar endDate;
@@ -26,18 +25,14 @@ class Task {
     public Task(){}
     
     public Task(String name, GregorianCalendar startDate, GregorianCalendar endDate, Map<Volunteer, Integer> volunteers) {
-        this.id = -1;
+        super(-1);
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = "Em Curso";
         this.volunteers = volunteers;
     }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -61,11 +56,7 @@ class Task {
     public void setVolunteers(Map<Volunteer, Integer> volunteers) {
         this.volunteers = new HashMap<Volunteer, Integer>(volunteers);
     }
-
-    public Integer getId() {
-        return id;
-    }
-
+    
     public String getName() {
         return name;
     }
@@ -90,9 +81,6 @@ class Task {
         return new HashMap<Volunteer, Integer>(volunteers);
     }
     
-    
-    
-    
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -104,7 +92,7 @@ class Task {
         
         Task t = (Task) obj;
         
-        return (t.getId() == id );
+        return ( super.equals(obj) );
     }
     
     

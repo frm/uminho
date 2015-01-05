@@ -13,7 +13,7 @@ import java.util.GregorianCalendar;
  *
  * @author joaorodrigues
  */
-public abstract class Member {
+public abstract class Member extends BasicModel {
     private String name;
     private GregorianCalendar birthDate;
     

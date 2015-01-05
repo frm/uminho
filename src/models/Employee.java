@@ -15,7 +15,6 @@ import java.util.HashSet;
  * @author tiago
  */
 public class Employee extends BaseEntity{
-    private Integer id;
     private GregorianCalendar birthDate;
     private String education;
     private String nacionality;
@@ -24,13 +23,10 @@ public class Employee extends BaseEntity{
     private Float salary;
     private HashSet<Team> teams;
 
-    public Employee() {
-        super();
-    }
+    public Employee() { }
 
     public Employee(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, GregorianCalendar birthDate, String education, String nacionality, String citizenship, String maritalStatus, Float salary, HashSet<Team> teams) {
         super(name, adress, nif, nib, activity, contacts);
-        this.id = -1;
         this.birthDate = birthDate;
         this.education = education;
         this.nacionality = nacionality;
@@ -42,7 +38,6 @@ public class Employee extends BaseEntity{
     
     public Employee(Employee f){
         super(f);
-        this.id = -1;
         this.birthDate = f.getBirthDate();
         this.education = f.getEducation();
         this.nacionality = f.getNacionality();
@@ -50,14 +45,6 @@ public class Employee extends BaseEntity{
         this.maritalStatus = f.getMaritalStatus();
         this.salary = f.getSalary();
         this.teams = f.getTeams();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public GregorianCalendar getBirthDate() {
@@ -120,8 +107,6 @@ public class Employee extends BaseEntity{
         this.teams = new HashSet(teams);
     }
     
-    
-    
     @Override
     public Employee clone(){
         return new Employee(this);
@@ -129,9 +114,7 @@ public class Employee extends BaseEntity{
 
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n");
-        sb.append(id);
+        StringBuilder sb = new StringBuilder(super.toString());
         sb.append(", ");
         sb.append(birthDate);
         sb.append(", ");
@@ -144,7 +127,7 @@ public class Employee extends BaseEntity{
         sb.append(maritalStatus);
         sb.append(", ");
         sb.append(salary);
-        return super.toString() + sb.toString();
+        return sb.toString();
     }
 
     @Override

@@ -13,7 +13,6 @@ import java.util.GregorianCalendar;
  * @author joaorodrigues
  */
 public class SimpleMember extends Member{
-    private Integer id;
     private String grauParentesco;
     
     public SimpleMember(){
@@ -22,7 +21,6 @@ public class SimpleMember extends Member{
 
     public SimpleMember(String grauParentesco, String name, GregorianCalendar birthDate) {
         super(name, birthDate);
-        this.id = -1;
         this.grauParentesco = grauParentesco;
     }
 
@@ -37,14 +35,6 @@ public class SimpleMember extends Member{
     public String getGrauParentesco() {
         return grauParentesco;
     }
-
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
-    }
     
     @Override
     public boolean equals(Object obj) {
@@ -57,6 +47,6 @@ public class SimpleMember extends Member{
         
         SimpleMember sm = (SimpleMember) obj;
         
-        return (sm.getId() == id );
+        return ( super.equals(obj) );
     }
 }

@@ -13,8 +13,7 @@ import java.util.List;
  *
  * @author joaorodrigues
  */
-public class Family{
-    private Integer id;
+public class Family extends BasicModel  {
     private Float income;
     private String notes;
     private Boolean approved;
@@ -25,14 +24,14 @@ public class Family{
 
     public Family(){}
     
-    public Family(Float income, String notes, String address, Representative representative, List<SimpleMember> members) {
+    public Family (Float income, String notes, String address, Representative representative, List<SimpleMember> members) {
+        super(-1);
         this.income = income;
         this.notes = notes;
         this.address = address;
         this.representative = representative;
         this.members = members;
         
-        this.id = -1;
         this.approved = false;
         this.applications = new ArrayList<Application>();
     }
@@ -92,14 +91,6 @@ public class Family{
     public List<SimpleMember> getMembers() {
         return members;
     }
-
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
-    }
     
        @Override
     public boolean equals(Object obj) {
@@ -112,7 +103,7 @@ public class Family{
         
         Family f = (Family) obj;
         
-        return (f.getId() == id );
+        return ( super.equals(obj) );
     }
 
 }

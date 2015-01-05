@@ -13,19 +13,15 @@ import java.util.HashSet;
  * @author tiago
  */
 public class Donor extends BaseEntity{
-    private Integer id;
     private String type;
     private String occupation;
     private String observations;
     private HashSet<Donation> donations;
 
-    public Donor() {
-        super();
-    }
+    public Donor() {}
     
     public Donor(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, String dType, String occupation, String observations, HashSet<Donation> donations) {
         super(name, adress, nif, nib, activity, contacts);
-        this.id = -1;
         this.type = dType;
         this.occupation = occupation;
         this.observations = observations;
@@ -34,19 +30,10 @@ public class Donor extends BaseEntity{
     
     public Donor(Donor d){
         super(d);
-        this.id = d.getId();
         this.type = d.getType();
         this.occupation = d.getOccupation();
         this.observations = d.getObservations();
         this.donations = d.getDonations();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getType() {
@@ -92,16 +79,14 @@ public class Donor extends BaseEntity{
     
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n");
-        sb.append(id);
+        StringBuilder sb = new StringBuilder(super.toString());
         sb.append(", ");
         sb.append(type);
         sb.append(", ");
         sb.append(occupation);
         sb.append(", ");
         sb.append(observations);
-        return super.toString() + sb.toString();
+        return sb.toString();
     }
     
     @Override

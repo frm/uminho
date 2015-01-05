@@ -10,27 +10,22 @@ package models;
  *
  * @author tiago
  */
-public class Contact {
-    private Integer id;
+public class Contact extends BasicModel {
     private String type;
     private String value;
     
-    public Contact(){}
+    public Contact() {}
     
     public Contact(String ct, String cv){
-        id = -1;
+        super(-1);
         type = ct;
         value = cv;
     }
 
     public Contact(Contact c){
-        id = c.getId();
+        super(c.getId());
         type = c.getType();
         value = c.getValue();
-    }
-
-    public Integer getId() {
-        return id;
     }
     
     public String getType() {
@@ -39,10 +34,6 @@ public class Contact {
 
     public String getValue() {
         return value;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public void setType(String type) {
@@ -61,15 +52,10 @@ public class Contact {
     public Contact clone(){
         return new Contact(this);
     }
-    
-    public int hashCode()  {
-        return id;
-    }
-    
+ 
+    @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n");
-        sb.append(id);
+        StringBuilder sb = new StringBuilder(super.toString());
         sb.append(", ");
         sb.append(type);
         sb.append(", ");
@@ -77,12 +63,13 @@ public class Contact {
         return sb.toString();
     }
     
+    @Override
     public boolean equals(Object o) {
         if(this == o) return true;
         if(o == null || this.getClass() != o.getClass() ) return false;
        
         Contact c = (Contact) o;
         
-        return (this.type == c.getType() && this.value == c.getValue());
+        return ( super.equals(o) && this.type.equals( c.getType() ) && this.value.equals( c.getValue() ) );
     }
 }

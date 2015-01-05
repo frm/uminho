@@ -7,16 +7,13 @@
 package models;
 
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  *
  * @author joaorodrigues
  */
-public class Application {
-    private Integer id;
+public class Application extends BasicModel {
     private GregorianCalendar applicationDate;
     private String file;
     private Boolean status;
@@ -27,9 +24,10 @@ public class Application {
     private Map<Integer, String> questionnaire;
     private Project projeto;
     
-    public Application(){}
+    public Application() { }
 
     public Application(GregorianCalendar applicationDate, String file, String priority, String notes, String location, Map<Integer, String> questionnaire) {
+        super(-1);
         this.applicationDate = applicationDate;
         this.file = file;
         this.priority = priority;
@@ -37,13 +35,12 @@ public class Application {
         this.location = location;
         this.questionnaire = questionnaire;
         
-        this.id = -1;
         this.status = false;
         this.applicationDate = new GregorianCalendar();
     }
     
     public Application(String location, Map<Integer, String> questionnaire) {
-        Integer id = -1;
+        super(-1);
         this.status = false;
         this.file = null;
         this.applicationDate = new GregorianCalendar();
@@ -51,14 +48,6 @@ public class Application {
         
         this.location = location;
         this.questionnaire = questionnaire;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public GregorianCalendar getApplicationDate() {
@@ -136,7 +125,7 @@ public class Application {
         
         Application a = (Application) obj;
         
-        return (a.getId() == id );
+        return (a.getId() == this.getId() );
     }
     
 }
