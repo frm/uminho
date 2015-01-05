@@ -6,26 +6,11 @@
 
 package habitat;
 
-import habitat.AdicionarFamilia;
-import habitat.AdicionarProjeto;
-import habitat.AdicionarVoluntario;
-import habitat.ConfirmarPassword;
-import habitat.EditarParticipantes;
-import habitat.JTextAreaLimit;
-import java.awt.Color;
 import java.util.HashMap;
-import java.util.Map;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AbstractDocument;
 
 /**
  *
