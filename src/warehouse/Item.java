@@ -81,6 +81,7 @@ public class Item {
                 throw new InvalidItemQuantityException("Quantity received: " + quantity + ". Must be > 0.");
 
             this.quantity += quantity;
+            this.signalAll();
         } finally {
             this.unlock();
         }
