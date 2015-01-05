@@ -68,6 +68,11 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
         jFormattedTextField1.setText("12/12/2014");
 
         submitVolunteer.setText("Submeter");
+        submitVolunteer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitVolunteerActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Limpar");
 
@@ -287,6 +292,10 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void submitVolunteerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitVolunteerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_submitVolunteerActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

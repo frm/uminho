@@ -1702,6 +1702,11 @@ public class MainWindow extends javax.swing.JFrame {
 
     submitEditVolunteer.setText("Submeter");
     submitEditVolunteer.setVisible(false);
+    submitEditVolunteer.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            submitEditVolunteerActionPerformed(evt);
+        }
+    });
 
     javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
     jPanel25.setLayout(jPanel25Layout);
@@ -3113,6 +3118,10 @@ public class MainWindow extends javax.swing.JFrame {
     private void addDonorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDonorButtonActionPerformed
         (new AdicionarDoador(this, true)).setVisible(true);
     }//GEN-LAST:event_addDonorButtonActionPerformed
+
+    private void submitEditVolunteerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitEditVolunteerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_submitEditVolunteerActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addApplication;
