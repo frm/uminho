@@ -19,12 +19,12 @@ public class SimpleMember extends Member{
         super();
     }
 
-    public SimpleMember(String grauParentesco, String name, GregorianCalendar birthDate) {
+    public SimpleMember(String grauParentesco, String name, String birthDate) {
         super(name, birthDate);
         this.grauParentesco = grauParentesco;
     }
 
-    public SimpleMember(String name, GregorianCalendar birthDate) {
+    public SimpleMember(String name, String birthDate) {
         super(name, birthDate);
     }
 

@@ -28,7 +28,7 @@ class Representative extends Member{
         super();
     }
 
-    public Representative(String name, GregorianCalendar birthDate, String nib, String nif, String maritalStatus, String education, String nationality, String birthPlace, String activity, Collection<Integer> contacts) {
+    public Representative(String name, String birthDate, String nib, String nif, String maritalStatus, String education, String nationality, String birthPlace, String activity, Collection<Integer> contacts) {
         super(name, birthDate);
         this.nib = nib;
         this.nif = nif;

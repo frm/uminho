@@ -20,7 +20,7 @@ public class Donor extends BaseEntity{
 
     public Donor() {}
     
-    public Donor(String name, String adress, String nif, String nib, String activity, HashSet<Contact> contacts, String dType, String occupation, String observations, HashSet<Donation> donations) {
+    public Donor(String name, String adress, String nif, String nib, Activity activity, HashSet<Contact> contacts, String dType, String occupation, String observations, HashSet<Donation> donations) {
         super(name, adress, nif, nib, activity, contacts);
         this.type = dType;
         this.occupation = occupation;

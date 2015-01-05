@@ -1,5 +1,7 @@
 # Created by https://www.gitignore.io
 
+.DS_Store
+
 ### NetBeans ###
 nbproject/private/
 build/
@@ -17,7 +19,6 @@ nb-configuration.xml
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 

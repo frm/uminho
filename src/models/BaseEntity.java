@@ -17,19 +17,20 @@ public abstract class BaseEntity extends BasicModel {
     private String address;
     private String nif;
     private String nib;
-    private String activity;
+    private Activity activity;
     private HashSet<Contact> contacts;
 
     public BaseEntity() {}
     
-    public BaseEntity(String name, String address, String nif, String nib, String activity, HashSet<Contact> contacts) {
+    public BaseEntity(String name, String address, String nif, String nib, Activity activity, HashSet<Contact> contacts) {
         super(-1);
         this.name = name;
         this.address = address;
         this.nif = nif;
         this.nib = nib;
         this.activity = activity;
-        this.contacts = new HashSet(contacts);
+        if(contacts != null)
+            this.contacts = new HashSet(contacts);
     }
     
     public BaseEntity(BaseEntity be) {
@@ -59,8 +60,12 @@ public abstract class BaseEntity extends BasicModel {
         return nib;
     }
 
-    public String getActivity() {
+    public Activity getActivity() {
         return activity;
+    }
+    
+    public int getActivityID() {
+        return this.activity.getId();
     }
     
     public HashSet<Contact> getContacts() {
@@ -84,7 +89,7 @@ public abstract class BaseEntity extends BasicModel {
         this.nib = nib;
     }
     
-    public void setActivity(String activity){
+    public void setActivity(Activity activity){
         this.activity = activity;
     }
     public void setContacts(HashSet<Contact> contacts) {
@@ -92,15 +97,6 @@ public abstract class BaseEntity extends BasicModel {
     }
     
     //methods
-    
-    public void removeContact(int cId){
-        if( contacts.contains(cId) )
-            contacts.remove(cId);      
-    }
-    
-    public void editContact(int cId, String ctype, String cvalue){
-        //TODO
-    }
     
     @Override
     public abstract BaseEntity clone();

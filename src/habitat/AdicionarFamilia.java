@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package habitatinterface;
+package habitat;
 
 import java.awt.Component;
 import java.text.SimpleDateFormat;
@@ -108,7 +108,6 @@ public class AdicionarFamilia extends javax.swing.JDialog {
 
         jButton4.setBackground(new java.awt.Color(51, 102, 255));
         jButton4.setText("Limpar");
-        jButton4.setOpaque(false);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -382,9 +381,6 @@ public class AdicionarFamilia extends javax.swing.JDialog {
     jTable5.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(dateFormat));
     jTable5.getTableHeader().setReorderingAllowed(false);
     jScrollPane18.setViewportView(jTable5);
-    if (jTable5.getColumnModel().getColumnCount() > 0) {
-        jTable5.getColumnModel().getColumn(1).setCellEditor(null);
-    }
 
     jButton7.setText("-");
     jButton7.addActionListener(new java.awt.event.ActionListener() {

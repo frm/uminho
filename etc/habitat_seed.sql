@@ -16,7 +16,7 @@ INSERT INTO Equipa
 
 INSERT INTO Voluntario
     (Nome, Morada, NIF, NIB, DataNascimento, Nacionalidade, Naturalidade,
-        EstadoCivil, Observacoes, Escolaridade, AtividadeID, EquipaID)
+        EstadoCivil, Observacoes, Escolaridade, Atividade, EquipaAtual)
     VALUES("Alastair Reilly", "32nd Avenue, Bristol", "987654321", "0987-6543-2109-87", MAKEDATE(1984, 200),
        "British", "London", "Married", "I found his name on Reddit", "MSc", 1, 1);
 

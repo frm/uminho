@@ -8,25 +8,28 @@ package models;
 
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
  * @author tiago
  */
 public class Volunteer extends BaseEntity {
-    private Date birthDate;
+    private String birthDate;
     private String education;
     private String nationality;
     private String citizenship;
     private String maritalStatus;
     private String observations;
     private String file;
+    private Integer currentTeam;
+    private Set<Integer> teams;
 
     public Volunteer() {
         super();
     }
 
-    public Volunteer(String name, String address, String nif, String nib, String activity, HashSet<Contact> contacts, Date birthDate, String education, String nationality, String citizenship, String maritalStatus, String observations, String file) {
+    public Volunteer(String name, String address, String nif, String nib, Activity activity, HashSet<Contact> contacts, String birthDate, String education, String nationality, String citizenship, String maritalStatus, String observations, String file) {
         super(name, address, nif, nib, activity, contacts);
         this.birthDate = birthDate;
         this.education = education;
@@ -35,6 +38,8 @@ public class Volunteer extends BaseEntity {
         this.maritalStatus = maritalStatus;
         this.observations = observations;
         this.file = file;
+        this.currentTeam = 1;
+        this.teams = new HashSet<>();
     }
     
     public Volunteer(Volunteer v){
@@ -48,7 +53,7 @@ public class Volunteer extends BaseEntity {
         this.file = v.getFile();
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
@@ -76,7 +81,7 @@ public class Volunteer extends BaseEntity {
         return file;
     }
     
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
     
@@ -102,6 +107,22 @@ public class Volunteer extends BaseEntity {
 
     public void setFile(String file) {
         this.file = file;
+    }
+    
+    public void setCurrentTeam(Integer i) {
+        this.currentTeam = i;
+    }
+    
+    public Integer getCurrentTeam() {
+        return this.currentTeam;
+    }
+    
+    public Set<Integer> getTeams() {
+        return this.teams;
+    }
+    
+    public void addTeam(Integer i) {
+        this.teams.add(i);
     }
     
     @Override

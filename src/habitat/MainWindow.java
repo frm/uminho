@@ -4,31 +4,22 @@
  * and open the template in the editor.
  */
 
-package habitatinterface;
+package habitat;
 
-import java.awt.Color;
 import java.util.HashMap;
-import java.util.Map;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AbstractDocument;
 
 /**
  *
  * @author tiago
  */
 public class MainWindow extends javax.swing.JFrame {
-
+    
     /**
-     * Creates new form MainWindow
+     * Creates new form GUI
      */
     public MainWindow() {
         initComponents();
@@ -1696,6 +1687,11 @@ public class MainWindow extends javax.swing.JFrame {
 
     submitEditVolunteer.setText("Submeter");
     submitEditVolunteer.setVisible(false);
+    submitEditVolunteer.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            submitEditVolunteerActionPerformed(evt);
+        }
+    });
 
     javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
     jPanel25.setLayout(jPanel25Layout);
@@ -2505,8 +2501,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(donorAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(donorNIF, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(donorActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(donorType, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE))
+                        .addComponent(donorType, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel48Layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(addDonorContact, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3109,42 +3104,9 @@ public class MainWindow extends javax.swing.JFrame {
         (new AdicionarDoador(this, true)).setVisible(true);
     }//GEN-LAST:event_addDonorButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            /* for(javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }*/
-            String laf = UIManager.getSystemLookAndFeelClassName();
-            UIManager.setLookAndFeel(laf);
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
-        });
-    }
+    private void submitEditVolunteerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitEditVolunteerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_submitEditVolunteerActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addApplication;
