@@ -1,4 +1,6 @@
 ProjetoSD
 =========
 
-Projeto de Sistemas Distribuidos da Licenciatura em Engenharia Informática na Universidade do Minho, Portugal no ano letivo de 2014/2015
+Distributed Systems Project 2014/15, Computer Engineering Course @ University of Minho, Braga - Portugal
+
+Consequence of using [cliche](https://code.google.com/p/cliche/) java library, this project is distributed under the terms of the [MIT license](http://opensource.org/licenses/mit-license.php).
