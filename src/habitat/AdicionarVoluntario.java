@@ -34,7 +34,7 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jTextField5 = new javax.swing.JTextField();
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jButton2 = new javax.swing.JButton();
+        submitVolunteer = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel28 = new javax.swing.JLabel();
@@ -67,7 +67,7 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
         jFormattedTextField1.setText("12/12/2014");
 
-        jButton2.setText("Submeter");
+        submitVolunteer.setText("Submeter");
 
         jButton3.setText("Limpar");
 
@@ -195,7 +195,7 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2))
+                                .addComponent(submitVolunteer))
                             .addComponent(jScrollPane2))))
                 .addGap(27, 27, 27))
         );
@@ -252,7 +252,7 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton4)
                     .addComponent(jButton3)
-                    .addComponent(jButton2))
+                    .addComponent(submitVolunteer))
                 .addGap(122, 122, 122))
         );
 
@@ -293,7 +293,6 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
     private javax.swing.JTable addVolunteerContacts;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox jComboBox1;
@@ -318,5 +317,6 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JButton submitVolunteer;
     // End of variables declaration//GEN-END:variables
 }
