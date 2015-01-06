@@ -45,8 +45,7 @@ public class RepresentativesController extends AbstractController<Representative
                 (String)params.get("birthPlace"),
                 (Activity)ControllerFactory.getActivityController().findBy( new HashMap<String, Object>() {{
                     put("name", params.get("activity"));
-                }}),
-                (Set<Contact>)params.get("contacts")
+                }})
         );
     }
     

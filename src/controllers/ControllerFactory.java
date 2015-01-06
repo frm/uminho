@@ -14,33 +14,41 @@ public class ControllerFactory {
     private static ActivityController activityController;
     private static RepresentativesController representativesController;
     private static ContactsController contactsController;
-    
+    private static FamiliesController familiesController;
+
     public static VolunteersController getVolunteersController() {
         if (volunteersController == null)
             volunteersController = new VolunteersController();
-        
+
         return volunteersController;
     }
-    
+
     public static ActivityController getActivityController() {
         if (activityController == null)
             activityController = new ActivityController();
-        
+
         return activityController;
     }
-    
+
     public static RepresentativesController getRepresentativesController() {
         if (representativesController == null)
             representativesController = new RepresentativesController();
-        
+
         return representativesController;
     }
 
     public static ContactsController getContactsController() {
         if (contactsController == null)
             contactsController = new ContactsController();
-        
+
         return contactsController;
     }
-    
+
+    public static FamiliesController getFamiliesController() {
+        if (familiesController == null)
+            familiesController = new FamiliesController();
+
+        return familiesController;
+    }
+
 }
