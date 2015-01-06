@@ -5,8 +5,12 @@
  */
 package habitat;
 
+import controllers.ControllerFactory;
+import controllers.ProjectController;
+import data.DataException;
 import java.awt.Frame;
 import java.awt.Window;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -236,6 +240,11 @@ public class AdicionarProjeto extends javax.swing.JDialog {
         });
 
         jButton10.setText("Submeter");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jTable5.setAutoCreateRowSorter(true);
         jTable5.setModel(new javax.swing.table.DefaultTableModel(
@@ -410,6 +419,23 @@ public class AdicionarProjeto extends javax.swing.JDialog {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
 
     }//GEN-LAST:event_formWindowClosed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        ProjectController pc = ControllerFactory.getProjectController();
+        
+        try {
+            pc.save( new HashMap<String, Object>() {{
+                put("name", jtfNome.getText());
+                put("startDate", jtfDataIn.getText());
+                put("budget", Float.parseFloat(jtfOrc.getText().replace(",",".")));
+                put("eta", jtfDataFi.getText());
+                put("notes", jtaObs.getText());
+                put("applicationId", 1);
+                put("paymentPlanId", 1);
+            }} );
+        } catch (DataException e) {
+        System.out.println(e.getMessage());}
+    }//GEN-LAST:event_jButton10ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
