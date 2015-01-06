@@ -22,12 +22,12 @@ public class Representative extends Member{
     private String birthPlace;
     private Activity activity;
     private Collection<Contact> contacts;
-    
+
     public Representative(){
         super();
     }
 
-    public Representative(String name, String birthDate, String nib, String nif, String maritalStatus, String education, String nationality, String birthPlace, Activity activity, Collection<Contact> contacts) {
+    public Representative(String name, String birthDate, String nib, String nif, String maritalStatus, String education, String nationality, String birthPlace, Activity activity) {
         super(name, birthDate);
         this.nib = nib;
         this.nif = nif;
@@ -36,7 +36,7 @@ public class Representative extends Member{
         this.nationality = nationality;
         this.birthPlace = birthPlace;
         this.activity = activity;
-        this.contacts = new ArrayList<Contact>(contacts);
+        this.contacts = new ArrayList<Contact>();
     }
 
     public String getEducation() {
@@ -54,7 +54,7 @@ public class Representative extends Member{
     public Activity getActivity() {
         return activity;
     }
-    
+
     public Integer getActivityId() {
         return activity.getId();
     }
@@ -111,12 +111,12 @@ public class Representative extends Member{
         if (obj == this) {
             return true;
         }
-        
+
         if(obj == null || this.getClass() != obj.getClass())
             return false;
-        
+
         Representative r = (Representative) obj;
-        
+
         return ( super.equals(obj) );
     }
  }

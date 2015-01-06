@@ -14,38 +14,42 @@ import java.util.List;
  * @author joaorodrigues
  */
 public class Family extends BasicModel  {
-    private Float income;
-    private String observations;
-    private Boolean approved;
+    private String name;
     private String address;
-    private Representative representative;
-    private List<SimpleMember> members;
-    private List<Application> applications;
+    private Float income;
+    private Integer volunteerHours;
+    private Boolean approved;
+    private String observations;
 
-    public Family(){}
+    public Family() {
+        super();
+    }
     
-    public Family (Float income, String observations, String address, Representative representative, List<SimpleMember> members) {
+    public Family (String name, String address, Float income, String observations) {
         super(-1);
         this.income = income;
         this.observations = observations;
         this.address = address;
-        this.representative = representative;
-        this.members = members;
+        this.name = name;
         
         this.approved = false;
-        this.applications = new ArrayList<Application>();
+        this.volunteerHours = 0;
     }
 
-    public List<Application> getApplications() {
-        return new ArrayList<Application>(applications);
+    public String getName() {
+        return name;
     }
 
-    public void setMembers(List<SimpleMember> members) {
-        this.members = new ArrayList<SimpleMember>(members);
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setApplications(List<Application> applications) {
-        this.applications = new ArrayList<Application>(applications);
+    public Integer getVolunteerHours() {
+        return volunteerHours;
+    }
+
+    public void setVolunteerHours(Integer volunteerHours) {
+        this.volunteerHours = volunteerHours;
     }
     
     public Float getIncome() {
@@ -56,16 +60,12 @@ public class Family extends BasicModel  {
         return observations;
     }
 
-    public Boolean isApproved() {
+    public Boolean getApproved() {
         return approved;
     }
 
     public String getAddress() {
         return address;
-    }
-
-    public Representative getRepresentative() {
-        return representative;
     }
 
     public void setIncome(Float income) {
@@ -83,16 +83,8 @@ public class Family extends BasicModel  {
     public void setAddress(String address) {
         this.address = address;
     }
-
-    public void setRepresentative(Representative representative) {
-        this.representative = representative;
-    }
-
-    public List<SimpleMember> getMembers() {
-        return members;
-    }
     
-       @Override
+    @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

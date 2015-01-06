@@ -13,12 +13,14 @@ package models;
 public abstract class Member extends BasicModel {
     private String name;
     private String birthDate;
+    private Integer familyID;
     
     public Member(){}
 
     public Member(String name, String birthDate) {
         this.name = name;
         this.birthDate = birthDate;
+        this.familyID = -1;
     }
     
     public String getName() {
@@ -27,6 +29,14 @@ public abstract class Member extends BasicModel {
 
     public String getBirthDate() {
         return birthDate;
+    }
+
+    public Integer getFamilyID() {
+        return familyID;
+    }
+
+    public void setFamilyID(Integer familyID) {
+        this.familyID = familyID;
     }
 
     public void setName(String name) {
