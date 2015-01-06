@@ -8,13 +8,12 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.GregorianCalendar;
 
 /**
  *
  * @author joaorodrigues
  */
-class Representative extends Member{
+public class Representative extends Member{
     private String nib;
     private String nif;
     private String maritalStatus;

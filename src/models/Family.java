@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class Family extends BasicModel  {
     private Float income;
-    private String notes;
+    private String observations;
     private Boolean approved;
     private String address;
     private Representative representative;
@@ -24,10 +24,10 @@ public class Family extends BasicModel  {
 
     public Family(){}
     
-    public Family (Float income, String notes, String address, Representative representative, List<SimpleMember> members) {
+    public Family (Float income, String observations, String address, Representative representative, List<SimpleMember> members) {
         super(-1);
         this.income = income;
-        this.notes = notes;
+        this.observations = observations;
         this.address = address;
         this.representative = representative;
         this.members = members;
@@ -52,8 +52,8 @@ public class Family extends BasicModel  {
         return income;
     }
 
-    public String getNotes() {
-        return notes;
+    public String getObservations() {
+        return observations;
     }
 
     public Boolean isApproved() {
@@ -72,8 +72,8 @@ public class Family extends BasicModel  {
         this.income = income;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setObservations(String observations) {
+        this.observations = observations;
     }
 
     public void setApproved(Boolean approved) {

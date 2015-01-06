@@ -6,18 +6,21 @@
 
 package habitat;
 
-import java.awt.Component;
+import controllers.ControllerFactory;
+import data.DataException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
+import models.Family;
+import models.Representative;
 
 /**
  *
@@ -45,35 +48,35 @@ public class AdicionarFamilia extends javax.swing.JDialog {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        familyName = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel61 = new javax.swing.JLabel();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        familyIncome = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel62 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jTextField9 = new javax.swing.JTextField();
+        familyAddress = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        familyObservations = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        representativeName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        representativeBirthDate = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        representativeEducation = new javax.swing.JTextField();
+        representativeActivity = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        representativeNif = new javax.swing.JTextField();
+        representativeNib = new javax.swing.JTextField();
+        representativeMaritalStatus = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
         jScrollPane15 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        representativeContacts = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -81,11 +84,11 @@ public class AdicionarFamilia extends javax.swing.JDialog {
         jButton12 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane18 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        members = new javax.swing.JTable();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        submitFamily = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Adicionar Família");
@@ -100,7 +103,7 @@ public class AdicionarFamilia extends javax.swing.JDialog {
 
         jLabel61.setText("Rendimento:");
 
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00; #0.00"))));
+        familyIncome.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00; #0.00"))));
 
         jLabel7.setText("€");
 
@@ -121,9 +124,9 @@ public class AdicionarFamilia extends javax.swing.JDialog {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        familyObservations.setColumns(20);
+        familyObservations.setRows(5);
+        jScrollPane1.setViewportView(familyObservations);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -139,8 +142,8 @@ public class AdicionarFamilia extends javax.swing.JDialog {
                             .addComponent(jLabel62))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField9)
+                            .addComponent(familyName, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(familyAddress)
                             .addComponent(jScrollPane1)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jButton4)
@@ -149,8 +152,8 @@ public class AdicionarFamilia extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel61)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(familyIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7)))
                 .addGap(28, 28, 28))
@@ -161,15 +164,15 @@ public class AdicionarFamilia extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(familyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(familyAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel61)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(familyIncome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,7 +197,7 @@ public class AdicionarFamilia extends javax.swing.JDialog {
 
         jLabel2.setText("Data de Nasc.:");
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        representativeBirthDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         jLabel3.setText("Escolaridade:");
 
@@ -208,8 +211,8 @@ public class AdicionarFamilia extends javax.swing.JDialog {
 
         jLabel28.setText("Contactos:");
 
-        jTable3.setAutoCreateRowSorter(true);
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        representativeContacts.setAutoCreateRowSorter(true);
+        representativeContacts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null}
             },
@@ -225,9 +228,9 @@ public class AdicionarFamilia extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
-        jScrollPane15.setViewportView(jTable3);
-        if (jTable3.getColumnModel().getColumnCount() > 0) {
-            jTable3.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(  
+        jScrollPane15.setViewportView(representativeContacts);
+        if (representativeContacts.getColumnModel().getColumnCount() > 0) {
+            representativeContacts.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(  
                 new javax.swing.JComboBox(
                     new javax.swing.DefaultComboBoxModel(
                         new String[] { "Telefone", "Telemóvel", "Email", "Fax" }))));
@@ -288,14 +291,14 @@ public class AdicionarFamilia extends javax.swing.JDialog {
                     .addComponent(jButton1)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3))
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(representativeName, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jScrollPane15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(representativeBirthDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(representativeEducation, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(representativeActivity, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGap(23, 23, 23)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -310,9 +313,9 @@ public class AdicionarFamilia extends javax.swing.JDialog {
                                 .addComponent(jLabel20))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField6)
-                                .addComponent(jTextField4)
-                                .addComponent(jTextField5))))))
+                                .addComponent(representativeMaritalStatus)
+                                .addComponent(representativeNif)
+                                .addComponent(representativeNib))))))
             .addContainerGap(25, Short.MAX_VALUE))
     );
     jPanel1Layout.setVerticalGroup(
@@ -321,25 +324,25 @@ public class AdicionarFamilia extends javax.swing.JDialog {
             .addContainerGap()
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel1)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(representativeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel2)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(representativeBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel8)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(representativeMaritalStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel3)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(representativeEducation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel16)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(representativeNif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel4)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(representativeActivity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel20)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(representativeNib, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(7, 7, 7)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jButton11)
@@ -360,8 +363,8 @@ public class AdicionarFamilia extends javax.swing.JDialog {
 
     jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-    jTable5.setAutoCreateRowSorter(true);
-    jTable5.setModel(new javax.swing.table.DefaultTableModel(
+    members.setAutoCreateRowSorter(true);
+    members.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
             {null, null, null}
         },
@@ -378,9 +381,9 @@ public class AdicionarFamilia extends javax.swing.JDialog {
         }
     });
     JFormattedTextField dateFormat = new JFormattedTextField(new DefaultFormatterFactory(new DateFormatter(new SimpleDateFormat("dd/MM/yyyy"))));
-    jTable5.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(dateFormat));
-    jTable5.getTableHeader().setReorderingAllowed(false);
-    jScrollPane18.setViewportView(jTable5);
+    members.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(dateFormat));
+    members.getTableHeader().setReorderingAllowed(false);
+    jScrollPane18.setViewportView(members);
 
     jButton7.setText("-");
     jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -435,10 +438,10 @@ public class AdicionarFamilia extends javax.swing.JDialog {
 
     jTabbedPane1.addTab("Membros", jPanel3);
 
-    jButton6.setText("Submeter");
-    jButton6.addActionListener(new java.awt.event.ActionListener() {
+    submitFamily.setText("Submeter");
+    submitFamily.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton6ActionPerformed(evt);
+            submitFamilyActionPerformed(evt);
         }
     });
 
@@ -451,7 +454,7 @@ public class AdicionarFamilia extends javax.swing.JDialog {
             .addGap(0, 0, Short.MAX_VALUE))
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jButton6)
+            .addComponent(submitFamily)
             .addContainerGap())
     );
     layout.setVerticalGroup(
@@ -459,7 +462,7 @@ public class AdicionarFamilia extends javax.swing.JDialog {
         .addGroup(layout.createSequentialGroup()
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jButton6)
+            .addComponent(submitFamily)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
@@ -467,14 +470,14 @@ public class AdicionarFamilia extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField4.setText("");
-        jTextField5.setText("");
-        jTextField6.setText("");
-        jFormattedTextField1.setText("");
-        DefaultTableModel model = (DefaultTableModel)jTable3.getModel(); 
+        representativeName.setText("");
+        representativeEducation.setText("");
+        representativeActivity.setText("");
+        representativeNif.setText("");
+        representativeNib.setText("");
+        representativeMaritalStatus.setText("");
+        representativeBirthDate.setText("");
+        DefaultTableModel model = (DefaultTableModel)representativeContacts.getModel(); 
         model.setRowCount(0);
         model.addRow(new Object[]{"", "", ""});
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -492,43 +495,101 @@ public class AdicionarFamilia extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        ((DefaultTableModel)jTable5.getModel()).addRow(new Object[]{"", "", ""});
+        ((DefaultTableModel)members.getModel()).addRow(new Object[]{"", "", ""});
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        //MANDAR OS DADOS
+    private void submitFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitFamilyActionPerformed
+        RepresentativesController rc = ControllerFactory.getRepresentativesController();
+        MembersController mc = ControllerFactory.getMembersController();
+        FamiliesController fc = ControllerFactory.getFamiliesController();
+        ContactsController cc = ControllerFactory.getContactsController();
         
-    }//GEN-LAST:event_jButton6ActionPerformed
+        try {           
+            final Representative r = rc.save(new HashMap<String, Object>() {{
+                put("name", representativeName.getText());
+                put("birthDate", Util.strToDate( representativeBirthDate.getText() ));
+                put("maritalStatus", representativeMaritalStatus.getText());
+                put("education", representativeEducation.getText());
+                put("activity", representativeActivity.getSelectedItem().toString() );
+                put("nif", representativeNif.getText() );
+                put("nib", representativeNib.getText() );
+            }});
+            
+            final TableModel t = representativeContacts.getModel();
+            int totalContacts = t.getRowCount();
+            List<Map<String, Object>> contacts = new ArrayList<>();
+            
+            for(int i = 0; i < totalContacts; i++) {
+                final int i2 = i;
+                contacts.add( new HashMap<String, Object>() {{
+                    put("type", t.getValueAt(i2, 0).toString());
+                    put("value", t.getValueAt(i2, 1).toString());
+                    put("owner", r.getId() );
+                    put("ownerType", "Representante");
+                }});
+            }
+            
+            final Family f = fc.save(new HashMap<String, Object>() {{
+                put("name", familyName.getText());
+                put("address", familyAddress.getText());
+                put("observations", familyObservations.getText());
+                put("representative", r);
+            }});
+            
+            final TableModel memberTable = members.getModel();
+            int totalMembers = memberTable.getRowCount();
+            List<Map<String, Object>> memberList = new ArrayList<>();
+            
+            for(int i = 0; i < totalMembers; i++) {
+                final int i2 = i;
+                memberList.add( new HashMap<String, Object>() {{
+                    put("name", t.getValueAt(i2, 0).toString());
+                    put("birthDate", t.getValueAt(i2, 1).toString());
+                    put("kinship", t.getValueAt(i2, 2).toString());
+                    put("family", f);
+                }});
+            }
+            
+            mc.saveAll(memberList);
+        } catch (DataException e) {
+            // SHOW ERROR MESSAGE
+        }
+        
+    }//GEN-LAST:event_submitFamilyActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        jTextField7.setText("");
-        jTextField9.setText("");
-        jFormattedTextField2.setText("");
-        jTextArea1.setText("");
+        familyName.setText("");
+        familyAddress.setText("");
+        familyIncome.setText("");
+        familyObservations.setText("");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        ((DefaultTableModel)jTable3.getModel()).addRow(new Object[]{"", "", ""});
+        ((DefaultTableModel)representativeContacts.getModel()).addRow(new Object[]{"", "", ""});
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         int rowID;
-        if(( rowID = jTable3.getSelectedRow()) >= 0)
-            ((DefaultTableModel)jTable3.getModel()).removeRow(rowID);
+        if(( rowID = representativeContacts.getSelectedRow()) >= 0)
+            ((DefaultTableModel)representativeContacts.getModel()).removeRow(rowID);
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         Integer rowID;
-        if(( rowID = jTable5.getSelectedRow()) != null)
-            ((DefaultTableModel)jTable5.getModel()).removeRow(rowID);
+        if(( rowID = members.getSelectedRow()) != null)
+            ((DefaultTableModel)members.getModel()).removeRow(rowID);
     }//GEN-LAST:event_jButton7ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField familyAddress;
+    private javax.swing.JFormattedTextField familyIncome;
+    private javax.swing.JTextField familyName;
+    private javax.swing.JTextArea familyObservations;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -537,11 +598,8 @@ public class AdicionarFamilia extends javax.swing.JDialog {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
@@ -562,16 +620,15 @@ public class AdicionarFamilia extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane15;
     private javax.swing.JScrollPane jScrollPane18;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable5;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTable members;
+    private javax.swing.JTextField representativeActivity;
+    private javax.swing.JFormattedTextField representativeBirthDate;
+    private javax.swing.JTable representativeContacts;
+    private javax.swing.JTextField representativeEducation;
+    private javax.swing.JTextField representativeMaritalStatus;
+    private javax.swing.JTextField representativeName;
+    private javax.swing.JTextField representativeNib;
+    private javax.swing.JTextField representativeNif;
+    private javax.swing.JButton submitFamily;
     // End of variables declaration//GEN-END:variables
 }

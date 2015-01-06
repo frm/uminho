@@ -6,34 +6,32 @@
 
 package models;
 
-import java.util.GregorianCalendar;
-
 /**
  *
  * @author joaorodrigues
  */
 public class SimpleMember extends Member{
-    private String grauParentesco;
+    private String kinship;
     
     public SimpleMember(){
         super();
     }
 
-    public SimpleMember(String grauParentesco, String name, String birthDate) {
+    public SimpleMember(String name, String birthDate, String kinship) {
         super(name, birthDate);
-        this.grauParentesco = grauParentesco;
+        this.kinship = kinship;
     }
 
     public SimpleMember(String name, String birthDate) {
         super(name, birthDate);
     }
 
-    public void setGrauParentesco(String grauParentesco) {
-        this.grauParentesco = grauParentesco;
+    public void setKinship(String kinship) {
+        this.kinship = kinship;
     }
 
-    public String getGrauParentesco() {
-        return grauParentesco;
+    public String getKinship() {
+        return kinship;
     }
     
     @Override
