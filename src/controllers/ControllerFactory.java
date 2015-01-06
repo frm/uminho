@@ -13,6 +13,7 @@ public class ControllerFactory {
     private static VolunteersController volunteersController;
     private static ActivityController activityController;
     private static RepresentativesController representativesController;
+    private static ContactsController contactsController;
     
     public static VolunteersController getVolunteersController() {
         if (volunteersController == null)
@@ -35,4 +36,11 @@ public class ControllerFactory {
         return representativesController;
     }
 
+    public static ContactsController getContactsController() {
+        if (contactsController == null)
+            contactsController = new ContactsController();
+        
+        return contactsController;
+    }
+    
 }
