@@ -6,10 +6,14 @@
 
 package habitat;
 
+import data.DataException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -2798,7 +2802,14 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addVolunteerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVolunteerActionPerformed
-        (new AdicionarVoluntario(this, true)).setVisible(true);
+        AdicionarVoluntario window = new AdicionarVoluntario(this, true);
+        try {        
+            window.setActivities();
+            window.setVisible(true);
+        } catch (DataException ex) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao obter os dados");
+        }
+        
     }//GEN-LAST:event_addVolunteerActionPerformed
 
     private void addVolunteerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addVolunteerMouseClicked

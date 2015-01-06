@@ -594,9 +594,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="volunteerActivityActionPerformed"/>
           </Events>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="try{&#xa;    Collection&lt;Activity&gt; items = ControllerFactory.getActivityController().all();&#xa;    for( Activity a: items){&#xa;        volunteerActivity.addItem(a);&#xa;    }&#xa;}catch( DataException e){&#xa;     JOptionPane.showMessageDialog(this, &quot;Ocorreu um erro ao obter os dados&quot;);&#xa;}"/>
-          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="addActivity">
           <Properties>

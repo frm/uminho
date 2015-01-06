@@ -174,14 +174,6 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
         jLabel6.setText("Ocupação:");
 
         volunteerActivity.setModel(new javax.swing.DefaultComboBoxModel(new String[]{}));
-        try{
-            Collection<Activity> items = ControllerFactory.getActivityController().all();
-            for( Activity a: items){
-                volunteerActivity.addItem(a);
-            }
-        }catch( DataException e){
-            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao obter os dados");
-        }
         volunteerActivity.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 volunteerActivityActionPerformed(evt);
@@ -417,7 +409,14 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
     private void volunteerActivityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerActivityActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_volunteerActivityActionPerformed
-
+    
+    public void setActivities() throws DataException{
+        Collection<Activity> items = ControllerFactory.getActivityController().all();
+        for( Activity a: items){
+            volunteerActivity.addItem(a);
+        }
+    }
+    
     private void addActivityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActivityActionPerformed
        String name = JOptionPane.showInputDialog(this, "Introduza o nome da atividade:");
        Map<String, Object> params = new HashMap<>();
