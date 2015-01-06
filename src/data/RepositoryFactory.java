@@ -14,6 +14,7 @@ public class RepositoryFactory {
     private static VolunteersRepository volunteersRepository;
     private static ActivityRepository activityRepository;
     private static RepresentativeRepository representativeRepository;
+    private static ContactRepository contactRepository;
     
     //private static final String USERNAME = System.getenv("HBT_USR");
     //private static final String PASSWORD = System.getenv("HBT_PW");
@@ -44,10 +45,17 @@ public class RepositoryFactory {
         return activityRepository;
     }
     
-        public static RepresentativeRepository getRepresentativeRepository() {
+    public static RepresentativeRepository getRepresentativeRepository() {
         if (representativeRepository == null)
             representativeRepository = new RepresentativeRepository(getURL(), USERNAME, PASSWORD);
         
         return representativeRepository;
+    }
+        
+    public static ContactRepository getContactRepository() {
+        if (contactRepository == null)
+            contactRepository = new ContactRepository(getURL(), USERNAME, PASSWORD);
+        
+        return contactRepository;
     }
 }
