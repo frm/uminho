@@ -6,26 +6,29 @@
 
 package models;
 
-import java.util.GregorianCalendar;
 
 /**
  *
  * @author tiago
  */
 public class Donation extends BasicModel {
-    private Integer donationType;
-    private GregorianCalendar donationDate;
+    private Integer materialID;
+    private String donationType;
+    private String donationDate;
     private Integer quantity;
     private Double amount;
     private Boolean used;
     private String observations;
 
-    public Donation() {}
+    public Donation() {
+        super();
+    }
     
-    public Donation(Integer donationType, GregorianCalendar dontationDate, Integer quantity, Double amount, Boolean used, String observations) {
+    public Donation(Integer materialID, String donationType, String donationDate, Integer quantity, Double amount, Boolean used, String observations) {
         super(-1);
+        this.materialID=materialID;
         this.donationType = donationType;
-        this.donationDate = dontationDate;
+        this.donationDate = donationDate;
         this.quantity = quantity;
         this.amount = amount;
         this.used=used;
@@ -34,6 +37,7 @@ public class Donation extends BasicModel {
     
     public Donation(Donation don){
         super( don.getId() );
+        this.materialID = don.getMaterialID();
         this.donationType = don.getDonationType();
         this.donationDate = don.getDonationDate();
         this.quantity = don.getQuantity();
@@ -42,11 +46,15 @@ public class Donation extends BasicModel {
         this.observations = don.getObservations();
     }
 
-    public Integer getDonationType() {
+    public Integer getMaterialID() {
+        return materialID;
+    }
+    
+    public String getDonationType() {
         return donationType;
     }
 
-    public GregorianCalendar getDonationDate() {
+    public String getDonationDate() {
         return donationDate;
     }
 
@@ -66,12 +74,15 @@ public class Donation extends BasicModel {
         return observations;
     }
 
-    public void setDonationType(Integer donationType) {
+    public void setMaterialID(Integer id){
+        this.materialID=id;
+    }
+    public void setDonationType(String donationType) {
         this.donationType = donationType;
     }
 
-    public void setDonationDate(GregorianCalendar dontationDate) {
-        this.donationDate = dontationDate;
+    public void setDonationDate(String donationDate) {
+        this.donationDate = donationDate;
     }
 
     public void setQuantity(Integer quantity) {

@@ -13,35 +13,33 @@ import java.util.HashSet;
  * @author tiago
  */
 public class Donor extends BaseEntity{
-    private String type;
-    private String occupation;
+    private Boolean type;
     private String observations;
     private HashSet<Donation> donations;
+    private String lastDonationDate;
 
-    public Donor() {}
+    public Donor() {
+        super();
+    }
     
-    public Donor(String name, String adress, String nif, String nib, Activity activity, HashSet<Contact> contacts, String dType, String occupation, String observations, HashSet<Donation> donations) {
-        super(name, adress, nif, nib, activity, contacts);
+    public Donor(String name, String address, String nif, String nib, Activity activity, HashSet<Contact> contacts, Boolean dType, String observations) {
+        super(name, address, nif, nib, activity, contacts);
         this.type = dType;
-        this.occupation = occupation;
         this.observations = observations;
-        this.donations = new HashSet(donations);
+        this.donations = new HashSet();
+        this.lastDonationDate = null;
     }
     
     public Donor(Donor d){
         super(d);
         this.type = d.getType();
-        this.occupation = d.getOccupation();
         this.observations = d.getObservations();
         this.donations = d.getDonations();
+        this.lastDonationDate = d.getLastDonationDate();
     }
 
-    public String getType() {
+    public Boolean getType() {
         return type;
-    }
-
-    public String getOccupation() {
-        return occupation;
     }
 
     public String getObservations() {
@@ -51,13 +49,13 @@ public class Donor extends BaseEntity{
     public HashSet<Donation> getDonations() {
         return new HashSet(donations);
     }
-
-    public void setType(String type) {
-        this.type = type;
+    
+    public String getLastDonationDate() {
+        return lastDonationDate;
     }
 
-    public void setOccupation(String occupation) {
-        this.occupation = occupation;
+    public void setType(Boolean type) {
+        this.type = type;
     }
 
     public void setObservations(String observations) {
@@ -66,6 +64,10 @@ public class Donor extends BaseEntity{
 
     public void setDonations(HashSet<Donation> donations) {
         this.donations = new HashSet(donations);
+    }
+    
+    public void setLastDonationDate(String lastDonationDate) {
+        this.lastDonationDate = lastDonationDate;        
     }
     
     public void addDonation(Donation d){
@@ -83,8 +85,6 @@ public class Donor extends BaseEntity{
         sb.append(", ");
         sb.append(type);
         sb.append(", ");
-        sb.append(occupation);
-        sb.append(", ");
         sb.append(observations);
         return sb.toString();
     }
@@ -96,7 +96,7 @@ public class Donor extends BaseEntity{
        
         Donor d = (Donor) o;
         
-        return (super.equals(o) && this.type == d.getType() && this.occupation.equals(d.getOccupation()) && this.observations.equals(d.getObservations()));
+        return (super.equals(o) && this.type == d.getType() && this.observations.equals(d.getObservations()));
     }
     
 }

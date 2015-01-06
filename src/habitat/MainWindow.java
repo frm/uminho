@@ -416,7 +416,7 @@ public class MainWindow extends javax.swing.JFrame {
         repContacts.setAutoCreateRowSorter(true);
         repContacts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+
             },
             new String [] {
                 "Tipo", "Contacto"
@@ -809,7 +809,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel35Layout.createSequentialGroup()
                     .addGap(55, 55, 55)
                     .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
                         .addGroup(jPanel35Layout.createSequentialGroup()
                             .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel29)
@@ -968,9 +968,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jScrollPane18)
                 .addGroup(jPanel36Layout.createSequentialGroup()
                     .addComponent(addMember)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
                     .addComponent(editMember)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                     .addComponent(removeMember)))
             .addContainerGap())
     );
@@ -1038,7 +1038,7 @@ public class MainWindow extends javax.swing.JFrame {
     jPanel33Layout.setHorizontalGroup(
         jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel33Layout.createSequentialGroup()
-            .addComponent(jTabbedPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel33Layout.createSequentialGroup()
@@ -1052,13 +1052,14 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(familyApprovedFilter)
                                 .addComponent(familyFinishedProjectFilter)
                                 .addComponent(addFamily))
-                            .addGap(0, 282, Short.MAX_VALUE))
+                            .addGap(0, 187, Short.MAX_VALUE))
                         .addGroup(jPanel33Layout.createSequentialGroup()
                             .addComponent(jLabel41)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(searchFamiliesButton)))
                     .addGap(10, 10, 10))
                 .addGroup(jPanel33Layout.createSequentialGroup()
+                    .addGap(12, 12, 12)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addContainerGap())))
     );
@@ -1096,7 +1097,7 @@ public class MainWindow extends javax.swing.JFrame {
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-            .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, 663, Short.MAX_VALUE)
+            .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, 725, Short.MAX_VALUE)
             .addContainerGap())
     );
 
@@ -1254,7 +1255,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel48, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addContainerGap(85, Short.MAX_VALUE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     jPanel46Layout.setVerticalGroup(
         jPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1386,7 +1387,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(addPayment)
                 .addComponent(deletePayment))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(editPaymentPlan)
             .addGap(13, 13, 13)
@@ -1463,7 +1464,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(addTask)
                 .addComponent(removeTask))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+            .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(taskViewDetails)
             .addContainerGap())
@@ -1578,7 +1579,7 @@ public class MainWindow extends javax.swing.JFrame {
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 675, Short.MAX_VALUE)
+        .addGap(0, 737, Short.MAX_VALUE)
         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1718,12 +1719,12 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(cancelEditVolunteer)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(submitEditVolunteer)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(editVolunteer)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(deleteVolunteer))
-                        .addComponent(volunteerName, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
-                        .addComponent(volunteerAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+                        .addComponent(volunteerName)
+                        .addComponent(volunteerAddress)
                         .addComponent(jScrollPane8)
                         .addGroup(jPanel25Layout.createSequentialGroup()
                             .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1815,7 +1816,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelEditVolunteer)
                     .addComponent(submitEditVolunteer)))
-            .addContainerGap(265, Short.MAX_VALUE))
+            .addContainerGap(274, Short.MAX_VALUE))
     );
 
     jTabbedPane12.addTab("Informações", jPanel25);
@@ -1867,7 +1868,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+            .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(volunteerViewEventDetails)
             .addGap(12, 12, 12))
@@ -1925,7 +1926,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jScrollPane20, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+            .addComponent(jScrollPane20, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(volunteerViewProjectDetails)
             .addGap(12, 12, 12))
@@ -1998,7 +1999,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(volunteerProjectFilter)
                         .addComponent(volunteerEventFilter))
-                    .addGap(0, 1, Short.MAX_VALUE))
+                    .addGap(0, 0, Short.MAX_VALUE))
                 .addGroup(jPanel24Layout.createSequentialGroup()
                     .addComponent(jLabel45)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2024,7 +2025,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addComponent(addVolunteer)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jScrollPane10))
-        .addComponent(jTabbedPane12)
+        .addComponent(jTabbedPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
     );
 
     javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -2037,7 +2038,7 @@ public class MainWindow extends javax.swing.JFrame {
     );
     jPanel3Layout.setVerticalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 666, Short.MAX_VALUE)
+        .addGap(0, 737, Short.MAX_VALUE)
         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2357,7 +2358,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addComponent(addEventButton)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(jScrollPane21))
-        .addComponent(jTabbedPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
+        .addComponent(jTabbedPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
     );
 
     javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -2370,7 +2371,7 @@ public class MainWindow extends javax.swing.JFrame {
     );
     jPanel5Layout.setVerticalGroup(
         jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 666, Short.MAX_VALUE)
+        .addGap(0, 737, Short.MAX_VALUE)
         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2433,7 +2434,7 @@ public class MainWindow extends javax.swing.JFrame {
     donorContacts.setAutoCreateRowSorter(true);
     donorContacts.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
-            {null, null}
+
         },
         new String [] {
             "Tipo", "Contacto"
@@ -2579,7 +2580,7 @@ public class MainWindow extends javax.swing.JFrame {
     addDonationTable.setAutoCreateRowSorter(true);
     addDonationTable.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
-            {null, null, null}
+
         },
         new String [] {
             "Data", "Tipo", "Valor"
@@ -2646,7 +2647,7 @@ public class MainWindow extends javax.swing.JFrame {
     jPanel9Layout.setVerticalGroup(
         jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel9Layout.createSequentialGroup()
-            .addContainerGap(24, Short.MAX_VALUE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane24, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(18, 18, 18)
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2729,7 +2730,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addContainerGap())
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel47Layout.createSequentialGroup()
                     .addComponent(addDonorButton)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton40)
                     .addGap(171, 171, 171))
                 .addGroup(jPanel47Layout.createSequentialGroup()
@@ -2775,7 +2776,7 @@ public class MainWindow extends javax.swing.JFrame {
     );
     jPanel8Layout.setVerticalGroup(
         jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 666, Short.MAX_VALUE)
+        .addGap(0, 737, Short.MAX_VALUE)
         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addComponent(jPanel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2793,8 +2794,8 @@ public class MainWindow extends javax.swing.JFrame {
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 703, Short.MAX_VALUE)
-            .addContainerGap())
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)
+            .addGap(0, 0, 0))
     );
 
     pack();

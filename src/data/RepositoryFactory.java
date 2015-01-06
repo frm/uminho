@@ -20,6 +20,7 @@ public class RepositoryFactory {
     private static PaymentPlanRepository paymentPlanRepository;
     private static ProjectRepository projectRepository;
     private static TaskRepository taskRepository;
+    private static DonorRepository donorRepository;
     
     //private static final String USERNAME = System.getenv("HBT_USR");
     //private static final String PASSWORD = System.getenv("HBT_PW");
@@ -98,5 +99,11 @@ public class RepositoryFactory {
             taskRepository = new TaskRepository(getURL(), USERNAME, PASSWORD);
         
         return taskRepository;
+    
+    public static DonorRepository getDonorRepository() {
+        if (donorRepository == null)
+            donorRepository = new DonorRepository(getURL(), USERNAME, PASSWORD);
+        
+        return donorRepository;
     }
 }

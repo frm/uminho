@@ -5,10 +5,22 @@
  */
 package habitat;
 
+import controllers.ContactsController;
+import controllers.ControllerFactory;
+import controllers.DonorsController;
+import data.DataException;
 import habitat.JTextAreaLimit;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.DefaultCellEditor;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import models.Donor;
+import models.Family;
+import models.Representative;
 
 /**
  *
@@ -47,8 +59,7 @@ public class AdicionarDoador extends javax.swing.JDialog {
         donorAddress = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         addDonorObservation = new javax.swing.JTextArea();
-        donorType = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
+        donorActivity = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         cancelAddDonorButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -56,6 +67,9 @@ public class AdicionarDoador extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         SubmitAddDonorButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        donorNIB = new javax.swing.JTextField();
+        donorType = new javax.swing.JComboBox();
 
         jTextField1.setText("jTextField1");
 
@@ -92,7 +106,7 @@ public class AdicionarDoador extends javax.swing.JDialog {
         addDonorContactsTable.setAutoCreateRowSorter(true);
         addDonorContactsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+
             },
             new String [] {
                 "Tipo", "Contacto"
@@ -121,7 +135,12 @@ public class AdicionarDoador extends javax.swing.JDialog {
         addDonorObservation.setRows(5);
         jScrollPane1.setViewportView(addDonorObservation);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        donorActivity.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Coisar", "Item 2", "Item 3", "Item 4" }));
+        donorActivity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                donorActivityActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Designação:");
 
@@ -144,15 +163,35 @@ public class AdicionarDoador extends javax.swing.JDialog {
         jLabel3.setText("Morada:");
 
         SubmitAddDonorButton.setText("Submeter");
+        SubmitAddDonorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SubmitAddDonorButtonActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Observações:");
+
+        jLabel8.setText("NIB:");
+
+        donorNIB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                donorNIBActionPerformed(evt);
+            }
+        });
+
+        donorType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Doador", "Instituição" }));
+        donorType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                donorTypeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel7)
                     .addComponent(jLabel6)
@@ -164,26 +203,33 @@ public class AdicionarDoador extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
-                        .addComponent(addDonorContactsAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(addDonorContactsRemoveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(cancelAddDonorButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cleanAddDonorButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SubmitAddDonorButton))
-                    .addComponent(donorDesignation)
-                    .addComponent(donorAddress)
-                    .addComponent(donorType)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(donorActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
+                                .addComponent(addDonorContactsAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(addDonorContactsRemoveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(cancelAddDonorButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cleanAddDonorButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(SubmitAddDonorButton))
+                            .addComponent(donorDesignation)
+                            .addComponent(donorAddress)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(donorNIF, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(donorNIB))
+                            .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1))
+                        .addGap(61, 61, 61))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(donorNIF, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addGap(61, 61, 61))
+                        .addComponent(donorType, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,7 +241,9 @@ public class AdicionarDoador extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(donorNIF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(donorNIF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(donorNIB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -207,7 +255,7 @@ public class AdicionarDoador extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(donorActivity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addDonorContactsAddButton)
                     .addComponent(addDonorContactsRemoveButton))
                 .addGap(18, 18, 18)
@@ -230,13 +278,14 @@ public class AdicionarDoador extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -267,8 +316,58 @@ public class AdicionarDoador extends javax.swing.JDialog {
         donorDesignation.setText("");
         donorNIF.setText("");
         addDonorObservation.setText("");
-        donorType.setText("");
     }//GEN-LAST:event_cleanAddDonorButtonActionPerformed
+
+    private void SubmitAddDonorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitAddDonorButtonActionPerformed
+        DonorsController dc = ControllerFactory.getDonorsController();
+        ContactsController cc = ControllerFactory.getContactsController();
+        
+        try {           
+            final Donor d = dc.save(new HashMap<String, Object>() {{
+                put("name", donorDesignation.getText());
+                put("address", donorAddress.getText());
+                put("nif", donorNIF.getText());
+                if (donorType.getSelectedItem().toString().equals("Doador"))
+                    put("dType", true);
+                else put("dType", false);
+                put("activity", donorActivity.getSelectedItem().toString() );
+                put("nib", donorNIB.getText());
+                put("observations", addDonorObservation.getText());                
+            }});
+            
+            final TableModel t = addDonorContactsTable.getModel();
+            int totalContacts = t.getRowCount();
+            List<Map<String, Object>> contacts = new ArrayList<>();
+            
+            for(int i = 0; i < totalContacts; i++) {
+                final int i2 = i;
+                contacts.add( new HashMap<String, Object>() {{
+                    put("type", t.getValueAt(i2, 0).toString());
+                    put("value", t.getValueAt(i2, 1).toString());
+                    put("owner", d.getId() );
+                    put("ownerType", "Doador");
+                }});
+            }
+            
+            cc.saveAll(contacts);
+            
+            
+        } catch (DataException e) {
+            // SHOW ERROR MESSAGE
+        }
+    }//GEN-LAST:event_SubmitAddDonorButtonActionPerformed
+
+    private void donorActivityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_donorActivityActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_donorActivityActionPerformed
+
+    private void donorNIBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_donorNIBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_donorNIBActionPerformed
+
+    private void donorTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_donorTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_donorTypeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton SubmitAddDonorButton;
@@ -278,11 +377,12 @@ public class AdicionarDoador extends javax.swing.JDialog {
     private javax.swing.JTextArea addDonorObservation;
     private javax.swing.JButton cancelAddDonorButton;
     private javax.swing.JButton cleanAddDonorButton;
+    private javax.swing.JComboBox donorActivity;
     private javax.swing.JTextField donorAddress;
     private javax.swing.JTextField donorDesignation;
+    private javax.swing.JTextField donorNIB;
     private javax.swing.JTextField donorNIF;
-    private javax.swing.JTextField donorType;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox donorType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -290,6 +390,7 @@ public class AdicionarDoador extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane15;
