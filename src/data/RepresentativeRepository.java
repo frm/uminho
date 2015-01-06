@@ -28,7 +28,8 @@ public class RepresentativeRepository extends AbstractRepository<Representative>
        put("MaritalStatus", "EstadoCivil");
        put("Education", "Escolaridade");
        put("Observations", "Observacoes");
-       put("ActivityID", "Atividade");
+       put("ActivityId", "Atividade");
+       put("FamilyID", "Familia");
     }};
 
     public RepresentativeRepository(String url, String username, String password) {
@@ -48,6 +49,7 @@ public class RepresentativeRepository extends AbstractRepository<Representative>
             r.setNationality( result.getString( getColumnAttr("nationality") ) );
             r.setBirthPlace( result.getString( getColumnAttr("citizenship") ) );
             r.setMaritalStatus( result.getString( getColumnAttr("maritalStatus") ) );
+            r.setFamilyID( result.getInt( getColumnAttr("familyID") ) );
         } catch (SQLException e) {
             throw new DataException("Error saving representative.");
         }

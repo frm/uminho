@@ -149,7 +149,7 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
         try {
             connection = DriverManager.getConnection(url, username, password);
             statement = connection.prepareStatement(query, generatedKeys);
-
+            System.out.println(query);
             statement.executeUpdate();
 
             if(t.getId() > 0)
@@ -221,7 +221,6 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
         StringBuilder values = new StringBuilder("VALUES (");
 
         Map<String, String> serializedObj = serialize(t, false, true, getInsertIgnores());
-
         Iterator<Map.Entry<String, String>> entry = serializedObj.entrySet().iterator();
         while( entry.hasNext() ) {
             Map.Entry<String, String> e = entry.next();

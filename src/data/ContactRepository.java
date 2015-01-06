@@ -18,7 +18,7 @@ import models.Contact;
 public class ContactRepository extends AbstractRepository<Contact> {
     private static final String DB_TABLE = "Contacto";
     private static final LinkedHashMap<String, String> COLUMN_ATTR = new LinkedHashMap<String, String>() {{
-       put("Id", "Id");
+       put("Id", "id");
        put("Value", "Valor");
        put("Type", "Tipo");
        put("OwnerType", "TipoDono");
