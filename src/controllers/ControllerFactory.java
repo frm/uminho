@@ -12,6 +12,7 @@ package controllers;
 public class ControllerFactory {
     private static VolunteersController volunteersController;
     private static ActivityController activityController;
+    private static RepresentativesController representativesController;
     
     public static VolunteersController getVolunteersController() {
         if (volunteersController == null)
@@ -26,4 +27,12 @@ public class ControllerFactory {
         
         return activityController;
     }
+    
+    public static RepresentativesController getRepresentativesController() {
+        if (representativesController == null)
+            representativesController = new RepresentativesController();
+        
+        return representativesController;
+    }
+
 }
