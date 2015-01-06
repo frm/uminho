@@ -17,10 +17,11 @@ public abstract class Member extends BasicModel {
     
     public Member(){}
 
-    public Member(String name, String birthDate) {
+    public Member(String name, String birthDate, Integer familyID) {
+        super(-1);
         this.name = name;
         this.birthDate = birthDate;
-        this.familyID = -1;
+        this.familyID = familyID;
     }
     
     public String getName() {

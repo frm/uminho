@@ -17,13 +17,9 @@ public class SimpleMember extends Member{
         super();
     }
 
-    public SimpleMember(String name, String birthDate, String kinship) {
-        super(name, birthDate);
+    public SimpleMember(String name, String birthDate, String kinship, Integer familyID) {
+        super(name, birthDate, familyID);
         this.kinship = kinship;
-    }
-
-    public SimpleMember(String name, String birthDate) {
-        super(name, birthDate);
     }
 
     public void setKinship(String kinship) {
