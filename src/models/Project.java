@@ -6,10 +6,6 @@
 
 package models;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.GregorianCalendar;
-
 /**
  *
  * @author joaorodrigues
@@ -31,10 +27,10 @@ public class Project extends BasicModel {
         super();
     }
     
-    public Project(String name, Float budget, String eta, String notes, int aId, int ppId) {
+    public Project(String name, String startDate, Float budget, String eta, String notes, int aId, int ppId) {
         super(-1);
         this.name = name;
-        this.startDate = new String();
+        this.startDate = startDate;
         this.budget = budget;
         this.eta = eta;
         this.notes = notes;
