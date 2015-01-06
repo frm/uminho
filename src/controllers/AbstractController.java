@@ -8,6 +8,7 @@ package controllers;
 import data.AbstractRepository;
 import data.DataException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import models.BasicModel;
@@ -38,8 +39,12 @@ public abstract class AbstractController<T extends BasicModel> implements Contro
         return getRepository().find(id);
     }
     
-    public List<T> findBy(Map<String, Object> params) throws DataException {
+    public Collection<T> findBy(Map<String, Object> params) throws DataException {
         return getRepository().findBy(params);
+    }
+    
+    public Collection<T> all() throws DataException {
+        return getRepository().all();
     }
     
     protected abstract AbstractRepository<T> getRepository();
