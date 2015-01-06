@@ -15,13 +15,14 @@ public class ControllerFactory {
     private static RepresentativesController representativesController;
     private static ContactsController contactsController;
     private static FamiliesController familiesController;
-    private static TaskController taskController;
-    private static ProjectController projectController;
+    private static TasksController taskController;
+    private static ProjectsController projectController;
     private static PaymentPlanController paymentPlanController;
-    private static PaymentController paymentController;
+    private static PaymentsController paymentController;
     private static DonorsController donorsController;
     private static EventsController eventsController;
     private static MembersController membersController;
+    private static ApplicationsController applicationsController;
 
     public static VolunteersController getVolunteersController() {
         if (volunteersController == null)
@@ -56,42 +57,42 @@ public class ControllerFactory {
 
         return familiesController;
     }
-    
-    public static TaskController getTaskController() {
+
+    public static TasksController getTaskController() {
         if (taskController == null)
-            taskController = new TaskController();
-        
+            taskController = new TasksController();
+
         return taskController;
     }
-    
-    public static ProjectController getProjectController() {
+
+    public static ProjectsController getProjectController() {
         if (projectController == null)
-            projectController = new ProjectController();
-        
+            projectController = new ProjectsController();
+
         return projectController;
     }
-    
+
     public static PaymentPlanController getPaymentPlanController() {
         if (paymentPlanController == null)
             paymentPlanController = new PaymentPlanController();
-        
+
         return paymentPlanController;
     }
-    
-    public static PaymentController getPaymentController() {
+
+    public static PaymentsController getPaymentController() {
         if (paymentController == null)
-            paymentController = new PaymentController();
-        
+            paymentController = new PaymentsController();
+
         return paymentController;
     }
 
     public static DonorsController getDonorsController() {
         if (donorsController == null)
             donorsController = new DonorsController();
-        
+
         return donorsController;
     }
-    
+
     public static EventsController getEventsController() {
         if (eventsController == null)
             eventsController = new EventsController();
@@ -103,5 +104,12 @@ public class ControllerFactory {
             membersController = new MembersController();
 
         return membersController;
+    }
+
+    public static ApplicationsController getApplicationsController() {
+        if (applicationsController == null)
+            applicationsController = new ApplicationsController();
+
+        return applicationsController;
     }
 }

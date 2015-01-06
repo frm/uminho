@@ -6,51 +6,39 @@
 
 package models;
 
-import java.util.GregorianCalendar;
-import java.util.Map;
-
 /**
  *
  * @author joaorodrigues
  */
 public class Application extends BasicModel {
-    private GregorianCalendar applicationDate;
+    private String applicationDate;
     private String file;
     private Boolean status;
-    private String priority;
+    private Integer priority;
     private String notes;
     private String location;
-    private GregorianCalendar approvalDate;
-    private Map<Integer, String> questionnaire;
-    private Project projeto;
-    
-    public Application() { }
+    private String approvalDate;
+    private Integer manager;
+    private Integer familyId;
 
-    public Application(GregorianCalendar applicationDate, String file, String priority, String notes, String location, Map<Integer, String> questionnaire) {
+    public Application() {
+        super();
+    }
+
+    public Application(String applicationDate, String file, Integer priority, String notes, String location, Integer manager, Integer familyId) {
         super(-1);
         this.applicationDate = applicationDate;
         this.file = file;
         this.priority = priority;
         this.notes = notes;
         this.location = location;
-        this.questionnaire = questionnaire;
-        
+        this.manager = manager;
+        this.familyId = familyId;
+
         this.status = false;
-        this.applicationDate = new GregorianCalendar();
-    }
-    
-    public Application(String location, Map<Integer, String> questionnaire) {
-        super(-1);
-        this.status = false;
-        this.file = null;
-        this.applicationDate = new GregorianCalendar();
-        this.priority = "Normal";
-        
-        this.location = location;
-        this.questionnaire = questionnaire;
     }
 
-    public GregorianCalendar getApplicationDate() {
+    public String getApplicationDate() {
         return applicationDate;
     }
 
@@ -62,7 +50,7 @@ public class Application extends BasicModel {
         return status;
     }
 
-    public String getPriority() {
+    public Integer getPriority() {
         return priority;
     }
 
@@ -74,15 +62,23 @@ public class Application extends BasicModel {
         return location;
     }
 
-    public GregorianCalendar getApprovalDate() {
+    public String getApprovalDate() {
         return approvalDate;
     }
 
-    public Map<Integer, String> getQuestionnaire() {
-        return questionnaire;
+    public Integer getFamilyId() {
+        return familyId;
     }
 
-    public void setApplicationDate(GregorianCalendar applicationDate) {
+    public void setFamilyId(Integer i) {
+        this.familyId = i;
+    }
+
+    public void setManager(Integer i) {
+        this.manager = i;
+    }
+
+    public void setApplicationDate(String applicationDate) {
         this.applicationDate = applicationDate;
     }
 
@@ -94,7 +90,7 @@ public class Application extends BasicModel {
         this.status = status;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(Integer priority) {
         this.priority = priority;
     }
 
@@ -106,26 +102,22 @@ public class Application extends BasicModel {
         this.location = location;
     }
 
-    public void setApprovalDate(GregorianCalendar approvalDate) {
+    public void setApprovalDate(String approvalDate) {
         this.approvalDate = approvalDate;
     }
 
-    public void setQuestionnaire(Map<Integer, String> questionnaire) {
-        this.questionnaire = questionnaire;
-    }
-    
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
         }
-        
+
         if(obj == null || this.getClass() != obj.getClass())
             return false;
-        
+
         Application a = (Application) obj;
-        
+
         return (a.getId() == this.getId() );
     }
-    
+
 }

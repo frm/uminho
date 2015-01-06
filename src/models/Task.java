@@ -5,11 +5,6 @@
  */
 
 package models;
-
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  *
  * @author joaorodrigues
@@ -24,16 +19,16 @@ public class Task extends BasicModel {
     public Task(){
         super();
     }
-    
+
     public Task(String name, String startDate, String endDate, String status, int projectId) {
         super(-1);
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.status = "Em Curso";
+        this.status = status;
         this.projectId = projectId;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
@@ -53,7 +48,7 @@ public class Task extends BasicModel {
     public int getProjectId() {
         return projectId;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -74,21 +69,21 @@ public class Task extends BasicModel {
         this.projectId = projectId;
     }
 
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
         }
-        
+
         if(obj == null || this.getClass() != obj.getClass())
             return false;
-        
+
         Task t = (Task) obj;
-        
+
         return ( super.equals(obj) );
     }
-    
-    
-    
+
+
+
 }

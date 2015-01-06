@@ -26,7 +26,7 @@ public class Project extends BasicModel {
     public Project(){
         super();
     }
-    
+
     public Project(String name, String startDate, Float budget, String eta, String notes, int aId, int ppId) {
         super(-1);
         this.name = name;
@@ -37,7 +37,7 @@ public class Project extends BasicModel {
         this.applicationId = aId;
         this.paymentPlanId = ppId;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -131,12 +131,12 @@ public class Project extends BasicModel {
         if (obj == this) {
             return true;
         }
-        
+
         if(obj == null || this.getClass() != obj.getClass())
             return false;
-        
+
         Project p = (Project) obj;
-        
+
         return ( super.equals(obj) );
     }
 }

@@ -5,8 +5,14 @@
  */
 package habitat;
 
+import controllers.ApplicationsController;
+import controllers.ControllerFactory;
+import data.DataException;
 import habitat.JTextAreaLimit;
+import java.util.HashMap;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import models.Application;
 
 /**
  *
@@ -14,11 +20,13 @@ import javax.swing.JFileChooser;
  */
 public class AdicionarCandidatura extends javax.swing.JDialog {
 
+    private Integer familyID;
     /**
      * Creates new form AdicionarCANDIDATURA
      */
-    public AdicionarCandidatura(java.awt.Frame parent, boolean modal) {
+    public AdicionarCandidatura(java.awt.Frame parent, boolean modal, Integer familyID) {
         super(parent, modal);
+        this.familyID = familyID;
         initComponents();
     }
 
@@ -33,16 +41,16 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
 
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        applicationNotes = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        applicationLocation = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        applicationPriority = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        submitApplication = new javax.swing.JButton();
         jLabel63 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
@@ -50,20 +58,20 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextArea1.setDocument(new JTextAreaLimit(500));
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextArea1);
+        applicationNotes.setDocument(new JTextAreaLimit(500));
+        applicationNotes.setColumns(20);
+        applicationNotes.setLineWrap(true);
+        applicationNotes.setRows(5);
+        applicationNotes.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(applicationNotes);
 
         jLabel1.setText("Terreno de Construção:");
 
         jLabel2.setText("Prioridade:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Baixa", "Normal", "Alta" }));
-        jComboBox1.setSelectedIndex(1);
-        jComboBox1.setSelectedItem(1);
+        applicationPriority.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Baixa", "Normal", "Alta" }));
+        applicationPriority.setSelectedIndex(1);
+        applicationPriority.setSelectedItem(1);
 
         jLabel4.setText("Ficha de Inscrição:");
 
@@ -88,7 +96,12 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
             }
         });
 
-        jButton3.setText("Submeter");
+        submitApplication.setText("Submeter");
+        submitApplication.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitApplicationActionPerformed(evt);
+            }
+        });
 
         jLabel63.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
         jLabel63.setText("Adicionar Candidatura");
@@ -119,18 +132,18 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
                                             .addGroup(jPanel2Layout.createSequentialGroup()
                                                 .addComponent(jButton4)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jButton3))
+                                                .addComponent(submitApplication))
                                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jLabel63)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(applicationLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(73, 73, 73)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(applicationPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -142,11 +155,11 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(applicationLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(applicationPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -159,7 +172,7 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
+                    .addComponent(submitApplication)
                     .addComponent(jButton4))
                 .addContainerGap())
         );
@@ -188,22 +201,40 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        jTextField1.setText("");
-        jTextArea1.setText("");
+        applicationLocation.setText("");
+        applicationNotes.setText("");
         jLabel5.setText("");
-        jComboBox1.setSelectedIndex(1);
+        applicationPriority.setSelectedIndex(1);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void submitApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitApplicationActionPerformed
+        ApplicationsController ac = ControllerFactory.getApplicationsController();
+        try {
+            Application a = ac.save(new HashMap<String, Object>() {{
+                put("applicationDate", Util.strToDate(applicationDate.getText()));
+                put("priority", applicationPriority.getSelectedIndex());
+                put("notes", applicationNotes.getText());
+                put("location", applicationLocation.getText());
+                put("manager", applicationManager.getSelectedText());
+                put("familyId", familyID);
+
+            }});
+        } catch (DataException e) {
+            JOptionPane.showMessageDialog(this, "Erro a guardar dados");
+        }
+    }//GEN-LAST:event_submitApplicationActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField applicationLocation;
+    private javax.swing.JTextArea applicationNotes;
+    private javax.swing.JComboBox applicationPriority;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -212,7 +243,6 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel63;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton submitApplication;
     // End of variables declaration//GEN-END:variables
 }

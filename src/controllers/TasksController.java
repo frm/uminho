@@ -15,10 +15,10 @@ import models.Task;
  *
  * @author Tiago
  */
-public class TaskController extends AbstractController<Task> {
+public class TasksController extends AbstractController<Task> {
     TaskRepository repo;
     
-    TaskController() {
+    TasksController() {
         this.repo = RepositoryFactory.getTaskRepository();
     }
     

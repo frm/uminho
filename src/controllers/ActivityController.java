@@ -7,7 +7,6 @@ package controllers;
 
 import data.AbstractRepository;
 import data.ActivityRepository;
-import data.DataException;
 import data.RepositoryFactory;
 import java.util.Map;
 import models.Activity;

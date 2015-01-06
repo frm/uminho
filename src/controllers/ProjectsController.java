@@ -15,10 +15,10 @@ import models.Project;
  *
  * @author Tiago
  */
-public class ProjectController extends AbstractController<Project> {
+public class ProjectsController extends AbstractController<Project> {
     ProjectRepository repo;
     
-    ProjectController() {
+    ProjectsController() {
         this.repo = RepositoryFactory.getProjectRepository();
     }
     

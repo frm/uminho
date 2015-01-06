@@ -15,10 +15,10 @@ import models.Payment;
  *
  * @author tiago
  */
-public class PaymentController extends AbstractController<Payment> {
+public class PaymentsController extends AbstractController<Payment> {
     PaymentRepository repo;
     
-    PaymentController() {
+    PaymentsController() {
         this.repo = RepositoryFactory.getPaymentRepository();
     }
     
@@ -28,7 +28,7 @@ public class PaymentController extends AbstractController<Payment> {
                 (String)params.get("status"),
                 (Float)params.get("cost"),
                 (String)params.get("date"),
-                (int)params.get("paymentPanId")
+                (int)params.get("paymentPlanId")
         );
     }
     
