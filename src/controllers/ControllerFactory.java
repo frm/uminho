@@ -19,8 +19,9 @@ public class ControllerFactory {
     private static ProjectController projectController;
     private static PaymentPlanController paymentPlanController;
     private static PaymentController paymentController;
-    private static DonorsController donorsController;  
-    
+    private static DonorsController donorsController;
+    private static EventsController eventsController;
+
     public static VolunteersController getVolunteersController() {
         if (volunteersController == null)
             volunteersController = new VolunteersController();
@@ -88,5 +89,12 @@ public class ControllerFactory {
             donorsController = new DonorsController();
         
         return donorsController;
+    }
+    
+    public static EventsController getEventsController() {
+        if (eventsController == null)
+            eventsController = new EventsController();
+
+        return eventsController;
     }
 }

@@ -21,6 +21,8 @@ public class RepositoryFactory {
     private static ProjectRepository projectRepository;
     private static TaskRepository taskRepository;
     private static DonorRepository donorRepository;
+    private static EventsRepository eventsRepository;
+    private static VolunteersEventRepository volunteersEventRepository;
     
     //private static final String USERNAME = System.getenv("HBT_USR");
     //private static final String PASSWORD = System.getenv("HBT_PW");
@@ -105,5 +107,19 @@ public class RepositoryFactory {
             donorRepository = new DonorRepository(getURL(), USERNAME, PASSWORD);
         
         return donorRepository;
+    }
+    
+    public static EventsRepository getEventsRepository() {
+        if (eventsRepository == null)
+            eventsRepository = new EventsRepository(getURL(), USERNAME, PASSWORD);
+        
+        return eventsRepository;
+    }
+
+    public static VolunteersEventRepository getVolunteersEventRepository() {
+        if (volunteersEventRepository == null)
+            volunteersEventRepository = new VolunteersEventRepository(getURL(), USERNAME, PASSWORD);
+        
+        return volunteersEventRepository;
     }
 }
