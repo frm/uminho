@@ -6,7 +6,6 @@
 
 package models;
 
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 
 /**
@@ -14,23 +13,35 @@ import java.util.HashSet;
  * @author tiago
  */
 public class Event extends BasicModel {
-    private Integer id;
-    private GregorianCalendar date;
+    private String date;
     private Float amountRaised;
     private Integer participantsNr;
     private String location;
     private String observations;
     private HashSet<Volunteer> volunteers;
 
-    public Event() {}
+    public Event() {
+        super();
+    }
     
-    public Event(GregorianCalendar date, Float amountRaised, Integer participantsNr, String location, String observations, HashSet<Volunteer> volunteers) {
+    public Event(String date, Float amountRaised, Integer participantsNr, String location, String observations, HashSet<Volunteer> volunteers) {
+        super(-1);
         this.date = date;
         this.amountRaised = amountRaised;
         this.participantsNr = participantsNr;
         this.location = location;
         this.observations = observations;
         this.volunteers = new HashSet(volunteers);
+    }
+    
+    public Event(String date, Float amountRaised, Integer participantsNr, String location, String observations) {
+        super(-1);
+        this.date = date;
+        this.amountRaised = amountRaised;
+        this.participantsNr = participantsNr;
+        this.location = location;
+        this.observations = observations;
+        this.volunteers = new HashSet();
     }
     
     public Event(Event e) {
@@ -41,7 +52,7 @@ public class Event extends BasicModel {
         this.observations = e.getObservations();
     }
 
-    public GregorianCalendar getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -65,7 +76,7 @@ public class Event extends BasicModel {
         return new HashSet(volunteers);
     }
 
-    public void setDate(GregorianCalendar date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
