@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import data.AbstractRepository;
 import data.ActivityRepository;
 import data.DataException;
 import data.RepositoryFactory;
@@ -15,7 +16,7 @@ import models.Activity;
  *
  * @author mendes
  */
-public class ActivityController implements Controller<Activity> {
+public class ActivityController extends AbstractController<Activity> {
     ActivityRepository repo;
     
     ActivityController() {
@@ -23,19 +24,12 @@ public class ActivityController implements Controller<Activity> {
     }
     
     @Override
-    public Activity add(Map<String, Object> params) throws DataException {
-        Activity a = newInstance(params);
-        repo.save(a);
-        return a;
-    }
-    
-    @Override
     public Activity newInstance(Map<String, Object> params) {
         return new Activity( (String)params.get("name") );
     }
-    
+
     @Override
-    public Activity find(int id) throws DataException {
-        return repo.find(id);
+    protected AbstractRepository<Activity> getRepository() {
+        return RepositoryFactory.getActivityRepository();
     }
 }

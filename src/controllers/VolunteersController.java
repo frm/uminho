@@ -8,7 +8,6 @@ package controllers;
 import data.DataException;
 import data.RepositoryFactory;
 import data.VolunteersRepository;
-import java.sql.Date;
 import java.util.HashSet;
 import java.util.Map;
 import models.Activity;
@@ -19,18 +18,11 @@ import models.Volunteer;
  *
  * @author mendes
  */
-public class VolunteersController implements Controller<Volunteer> {
+public class VolunteersController extends AbstractController<Volunteer> {
     VolunteersRepository repo;
     
     VolunteersController() {
         this.repo = RepositoryFactory.getVolunteersRepository();
-    }
-    
-    @Override
-    public Volunteer add(Map<String, Object> params) throws DataException {
-        Volunteer v = newInstance(params);
-        repo.save(v);
-        return v;
     }
     
     @Override
@@ -52,8 +44,7 @@ public class VolunteersController implements Controller<Volunteer> {
         );
     }
     
-    @Override
-    public Volunteer find(int id) throws DataException {
-        return repo.find(id);
+    protected VolunteersRepository getRepository() {
+        return RepositoryFactory.getVolunteersRepository();
     }
 }
