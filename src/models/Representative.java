@@ -20,14 +20,14 @@ public class Representative extends Member{
     private String education;
     private String nationality;
     private String birthPlace;
-    private String activity;
-    private Collection<Integer> contacts;
+    private Activity activity;
+    private Collection<Contact> contacts;
     
     public Representative(){
         super();
     }
 
-    public Representative(String name, String birthDate, String nib, String nif, String maritalStatus, String education, String nationality, String birthPlace, String activity, Collection<Integer> contacts) {
+    public Representative(String name, String birthDate, String nib, String nif, String maritalStatus, String education, String nationality, String birthPlace, Activity activity, Collection<Contact> contacts) {
         super(name, birthDate);
         this.nib = nib;
         this.nif = nif;
@@ -36,7 +36,7 @@ public class Representative extends Member{
         this.nationality = nationality;
         this.birthPlace = birthPlace;
         this.activity = activity;
-        this.contacts = new ArrayList<Integer>(contacts);
+        this.contacts = new ArrayList<Contact>(contacts);
     }
 
     public String getEducation() {
@@ -51,8 +51,12 @@ public class Representative extends Member{
         return birthPlace;
     }
 
-    public String getActivity() {
+    public Activity getActivity() {
         return activity;
+    }
+    
+    public Integer getActivityId() {
+        return activity.getId();
     }
 
     public void setEducation(String education) {
@@ -67,7 +71,7 @@ public class Representative extends Member{
         this.birthPlace = birthPlace;
     }
 
-    public void setActivity(String activity) {
+    public void setActivity(Activity activity) {
         this.activity = activity;
     }
 
@@ -83,7 +87,7 @@ public class Representative extends Member{
         return maritalStatus;
     }
 
-    public Collection<Integer> getContacts() {
+    public Collection<Contact> getContacts() {
         return contacts;
     }
 
@@ -99,7 +103,7 @@ public class Representative extends Member{
         this.maritalStatus = maritalStatus;
     }
 
-    public void setContacts(Collection<Integer> contacts) {
+    public void setContacts(Collection<Contact> contacts) {
         this.contacts = contacts;
     }
         @Override
