@@ -15,7 +15,11 @@ public class ControllerFactory {
     private static RepresentativesController representativesController;
     private static ContactsController contactsController;
     private static FamiliesController familiesController;
-
+    private static TaskController taskController;
+    private static ProjectController projectController;
+    private static PaymentPlanController paymentPlanController;
+    private static PaymentController paymentController;
+    
     public static VolunteersController getVolunteersController() {
         if (volunteersController == null)
             volunteersController = new VolunteersController();
@@ -43,12 +47,38 @@ public class ControllerFactory {
 
         return contactsController;
     }
-
     public static FamiliesController getFamiliesController() {
         if (familiesController == null)
             familiesController = new FamiliesController();
 
         return familiesController;
     }
-
+    
+    public static TaskController getTaskController() {
+        if (taskController == null)
+            taskController = new TaskController();
+        
+        return taskController;
+    }
+    
+    public static ProjectController ProjectController() {
+        if (projectController == null)
+            projectController = new ProjectController();
+        
+        return projectController;
+    }
+    
+    public static PaymentPlanController getPaymentPlanController() {
+        if (paymentPlanController == null)
+            paymentPlanController = new PaymentPlanController();
+        
+        return paymentPlanController;
+    }
+    
+    public static PaymentController getPaymentController() {
+        if (paymentController == null)
+            paymentController = new PaymentController();
+        
+        return paymentController;
+    }
 }

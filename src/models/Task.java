@@ -14,34 +14,35 @@ import java.util.Map;
  *
  * @author joaorodrigues
  */
-class Task extends BasicModel {
+public class Task extends BasicModel {
     private String name;
-    private GregorianCalendar startDate;
-    private GregorianCalendar endDate;
+    private String startDate;
+    private String endDate;
     private String status;
-    private Integer hours;
-    private Map<Volunteer, Integer> volunteers;
+    private int projectId;
 
-    public Task(){}
+    public Task(){
+        super();
+    }
     
-    public Task(String name, GregorianCalendar startDate, GregorianCalendar endDate, Map<Volunteer, Integer> volunteers) {
+    public Task(String name, String startDate, String endDate, String status, int projectId) {
         super(-1);
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = "Em Curso";
-        this.volunteers = volunteers;
+        this.projectId = projectId;
     }
     
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setStartDate(GregorianCalendar startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public void setEndDate(GregorianCalendar endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -49,23 +50,19 @@ class Task extends BasicModel {
         this.status = status;
     }
 
-    public void setHours(Integer hours) {
-        this.hours = hours;
-    }
-
-    public void setVolunteers(Map<Volunteer, Integer> volunteers) {
-        this.volunteers = new HashMap<Volunteer, Integer>(volunteers);
+    public int getProjectId() {
+        return projectId;
     }
     
     public String getName() {
         return name;
     }
 
-    public GregorianCalendar getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public GregorianCalendar getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
@@ -73,13 +70,10 @@ class Task extends BasicModel {
         return status;
     }
 
-    public Integer getHours() {
-        return hours;
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
     }
 
-    public Map<Volunteer, Integer> getVolunteers() {
-        return new HashMap<Volunteer, Integer>(volunteers);
-    }
     
     @Override
     public boolean equals(Object obj) {

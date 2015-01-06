@@ -129,7 +129,7 @@ public class Project extends BasicModel {
     public void setPaymentPlanId(int paymentPlanId) {
         this.paymentPlanId = paymentPlanId;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {

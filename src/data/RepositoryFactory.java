@@ -18,6 +18,9 @@ public class RepositoryFactory {
     private static FamilyRepository familyRepository;
     private static PaymentRepository paymentRepository;
     private static PaymentPlanRepository paymentPlanRepository;
+    private static ProjectRepository projectRepository;
+    private static TaskRepository taskRepository;
+    
     //private static final String USERNAME = System.getenv("HBT_USR");
     //private static final String PASSWORD = System.getenv("HBT_PW");
     private static final String USERNAME = "habitat";
@@ -60,14 +63,14 @@ public class RepositoryFactory {
 
         return contactRepository;
     }
-<<<<<<< HEAD
 
     public static FamilyRepository getFamilyRepository() {
         if (familyRepository == null)
             familyRepository = new FamilyRepository(getURL(), USERNAME, PASSWORD);
 
-        return familyRepository;
-=======
+        return familyRepository;   
+    }
+    
     
     public static PaymentRepository getPaymentRepository() {
         if (paymentRepository == null)
@@ -81,6 +84,19 @@ public class RepositoryFactory {
             paymentPlanRepository = new PaymentPlanRepository(getURL(), USERNAME, PASSWORD);
         
         return paymentPlanRepository;
->>>>>>> Hell checkpoint
+    }
+    
+    public static ProjectRepository getProjectRepository() {
+        if (projectRepository == null)
+            projectRepository = new ProjectRepository(getURL(), USERNAME, PASSWORD);
+        
+        return projectRepository;
+    }
+    
+    public static TaskRepository getTaskRepository() {
+        if (taskRepository == null)
+            taskRepository = new TaskRepository(getURL(), USERNAME, PASSWORD);
+        
+        return taskRepository;
     }
 }

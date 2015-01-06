@@ -8,9 +8,7 @@ package controllers;
 import data.DataException;
 import data.RepositoryFactory;
 import data.ProjectRepository;
-import java.util.HashSet;
 import java.util.Map;
-import models.Contact;
 import models.Project;
 
 /**
@@ -28,16 +26,11 @@ public class ProjectController extends AbstractController<Project> {
     public Project newInstance(Map<String, Object> params) throws DataException {
         return new Project(
                 (String)params.get("name"),
-                (String)params.get("startDate"),
-                (String)params.get("budget"),
+                (Float)params.get("budget"),
                 (String)params.get("eta"),
-                (String)params.get("endDate"),
-                (String)params.get("signDate"),
-                (String)params.get("deliveryDate"),
-                (String)params.get("finalCost"),
                 (String)params.get("notes"),
-                (String)params.get("paymentPlan"),
-                (String)params.get("tasks")                
+                (int)params.get("applicationId"),
+                (int)params.get("paymentPlanId")  
         );
     }
     

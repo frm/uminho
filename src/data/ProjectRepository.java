@@ -30,7 +30,8 @@ public class ProjectRepository extends AbstractRepository<Project> {
        put("DeliveryDate", "DataEntrgChave");
        put("FinalCost", "CustoFinal");
        put("Notes", "Observacoes");
-       put("ApplicationId", "");
+       put("ApplicationId", "Candidatura");
+       put("PaymentPlanId", "PlanoPagamentos");
     }};
 
     public ProjectRepository(String url, String username, String password) {
@@ -51,7 +52,8 @@ public class ProjectRepository extends AbstractRepository<Project> {
             p.setDeliveryDate( result.getString( getColumnAttr("deliveryDate") ) );
             p.setFinalCost( result.getFloat( getColumnAttr("finalCost") ) );
             p.setNotes( result.getString( getColumnAttr("notes") ) );
-            p.set();
+            p.setApplicationId( result.getInt( getColumnAttr("id") ) );
+            p.setPaymentPlanId( result.getInt( getColumnAttr("id") ) );
         } catch (SQLException e) {
             throw new DataException("Error saving project.");
         }
