@@ -7,6 +7,7 @@
 package habitat;
 
 import controllers.ControllerFactory;
+import controllers.RepresentativesController;
 import data.DataException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
