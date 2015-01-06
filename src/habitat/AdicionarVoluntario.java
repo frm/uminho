@@ -6,14 +6,24 @@
 
 package habitat;
 
+import controllers.ContactsController;
 import controllers.ControllerFactory;
 import controllers.VolunteersController;
 import data.DataException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import models.Activity;
+import models.Volunteer;
 
 /**
  *
@@ -46,7 +56,7 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
         jButton4 = new javax.swing.JButton();
         jLabel28 = new javax.swing.JLabel();
         jScrollPane15 = new javax.swing.JScrollPane();
-        addVolunteerContacts = new javax.swing.JTable();
+        volunteerContacts = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton11 = new javax.swing.JButton();
@@ -69,6 +79,9 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         volunteerActivity = new javax.swing.JComboBox();
         addActivity = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        addFile = new javax.swing.JButton();
+        filePath = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -90,8 +103,8 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
 
         jLabel28.setText("Contactos:");
 
-        addVolunteerContacts.setAutoCreateRowSorter(true);
-        addVolunteerContacts.setModel(new javax.swing.table.DefaultTableModel(
+        volunteerContacts.setAutoCreateRowSorter(true);
+        volunteerContacts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null}
             },
@@ -107,8 +120,8 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
-        addVolunteerContacts.getTableHeader().setReorderingAllowed(false);
-        jScrollPane15.setViewportView(addVolunteerContacts);
+        volunteerContacts.getTableHeader().setReorderingAllowed(false);
+        jScrollPane15.setViewportView(volunteerContacts);
 
         jLabel1.setText("Nome:");
 
@@ -160,7 +173,15 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
 
         jLabel6.setText("Ocupação:");
 
-        volunteerActivity.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+        volunteerActivity.setModel(new javax.swing.DefaultComboBoxModel(new String[]{}));
+        try{
+            Collection<Activity> items = ControllerFactory.getActivityController().all();
+            for( Activity a: items){
+                volunteerActivity.addItem(a);
+            }
+        }catch( DataException e){
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao obter os dados");
+        }
         volunteerActivity.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 volunteerActivityActionPerformed(evt);
@@ -174,6 +195,20 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
             }
         });
 
+        jLabel11.setText("Ficheiro:");
+
+        addFile.setText("Carregar...");
+        addFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addFileMouseClicked(evt);
+            }
+        });
+        addFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addFileActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -181,8 +216,24 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(131, 131, 131)
+                                .addComponent(jButton4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(submitVolunteer))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(10, 10, 10))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel11)
                             .addComponent(jLabel4)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
@@ -195,9 +246,6 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(addName, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(addAddress, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(addNationality, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addCitizenship, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addBirthDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -221,20 +269,17 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
                                         .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(addActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(22, 22, 22))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(submitVolunteer))
-                            .addComponent(jScrollPane2))
-                        .addGap(10, 10, 10)))
+                                .addGap(22, 22, 22))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(addNationality, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addCitizenship, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(addFile)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(filePath))
+                                    .addComponent(addBirthDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(17, 17, 17))
         );
         jPanel1Layout.setVerticalGroup(
@@ -277,7 +322,12 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel28)
-                        .addGap(115, 115, 115))
+                        .addGap(114, 114, 114)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(addFile)
+                            .addComponent(filePath))
+                        .addGap(18, 18, 18))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -285,10 +335,10 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton12))
                             .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGap(48, 48, 48)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton4)
@@ -307,20 +357,20 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        ((DefaultTableModel)addVolunteerContacts.getModel()).addRow(new Object[]{"", "", ""});
+        ((DefaultTableModel)volunteerContacts.getModel()).addRow(new Object[]{"", "", ""});
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         int rowID;
-        if(( rowID = addVolunteerContacts.getSelectedRow()) >= 0)
-        ((DefaultTableModel)addVolunteerContacts.getModel()).removeRow(rowID);
+        if(( rowID = volunteerContacts.getSelectedRow()) >= 0)
+        ((DefaultTableModel)volunteerContacts.getModel()).removeRow(rowID);
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void addNationalityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNationalityActionPerformed
@@ -329,9 +379,9 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
 
     private void submitVolunteerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitVolunteerActionPerformed
         VolunteersController vc = ControllerFactory.getVolunteersController();
-        // ContactsController cc = ControllerFactory.getContactsController();
+        ContactsController cc = ControllerFactory.getContactsController();
         try {
-            vc.save( new HashMap<String, Object>() {{
+            final Volunteer v = vc.save( new HashMap<String, Object>() {{
                 put("name", addName.getText());
                 put("address", addAddress.getText());
                 put("nif", addNIF.getText());
@@ -339,12 +389,27 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
                 put("citizenship", addCitizenship.getText());
                 put("maritalStatus", addMaritalStatus.getSelectedItem().toString());
                 put("nationality", addNationality.getSelectedItem().toString());
-                //put("contacts", addVolunteerContacts);
                 put("observations", addObservations.getText());
                 put("birthDate", Util.strToDate( addBirthDate.getText() ) );
                 put("activity", volunteerActivity.getSelectedItem());
-                // missing file
+                put("file", filePath.getText());
             }} );
+            
+            final TableModel t = volunteerContacts.getModel();
+            int totalContacts = t.getRowCount();
+            List<Map<String, Object>> contacts = new ArrayList<>();
+            
+            for(int i = 0; i < totalContacts; i++) {
+                final int i2 = i;
+                contacts.add( new HashMap<String, Object>() {{
+                    put("type", t.getValueAt(i2, 0).toString());
+                    put("value", t.getValueAt(i2, 1).toString());
+                    put("owner", v.getId() );
+                    put("ownerType", "Voluntario");
+                }});
+            }
+            
+            cc.saveAll(contacts);
         } catch (DataException e) {
         System.out.println(e.getMessage());}
     }//GEN-LAST:event_submitVolunteerActionPerformed
@@ -367,6 +432,21 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
        
        
     }//GEN-LAST:event_addActivityActionPerformed
+
+    private void addFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addFileMouseClicked
+        
+    }//GEN-LAST:event_addFileMouseClicked
+
+    private void addFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFileActionPerformed
+        JFileChooser chooser = new JFileChooser();
+
+        int returnVal = chooser.showOpenDialog(null);
+        try {
+            filePath.setText(chooser.getSelectedFile().getCanonicalPath());
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro de acesso ao ficheiro");
+        }
+    }//GEN-LAST:event_addFileActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -374,19 +454,21 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
     private javax.swing.JTextField addAddress;
     private javax.swing.JFormattedTextField addBirthDate;
     private javax.swing.JTextField addCitizenship;
+    private javax.swing.JButton addFile;
     private javax.swing.JComboBox addMaritalStatus;
     private javax.swing.JTextField addNIB;
     private javax.swing.JTextField addNIF;
     private javax.swing.JTextField addName;
     private javax.swing.JComboBox addNationality;
     private javax.swing.JTextArea addObservations;
-    private javax.swing.JTable addVolunteerContacts;
+    private javax.swing.JLabel filePath;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
@@ -401,5 +483,6 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton submitVolunteer;
     private javax.swing.JComboBox volunteerActivity;
+    private javax.swing.JTable volunteerContacts;
     // End of variables declaration//GEN-END:variables
 }

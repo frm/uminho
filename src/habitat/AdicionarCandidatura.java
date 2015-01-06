@@ -67,10 +67,15 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
 
         jLabel4.setText("Ficha de Inscrição:");
 
-        jButton1.setText("Abrir...");
+        jButton1.setText("Carregar...");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -188,6 +193,10 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
         jLabel5.setText("");
         jComboBox1.setSelectedIndex(1);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

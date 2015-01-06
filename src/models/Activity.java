@@ -16,6 +16,7 @@ public class Activity extends BasicModel {
     }
     
     public Activity(String name) {
+        super(-1);
         this.name = name;
     }
     
@@ -25,5 +26,9 @@ public class Activity extends BasicModel {
     
     public void setName(String n) {
         this.name = n;
+    }
+    
+    public String toString(){
+        return name;
     }
 }
