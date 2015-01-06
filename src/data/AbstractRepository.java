@@ -207,7 +207,7 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
     }
     
     @Override
-    public List<T> findBy(Map<String, Object> params) {
+    public List<T> findBy(Map<String, Object> params) throws DataException {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM ")
              .append(DB_TABLE)
@@ -224,9 +224,28 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
             query.append(nextLine);
         }
 
-        System.out.println(query);
-
-        return new ArrayList<T>();
+        List<T> objects = new ArrayList<T> ();
+        
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement statement = connection.prepareStatement(query.toString());
+            ResultSet result = statement.executeQuery();
+            
+            try {
+                while ( result.next() ) {
+                    objects.add( setObject(result) );
+                }
+            }
+            finally {
+                result.close();
+                statement.close();
+                connection.close();
+            }
+            
+            return objects;
+        } catch (SQLException e) {
+            throw new DataException("Error finding object with params: " + params.toString());
+        }
     }
        
     private Map<String, String> serialize(T t, boolean includeId, boolean allowNull, Set<String> ignoredAttributes) {
