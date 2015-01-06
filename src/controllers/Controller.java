@@ -13,7 +13,7 @@ import java.util.Map;
  * @author mendes
  */
 public interface Controller<T> {
-    public T add(Map<String, Object> params) throws DataException;
+    public T save(Map<String, Object> params) throws DataException;
     public T find(int id) throws DataException;
     public T newInstance(Map<String, Object> params) throws DataException;
 }
