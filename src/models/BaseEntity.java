@@ -7,6 +7,7 @@
 package models;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -18,11 +19,11 @@ public abstract class BaseEntity extends BasicModel {
     private String nif;
     private String nib;
     private Activity activity;
-    private HashSet<Contact> contacts;
+    private Set<Contact> contacts;
 
     public BaseEntity() {}
     
-    public BaseEntity(String name, String address, String nif, String nib, Activity activity, HashSet<Contact> contacts) {
+    public BaseEntity(String name, String address, String nif, String nib, Activity activity, Set<Contact> contacts) {
         super(-1);
         this.name = name;
         this.address = address;
@@ -68,7 +69,7 @@ public abstract class BaseEntity extends BasicModel {
         return this.activity.getId();
     }
     
-    public HashSet<Contact> getContacts() {
+    public Set<Contact> getContacts() {
         return new HashSet(contacts);
     }
 
@@ -92,7 +93,7 @@ public abstract class BaseEntity extends BasicModel {
     public void setActivity(Activity activity){
         this.activity = activity;
     }
-    public void setContacts(HashSet<Contact> contacts) {
+    public void setContacts(Set<Contact> contacts) {
         this.contacts = new HashSet(contacts);
     }
     

@@ -8,8 +8,9 @@ package controllers;
 import data.DataException;
 import data.RepositoryFactory;
 import data.VolunteersRepository;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import models.Activity;
 import models.Contact;
 import models.Volunteer;
@@ -26,14 +27,15 @@ public class VolunteersController extends AbstractController<Volunteer> {
     }
     
     @Override
-    public Volunteer newInstance(Map<String, Object> params) throws DataException {
+    public Volunteer newInstance(final Map<String, Object> params) throws DataException {
         return new Volunteer(
                 (String)params.get("name"),
                 (String)params.get("address"),
                 (String)params.get("nif"),
                 (String)params.get("nib"),
-                (Activity)ControllerFactory.getActivityController().find( (Integer)params.get("activity") ),
-                (HashSet<Contact>)params.get("contacts"),
+                (Activity)ControllerFactory.getActivityController().findBy( new HashMap<String, Object>() {{
+                    put("name", params.get("activity"));}}),
+                (Set<Contact>)params.get("contacts"),
                 (String)params.get("birthDate"),
                 (String)params.get("education"),
                 (String)params.get("nationality"),

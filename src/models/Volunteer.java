@@ -28,7 +28,7 @@ public class Volunteer extends BaseEntity {
         super();
     }
 
-    public Volunteer(String name, String address, String nif, String nib, Activity activity, HashSet<Contact> contacts, String birthDate, String education, String nationality, String citizenship, String maritalStatus, String observations, String file) {
+    public Volunteer(String name, String address, String nif, String nib, Activity activity, Set<Contact> contacts, String birthDate, String education, String nationality, String citizenship, String maritalStatus, String observations, String file) {
         super(name, address, nif, nib, activity, contacts);
         this.birthDate = birthDate;
         this.education = education;
