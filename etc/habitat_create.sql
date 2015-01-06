@@ -15,6 +15,21 @@ CREATE SCHEMA IF NOT EXISTS `habitat` DEFAULT CHARACTER SET utf8 COLLATE utf8_ge
 USE `habitat` ;
 
 -- -----------------------------------------------------
+-- Table `habitat`.`Familia`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `habitat`.`Familia` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `Nome` VARCHAR(100) NOT NULL,
+  `Morada` VARCHAR(100) NOT NULL,
+  `Aprovada` TINYINT(1) NOT NULL,
+  `HorasVoluntariado` INT NOT NULL DEFAULT 0,
+  `Rendimento` DECIMAL(10,2) NULL,
+  `Observacoes` VARCHAR(700) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `habitat`.`Atividade`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `habitat`.`Atividade` (
@@ -39,33 +54,18 @@ CREATE TABLE IF NOT EXISTS `habitat`.`Representante` (
   `Escolaridade` VARCHAR(45) NULL,
   `EstadoCivil` VARCHAR(45) NULL,
   `Atividade` INT NOT NULL,
+  `Familia` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Representante_Atividade1_idx` (`Atividade` ASC),
+  INDEX `fk_Representante_Familia1_idx` (`Familia` ASC),
   CONSTRAINT `fk_Representante_Atividade1`
     FOREIGN KEY (`Atividade`)
     REFERENCES `habitat`.`Atividade` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `habitat`.`Familia`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `habitat`.`Familia` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `Nome` VARCHAR(100) NOT NULL,
-  `Morada` VARCHAR(100) NOT NULL,
-  `Aprovada` TINYINT(1) NOT NULL,
-  `HorasVoluntariado` INT NOT NULL DEFAULT 0,
-  `Rendimento` DECIMAL(10,2) NULL,
-  `Observacoes` VARCHAR(700) NULL,
-  `Representante` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_Familia_Representante1_idx` (`Representante` ASC),
-  CONSTRAINT `fk_Familia_Representante1`
-    FOREIGN KEY (`Representante`)
-    REFERENCES `habitat`.`Representante` (`id`)
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Representante_Familia1`
+    FOREIGN KEY (`Familia`)
+    REFERENCES `habitat`.`Familia` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -174,17 +174,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `habitat`.`PlanoPagamentos`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `habitat`.`PlanoPagamentos` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `ProximaPrestacao` DECIMAL(10,2) NOT NULL,
-  `Observacoes` VARCHAR(500) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `habitat`.`Projeto`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `habitat`.`Projeto` (
@@ -199,18 +188,29 @@ CREATE TABLE IF NOT EXISTS `habitat`.`Projeto` (
   `CustoFinal` DECIMAL(10,2) NULL,
   `Observacoes` VARCHAR(500) NULL,
   `Candidatura` INT NOT NULL,
-  `PlanoPagamentos` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Projeto_Candidatura1_idx` (`Candidatura` ASC),
-  INDEX `fk_Projeto_PlanoPagamentos1_idx` (`PlanoPagamentos` ASC),
   CONSTRAINT `fk_Projeto_Candidatura1`
     FOREIGN KEY (`Candidatura`)
     REFERENCES `habitat`.`Candidatura` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Projeto_PlanoPagamentos1`
-    FOREIGN KEY (`PlanoPagamentos`)
-    REFERENCES `habitat`.`PlanoPagamentos` (`id`)
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `habitat`.`PlanoPagamentos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `habitat`.`PlanoPagamentos` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `ProximaPrestacao` DECIMAL(10,2) NOT NULL,
+  `Observacoes` VARCHAR(500) NULL,
+  `Projeto` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_PlanoPagamentos_Projeto1_idx` (`Projeto` ASC),
+  CONSTRAINT `fk_PlanoPagamentos_Projeto1`
+    FOREIGN KEY (`Projeto`)
+    REFERENCES `habitat`.`Projeto` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -236,40 +236,12 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `habitat`.`NomeMaterial`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `habitat`.`NomeMaterial` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `Nome` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `Nome` (`Nome` ASC))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `habitat`.`Material`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `habitat`.`Material` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `Quantidade` INT NOT NULL,
-  `NomeMaterial` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_Material_NomeMaterial1_idx` (`NomeMaterial` ASC),
-  CONSTRAINT `fk_Material_NomeMaterial1`
-    FOREIGN KEY (`NomeMaterial`)
-    REFERENCES `habitat`.`NomeMaterial` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `habitat`.`Doador`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `habitat`.`Doador` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `Nome` VARCHAR(100) NOT NULL,
-  `Tipo` TINYINT(1) NOT NULL,
+  `Coletivo` TINYINT(1) NOT NULL,
   `Morada` VARCHAR(100) NOT NULL,
   `DataUltimoDonativo` DATE NULL,
   `NIB` VARCHAR(30) NULL,
@@ -287,28 +259,34 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `habitat`.`NomeMaterial`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `habitat`.`NomeMaterial` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `Nome` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Nome` (`Nome` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `habitat`.`Donativo`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `habitat`.`Donativo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `Data` DATE NOT NULL,
-  `Tipo` INT NOT NULL,
+  `Tipo` VARCHAR(45) NOT NULL,
   `Valor` DECIMAL(10,2) NOT NULL,
   `Quantidade` INT NOT NULL,
-  `Material` INT NULL,
-  `Usado` TINYINT(1) NULL,
+  `Usado` TINYINT(1) NOT NULL,
   `Observacoes` VARCHAR(500) NULL,
   `Projeto` INT NULL,
+  `NomeMaterial` INT NULL,
   `Doador` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Donativo_Material1_idx` (`Material` ASC),
   INDEX `fk_Donativo_Doador1_idx` (`Doador` ASC),
   INDEX `fk_Donativo_Projeto1_idx` (`Projeto` ASC),
-  CONSTRAINT `fk_Donativo_Material1`
-    FOREIGN KEY (`Material`)
-    REFERENCES `habitat`.`Material` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_Donativo_NomeMaterial1_idx` (`NomeMaterial` ASC),
   CONSTRAINT `fk_Donativo_Doador1`
     FOREIGN KEY (`Doador`)
     REFERENCES `habitat`.`Doador` (`id`)
@@ -317,6 +295,28 @@ CREATE TABLE IF NOT EXISTS `habitat`.`Donativo` (
   CONSTRAINT `fk_Donativo_Projeto1`
     FOREIGN KEY (`Projeto`)
     REFERENCES `habitat`.`Projeto` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Donativo_NomeMaterial1`
+    FOREIGN KEY (`NomeMaterial`)
+    REFERENCES `habitat`.`NomeMaterial` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `habitat`.`Material`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `habitat`.`Material` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `Quantidade` INT NOT NULL,
+  `NomeMaterial` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Material_NomeMaterial1_idx` (`NomeMaterial` ASC),
+  CONSTRAINT `fk_Material_NomeMaterial1`
+    FOREIGN KEY (`NomeMaterial`)
+    REFERENCES `habitat`.`NomeMaterial` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -465,32 +465,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `habitat`.`Contacto` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `Nome` INT NOT NULL,
+  `Tipo` VARCHAR(45) NOT NULL,
   `Valor` VARCHAR(30) NOT NULL,
   `TipoDono` VARCHAR(45) NOT NULL,
   `Dono` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_Contacto_Doador1_idx` (`Dono` ASC),
-  CONSTRAINT `fk_Contacto_Doador1`
-    FOREIGN KEY (`Dono`)
-    REFERENCES `habitat`.`Doador` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Contacto_Voluntario1`
-    FOREIGN KEY (`Dono`)
-    REFERENCES `habitat`.`Voluntario` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Contacto_Representante1`
-    FOREIGN KEY (`Dono`)
-    REFERENCES `habitat`.`Representante` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Contacto_Funcionario1`
-    FOREIGN KEY (`Dono`)
-    REFERENCES `habitat`.`Funcionario` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 

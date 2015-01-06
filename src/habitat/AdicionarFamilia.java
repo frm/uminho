@@ -6,7 +6,10 @@
 
 package habitat;
 
+import controllers.ContactsController;
 import controllers.ControllerFactory;
+import controllers.FamiliesController;
+import controllers.MembersController;
 import controllers.RepresentativesController;
 import data.DataException;
 import java.text.SimpleDateFormat;
@@ -16,10 +19,12 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
+import models.Activity;
 import models.Family;
 import models.Representative;
 
@@ -215,7 +220,7 @@ public class AdicionarFamilia extends javax.swing.JDialog {
         representativeContacts.setAutoCreateRowSorter(true);
         representativeContacts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+
             },
             new String [] {
                 "Tipo", "Contacto"
@@ -317,7 +322,7 @@ public class AdicionarFamilia extends javax.swing.JDialog {
                                 .addComponent(representativeMaritalStatus)
                                 .addComponent(representativeNif)
                                 .addComponent(representativeNib))))))
-            .addContainerGap(25, Short.MAX_VALUE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -367,7 +372,7 @@ public class AdicionarFamilia extends javax.swing.JDialog {
     members.setAutoCreateRowSorter(true);
     members.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
-            {null, null, null}
+
         },
         new String [] {
             "Nome", "Data de Nascimento", "Grau de Parentesco"
@@ -508,15 +513,26 @@ public class AdicionarFamilia extends javax.swing.JDialog {
         FamiliesController fc = ControllerFactory.getFamiliesController();
         ContactsController cc = ControllerFactory.getContactsController();
         
-        try {           
+        try {         
+            final Family f = fc.save(new HashMap<String, Object>() {{
+                put("name", familyName.getText());
+                put("address", familyAddress.getText());
+                put("observations", familyObservations.getText());
+                put("income", Float.parseFloat(familyIncome.getText()));
+            }});
+            
             final Representative r = rc.save(new HashMap<String, Object>() {{
                 put("name", representativeName.getText());
                 put("birthDate", Util.strToDate( representativeBirthDate.getText() ));
                 put("maritalStatus", representativeMaritalStatus.getText());
                 put("education", representativeEducation.getText());
-                put("activity", representativeActivity.getSelectedItem().toString() );
-                put("nif", representativeNif.getText() );
-                put("nib", representativeNib.getText() );
+                Activity a = new Activity("Test");
+                a.setId(1);
+                put("activity", a);
+                //put("activity", representativeActivity.getSelectedItem().toString());
+                put("nif", representativeNif.getText());
+                put("nib", representativeNib.getText());
+                put("familyID", f.getId());
             }});
             
             final TableModel t = representativeContacts.getModel();
@@ -535,13 +551,6 @@ public class AdicionarFamilia extends javax.swing.JDialog {
             
             cc.saveAll(contacts);
             
-            final Family f = fc.save(new HashMap<String, Object>() {{
-                put("name", familyName.getText());
-                put("address", familyAddress.getText());
-                put("observations", familyObservations.getText());
-                put("representative", r);
-            }});
-            
             final TableModel memberTable = members.getModel();
             int totalMembers = memberTable.getRowCount();
             List<Map<String, Object>> memberList = new ArrayList<>();
@@ -549,16 +558,16 @@ public class AdicionarFamilia extends javax.swing.JDialog {
             for(int i = 0; i < totalMembers; i++) {
                 final int i2 = i;
                 memberList.add( new HashMap<String, Object>() {{
-                    put("name", t.getValueAt(i2, 0).toString());
-                    put("birthDate", t.getValueAt(i2, 1).toString());
-                    put("kinship", t.getValueAt(i2, 2).toString());
-                    put("family", f);
+                    put("name", memberTable.getValueAt(i2, 0).toString());
+                    put("birthDate", Util.strToDate(memberTable.getValueAt(i2, 1).toString()));
+                    put("kinship", memberTable.getValueAt(i2, 2).toString());
+                    put("familyID", f.getId());
                 }});
             }
             
             mc.saveAll(memberList);
         } catch (DataException e) {
-            // SHOW ERROR MESSAGE
+            JOptionPane.showMessageDialog(this, "Erro a guardar dados");
         }
         
     }//GEN-LAST:event_submitFamilyActionPerformed

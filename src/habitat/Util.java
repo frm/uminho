@@ -20,11 +20,23 @@ public class Util {
         return reformatDate(date, "-", "/");
     }
     
+    public static String dateToStr(java.sql.Date date) {
+        return reformatDate(date.toString(), "-", "/");
+    }
+    
     private static String reformatDate(String date, String currentDelimiter, String newDelimiter) {
         String[] s = date.split(currentDelimiter);
-        int first = Integer.parseInt(s[0]);
-        int month = Integer.parseInt(s[1]);
-        int last = Integer.parseInt(s[2]);
+        System.out.println(date);
+        String first = s[0];
+        String month = s[1];
+        String last = s[2];
+        System.out.println(new StringBuilder()
+                    .append(last)
+                    .append(newDelimiter)
+                    .append(month)
+                    .append(newDelimiter)
+                    .append(first)
+                    .toString());
         return new StringBuilder()
                     .append(last)
                     .append(newDelimiter)
