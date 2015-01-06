@@ -26,6 +26,7 @@ public class ProjectController extends AbstractController<Project> {
     public Project newInstance(Map<String, Object> params) throws DataException {
         return new Project(
                 (String)params.get("name"),
+                (String)params.get("startDate"),
                 (Float)params.get("budget"),
                 (String)params.get("eta"),
                 (String)params.get("notes"),

@@ -61,7 +61,7 @@ public class ControllerFactory {
         return taskController;
     }
     
-    public static ProjectController ProjectController() {
+    public static ProjectController getProjectController() {
         if (projectController == null)
             projectController = new ProjectController();
         
