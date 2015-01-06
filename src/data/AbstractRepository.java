@@ -69,7 +69,7 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
         }
     }
 
-    public Collection<T> all() throws DataException {
+    public List<T> all() throws DataException {
         String query = new StringBuilder("SELECT * FROM ")
                         .append(DB_TABLE)
                         .append(";")

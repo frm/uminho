@@ -39,11 +39,11 @@ public abstract class AbstractController<T extends BasicModel> implements Contro
         return getRepository().find(id);
     }
     
-    public Collection<T> findBy(Map<String, Object> params) throws DataException {
+    public List<T> findBy(Map<String, Object> params) throws DataException {
         return getRepository().findBy(params);
     }
     
-    public Collection<T> all() throws DataException {
+    public List<T> all() throws DataException {
         return getRepository().all();
     }
     
