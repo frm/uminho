@@ -29,13 +29,13 @@ import org.apache.commons.lang3.text.WordUtils;
  * @param <T>
  */
 public abstract class AbstractRepository<T extends BasicModel> implements Repository<T> {
-    
+
     private String url;
     private String username;
     private String password;
     private String DB_TABLE;
     private LinkedHashMap<String, String> COLUMN_ATTR;
-    
+
     public AbstractRepository(String url, String username, String password, String DB_TABLE, LinkedHashMap columnAttrs) {
         this.url = url;
         this.username = username;
@@ -43,24 +43,24 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
         this.DB_TABLE = DB_TABLE;
         this.COLUMN_ATTR = columnAttrs;
     }
-    
+
     protected abstract T setObject(ResultSet result) throws DataException;
     protected abstract Set<String> getInsertIgnores();
     protected abstract Set<String> getUpdateIgnores();
-    
+
     public void saveAll(Collection<T> entities) throws DataException {
         for(T e : entities)
             save(e);
     }
-    
+
     public Collection<T> findAll(Collection<Integer> ids) throws DataException {
         Collection<T> entities = new ArrayList<T>();
         for (int id : ids)
             entities.add( find(id) );
-        
+
         return entities;
     }
-    
+
     public boolean exists(int id) {
         try {
             return find(id) != null;
@@ -68,7 +68,36 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
             return false;
         }
     }
-    
+
+    public Collection<T> all() throws DataException {
+        String query = new StringBuilder("SELECT * FROM ")
+                        .append(DB_TABLE)
+                        .append(";")
+                        .toString();
+
+        List<T> objects = new ArrayList<T>();
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet result = statement.executeQuery();
+
+            try {
+                while ( result.next() ) {
+                    objects.add( setObject(result) );
+                }
+            }
+            finally {
+                result.close();
+                statement.close();
+                connection.close();
+            }
+
+            return objects;
+        } catch (SQLException e) {
+            throw new DataException("Error retrieving all objects from " + DB_TABLE);
+        }
+    }
+
     @Override
      public T find(int id) throws DataException {
         try {
@@ -76,7 +105,7 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
             Connection connection = DriverManager.getConnection(url, username, password);
             PreparedStatement statement = connection.prepareStatement( getFindQuery(id) );
             ResultSet result = statement.executeQuery();
-            
+
             try {
                 if ( result.next() ) {
                     object = setObject(result);
@@ -90,13 +119,13 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
                 statement.close();
                 connection.close();
             }
-            
+
             return object;
         } catch (SQLException e) {
             throw new DataException("Error finding object with id: " + id);
         }
     }
-     
+
      /**
      *
      * @param t
@@ -114,22 +143,22 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
             query = getUpdateQuery(t);
             generatedKeys = Statement.NO_GENERATED_KEYS;
         }
-        
+
         Connection connection;
         PreparedStatement statement;
         try {
             connection = DriverManager.getConnection(url, username, password);
             statement = connection.prepareStatement(query, generatedKeys);
-            
+
             statement.executeUpdate();
-            
+
             if(t.getId() > 0)
                 return;
-            
+
             ResultSet keys = statement.getGeneratedKeys();
 
             try {
-                
+
                 if( keys.next() ) {
                     t.setId( keys.getInt(1) );
                 }
@@ -143,7 +172,7 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
             throw new DataException("Error saving: " + t);
         }
     }
-    
+
     private String getFindQuery(int id) {
         return new StringBuilder("SELECT * FROM ")
                                             .append(DB_TABLE)
@@ -154,45 +183,45 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
                                             .append(";")
                                             .toString();
     }
-    
+
     private String getUpdateQuery(T t) {
         StringBuilder query = new StringBuilder("UPDATE ")
                                                         .append(DB_TABLE)
                                                         .append(" SET ");
-        
+
         Map<String, String> serializedObj = serialize(t, true, false, getUpdateIgnores());
         Iterator<Map.Entry<String, String>> entry = serializedObj.entrySet().iterator();
-        
+
         while( entry.hasNext() ) {
             Map.Entry<String, String> attr = entry.next();
-            
+
             if(attr.getKey().equals(getColumnAttr("id"))) continue;
-            
+
             query.append(attr.getKey())
                             .append("=")
                             .append(attr.getValue());
-            
+
             String s = entry.hasNext() ? ", " : " ";
             query.append(s);
         }
-        
+
         query.append("WHERE ")
                     .append(getColumnAttr("id"))
                     .append("=")
                     .append(serializedObj.get(getColumnAttr("id")))
                     .append(";");
-        
+
         return query.toString();
     }
-    
+
     private String getInsertQuery(T t) {
         StringBuilder query = new StringBuilder("INSERT INTO ")
                                                 .append(DB_TABLE)
                                                 .append(" (");
         StringBuilder values = new StringBuilder("VALUES (");
-        
+
         Map<String, String> serializedObj = serialize(t, false, true, getInsertIgnores());
-        
+
         Iterator<Map.Entry<String, String>> entry = serializedObj.entrySet().iterator();
         while( entry.hasNext() ) {
             Map.Entry<String, String> e = entry.next();
@@ -202,10 +231,10 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
             query.append(s);
             values.append(s);
         }
-        
+
         return query.append(" ").append( values.append(";") ).toString();
     }
-    
+
     @Override
     public List<T> findBy(Map<String, Object> params) throws DataException {
         StringBuilder query = new StringBuilder();
@@ -225,12 +254,12 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
         }
 
         List<T> objects = new ArrayList<T> ();
-        
+
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             PreparedStatement statement = connection.prepareStatement(query.toString());
             ResultSet result = statement.executeQuery();
-            
+
             try {
                 while ( result.next() ) {
                     objects.add( setObject(result) );
@@ -241,32 +270,32 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
                 statement.close();
                 connection.close();
             }
-            
+
             return objects;
         } catch (SQLException e) {
             throw new DataException("Error finding object with params: " + params.toString());
         }
     }
-       
+
     private Map<String, String> serialize(T t, boolean includeId, boolean allowNull, Set<String> ignoredAttributes) {
         if (ignoredAttributes == null)
             ignoredAttributes = new HashSet<String>();
-        
+
         LinkedHashMap<String, String> serialObj = new LinkedHashMap<>();
 
         for( Map.Entry<String, String> entry : COLUMN_ATTR.entrySet() ) {
             String attr = entry.getValue();
-            
+
             if( (!includeId && attr.equals("id") ) || ignoredAttributes.contains(entry.getKey()) )
                 continue;
 
             try {
                 Method method = t.getClass().getMethod("get" + entry.getKey());
                 Object result = method.invoke(t);
-                
+
                 if(result == null && !allowNull)
                     continue;
-                
+
                 String formatedValue = attributeToQuery(result);
                 serialObj.put(attr, formatedValue);
             } catch (Exception e) {}
@@ -274,7 +303,7 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
 
         return serialObj;
     }
-    
+
     private String attributeToQuery(Object attribute) {
         if (attribute == null) return "NULL";
 
