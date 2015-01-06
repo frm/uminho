@@ -16,7 +16,8 @@ public class RepositoryFactory {
     private static RepresentativeRepository representativeRepository;
     private static ContactRepository contactRepository;
     private static FamilyRepository familyRepository;
-
+    private static PaymentRepository paymentRepository;
+    private static PaymentPlanRepository paymentPlanRepository;
     //private static final String USERNAME = System.getenv("HBT_USR");
     //private static final String PASSWORD = System.getenv("HBT_PW");
     private static final String USERNAME = "habitat";
@@ -59,11 +60,27 @@ public class RepositoryFactory {
 
         return contactRepository;
     }
+<<<<<<< HEAD
 
     public static FamilyRepository getFamilyRepository() {
         if (familyRepository == null)
             familyRepository = new FamilyRepository(getURL(), USERNAME, PASSWORD);
 
         return familyRepository;
+=======
+    
+    public static PaymentRepository getPaymentRepository() {
+        if (paymentRepository == null)
+            paymentRepository = new PaymentRepository(getURL(), USERNAME, PASSWORD);
+        
+        return paymentRepository;
+    }
+    
+    public static PaymentPlanRepository getPaymentPlanRepository() {
+        if (paymentPlanRepository == null)
+            paymentPlanRepository = new PaymentPlanRepository(getURL(), USERNAME, PASSWORD);
+        
+        return paymentPlanRepository;
+>>>>>>> Hell checkpoint
     }
 }

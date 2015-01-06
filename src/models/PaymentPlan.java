@@ -6,25 +6,22 @@
 
 package models;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 /**
  *
  * @author joaorodrigues
  */
-class PaymentPlan extends BasicModel {
+public class PaymentPlan extends BasicModel {
     private Float nextPayment;
     private String notes;
-    private Collection<Payment> payments;
 
-    public PaymentPlan(){}
+    public PaymentPlan(){
+        super();
+    }
     
     public PaymentPlan(Float nextPayment, String notes ) {
         super(-1);
         this.nextPayment = nextPayment;
         this.notes = notes;
-        this.payments = new ArrayList<Payment>();
     }
 
     public Float getNextPayment() {
@@ -41,14 +38,6 @@ class PaymentPlan extends BasicModel {
 
     public void setNotes(String notes) {
         this.notes = notes;
-    }
-
-    public Collection<Payment> getPayments() {
-        return new ArrayList<Payment>(payments);
-    }
-
-    public void setPayments(Collection<Payment> payments) {
-        this.payments = new ArrayList<Payment>();
     }
     
     @Override

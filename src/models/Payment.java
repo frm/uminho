@@ -6,25 +6,26 @@
 
 package models;
 
-import java.util.GregorianCalendar;
-
 /**
  *
  * @author joaorodrigues
  */
-class Payment extends BasicModel {
-    private Integer id;
+public class Payment extends BasicModel {
     private String status;
     private Float cost;
-    GregorianCalendar date;
+    private String date;
+    private int paymentPlanId;
 
-    public Payment(){}
+    public Payment(){
+        super();
+    }
     
-    public Payment(String status, Float value, GregorianCalendar date) {
+    public Payment(String status, Float value, String date, int ppId) {
         super(-1);
         this.status = status;
         this.cost = value;
         this.date = date;
+        this.paymentPlanId = ppId;
     }
 
     public String getStatus() {
@@ -35,10 +36,14 @@ class Payment extends BasicModel {
         return cost;
     }
 
-    public GregorianCalendar getDate() {
+    public String getDate() {
         return date;
     }
 
+    public int getPaymentPlanId() {
+        return paymentPlanId;
+    }
+    
     public void setStatus(String status) {
         this.status = status;
     }
@@ -47,9 +52,14 @@ class Payment extends BasicModel {
         this.cost = cost;
     }
 
-    public void setDate(GregorianCalendar date) {
+    public void setDate(String date) {
         this.date = date;
     }
+
+    public void setPaymentPlanId(int paymentPlanId) {
+        this.paymentPlanId = paymentPlanId;
+    }
+    
     
      @Override
     public boolean equals(Object obj) {

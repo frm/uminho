@@ -15,45 +15,38 @@ import java.util.GregorianCalendar;
  * @author joaorodrigues
  */
 public class Project extends BasicModel {
-    private Integer id;
     private String name;
-    private GregorianCalendar startDate;
+    private String startDate;
     private Float budget;
-    private GregorianCalendar eta;
-    private GregorianCalendar endDate;
-    private GregorianCalendar signDate;
-    private GregorianCalendar deliveryDate;
+    private String eta;
+    private String endDate;
+    private String signDate;
+    private String deliveryDate;
     private Float finalCost;
     private String notes;
-    private PaymentPlan paymentPlan;
-    private Collection<Task> tasks;
+    private int applicationId;
+    private int paymentPlanId;
 
-    public Project(){}
+    public Project(){
+        super();
+    }
     
-    public Project(String name, Float budget, GregorianCalendar eta, String notes, PaymentPlan payment, Collection<Task> tasks) {
-        this.id = -1;
+    public Project(String name, Float budget, String eta, String notes, int aId, int ppId) {
+        super(-1);
         this.name = name;
-        this.startDate = new GregorianCalendar();
+        this.startDate = new String();
         this.budget = budget;
         this.eta = eta;
         this.notes = notes;
-        this.paymentPlan = payment;
-        this.tasks = new ArrayList<Task>(tasks);
-    }
-
-    public PaymentPlan getPayment() {
-        return paymentPlan;
-    }
-
-    public void setPayment(PaymentPlan payment) {
-        this.paymentPlan = payment;
+        this.applicationId = aId;
+        this.paymentPlanId = ppId;
     }
     
     public String getName() {
         return name;
     }
 
-    public GregorianCalendar getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
@@ -61,19 +54,19 @@ public class Project extends BasicModel {
         return budget;
     }
 
-    public GregorianCalendar getEta() {
+    public String getEta() {
         return eta;
     }
 
-    public GregorianCalendar getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public GregorianCalendar getSignDate() {
+    public String getSignDate() {
         return signDate;
     }
 
-    public GregorianCalendar getDeliveryDate() {
+    public String getDeliveryDate() {
         return deliveryDate;
     }
 
@@ -85,11 +78,19 @@ public class Project extends BasicModel {
         return notes;
     }
 
+    public int getApplicationId() {
+        return applicationId;
+    }
+
+    public int getPaymentPlanId() {
+        return paymentPlanId;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setStartDate(GregorianCalendar startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
@@ -97,19 +98,19 @@ public class Project extends BasicModel {
         this.budget = budget;
     }
 
-    public void setEta(GregorianCalendar eta) {
+    public void setEta(String eta) {
         this.eta = eta;
     }
 
-    public void setEndDate(GregorianCalendar endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
-    public void setSignDate(GregorianCalendar signDate) {
+    public void setSignDate(String signDate) {
         this.signDate = signDate;
     }
 
-    public void setDeliveryDate(GregorianCalendar deliveryDate) {
+    public void setDeliveryDate(String deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 
@@ -121,20 +122,12 @@ public class Project extends BasicModel {
         this.notes = notes;
     }
 
-    public PaymentPlan getPaymentPlan() {
-        return paymentPlan;
+    public void setApplicationId(int applicationId) {
+        this.applicationId = applicationId;
     }
 
-    public Collection<Task> getTasks() {
-        return new ArrayList<Task>(tasks);
-    }
-
-    public void setPaymentPlan(PaymentPlan paymentPlan) {
-        this.paymentPlan = paymentPlan;
-    }
-
-    public void setTasks(Collection<Task> tasks) {
-        this.tasks = new ArrayList<Task>(tasks);
+    public void setPaymentPlanId(int paymentPlanId) {
+        this.paymentPlanId = paymentPlanId;
     }
     
     @Override
@@ -148,6 +141,6 @@ public class Project extends BasicModel {
         
         Project p = (Project) obj;
         
-        return (p.getId() == id );
+        return ( super.equals(obj) );
     }
 }
