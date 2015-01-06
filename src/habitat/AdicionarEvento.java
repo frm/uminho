@@ -5,12 +5,22 @@
  */
 package habitat;
 
+import controllers.ControllerFactory;
+import controllers.EventsController;
+import data.DataException;
 import habitat.JTextAreaLimit;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import models.Event;
+import models.Volunteer;
 
 /**
  *
@@ -18,14 +28,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AdicionarEvento extends javax.swing.JDialog {
 
-    HashSet<String> addedVol;
+    HashSet<Integer> addedVol;
     
     /**
      * Creates new form AdicionarEvento
      */
     public AdicionarEvento(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        addedVol = new HashSet<String>();
+        addedVol = new HashSet<Integer>();
         initComponents();
     }
 
@@ -63,6 +73,10 @@ public class AdicionarEvento extends javax.swing.JDialog {
         searchVolunteersField = new javax.swing.JTextField();
         searchVolunteersButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+        addEventRaisedValue = new javax.swing.JFormattedTextField();
+        jLabel4 = new javax.swing.JLabel();
+        addEventParticipantNmr = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Adicionar Evento");
@@ -74,8 +88,6 @@ public class AdicionarEvento extends javax.swing.JDialog {
 
         addEventObservation.setColumns(20);
         addEventObservation.setRows(5);
-        addEventObservation.setEditable(false);
-
         addEventObservation.setLineWrap(true);
 
         addEventObservation.setToolTipText("");
@@ -112,6 +124,11 @@ public class AdicionarEvento extends javax.swing.JDialog {
         });
 
         addEventSubmitButton.setText("Submeter");
+        addEventSubmitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addEventSubmitButtonActionPerformed(evt);
+            }
+        });
 
         jtVoluntariosTarefa.setAutoCreateRowSorter(true);
         jtVoluntariosTarefa.setModel(new javax.swing.table.DefaultTableModel(
@@ -119,14 +136,14 @@ public class AdicionarEvento extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Nome", "NrHoras"
+                "id", "Nome", "NrHoras"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -163,12 +180,19 @@ public class AdicionarEvento extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Nome", "Equipa"
+                "id", "Nome", "NrHoras"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                true, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -196,54 +220,64 @@ public class AdicionarEvento extends javax.swing.JDialog {
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        jLabel1.setText("Valor Angariado:");
+
+        addEventRaisedValue.setEditable(true);
+        addEventRaisedValue.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00; #0.00"))));
+
+        jLabel4.setText("Nmr de participantes:");
+
+        addEventParticipantNmr.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#"))));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel64)
+                        .addGap(423, 423, 423))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(addEventDate, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
-                            .addComponent(addEventAddress)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(addEventCancelButton)
                                 .addGap(173, 173, 173)
-                                .addComponent(addEventcleanButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(addEventSubmitButton))
+                                .addComponent(addEventcleanButton))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel64)
-                                        .addGap(423, 423, 423))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(27, 27, 27)
-                                                .addComponent(jbRemoveVoluntário))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jbAddVoluntario)))
-                                        .addGap(18, 18, 18)))
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel4))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(searchVolunteersButton)
-                                        .addGap(10, 10, 10)))))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+                                    .addComponent(addEventAddress)
+                                    .addComponent(addEventDate, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(addEventParticipantNmr, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                                        .addComponent(addEventRaisedValue, javax.swing.GroupLayout.Alignment.LEADING)))))
+                        .addGap(38, 38, 38))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(addEventSubmitButton)
+                            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(jbRemoveVoluntário))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbAddVoluntario)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(369, 369, 369)
+                .addComponent(searchVolunteersButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -256,45 +290,57 @@ public class AdicionarEvento extends javax.swing.JDialog {
                             .addComponent(jLabel91)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(searchVolunteersField, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(91, 91, Short.MAX_VALUE)))
+                    .addGap(165, 466, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(addEventDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(addEventAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchVolunteersButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel64)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addComponent(jbAddVoluntario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbRemoveVoluntário))
+                        .addComponent(jSeparator1)
+                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(addEventDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(addEventAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(addEventCancelButton)
-                                .addComponent(addEventcleanButton))
-                            .addComponent(addEventSubmitButton))))
-                .addContainerGap())
-            .addComponent(jSeparator1)
+                            .addComponent(jLabel5)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchVolunteersButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(addEventRaisedValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(5, 5, 5)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(addEventParticipantNmr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel64)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(69, 69, 69)
+                                .addComponent(jbAddVoluntario)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbRemoveVoluntário))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(addEventCancelButton)
+                                        .addComponent(addEventcleanButton))
+                                    .addComponent(addEventSubmitButton))))
+                        .addGap(29, 29, 29))))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(42, 42, 42)
@@ -307,7 +353,7 @@ public class AdicionarEvento extends javax.swing.JDialog {
                     .addComponent(volunteerProjectFilter)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(volunteerEventFilter)
-                    .addContainerGap(361, Short.MAX_VALUE)))
+                    .addContainerGap(431, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -315,12 +361,12 @@ public class AdicionarEvento extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 970, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1006, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -344,8 +390,8 @@ public class AdicionarEvento extends javax.swing.JDialog {
         Integer rowID;
         if(( rowID = jtPesquisa.getSelectedRow()) >= 0){
             if(!this.addedVol.contains((String) jtPesquisa.getValueAt( jtPesquisa.getSelectedRow(), 0 ) )){
-                ((DefaultTableModel)jtVoluntariosTarefa.getModel()).addRow(new Object[]{jtPesquisa.getValueAt( jtPesquisa.getSelectedRow(), 0 ), "", ""});
-                addedVol.add((String) jtPesquisa.getValueAt( jtPesquisa.getSelectedRow(), 0 ) );
+                ((DefaultTableModel)jtVoluntariosTarefa.getModel()).addRow(new Object[]{jtPesquisa.getValueAt( jtPesquisa.getSelectedRow(), 0 ), jtPesquisa.getValueAt( jtPesquisa.getSelectedRow(),1 ), jtPesquisa.getValueAt( jtPesquisa.getSelectedRow(),2 )});
+                addedVol.add((Integer) jtPesquisa.getValueAt( jtPesquisa.getSelectedRow(), 0 ));
             }
         }
     }//GEN-LAST:event_jbAddVoluntarioActionPerformed
@@ -353,7 +399,7 @@ public class AdicionarEvento extends javax.swing.JDialog {
     private void jbRemoveVoluntárioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoveVoluntárioActionPerformed
         Integer rowID;
         if(( rowID = jtVoluntariosTarefa.getSelectedRow()) >= 0){
-            addedVol.remove((String) jtVoluntariosTarefa.getValueAt( jtVoluntariosTarefa.getSelectedRow(), 0 ) );
+            addedVol.remove((Integer) jtVoluntariosTarefa.getValueAt( jtVoluntariosTarefa.getSelectedRow(), 0 ) );
             ((DefaultTableModel)jtVoluntariosTarefa.getModel()).removeRow(rowID);
         }
     }//GEN-LAST:event_jbRemoveVoluntárioActionPerformed
@@ -362,16 +408,45 @@ public class AdicionarEvento extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_volunteerProjectFilterActionPerformed
 
+    private void addEventSubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEventSubmitButtonActionPerformed
+        EventsController ec = ControllerFactory.getEventsController();
+        HashMap<String, Integer> volTar = new HashMap<>();
+        
+        try {           
+            final Event e = ec.save(new HashMap<String, Object>() {{
+                put("date", Util.strToDate( addEventDate.getText() ));
+                put("location", addEventAddress.getText() );
+                put("observations", addEventObservation.getText());
+                put("amountRaised", Float.parseFloat(addEventRaisedValue.getText()));
+                put("participantsNr", Integer.valueOf(addEventParticipantNmr.getText()));
+            }});
+ 
+
+            /*
+        VolunteersEventController vec = ControllerFactory.getVolunteersEventController();
+        vec.saveAll(e.getId(), addedVol);
+        */
+        //falta os voluntarios
+            
+        } catch (DataException e) {
+            // SHOW ERROR MESSAGE
+        }
+    }//GEN-LAST:event_addEventSubmitButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField addEventAddress;
     private javax.swing.JButton addEventCancelButton;
     private javax.swing.JFormattedTextField addEventDate;
     private javax.swing.JTextArea addEventObservation;
+    private javax.swing.JFormattedTextField addEventParticipantNmr;
+    private javax.swing.JFormattedTextField addEventRaisedValue;
     private javax.swing.JButton addEventSubmitButton;
     private javax.swing.JButton addEventcleanButton;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel64;

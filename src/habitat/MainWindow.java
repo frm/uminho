@@ -2207,9 +2207,7 @@ public class MainWindow extends javax.swing.JFrame {
     participantsTable.setAutoCreateRowSorter(true);
     participantsTable.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
-            {null, null},
-            {null, null},
-            {null, null}
+
         },
         new String [] {
             "Nome", "Contacto"
@@ -2284,9 +2282,7 @@ public class MainWindow extends javax.swing.JFrame {
     eventTable.setAutoCreateRowSorter(true);
     eventTable.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
-            {null, null, null},
-            {null, null, null},
-            {null, null, null}
+
         },
         new String [] {
             "Local", "Data", "Nºparticipantes"
