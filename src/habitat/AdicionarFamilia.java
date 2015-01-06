@@ -529,6 +529,8 @@ public class AdicionarFamilia extends javax.swing.JDialog {
                 }});
             }
             
+            cc.saveAll(contacts);
+            
             final Family f = fc.save(new HashMap<String, Object>() {{
                 put("name", familyName.getText());
                 put("address", familyAddress.getText());

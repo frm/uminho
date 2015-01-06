@@ -313,7 +313,7 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
         VolunteersController vc = ControllerFactory.getVolunteersController();
         // ContactsController cc = ControllerFactory.getContactsController();
         try {
-            vc.add( new HashMap<String, Object>() {{
+            vc.save( new HashMap<String, Object>() {{
                 put("name", addName.getText());
                 put("address", addAddress.getText());
                 put("nif", addNIF.getText());
