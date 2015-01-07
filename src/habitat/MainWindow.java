@@ -26,6 +26,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -125,13 +127,16 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     public void setFamilyMembers() {
-        final Family f = currentFamily;
-        List<SimpleMember> members = currentMembers;
-            
-        ((DefaultTableModel)memberList.getModel()).setRowCount(0);
-            
-        for(final SimpleMember m : members)
-            ((DefaultTableModel)memberList.getModel()).addRow(new Object[]{ m.getName(), Util.dateToStr(m.getBirthDate()), m.getKinship() });
+        try{
+            final Family f = currentFamily;
+            List<SimpleMember> members = currentMembers;
+
+            ((DefaultTableModel)memberList.getModel()).setRowCount(0);
+
+            for(final SimpleMember m : members)
+                ((DefaultTableModel)memberList.getModel()).addRow(new Object[]{ m.getName(), Util.dateToStr(m.getBirthDate()), m.getKinship() });
+        } catch (NullPointerException e){}
+        
     }
 
     /**
@@ -442,6 +447,15 @@ public class MainWindow extends javax.swing.JFrame {
         familySubTabbedPane.setBackground(new java.awt.Color(255, 255, 255));
         familySubTabbedPane.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         familySubTabbedPane.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        familySubTabbedPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                if(familySubTabbedPane.getSelectedIndex() == 1)
+                //TODO
+                return;
+                if(familySubTabbedPane.getSelectedIndex() == 2)
+                setFamilyMembers();
+            }
+        });
 
         jPanel34.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -820,6 +834,11 @@ public class MainWindow extends javax.swing.JFrame {
     deleteApplication.setText("Remover");
 
     editApplication.setText("Editar");
+    editApplication.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            editApplicationActionPerformed(evt);
+        }
+    });
 
     jLabel5.setText("Prioridade:");
 
@@ -1770,9 +1789,8 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(editVolunteer)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(deleteVolunteer))
-                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(volunteerAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
-                    .addComponent(volunteerName))
+                .addComponent(volunteerAddress)
+                .addComponent(volunteerName)
                 .addComponent(volunteerBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(volunteerMaritalStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(volunteerEducation, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3217,6 +3235,10 @@ public class MainWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro a gravar dados");
         }
     }//GEN-LAST:event_editQuestionnaireActionPerformed
+
+    private void editApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editApplicationActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editApplicationActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addApplication;

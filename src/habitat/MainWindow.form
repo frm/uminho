@@ -185,6 +185,9 @@
                       <Font name="Calibri Light" size="14" style="0"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="familySubTabbedPane.addChangeListener(new ChangeListener() {&#xa;      public void stateChanged(ChangeEvent e) {&#xa;         if(familySubTabbedPane.getSelectedIndex() == 1)&#xa;            //TODO&#xa;            return;&#xa;         if(familySubTabbedPane.getSelectedIndex() == 2)&#xa;            setFamilyMembers();&#xa;      }&#xa;});"/>
+                  </AuxValues>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
                   <SubComponents>
@@ -1146,6 +1149,9 @@
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Editar"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editApplicationActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel5">
                           <Properties>
@@ -2369,10 +2375,8 @@
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="deleteVolunteer" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="volunteerAddress" alignment="0" pref="470" max="32767" attributes="0"/>
-                                          <Component id="volunteerName" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="volunteerAddress" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="volunteerName" alignment="0" max="32767" attributes="0"/>
                                       <Component id="volunteerBirthDate" alignment="0" min="-2" pref="376" max="-2" attributes="0"/>
                                       <Component id="volunteerMaritalStatus" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="volunteerEducation" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
