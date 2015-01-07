@@ -28,7 +28,6 @@ public class ApplicationRepository extends AbstractRepository<Application> {
        put("Priority", "Prioridade");
        put("Status", "Estado");
        put("ApprovalDate", "DataAprovacao");
-       put("File", "Ficheiro");
        put("Notes", "Observacoes");
        put("Manager", "FuncionarioResp");
        put("FamilyId", "Familia");

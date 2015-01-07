@@ -205,8 +205,6 @@ public class MainWindow extends javax.swing.JFrame {
         deleteApplication = new javax.swing.JButton();
         editApplication = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        applicationOpenFile = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
@@ -294,7 +292,6 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel110 = new javax.swing.JLabel();
         jLabel111 = new javax.swing.JLabel();
         jLabel112 = new javax.swing.JLabel();
-        jLabel113 = new javax.swing.JLabel();
         jLabel114 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         volunteerNotes = new javax.swing.JTextArea();
@@ -311,10 +308,8 @@ public class MainWindow extends javax.swing.JFrame {
         volunteerAddress = new javax.swing.JTextField();
         volunteerTeam = new javax.swing.JComboBox();
         addVolunteerTeam = new javax.swing.JButton();
-        openVolunteerFile = new javax.swing.JButton();
         volunteerBirthDate = new javax.swing.JFormattedTextField();
         volunteerEducation = new javax.swing.JTextField();
-        volunteerLoadNewFile = new javax.swing.JButton();
         volunteerBirthPlace = new javax.swing.JTextField();
         volunteerMaritalStatus = new javax.swing.JComboBox();
         volunteerNationality = new javax.swing.JComboBox();
@@ -623,8 +618,6 @@ public class MainWindow extends javax.swing.JFrame {
         }
     });
 
-    mainWindowRepProf.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
     javax.swing.GroupLayout jPanel34Layout = new javax.swing.GroupLayout(jPanel34);
     jPanel34.setLayout(jPanel34Layout);
     jPanel34Layout.setHorizontalGroup(
@@ -830,10 +823,6 @@ public class MainWindow extends javax.swing.JFrame {
 
     jLabel5.setText("Prioridade:");
 
-    jLabel6.setText("Ficheiro:");
-
-    applicationOpenFile.setText("Abrir");
-
     jLabel21.setText("Observações:");
 
     jLabel29.setText("Questionário");
@@ -917,14 +906,13 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel35Layout.createSequentialGroup()
                     .addGap(55, 55, 55)
                     .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
                         .addGroup(jPanel35Layout.createSequentialGroup()
                             .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel29)
                                 .addGroup(jPanel35Layout.createSequentialGroup()
                                     .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jLabel21)
-                                        .addComponent(jLabel6)
                                         .addComponent(jLabel5)
                                         .addComponent(jLabel27)
                                         .addComponent(jLabel25)
@@ -934,7 +922,6 @@ public class MainWindow extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(applicationOpenFile)
                                             .addComponent(applicationDate, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                                             .addComponent(applicationLocation)
                                             .addComponent(applicationApprovalDate, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -998,25 +985,21 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jLabel23)
                 .addComponent(applicationId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel6)
-                .addComponent(applicationOpenFile))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jLabel21)
                 .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
             .addComponent(jLabel29)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(editQuestionnaire)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(addApplication)
                 .addComponent(deleteApplication)
                 .addComponent(editApplication))
-            .addGap(35, 35, 35))
+            .addGap(106, 106, 106))
     );
 
     jPanel35Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {addApplication, deleteApplication, editApplication});
@@ -1076,23 +1059,23 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jScrollPane18)
                 .addGroup(jPanel36Layout.createSequentialGroup()
                     .addComponent(addMember)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
                     .addComponent(editMember)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
                     .addComponent(removeMember)))
             .addContainerGap())
     );
     jPanel36Layout.setVerticalGroup(
         jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel36Layout.createSequentialGroup()
+            .addContainerGap(40, Short.MAX_VALUE)
+            .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(40, 40, 40)
-            .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
-            .addGap(18, 18, 18)
             .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(editMember)
                 .addComponent(removeMember)
                 .addComponent(addMember))
-            .addGap(22, 22, 22))
+            .addGap(238, 238, 238))
     );
 
     familySubTabbedPane.addTab("Membros", jPanel36);
@@ -1681,8 +1664,6 @@ public class MainWindow extends javax.swing.JFrame {
 
     jLabel112.setText("Equipa:");
 
-    jLabel113.setText("Ficheiro:");
-
     jLabel114.setText("Observações:");
 
     volunteerNotes.setEditable(false);
@@ -1725,8 +1706,6 @@ public class MainWindow extends javax.swing.JFrame {
     addVolunteerTeam.setText("Nova Equipa");
     addVolunteerTeam.setVisible(false);
 
-    openVolunteerFile.setText("Abrir");
-
     volunteerBirthDate.setEditable(false);
     volunteerBirthDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
     volunteerBirthDate.setToolTipText("dd/MM/aaaa");
@@ -1737,9 +1716,6 @@ public class MainWindow extends javax.swing.JFrame {
     });
 
     volunteerEducation.setEditable(false);
-
-    volunteerLoadNewFile.setText("Carregar Novo Ficheiro...");
-    volunteerLoadNewFile.setVisible(false);
 
     volunteerBirthPlace.setEditable(false);
 
@@ -1780,64 +1756,58 @@ public class MainWindow extends javax.swing.JFrame {
     jPanel25Layout.setHorizontalGroup(
         jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel25Layout.createSequentialGroup()
-            .addGap(23, 23, 23)
-            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(38, 38, 38)
+            .addComponent(jLabel114)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                 .addGroup(jPanel25Layout.createSequentialGroup()
-                    .addComponent(cancelEditVolunteer)
-                    .addGap(0, 0, Short.MAX_VALUE))
-                .addGroup(jPanel25Layout.createSequentialGroup()
-                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel11)
-                        .addComponent(jLabel113)
-                        .addComponent(jLabel112)
-                        .addComponent(jLabel111)
-                        .addComponent(jLabel110)
-                        .addComponent(jLabel9)
-                        .addComponent(jLabel10)
-                        .addComponent(jLabel14)
-                        .addComponent(jLabel15)
-                        .addGroup(jPanel25Layout.createSequentialGroup()
-                            .addComponent(jLabel114)
-                            .addGap(14, 14, 14)))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel25Layout.createSequentialGroup()
-                            .addComponent(submitEditVolunteer)
                             .addGap(85, 85, 85)
-                            .addComponent(editVolunteer)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(deleteVolunteer))
-                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
-                            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel25Layout.createSequentialGroup()
-                                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(volunteerBirthDate, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(volunteerTeam, javax.swing.GroupLayout.Alignment.LEADING, 0, 95, Short.MAX_VALUE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(addVolunteerTeam))
-                                .addComponent(volunteerNationality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel25Layout.createSequentialGroup()
-                                    .addComponent(openVolunteerFile)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(volunteerLoadNewFile))
-                                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(volunteerAddress)
-                                    .addComponent(volunteerName)
-                                    .addGroup(jPanel25Layout.createSequentialGroup()
-                                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(volunteerBirthPlace, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
-                                            .addComponent(volunteerEducation, javax.swing.GroupLayout.Alignment.LEADING))
-                                        .addGap(34, 34, 34)
-                                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel13)
-                                            .addComponent(jLabel12))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(volunteerNib, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                                            .addComponent(volunteerNif))))))
-                        .addComponent(volunteerMaritalStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(submitEditVolunteer))
+                        .addComponent(cancelEditVolunteer))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editVolunteer)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(deleteVolunteer))
+                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(volunteerAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                    .addComponent(volunteerName))
+                .addComponent(volunteerBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(volunteerMaritalStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(volunteerEducation, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(volunteerBirthPlace, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(volunteerNationality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel25Layout.createSequentialGroup()
+                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel25Layout.createSequentialGroup()
+                            .addGap(64, 64, 64)
+                            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel112)
+                                .addComponent(jLabel111)
+                                .addComponent(jLabel110)))
+                        .addComponent(volunteerTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(addVolunteerTeam)))
+            .addContainerGap(61, Short.MAX_VALUE))
+        .addGroup(jPanel25Layout.createSequentialGroup()
+            .addGap(34, 34, 34)
+            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jLabel11)
+                .addComponent(jLabel9)
+                .addComponent(jLabel10)
+                .addComponent(jLabel14)
+                .addComponent(jLabel15))
+            .addGap(246, 246, 246)
+            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jLabel13)
+                .addComponent(jLabel12))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(volunteerNib, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(volunteerNif, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(0, 0, Short.MAX_VALUE))
     );
     jPanel25Layout.setVerticalGroup(
         jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1855,11 +1825,6 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jLabel112)
                 .addComponent(volunteerTeam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(addVolunteerTeam))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel113)
-                .addComponent(openVolunteerFile)
-                .addComponent(volunteerLoadNewFile))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel9)
@@ -1888,15 +1853,13 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jLabel114)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(deleteVolunteer)
-                    .addComponent(editVolunteer))
-                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(submitEditVolunteer)
-                    .addComponent(cancelEditVolunteer)))
-            .addContainerGap(271, Short.MAX_VALUE))
+            .addGap(40, 40, 40)
+            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(deleteVolunteer)
+                .addComponent(editVolunteer)
+                .addComponent(submitEditVolunteer)
+                .addComponent(cancelEditVolunteer))
+            .addContainerGap(347, Short.MAX_VALUE))
     );
 
     jTabbedPane12.addTab("Informações", jPanel25);
@@ -3017,7 +2980,6 @@ public class MainWindow extends javax.swing.JFrame {
         volunteerNationality.setEnabled(false);
         volunteerBirthPlace.setEditable(false);
         volunteerTeam.setEnabled(false);
-        volunteerLoadNewFile.setVisible(false);
     }//GEN-LAST:event_cancelEditVolunteerActionPerformed
 
     private void volunteerNationalityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerNationalityActionPerformed
@@ -3036,7 +2998,6 @@ public class MainWindow extends javax.swing.JFrame {
         volunteerEducation.setEditable(true);
         volunteerMaritalStatus.setEnabled(true);
         volunteerNationality.setEnabled(true);
-        volunteerLoadNewFile.setVisible(true);
         volunteerBirthPlace.setEditable(true);
         volunteerTeam.setEnabled(true);
         volunteerNif.setEditable(true);
@@ -3278,7 +3239,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField applicationId;
     private javax.swing.JTextField applicationLocation;
     private javax.swing.JTextArea applicationNotes;
-    private javax.swing.JButton applicationOpenFile;
     private javax.swing.JComboBox applicationPriority;
     private javax.swing.JTable applicationQuestionnaire;
     private javax.swing.JButton cancelDonorEdit;
@@ -3337,7 +3297,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel110;
     private javax.swing.JLabel jLabel111;
     private javax.swing.JLabel jLabel112;
-    private javax.swing.JLabel jLabel113;
     private javax.swing.JLabel jLabel114;
     private javax.swing.JLabel jLabel115;
     private javax.swing.JLabel jLabel12;
@@ -3390,7 +3349,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel60;
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
@@ -3468,7 +3426,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JComboBox mainWindowRepProf;
     private javax.swing.JTable memberList;
     private javax.swing.JButton nextApplication;
-    private javax.swing.JButton openVolunteerFile;
     private javax.swing.JTable participantsTable;
     private javax.swing.JTable paymentPlan;
     private javax.swing.JTextArea paymentPlanNotes;
@@ -3513,7 +3470,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField volunteerBirthPlace;
     private javax.swing.JTextField volunteerEducation;
     private javax.swing.JTable volunteerEventList;
-    private javax.swing.JButton volunteerLoadNewFile;
     private javax.swing.JComboBox volunteerMaritalStatus;
     private javax.swing.JTextField volunteerName;
     private javax.swing.JComboBox volunteerNationality;

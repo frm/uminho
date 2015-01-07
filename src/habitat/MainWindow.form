@@ -942,12 +942,7 @@
                         <Component class="javax.swing.JComboBox" name="mainWindowRepProf">
                           <Properties>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="4">
-                                <StringItem index="0" value="Item 1"/>
-                                <StringItem index="1" value="Item 2"/>
-                                <StringItem index="2" value="Item 3"/>
-                                <StringItem index="3" value="Item 4"/>
-                              </StringArray>
+                              <StringArray count="0"/>
                             </Property>
                           </Properties>
                         </Component>
@@ -981,14 +976,13 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="55" pref="55" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jScrollPane7" alignment="0" pref="528" max="32767" attributes="0"/>
+                                              <Component id="jScrollPane7" alignment="0" pref="541" max="32767" attributes="0"/>
                                               <Group type="102" attributes="0">
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
                                                       <Group type="102" alignment="0" attributes="0">
                                                           <Group type="103" groupAlignment="1" attributes="0">
                                                               <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                                                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                                               <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
                                                               <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
@@ -999,7 +993,6 @@
                                                           <EmptySpace max="-2" attributes="0"/>
                                                           <Group type="103" groupAlignment="0" attributes="0">
                                                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                                  <Component id="applicationOpenFile" min="-2" max="-2" attributes="0"/>
                                                                   <Component id="applicationDate" pref="300" max="32767" attributes="0"/>
                                                                   <Component id="applicationLocation" max="32767" attributes="0"/>
                                                                   <Component id="applicationApprovalDate" alignment="0" min="-2" pref="87" max="-2" attributes="0"/>
@@ -1079,20 +1072,15 @@
                                       <Component id="applicationId" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="applicationOpenFile" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
                                       <Component id="jScrollPane9" min="-2" pref="100" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="39" max="32767" attributes="0"/>
                                   <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jScrollPane7" min="-2" pref="162" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="editQuestionnaire" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -1100,7 +1088,7 @@
                                       <Component id="deleteApplication" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="editApplication" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1162,16 +1150,6 @@
                         <Component class="javax.swing.JLabel" name="jLabel5">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Prioridade:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel6">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Ficheiro:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="applicationOpenFile">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Abrir"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel21">
@@ -1325,9 +1303,9 @@
                                       <Component id="jScrollPane18" max="32767" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Component id="addMember" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="111" max="32767" attributes="0"/>
+                                          <EmptySpace pref="146" max="32767" attributes="0"/>
                                           <Component id="editMember" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="110" max="32767" attributes="0"/>
+                                          <EmptySpace pref="145" max="32767" attributes="0"/>
                                           <Component id="removeMember" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -1338,15 +1316,15 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace pref="40" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane18" min="-2" pref="378" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane18" pref="616" max="32767" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="editMember" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="removeMember" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="addMember" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="238" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -2373,82 +2351,72 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                                  <Component id="jLabel114" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="cancelEditVolunteer" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="1" attributes="0">
-                                              <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel113" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel112" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel111" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel110" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel9" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel10" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel14" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel15" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <Component id="jLabel114" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <EmptySpace min="-2" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
+                                                  <EmptySpace min="85" pref="85" max="-2" attributes="0"/>
                                                   <Component id="submitEditVolunteer" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
-                                                  <Component id="editVolunteer" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="deleteVolunteer" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                                  <Component id="jScrollPane8" alignment="0" pref="475" max="32767" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Group type="102" alignment="0" attributes="0">
-                                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                                              <Component id="volunteerBirthDate" alignment="0" max="32767" attributes="0"/>
-                                                              <Component id="volunteerTeam" alignment="0" pref="95" max="32767" attributes="0"/>
-                                                          </Group>
-                                                          <EmptySpace max="-2" attributes="0"/>
-                                                          <Component id="addVolunteerTeam" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <Component id="volunteerNationality" min="-2" max="-2" attributes="0"/>
-                                                      <Group type="102" alignment="0" attributes="0">
-                                                          <Component id="openVolunteerFile" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace max="-2" attributes="0"/>
-                                                          <Component id="volunteerLoadNewFile" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                          <Component id="volunteerAddress" alignment="0" max="32767" attributes="0"/>
-                                                          <Component id="volunteerName" alignment="0" max="32767" attributes="0"/>
-                                                          <Group type="102" alignment="0" attributes="0">
-                                                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                                                  <Component id="volunteerBirthPlace" alignment="0" pref="208" max="32767" attributes="0"/>
-                                                                  <Component id="volunteerEducation" alignment="0" max="32767" attributes="0"/>
-                                                              </Group>
-                                                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                                                              <Group type="103" groupAlignment="1" attributes="0">
-                                                                  <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
-                                                                  <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                                                              </Group>
-                                                              <EmptySpace max="-2" attributes="0"/>
-                                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                                  <Component id="volunteerNib" pref="203" max="32767" attributes="0"/>
-                                                                  <Component id="volunteerNif" max="32767" attributes="0"/>
-                                                              </Group>
-                                                          </Group>
-                                                      </Group>
-                                                  </Group>
-                                              </Group>
-                                              <Component id="volunteerMaritalStatus" min="-2" max="-2" attributes="0"/>
+                                              <Component id="cancelEditVolunteer" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="editVolunteer" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="deleteVolunteer" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="volunteerAddress" alignment="0" pref="470" max="32767" attributes="0"/>
+                                          <Component id="volunteerName" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Component id="volunteerBirthDate" alignment="0" min="-2" pref="376" max="-2" attributes="0"/>
+                                      <Component id="volunteerMaritalStatus" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="volunteerEducation" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
+                                      <Component id="volunteerBirthPlace" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
+                                      <Component id="volunteerNationality" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jScrollPane8" alignment="0" min="-2" pref="475" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="1" attributes="0">
+                                                      <Component id="jLabel112" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel111" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel110" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <Component id="volunteerTeam" alignment="0" min="-2" pref="95" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="addVolunteerTeam" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
+                                  <EmptySpace pref="61" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel9" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel10" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel14" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel15" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="246" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="jLabel13" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel12" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="volunteerNib" min="-2" pref="208" max="-2" attributes="0"/>
+                                      <Component id="volunteerNif" min="-2" pref="208" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -2470,12 +2438,6 @@
                                       <Component id="jLabel112" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="volunteerTeam" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="addVolunteerTeam" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel113" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="openVolunteerFile" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="volunteerLoadNewFile" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -2511,18 +2473,14 @@
                                       <Component id="jLabel114" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jScrollPane8" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="deleteVolunteer" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="editVolunteer" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                          <Component id="submitEditVolunteer" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cancelEditVolunteer" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="deleteVolunteer" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editVolunteer" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="submitEditVolunteer" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cancelEditVolunteer" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="271" max="32767" attributes="0"/>
+                                  <EmptySpace pref="347" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -2541,11 +2499,6 @@
                         <Component class="javax.swing.JLabel" name="jLabel112">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Equipa:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel113">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Ficheiro:"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel114">
@@ -2647,11 +2600,6 @@
                             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="addVolunteerTeam.setVisible(false);"/>
                           </AuxValues>
                         </Component>
-                        <Component class="javax.swing.JButton" name="openVolunteerFile">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Abrir"/>
-                          </Properties>
-                        </Component>
                         <Component class="javax.swing.JFormattedTextField" name="volunteerBirthDate">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
@@ -2668,14 +2616,6 @@
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                           </Properties>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="volunteerLoadNewFile">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Carregar Novo Ficheiro..."/>
-                          </Properties>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="volunteerLoadNewFile.setVisible(false);"/>
-                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JTextField" name="volunteerBirthPlace">
                           <Properties>

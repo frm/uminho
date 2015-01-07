@@ -12,7 +12,6 @@ package models;
  */
 public class Application extends BasicModel {
     private String applicationDate;
-    private String file;
     private Boolean status;
     private Integer priority;
     private String notes;
@@ -25,10 +24,9 @@ public class Application extends BasicModel {
         super();
     }
 
-    public Application(String applicationDate, String file, Integer priority, String notes, String location, Integer manager, Integer familyId) {
+    public Application(String applicationDate, Integer priority, String notes, String location, Integer manager, Integer familyId) {
         super(-1);
         this.applicationDate = applicationDate;
-        this.file = file;
         this.priority = priority;
         this.notes = notes;
         this.location = location;
@@ -40,10 +38,6 @@ public class Application extends BasicModel {
 
     public String getApplicationDate() {
         return applicationDate;
-    }
-
-    public String getFile() {
-        return file;
     }
 
     public Boolean getStatus() {
@@ -80,10 +74,6 @@ public class Application extends BasicModel {
 
     public void setApplicationDate(String applicationDate) {
         this.applicationDate = applicationDate;
-    }
-
-    public void setFile(String file) {
-        this.file = file;
     }
 
     public void setStatus(Boolean status) {

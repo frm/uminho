@@ -79,8 +79,6 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         volunteerActivity = new javax.swing.JComboBox();
         addActivity = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
-        addFile = new javax.swing.JButton();
         filePath = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -187,20 +185,6 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
             }
         });
 
-        jLabel11.setText("Ficheiro:");
-
-        addFile.setText("Carregar...");
-        addFile.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addFileMouseClicked(evt);
-            }
-        });
-        addFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addFileActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -225,7 +209,6 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel11)
                             .addComponent(jLabel4)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
@@ -267,8 +250,7 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
                                     .addComponent(addNationality, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(addCitizenship, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(addFile)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGap(91, 91, 91)
                                         .addComponent(filePath))
                                     .addComponent(addBirthDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
@@ -315,10 +297,7 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel28)
                         .addGap(114, 114, 114)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(addFile)
-                            .addComponent(filePath))
+                        .addComponent(filePath)
                         .addGap(18, 18, 18))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -384,7 +363,6 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
                 put("observations", addObservations.getText());
                 put("birthDate", Util.strToDate( addBirthDate.getText() ) );
                 put("activity", volunteerActivity.getSelectedItem());
-                put("file", filePath.getText());
             }} );
             
             final TableModel t = volunteerContacts.getModel();
@@ -431,21 +409,6 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
        
        
     }//GEN-LAST:event_addActivityActionPerformed
-
-    private void addFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addFileMouseClicked
-        
-    }//GEN-LAST:event_addFileMouseClicked
-
-    private void addFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFileActionPerformed
-        JFileChooser chooser = new JFileChooser();
-
-        int returnVal = chooser.showOpenDialog(null);
-        try {
-            filePath.setText(chooser.getSelectedFile().getCanonicalPath());
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Ocorreu um erro de acesso ao ficheiro");
-        }
-    }//GEN-LAST:event_addFileActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -453,7 +416,6 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
     private javax.swing.JTextField addAddress;
     private javax.swing.JFormattedTextField addBirthDate;
     private javax.swing.JTextField addCitizenship;
-    private javax.swing.JButton addFile;
     private javax.swing.JComboBox addMaritalStatus;
     private javax.swing.JTextField addNIB;
     private javax.swing.JTextField addNIF;
@@ -467,7 +429,6 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;

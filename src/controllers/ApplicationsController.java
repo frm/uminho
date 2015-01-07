@@ -27,7 +27,6 @@ public class ApplicationsController extends AbstractController<Application> {
     public Application newInstance(final Map<String, Object> params) throws DataException {
         return new Application(
                 (String)params.get("applicationDate"),
-                (String)params.get("file"),
                 (Integer)params.get("priority"),
                 (String)params.get("notes"),
                 (String)params.get("location"),

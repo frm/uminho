@@ -30,7 +30,6 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
        put("MaritalStatus", "EstadoCivil");
        put("Education", "Escolaridade");
        put("Observations", "Observacoes");
-       put("File", "Ficheiro");
        put("ActivityID", "Atividade");
        put("CurrentTeam", "EquipaAtual");
        put("donorId", "Doador");
@@ -55,7 +54,6 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
             v.setCitizenship( result.getString( getColumnAttr("citizenship") ) );
             v.setMaritalStatus( result.getString( getColumnAttr("maritalStatus") ) );
             v.setObservations( result.getString( getColumnAttr("observations") ) );
-            v.setFile( result.getString( getColumnAttr("file") ) );
             v.setDonorId( result.getInt( getColumnAttr("donorId") ) );
         } catch (SQLException e) {
             throw new DataException("Error saving volunteer.");

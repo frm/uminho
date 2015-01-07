@@ -20,7 +20,6 @@ public class Volunteer extends BaseEntity {
     private String citizenship;
     private String maritalStatus;
     private String observations;
-    private String file;
     private Integer currentTeam;
     private Integer donorId;
     private Set<Integer> teams;
@@ -29,7 +28,7 @@ public class Volunteer extends BaseEntity {
         super();
     }
 
-    public Volunteer(String name, String address, String nif, String nib, Activity activity, Set<Contact> contacts, String birthDate, String education, String nationality, String citizenship, String maritalStatus, String observations, String file, Integer donorId) {
+    public Volunteer(String name, String address, String nif, String nib, Activity activity, Set<Contact> contacts, String birthDate, String education, String nationality, String citizenship, String maritalStatus, String observations, Integer donorId) {
         super(name, address, nif, nib, activity, contacts);
         this.birthDate = birthDate;
         this.education = education;
@@ -37,7 +36,6 @@ public class Volunteer extends BaseEntity {
         this.citizenship = citizenship;
         this.maritalStatus = maritalStatus;
         this.observations = observations;
-        this.file = file;
         this.currentTeam = 1;
         this.teams = new HashSet<>();
     }
@@ -50,7 +48,6 @@ public class Volunteer extends BaseEntity {
         this.citizenship = v.getCitizenship();
         this.maritalStatus = v.getMaritalStatus();
         this.observations = v.getObservations();
-        this.file = v.getFile();
         this.donorId = v.getDonorId();
     }
 
@@ -86,10 +83,6 @@ public class Volunteer extends BaseEntity {
     public String getObservations() {
         return observations;
     }
-
-    public String getFile() {
-        return file;
-    }
     
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
@@ -113,10 +106,6 @@ public class Volunteer extends BaseEntity {
 
     public void setObservations(String observations) {
         this.observations = observations;
-    }
-
-    public void setFile(String file) {
-        this.file = file;
     }
     
     public void setCurrentTeam(Integer i) {
@@ -155,8 +144,6 @@ public class Volunteer extends BaseEntity {
         sb.append(maritalStatus);
         sb.append(", ");
         sb.append(observations);
-        sb.append(", ");
-        sb.append(file);
         return sb.toString();
     }
     
@@ -172,7 +159,6 @@ public class Volunteer extends BaseEntity {
                 && this.nationality.equals(v.getNationality())
                 && this.citizenship.equals(v.getCitizenship())
                 && this.maritalStatus.equals(v.getMaritalStatus())
-                && this.observations.equals(v.getObservations())
-                && this.file.equals(v.getFile()));
+                && this.observations.equals(v.getObservations()));
     }
 }

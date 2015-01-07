@@ -56,8 +56,7 @@ public class EditarParticipantes extends javax.swing.JDialog {
         editParticipantsVolunteersTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"Paulo"},
-                {"Tiago"},
-                {"António Nestor"}
+                {"Tiago"}
             },
             new String [] {
                 "Nome"
