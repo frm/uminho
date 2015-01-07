@@ -2969,7 +2969,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_eventDateActionPerformed
 
     private void removeEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEventButtonActionPerformed
-        (new ConfirmarPassword(this, true)).setVisible(true);
+
     }//GEN-LAST:event_removeEventButtonActionPerformed
 
     private void editEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editEventButtonActionPerformed
@@ -3178,6 +3178,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void deleteFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFamilyActionPerformed
         try {
+            String password = JOptionPane.showInputDialog(this, "Erro a ler dados");
             ControllerFactory.getFamiliesController().delete(currentFamily);
         } catch (DataException ex) {
             JOptionPane.showMessageDialog(this, "Erro a ler dados");
