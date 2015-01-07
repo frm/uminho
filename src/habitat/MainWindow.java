@@ -6,13 +6,18 @@
 
 package habitat;
 
+import controllers.ContactsController;
 import controllers.ControllerFactory;
+import controllers.FamiliesController;
+import controllers.MembersController;
+import controllers.RepresentativesController;
 import data.DataException;
 import data.RepositoryFactory;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
@@ -23,6 +28,9 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import models.Activity;
+import models.Application;
 import models.Contact;
 import models.Family;
 import models.Representative;
@@ -34,6 +42,11 @@ import models.SimpleMember;
  */
 public class MainWindow extends javax.swing.JFrame {
     
+    private Family currentFamily;
+    private Representative currentRepresentative;
+    private List<SimpleMember> currentMembers;
+    private List<Contact> representativeContacts;
+    private Application currentApplication;
     /**
      * Creates new form GUI
      */
@@ -47,16 +60,31 @@ public class MainWindow extends javax.swing.JFrame {
             String code = familyList.getValueAt(familyList.getSelectedRow(), 0).toString();
             int i = Integer.parseInt(code);
             try {
-                Family f = ControllerFactory.getFamiliesController().find(i);
-                setCurrentFamily(f);
-                setFamilyMembers(f);
+                currentFamily = ControllerFactory.getFamiliesController().find(i);
+                currentRepresentative = ControllerFactory.getRepresentativesController().findBy(
+                    new HashMap<String, Object>() {{ put("familyID", currentFamily.getId());}}
+            ).get(0);
+                currentMembers = ControllerFactory.getMembersController().findBy(new HashMap<String, Object>() {{
+                put("familyID", currentFamily.getId());
+                
+                representativeContacts = ControllerFactory.getContactsController().findBy(new HashMap<String, Object>() {{
+                    put("OwnerType", "Representante");
+                    put("Owner", currentRepresentative.getId());
+                }});
+                
+                currentApplication = ControllerFactory.getApplicationsController().findBy(new HashMap<String, Object>() {{
+                    put("familyId", currentFamily.getId());
+                }}).get(0);
+            }});
+                setCurrentFamily();
+                setFamilyMembers();
             } catch(DataException e) { }
         }
         });
     }
 
     
-        public void listFamilies() {
+    public void listFamilies() {
         List<Family> families  = new ArrayList<>();
         try {
             families = ControllerFactory.getFamiliesController().all();
@@ -70,58 +98,39 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
-    public void setCurrentFamily(final Family f) {
-        try {
-            familyName.setText(f.getName());
-            familyAddress.setText(f.getAddress());
-            familyIncome.setText(Float.toString(f.getIncome()));
-            familyApproved.setSelected(f.getApproved());
-            familyNotes.setText(f.getObservations());        
-            final Representative r = ControllerFactory.getRepresentativesController().findBy(
-                    new HashMap<String, Object>() {{ put("familyID", f.getId());}}
-            ).get(0);
+    public void setCurrentFamily() {
+        Family f = currentFamily;
+        familyName.setText(f.getName());
+        familyAddress.setText(f.getAddress());
+        familyIncome.setText(Float.toString(f.getIncome()));
+        familyApproved.setSelected(f.getApproved());
+        familyNotes.setText(f.getObservations());        
+        Representative r = currentRepresentative;
             
-            familyRep.setText(r.getName());
-            repBirthDate.setText(Util.dateToStr(r.getBirthDate()));
-            repMaritalStatus.setSelectedItem(r.getMaritalStatus());
-            repEducation.setText(r.getEducation());
-            repNif.setText(r.getNif());
-            repNib.setText(r.getNib());
-            repActivity.setText(r.getActivity().getName());
-            repBirthPlace.setText(r.getBirthPlace());
-            repNationality.setSelectedItem(r.getNationality());
+        familyRep.setText(r.getName());
+        repBirthDate.setText(Util.dateToStr(r.getBirthDate()));
+        repMaritalStatus.setSelectedItem(r.getMaritalStatus());
+        repEducation.setText(r.getEducation());
+        repNif.setText(r.getNif());
+        repNib.setText(r.getNib());
+        repActivity.setText(r.getActivity().getName());
+        repBirthPlace.setText(r.getBirthPlace());
+        repNationality.setSelectedItem(r.getNationality());
             
-            List<Contact> contacts = ControllerFactory.getContactsController().findBy(new HashMap<String, Object>() {{
-                put("OwnerType", "Representante");
-                put("Owner", r.getId());
-            }});
+        ((DefaultTableModel)repContacts.getModel()).setRowCount(0);
             
-            ((DefaultTableModel)repContacts.getModel()).setRowCount(0);
-            
-            for(Contact c : contacts)
-                ((DefaultTableModel)repContacts.getModel()).addRow(new Object[]{c.getType(), c.getValue()});
-            
-        } catch (DataException ex) {
-            JOptionPane.showMessageDialog(this, "Erro a ler dados");
-        }
+        for(Contact c : representativeContacts)
+            ((DefaultTableModel)repContacts.getModel()).addRow(new Object[]{c.getType(), c.getValue()});
     }
     
-    public void setFamilyMembers(final Family f) {
-        try {
-            List<SimpleMember> members = ControllerFactory.getMembersController().findBy(new HashMap<String, Object>() {{
-                put("familyID", f.getId());
-            }});
+    public void setFamilyMembers() {
+        final Family f = currentFamily;
+        List<SimpleMember> members = currentMembers;
             
-            ((DefaultTableModel)memberList.getModel()).setRowCount(0);
+        ((DefaultTableModel)memberList.getModel()).setRowCount(0);
             
-            for(final SimpleMember m : members)
-                ((DefaultTableModel)memberList.getModel()).addRow(new Object[]{m.getName(), Util.dateToStr(m.getBirthDate()), m.getKinship()});
-            
-        } catch (DataException e) {
-            JOptionPane.showMessageDialog(this, "Erro a ler dados");
-        }
-        
-        
+        for(final SimpleMember m : members)
+            ((DefaultTableModel)memberList.getModel()).addRow(new Object[]{ m.getName(), Util.dateToStr(m.getBirthDate()), m.getKinship() });
     }
 
     /**
@@ -469,6 +478,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         deleteFamily.setText("Remover Familia");
+        deleteFamily.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteFamilyActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Estado Civil:");
 
@@ -586,6 +600,11 @@ public class MainWindow extends javax.swing.JFrame {
 
     submitEditFamily.setText("Submeter");
     submitEditFamily.setVisible(false);
+    submitEditFamily.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            submitEditFamilyActionPerformed(evt);
+        }
+    });
 
     repMaritalStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Solteiro(a)", "Casado(a)", "Divorciado(a)", "Viúvo(a)" }));
     repMaritalStatus.setEnabled(false);
@@ -836,7 +855,7 @@ public class MainWindow extends javax.swing.JFrame {
             java.lang.String.class, java.lang.String.class
         };
         boolean[] canEdit = new boolean [] {
-            false, false
+            true, false
         };
 
         public Class getColumnClass(int columnIndex) {
@@ -872,6 +891,11 @@ public class MainWindow extends javax.swing.JFrame {
     familyNotes.setDocument(new JTextAreaLimit(500));
 
     editQuestionnaire.setText("Editar Respostas");
+    editQuestionnaire.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            editQuestionnaireActionPerformed(evt);
+        }
+    });
 
     applicationPriority.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Baixa", "Normal", "Alta" }));
     applicationPriority.setSelectedIndex(-1);
@@ -3151,6 +3175,68 @@ public class MainWindow extends javax.swing.JFrame {
         addRepContact.setVisible(true);
         deleteRepContact.setVisible(true);
     }//GEN-LAST:event_editFamilyActionPerformed
+
+    private void deleteFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFamilyActionPerformed
+        try {
+            ControllerFactory.getFamiliesController().delete(currentFamily);
+        } catch (DataException ex) {
+            JOptionPane.showMessageDialog(this, "Erro a ler dados");
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
+        }
+    }//GEN-LAST:event_deleteFamilyActionPerformed
+
+    private void submitEditFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitEditFamilyActionPerformed
+        if(currentFamily == null) {
+            JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
+            return;
+        }
+        
+        RepresentativesController rc = ControllerFactory.getRepresentativesController();
+        MembersController mc = ControllerFactory.getMembersController();
+        FamiliesController fc = ControllerFactory.getFamiliesController();
+        ContactsController cc = ControllerFactory.getContactsController();
+        
+        try {
+            currentFamily.setName(familyName.getText());
+            currentFamily.setAddress(familyAddress.getText());
+            currentFamily.setObservations(familyNotes.getText());
+            currentFamily.setIncome(Float.parseFloat(familyIncome.getText()));
+            
+            fc.save(currentFamily);
+            
+            currentRepresentative.setName(familyRep.getText());
+            currentRepresentative.setBirthDate(Util.strToDate( repBirthDate.getText() ));
+            currentRepresentative.setMaritalStatus(repMaritalStatus.getSelectedItem().toString());
+            currentRepresentative.setEducation(repEducation.getText());
+            Activity a = new Activity("Test");
+            a.setId(1);
+            currentRepresentative.setActivity(a);
+            currentRepresentative.setNif(repNif.getText());
+            currentRepresentative.setNib(repNib.getText());
+            
+            ControllerFactory.getContactsController().updateAll(representativeContacts);
+            ControllerFactory.getMembersController().updateAll(currentMembers);
+        } catch (DataException e) {
+            JOptionPane.showMessageDialog(this, "Erro a guardar dados");
+        }
+        
+    }//GEN-LAST:event_submitEditFamilyActionPerformed
+
+    private void editQuestionnaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editQuestionnaireActionPerformed
+        currentApplication.setApplicationDate(Util.strToDate(applicationDate.getText()));
+        currentApplication.setPriority(applicationPriority.getSelectedIndex());
+        currentApplication.setNotes(applicationNotes.getText());
+        currentApplication.setLocation(applicationLocation.getText());
+        currentApplication.setStatus(applicationApproved.isSelected());
+        currentApplication.setApprovalDate(applicationApprovalDate.getText());
+        
+        try {
+            ControllerFactory.getApplicationsController().save(currentApplication);
+        } catch (DataException e) {
+            JOptionPane.showMessageDialog(this, "Erro a gravar dados");
+        }
+    }//GEN-LAST:event_editQuestionnaireActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addApplication;

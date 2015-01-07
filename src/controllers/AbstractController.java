@@ -34,6 +34,17 @@ public abstract class AbstractController<T extends BasicModel> implements Contro
     }
     
     @Override
+    public void save(T t) throws DataException {
+     getRepository().save(t);
+    }
+    
+    @Override
+    public void updateAll(List<T> ts) throws DataException {
+        for(T t : ts)
+            save(t);
+    }
+    
+    @Override
     public T find(int id) throws DataException {
         return getRepository().find(id);
     }
@@ -44,6 +55,10 @@ public abstract class AbstractController<T extends BasicModel> implements Contro
     
     public List<T> all() throws DataException {
         return getRepository().all();
+    }
+    
+    public void delete(T t) throws DataException {
+        getRepository().delete(t.getId());
     }
     
     protected abstract AbstractRepository<T> getRepository();

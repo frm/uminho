@@ -6,6 +6,7 @@
 package controllers;
 
 import data.DataException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,6 +15,9 @@ import java.util.Map;
  */
 public interface Controller<T> {
     public T save(Map<String, Object> params) throws DataException;
+    public void save(T t) throws DataException;
+    public void updateAll(List<T> t) throws DataException;
+    public List<T> saveAll(List<Map<String, Object>> params) throws DataException;
     public T find(int id) throws DataException;
     public T newInstance(Map<String, Object> params) throws DataException;
 }
