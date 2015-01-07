@@ -14,15 +14,17 @@ public class Question extends BasicModel {
     private Boolean enabled;
     private String text;
 
-    public Question(Boolean enabled, String text) {
+    public Question(String text, Boolean enabled) {
         super(-1);
         this.enabled = enabled;
         this.text = text;
     }
 
-    public Question() {}
+    public Question() {
+        super();
+    }
     
-    public Boolean isEnabled() {
+    public Boolean getEnabled() {
         return enabled;
     }
 

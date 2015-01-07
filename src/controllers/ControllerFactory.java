@@ -24,6 +24,7 @@ public class ControllerFactory {
     private static MembersController membersController;
     private static ApplicationsController applicationsController;
     private static EmployeeController employeeController;
+    private static QuestionsController questionsController;
 
     public static VolunteersController getVolunteersController() {
         if (volunteersController == null)
@@ -119,5 +120,12 @@ public class ControllerFactory {
             employeeController = new EmployeeController();
 
         return employeeController;
+    }
+    
+    public static QuestionsController getQuestionsController() {
+        if (questionsController == null)
+            questionsController = new QuestionsController();
+
+        return questionsController;
     }
 }
