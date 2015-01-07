@@ -15,7 +15,7 @@ import java.util.HashSet;
 public class Donor extends BaseEntity{
     private Boolean type;
     private String observations;
-    private HashSet<Donation> donations;
+    private HashSet<Integer> donations;
     private String lastDonationDate;
 
     public Donor() {
@@ -26,7 +26,7 @@ public class Donor extends BaseEntity{
         super(name, address, nif, nib, activity, contacts);
         this.type = dType;
         this.observations = observations;
-        this.donations = new HashSet();
+        this.donations = new HashSet<>();
         this.lastDonationDate = null;
     }
     
@@ -46,7 +46,7 @@ public class Donor extends BaseEntity{
         return observations;
     }
 
-    public HashSet<Donation> getDonations() {
+    public HashSet<Integer> getDonations() {
         return new HashSet(donations);
     }
     
@@ -62,7 +62,7 @@ public class Donor extends BaseEntity{
         this.observations = observations;
     }
 
-    public void setDonations(HashSet<Donation> donations) {
+    public void setDonations(HashSet<Integer> donations) {
         this.donations = new HashSet(donations);
     }
     
@@ -70,8 +70,8 @@ public class Donor extends BaseEntity{
         this.lastDonationDate = lastDonationDate;        
     }
     
-    public void addDonation(Donation d){
-        this.donations.add(d);
+    public void addDonation(Integer id){
+        this.donations.add(id);
     }
     
     @Override
