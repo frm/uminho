@@ -37,12 +37,14 @@ import models.Representative;
  * @author João
  */
 public class AdicionarFamilia extends javax.swing.JDialog {
-
+    MainWindow parent;
+    
     /**
      * Creates new form AdicionarRepresentante
      */
     public AdicionarFamilia(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.parent = (MainWindow) parent;
         initComponents();
     }
 
@@ -571,8 +573,7 @@ public class AdicionarFamilia extends javax.swing.JDialog {
         } catch (DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a guardar dados");
         } finally {
-            /*Window parentWindow = SwingUtilities.windowForComponent(submitFamily);
-            parentWindow.listFamilies();*/
+            parent.listFamilies();
             this.dispose();
         }
         
