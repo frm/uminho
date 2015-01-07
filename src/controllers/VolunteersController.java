@@ -42,7 +42,8 @@ public class VolunteersController extends AbstractController<Volunteer> {
                 (String)params.get("citizenship"),
                 (String)params.get("maritalStatus"),
                 (String)params.get("observations"),
-                (String)params.get("file")                
+                (String)params.get("file"),
+                (Integer)params.get("donorId")
         );
     }
     
