@@ -42,12 +42,12 @@ public class RepresentativeRepository extends AbstractRepository<Representative>
         try {
             r.setId( result.getInt( getColumnAttr("id") ) );
             r.setName( result.getString( getColumnAttr("name") ) );
-            r.setActivity( RepositoryFactory.getActivityRepository().find( result.getInt( getColumnAttr("activityID") ) ) );
+            r.setActivity( RepositoryFactory.getActivityRepository().find( result.getInt( getColumnAttr("activityId") ) ) );
             r.setNib( result.getString( getColumnAttr("nib") ) );
             r.setNif( result.getString( getColumnAttr("nif") ) );
             r.setBirthDate( result.getString( getColumnAttr("BirthDate") ) );
             r.setNationality( result.getString( getColumnAttr("nationality") ) );
-            r.setBirthPlace( result.getString( getColumnAttr("citizenship") ) );
+            r.setBirthPlace( result.getString( getColumnAttr("birthPlace") ) );
             r.setMaritalStatus( result.getString( getColumnAttr("maritalStatus") ) );
             r.setFamilyID( result.getInt( getColumnAttr("familyID") ) );
         } catch (SQLException e) {

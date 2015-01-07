@@ -37,6 +37,11 @@ public class FamilyRepository extends AbstractRepository<Family> {
         try {
             a.setId( result.getInt( getColumnAttr("id") ) );
             a.setName( result.getString( getColumnAttr("name") ) );
+            a.setAddress( result.getString( getColumnAttr("address") ) );
+            a.setApproved( result.getBoolean( getColumnAttr("approved") ) );
+            a.setVolunteerHours( result.getInt( getColumnAttr("volunteerHours") ) );
+            a.setIncome( result.getFloat( getColumnAttr("income") ) );
+            a.setObservations( result.getString( getColumnAttr("observations") ) );
         } catch (SQLException e) {
             throw new DataException("Error saving Family.");
         }

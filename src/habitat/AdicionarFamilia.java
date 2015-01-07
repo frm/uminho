@@ -505,9 +505,7 @@ public class AdicionarFamilia extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void submitFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitFamilyActionPerformed
-
         RepresentativesController rc = ControllerFactory.getRepresentativesController();
-
         MembersController mc = ControllerFactory.getMembersController();
         FamiliesController fc = ControllerFactory.getFamiliesController();
         ContactsController cc = ControllerFactory.getContactsController();
