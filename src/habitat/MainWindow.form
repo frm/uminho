@@ -1216,21 +1216,9 @@
                               <Properties>
                                 <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                  <Table columnCount="2" rowCount="5">
-                                    <Column editable="false" title="Pergunta" type="java.lang.String">
-                                      <Data value="H&#xe1; quantos anos t\nem a sua casa atual?"/>
-                                      <Data value="null"/>
-                                      <Data value="null"/>
-                                      <Data value="null"/>
-                                      <Data value="null"/>
-                                    </Column>
-                                    <Column editable="false" title="Resposta" type="java.lang.String">
-                                      <Data value="13 anos, palavra palavra palavra palavra"/>
-                                      <Data value="null"/>
-                                      <Data value="null"/>
-                                      <Data value="null"/>
-                                      <Data value="null"/>
-                                    </Column>
+                                  <Table columnCount="2" rowCount="4">
+                                    <Column editable="false" title="Pergunta" type="java.lang.String"/>
+                                    <Column editable="false" title="Resposta" type="java.lang.String"/>
                                   </Table>
                                 </Property>
                                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
