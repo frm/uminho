@@ -2834,8 +2834,6 @@ public class MainWindow extends javax.swing.JFrame {
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE))
     );
 
-    jTabbedPane1.setBackgroundAt(0, Color.BLUE);
-
     pack();
     }// </editor-fold>//GEN-END:initComponents
 
