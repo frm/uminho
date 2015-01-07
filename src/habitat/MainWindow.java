@@ -34,6 +34,10 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         this.setIconImage((new ImageIcon("etc/logo.png")).getImage());
         initComponents();
+        listFamilies();
+    }
+    
+    private void listFamilies() {
         List<Family> families  = new ArrayList<>();
         try {
             families = ControllerFactory.getFamiliesController().all();
