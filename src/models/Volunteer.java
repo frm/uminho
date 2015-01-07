@@ -22,13 +22,14 @@ public class Volunteer extends BaseEntity {
     private String observations;
     private String file;
     private Integer currentTeam;
+    private Integer donorId;
     private Set<Integer> teams;
 
     public Volunteer() {
         super();
     }
 
-    public Volunteer(String name, String address, String nif, String nib, Activity activity, Set<Contact> contacts, String birthDate, String education, String nationality, String citizenship, String maritalStatus, String observations, String file) {
+    public Volunteer(String name, String address, String nif, String nib, Activity activity, Set<Contact> contacts, String birthDate, String education, String nationality, String citizenship, String maritalStatus, String observations, String file, Integer donorId) {
         super(name, address, nif, nib, activity, contacts);
         this.birthDate = birthDate;
         this.education = education;
@@ -50,8 +51,18 @@ public class Volunteer extends BaseEntity {
         this.maritalStatus = v.getMaritalStatus();
         this.observations = v.getObservations();
         this.file = v.getFile();
+        this.donorId = v.getDonorId();
     }
 
+    public Integer getDonorId() {
+        return donorId;
+    }
+
+    public void setDonorId(Integer donorId) {
+        this.donorId = donorId;
+    }
+
+    
     public String getBirthDate() {
         return birthDate;
     }
