@@ -48,6 +48,10 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
     protected abstract Set<String> getInsertIgnores();
     protected abstract Set<String> getUpdateIgnores();
 
+    public Connection connect() throws SQLException {
+        return DriverManager.getConnection(url, username, password);
+    }
+    
     public void saveAll(Collection<T> entities) throws DataException {
         for(T e : entities)
             save(e);

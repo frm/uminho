@@ -10,6 +10,7 @@ import data.DataException;
 import data.RepositoryFactory;
 import java.util.Map;
 import models.Application;
+import models.Question;
 
 /**
  *
@@ -38,4 +39,8 @@ public class ApplicationsController extends AbstractController<Application> {
     protected ApplicationRepository getRepository() {
         return RepositoryFactory.getApplicationRepository();
     }  
+    
+    public void addAnswerTo(Question q, Application a, String answer) throws DataException {
+        repo.addAnswerTo(q.getId(), a.getId(), answer);
+    }
 }

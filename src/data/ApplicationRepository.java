@@ -5,9 +5,11 @@
  */
 package data;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 import models.Application;
@@ -18,6 +20,7 @@ import models.Application;
  */
 public class ApplicationRepository extends AbstractRepository<Application> {
     private static final String DB_TABLE = "Candidatura";
+    private static final String QUESTION_ANSWER_TABLE = "CandidaturaPergunta";
     private static final LinkedHashMap<String, String> COLUMN_ATTR = new LinkedHashMap<String, String>() {{
        put("Id", "id");
        put("ApplicationDate", "DataCandidatura");
@@ -62,5 +65,33 @@ public class ApplicationRepository extends AbstractRepository<Application> {
     @Override
     protected Set<String> getUpdateIgnores() {
         return null;
+    }
+    
+    public void addAnswerTo(int questionId, int applicationId, String answer) throws DataException {
+        try {
+            String query = new StringBuilder("INSERT INTO ")
+                            .append(QUESTION_ANSWER_TABLE)
+                            .append(" (Candidatura, Pergunta, RespTexto) VALUES (")
+                            .append(applicationId)
+                            .append(", ")
+                            .append(questionId)
+                            .append(", ")
+                            .append(answer)
+                            .append(");")
+                            .toString();
+        
+            Connection connection = null;
+            PreparedStatement statement = null;
+            try {    
+                connection = connect();
+                statement = connection.prepareStatement(query);
+                statement.executeQuery();            
+            } finally {
+                statement.close();
+                connection.close();
+            }
+        } catch (SQLException | NullPointerException e) {
+            throw new DataException("Error saving answer");
+        }
     }
 }
