@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import models.Contact;
 import models.Family;
 import models.Representative;
+import models.SimpleMember;
 
 /**
  *
@@ -46,8 +47,10 @@ public class MainWindow extends javax.swing.JFrame {
             String code = familyList.getValueAt(familyList.getSelectedRow(), 0).toString();
             int i = Integer.parseInt(code);
             try {
-                setCurrentFamily(ControllerFactory.getFamiliesController().find(i));
-            } catch(DataException e) {}
+                Family f = ControllerFactory.getFamiliesController().find(i);
+                setCurrentFamily(f);
+                setFamilyMembers(f);
+            } catch(DataException e) { }
         }
     });
 
@@ -93,12 +96,32 @@ public class MainWindow extends javax.swing.JFrame {
                 put("Owner", r.getId());
             }});
             
+            ((DefaultTableModel)repContacts.getModel()).setRowCount(0);
+            
             for(Contact c : contacts)
                 ((DefaultTableModel)repContacts.getModel()).addRow(new Object[]{c.getType(), c.getValue()});
             
         } catch (DataException ex) {
             JOptionPane.showMessageDialog(this, "Erro a ler dados");
         }
+    }
+    
+    public void setFamilyMembers(final Family f) {
+        try {
+            List<SimpleMember> members = ControllerFactory.getMembersController().findBy(new HashMap<String, Object>() {{
+                put("familyID", f.getId());
+            }});
+            
+            ((DefaultTableModel)memberList.getModel()).setRowCount(0);
+            
+            for(final SimpleMember m : members)
+                ((DefaultTableModel)memberList.getModel()).addRow(new Object[]{m.getName(), Util.dateToStr(m.getBirthDate()), m.getKinship()});
+            
+        } catch (DataException e) {
+            JOptionPane.showMessageDialog(this, "Erro a ler dados");
+        }
+        
+        
     }
 
     /**
