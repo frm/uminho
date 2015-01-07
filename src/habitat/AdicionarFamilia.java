@@ -567,6 +567,8 @@ public class AdicionarFamilia extends javax.swing.JDialog {
             mc.saveAll(memberList);
         } catch (DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a guardar dados");
+        } finally {
+            this.dispose();
         }
         
     }//GEN-LAST:event_submitFamilyActionPerformed

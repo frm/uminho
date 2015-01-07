@@ -217,6 +217,8 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
             }});
         } catch (DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a guardar dados");
+        } finally {
+            this.dispose();
         }
     }//GEN-LAST:event_submitApplicationActionPerformed
 

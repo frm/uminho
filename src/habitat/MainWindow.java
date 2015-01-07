@@ -52,11 +52,10 @@ public class MainWindow extends javax.swing.JFrame {
                 setFamilyMembers(f);
             } catch(DataException e) { }
         }
-    });
+        });
 
-    }
     
-    private void listFamilies() {
+        private void listFamilies() {
         List<Family> families  = new ArrayList<>();
         try {
             families = ControllerFactory.getFamiliesController().all();
@@ -139,7 +138,7 @@ public class MainWindow extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel33 = new javax.swing.JPanel();
-        jTabbedPane10 = new javax.swing.JTabbedPane();
+        familySubTabbedPane = new javax.swing.JTabbedPane();
         jPanel34 = new javax.swing.JPanel();
         jLabel58 = new javax.swing.JLabel();
         jLabel59 = new javax.swing.JLabel();
@@ -434,9 +433,9 @@ public class MainWindow extends javax.swing.JFrame {
         jTabbedPane1.setOpaque(true);
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(312, 463));
 
-        jTabbedPane10.setBackground(new java.awt.Color(255, 255, 255));
-        jTabbedPane10.setTabPlacement(javax.swing.JTabbedPane.LEFT);
-        jTabbedPane10.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        familySubTabbedPane.setBackground(new java.awt.Color(255, 255, 255));
+        familySubTabbedPane.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        familySubTabbedPane.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
 
         jPanel34.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -779,7 +778,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addContainerGap())
     );
 
-    jTabbedPane10.addTab("Informações", jPanel34);
+    familySubTabbedPane.addTab("Informações", jPanel34);
 
     jPanel35.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -996,7 +995,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     jPanel35Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {addApplication, deleteApplication, editApplication});
 
-    jTabbedPane10.addTab("Candidaturas", jPanel35);
+    familySubTabbedPane.addTab("Candidaturas", jPanel35);
 
     jPanel36.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1070,7 +1069,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addGap(22, 22, 22))
     );
 
-    jTabbedPane10.addTab("Membros", jPanel36);
+    familySubTabbedPane.addTab("Membros", jPanel36);
 
     jLabel90.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
     jLabel90.setText("Pesquisa");
@@ -1116,7 +1115,7 @@ public class MainWindow extends javax.swing.JFrame {
     jPanel33Layout.setHorizontalGroup(
         jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel33Layout.createSequentialGroup()
-            .addComponent(jTabbedPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(familySubTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
@@ -1147,7 +1146,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addContainerGap())
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel33Layout.createSequentialGroup()
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(familySubTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
@@ -3222,6 +3221,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextArea familyNotes;
     private javax.swing.JTextField familyRep;
     private javax.swing.JTextField familySearch;
+    private javax.swing.JTabbedPane familySubTabbedPane;
     private javax.swing.JButton jButton40;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
@@ -3348,7 +3348,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane10;
     private javax.swing.JTabbedPane jTabbedPane12;
     private javax.swing.JTabbedPane jTabbedPane14;
     private javax.swing.JTabbedPane jTabbedPane15;
