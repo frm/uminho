@@ -207,7 +207,7 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void submitApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitApplicationActionPerformed
-        /*ApplicationsController ac = ControllerFactory.getApplicationsController();
+        ApplicationsController ac = ControllerFactory.getApplicationsController();
         try {
             Application a = ac.save(new HashMap<String, Object>() {{
                 put("applicationDate", Util.strToDate(applicationDate.getText()));
@@ -216,11 +216,10 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
                 put("location", applicationLocation.getText());
                 put("manager", applicationManager.getSelectedIndex());
                 put("familyId", familyID);
-
             }});
         } catch (DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a guardar dados");
-        }*/
+        }
     }//GEN-LAST:event_submitApplicationActionPerformed
 
     private void applicationDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applicationDateActionPerformed
