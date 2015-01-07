@@ -8,6 +8,7 @@ package habitat;
 
 import controllers.ControllerFactory;
 import data.DataException;
+import data.RepositoryFactory;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,8 +20,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import models.Contact;
 import models.Family;
+import models.Representative;
 
 /**
  *
@@ -35,6 +40,17 @@ public class MainWindow extends javax.swing.JFrame {
         this.setIconImage((new ImageIcon("etc/logo.png")).getImage());
         initComponents();
         listFamilies();
+        
+        familyList.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+        public void valueChanged(ListSelectionEvent event) {
+            String code = familyList.getValueAt(familyList.getSelectedRow(), 0).toString();
+            int i = Integer.parseInt(code);
+            try {
+                setCurrentFamily(ControllerFactory.getFamiliesController().find(i));
+            } catch(DataException e) {}
+        }
+    });
+
     }
     
     private void listFamilies() {
@@ -44,9 +60,43 @@ public class MainWindow extends javax.swing.JFrame {
             for(final Family f : families) {
                 ((DefaultTableModel)familyList.getModel()).addRow(new Object[]{f.getId(), f.getName(), ControllerFactory.getRepresentativesController().findBy(
                     new HashMap<String, Object>() {{ put("familyID", f.getId());}}
-                ).get(0), f.getAddress()});
+                ).get(0).getName(), f.getAddress()});
             }
         } catch (DataException e) {
+            JOptionPane.showMessageDialog(this, "Erro a ler dados");
+        }
+    }
+    
+    public void setCurrentFamily(final Family f) {
+        try {
+            familyName.setText(f.getName());
+            familyAddress.setText(f.getAddress());
+            familyIncome.setText(Float.toString(f.getIncome()));
+            familyApproved.setSelected(f.getApproved());
+            familyNotes.setText(f.getObservations());        
+            final Representative r = ControllerFactory.getRepresentativesController().findBy(
+                    new HashMap<String, Object>() {{ put("familyID", f.getId());}}
+            ).get(0);
+            
+            familyRep.setText(r.getName());
+            repBirthDate.setText(Util.dateToStr(r.getBirthDate()));
+            repMaritalStatus.setSelectedItem(r.getMaritalStatus());
+            repEducation.setText(r.getEducation());
+            repNif.setText(r.getNif());
+            repNib.setText(r.getNib());
+            repActivity.setText(r.getActivity().getName());
+            repBirthPlace.setText(r.getBirthPlace());
+            repNationality.setSelectedItem(r.getNationality());
+            
+            List<Contact> contacts = ControllerFactory.getContactsController().findBy(new HashMap<String, Object>() {{
+                put("OwnerType", "Representante");
+                put("Owner", r.getId());
+            }});
+            
+            for(Contact c : contacts)
+                ((DefaultTableModel)repContacts.getModel()).addRow(new Object[]{c.getType(), c.getValue()});
+            
+        } catch (DataException ex) {
             JOptionPane.showMessageDialog(this, "Erro a ler dados");
         }
     }
@@ -90,8 +140,6 @@ public class MainWindow extends javax.swing.JFrame {
         familyAddress = new javax.swing.JTextField();
         familyIncome = new javax.swing.JFormattedTextField();
         familyApproved = new javax.swing.JCheckBox();
-        familyFinishedProject = new javax.swing.JCheckBox();
-        jLabel40 = new javax.swing.JLabel();
         jScrollPane15 = new javax.swing.JScrollPane();
         repContacts = new javax.swing.JTable();
         familyRep = new javax.swing.JTextField();
@@ -427,12 +475,6 @@ public class MainWindow extends javax.swing.JFrame {
         familyApproved.setBorder(null);
         familyApproved.setEnabled(false);
 
-        familyFinishedProject.setBackground(new java.awt.Color(255, 255, 255));
-        familyFinishedProject.setBorder(null);
-        familyFinishedProject.setEnabled(false);
-
-        jLabel40.setText("Projeto Terminado");
-
         repContacts.setAutoCreateRowSorter(true);
         repContacts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -626,10 +668,6 @@ public class MainWindow extends javax.swing.JFrame {
                                     .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel63)
                                         .addGroup(jPanel34Layout.createSequentialGroup()
-                                            .addComponent(familyFinishedProject)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jLabel40))
-                                        .addGroup(jPanel34Layout.createSequentialGroup()
                                             .addComponent(familyApproved)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                             .addComponent(jLabel60))
@@ -639,7 +677,7 @@ public class MainWindow extends javax.swing.JFrame {
                                             .addComponent(jLabel44)))
                                     .addGap(103, 103, 103))))))
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel34Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 7, Short.MAX_VALUE)
                     .addComponent(jSeparator15, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addContainerGap())
     );
@@ -665,11 +703,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                 .addComponent(familyApproved)
                 .addComponent(jLabel60))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addComponent(familyFinishedProject)
-                .addComponent(jLabel40))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGap(30, 30, 30)
             .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel62))
@@ -2132,14 +2166,13 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane32, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
                         .addComponent(eventAddress)
-                        .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(eventParticipantNmb, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                            .addGroup(jPanel44Layout.createSequentialGroup()
-                                .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(eventRaisedValue, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(eventDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4))))
+                        .addComponent(eventParticipantNmb, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel44Layout.createSequentialGroup()
+                            .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(eventRaisedValue, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(eventDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel4)))
                     .addGap(0, 0, Short.MAX_VALUE))
                 .addGroup(jPanel44Layout.createSequentialGroup()
                     .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3035,7 +3068,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_addMemberActionPerformed
 
     private void addApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addApplicationActionPerformed
-        (new AdicionarCandidatura(this, true)).setVisible(true);
+        (new AdicionarCandidatura(this, true, 1)).setVisible(true);
     }//GEN-LAST:event_addApplicationActionPerformed
 
     private void repNationalityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_repNationalityActionPerformed
@@ -3162,7 +3195,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTable eventTable;
     private javax.swing.JTextField familyAddress;
     private javax.swing.JCheckBox familyApproved;
-    private javax.swing.JCheckBox familyFinishedProject;
     private javax.swing.JFormattedTextField familyIncome;
     private javax.swing.JTable familyList;
     private javax.swing.JTextField familyName;
@@ -3221,7 +3253,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;

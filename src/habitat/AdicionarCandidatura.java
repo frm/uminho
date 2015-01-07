@@ -229,10 +229,10 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
     }//GEN-LAST:event_applicationManagerActionPerformed
     
     public void setEmployees() throws DataException{
-        Collection<Employee> items = ControllerFactory.getEmployeeController().all();
+        /*Collection<Employee> items = ControllerFactory.getEmployeeController().all();
         for( Employee e: items){
             applicationManager.addItem(e);
-        }
+        }*/
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
