@@ -3105,7 +3105,14 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_editProjectActionPerformed
 
     private void addFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFamilyActionPerformed
-        (new AdicionarFamilia(this, true)).setVisible(true);
+        AdicionarFamilia af = new AdicionarFamilia(this, true);
+        try {
+            af.setActivities();
+            af.setVisible(true);
+        } catch (DataException ex) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao obter os dados");
+        }
+                
     }//GEN-LAST:event_addFamilyActionPerformed
 
     private void addMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMemberActionPerformed

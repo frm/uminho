@@ -6,6 +6,7 @@
 
 package habitat;
 
+import controllers.ActivityController;
 import controllers.ContactsController;
 import controllers.ControllerFactory;
 import controllers.FamiliesController;
@@ -19,6 +20,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
