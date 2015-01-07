@@ -12,6 +12,7 @@ import controllers.FamiliesController;
 import controllers.MembersController;
 import controllers.RepresentativesController;
 import data.DataException;
+import java.awt.Window;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,7 +21,9 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.text.DateFormatter;
@@ -568,6 +571,8 @@ public class AdicionarFamilia extends javax.swing.JDialog {
         } catch (DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a guardar dados");
         } finally {
+            /*Window parentWindow = SwingUtilities.windowForComponent(submitFamily);
+            parentWindow.listFamilies();*/
             this.dispose();
         }
         

@@ -53,9 +53,10 @@ public class MainWindow extends javax.swing.JFrame {
             } catch(DataException e) { }
         }
         });
+    }
 
     
-        private void listFamilies() {
+        public void listFamilies() {
         List<Family> families  = new ArrayList<>();
         try {
             families = ControllerFactory.getFamiliesController().all();
