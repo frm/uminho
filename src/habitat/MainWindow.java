@@ -15,6 +15,7 @@ import data.DataException;
 import data.RepositoryFactory;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,17 +107,17 @@ public class MainWindow extends javax.swing.JFrame {
         familyApproved.setSelected(f.getApproved());
         familyNotes.setText(f.getObservations());        
         Representative r = currentRepresentative;
-            
+        
         familyRep.setText(r.getName());
         repBirthDate.setText(Util.dateToStr(r.getBirthDate()));
         repMaritalStatus.setSelectedItem(r.getMaritalStatus());
         repEducation.setText(r.getEducation());
         repNif.setText(r.getNif());
         repNib.setText(r.getNib());
-        repActivity.setText(r.getActivity().getName());
+        mainWindowRepProf.setSelectedIndex(0);
         repBirthPlace.setText(r.getBirthPlace());
         repNationality.setSelectedItem(r.getNationality());
-            
+        
         ((DefaultTableModel)repContacts.getModel()).setRowCount(0);
             
         for(Contact c : representativeContacts)
@@ -175,7 +176,6 @@ public class MainWindow extends javax.swing.JFrame {
         jScrollPane15 = new javax.swing.JScrollPane();
         repContacts = new javax.swing.JTable();
         familyRep = new javax.swing.JTextField();
-        repActivity = new javax.swing.JTextField();
         repBirthDate = new javax.swing.JFormattedTextField();
         repEducation = new javax.swing.JTextField();
         repNif = new javax.swing.JTextField();
@@ -192,6 +192,7 @@ public class MainWindow extends javax.swing.JFrame {
         repBirthPlace = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         repNationality = new javax.swing.JComboBox();
+        mainWindowRepProf = new javax.swing.JComboBox();
         jPanel35 = new javax.swing.JPanel();
         addApplication = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
@@ -548,8 +549,6 @@ public class MainWindow extends javax.swing.JFrame {
 
     familyRep.setEditable(false);
 
-    repActivity.setEditable(false);
-
     repBirthDate.setEditable(false);
     repBirthDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
     repBirthDate.setToolTipText("dd/MM/aaaa");
@@ -624,6 +623,8 @@ public class MainWindow extends javax.swing.JFrame {
         }
     });
 
+    mainWindowRepProf.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
     javax.swing.GroupLayout jPanel34Layout = new javax.swing.GroupLayout(jPanel34);
     jPanel34.setLayout(jPanel34Layout);
     jPanel34Layout.setHorizontalGroup(
@@ -675,8 +676,8 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addGroup(jPanel34Layout.createSequentialGroup()
                                     .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(repEducation, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(repActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(repBirthPlace, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(repBirthPlace, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(mainWindowRepProf, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(29, 29, 29)
                                     .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel20)
@@ -719,7 +720,7 @@ public class MainWindow extends javax.swing.JFrame {
                                             .addComponent(jLabel44)))
                                     .addGap(103, 103, 103))))))
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel34Layout.createSequentialGroup()
-                    .addGap(0, 7, Short.MAX_VALUE)
+                    .addGap(0, 21, Short.MAX_VALUE)
                     .addComponent(jSeparator15, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addContainerGap())
     );
@@ -773,8 +774,8 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel88)
                 .addComponent(jLabel20)
-                .addComponent(repActivity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(repNib, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(repNib, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mainWindowRepProf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel19)
@@ -3135,7 +3136,7 @@ public class MainWindow extends javax.swing.JFrame {
         familyRep.setEditable(false);
         repBirthDate.setEditable(false);
         repEducation.setEditable(false);
-        repActivity.setEditable(false);
+        mainWindowRepProf.setEditable(false);
         repMaritalStatus.setEnabled(false);
         repNif.setEditable(false);
         repNib.setEditable(false);
@@ -3163,6 +3164,16 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_repBirthDateActionPerformed
 
     private void editFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editFamilyActionPerformed
+        try {
+            Collection<Activity> items = ControllerFactory.getActivityController().all();
+            for( Activity a: items){
+                mainWindowRepProf.addItem(a);
+        }
+        } catch (DataException ex) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao obter os dados");
+        }
+        
+        
         familyName.setEditable(true);
         familyAddress.setEditable(true);
         familyIncome.setEditable(true);
@@ -3170,7 +3181,7 @@ public class MainWindow extends javax.swing.JFrame {
         familyRep.setEditable(true);
         repBirthDate.setEditable(true);
         repEducation.setEditable(true);
-        repActivity.setEditable(true);
+        mainWindowRepProf.setEditable(true);
         repMaritalStatus.setEnabled(true);
         repNif.setEditable(true);
         repNib.setEditable(true);
@@ -3454,6 +3465,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField jtfPDEC;
     private javax.swing.JFormattedTextField jtfPDF;
     private javax.swing.JFormattedTextField jtfPVP;
+    private javax.swing.JComboBox mainWindowRepProf;
     private javax.swing.JTable memberList;
     private javax.swing.JButton nextApplication;
     private javax.swing.JButton openVolunteerFile;
@@ -3474,7 +3486,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton removeEventButton;
     private javax.swing.JButton removeMember;
     private javax.swing.JButton removeTask;
-    private javax.swing.JTextField repActivity;
     private javax.swing.JFormattedTextField repBirthDate;
     private javax.swing.JTextField repBirthPlace;
     private javax.swing.JTable repContacts;

@@ -261,8 +261,8 @@
                                                       <Group type="102" attributes="0">
                                                           <Group type="103" groupAlignment="0" attributes="0">
                                                               <Component id="repEducation" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                                              <Component id="repActivity" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                                                               <Component id="repBirthPlace" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                                                              <Component id="mainWindowRepProf" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
                                                           </Group>
                                                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                                                           <Group type="103" groupAlignment="0" attributes="0">
@@ -325,7 +325,7 @@
                                           </Group>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace min="0" pref="7" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="21" max="32767" attributes="0"/>
                                           <Component id="jSeparator15" min="-2" pref="615" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -391,8 +391,8 @@
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel88" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="repActivity" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="repNib" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="mainWindowRepProf" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -602,11 +602,6 @@
                           </SubComponents>
                         </Container>
                         <Component class="javax.swing.JTextField" name="familyRep">
-                          <Properties>
-                            <Property name="editable" type="boolean" value="false"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="repActivity">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                           </Properties>
@@ -943,6 +938,18 @@
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="repNationalityActionPerformed"/>
                           </Events>
+                        </Component>
+                        <Component class="javax.swing.JComboBox" name="mainWindowRepProf">
+                          <Properties>
+                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                              <StringArray count="4">
+                                <StringItem index="0" value="Item 1"/>
+                                <StringItem index="1" value="Item 2"/>
+                                <StringItem index="2" value="Item 3"/>
+                                <StringItem index="3" value="Item 4"/>
+                              </StringArray>
+                            </Property>
+                          </Properties>
                         </Component>
                       </SubComponents>
                     </Container>
