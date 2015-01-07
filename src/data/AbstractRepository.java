@@ -68,6 +68,30 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
             return false;
         }
     }
+    
+    public void delete(int id) throws DataException {
+        try {
+            String query = new StringBuilder("DELETE FROM ")
+                                            .append(DB_TABLE)
+                                            .append(" WHERE id = ")
+                                            .append(id)
+                                            .append(";")
+                                            .toString();
+            
+            Connection connection = null;
+            PreparedStatement statement = null;
+            try {
+                connection = DriverManager.getConnection(url, username, password);
+                statement = connection.prepareStatement(query);
+                statement.executeQuery();            
+            } finally {
+                statement.close();
+                connection.close();
+            }
+        } catch (SQLException | NullPointerException e) {
+            throw new DataException("Error deleting object from " + DB_TABLE + " with id " + id);
+        }
+    }
 
     public List<T> all() throws DataException {
         String query = new StringBuilder("SELECT * FROM ")
