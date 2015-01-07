@@ -36,6 +36,7 @@ public class EmployeeController extends AbstractController<Employee> {
                 (Activity)ControllerFactory.getActivityController().findBy( new HashMap<String, Object>() {{
                     put("name", params.get("activity"));}}),
                 (Set<Contact>)params.get("contacts"),
+                (String)params.get("username"),
                 (String)params.get("birthDate"),
                 (String)params.get("education"),
                 (String)params.get("nationality"),

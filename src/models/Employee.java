@@ -14,6 +14,7 @@ import java.util.Set;
  * @author tiago
  */
 public class Employee extends BaseEntity{
+    private String username;
     private String birthDate;
     private String education;
     private String nationality;
@@ -25,8 +26,9 @@ public class Employee extends BaseEntity{
         super();
     }
 
-    public Employee(String name, String address, String nif, String nib, Activity activity, Set<Contact> contacts, String birthDate, String education, String nationality, String citizenship, String maritalStatus, Float salary) {
+    public Employee(String name, String address, String nif, String nib, Activity activity, Set<Contact> contacts, String username, String birthDate, String education, String nationality, String citizenship, String maritalStatus, Float salary) {
         super(name, address, nif, nib, activity, contacts);
+        this.username = username;
         this.birthDate = birthDate;
         this.education = education;
         this.nationality = nationality;
@@ -37,12 +39,17 @@ public class Employee extends BaseEntity{
     
     public Employee(Employee e){
         super(e);
+        this.username = e.getUsername();
         this.birthDate = e.getBirthDate();
         this.education = e.getEducation();
         this.nationality = e.getNationality();
         this.citizenship = e.getCitizenship();
         this.maritalStatus = e.getMaritalStatus();
         this.salary = e.getSalary();
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getBirthDate() {
@@ -67,6 +74,10 @@ public class Employee extends BaseEntity{
 
     public Float getSalary() {
         return salary;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
     
     public void setBirthDate(String birthDate) {
@@ -103,6 +114,8 @@ public class Employee extends BaseEntity{
     public String toString(){
         StringBuilder sb = new StringBuilder(super.toString());
         sb.append(", ");
+        sb.append(username);
+        sb.append(", ");
         sb.append(birthDate);
         sb.append(", ");
         sb.append(education);
@@ -124,6 +137,7 @@ public class Employee extends BaseEntity{
         Employee e = (Employee) o;
         
         return (super.equals(o)
+                && this.username.equals(e.getUsername())
                 && this.birthDate.equals(e.getBirthDate())
                 && this.education.equals(e.getEducation())
                 && this.nationality.equals(e.getNationality())

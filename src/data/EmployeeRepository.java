@@ -24,6 +24,7 @@ public class EmployeeRepository extends AbstractRepository<Employee> {
        put("Address", "Morada");
        put("Nif", "NIF");
        put("Nib", "NIB");
+       put("Username", "Username");
        put("BirthDate", "DataNascimento");
        put("Nationality", "Nacionalidade");
        put("Citizenship", "Naturalidade");
@@ -46,6 +47,7 @@ public class EmployeeRepository extends AbstractRepository<Employee> {
             e.setActivity( RepositoryFactory.getActivityRepository().find( result.getInt( getColumnAttr("activityID") ) ) );
             e.setNib( result.getString( getColumnAttr("nib") ) );
             e.setNif( result.getString( getColumnAttr("nif") ) );
+            e.setUsername( result.getString( getColumnAttr("username") ) );
             e.setBirthDate( result.getString( getColumnAttr("BirthDate") ) );
             e.setNationality( result.getString( getColumnAttr("nationality") ) );
             e.setCitizenship( result.getString( getColumnAttr("citizenship") ) );
