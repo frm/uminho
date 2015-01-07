@@ -599,8 +599,8 @@
                                 <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                   <Table columnCount="2" rowCount="0">
-                                    <Column editable="true" title="Tipo" type="java.lang.String"/>
-                                    <Column editable="true" title="Contacto" type="java.lang.String"/>
+                                    <Column editable="false" title="Tipo" type="java.lang.String"/>
+                                    <Column editable="false" title="Contacto" type="java.lang.String"/>
                                   </Table>
                                 </Property>
                                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -3349,17 +3349,19 @@
                                               </Group>
                                           </Group>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="eventParticipantNmb" pref="434" max="32767" attributes="0"/>
-                                              <Group type="102" attributes="0">
-                                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                                      <Component id="eventRaisedValue" alignment="0" max="32767" attributes="0"/>
-                                                      <Component id="eventDate" alignment="0" pref="101" max="32767" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                              </Group>
                                               <Component id="jScrollPane32" alignment="0" pref="434" max="32767" attributes="0"/>
                                               <Component id="eventAddress" max="32767" attributes="0"/>
+                                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                                  <Component id="eventParticipantNmb" alignment="0" pref="115" max="32767" attributes="0"/>
+                                                  <Group type="102" attributes="0">
+                                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                                          <Component id="eventRaisedValue" alignment="0" max="32767" attributes="0"/>
+                                                          <Component id="eventDate" alignment="0" pref="101" max="32767" attributes="0"/>
+                                                      </Group>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
                                           </Group>
                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
@@ -3371,7 +3373,7 @@
                                                   <EmptySpace max="32767" attributes="0"/>
                                               </Group>
                                               <Group type="102" attributes="0">
-                                                  <EmptySpace pref="212" max="32767" attributes="0"/>
+                                                  <EmptySpace pref="177" max="32767" attributes="0"/>
                                                   <Component id="submitEditEventButton" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
                                               </Group>
@@ -4044,7 +4046,9 @@
                                   <TableColumnModel selectionModel="0">
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                       <Title/>
-                                      <Editor/>
+                                      <Editor editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                                        <Connection code="new DefaultCellEditor(&#xd;&#xa;new javax.swing.JComboBox(&#xd;&#xa;new javax.swing.DefaultComboBoxModel(&#xd;&#xa;new String[] { &quot;Telefone&quot;, &quot;Telem&#xf3;vel&quot;, &quot;Email&quot;, &quot;Fax&quot; }))) " type="code"/>
+                                      </Editor>
                                       <Renderer/>
                                     </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">

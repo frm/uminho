@@ -445,9 +445,16 @@ public class MainWindow extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         repContacts.setEnabled(false);
@@ -2123,15 +2130,16 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(jLabel130)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                     .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(eventParticipantNmb, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
-                        .addGroup(jPanel44Layout.createSequentialGroup()
-                            .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(eventRaisedValue, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(eventDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel4))
                         .addComponent(jScrollPane32, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
-                        .addComponent(eventAddress))
+                        .addComponent(eventAddress)
+                        .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(eventParticipantNmb, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                            .addGroup(jPanel44Layout.createSequentialGroup()
+                                .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(eventRaisedValue, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(eventDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4))))
                     .addGap(0, 0, Short.MAX_VALUE))
                 .addGroup(jPanel44Layout.createSequentialGroup()
                     .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2140,7 +2148,7 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(cancelEditEventButton)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jPanel44Layout.createSequentialGroup()
-                            .addContainerGap(212, Short.MAX_VALUE)
+                            .addContainerGap(177, Short.MAX_VALUE)
                             .addComponent(submitEditEventButton)
                             .addGap(117, 117, 117)))
                     .addComponent(editEventButton)
@@ -2415,6 +2423,12 @@ public class MainWindow extends javax.swing.JFrame {
     donorContacts.setEnabled(false);
     donorContacts.getTableHeader().setReorderingAllowed(false);
     jScrollPane23.setViewportView(donorContacts);
+    if (donorContacts.getColumnModel().getColumnCount() > 0) {
+        donorContacts.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(
+            new javax.swing.JComboBox(
+                new javax.swing.DefaultComboBoxModel(
+                    new String[] { "Telefone", "Telemóvel", "Email", "Fax" }))) );
+    }
 
     addDonorContact.setText("+");
     addDonorContact.setVisible(false);
