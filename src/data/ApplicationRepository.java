@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedHashMap;
 import java.util.Set;
 import models.Application;
@@ -75,18 +76,16 @@ public class ApplicationRepository extends AbstractRepository<Application> {
                             .append(", ")
                             .append(questionId)
                             .append(", ")
-                            .append(answer)
+                            .append(String.format("'%s'", answer))
                             .append(");")
                             .toString();
-            
-            System.out.println(query);
         
             Connection connection = null;
             PreparedStatement statement = null;
             try {    
                 connection = connect();
-                statement = connection.prepareStatement(query);
-                statement.executeQuery();            
+                statement = connection.prepareStatement(query, Statement.NO_GENERATED_KEYS);
+                statement.executeUpdate();            
             } finally {
                 statement.close();
                 connection.close();

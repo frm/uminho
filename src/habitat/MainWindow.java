@@ -147,6 +147,8 @@ public class MainWindow extends javax.swing.JFrame {
         familyRep.setText(r.getName());
         repBirthDate.setText(Util.dateToStr(r.getBirthDate()));
         repMaritalStatus.setSelectedItem(r.getMaritalStatus());
+        System.out.println("EDU: " + r.getEducation());
+        System.out.println("NATU: " + r.getBirthPlace());
         repEducation.setText(r.getEducation());
         repNif.setText(r.getNif());
         repNib.setText(r.getNib());
@@ -984,11 +986,12 @@ public class MainWindow extends javax.swing.JFrame {
                             .addGap(0, 0, Short.MAX_VALUE))
                         .addGroup(jPanel35Layout.createSequentialGroup()
                             .addComponent(addApplication)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(editQuestionnaireSubmit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(deleteApplication, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 320, Short.MAX_VALUE)
+                            .addComponent(deleteApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel35Layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(editQuestionnaireSubmit)
+                            .addGap(105, 105, 105)
                             .addComponent(editApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))))
             .addGap(50, 50, 50))
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel35Layout.createSequentialGroup()
@@ -1040,17 +1043,21 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jLabel21)
                 .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel29)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(editQuestionnaireSubmit)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(addApplication)
-                .addComponent(deleteApplication)
-                .addComponent(editApplication))
+            .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel35Layout.createSequentialGroup()
+                    .addGap(31, 31, 31)
+                    .addComponent(editApplication)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(53, 53, 53)
+                    .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(addApplication)
+                        .addComponent(deleteApplication)))
+                .addGroup(jPanel35Layout.createSequentialGroup()
+                    .addGap(12, 12, 12)
+                    .addComponent(editQuestionnaireSubmit)))
             .addGap(106, 106, 106))
     );
 
@@ -1127,7 +1134,7 @@ public class MainWindow extends javax.swing.JFrame {
     jPanel36Layout.setVerticalGroup(
         jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel36Layout.createSequentialGroup()
-            .addContainerGap(40, Short.MAX_VALUE)
+            .addContainerGap(127, Short.MAX_VALUE)
             .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(40, 40, 40)
             .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1227,7 +1234,7 @@ public class MainWindow extends javax.swing.JFrame {
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel1Layout.createSequentialGroup()
-            .addComponent(jPanel33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, 818, Short.MAX_VALUE)
             .addContainerGap())
     );
 
@@ -3308,13 +3315,13 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_submitEditFamilyActionPerformed
 
     private void editQuestionnaireSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editQuestionnaireSubmitActionPerformed
-        int rowCount = memberList.getRowCount();
+        int rowCount = applicationQuestionnaire.getRowCount();
         if (rowCount <= 0)
             return;
         
         try {
             ApplicationsController ac = ControllerFactory.getApplicationsController();        
-            TableModel t = memberList.getModel();
+            TableModel t = applicationQuestionnaire.getModel();
             
             for(int i = 0; i < rowCount; i++) {
                 ac.addAnswerTo((Question)t.getValueAt(i, 0), currentApplication, t.getValueAt(i, 1).toString());

@@ -45,7 +45,7 @@ public class RepresentativeRepository extends AbstractRepository<Representative>
             r.setActivity( RepositoryFactory.getActivityRepository().find( result.getInt( getColumnAttr("activityId") ) ) );
             r.setNib( result.getString( getColumnAttr("nib") ) );
             r.setNif( result.getString( getColumnAttr("nif") ) );
-            r.setBirthDate( result.getString( getColumnAttr("BirthDate") ) );
+            r.setBirthDate( result.getString( getColumnAttr("birthDate") ) );
             r.setNationality( result.getString( getColumnAttr("nationality") ) );
             r.setBirthPlace( result.getString( getColumnAttr("birthPlace") ) );
             r.setMaritalStatus( result.getString( getColumnAttr("maritalStatus") ) );
