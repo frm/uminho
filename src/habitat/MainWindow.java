@@ -133,6 +133,14 @@ public class MainWindow extends javax.swing.JFrame {
         } catch(DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a ler dados");
         }
+        
+        applicationDate.setText(Util.dateToStr(currentApplication.getApplicationDate()));
+        applicationApproved.setSelected(currentApplication.getStatus());
+        applicationPriority.setSelectedIndex(currentApplication.getPriority());
+        applicationLocation.setText(currentApplication.getLocation());
+        applicationApprovalDate.setText(Util.dateToStr(currentApplication.getApprovalDate()));
+        applicationId.setText(Integer.toString(currentApplication.getId()));
+        applicationNotes.setText(currentApplication.getNotes());
     }
     
     public void setCurrentFamily() {
@@ -147,8 +155,6 @@ public class MainWindow extends javax.swing.JFrame {
         familyRep.setText(r.getName());
         repBirthDate.setText(Util.dateToStr(r.getBirthDate()));
         repMaritalStatus.setSelectedItem(r.getMaritalStatus());
-        System.out.println("EDU: " + r.getEducation());
-        System.out.println("NATU: " + r.getBirthPlace());
         repEducation.setText(r.getEducation());
         repNif.setText(r.getNif());
         repNib.setText(r.getNib());
@@ -945,6 +951,7 @@ public class MainWindow extends javax.swing.JFrame {
     applicationPriority.setSelectedIndex(-1);
 
     applicationApproved.setBorder(null);
+    applicationApproved.setEnabled(false);
 
     javax.swing.GroupLayout jPanel35Layout = new javax.swing.GroupLayout(jPanel35);
     jPanel35.setLayout(jPanel35Layout);
@@ -3235,6 +3242,8 @@ public class MainWindow extends javax.swing.JFrame {
             
             ControllerFactory.getFamiliesController().delete(currentFamily);
             
+            familyList.remove(familyList.getSelectedRow());
+            
             if(familyList.getRowCount() > 0)
                 familyList.getSelectionModel().setSelectionInterval(0, 0);
         } catch (DataException ex) {
@@ -3324,25 +3333,33 @@ public class MainWindow extends javax.swing.JFrame {
             TableModel t = applicationQuestionnaire.getModel();
             
             for(int i = 0; i < rowCount; i++) {
+                if(t.getValueAt(i, 1).toString().length() == 0) {
+                    JOptionPane.showMessageDialog(this, "Por favor responda a todas as perguntas");
+                    return;
+                }
+            }
+            
+            for(int i = 0; i < rowCount; i++) {
                 ac.addAnswerTo((Question)t.getValueAt(i, 0), currentApplication, t.getValueAt(i, 1).toString());
             }    
         } catch (DataException e) {
+            System.out.println("FOI AQUI");
             JOptionPane.showMessageDialog(this, "Erro a gravar dados");
         }
         
-        /*
-        currentApplication.setApplicationDate(Util.dateToStr(applicationDate.getText()));
+        
+        currentApplication.setApplicationDate(Util.strToDate(applicationDate.getText()));
         currentApplication.setPriority(applicationPriority.getSelectedIndex());
         currentApplication.setNotes(applicationNotes.getText());
         currentApplication.setLocation(applicationLocation.getText());
         currentApplication.setStatus(applicationApproved.isSelected());
-        currentApplication.setApprovalDate(applicationApprovalDate.getText());
+        currentApplication.setApprovalDate(Util.strToDate(applicationApprovalDate.getText()));
         
         try {
             ControllerFactory.getApplicationsController().save(currentApplication);
         } catch (DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a gravar dados");
-        }*/
+        }
     }//GEN-LAST:event_editQuestionnaireSubmitActionPerformed
 
     private void editApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editApplicationActionPerformed
@@ -3351,12 +3368,12 @@ public class MainWindow extends javax.swing.JFrame {
                 return;
         }
         
-        applicationDate.setEnabled(true);
+        applicationDate.setEditable(true);
+        applicationPriority.setEditable(true);
+        applicationLocation.setEditable(true);
         applicationApproved.setEnabled(true);
-        applicationPriority.setEnabled(true);
-        applicationLocation.setEnabled(true);
-        applicationApprovalDate.setEnabled(true);
-        applicationNotes.setEnabled(true);
+        applicationApprovalDate.setEditable(true);
+        applicationNotes.setEditable(true);
         applicationQuestionnaire.setEnabled(true);
     }//GEN-LAST:event_editApplicationActionPerformed
 

@@ -79,13 +79,30 @@ public class ApplicationRepository extends AbstractRepository<Application> {
                             .append(String.format("'%s'", answer))
                             .append(");")
                             .toString();
+            
+            System.out.println(query);
         
             Connection connection = null;
             PreparedStatement statement = null;
             try {    
                 connection = connect();
-                statement = connection.prepareStatement(query, Statement.NO_GENERATED_KEYS);
-                statement.executeUpdate();            
+                statement = connection.prepareStatement(query);
+                statement.executeUpdate();
+            } catch (SQLException | NullPointerException e) {
+                query = new StringBuilder("UPDATE ")
+                            .append(QUESTION_ANSWER_TABLE)
+                            .append(" SET RespTexto=")
+                            .append(String.format("'%s'", answer))
+                            .append(" WHERE Candidatura=")
+                            .append(applicationId)
+                            .append(" AND Pergunta=")
+                            .append(questionId)
+                            .append(";")
+                            .toString(); 
+                
+                System.out.println(query);
+                statement = connection.prepareStatement(query);
+                statement.executeUpdate();
             } finally {
                 statement.close();
                 connection.close();

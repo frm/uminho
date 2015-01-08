@@ -25,6 +25,8 @@ public class Util {
     }
     
     private static String reformatDate(String date, String currentDelimiter, String newDelimiter) {
+        if(date == null || date.trim().length() == 0)
+            return null;
         String[] s = date.split(currentDelimiter);
         System.out.println(date);
         String first = s[0];
