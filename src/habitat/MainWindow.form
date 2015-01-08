@@ -262,17 +262,19 @@
                                                           <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                                       </Group>
                                                       <Group type="102" attributes="0">
-                                                          <Group type="103" groupAlignment="0" attributes="0">
-                                                              <Component id="repEducation" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                                              <Component id="repBirthPlace" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                                                              <Component id="mainWindowRepProf" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
-                                                          </Group>
-                                                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                                                          <Group type="103" groupAlignment="0" attributes="0">
-                                                              <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
-                                                          </Group>
+                                                          <Component id="repBirthPlace" min="-2" pref="200" max="-2" attributes="0"/>
                                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                                      </Group>
+                                                      <Group type="102" attributes="0">
+                                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                                          <Group type="103" groupAlignment="1" attributes="0">
+                                                              <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
+                                                              <Group type="102" attributes="0">
+                                                                  <Component id="mainWindowRepProf" min="-2" pref="85" max="-2" attributes="0"/>
+                                                                  <EmptySpace min="-2" pref="237" max="-2" attributes="0"/>
+                                                                  <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
+                                                              </Group>
+                                                          </Group>
                                                       </Group>
                                                   </Group>
                                                   <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -282,8 +284,12 @@
                                                       <Component id="repNif" alignment="0" max="32767" attributes="0"/>
                                                   </Group>
                                               </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="repEducation" min="-2" pref="200" max="-2" attributes="0"/>
+                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                              </Group>
                                           </Group>
-                                          <EmptySpace max="32767" attributes="0"/>
+                                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -327,7 +333,7 @@
                                           </Group>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace min="0" pref="21" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="83" max="32767" attributes="0"/>
                                           <Component id="jSeparator15" min="-2" pref="615" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -949,6 +955,9 @@
                               <StringArray count="0"/>
                             </Property>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="mainWindowRepProf.setEnabled(false);"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel68">
                           <Properties>
@@ -990,7 +999,6 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="55" pref="55" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jScrollPane7" alignment="0" pref="541" max="32767" attributes="0"/>
                                               <Group type="102" attributes="0">
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
@@ -1022,15 +1030,12 @@
                                               </Group>
                                               <Group type="102" attributes="0">
                                                   <Component id="addApplication" linkSize="1" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace pref="320" max="32767" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="editApplication" linkSize="1" min="-2" pref="105" max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
                                                   <Component id="deleteApplication" min="-2" pref="103" max="-2" attributes="0"/>
                                               </Group>
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                                  <Component id="editQuestionnaireSubmit" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
-                                                  <Component id="editApplication" linkSize="1" min="-2" pref="105" max="-2" attributes="0"/>
-                                              </Group>
+                                              <Component id="jScrollPane7" alignment="0" pref="591" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -1040,6 +1045,13 @@
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jLabel43" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="246" max="-2" attributes="0"/>
+                                  <Component id="editQuestionnaireSubmit" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                                  <Component id="editQuestionnaireCancel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1093,22 +1105,18 @@
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                                          <Component id="editApplication" linkSize="2" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jScrollPane7" min="-2" pref="162" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="addApplication" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="deleteApplication" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                          <Component id="editQuestionnaireSubmit" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jScrollPane7" min="-2" pref="222" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="editQuestionnaireSubmit" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editQuestionnaireCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="addApplication" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="deleteApplication" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editApplication" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
                               </Group>
@@ -1284,6 +1292,9 @@
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editQuestionnaireSubmitActionPerformed"/>
                           </Events>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="editQuestionnaireSubmit.setVisible(false);"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JComboBox" name="applicationPriority">
                           <Properties>
@@ -1296,6 +1307,9 @@
                             </Property>
                             <Property name="selectedIndex" type="int" value="-1"/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="applicationPriority.setEnabled(false);"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JCheckBox" name="applicationApproved">
                           <Properties>
@@ -1304,6 +1318,17 @@
                             </Property>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="editQuestionnaireCancel">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Cancelar"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editQuestionnaireCancelActionPerformed"/>
+                          </Events>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="editQuestionnaireCancel.setVisible(false);"/>
+                          </AuxValues>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -2391,9 +2416,30 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                                  <Component id="jLabel114" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                                          <Component id="jLabel114" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Component id="jLabel111" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Component id="jLabel112" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Component id="jLabel110" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                      </Group>
+                                  </Group>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
@@ -2417,22 +2463,12 @@
                                       <Component id="volunteerNationality" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jScrollPane8" alignment="0" min="-2" pref="475" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="1" attributes="0">
-                                                      <Component id="jLabel112" alignment="1" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel111" alignment="1" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel110" alignment="1" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
-                                              <Component id="volunteerTeam" alignment="0" min="-2" pref="95" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="volunteerTeam" min="-2" pref="95" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                                           <Component id="addVolunteerTeam" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace pref="61" max="32767" attributes="0"/>
+                                  <EmptySpace pref="39" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
@@ -2517,7 +2553,7 @@
                                       <Component id="submitEditVolunteer" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="cancelEditVolunteer" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="347" max="32767" attributes="0"/>
+                                  <EmptySpace pref="278" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>

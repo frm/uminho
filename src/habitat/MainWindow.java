@@ -268,6 +268,7 @@ public class MainWindow extends javax.swing.JFrame {
         editQuestionnaireSubmit = new javax.swing.JButton();
         applicationPriority = new javax.swing.JComboBox();
         applicationApproved = new javax.swing.JCheckBox();
+        editQuestionnaireCancel = new javax.swing.JButton();
         jPanel36 = new javax.swing.JPanel();
         submitMembers = new javax.swing.JButton();
         removeMember = new javax.swing.JButton();
@@ -668,6 +669,8 @@ public class MainWindow extends javax.swing.JFrame {
         }
     });
 
+    mainWindowRepProf.setEnabled(false);
+
     jLabel68.setText("Horas de Voluntariado:");
 
     familyVolHours.setEditable(false);
@@ -721,21 +724,25 @@ public class MainWindow extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel8))
                                 .addGroup(jPanel34Layout.createSequentialGroup()
-                                    .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(repEducation, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(repBirthPlace, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(mainWindowRepProf, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(29, 29, 29)
-                                    .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel20)
-                                        .addComponent(jLabel16))
-                                    .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addComponent(repBirthPlace, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(jPanel34Layout.createSequentialGroup()
+                                    .addGap(0, 0, Short.MAX_VALUE)
+                                    .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel16)
+                                        .addGroup(jPanel34Layout.createSequentialGroup()
+                                            .addComponent(mainWindowRepProf, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(237, 237, 237)
+                                            .addComponent(jLabel20)))))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(repNib, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
                                 .addComponent(repMaritalStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(repNif))))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(repNif)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel34Layout.createSequentialGroup()
+                            .addComponent(repEducation, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(33, 33, 33))))
         .addGroup(jPanel34Layout.createSequentialGroup()
             .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel34Layout.createSequentialGroup()
@@ -768,7 +775,7 @@ public class MainWindow extends javax.swing.JFrame {
                                     .addComponent(familyVolHours, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(familyAddress)))))
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel34Layout.createSequentialGroup()
-                    .addGap(0, 21, Short.MAX_VALUE)
+                    .addGap(0, 83, Short.MAX_VALUE)
                     .addComponent(jSeparator15, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addContainerGap())
     );
@@ -946,12 +953,22 @@ public class MainWindow extends javax.swing.JFrame {
             editQuestionnaireSubmitActionPerformed(evt);
         }
     });
+    editQuestionnaireSubmit.setVisible(false);
 
     applicationPriority.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Baixa", "Normal", "Alta" }));
     applicationPriority.setSelectedIndex(-1);
+    applicationPriority.setEnabled(false);
 
     applicationApproved.setBorder(null);
     applicationApproved.setEnabled(false);
+
+    editQuestionnaireCancel.setText("Cancelar");
+    editQuestionnaireCancel.setVisible(false);
+    editQuestionnaireCancel.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            editQuestionnaireCancelActionPerformed(evt);
+        }
+    });
 
     javax.swing.GroupLayout jPanel35Layout = new javax.swing.GroupLayout(jPanel35);
     jPanel35.setLayout(jPanel35Layout);
@@ -967,7 +984,6 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel35Layout.createSequentialGroup()
                     .addGap(55, 55, 55)
                     .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
                         .addGroup(jPanel35Layout.createSequentialGroup()
                             .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel29)
@@ -993,18 +1009,22 @@ public class MainWindow extends javax.swing.JFrame {
                             .addGap(0, 0, Short.MAX_VALUE))
                         .addGroup(jPanel35Layout.createSequentialGroup()
                             .addComponent(addApplication)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 320, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(editApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(deleteApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel35Layout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(editQuestionnaireSubmit)
-                            .addGap(105, 105, 105)
-                            .addComponent(editApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE))))
             .addGap(50, 50, 50))
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel35Layout.createSequentialGroup()
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel43)
             .addGap(85, 85, 85))
+        .addGroup(jPanel35Layout.createSequentialGroup()
+            .addGap(246, 246, 246)
+            .addComponent(editQuestionnaireSubmit)
+            .addGap(52, 52, 52)
+            .addComponent(editQuestionnaireCancel)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     jPanel35Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {addApplication, editApplication});
@@ -1052,19 +1072,17 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel29)
-            .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel35Layout.createSequentialGroup()
-                    .addGap(31, 31, 31)
-                    .addComponent(editApplication)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(53, 53, 53)
-                    .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(addApplication)
-                        .addComponent(deleteApplication)))
-                .addGroup(jPanel35Layout.createSequentialGroup()
-                    .addGap(12, 12, 12)
-                    .addComponent(editQuestionnaireSubmit)))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(editQuestionnaireSubmit)
+                .addComponent(editQuestionnaireCancel))
+            .addGap(18, 18, 18)
+            .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(addApplication)
+                .addComponent(deleteApplication)
+                .addComponent(editApplication))
             .addGap(106, 106, 106))
     );
 
@@ -1829,9 +1847,23 @@ public class MainWindow extends javax.swing.JFrame {
     jPanel25Layout.setHorizontalGroup(
         jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel25Layout.createSequentialGroup()
-            .addGap(38, 38, 38)
-            .addComponent(jLabel114)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel25Layout.createSequentialGroup()
+                    .addGap(38, 38, 38)
+                    .addComponent(jLabel114)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                            .addComponent(jLabel111)
+                            .addGap(7, 7, 7))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                            .addComponent(jLabel112)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                            .addComponent(jLabel110)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))))
             .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                 .addGroup(jPanel25Layout.createSequentialGroup()
                     .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1852,17 +1884,10 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(volunteerNationality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel25Layout.createSequentialGroup()
-                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel25Layout.createSequentialGroup()
-                            .addGap(64, 64, 64)
-                            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel112)
-                                .addComponent(jLabel111)
-                                .addComponent(jLabel110)))
-                        .addComponent(volunteerTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(volunteerTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(25, 25, 25)
                     .addComponent(addVolunteerTeam)))
-            .addContainerGap(61, Short.MAX_VALUE))
+            .addContainerGap(39, Short.MAX_VALUE))
         .addGroup(jPanel25Layout.createSequentialGroup()
             .addGap(34, 34, 34)
             .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1931,7 +1956,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(editVolunteer)
                 .addComponent(submitEditVolunteer)
                 .addComponent(cancelEditVolunteer))
-            .addContainerGap(347, Short.MAX_VALUE))
+            .addContainerGap(278, Short.MAX_VALUE))
     );
 
     jTabbedPane12.addTab("Informações", jPanel25);
@@ -3179,6 +3204,7 @@ public class MainWindow extends javax.swing.JFrame {
         deleteRepContact.setVisible(false);
         repNationality.setEnabled(false);
         repBirthPlace.setEditable(false);
+        mainWindowRepProf.setEnabled(false);
     }
     private void cancelEditFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelEditFamilyActionPerformed
         disableFamilyEdit();
@@ -3230,6 +3256,7 @@ public class MainWindow extends javax.swing.JFrame {
         addRepContact.setVisible(true);
         deleteRepContact.setVisible(true);
         familyVolHours.setVisible(true);
+        mainWindowRepProf.setEnabled(true);
     }//GEN-LAST:event_editFamilyActionPerformed
 
     private void deleteFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFamilyActionPerformed
@@ -3319,8 +3346,9 @@ public class MainWindow extends javax.swing.JFrame {
             rc.save(currentRepresentative);
         } catch (DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a guardar dados");
-        }
+        }finally{
         disableFamilyEdit();
+        }
     }//GEN-LAST:event_submitEditFamilyActionPerformed
 
     private void editQuestionnaireSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editQuestionnaireSubmitActionPerformed
@@ -3345,6 +3373,17 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (DataException e) {
             System.out.println("FOI AQUI");
             JOptionPane.showMessageDialog(this, "Erro a gravar dados");
+        }finally{
+            editQuestionnaireCancel.setVisible(false);
+            editQuestionnaireSubmit.setVisible(false);
+            applicationDate.setEditable(false);
+            applicationPriority.setEditable(false);
+            applicationLocation.setEditable(false);
+            applicationApproved.setEnabled(false);
+            applicationApprovalDate.setEditable(false);
+            applicationNotes.setEditable(false);
+            applicationQuestionnaire.setEnabled(false);
+            applicationPriority.setEnabled(false);
         }
         
         
@@ -3367,7 +3406,8 @@ public class MainWindow extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
                 return;
         }
-        
+        editQuestionnaireCancel.setVisible(true);
+        editQuestionnaireSubmit.setVisible(true);
         applicationDate.setEditable(true);
         applicationPriority.setEditable(true);
         applicationLocation.setEditable(true);
@@ -3375,6 +3415,7 @@ public class MainWindow extends javax.swing.JFrame {
         applicationApprovalDate.setEditable(true);
         applicationNotes.setEditable(true);
         applicationQuestionnaire.setEnabled(true);
+        applicationPriority.setEnabled(true);
     }//GEN-LAST:event_editApplicationActionPerformed
 
     private void submitMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitMembersActionPerformed
@@ -3429,6 +3470,19 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_removeMemberActionPerformed
 
+    private void editQuestionnaireCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editQuestionnaireCancelActionPerformed
+        editQuestionnaireCancel.setVisible(false);
+        editQuestionnaireSubmit.setVisible(false);
+        applicationDate.setEditable(false);
+        applicationPriority.setEditable(false);
+        applicationLocation.setEditable(false);
+        applicationApproved.setEnabled(false);
+        applicationApprovalDate.setEditable(false);
+        applicationNotes.setEditable(false);
+        applicationQuestionnaire.setEnabled(false);
+        applicationPriority.setEnabled(false);
+    }//GEN-LAST:event_editQuestionnaireCancelActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addApplication;
     private javax.swing.JButton addDonationButton;
@@ -3480,6 +3534,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton editParticipantsButton;
     private javax.swing.JButton editPaymentPlan;
     private javax.swing.JButton editProject;
+    private javax.swing.JButton editQuestionnaireCancel;
     private javax.swing.JButton editQuestionnaireSubmit;
     private javax.swing.JButton editVolunteer;
     private javax.swing.JTextField eventAddress;
