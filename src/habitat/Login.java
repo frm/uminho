@@ -77,6 +77,16 @@ public class Login extends javax.swing.JFrame {
 
         password.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         password.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(22, 113, 204), 2));
+        password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordActionPerformed(evt);
+            }
+        });
+        password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -128,7 +138,15 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
-        // TODO add your handling code here:
+        String un = username.getText();
+        String pw = password.getText();
+        
+        if(ControllerFactory.init(un, pw)) {
+            new MainWindow(un, pw).setVisible(true);
+            this.dispose();
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Login inválido.");
     }//GEN-LAST:event_usernameActionPerformed
 
     private void submitLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitLoginActionPerformed
@@ -143,6 +161,22 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Login inválido.");
 
     }//GEN-LAST:event_submitLoginActionPerformed
+
+    private void passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordKeyPressed
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        String un = username.getText();
+        String pw = password.getText();
+        
+        if(ControllerFactory.init(un, pw)) {
+            new MainWindow(un, pw).setVisible(true);
+            this.dispose();
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Login inválido.");
+    }//GEN-LAST:event_passwordActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
