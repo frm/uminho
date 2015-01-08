@@ -6,6 +6,7 @@
 package controllers;
 
 import data.DataException;
+import data.Repository;
 import data.RepositoryFactory;
 import data.VolunteersRepository;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import models.Volunteer;
  * @author mendes
  */
 public class VolunteersController extends AbstractController<Volunteer> {
-    VolunteersRepository repo;
+    Repository repo;
     
     VolunteersController() {
         this.repo = RepositoryFactory.getVolunteersRepository();
@@ -46,7 +47,7 @@ public class VolunteersController extends AbstractController<Volunteer> {
         );
     }
     
-    protected VolunteersRepository getRepository() {
+    protected Repository getRepository() {
         return RepositoryFactory.getVolunteersRepository();
     }
 }

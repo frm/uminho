@@ -7,6 +7,7 @@ package controllers;
 
 import data.DataException;
 import data.PaymentPlanRepository;
+import data.Repository;
 import data.RepositoryFactory;
 import java.util.Map;
 import models.PaymentPlan;
@@ -16,7 +17,7 @@ import models.PaymentPlan;
  * @author tiago
  */
 public class PaymentPlanController extends AbstractController<PaymentPlan> {
-    PaymentPlanRepository repo;
+    Repository repo;
     
     PaymentPlanController() {
         this.repo = RepositoryFactory.getPaymentPlanRepository();
@@ -31,7 +32,7 @@ public class PaymentPlanController extends AbstractController<PaymentPlan> {
     }
     
     @Override
-    protected PaymentPlanRepository getRepository() {
+    protected Repository getRepository() {
         return RepositoryFactory.getPaymentPlanRepository();
     }
 }

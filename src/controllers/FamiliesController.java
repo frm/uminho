@@ -7,6 +7,7 @@ package controllers;
 
 import data.DataException;
 import data.FamilyRepository;
+import data.Repository;
 import data.RepositoryFactory;
 import java.util.Map;
 import models.Family;
@@ -16,14 +17,14 @@ import models.Family;
  * @author mendes
  */
 public class FamiliesController extends AbstractController<Family> {
-    FamilyRepository repo;
+    Repository repo;
     
     FamiliesController() {
         this.repo = RepositoryFactory.getFamilyRepository();
     }
     
     @Override
-    protected FamilyRepository getRepository() {
+    protected Repository getRepository() {
         return RepositoryFactory.getFamilyRepository();
     }
     

@@ -7,6 +7,7 @@ package controllers;
 
 import data.ApplicationRepository;
 import data.DataException;
+import data.Repository;
 import data.RepositoryFactory;
 import java.util.Map;
 import models.Application;
@@ -17,7 +18,7 @@ import models.Question;
  * @author frmendes
  */
 public class ApplicationsController extends AbstractController<Application> {
-    ApplicationRepository repo;
+    Repository repo;
 
     ApplicationsController() {
         this.repo = RepositoryFactory.getApplicationRepository();
@@ -35,11 +36,11 @@ public class ApplicationsController extends AbstractController<Application> {
         );
     }
 
-    protected ApplicationRepository getRepository() {
+    protected Repository getRepository() {
         return RepositoryFactory.getApplicationRepository();
     }  
     
     public void addAnswerTo(Question q, Application a, String answer) throws DataException {
-        getRepository().addAnswerTo(q.getId(), a.getId(), answer);
+        ( (ApplicationRepository) getRepository() ).addAnswerTo(q.getId(), a.getId(), answer);
     }
 }

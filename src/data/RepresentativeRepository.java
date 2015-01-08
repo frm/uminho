@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Set;
+import models.Activity;
 import models.Representative;
 
 /**
@@ -42,7 +43,7 @@ public class RepresentativeRepository extends AbstractRepository<Representative>
         try {
             r.setId( result.getInt( getColumnAttr("id") ) );
             r.setName( result.getString( getColumnAttr("name") ) );
-            r.setActivity( RepositoryFactory.getActivityRepository().find( result.getInt( getColumnAttr("activityId") ) ) );
+            r.setActivity((Activity) RepositoryFactory.getActivityRepository().find( result.getInt( getColumnAttr("activityId") ) ) );
             r.setNib( result.getString( getColumnAttr("nib") ) );
             r.setNif( result.getString( getColumnAttr("nif") ) );
             r.setBirthDate( result.getString( getColumnAttr("birthDate") ) );

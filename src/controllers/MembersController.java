@@ -7,6 +7,7 @@ package controllers;
 
 import data.DataException;
 import data.MemberRepository;
+import data.Repository;
 import data.RepositoryFactory;
 import java.util.Map;
 import models.SimpleMember;
@@ -16,14 +17,14 @@ import models.SimpleMember;
  * @author mendes
  */
 public class MembersController extends AbstractController<SimpleMember> {
-    MemberRepository repo;
+    Repository repo;
 
     MembersController() {
         this.repo = RepositoryFactory.getMemberRepository();
     }
 
     @Override
-    protected MemberRepository getRepository() {
+    protected Repository getRepository() {
         return RepositoryFactory.getMemberRepository();
     }
 

@@ -6,8 +6,9 @@
 package controllers;
 
 import data.DataException;
-import data.RepositoryFactory;
 import data.ProjectRepository;
+import data.Repository;
+import data.RepositoryFactory;
 import java.util.Map;
 import models.Project;
 
@@ -16,7 +17,7 @@ import models.Project;
  * @author Tiago
  */
 public class ProjectsController extends AbstractController<Project> {
-    ProjectRepository repo;
+    Repository repo;
     
     ProjectsController() {
         this.repo = RepositoryFactory.getProjectRepository();
@@ -35,7 +36,7 @@ public class ProjectsController extends AbstractController<Project> {
         );
     }
     
-    protected ProjectRepository getRepository() {
+    protected Repository getRepository() {
         return RepositoryFactory.getProjectRepository();
     }
 }

@@ -7,6 +7,7 @@ package controllers;
 
 import data.DataException;
 import data.QuestionRepository;
+import data.Repository;
 import data.RepositoryFactory;
 import java.util.Map;
 import models.Question;
@@ -16,7 +17,7 @@ import models.Question;
  * @author mendes
  */
 public class QuestionsController extends AbstractController<Question> {
-    QuestionRepository repo;
+    Repository repo;
     
     QuestionsController() {
         this.repo = RepositoryFactory.getQuestionRepository();
@@ -31,7 +32,7 @@ public class QuestionsController extends AbstractController<Question> {
     }
     
     @Override
-    protected QuestionRepository getRepository() {
+    protected Repository getRepository() {
         return RepositoryFactory.getQuestionRepository();
     }
 }

@@ -7,6 +7,7 @@ package controllers;
 
 import data.DataException;
 import data.EmployeeRepository;
+import data.Repository;
 import data.RepositoryFactory;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,7 @@ import models.Employee;
  * @author tiago
  */
 public class EmployeeController extends AbstractController<Employee> {
-    EmployeeRepository repo;
+    Repository repo;
     
     EmployeeController() {
         this.repo = RepositoryFactory.getEmployeeRepository();
@@ -46,7 +47,7 @@ public class EmployeeController extends AbstractController<Employee> {
         );
     }
     
-    protected EmployeeRepository getRepository() {
+    protected Repository getRepository() {
         return RepositoryFactory.getEmployeeRepository();
     }
 }

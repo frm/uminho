@@ -7,6 +7,7 @@ package controllers;
 
 import data.AbstractRepository;
 import data.DataException;
+import data.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -61,5 +62,5 @@ public abstract class AbstractController<T extends BasicModel> implements Contro
         getRepository().delete(t.getId());
     }
     
-    protected abstract AbstractRepository<T> getRepository();
+    protected abstract Repository<T> getRepository();
 }

@@ -16,4 +16,6 @@ public interface Repository<T> {
     public void save(T entity) throws DataException;
     public T find(int id) throws DataException;
     public List<T> findBy(Map<String, Object> params) throws DataException;
+    public void delete(int id) throws DataException;
+    public List<T> all() throws DataException;
 }

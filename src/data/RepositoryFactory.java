@@ -35,40 +35,39 @@ public class RepositoryFactory {
         volunteersRepository = new VolunteersRepository(getURL(), USERNAME, PASSWORD);
     }
 
-    // TODO change this to generate valid mysql db url
     public static String getURL() {
         return URL;
     }
 
-    public static VolunteersRepository getVolunteersRepository() {
+    public static Repository getVolunteersRepository() {
         if (volunteersRepository == null)
             volunteersRepository = new VolunteersRepository(getURL(), USERNAME, PASSWORD);
 
         return volunteersRepository;
     }
 
-    public static ActivityRepository getActivityRepository() {
+    public static Repository getActivityRepository() {
         if (activityRepository == null)
             activityRepository = new ActivityRepository(getURL(), USERNAME, PASSWORD);
 
         return activityRepository;
     }
 
-    public static RepresentativeRepository getRepresentativeRepository() {
+    public static Repository getRepresentativeRepository() {
         if (representativeRepository == null)
             representativeRepository = new RepresentativeRepository(getURL(), USERNAME, PASSWORD);
 
         return representativeRepository;
     }
 
-    public static ContactRepository getContactRepository() {
+    public static Repository getContactRepository() {
         if (contactRepository == null)
             contactRepository = new ContactRepository(getURL(), USERNAME, PASSWORD);
 
         return contactRepository;
     }
 
-    public static FamilyRepository getFamilyRepository() {
+    public static Repository getFamilyRepository() {
         if (familyRepository == null)
             familyRepository = new FamilyRepository(getURL(), USERNAME, PASSWORD);
 
@@ -76,77 +75,70 @@ public class RepositoryFactory {
     }
     
     
-    public static PaymentRepository getPaymentRepository() {
+    public static Repository getPaymentRepository() {
         if (paymentRepository == null)
             paymentRepository = new PaymentRepository(getURL(), USERNAME, PASSWORD);
         
         return paymentRepository;
     }
     
-    public static PaymentPlanRepository getPaymentPlanRepository() {
+    public static Repository getPaymentPlanRepository() {
         if (paymentPlanRepository == null)
             paymentPlanRepository = new PaymentPlanRepository(getURL(), USERNAME, PASSWORD);
         
         return paymentPlanRepository;
     }
     
-    public static ProjectRepository getProjectRepository() {
+    public static Repository getProjectRepository() {
         if (projectRepository == null)
             projectRepository = new ProjectRepository(getURL(), USERNAME, PASSWORD);
         
         return projectRepository;
     }
     
-    public static TaskRepository getTaskRepository() {
+    public static Repository getTaskRepository() {
         if (taskRepository == null)
             taskRepository = new TaskRepository(getURL(), USERNAME, PASSWORD);
         
         return taskRepository;
     }
     
-    public static DonorRepository getDonorRepository() {
+    public static Repository getDonorRepository() {
         if (donorRepository == null)
             donorRepository = new DonorRepository(getURL(), USERNAME, PASSWORD);
         
         return donorRepository;
     }
     
-    public static EventsRepository getEventsRepository() {
+    public static Repository getEventsRepository() {
         if (eventsRepository == null)
             eventsRepository = new EventsRepository(getURL(), USERNAME, PASSWORD);
         
         return eventsRepository;
     }
     
-    public static ApplicationRepository getApplicationRepository() {
+    public static Repository getApplicationRepository() {
         if (applicationRepository == null)
             applicationRepository = new ApplicationRepository(getURL(), USERNAME, PASSWORD);
         
         return applicationRepository;
     }
-/*
-    public static VolunteersEventRepository getVolunteersEventRepository() {
-        if (volunteersEventRepository == null)
-            volunteersEventRepository = new VolunteersEventRepository(getURL(), USERNAME, PASSWORD);
-        
-        return volunteersEventRepository;
-    }
-*/
-    public static MemberRepository getMemberRepository() {
+    
+    public static Repository getMemberRepository() {
         if (memberRepository == null)
             memberRepository = new MemberRepository(getURL(), USERNAME, PASSWORD);
 
         return memberRepository;
     }
     
-    public static EmployeeRepository getEmployeeRepository() {
+    public static Repository getEmployeeRepository() {
         if (employeeRepository == null)
             employeeRepository = new EmployeeRepository(getURL(), USERNAME, PASSWORD);
 
         return employeeRepository;
     }
     
-    public static QuestionRepository getQuestionRepository() {
+    public static Repository getQuestionRepository() {
         if (questionRepository == null)
             questionRepository = new QuestionRepository(getURL(), USERNAME, PASSWORD);
 

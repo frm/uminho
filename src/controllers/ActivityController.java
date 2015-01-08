@@ -7,6 +7,7 @@ package controllers;
 
 import data.AbstractRepository;
 import data.ActivityRepository;
+import data.Repository;
 import data.RepositoryFactory;
 import java.util.Map;
 import models.Activity;
@@ -16,7 +17,7 @@ import models.Activity;
  * @author mendes
  */
 public class ActivityController extends AbstractController<Activity> {
-    ActivityRepository repo;
+    Repository repo;
     
     ActivityController() {
         this.repo = RepositoryFactory.getActivityRepository();
@@ -28,7 +29,7 @@ public class ActivityController extends AbstractController<Activity> {
     }
 
     @Override
-    protected AbstractRepository<Activity> getRepository() {
+    protected Repository<Activity> getRepository() {
         return RepositoryFactory.getActivityRepository();
     }
 }

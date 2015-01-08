@@ -7,6 +7,7 @@ package controllers;
 
 import data.DataException;
 import data.DonorRepository;
+import data.Repository;
 import data.RepositoryFactory;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,14 +21,14 @@ import models.Donor;
  * @author pc14
  */
 public class DonorsController extends AbstractController<Donor>{
-    DonorRepository repo;
+    Repository repo;
     
     DonorsController() {
         this.repo = RepositoryFactory.getDonorRepository();
     }
     
     @Override
-    protected DonorRepository getRepository() {
+    protected Repository getRepository() {
         return RepositoryFactory.getDonorRepository();        
     }
 

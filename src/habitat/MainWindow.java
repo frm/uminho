@@ -8,6 +8,7 @@ package habitat;
 
 import controllers.ApplicationsController;
 import controllers.ContactsController;
+import controllers.Controller;
 import controllers.ControllerFactory;
 import controllers.FamiliesController;
 import controllers.MembersController;
@@ -1334,7 +1335,7 @@ public class MainWindow extends javax.swing.JFrame {
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel1Layout.createSequentialGroup()
-            .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, 818, Short.MAX_VALUE)
+            .addComponent(jPanel33, javax.swing.GroupLayout.DEFAULT_SIZE, 818, Short.MAX_VALUE)
             .addContainerGap())
     );
 
@@ -1747,7 +1748,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(addTask)
                 .addComponent(removeTask))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
+            .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(taskViewDetails)
             .addContainerGap())
@@ -1811,7 +1812,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel45Layout.createSequentialGroup()
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(addProject)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGap(123, 123, 123))))
     );
     jPanel45Layout.setVerticalGroup(
         jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2090,8 +2091,8 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jLabel114)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(submitEditVolunteer)
+            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(submitEditVolunteer, javax.swing.GroupLayout.Alignment.TRAILING)
                 .addComponent(cancelEditVolunteer))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2275,7 +2276,6 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
                 .addGroup(jPanel24Layout.createSequentialGroup()
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(addVolunteer)
                     .addGap(0, 0, Short.MAX_VALUE)))
             .addContainerGap())
@@ -3508,7 +3508,7 @@ public class MainWindow extends javax.swing.JFrame {
             return;
         
         try {
-            ContactsController cc = ControllerFactory.getContactsController();
+            Controller<Contact> cc = ControllerFactory.getContactsController();
         
             int nrContacts = representativeContacts.size();
             int i = 0;
@@ -3544,10 +3544,10 @@ public class MainWindow extends javax.swing.JFrame {
             return;
         }
         
-        RepresentativesController rc = ControllerFactory.getRepresentativesController();
-        MembersController mc = ControllerFactory.getMembersController();
-        FamiliesController fc = ControllerFactory.getFamiliesController();
-        ContactsController cc = ControllerFactory.getContactsController();
+        Controller rc = ControllerFactory.getRepresentativesController();
+        Controller mc = ControllerFactory.getMembersController();
+        Controller fc = ControllerFactory.getFamiliesController();
+        Controller cc = ControllerFactory.getContactsController();
         
         try {
             currentFamily.setName(familyName.getText());
@@ -3648,7 +3648,7 @@ public class MainWindow extends javax.swing.JFrame {
             return;
         
         try {
-            MembersController mc = ControllerFactory.getMembersController();
+            Controller<SimpleMember> mc = ControllerFactory.getMembersController();
         
             int nrMembers = currentMembers.size();
             int i = 0;

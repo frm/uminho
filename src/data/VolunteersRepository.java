@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Set;
+import models.Activity;
 import models.Volunteer;
 
 /**
@@ -46,7 +47,7 @@ public class VolunteersRepository extends AbstractRepository<Volunteer> {
             v.setId( result.getInt( getColumnAttr("id") ) );
             v.setName( result.getString( getColumnAttr("name") ) );
             v.setAddress( result.getString( getColumnAttr("address") ) );
-            v.setActivity( RepositoryFactory.getActivityRepository().find( result.getInt( getColumnAttr("activityID") ) ) );
+            v.setActivity( (Activity) RepositoryFactory.getActivityRepository().find( result.getInt( getColumnAttr("activityID") ) ) );
             v.setNib( result.getString( getColumnAttr("nib") ) );
             v.setNif( result.getString( getColumnAttr("nif") ) );
             v.setBirthDate( result.getString( getColumnAttr("BirthDate") ) );

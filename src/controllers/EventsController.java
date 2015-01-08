@@ -7,6 +7,7 @@ package controllers;
 
 import data.DataException;
 import data.EventsRepository;
+import data.Repository;
 import data.RepositoryFactory;
 import java.util.Map;
 import models.Event;
@@ -16,7 +17,7 @@ import models.Event;
  * @author paulo
  */
 public class EventsController extends AbstractController<Event>{
-    EventsRepository repo;
+    Repository repo;
     
     EventsController() {
         this.repo = RepositoryFactory.getEventsRepository();
@@ -35,7 +36,7 @@ public class EventsController extends AbstractController<Event>{
     
     
     
-    protected EventsRepository getRepository() {
+    protected Repository getRepository() {
         return RepositoryFactory.getEventsRepository();
     }
     

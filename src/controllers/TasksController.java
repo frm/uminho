@@ -6,6 +6,7 @@
 package controllers;
 
 import data.DataException;
+import data.Repository;
 import data.RepositoryFactory;
 import data.TaskRepository;
 import java.util.Map;
@@ -16,7 +17,7 @@ import models.Task;
  * @author Tiago
  */
 public class TasksController extends AbstractController<Task> {
-    TaskRepository repo;
+    Repository repo;
     
     TasksController() {
         this.repo = RepositoryFactory.getTaskRepository();
@@ -33,7 +34,7 @@ public class TasksController extends AbstractController<Task> {
         );
     }
     
-    protected TaskRepository getRepository() {
+    protected Repository getRepository() {
         return RepositoryFactory.getTaskRepository();
     }
 }

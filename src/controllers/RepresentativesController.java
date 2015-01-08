@@ -6,6 +6,7 @@
 package controllers;
 
 import data.DataException;
+import data.Repository;
 import data.RepositoryFactory;
 import data.RepresentativeRepository;
 import java.util.Map;
@@ -17,14 +18,14 @@ import models.Representative;
  * @author mendes
  */
 public class RepresentativesController extends AbstractController<Representative> {
-    RepresentativeRepository repo;
+    Repository repo;
 
     RepresentativesController() {
         this.repo = RepositoryFactory.getRepresentativeRepository();
     }
 
     @Override
-    protected RepresentativeRepository getRepository() {
+    protected Repository getRepository() {
         return RepositoryFactory.getRepresentativeRepository();
     }
 

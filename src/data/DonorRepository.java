@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Set;
+import models.Activity;
 import models.Donor;
 
 /**
@@ -42,7 +43,7 @@ public class DonorRepository extends AbstractRepository<Donor>{
             d.setType( result.getBoolean(getColumnAttr("type")));
             d.setAddress( result.getString( getColumnAttr("address")));
             d.setLastDonationDate( result.getString( getColumnAttr("lastDonationDate")));
-            d.setActivity( RepositoryFactory.getActivityRepository().find( result.getInt( getColumnAttr("activityID") ) ) );
+            d.setActivity( (Activity) RepositoryFactory.getActivityRepository().find( result.getInt( getColumnAttr("activityID") ) ) );
             d.setNib( result.getString( getColumnAttr("nib") ) );
             d.setNif( result.getString( getColumnAttr("nif") ) );
             d.setObservations( result.getString( getColumnAttr("observations")));           

@@ -8,6 +8,7 @@ package habitat;
 
 import controllers.ActivityController;
 import controllers.ContactsController;
+import controllers.Controller;
 import controllers.ControllerFactory;
 import controllers.FamiliesController;
 import controllers.MembersController;
@@ -32,8 +33,10 @@ import javax.swing.table.TableModel;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
 import models.Activity;
+import models.Contact;
 import models.Family;
 import models.Representative;
+import models.SimpleMember;
 
 /**
  *
@@ -545,10 +548,10 @@ public class AdicionarFamilia extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void submitFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitFamilyActionPerformed
-        RepresentativesController rc = ControllerFactory.getRepresentativesController();
-        MembersController mc = ControllerFactory.getMembersController();
-        FamiliesController fc = ControllerFactory.getFamiliesController();
-        ContactsController cc = ControllerFactory.getContactsController();
+        Controller<Representative> rc = ControllerFactory.getRepresentativesController();
+        Controller<SimpleMember> mc = ControllerFactory.getMembersController();
+        Controller<Family> fc = ControllerFactory.getFamiliesController();
+        Controller<Contact> cc = ControllerFactory.getContactsController();
         
         try {         
             final Family f = fc.save(new HashMap<String, Object>() {{

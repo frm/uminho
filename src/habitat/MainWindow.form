@@ -138,7 +138,6 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jScrollPane6" pref="440" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace max="32767" attributes="0"/>
                                   <Component id="addFamily" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
@@ -1694,12 +1693,12 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jScrollPane16" pref="441" max="32767" attributes="0"/>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="addProject" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="123" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -2343,7 +2342,7 @@
                                       <Component id="removeTask" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPane22" pref="604" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane22" pref="636" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="taskViewDetails" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -2522,7 +2521,6 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jScrollPane10" pref="441" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace max="32767" attributes="0"/>
                                   <Component id="addVolunteer" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
@@ -2716,9 +2714,9 @@
                                       <Component id="jScrollPane8" min="-2" pref="122" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="submitEditVolunteer" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cancelEditVolunteer" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cancelEditVolunteer" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">

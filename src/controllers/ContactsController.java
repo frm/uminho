@@ -7,6 +7,7 @@ package controllers;
 
 import data.ContactRepository;
 import data.DataException;
+import data.Repository;
 import data.RepositoryFactory;
 import java.util.Map;
 import models.Contact;
@@ -16,7 +17,7 @@ import models.Contact;
  * @author mendes
  */
 public class ContactsController extends AbstractController<Contact> {
-    ContactRepository repo;
+    Repository repo;
     
     ContactsController() {
         this.repo = RepositoryFactory.getContactRepository();
@@ -33,7 +34,7 @@ public class ContactsController extends AbstractController<Contact> {
     }
     
     @Override
-    protected ContactRepository getRepository() {
+    protected Repository getRepository() {
         return RepositoryFactory.getContactRepository();
     }
 }
