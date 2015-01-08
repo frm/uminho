@@ -78,6 +78,8 @@ public class ApplicationRepository extends AbstractRepository<Application> {
                             .append(answer)
                             .append(");")
                             .toString();
+            
+            System.out.println(query);
         
             Connection connection = null;
             PreparedStatement statement = null;

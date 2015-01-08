@@ -39,6 +39,11 @@ public class Question extends BasicModel {
     public void setText(String text) {
         this.text = text;
     }
+    
+    @Override
+    public String toString() {
+        return this.text;
+    }
 
     @Override
     public boolean equals(Object obj) {

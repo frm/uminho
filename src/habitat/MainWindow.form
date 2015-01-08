@@ -133,7 +133,7 @@
                           <Component id="familySubTabbedPane" min="-2" pref="742" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane6" pref="393" max="32767" attributes="0"/>
+                              <Component id="jScrollPane6" pref="402" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Component id="addFamily" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
@@ -1013,7 +1013,7 @@
                                                   <Component id="addApplication" linkSize="1" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="32767" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                      <Component id="editQuestionnaire" max="32767" attributes="0"/>
+                                                      <Component id="editQuestionnaireSubmit" max="32767" attributes="0"/>
                                                       <Component id="deleteApplication" max="32767" attributes="0"/>
                                                   </Group>
                                                   <EmptySpace max="32767" attributes="0"/>
@@ -1084,7 +1084,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jScrollPane7" min="-2" pref="162" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="editQuestionnaire" min="-2" max="-2" attributes="0"/>
+                                  <Component id="editQuestionnaireSubmit" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="addApplication" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1147,7 +1147,7 @@
                         </Component>
                         <Component class="javax.swing.JButton" name="editApplication">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Editar"/>
+                            <Property name="text" type="java.lang.String" value="Editar Candidatura"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editApplicationActionPerformed"/>
@@ -1186,7 +1186,7 @@
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                   <Table columnCount="2" rowCount="0">
                                     <Column editable="false" title="Pergunta" type="java.lang.String"/>
-                                    <Column editable="false" title="Resposta" type="java.lang.String"/>
+                                    <Column editable="true" title="Resposta" type="java.lang.String"/>
                                   </Table>
                                 </Property>
                                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -1203,6 +1203,7 @@
                                     </Column>
                                   </TableColumnModel>
                                 </Property>
+                                <Property name="enabled" type="boolean" value="false"/>
                                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                                   <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                                 </Property>
@@ -1257,12 +1258,12 @@
                             </Component>
                           </SubComponents>
                         </Container>
-                        <Component class="javax.swing.JButton" name="editQuestionnaire">
+                        <Component class="javax.swing.JButton" name="editQuestionnaireSubmit">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Editar Respostas"/>
+                            <Property name="text" type="java.lang.String" value="Submeter"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editQuestionnaireActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editQuestionnaireSubmitActionPerformed"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JComboBox" name="applicationPriority">

@@ -40,6 +40,6 @@ public class ApplicationsController extends AbstractController<Application> {
     }  
     
     public void addAnswerTo(Question q, Application a, String answer) throws DataException {
-        repo.addAnswerTo(q.getId(), a.getId(), answer);
+        getRepository().addAnswerTo(q.getId(), a.getId(), answer);
     }
 }

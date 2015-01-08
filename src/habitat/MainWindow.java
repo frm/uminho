@@ -6,10 +6,12 @@
 
 package habitat;
 
+import controllers.ApplicationsController;
 import controllers.ContactsController;
 import controllers.ControllerFactory;
 import controllers.FamiliesController;
 import controllers.MembersController;
+import controllers.QuestionsController;
 import controllers.RepresentativesController;
 import data.DataException;
 import data.RepositoryFactory;
@@ -36,6 +38,7 @@ import models.Activity;
 import models.Application;
 import models.Contact;
 import models.Family;
+import models.Question;
 import models.Representative;
 import models.SimpleMember;
 
@@ -80,11 +83,14 @@ public class MainWindow extends javax.swing.JFrame {
                     put("familyId", currentFamily.getId());
                 }});
                 
-                if (applications.size() > 0)
+                if (applications.size() > 0) {
                     currentApplication = applications.get(0);
+                } else
+                    currentApplication = null; // resetting currentApplication. Needed
                 
                 setCurrentFamily();
                 setFamilyMembers();
+                setCurrentApplication();
             } catch(DataException e) { }
         }
         });
@@ -110,6 +116,21 @@ public class MainWindow extends javax.swing.JFrame {
                 ).get(0).getName(), f.getAddress()});
             }
         } catch (DataException e) {
+            JOptionPane.showMessageDialog(this, "Erro a ler dados");
+        }
+    }
+    
+    public void setCurrentApplication() {
+        ((DefaultTableModel)applicationQuestionnaire.getModel()).setRowCount(0);
+        if(currentApplication == null)
+            return;
+        
+        QuestionsController qc = ControllerFactory.getQuestionsController();
+        try {
+            List<Question> activeQuestions = qc.findBy(new HashMap<String, Object>() {{ put("enabled", true); }});
+            for(Question q : activeQuestions)
+                ((DefaultTableModel)applicationQuestionnaire.getModel()).addRow(new Object[]{q,""});            
+        } catch(DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a ler dados");
         }
     }
@@ -234,7 +255,7 @@ public class MainWindow extends javax.swing.JFrame {
         applicationId = new javax.swing.JTextField();
         jScrollPane9 = new javax.swing.JScrollPane();
         applicationNotes = new javax.swing.JTextArea();
-        editQuestionnaire = new javax.swing.JButton();
+        editQuestionnaireSubmit = new javax.swing.JButton();
         applicationPriority = new javax.swing.JComboBox();
         applicationApproved = new javax.swing.JCheckBox();
         jPanel36 = new javax.swing.JPanel();
@@ -839,7 +860,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     deleteApplication.setText("Remover");
 
-    editApplication.setText("Editar");
+    editApplication.setText("Editar Candidatura");
     editApplication.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             editApplicationActionPerformed(evt);
@@ -867,7 +888,7 @@ public class MainWindow extends javax.swing.JFrame {
             java.lang.String.class, java.lang.String.class
         };
         boolean[] canEdit = new boolean [] {
-            false, false
+            false, true
         };
 
         public Class getColumnClass(int columnIndex) {
@@ -878,6 +899,7 @@ public class MainWindow extends javax.swing.JFrame {
             return canEdit [columnIndex];
         }
     });
+    applicationQuestionnaire.setEnabled(false);
     applicationQuestionnaire.getTableHeader().setReorderingAllowed(false);
     jScrollPane7.setViewportView(applicationQuestionnaire);
 
@@ -902,10 +924,10 @@ public class MainWindow extends javax.swing.JFrame {
     jScrollPane9.setViewportView(applicationNotes);
     familyNotes.setDocument(new JTextAreaLimit(500));
 
-    editQuestionnaire.setText("Editar Respostas");
-    editQuestionnaire.addActionListener(new java.awt.event.ActionListener() {
+    editQuestionnaireSubmit.setText("Submeter");
+    editQuestionnaireSubmit.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            editQuestionnaireActionPerformed(evt);
+            editQuestionnaireSubmitActionPerformed(evt);
         }
     });
 
@@ -956,7 +978,7 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(addApplication)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(editQuestionnaire, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(editQuestionnaireSubmit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(deleteApplication, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(editApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -1015,7 +1037,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(editQuestionnaire)
+            .addComponent(editQuestionnaireSubmit)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(addApplication)
@@ -1156,7 +1178,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addComponent(familySubTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
                 .addGroup(jPanel33Layout.createSequentialGroup()
                     .addComponent(addFamily)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3273,8 +3295,24 @@ public class MainWindow extends javax.swing.JFrame {
         disableFamilyEdit();
     }//GEN-LAST:event_submitEditFamilyActionPerformed
 
-    private void editQuestionnaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editQuestionnaireActionPerformed
-        currentApplication.setApplicationDate(Util.strToDate(applicationDate.getText()));
+    private void editQuestionnaireSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editQuestionnaireSubmitActionPerformed
+        int rowCount = memberList.getRowCount();
+        if (rowCount <= 0)
+            return;
+        
+        try {
+            ApplicationsController ac = ControllerFactory.getApplicationsController();        
+            TableModel t = memberList.getModel();
+            
+            for(int i = 0; i < rowCount; i++) {
+                ac.addAnswerTo((Question)t.getValueAt(i, 0), currentApplication, t.getValueAt(i, 1).toString());
+            }    
+        } catch (DataException e) {
+            JOptionPane.showMessageDialog(this, "Erro a gravar dados");
+        }
+        
+        /*
+        currentApplication.setApplicationDate(Util.dateToStr(applicationDate.getText()));
         currentApplication.setPriority(applicationPriority.getSelectedIndex());
         currentApplication.setNotes(applicationNotes.getText());
         currentApplication.setLocation(applicationLocation.getText());
@@ -3285,11 +3323,11 @@ public class MainWindow extends javax.swing.JFrame {
             ControllerFactory.getApplicationsController().save(currentApplication);
         } catch (DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a gravar dados");
-        }
-    }//GEN-LAST:event_editQuestionnaireActionPerformed
+        }*/
+    }//GEN-LAST:event_editQuestionnaireSubmitActionPerformed
 
     private void editApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editApplicationActionPerformed
-        // TODO add your handling code here:
+        applicationQuestionnaire.setEnabled(true);
     }//GEN-LAST:event_editApplicationActionPerformed
 
     private void submitMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitMembersActionPerformed
@@ -3395,7 +3433,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton editParticipantsButton;
     private javax.swing.JButton editPaymentPlan;
     private javax.swing.JButton editProject;
-    private javax.swing.JButton editQuestionnaire;
+    private javax.swing.JButton editQuestionnaireSubmit;
     private javax.swing.JButton editVolunteer;
     private javax.swing.JTextField eventAddress;
     private javax.swing.JFormattedTextField eventDate;
