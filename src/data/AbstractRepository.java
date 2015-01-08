@@ -96,7 +96,7 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
             try {
                 connection = DriverManager.getConnection(url, username, password);
                 statement = connection.prepareStatement(query);
-                statement.executeQuery();            
+                statement.executeUpdate();            
             } finally {
                 statement.close();
                 connection.close();

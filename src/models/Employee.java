@@ -6,14 +6,18 @@
 
 package models;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
  *
  * @author tiago
  */
-public class Employee extends BaseEntity{
+public class Employee extends BasicModel{
+    private String name;
+    private String address;
+    private String nib;
+    private String nif;
+    private Set<Contact> contacts;
     private String username;
     private String birthDate;
     private String education;
@@ -27,7 +31,12 @@ public class Employee extends BaseEntity{
     }
 
     public Employee(String name, String address, String nif, String nib, Activity activity, Set<Contact> contacts, String username, String birthDate, String education, String nationality, String citizenship, String maritalStatus, Float salary) {
-        super(name, address, nif, nib, activity, contacts);
+        super(-1);
+        this.name = name;
+        this.address = address;
+        this.nib = nib;
+        this.nif = nif;
+        this.contacts = contacts;
         this.username = username;
         this.birthDate = birthDate;
         this.education = education;
@@ -76,6 +85,46 @@ public class Employee extends BaseEntity{
         return salary;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getNib() {
+        return nib;
+    }
+
+    public void setNib(String nib) {
+        this.nib = nib;
+    }
+
+    public String getNif() {
+        return nif;
+    }
+
+    public void setNif(String nif) {
+        this.nif = nif;
+    }
+
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -112,22 +161,7 @@ public class Employee extends BaseEntity{
     
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder(super.toString());
-        sb.append(", ");
-        sb.append(username);
-        sb.append(", ");
-        sb.append(birthDate);
-        sb.append(", ");
-        sb.append(education);
-        sb.append(", ");
-        sb.append(nationality);
-        sb.append(", ");
-        sb.append(citizenship);
-        sb.append(", ");
-        sb.append(maritalStatus);
-        sb.append(", ");
-        sb.append(salary);
-        return sb.toString();
+        return name;
     }
     
     public boolean equals(Object o) {

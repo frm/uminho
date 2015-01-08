@@ -533,10 +533,7 @@ public class AdicionarFamilia extends javax.swing.JDialog {
                 put("birthDate", Util.strToDate( representativeBirthDate.getText() ));
                 put("maritalStatus", repMaritalStatus.getSelectedItem());
                 put("education", representativeEducation.getText());
-                Activity a = new Activity("Test");
-                a.setId(1);
-                put("activity", a);
-                //put("activity", representativeActivity.getSelectedItem().toString());
+                put("activity", (Activity)repActivity.getSelectedItem());
                 put("nif", representativeNif.getText());
                 put("nib", representativeNib.getText());
                 put("familyID", f.getId());

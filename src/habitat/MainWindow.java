@@ -69,21 +69,34 @@ public class MainWindow extends javax.swing.JFrame {
             ).get(0);
                 currentMembers = ControllerFactory.getMembersController().findBy(new HashMap<String, Object>() {{
                 put("familyID", currentFamily.getId());
+                }});
                 
                 representativeContacts = ControllerFactory.getContactsController().findBy(new HashMap<String, Object>() {{
                     put("OwnerType", "Representante");
                     put("Owner", currentRepresentative.getId());
                 }});
                 
-                currentApplication = ControllerFactory.getApplicationsController().findBy(new HashMap<String, Object>() {{
+                List<Application> applications = ControllerFactory.getApplicationsController().findBy(new HashMap<String, Object>() {{
                     put("familyId", currentFamily.getId());
-                }}).get(0);
-            }});
+                }});
+                
+                if (applications.size() > 0)
+                    currentApplication = applications.get(0);
+                
                 setCurrentFamily();
                 setFamilyMembers();
             } catch(DataException e) { }
         }
         });
+        
+        try {
+            Collection<Activity> items = ControllerFactory.getActivityController().all();
+            for( Activity a: items){
+                mainWindowRepProf.addItem(a);
+        }
+        } catch (DataException ex) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao obter os dados");
+        }
     }
 
     
@@ -134,7 +147,7 @@ public class MainWindow extends javax.swing.JFrame {
             ((DefaultTableModel)memberList.getModel()).setRowCount(0);
 
             for(final SimpleMember m : members)
-                ((DefaultTableModel)memberList.getModel()).addRow(new Object[]{ m.getName(), Util.dateToStr(m.getBirthDate()), m.getKinship() });
+                ((DefaultTableModel)memberList.getModel()).addRow(new Object[]{ m.getId(), m.getName(), Util.dateToStr(m.getBirthDate()), m.getKinship() });
         } catch (NullPointerException e){}
         
     }
@@ -225,7 +238,7 @@ public class MainWindow extends javax.swing.JFrame {
         applicationPriority = new javax.swing.JComboBox();
         applicationApproved = new javax.swing.JCheckBox();
         jPanel36 = new javax.swing.JPanel();
-        editMember = new javax.swing.JButton();
+        submitMembers = new javax.swing.JButton();
         removeMember = new javax.swing.JButton();
         addMember = new javax.swing.JButton();
         jScrollPane18 = new javax.swing.JScrollPane();
@@ -727,7 +740,7 @@ public class MainWindow extends javax.swing.JFrame {
                                             .addComponent(jLabel44)))
                                     .addGap(103, 103, 103))))))
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel34Layout.createSequentialGroup()
-                    .addGap(0, 21, Short.MAX_VALUE)
+                    .addGap(0, 7, Short.MAX_VALUE)
                     .addComponent(jSeparator15, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addContainerGap())
     );
@@ -823,7 +836,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     jLabel25.setText("Terreno:");
 
-    jLabel26.setText("Data de Aplicação:");
+    jLabel26.setText("Data de Candidatura:");
 
     jLabel27.setText("Data de Aprovação:");
 
@@ -851,10 +864,7 @@ public class MainWindow extends javax.swing.JFrame {
     applicationQuestionnaire.setAutoCreateRowSorter(true);
     applicationQuestionnaire.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
-            {null, null},
-            {null, null},
-            {null, null},
-            {null, null}
+
         },
         new String [] {
             "Pergunta", "Resposta"
@@ -864,7 +874,7 @@ public class MainWindow extends javax.swing.JFrame {
             java.lang.String.class, java.lang.String.class
         };
         boolean[] canEdit = new boolean [] {
-            true, false
+            false, false
         };
 
         public Class getColumnClass(int columnIndex) {
@@ -1027,9 +1037,19 @@ public class MainWindow extends javax.swing.JFrame {
 
     jPanel36.setBackground(new java.awt.Color(255, 255, 255));
 
-    editMember.setText("Editar Membro");
+    submitMembers.setText("Submeter");
+    submitMembers.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            submitMembersActionPerformed(evt);
+        }
+    });
 
     removeMember.setText("Remover Membro");
+    removeMember.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            removeMemberActionPerformed(evt);
+        }
+    });
 
     addMember.setText("Adicionar Membro");
     addMember.addActionListener(new java.awt.event.ActionListener() {
@@ -1041,20 +1061,17 @@ public class MainWindow extends javax.swing.JFrame {
     memberList.setAutoCreateRowSorter(true);
     memberList.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
-            {null, null, null},
-            {null, null, null},
-            {null, null, null},
-            {null, null, null}
+
         },
         new String [] {
-            "Nome", "Data de Nascimento", "Grau de Parentesco"
+            "Número", "Nome", "Data de Nascimento", "Grau de Parentesco"
         }
     ) {
         Class[] types = new Class [] {
-            java.lang.String.class, java.lang.String.class, java.lang.String.class
+            java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
         };
         boolean[] canEdit = new boolean [] {
-            false, false, false
+            false, true, true, true
         };
 
         public Class getColumnClass(int columnIndex) {
@@ -1078,9 +1095,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jScrollPane18)
                 .addGroup(jPanel36Layout.createSequentialGroup()
                     .addComponent(addMember)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
-                    .addComponent(editMember)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                    .addComponent(submitMembers)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
                     .addComponent(removeMember)))
             .addContainerGap())
     );
@@ -1091,7 +1108,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(40, 40, 40)
             .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(editMember)
+                .addComponent(submitMembers)
                 .addComponent(removeMember)
                 .addComponent(addMember))
             .addGap(238, 238, 238))
@@ -3096,18 +3113,18 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_addFamilyActionPerformed
 
     private void addMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMemberActionPerformed
-        // TODO add your handling code here:
+        ((DefaultTableModel)memberList.getModel()).addRow(new Object[]{"", "", ""});
     }//GEN-LAST:event_addMemberActionPerformed
 
     private void addApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addApplicationActionPerformed
-        (new AdicionarCandidatura(this, true, 1)).setVisible(true);
+        (new AdicionarCandidatura(this, true, currentFamily.getId())).setVisible(true);
     }//GEN-LAST:event_addApplicationActionPerformed
 
     private void repNationalityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_repNationalityActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_repNationalityActionPerformed
 
-    private void cancelEditFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelEditFamilyActionPerformed
+    private void disableFamilyEdit() {
         familyName.setEditable(false);
         familyAddress.setEditable(false);
         familyIncome.setEditable(false);
@@ -3115,7 +3132,6 @@ public class MainWindow extends javax.swing.JFrame {
         familyRep.setEditable(false);
         repBirthDate.setEditable(false);
         repEducation.setEditable(false);
-        mainWindowRepProf.setEditable(false);
         repMaritalStatus.setEnabled(false);
         repNif.setEditable(false);
         repNib.setEditable(false);
@@ -3126,6 +3142,9 @@ public class MainWindow extends javax.swing.JFrame {
         deleteRepContact.setVisible(false);
         repNationality.setEnabled(false);
         repBirthPlace.setEditable(false);
+    }
+    private void cancelEditFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelEditFamilyActionPerformed
+        disableFamilyEdit();
     }//GEN-LAST:event_cancelEditFamilyActionPerformed
 
     private void addRepContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRepContactActionPerformed
@@ -3143,16 +3162,11 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_repBirthDateActionPerformed
 
     private void editFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editFamilyActionPerformed
-        try {
-            Collection<Activity> items = ControllerFactory.getActivityController().all();
-            for( Activity a: items){
-                mainWindowRepProf.addItem(a);
+        if(currentFamily == null) {
+                JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
+                return;
         }
-        } catch (DataException ex) {
-            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao obter os dados");
-        }
-        
-        
+                    
         familyName.setEditable(true);
         familyAddress.setEditable(true);
         familyIncome.setEditable(true);
@@ -3160,7 +3174,6 @@ public class MainWindow extends javax.swing.JFrame {
         familyRep.setEditable(true);
         repBirthDate.setEditable(true);
         repEducation.setEditable(true);
-        mainWindowRepProf.setEditable(true);
         repMaritalStatus.setEnabled(true);
         repNif.setEditable(true);
         repNib.setEditable(true);
@@ -3175,12 +3188,15 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void deleteFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFamilyActionPerformed
         try {
-            String password = JOptionPane.showInputDialog(this, "Erro a ler dados");
+            if(currentFamily == null) {
+                JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
+                return;
+            }
+            String password = JOptionPane.showInputDialog(this, "Por favor confirme password");
+            
             ControllerFactory.getFamiliesController().delete(currentFamily);
         } catch (DataException ex) {
             JOptionPane.showMessageDialog(this, "Erro a ler dados");
-        } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
         }
     }//GEN-LAST:event_deleteFamilyActionPerformed
 
@@ -3207,18 +3223,18 @@ public class MainWindow extends javax.swing.JFrame {
             currentRepresentative.setBirthDate(Util.strToDate( repBirthDate.getText() ));
             currentRepresentative.setMaritalStatus(repMaritalStatus.getSelectedItem().toString());
             currentRepresentative.setEducation(repEducation.getText());
-            Activity a = new Activity("Test");
-            a.setId(1);
-            currentRepresentative.setActivity(a);
+            currentRepresentative.setActivity((Activity)mainWindowRepProf.getSelectedItem());
             currentRepresentative.setNif(repNif.getText());
             currentRepresentative.setNib(repNib.getText());
+            
+            rc.save(currentRepresentative);
             
             ControllerFactory.getContactsController().updateAll(representativeContacts);
             ControllerFactory.getMembersController().updateAll(currentMembers);
         } catch (DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a guardar dados");
         }
-        
+        disableFamilyEdit();
     }//GEN-LAST:event_submitEditFamilyActionPerformed
 
     private void editQuestionnaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editQuestionnaireActionPerformed
@@ -3239,6 +3255,58 @@ public class MainWindow extends javax.swing.JFrame {
     private void editApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editApplicationActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_editApplicationActionPerformed
+
+    private void submitMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitMembersActionPerformed
+        int rowCount = memberList.getRowCount();
+        
+        if(rowCount <= 0)
+            return;
+        
+        try {
+            MembersController mc = ControllerFactory.getMembersController();
+        
+            int nrMembers = currentMembers.size();
+            int i = 0;
+        
+            final TableModel t = memberList.getModel();
+            while (i < nrMembers) {
+                SimpleMember m = currentMembers.get(i);
+                m.setName(t.getValueAt(i, 1).toString());
+                m.setBirthDate(Util.strToDate(t.getValueAt(i, 2).toString()));
+                m.setKinship(t.getValueAt(i, 3).toString());
+                mc.save(m);
+                i++;
+            }
+        
+            while(i < rowCount) {
+                final int i2 = i;
+                SimpleMember newMember = mc.save( new HashMap<String, Object>() {{
+                    put("name", t.getValueAt(i2, 1).toString());
+                    put("birthDate", Util.strToDate(t.getValueAt(i2, 2).toString()));
+                    put("kinship", t.getValueAt(i2, 3).toString());
+                    put("familyID", currentFamily.getId());
+                }});
+                t.setValueAt(newMember.getId(), i2, 0);
+                i++;
+            }    
+        } catch (DataException e) {
+            JOptionPane.showMessageDialog(this, "Erro a gravar dados");
+        }
+    }//GEN-LAST:event_submitMembersActionPerformed
+
+    private void removeMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMemberActionPerformed
+        int row = memberList.getSelectedRow();
+        if(row == -1)
+            return;
+        SimpleMember m = currentMembers.get(row);
+        currentMembers.remove(row);
+        ((DefaultTableModel)memberList.getModel()).removeRow(row);
+        try {
+            ControllerFactory.getMembersController().delete(m);
+        } catch(DataException e) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao remover");
+        }
+    }//GEN-LAST:event_removeMemberActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addApplication;
@@ -3288,7 +3356,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton editDonorButton;
     private javax.swing.JButton editEventButton;
     private javax.swing.JButton editFamily;
-    private javax.swing.JButton editMember;
     private javax.swing.JButton editParticipantsButton;
     private javax.swing.JButton editPaymentPlan;
     private javax.swing.JButton editProject;
@@ -3485,6 +3552,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton submitEditFamily;
     private javax.swing.JButton submitEditProject;
     private javax.swing.JButton submitEditVolunteer;
+    private javax.swing.JButton submitMembers;
     private javax.swing.JTable taskList;
     private javax.swing.JButton taskViewDetails;
     private javax.swing.JTextField volunteerAddress;

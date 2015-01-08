@@ -36,6 +36,10 @@ public class Application extends BasicModel {
         this.status = false;
     }
 
+    public Integer getManager() {
+        return manager;
+    }
+    
     public String getApplicationDate() {
         return applicationDate;
     }

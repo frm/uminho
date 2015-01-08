@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import models.Activity;
 import models.Application;
 import models.Employee;
 
@@ -31,6 +30,14 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
         super(parent, modal);
         this.familyID = familyID;
         initComponents();
+        try {
+            Collection<Employee> employees = ControllerFactory.getEmployeeController().all();
+            for( Employee e : employees) {
+                applicationManager.addItem(e);
+            }
+        } catch (DataException e) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao obter os dados");
+        }
     }
 
     /**
@@ -104,7 +111,7 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
             }
         });
 
-        jLabel6.setText("Data de Aplicação:");
+        jLabel6.setText("Data de Candidatura:");
 
         jLabel4.setText("Funcionário Responsável:");
 
@@ -212,7 +219,7 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
                 put("priority", applicationPriority.getSelectedIndex());
                 put("notes", applicationNotes.getText());
                 put("location", applicationLocation.getText());
-                put("manager", applicationManager.getSelectedIndex());
+                put("manager", ((Employee)applicationManager.getSelectedItem()).getId());
                 put("familyId", familyID);
             }});
         } catch (DataException e) {

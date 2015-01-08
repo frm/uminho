@@ -216,7 +216,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Data de Aplica&#xe7;&#xe3;o:"/>
+            <Property name="text" type="java.lang.String" value="Data de Candidatura:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">

@@ -46,7 +46,7 @@ public class ApplicationRepository extends AbstractRepository<Application> {
             a.setLocation( result.getString( getColumnAttr("location") ) );
             a.setPriority( result.getInt( getColumnAttr("priority") ) );
             a.setStatus( result.getBoolean( getColumnAttr("status") ) );
-            a.setApprovalDate( result.getString( getColumnAttr("aprovalDate") ) );
+            a.setApprovalDate( result.getString( getColumnAttr("approvalDate") ) );
             a.setNotes( result.getString( getColumnAttr("notes") ) );
             a.setManager( result.getInt( getColumnAttr("manager") ) );
             a.setFamilyId( result.getInt( getColumnAttr("familyId") ) );
