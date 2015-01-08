@@ -232,6 +232,8 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         repNationality = new javax.swing.JComboBox();
         mainWindowRepProf = new javax.swing.JComboBox();
+        jLabel68 = new javax.swing.JLabel();
+        familyVolHours = new javax.swing.JTextField();
         jPanel35 = new javax.swing.JPanel();
         addApplication = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
@@ -484,9 +486,8 @@ public class MainWindow extends javax.swing.JFrame {
         familySubTabbedPane.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 if(familySubTabbedPane.getSelectedIndex() == 1)
-                //TODO
-                return;
-                if(familySubTabbedPane.getSelectedIndex() == 2)
+                setCurrentApplication();
+                else if(familySubTabbedPane.getSelectedIndex() == 2)
                 setFamilyMembers();
             }
         });
@@ -659,6 +660,10 @@ public class MainWindow extends javax.swing.JFrame {
         }
     });
 
+    jLabel68.setText("Horas de Voluntariado:");
+
+    familyVolHours.setEditable(false);
+
     javax.swing.GroupLayout jPanel34Layout = new javax.swing.GroupLayout(jPanel34);
     jPanel34.setLayout(jPanel34Layout);
     jPanel34Layout.setHorizontalGroup(
@@ -740,21 +745,22 @@ public class MainWindow extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(familyName, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
-                                .addComponent(familyAddress)
+                                .addComponent(jLabel63)
                                 .addGroup(jPanel34Layout.createSequentialGroup()
-                                    .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel63)
-                                        .addGroup(jPanel34Layout.createSequentialGroup()
-                                            .addComponent(familyApproved)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jLabel60))
-                                        .addGroup(jPanel34Layout.createSequentialGroup()
-                                            .addComponent(familyIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jLabel44)))
-                                    .addGap(103, 103, 103))))))
+                                    .addComponent(familyApproved)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel60))
+                                .addGroup(jPanel34Layout.createSequentialGroup()
+                                    .addComponent(familyIncome, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel44)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel68)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(familyVolHours, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(familyAddress)))))
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel34Layout.createSequentialGroup()
-                    .addGap(0, 7, Short.MAX_VALUE)
+                    .addGap(0, 21, Short.MAX_VALUE)
                     .addComponent(jSeparator15, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addContainerGap())
     );
@@ -775,12 +781,14 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel61)
                 .addComponent(familyIncome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel44))
-            .addGap(9, 9, 9)
+                .addComponent(jLabel44)
+                .addComponent(jLabel68)
+                .addComponent(familyVolHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(18, 18, 18)
             .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                 .addComponent(familyApproved)
                 .addComponent(jLabel60))
-            .addGap(30, 30, 30)
+            .addGap(21, 21, 21)
             .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel62))
@@ -1178,7 +1186,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addComponent(familySubTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
                 .addGroup(jPanel33Layout.createSequentialGroup()
                     .addComponent(addFamily)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3207,6 +3215,7 @@ public class MainWindow extends javax.swing.JFrame {
         submitEditFamily.setVisible(true);
         addRepContact.setVisible(true);
         deleteRepContact.setVisible(true);
+        familyVolHours.setVisible(true);
     }//GEN-LAST:event_editFamilyActionPerformed
 
     private void deleteFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFamilyActionPerformed
@@ -3218,6 +3227,9 @@ public class MainWindow extends javax.swing.JFrame {
             String password = JOptionPane.showInputDialog(this, "Por favor confirme password");
             
             ControllerFactory.getFamiliesController().delete(currentFamily);
+            
+            if(familyList.getRowCount() > 0)
+                familyList.getSelectionModel().setSelectionInterval(0, 0);
         } catch (DataException ex) {
             JOptionPane.showMessageDialog(this, "Erro a ler dados");
         }
@@ -3327,6 +3339,17 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_editQuestionnaireSubmitActionPerformed
 
     private void editApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editApplicationActionPerformed
+        if(currentFamily == null) {
+                JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
+                return;
+        }
+        
+        applicationDate.setEnabled(true);
+        applicationApproved.setEnabled(true);
+        applicationPriority.setEnabled(true);
+        applicationLocation.setEnabled(true);
+        applicationApprovalDate.setEnabled(true);
+        applicationNotes.setEnabled(true);
         applicationQuestionnaire.setEnabled(true);
     }//GEN-LAST:event_editApplicationActionPerformed
 
@@ -3451,6 +3474,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField familyRep;
     private javax.swing.JTextField familySearch;
     private javax.swing.JTabbedPane familySubTabbedPane;
+    private javax.swing.JTextField familyVolHours;
     private javax.swing.JButton jButton40;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
@@ -3520,6 +3544,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel88;
