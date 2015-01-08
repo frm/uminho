@@ -6,6 +6,7 @@
 package habitat;
 
 import controllers.ApplicationsController;
+import controllers.Controller;
 import controllers.ControllerFactory;
 import data.DataException;
 import habitat.JTextAreaLimit;
@@ -212,7 +213,7 @@ public class AdicionarCandidatura extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void submitApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitApplicationActionPerformed
-        ApplicationsController ac = ControllerFactory.getApplicationsController();
+        Controller<Application> ac = ControllerFactory.getApplicationsController();
         try {
             Application a = ac.save(new HashMap<String, Object>() {{
                 put("applicationDate", Util.strToDate(applicationDate.getText()));
