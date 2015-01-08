@@ -52,7 +52,9 @@ public class MainWindow extends javax.swing.JFrame {
     private Representative currentRepresentative;
     private List<SimpleMember> currentMembers;
     private List<Contact> representativeContacts;
+    private List<Application> familyApplications;
     private Application currentApplication;
+    private int applicationIndex;
     /**
      * Creates new form GUI
      */
@@ -79,14 +81,14 @@ public class MainWindow extends javax.swing.JFrame {
                     put("Owner", currentRepresentative.getId());
                 }});
                 
-                List<Application> applications = ControllerFactory.getApplicationsController().findBy(new HashMap<String, Object>() {{
+                familyApplications = ControllerFactory.getApplicationsController().findBy(new HashMap<String, Object>() {{
                     put("familyId", currentFamily.getId());
                 }});
                 
-                if (applications.size() > 0) {
-                    currentApplication = applications.get(0);
-                } else
-                    currentApplication = null; // resetting currentApplication. Needed
+                applicationIndex = familyApplications.size() - 1;
+                
+                if(applicationIndex > 0)
+                    nextApplication.setEnabled(true);
                 
                 setCurrentFamily();
                 setFamilyMembers();
@@ -99,7 +101,7 @@ public class MainWindow extends javax.swing.JFrame {
             Collection<Activity> items = ControllerFactory.getActivityController().all();
             for( Activity a: items){
                 mainWindowRepProf.addItem(a);
-        }
+            }
         } catch (DataException ex) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao obter os dados");
         }
@@ -122,7 +124,11 @@ public class MainWindow extends javax.swing.JFrame {
     
     public void setCurrentApplication() {
         ((DefaultTableModel)applicationQuestionnaire.getModel()).setRowCount(0);
-        if(currentApplication == null)
+        
+        
+        if (familyApplications.size() > 0) {
+            currentApplication = familyApplications.get(applicationIndex);
+        } else
             return;
         
         QuestionsController qc = ControllerFactory.getQuestionsController();
@@ -133,6 +139,12 @@ public class MainWindow extends javax.swing.JFrame {
         } catch(DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a ler dados");
         }
+        
+        int totalPages = familyApplications.size();
+        applicationPages.setText(new StringBuilder().append(totalPages - applicationIndex).append("/")
+                                            .append(totalPages).toString());
+        
+        currentApplication = familyApplications.get(applicationIndex);
         
         applicationDate.setText(Util.dateToStr(currentApplication.getApplicationDate()));
         applicationApproved.setSelected(currentApplication.getStatus());
@@ -158,7 +170,7 @@ public class MainWindow extends javax.swing.JFrame {
         repEducation.setText(r.getEducation());
         repNif.setText(r.getNif());
         repNib.setText(r.getNib());
-        mainWindowRepProf.setSelectedIndex(0);
+        mainWindowRepProf.setSelectedItem(currentRepresentative.getActivity());
         repBirthPlace.setText(r.getBirthPlace());
         repNationality.setSelectedItem(r.getNationality());
         
@@ -256,7 +268,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
-        jLabel43 = new javax.swing.JLabel();
+        applicationPages = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         applicationQuestionnaire = new javax.swing.JTable();
         applicationDate = new javax.swing.JFormattedTextField();
@@ -878,8 +890,20 @@ public class MainWindow extends javax.swing.JFrame {
     jLabel27.setText("Data de Aprovação:");
 
     previousApplication.setText("<");
+    previousApplication.setEnabled(false);
+    previousApplication.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            previousApplicationActionPerformed(evt);
+        }
+    });
 
     nextApplication.setText(">");
+    nextApplication.setEnabled(false);
+    nextApplication.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            nextApplicationActionPerformed(evt);
+        }
+    });
 
     deleteApplication.setText("Remover");
 
@@ -895,8 +919,6 @@ public class MainWindow extends javax.swing.JFrame {
     jLabel21.setText("Observações:");
 
     jLabel29.setText("Questionário");
-
-    jLabel43.setText("1/3");
 
     applicationQuestionnaire.setAutoCreateRowSorter(true);
     applicationQuestionnaire.setModel(new javax.swing.table.DefaultTableModel(
@@ -1017,7 +1039,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addGap(50, 50, 50))
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel35Layout.createSequentialGroup()
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel43)
+            .addComponent(applicationPages)
             .addGap(85, 85, 85))
         .addGroup(jPanel35Layout.createSequentialGroup()
             .addGap(246, 246, 246)
@@ -1035,7 +1057,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel35Layout.createSequentialGroup()
             .addGap(29, 29, 29)
-            .addComponent(jLabel43)
+            .addComponent(applicationPages)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(previousApplication)
@@ -1087,6 +1109,8 @@ public class MainWindow extends javax.swing.JFrame {
     );
 
     jPanel35Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {addApplication, deleteApplication, editApplication});
+
+    applicationPages.getAccessibleContext().setAccessibleName("");
 
     familySubTabbedPane.addTab("Candidaturas", jPanel35);
 
@@ -3483,6 +3507,25 @@ public class MainWindow extends javax.swing.JFrame {
         applicationPriority.setEnabled(false);
     }//GEN-LAST:event_editQuestionnaireCancelActionPerformed
 
+    private void nextApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextApplicationActionPerformed
+        applicationIndex--;
+        setCurrentApplication();
+        if(applicationIndex == 0)
+            nextApplication.setEnabled(false);
+        
+        previousApplication.setEnabled(true);
+        
+    }//GEN-LAST:event_nextApplicationActionPerformed
+
+    private void previousApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousApplicationActionPerformed
+        applicationIndex++;
+        setCurrentApplication();
+        if(applicationIndex == familyApplications.size() - 1)
+            previousApplication.setEnabled(false);
+        
+        nextApplication.setEnabled(true);
+    }//GEN-LAST:event_previousApplicationActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addApplication;
     private javax.swing.JButton addDonationButton;
@@ -3504,6 +3547,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField applicationId;
     private javax.swing.JTextField applicationLocation;
     private javax.swing.JTextArea applicationNotes;
+    private javax.swing.JLabel applicationPages;
     private javax.swing.JComboBox applicationPriority;
     private javax.swing.JTable applicationQuestionnaire;
     private javax.swing.JButton cancelDonorEdit;
@@ -3606,7 +3650,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
