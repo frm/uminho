@@ -145,6 +145,9 @@
               <Dimension value="[100, 32]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submitLoginActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="password">
           <Properties>

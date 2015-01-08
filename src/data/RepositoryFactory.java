@@ -27,8 +27,8 @@ public class RepositoryFactory {
     private static EmployeeRepository employeeRepository;
     private static QuestionRepository questionRepository;
 
-    private static final String USERNAME = "habitat";
-    private static final String PASSWORD = "testuser123";
+    private static String USERNAME;
+    private static String PASSWORD;
     private static final String URL = "jdbc:mysql://localhost/habitat";
 
     public RepositoryFactory() {
@@ -151,5 +151,11 @@ public class RepositoryFactory {
             questionRepository = new QuestionRepository(getURL(), USERNAME, PASSWORD);
 
         return questionRepository;
+    }
+    
+    public static boolean init(String username, String password) {
+        RepositoryFactory.USERNAME = username;
+        RepositoryFactory.PASSWORD = password;
+        return new QuestionRepository(getURL(), USERNAME, PASSWORD).attemptLogin();
     }
 }

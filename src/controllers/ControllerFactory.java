@@ -5,6 +5,8 @@
  */
 package controllers;
 
+import data.RepositoryFactory;
+
 /**
  *
  * @author mendes
@@ -127,5 +129,9 @@ public class ControllerFactory {
             questionsController = new QuestionsController();
 
         return questionsController;
+    }
+    
+    public static boolean init(String username, String password) {
+        return RepositoryFactory.init(username, password);
     }
 }

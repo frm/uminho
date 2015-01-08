@@ -54,11 +54,15 @@ public class MainWindow extends javax.swing.JFrame {
     private List<Contact> representativeContacts;
     private List<Application> familyApplications;
     private Application currentApplication;
+    private String username;
+    private String password;
     private int applicationIndex;
     /**
      * Creates new form GUI
      */
-    public MainWindow() {
+    public MainWindow(String username, String password) {
+        this.password = password;
+        this.username = username;
         this.setIconImage((new ImageIcon("etc/logo.png")).getImage());
         initComponents();
         listFamilies();
@@ -107,6 +111,10 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
+    private boolean confirmPassword() {
+        String password = JOptionPane.showInputDialog(this, "Por favor confirme password");
+        return this.password.equals(password);
+    }
     
     public void listFamilies() {
         List<Family> families  = new ArrayList<>();
@@ -3289,8 +3297,12 @@ public class MainWindow extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
                 return;
             }
-            String password = JOptionPane.showInputDialog(this, "Por favor confirme password");
             
+            if(!confirmPassword()) {
+                JOptionPane.showMessageDialog(this, "Password errada");
+                return;
+            }
+
             ControllerFactory.getFamiliesController().delete(currentFamily);
             
             familyList.remove(familyList.getSelectedRow());
@@ -3484,6 +3496,12 @@ public class MainWindow extends javax.swing.JFrame {
         int row = memberList.getSelectedRow();
         if(row == -1)
             return;
+        
+        if(!confirmPassword()) {
+            JOptionPane.showMessageDialog(this, "Password errada");
+            return;
+        }
+        
         SimpleMember m = currentMembers.get(row);
         currentMembers.remove(row);
         ((DefaultTableModel)memberList.getModel()).removeRow(row);
