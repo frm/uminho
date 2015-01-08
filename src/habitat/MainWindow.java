@@ -547,16 +547,9 @@ public class MainWindow extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class
             };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
         });
         repContacts.setEnabled(false);
@@ -3152,9 +3145,17 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_addRepContactActionPerformed
 
     private void deleteRepContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteRepContactActionPerformed
-        int rowID;
-        if(( rowID = repContacts.getSelectedRow()) >= 0)
-        ((DefaultTableModel)repContacts.getModel()).removeRow(rowID);
+        int row = repContacts.getSelectedRow();
+        if(row == -1)
+            return;
+        Contact c = representativeContacts.get(row);
+        representativeContacts.remove(row);
+        ((DefaultTableModel)repContacts.getModel()).removeRow(row);
+        try {
+            ControllerFactory.getContactsController().delete(c);
+        } catch(DataException e) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao remover");
+        }
     }//GEN-LAST:event_deleteRepContactActionPerformed
 
     private void repBirthDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_repBirthDateActionPerformed
@@ -3200,6 +3201,43 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteFamilyActionPerformed
 
+    private void editRepresentativeContacts() {
+        int rowCount = repContacts.getRowCount();
+        
+        if(rowCount <= 0)
+            return;
+        
+        try {
+            ContactsController cc = ControllerFactory.getContactsController();
+        
+            int nrContacts = representativeContacts.size();
+            int i = 0;
+        
+            final TableModel t = repContacts.getModel();
+            while (i < nrContacts) {
+                Contact c = representativeContacts.get(i);
+                c.setType(t.getValueAt(i, 0).toString());
+                c.setValue(t.getValueAt(i, 1).toString());
+                cc.save(c);
+                i++;
+            }
+        
+            while(i < rowCount) {
+                final int i2 = i;
+                Contact newContact = cc.save( new HashMap<String, Object>() {{
+                    put("type", t.getValueAt(i2, 0).toString());
+                    put("value", t.getValueAt(i2, 1).toString());
+                    put("ownerType", "Representante");
+                    put("owner", currentRepresentative.getId());
+                }});
+                i++;
+            }    
+        } catch (DataException e) {
+            JOptionPane.showMessageDialog(this, "Erro a gravar dados");
+        }
+    }
+    
+    
     private void submitEditFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitEditFamilyActionPerformed
         if(currentFamily == null) {
             JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
@@ -3227,10 +3265,8 @@ public class MainWindow extends javax.swing.JFrame {
             currentRepresentative.setNif(repNif.getText());
             currentRepresentative.setNib(repNib.getText());
             
+            editRepresentativeContacts();
             rc.save(currentRepresentative);
-            
-            ControllerFactory.getContactsController().updateAll(representativeContacts);
-            ControllerFactory.getMembersController().updateAll(currentMembers);
         } catch (DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a guardar dados");
         }
