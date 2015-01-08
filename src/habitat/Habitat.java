@@ -5,6 +5,9 @@
  */
 package habitat;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 /**
@@ -45,7 +48,8 @@ public class Habitat {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainWindow().setVisible(true);
+                (new Login()).setVisible(true);
+                //new MainWindow().setVisible(true);
             }
         });
     }
