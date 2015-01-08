@@ -50,6 +50,7 @@ public class RepresentativeRepository extends AbstractRepository<Representative>
             r.setBirthPlace( result.getString( getColumnAttr("birthPlace") ) );
             r.setMaritalStatus( result.getString( getColumnAttr("maritalStatus") ) );
             r.setFamilyID( result.getInt( getColumnAttr("familyID") ) );
+            r.setEducation( result.getString( getColumnAttr("education") ) );
         } catch (SQLException e) {
             throw new DataException("Error saving representative.");
         }
