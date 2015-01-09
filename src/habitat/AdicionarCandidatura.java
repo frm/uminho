@@ -5,14 +5,11 @@
  */
 package habitat;
 
-import controllers.ApplicationsController;
 import controllers.Controller;
 import controllers.ControllerFactory;
 import data.DataException;
-import habitat.JTextAreaLimit;
 import java.util.Collection;
 import java.util.HashMap;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import models.Application;
 import models.Employee;

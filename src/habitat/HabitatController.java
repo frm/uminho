@@ -7,23 +7,14 @@
 package habitat;
 
 import controllers.ApplicationsController;
-import controllers.ContactsController;
 import controllers.Controller;
 import controllers.ControllerFactory;
-import controllers.FamiliesController;
-import controllers.MembersController;
 import controllers.QuestionsController;
-import controllers.RepresentativesController;
 import data.DataException;
-import data.RepositoryFactory;
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
@@ -47,7 +38,7 @@ import models.SimpleMember;
  *
  * @author tiago
  */
-public class MainWindow extends javax.swing.JFrame {
+public class HabitatController extends javax.swing.JFrame {
     
     private Family currentFamily;
     private Representative currentRepresentative;
@@ -61,7 +52,7 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Creates new form GUI
      */
-    public MainWindow(String username, String password) {
+    public HabitatController(String username, String password) {
         this.password = password;
         this.username = username;
         this.setIconImage((new ImageIcon("etc/logo.png")).getImage());
@@ -1308,7 +1299,6 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
                 .addGroup(jPanel33Layout.createSequentialGroup()
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(addFamily)
                     .addGap(0, 0, Short.MAX_VALUE)))
             .addContainerGap())
@@ -3594,7 +3584,6 @@ public class MainWindow extends javax.swing.JFrame {
                 ac.addAnswerTo((Question)t.getValueAt(i, 0), currentApplication, t.getValueAt(i, 1).toString());
             }    
         } catch (DataException e) {
-            System.out.println("FOI AQUI");
             JOptionPane.showMessageDialog(this, "Erro a gravar dados");
         }finally{
             editQuestionnaireCancel.setVisible(false);

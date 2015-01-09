@@ -11,7 +11,6 @@ import data.DataException;
 import java.awt.Frame;
 import java.awt.Window;
 import java.util.HashMap;
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
@@ -433,8 +432,7 @@ public class AdicionarProjeto extends javax.swing.JDialog {
                 put("applicationId", 1);
                 put("paymentPlanId", 1);
             }} );
-        } catch (DataException e) {
-        System.out.println(e.getMessage());}
+        } catch (DataException e) {}
     }//GEN-LAST:event_jButton10ActionPerformed
 
 

@@ -7,7 +7,6 @@ package data;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 import models.Activity;

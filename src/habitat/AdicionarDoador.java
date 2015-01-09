@@ -9,7 +9,6 @@ import controllers.ContactsController;
 import controllers.ControllerFactory;
 import controllers.DonorsController;
 import data.DataException;
-import habitat.JTextAreaLimit;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,8 +20,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import models.Activity;
 import models.Donor;
-import models.Family;
-import models.Representative;
 
 /**
  *

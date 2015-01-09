@@ -5,8 +5,6 @@
  */
 package habitat;
 
-import java.sql.Date;
-
 /**
  *
  * @author mendes
@@ -28,17 +26,9 @@ public class Util {
         if(date == null || date.trim().length() == 0)
             return null;
         String[] s = date.split(currentDelimiter);
-        System.out.println(date);
         String first = s[0];
         String month = s[1];
         String last = s[2];
-        System.out.println(new StringBuilder()
-                    .append(last)
-                    .append(newDelimiter)
-                    .append(month)
-                    .append(newDelimiter)
-                    .append(first)
-                    .toString());
         return new StringBuilder()
                     .append(last)
                     .append(newDelimiter)

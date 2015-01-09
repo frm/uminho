@@ -8,19 +8,11 @@ package habitat;
 import controllers.ControllerFactory;
 import controllers.EventsController;
 import data.DataException;
-import habitat.JTextAreaLimit;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import models.Event;
-import models.Volunteer;
 
 /**
  *

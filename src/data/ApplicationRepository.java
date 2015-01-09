@@ -6,11 +6,9 @@
 package data;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.LinkedHashMap;
 import java.util.Set;
 import models.Application;
@@ -79,8 +77,6 @@ public class ApplicationRepository extends AbstractRepository<Application> {
                             .append(String.format("'%s'", answer))
                             .append(");")
                             .toString();
-            
-            System.out.println(query);
         
             Connection connection = null;
             PreparedStatement statement = null;
@@ -100,7 +96,6 @@ public class ApplicationRepository extends AbstractRepository<Application> {
                             .append(";")
                             .toString(); 
                 
-                System.out.println(query);
                 statement = connection.prepareStatement(query);
                 statement.executeUpdate();
             } finally {

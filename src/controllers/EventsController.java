@@ -6,7 +6,6 @@
 package controllers;
 
 import data.DataException;
-import data.EventsRepository;
 import data.Repository;
 import data.RepositoryFactory;
 import java.util.Map;

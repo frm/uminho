@@ -5,7 +5,6 @@
  */
 package controllers;
 
-import data.AbstractRepository;
 import data.DataException;
 import data.Repository;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import models.BasicModel;
  *
  * @author mendes
  */
-public abstract class AbstractController<T extends BasicModel> implements Controller<T> {
+abstract class AbstractController<T extends BasicModel> implements Controller<T> {
     public List<T> saveAll(List<Map<String, Object>> ts) throws DataException {
         List<T> result = new ArrayList<T>();
         

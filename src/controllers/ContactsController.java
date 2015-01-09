@@ -5,7 +5,6 @@
  */
 package controllers;
 
-import data.ContactRepository;
 import data.DataException;
 import data.Repository;
 import data.RepositoryFactory;

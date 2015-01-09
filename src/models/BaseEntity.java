@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * @author tiago
  */
-public abstract class BaseEntity extends BasicModel {
+abstract class BaseEntity extends BasicModel {
     private String name;
     private String address;
     private String nif;

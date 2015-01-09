@@ -28,7 +28,7 @@ import org.apache.commons.lang3.text.WordUtils;
  * @author frmendes
  * @param <T>
  */
-public abstract class AbstractRepository<T extends BasicModel> implements Repository<T> {
+abstract class AbstractRepository<T extends BasicModel> implements Repository<T> {
 
     private String url;
     private String username;
@@ -186,7 +186,6 @@ public abstract class AbstractRepository<T extends BasicModel> implements Reposi
         try {
             connection = DriverManager.getConnection(url, username, password);
             statement = connection.prepareStatement(query, generatedKeys);
-            System.out.println(query);
             statement.executeUpdate();
 
             if(t.getId() > 0)

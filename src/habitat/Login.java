@@ -142,7 +142,7 @@ public class Login extends javax.swing.JFrame {
         String pw = password.getText();
         
         if(ControllerFactory.init(un, pw)) {
-            new MainWindow(un, pw).setVisible(true);
+            new HabitatController(un, pw).setVisible(true);
             this.dispose();
         }
         else
@@ -154,7 +154,7 @@ public class Login extends javax.swing.JFrame {
         String pw = password.getText();
         
         if(ControllerFactory.init(un, pw)) {
-            new MainWindow(un, pw).setVisible(true);
+            new HabitatController(un, pw).setVisible(true);
             this.dispose();
         }
         else
@@ -171,7 +171,7 @@ public class Login extends javax.swing.JFrame {
         String pw = password.getText();
         
         if(ControllerFactory.init(un, pw)) {
-            new MainWindow(un, pw).setVisible(true);
+            new HabitatController(un, pw).setVisible(true);
             this.dispose();
         }
         else

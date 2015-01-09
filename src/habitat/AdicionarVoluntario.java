@@ -10,15 +10,11 @@ import controllers.ContactsController;
 import controllers.ControllerFactory;
 import controllers.VolunteersController;
 import data.DataException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -380,8 +376,7 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
             }
             
             cc.saveAll(contacts);
-        } catch (DataException e) {
-        System.out.println(e.getMessage());}
+        } catch (DataException e) {}
     }//GEN-LAST:event_submitVolunteerActionPerformed
 
     private void volunteerActivityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volunteerActivityActionPerformed

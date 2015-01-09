@@ -6,28 +6,18 @@
 
 package habitat;
 
-import controllers.ActivityController;
-import controllers.ContactsController;
 import controllers.Controller;
 import controllers.ControllerFactory;
-import controllers.FamiliesController;
-import controllers.MembersController;
-import controllers.RepresentativesController;
 import data.DataException;
-import java.awt.Window;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.text.DateFormatter;
@@ -43,14 +33,14 @@ import models.SimpleMember;
  * @author João
  */
 public class AdicionarFamilia extends javax.swing.JDialog {
-    MainWindow parent;
+    HabitatController parent;
     
     /**
      * Creates new form AdicionarRepresentante
      */
     public AdicionarFamilia(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        this.parent = (MainWindow) parent;
+        this.parent = (HabitatController) parent;
         initComponents();
     }
 
