@@ -450,8 +450,9 @@ public class HabitatController extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jPanel13 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        search = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -482,7 +483,7 @@ public class HabitatController extends javax.swing.JFrame {
         setBackground(new java.awt.Color(54, 79, 194));
         setResizable(false);
 
-        jTabbedPane1.setBackground(new java.awt.Color(0, 103, 165));
+        jTabbedPane1.setBackground(new java.awt.Color(22, 113, 204));
         jTabbedPane1.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         jTabbedPane1.setMinimumSize(new java.awt.Dimension(500, 245));
         jTabbedPane1.setOpaque(true);
@@ -526,7 +527,7 @@ public class HabitatController extends javax.swing.JFrame {
 
         jLabel88.setText("Profissão");
 
-        editFamily.setBackground(new java.awt.Color(0, 103, 165));
+        editFamily.setBackground(new java.awt.Color(22, 113, 204));
         editFamily.setForeground(new java.awt.Color(255, 255, 255));
         editFamily.setText("Editar");
         editFamily.setBorderPainted(false);
@@ -538,7 +539,7 @@ public class HabitatController extends javax.swing.JFrame {
             }
         });
 
-        deleteFamily.setBackground(new java.awt.Color(0, 103, 165));
+        deleteFamily.setBackground(new java.awt.Color(22, 113, 204));
         deleteFamily.setForeground(new java.awt.Color(255, 255, 255));
         deleteFamily.setText("Remover");
         deleteFamily.setBorderPainted(false);
@@ -627,7 +628,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jLabel44.setText("€");
 
-    deleteRepContact.setBackground(new java.awt.Color(0, 103, 165));
+    deleteRepContact.setBackground(new java.awt.Color(22, 113, 204));
     deleteRepContact.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
     deleteRepContact.setForeground(new java.awt.Color(254, 254, 254));
     deleteRepContact.setText("-");
@@ -644,7 +645,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    addRepContact.setBackground(new java.awt.Color(0, 103, 165));
+    addRepContact.setBackground(new java.awt.Color(22, 113, 204));
     addRepContact.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
     addRepContact.setForeground(new java.awt.Color(254, 254, 254));
     addRepContact.setText("+");
@@ -660,7 +661,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jLabel28.setText("Contactos");
 
-    cancelEditFamily.setBackground(new java.awt.Color(0, 103, 165));
+    cancelEditFamily.setBackground(new java.awt.Color(22, 113, 204));
     cancelEditFamily.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     cancelEditFamily.setForeground(new java.awt.Color(255, 255, 255));
     cancelEditFamily.setText("Cancelar");
@@ -674,7 +675,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    submitEditFamily.setBackground(new java.awt.Color(0, 103, 165));
+    submitEditFamily.setBackground(new java.awt.Color(22, 113, 204));
     submitEditFamily.setForeground(new java.awt.Color(255, 255, 255));
     submitEditFamily.setText("Submeter");
     submitEditFamily.setBorderPainted(false);
@@ -901,7 +902,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jPanel35.setBackground(new java.awt.Color(255, 255, 255));
 
-    addApplication.setBackground(new java.awt.Color(0, 103, 165));
+    addApplication.setBackground(new java.awt.Color(22, 113, 204));
     addApplication.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     addApplication.setForeground(new java.awt.Color(255, 255, 255));
     addApplication.setText("Adicionar");
@@ -924,7 +925,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jLabel27.setText("Data de Aprovação:");
 
-    previousApplication.setBackground(new java.awt.Color(0, 103, 165));
+    previousApplication.setBackground(new java.awt.Color(22, 113, 204));
     previousApplication.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
     previousApplication.setForeground(new java.awt.Color(254, 254, 254));
     previousApplication.setText("<");
@@ -938,7 +939,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    nextApplication.setBackground(new java.awt.Color(0, 103, 165));
+    nextApplication.setBackground(new java.awt.Color(22, 113, 204));
     nextApplication.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
     nextApplication.setForeground(new java.awt.Color(254, 254, 254));
     nextApplication.setText(">");
@@ -952,14 +953,14 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    deleteApplication.setBackground(new java.awt.Color(0, 103, 165));
+    deleteApplication.setBackground(new java.awt.Color(22, 113, 204));
     deleteApplication.setForeground(new java.awt.Color(255, 255, 255));
     deleteApplication.setText("Remover");
     deleteApplication.setBorderPainted(false);
     deleteApplication.setContentAreaFilled(false);
     deleteApplication.setOpaque(true);
 
-    editApplication.setBackground(new java.awt.Color(0, 103, 165));
+    editApplication.setBackground(new java.awt.Color(22, 113, 204));
     editApplication.setForeground(new java.awt.Color(255, 255, 255));
     editApplication.setText("Editar");
     editApplication.setBorderPainted(false);
@@ -1026,7 +1027,7 @@ public class HabitatController extends javax.swing.JFrame {
     jScrollPane9.setViewportView(applicationNotes);
     familyNotes.setDocument(new JTextAreaLimit(500));
 
-    editQuestionnaireSubmit.setBackground(new java.awt.Color(0, 103, 165));
+    editQuestionnaireSubmit.setBackground(new java.awt.Color(22, 113, 204));
     editQuestionnaireSubmit.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editQuestionnaireSubmit.setForeground(new java.awt.Color(255, 255, 255));
     editQuestionnaireSubmit.setText("Submeter");
@@ -1047,7 +1048,7 @@ public class HabitatController extends javax.swing.JFrame {
     applicationApproved.setBorder(null);
     applicationApproved.setEnabled(false);
 
-    editQuestionnaireCancel.setBackground(new java.awt.Color(0, 103, 165));
+    editQuestionnaireCancel.setBackground(new java.awt.Color(22, 113, 204));
     editQuestionnaireCancel.setForeground(new java.awt.Color(255, 255, 255));
     editQuestionnaireCancel.setText("Cancelar");
     editQuestionnaireCancel.setBorderPainted(false);
@@ -1175,7 +1176,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jPanel36.setBackground(new java.awt.Color(255, 255, 255));
 
-    submitMembers.setBackground(new java.awt.Color(0, 103, 165));
+    submitMembers.setBackground(new java.awt.Color(22, 113, 204));
     submitMembers.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     submitMembers.setForeground(new java.awt.Color(255, 255, 255));
     submitMembers.setText("Submeter");
@@ -1188,7 +1189,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    removeMember.setBackground(new java.awt.Color(0, 103, 165));
+    removeMember.setBackground(new java.awt.Color(22, 113, 204));
     removeMember.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
     removeMember.setForeground(new java.awt.Color(254, 254, 254));
     removeMember.setText("Remover");
@@ -1207,7 +1208,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    addMember.setBackground(new java.awt.Color(0, 103, 165));
+    addMember.setBackground(new java.awt.Color(22, 113, 204));
     addMember.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     addMember.setForeground(new java.awt.Color(255, 255, 255));
     addMember.setText("Adicionar");
@@ -1278,7 +1279,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     familySubTabbedPane.addTab("Membros", jPanel36);
 
-    addFamily.setBackground(new java.awt.Color(0, 103, 165));
+    addFamily.setBackground(new java.awt.Color(22, 113, 204));
     addFamily.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
     addFamily.setForeground(new java.awt.Color(255, 255, 255));
     addFamily.setText("Adicionar Familia");
@@ -1358,7 +1359,7 @@ public class HabitatController extends javax.swing.JFrame {
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel1Layout.createSequentialGroup()
-            .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, 745, Short.MAX_VALUE)
+            .addComponent(jPanel33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGap(694, 694, 694))
     );
 
@@ -1393,7 +1394,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jLabel3.setText("Data Final Prevista:");
 
-    editProject.setBackground(new java.awt.Color(0, 103, 165));
+    editProject.setBackground(new java.awt.Color(22, 113, 204));
     editProject.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editProject.setForeground(new java.awt.Color(255, 255, 255));
     editProject.setText("Editar");
@@ -1406,7 +1407,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    deleteProject.setBackground(new java.awt.Color(0, 103, 165));
+    deleteProject.setBackground(new java.awt.Color(22, 113, 204));
     deleteProject.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     deleteProject.setForeground(new java.awt.Color(255, 255, 255));
     deleteProject.setText("Remover");
@@ -1436,7 +1437,7 @@ public class HabitatController extends javax.swing.JFrame {
     projectStartDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
     projectStartDate.setToolTipText("dd/MM/aaaa");
 
-    cancelEditProject.setBackground(new java.awt.Color(0, 103, 165));
+    cancelEditProject.setBackground(new java.awt.Color(22, 113, 204));
     cancelEditProject.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     cancelEditProject.setForeground(new java.awt.Color(255, 255, 255));
     cancelEditProject.setText("Cancelar");
@@ -1450,7 +1451,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    submitEditProject.setBackground(new java.awt.Color(0, 103, 165));
+    submitEditProject.setBackground(new java.awt.Color(22, 113, 204));
     submitEditProject.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     submitEditProject.setForeground(new java.awt.Color(255, 255, 255));
     submitEditProject.setText("Submeter");
@@ -1603,7 +1604,7 @@ public class HabitatController extends javax.swing.JFrame {
     paymentPlanNotes.setRows(5);
     jScrollPane11.setViewportView(paymentPlanNotes);
 
-    addPayment.setBackground(new java.awt.Color(0, 103, 165));
+    addPayment.setBackground(new java.awt.Color(22, 113, 204));
     addPayment.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
     addPayment.setForeground(new java.awt.Color(254, 254, 254));
     addPayment.setText("+");
@@ -1617,7 +1618,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    deletePayment.setBackground(new java.awt.Color(0, 103, 165));
+    deletePayment.setBackground(new java.awt.Color(22, 113, 204));
     deletePayment.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
     deletePayment.setForeground(new java.awt.Color(254, 254, 254));
     deletePayment.setText("-");
@@ -1631,7 +1632,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    editPaymentPlan.setBackground(new java.awt.Color(0, 103, 165));
+    editPaymentPlan.setBackground(new java.awt.Color(22, 113, 204));
     editPaymentPlan.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editPaymentPlan.setForeground(new java.awt.Color(255, 255, 255));
     editPaymentPlan.setText("Editar");
@@ -1749,7 +1750,7 @@ public class HabitatController extends javax.swing.JFrame {
     taskList.getTableHeader().setReorderingAllowed(false);
     jScrollPane22.setViewportView(taskList);
 
-    taskViewDetails.setBackground(new java.awt.Color(0, 103, 165));
+    taskViewDetails.setBackground(new java.awt.Color(22, 113, 204));
     taskViewDetails.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     taskViewDetails.setForeground(new java.awt.Color(255, 255, 255));
     taskViewDetails.setText("Detalhes");
@@ -1784,7 +1785,7 @@ public class HabitatController extends javax.swing.JFrame {
                 .addComponent(addTask)
                 .addComponent(removeTask))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
+            .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(taskViewDetails)
             .addContainerGap())
@@ -1792,7 +1793,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jTabbedPane15.addTab("Tarefas", jPanel6);
 
-    addProject.setBackground(new java.awt.Color(0, 103, 165));
+    addProject.setBackground(new java.awt.Color(22, 113, 204));
     addProject.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
     addProject.setForeground(new java.awt.Color(255, 255, 255));
     addProject.setText("Adicionar projeto");
@@ -1876,7 +1877,7 @@ public class HabitatController extends javax.swing.JFrame {
         .addGap(0, 757, Short.MAX_VALUE)
         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel45, javax.swing.GroupLayout.PREFERRED_SIZE, 745, Short.MAX_VALUE)
+                .addComponent(jPanel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap()))
     );
 
@@ -1917,7 +1918,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jLabel15.setText("Nacionalidade:");
 
-    editVolunteer.setBackground(new java.awt.Color(0, 103, 165));
+    editVolunteer.setBackground(new java.awt.Color(22, 113, 204));
     editVolunteer.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editVolunteer.setForeground(new java.awt.Color(255, 255, 255));
     editVolunteer.setText("Editar");
@@ -1931,7 +1932,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    deleteVolunteer.setBackground(new java.awt.Color(0, 103, 165));
+    deleteVolunteer.setBackground(new java.awt.Color(22, 113, 204));
     deleteVolunteer.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     deleteVolunteer.setForeground(new java.awt.Color(255, 255, 255));
     deleteVolunteer.setText("Remover");
@@ -1946,7 +1947,7 @@ public class HabitatController extends javax.swing.JFrame {
     volunteerTeam.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
     volunteerTeam.setEnabled(false);
 
-    addVolunteerTeam.setBackground(new java.awt.Color(0, 103, 165));
+    addVolunteerTeam.setBackground(new java.awt.Color(22, 113, 204));
     addVolunteerTeam.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     addVolunteerTeam.setForeground(new java.awt.Color(255, 255, 255));
     addVolunteerTeam.setText("Nova Equipa");
@@ -1985,7 +1986,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     volunteerNif.setEditable(false);
 
-    cancelEditVolunteer.setBackground(new java.awt.Color(0, 103, 165));
+    cancelEditVolunteer.setBackground(new java.awt.Color(22, 113, 204));
     cancelEditVolunteer.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     cancelEditVolunteer.setForeground(new java.awt.Color(255, 255, 255));
     cancelEditVolunteer.setText("Cancelar");
@@ -1999,7 +2000,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    submitEditVolunteer.setBackground(new java.awt.Color(0, 103, 165));
+    submitEditVolunteer.setBackground(new java.awt.Color(22, 113, 204));
     submitEditVolunteer.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     submitEditVolunteer.setForeground(new java.awt.Color(255, 255, 255));
     submitEditVolunteer.setText("Submeter");
@@ -2124,21 +2125,21 @@ public class HabitatController extends javax.swing.JFrame {
                 .addComponent(jLabel114)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(submitEditVolunteer)
                 .addComponent(cancelEditVolunteer))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(editVolunteer)
                 .addComponent(deleteVolunteer))
-            .addContainerGap(237, Short.MAX_VALUE))
+            .addContainerGap(241, Short.MAX_VALUE))
     );
 
     jTabbedPane12.addTab("Informações", jPanel25);
 
     jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
-    volunteerViewEventDetails.setBackground(new java.awt.Color(0, 103, 165));
+    volunteerViewEventDetails.setBackground(new java.awt.Color(22, 113, 204));
     volunteerViewEventDetails.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     volunteerViewEventDetails.setForeground(new java.awt.Color(255, 255, 255));
     volunteerViewEventDetails.setText("Detalhes");
@@ -2178,18 +2179,19 @@ public class HabitatController extends javax.swing.JFrame {
         jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel11Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jScrollPane19)
+            .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane19)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                    .addGap(0, 257, Short.MAX_VALUE)
+                    .addComponent(volunteerViewEventDetails)
+                    .addGap(0, 289, Short.MAX_VALUE)))
             .addContainerGap())
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-            .addContainerGap(263, Short.MAX_VALUE)
-            .addComponent(volunteerViewEventDetails)
-            .addContainerGap(295, Short.MAX_VALUE))
     );
     jPanel11Layout.setVerticalGroup(
         jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
+            .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(volunteerViewEventDetails)
             .addGap(12, 12, 12))
@@ -2199,7 +2201,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jPanel12.setBackground(new java.awt.Color(255, 255, 255));
 
-    volunteerViewProjectDetails.setBackground(new java.awt.Color(0, 103, 165));
+    volunteerViewProjectDetails.setBackground(new java.awt.Color(22, 113, 204));
     volunteerViewProjectDetails.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     volunteerViewProjectDetails.setForeground(new java.awt.Color(255, 255, 255));
     volunteerViewProjectDetails.setText("Detalhes");
@@ -2242,18 +2244,19 @@ public class HabitatController extends javax.swing.JFrame {
         jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel12Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jScrollPane20)
+            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane20)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                    .addGap(0, 255, Short.MAX_VALUE)
+                    .addComponent(volunteerViewProjectDetails)
+                    .addGap(0, 291, Short.MAX_VALUE)))
             .addContainerGap())
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-            .addContainerGap(261, Short.MAX_VALUE)
-            .addComponent(volunteerViewProjectDetails)
-            .addContainerGap(297, Short.MAX_VALUE))
     );
     jPanel12Layout.setVerticalGroup(
         jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jScrollPane20, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
+            .addComponent(jScrollPane20, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(volunteerViewProjectDetails)
             .addGap(12, 12, 12))
@@ -2261,7 +2264,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jTabbedPane12.addTab("Projetos", jPanel12);
 
-    addVolunteer.setBackground(new java.awt.Color(0, 103, 165));
+    addVolunteer.setBackground(new java.awt.Color(22, 113, 204));
     addVolunteer.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
     addVolunteer.setForeground(new java.awt.Color(255, 255, 255));
     addVolunteer.setText("Adicionar Voluntário");
@@ -2374,7 +2377,7 @@ public class HabitatController extends javax.swing.JFrame {
     jScrollPane32.setViewportView(eventObservation);
     eventObservation.setDocument(new JTextAreaLimit(500));
 
-    editEventButton.setBackground(new java.awt.Color(0, 103, 165));
+    editEventButton.setBackground(new java.awt.Color(22, 113, 204));
     editEventButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editEventButton.setForeground(new java.awt.Color(255, 255, 255));
     editEventButton.setText("Editar");
@@ -2387,7 +2390,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    removeEventButton.setBackground(new java.awt.Color(0, 103, 165));
+    removeEventButton.setBackground(new java.awt.Color(22, 113, 204));
     removeEventButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     removeEventButton.setForeground(new java.awt.Color(255, 255, 255));
     removeEventButton.setText("Remover");
@@ -2427,7 +2430,7 @@ public class HabitatController extends javax.swing.JFrame {
     });
 
     cancelEditEventButton.setVisible(false);
-    cancelEditEventButton.setBackground(new java.awt.Color(0, 103, 165));
+    cancelEditEventButton.setBackground(new java.awt.Color(22, 113, 204));
     cancelEditEventButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     cancelEditEventButton.setForeground(new java.awt.Color(255, 255, 255));
     cancelEditEventButton.setText("Cancelar");
@@ -2441,7 +2444,7 @@ public class HabitatController extends javax.swing.JFrame {
     });
 
     submitEditEventButton.setVisible(false);
-    submitEditEventButton.setBackground(new java.awt.Color(0, 103, 165));
+    submitEditEventButton.setBackground(new java.awt.Color(22, 113, 204));
     submitEditEventButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     submitEditEventButton.setForeground(new java.awt.Color(255, 255, 255));
     submitEditEventButton.setText("Submeter");
@@ -2560,7 +2563,7 @@ public class HabitatController extends javax.swing.JFrame {
     participantsTable.getTableHeader().setReorderingAllowed(false);
     jScrollPane17.setViewportView(participantsTable);
 
-    editParticipantsButton.setBackground(new java.awt.Color(0, 103, 165));
+    editParticipantsButton.setBackground(new java.awt.Color(22, 113, 204));
     editParticipantsButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editParticipantsButton.setForeground(new java.awt.Color(255, 255, 255));
     editParticipantsButton.setText("Editar");
@@ -2593,12 +2596,12 @@ public class HabitatController extends javax.swing.JFrame {
             .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(editParticipantsButton)
-            .addContainerGap(169, Short.MAX_VALUE))
+            .addContainerGap(168, Short.MAX_VALUE))
     );
 
     jTabbedPane14.addTab("Participantes", jPanel7);
 
-    addEventButton.setBackground(new java.awt.Color(0, 103, 165));
+    addEventButton.setBackground(new java.awt.Color(22, 113, 204));
     addEventButton.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
     addEventButton.setForeground(new java.awt.Color(255, 255, 255));
     addEventButton.setText("Adicionar Evento");
@@ -2705,7 +2708,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jLabel42.setText("Tipo:");
 
-    editDonorButton.setBackground(new java.awt.Color(0, 103, 165));
+    editDonorButton.setBackground(new java.awt.Color(22, 113, 204));
     editDonorButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editDonorButton.setForeground(new java.awt.Color(255, 255, 255));
     editDonorButton.setText("Editar");
@@ -2718,7 +2721,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    removeDonorButton.setBackground(new java.awt.Color(0, 103, 165));
+    removeDonorButton.setBackground(new java.awt.Color(22, 113, 204));
     removeDonorButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     removeDonorButton.setForeground(new java.awt.Color(255, 255, 255));
     removeDonorButton.setText("Remover");
@@ -2779,7 +2782,7 @@ public class HabitatController extends javax.swing.JFrame {
                     new String[] { "Telefone", "Telemóvel", "Email", "Fax" }))) );
     }
 
-    addDonorContact.setBackground(new java.awt.Color(0, 103, 165));
+    addDonorContact.setBackground(new java.awt.Color(22, 113, 204));
     addDonorContact.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
     addDonorContact.setForeground(new java.awt.Color(254, 254, 254));
     addDonorContact.setText("+");
@@ -2793,7 +2796,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    deleteDonorContact.setBackground(new java.awt.Color(0, 103, 165));
+    deleteDonorContact.setBackground(new java.awt.Color(22, 113, 204));
     deleteDonorContact.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
     deleteDonorContact.setForeground(new java.awt.Color(254, 254, 254));
     deleteDonorContact.setText("-");
@@ -2810,7 +2813,7 @@ public class HabitatController extends javax.swing.JFrame {
     });
 
     cancelDonorEdit.setVisible(false);
-    cancelDonorEdit.setBackground(new java.awt.Color(0, 103, 165));
+    cancelDonorEdit.setBackground(new java.awt.Color(22, 113, 204));
     cancelDonorEdit.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     cancelDonorEdit.setForeground(new java.awt.Color(255, 255, 255));
     cancelDonorEdit.setText("Cancelar");
@@ -2824,7 +2827,7 @@ public class HabitatController extends javax.swing.JFrame {
     });
 
     submitDonorEdit.setVisible(false);
-    submitDonorEdit.setBackground(new java.awt.Color(0, 103, 165));
+    submitDonorEdit.setBackground(new java.awt.Color(22, 113, 204));
     submitDonorEdit.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     submitDonorEdit.setForeground(new java.awt.Color(255, 255, 255));
     submitDonorEdit.setText("Submeter");
@@ -2906,11 +2909,12 @@ public class HabitatController extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel128))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            .addGroup(jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(removeDonorButton)
                 .addComponent(cancelDonorEdit)
-                .addComponent(editDonorButton)
-                .addComponent(submitDonorEdit))
+                .addGroup(jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editDonorButton)
+                    .addComponent(submitDonorEdit)))
             .addGap(27, 27, 27))
     );
 
@@ -2938,7 +2942,7 @@ public class HabitatController extends javax.swing.JFrame {
     });
     jScrollPane24.setViewportView(addDonationTable);
 
-    removeDonationButton.setBackground(new java.awt.Color(0, 103, 165));
+    removeDonationButton.setBackground(new java.awt.Color(22, 113, 204));
     removeDonationButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     removeDonationButton.setForeground(new java.awt.Color(255, 255, 255));
     removeDonationButton.setText("Remover");
@@ -2951,7 +2955,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    addDonationButton.setBackground(new java.awt.Color(0, 103, 165));
+    addDonationButton.setBackground(new java.awt.Color(22, 113, 204));
     addDonationButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     addDonationButton.setForeground(new java.awt.Color(255, 255, 255));
     addDonationButton.setText("Adicionar");
@@ -2965,7 +2969,7 @@ public class HabitatController extends javax.swing.JFrame {
     });
 
     confirmRemoveDonationButton.setVisible(false);
-    confirmRemoveDonationButton.setBackground(new java.awt.Color(0, 103, 165));
+    confirmRemoveDonationButton.setBackground(new java.awt.Color(22, 113, 204));
     confirmRemoveDonationButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     confirmRemoveDonationButton.setForeground(new java.awt.Color(255, 255, 255));
     confirmRemoveDonationButton.setText("Confirmar");
@@ -2979,7 +2983,7 @@ public class HabitatController extends javax.swing.JFrame {
     });
 
     cancelRemoveDonationButton.setVisible(false);
-    cancelRemoveDonationButton.setBackground(new java.awt.Color(0, 103, 165));
+    cancelRemoveDonationButton.setBackground(new java.awt.Color(22, 113, 204));
     cancelRemoveDonationButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     cancelRemoveDonationButton.setForeground(new java.awt.Color(255, 255, 255));
     cancelRemoveDonationButton.setText("Cancelar");
@@ -3014,7 +3018,7 @@ public class HabitatController extends javax.swing.JFrame {
         jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel9Layout.createSequentialGroup()
             .addGap(40, 40, 40)
-            .addComponent(jScrollPane24, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
+            .addComponent(jScrollPane24, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(addDonationButton)
@@ -3026,7 +3030,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jTabbedPane16.addTab("Donativos", jPanel9);
 
-    addDonorButton.setBackground(new java.awt.Color(0, 103, 165));
+    addDonorButton.setBackground(new java.awt.Color(22, 113, 204));
     addDonorButton.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
     addDonorButton.setForeground(new java.awt.Color(255, 255, 255));
     addDonorButton.setText("Adicionar doador");
@@ -3039,7 +3043,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    jButton40.setBackground(new java.awt.Color(0, 103, 165));
+    jButton40.setBackground(new java.awt.Color(22, 113, 204));
     jButton40.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
     jButton40.setForeground(new java.awt.Color(255, 255, 255));
     jButton40.setText("Anónimos");
@@ -3128,19 +3132,20 @@ public class HabitatController extends javax.swing.JFrame {
 
     jTabbedPane1.addTab("Doadores", jPanel8);
 
-    jPanel13.setBackground(new java.awt.Color(0, 103, 165));
+    jPanel13.setBackground(new java.awt.Color(22, 113, 204));
 
     jLabel7.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
     jLabel7.setForeground(new java.awt.Color(255, 255, 255));
     jLabel7.setText("Habitat For Humanity");
+    jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-    jTextField1.setBackground(new java.awt.Color(254, 254, 254));
-    jTextField1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-    jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
-    jTextField1.setPreferredSize(new java.awt.Dimension(6, 25));
-    jTextField1.addActionListener(new java.awt.event.ActionListener() {
+    search.setBackground(new java.awt.Color(254, 254, 254));
+    search.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+    search.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
+    search.setPreferredSize(new java.awt.Dimension(6, 25));
+    search.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jTextField1ActionPerformed(evt);
+            searchActionPerformed(evt);
         }
     });
 
@@ -3148,27 +3153,39 @@ public class HabitatController extends javax.swing.JFrame {
     jLabel6.setForeground(new java.awt.Color(255, 255, 255));
     jLabel6.setText("Pesquisa");
 
+    jButton1.setForeground(new java.awt.Color(255, 255, 255));
+    jButton1.setText("Limpar");
+    jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+    jButton1.setContentAreaFilled(false);
+    jButton1.setPreferredSize(new java.awt.Dimension(47, 25));
+
     javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
     jPanel13.setLayout(jPanel13Layout);
     jPanel13Layout.setHorizontalGroup(
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel13Layout.createSequentialGroup()
             .addGap(27, 27, 27)
-            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(299, 299, 299)
             .addComponent(jLabel6)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
-            .addContainerGap())
+            .addComponent(search, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18))
     );
     jPanel13Layout.setVerticalGroup(
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
             .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel6))
             .addContainerGap())
+        .addGroup(jPanel13Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(7, 7, 7))
     );
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -3183,7 +3200,7 @@ public class HabitatController extends javax.swing.JFrame {
         .addGroup(layout.createSequentialGroup()
             .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(0, 0, 0)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 805, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 803, Short.MAX_VALUE))
     );
 
     pack();
@@ -3787,10 +3804,43 @@ public class HabitatController extends javax.swing.JFrame {
         nextApplication.setEnabled(true);
     }//GEN-LAST:event_previousApplicationActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        switch(jTabbedPane1.getSelectedIndex()){
+            case 0: filterFamilies(search.getText());
+                    break;
+        }
+    }//GEN-LAST:event_searchActionPerformed
 
+    private void filterFamilies( String text){
+        DefaultTableModel familyListModel = ((DefaultTableModel)familyList.getModel());
+        boolean isNumber = true;
+        int id = -1;
+        try{
+            id = Integer.parseInt(text);
+        }catch(NumberFormatException e){
+            isNumber = false;
+        }
+        
+        if(text.length() == 0)
+            listFamilies();
+        else{
+            tableloop:
+            for(int i = 0; i < familyList.getRowCount(); i++){
+                
+                if(  isNumber && (id == ((int) familyList.getValueAt(i, 0) ) ))
+                    continue;
+                for(int j = 1; j < familyList.getColumnCount(); j++){
+                    if( ( (String) familyList.getValueAt(i,j) ).contains(text))
+                        continue tableloop;
+                }
+                System.out.println("Remove");
+                familyListModel.removeRow(i);
+                i--;
+                
+            }
+        }
+    }
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addApplication;
     private javax.swing.JButton addDonationButton;
@@ -3861,6 +3911,7 @@ public class HabitatController extends javax.swing.JFrame {
     private javax.swing.JTextField familyRep;
     private javax.swing.JTabbedPane familySubTabbedPane;
     private javax.swing.JTextField familyVolHours;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton40;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
@@ -3988,7 +4039,6 @@ public class HabitatController extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable8;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JFormattedTextField jtfPDEC;
     private javax.swing.JFormattedTextField jtfPDF;
     private javax.swing.JFormattedTextField jtfPVP;
@@ -4020,6 +4070,7 @@ public class HabitatController extends javax.swing.JFrame {
     private javax.swing.JComboBox repNationality;
     private javax.swing.JTextField repNib;
     private javax.swing.JTextField repNif;
+    private javax.swing.JTextField search;
     private javax.swing.JButton submitDonorEdit;
     private javax.swing.JButton submitEditEventButton;
     private javax.swing.JButton submitEditFamily;
