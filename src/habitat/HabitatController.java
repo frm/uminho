@@ -482,7 +482,7 @@ public class HabitatController extends javax.swing.JFrame {
         setBackground(new java.awt.Color(54, 79, 194));
         setResizable(false);
 
-        jTabbedPane1.setBackground(new java.awt.Color(22, 113, 204));
+        jTabbedPane1.setBackground(new java.awt.Color(0, 103, 165));
         jTabbedPane1.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         jTabbedPane1.setMinimumSize(new java.awt.Dimension(500, 245));
         jTabbedPane1.setOpaque(true);
@@ -493,6 +493,7 @@ public class HabitatController extends javax.swing.JFrame {
         familySubTabbedPane.setBackground(new java.awt.Color(255, 255, 255));
         familySubTabbedPane.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         familySubTabbedPane.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        familySubTabbedPane.setPreferredSize(new java.awt.Dimension(811, 590));
         familySubTabbedPane.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 if(familySubTabbedPane.getSelectedIndex() == 1)
@@ -525,9 +526,9 @@ public class HabitatController extends javax.swing.JFrame {
 
         jLabel88.setText("Profissão");
 
-        editFamily.setBackground(new java.awt.Color(22, 113, 204));
+        editFamily.setBackground(new java.awt.Color(0, 103, 165));
         editFamily.setForeground(new java.awt.Color(255, 255, 255));
-        editFamily.setText("Editar Familia");
+        editFamily.setText("Editar");
         editFamily.setBorderPainted(false);
         editFamily.setContentAreaFilled(false);
         editFamily.setOpaque(true);
@@ -537,9 +538,9 @@ public class HabitatController extends javax.swing.JFrame {
             }
         });
 
-        deleteFamily.setBackground(new java.awt.Color(22, 113, 204));
+        deleteFamily.setBackground(new java.awt.Color(0, 103, 165));
         deleteFamily.setForeground(new java.awt.Color(255, 255, 255));
-        deleteFamily.setText("Remover Familia");
+        deleteFamily.setText("Remover");
         deleteFamily.setBorderPainted(false);
         deleteFamily.setContentAreaFilled(false);
         deleteFamily.setOpaque(true);
@@ -626,9 +627,16 @@ public class HabitatController extends javax.swing.JFrame {
 
     jLabel44.setText("€");
 
+    deleteRepContact.setBackground(new java.awt.Color(0, 103, 165));
+    deleteRepContact.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+    deleteRepContact.setForeground(new java.awt.Color(254, 254, 254));
     deleteRepContact.setText("-");
+    deleteRepContact.setBorderPainted(false);
+    deleteRepContact.setContentAreaFilled(false);
     deleteRepContact.setMaximumSize(new java.awt.Dimension(41, 23));
     deleteRepContact.setMinimumSize(new java.awt.Dimension(41, 23));
+    deleteRepContact.setOpaque(true);
+    deleteRepContact.setPreferredSize(new java.awt.Dimension(22, 40));
     deleteRepContact.setVisible(false);
     deleteRepContact.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -636,7 +644,13 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
+    addRepContact.setBackground(new java.awt.Color(0, 103, 165));
+    addRepContact.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
+    addRepContact.setForeground(new java.awt.Color(254, 254, 254));
     addRepContact.setText("+");
+    addRepContact.setBorderPainted(false);
+    addRepContact.setContentAreaFilled(false);
+    addRepContact.setOpaque(true);
     addRepContact.setVisible(false);
     addRepContact.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -646,7 +660,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jLabel28.setText("Contactos");
 
-    cancelEditFamily.setBackground(new java.awt.Color(22, 113, 204));
+    cancelEditFamily.setBackground(new java.awt.Color(0, 103, 165));
     cancelEditFamily.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     cancelEditFamily.setForeground(new java.awt.Color(255, 255, 255));
     cancelEditFamily.setText("Cancelar");
@@ -660,7 +674,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    submitEditFamily.setBackground(new java.awt.Color(22, 113, 204));
+    submitEditFamily.setBackground(new java.awt.Color(0, 103, 165));
     submitEditFamily.setForeground(new java.awt.Color(255, 255, 255));
     submitEditFamily.setText("Submeter");
     submitEditFamily.setBorderPainted(false);
@@ -724,10 +738,10 @@ public class HabitatController extends javax.swing.JFrame {
                     .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel34Layout.createSequentialGroup()
                             .addComponent(repNationality, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 257, Short.MAX_VALUE)
-                            .addComponent(addRepContact, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addRepContact, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(deleteRepContact, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(deleteRepContact, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(familyRep)
                         .addComponent(jScrollPane15)
                         .addGroup(jPanel34Layout.createSequentialGroup()
@@ -748,7 +762,7 @@ public class HabitatController extends javax.swing.JFrame {
                                     .addComponent(repBirthPlace, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(0, 0, Short.MAX_VALUE))
                                 .addGroup(jPanel34Layout.createSequentialGroup()
-                                    .addGap(0, 322, Short.MAX_VALUE)
+                                    .addGap(0, 0, Short.MAX_VALUE)
                                     .addComponent(jLabel16))
                                 .addGroup(jPanel34Layout.createSequentialGroup()
                                     .addComponent(mainWindowRepProf, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -858,12 +872,14 @@ public class HabitatController extends javax.swing.JFrame {
                 .addComponent(jLabel19)
                 .addComponent(repBirthPlace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(addRepContact)
-                .addComponent(deleteRepContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel22)
-                .addComponent(repNationality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(5, 5, 5)
+            .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel22)
+                        .addComponent(repNationality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(addRepContact, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(deleteRepContact, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel28))
@@ -885,10 +901,10 @@ public class HabitatController extends javax.swing.JFrame {
 
     jPanel35.setBackground(new java.awt.Color(255, 255, 255));
 
-    addApplication.setBackground(new java.awt.Color(22, 113, 204));
+    addApplication.setBackground(new java.awt.Color(0, 103, 165));
     addApplication.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     addApplication.setForeground(new java.awt.Color(255, 255, 255));
-    addApplication.setText("Nova Candidatura...");
+    addApplication.setText("Adicionar");
     addApplication.setBorder(null);
     addApplication.setContentAreaFilled(false);
     addApplication.setOpaque(true);
@@ -908,32 +924,44 @@ public class HabitatController extends javax.swing.JFrame {
 
     jLabel27.setText("Data de Aprovação:");
 
+    previousApplication.setBackground(new java.awt.Color(0, 103, 165));
+    previousApplication.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+    previousApplication.setForeground(new java.awt.Color(254, 254, 254));
     previousApplication.setText("<");
+    previousApplication.setBorderPainted(false);
+    previousApplication.setContentAreaFilled(false);
     previousApplication.setEnabled(false);
+    previousApplication.setOpaque(true);
     previousApplication.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             previousApplicationActionPerformed(evt);
         }
     });
 
+    nextApplication.setBackground(new java.awt.Color(0, 103, 165));
+    nextApplication.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+    nextApplication.setForeground(new java.awt.Color(254, 254, 254));
     nextApplication.setText(">");
+    nextApplication.setBorderPainted(false);
+    nextApplication.setContentAreaFilled(false);
     nextApplication.setEnabled(false);
+    nextApplication.setOpaque(true);
     nextApplication.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             nextApplicationActionPerformed(evt);
         }
     });
 
-    deleteApplication.setBackground(new java.awt.Color(22, 113, 204));
+    deleteApplication.setBackground(new java.awt.Color(0, 103, 165));
     deleteApplication.setForeground(new java.awt.Color(255, 255, 255));
     deleteApplication.setText("Remover");
     deleteApplication.setBorderPainted(false);
     deleteApplication.setContentAreaFilled(false);
     deleteApplication.setOpaque(true);
 
-    editApplication.setBackground(new java.awt.Color(22, 113, 204));
+    editApplication.setBackground(new java.awt.Color(0, 103, 165));
     editApplication.setForeground(new java.awt.Color(255, 255, 255));
-    editApplication.setText("Editar Candidatura");
+    editApplication.setText("Editar");
     editApplication.setBorderPainted(false);
     editApplication.setContentAreaFilled(false);
     editApplication.setOpaque(true);
@@ -998,7 +1026,7 @@ public class HabitatController extends javax.swing.JFrame {
     jScrollPane9.setViewportView(applicationNotes);
     familyNotes.setDocument(new JTextAreaLimit(500));
 
-    editQuestionnaireSubmit.setBackground(new java.awt.Color(22, 113, 204));
+    editQuestionnaireSubmit.setBackground(new java.awt.Color(0, 103, 165));
     editQuestionnaireSubmit.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editQuestionnaireSubmit.setForeground(new java.awt.Color(255, 255, 255));
     editQuestionnaireSubmit.setText("Submeter");
@@ -1019,7 +1047,7 @@ public class HabitatController extends javax.swing.JFrame {
     applicationApproved.setBorder(null);
     applicationApproved.setEnabled(false);
 
-    editQuestionnaireCancel.setBackground(new java.awt.Color(22, 113, 204));
+    editQuestionnaireCancel.setBackground(new java.awt.Color(0, 103, 165));
     editQuestionnaireCancel.setForeground(new java.awt.Color(255, 255, 255));
     editQuestionnaireCancel.setText("Cancelar");
     editQuestionnaireCancel.setBorderPainted(false);
@@ -1037,60 +1065,55 @@ public class HabitatController extends javax.swing.JFrame {
     jPanel35Layout.setHorizontalGroup(
         jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel35Layout.createSequentialGroup()
-            .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGap(55, 55, 55)
+            .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
                 .addGroup(jPanel35Layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(previousApplication)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(nextApplication))
-                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel35Layout.createSequentialGroup()
-                    .addGap(55, 55, 55)
                     .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel29)
                         .addGroup(jPanel35Layout.createSequentialGroup()
+                            .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel21)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel27)
+                                .addComponent(jLabel25)
+                                .addComponent(jLabel24)
+                                .addComponent(jLabel23)
+                                .addComponent(jLabel26))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel29)
-                                .addGroup(jPanel35Layout.createSequentialGroup()
-                                    .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel21)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jLabel27)
-                                        .addComponent(jLabel25)
-                                        .addComponent(jLabel24)
-                                        .addComponent(jLabel23)
-                                        .addComponent(jLabel26))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(applicationDate, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                            .addComponent(applicationLocation)
-                                            .addComponent(applicationApprovalDate, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(applicationId, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                            .addComponent(applicationPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(applicationApproved))))
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(jPanel35Layout.createSequentialGroup()
-                            .addComponent(addApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(editApplication)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(deleteApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE))))
+                                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(applicationDate, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                    .addComponent(applicationLocation)
+                                    .addComponent(applicationApprovalDate, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(applicationId, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                    .addComponent(applicationPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(applicationApproved))))
+                    .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel35Layout.createSequentialGroup()
+                    .addComponent(addApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editApplication)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel35Layout.createSequentialGroup()
+                    .addComponent(editQuestionnaireCancel)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editQuestionnaireSubmit)))
             .addGap(50, 50, 50))
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel35Layout.createSequentialGroup()
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(applicationPages)
-            .addGap(85, 85, 85))
-        .addGroup(jPanel35Layout.createSequentialGroup()
-            .addGap(246, 246, 246)
-            .addComponent(editQuestionnaireSubmit)
-            .addGap(52, 52, 52)
-            .addComponent(editQuestionnaireCancel)
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel35Layout.createSequentialGroup()
+                    .addComponent(applicationPages)
+                    .addGap(85, 85, 85))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel35Layout.createSequentialGroup()
+                    .addComponent(previousApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(nextApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(40, 40, 40))))
     );
-
-    jPanel35Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {nextApplication, previousApplication});
-
     jPanel35Layout.setVerticalGroup(
         jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel35Layout.createSequentialGroup()
@@ -1143,7 +1166,7 @@ public class HabitatController extends javax.swing.JFrame {
                 .addComponent(addApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(deleteApplication)
                 .addComponent(editApplication))
-            .addGap(106, 106, 106))
+            .addGap(103, 103, 103))
     );
 
     jPanel35Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {addApplication, deleteApplication, editApplication});
@@ -1152,7 +1175,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jPanel36.setBackground(new java.awt.Color(255, 255, 255));
 
-    submitMembers.setBackground(new java.awt.Color(22, 113, 204));
+    submitMembers.setBackground(new java.awt.Color(0, 103, 165));
     submitMembers.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     submitMembers.setForeground(new java.awt.Color(255, 255, 255));
     submitMembers.setText("Submeter");
@@ -1165,8 +1188,14 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    removeMember.setText("Remover Membro");
-    removeMember.setBackground(new java.awt.Color(22, 113, 204));
+    removeMember.setBackground(new java.awt.Color(0, 103, 165));
+    removeMember.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+    removeMember.setForeground(new java.awt.Color(254, 254, 254));
+    removeMember.setText("Remover");
+    removeMember.setBorderPainted(false);
+    removeMember.setContentAreaFilled(false);
+    removeMember.setOpaque(true);
+    removeMember.setBackground(new java.awt.Color(0, 103, 165));
     removeMember.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     removeMember.setForeground(new java.awt.Color(255, 255, 255));
     removeMember.setBorderPainted(false);
@@ -1178,10 +1207,10 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    addMember.setBackground(new java.awt.Color(22, 113, 204));
+    addMember.setBackground(new java.awt.Color(0, 103, 165));
     addMember.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     addMember.setForeground(new java.awt.Color(255, 255, 255));
-    addMember.setText("Adicionar Membro");
+    addMember.setText("Adicionar");
     addMember.setBorderPainted(false);
     addMember.setContentAreaFilled(false);
     addMember.setOpaque(true);
@@ -1225,19 +1254,19 @@ public class HabitatController extends javax.swing.JFrame {
         .addGroup(jPanel36Layout.createSequentialGroup()
             .addContainerGap()
             .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane18)
+                .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
                 .addGroup(jPanel36Layout.createSequentialGroup()
                     .addComponent(addMember)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(submitMembers)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(removeMember)))
             .addContainerGap())
     );
     jPanel36Layout.setVerticalGroup(
         jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel36Layout.createSequentialGroup()
-            .addContainerGap(126, Short.MAX_VALUE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(40, 40, 40)
             .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1249,7 +1278,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     familySubTabbedPane.addTab("Membros", jPanel36);
 
-    addFamily.setBackground(new java.awt.Color(22, 113, 204));
+    addFamily.setBackground(new java.awt.Color(0, 103, 165));
     addFamily.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
     addFamily.setForeground(new java.awt.Color(255, 255, 255));
     addFamily.setText("Adicionar Familia");
@@ -1295,25 +1324,29 @@ public class HabitatController extends javax.swing.JFrame {
         jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel33Layout.createSequentialGroup()
             .addComponent(familySubTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
                 .addGroup(jPanel33Layout.createSequentialGroup()
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+                    .addContainerGap())
+                .addGroup(jPanel33Layout.createSequentialGroup()
+                    .addGap(155, 155, 155)
                     .addComponent(addFamily)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addContainerGap())
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
     );
     jPanel33Layout.setVerticalGroup(
         jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel33Layout.createSequentialGroup()
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+            .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel33Layout.createSequentialGroup()
+                    .addComponent(familySubTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 736, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel33Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(addFamily)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jScrollPane6))
-                .addComponent(familySubTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addContainerGap())
     );
 
     javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -1325,8 +1358,8 @@ public class HabitatController extends javax.swing.JFrame {
     jPanel1Layout.setVerticalGroup(
         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel1Layout.createSequentialGroup()
-            .addComponent(jPanel33, javax.swing.GroupLayout.DEFAULT_SIZE, 818, Short.MAX_VALUE)
-            .addContainerGap())
+            .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, 745, Short.MAX_VALUE)
+            .addGap(694, 694, 694))
     );
 
     jTabbedPane1.addTab("Famílias", jPanel1);
@@ -1360,10 +1393,10 @@ public class HabitatController extends javax.swing.JFrame {
 
     jLabel3.setText("Data Final Prevista:");
 
-    editProject.setBackground(new java.awt.Color(22, 113, 204));
+    editProject.setBackground(new java.awt.Color(0, 103, 165));
     editProject.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editProject.setForeground(new java.awt.Color(255, 255, 255));
-    editProject.setText("Editar Projeto");
+    editProject.setText("Editar");
     editProject.setBorderPainted(false);
     editProject.setContentAreaFilled(false);
     editProject.setOpaque(true);
@@ -1373,10 +1406,10 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    deleteProject.setBackground(new java.awt.Color(22, 113, 204));
+    deleteProject.setBackground(new java.awt.Color(0, 103, 165));
     deleteProject.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     deleteProject.setForeground(new java.awt.Color(255, 255, 255));
-    deleteProject.setText("Remover Projeto");
+    deleteProject.setText("Remover");
     deleteProject.setBorderPainted(false);
     deleteProject.setContentAreaFilled(false);
     deleteProject.setOpaque(true);
@@ -1403,7 +1436,7 @@ public class HabitatController extends javax.swing.JFrame {
     projectStartDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
     projectStartDate.setToolTipText("dd/MM/aaaa");
 
-    cancelEditProject.setBackground(new java.awt.Color(22, 113, 204));
+    cancelEditProject.setBackground(new java.awt.Color(0, 103, 165));
     cancelEditProject.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     cancelEditProject.setForeground(new java.awt.Color(255, 255, 255));
     cancelEditProject.setText("Cancelar");
@@ -1417,7 +1450,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    submitEditProject.setBackground(new java.awt.Color(22, 113, 204));
+    submitEditProject.setBackground(new java.awt.Color(0, 103, 165));
     submitEditProject.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     submitEditProject.setForeground(new java.awt.Color(255, 255, 255));
     submitEditProject.setText("Submeter");
@@ -1473,7 +1506,7 @@ public class HabitatController extends javax.swing.JFrame {
                         .addComponent(projectStartDate, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(projectEta, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jtfPDF, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addGap(18, 91, Short.MAX_VALUE)
+                    .addGap(18, 18, Short.MAX_VALUE)
                     .addGroup(jPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jLabel33)
                         .addComponent(jLabel37)
@@ -1492,22 +1525,21 @@ public class HabitatController extends javax.swing.JFrame {
                             .addComponent(projectBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap(136, Short.MAX_VALUE))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel46Layout.createSequentialGroup()
-                    .addGroup(jPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(projectName, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 0, Short.MAX_VALUE))))
-        .addGroup(jPanel46Layout.createSequentialGroup()
-            .addGap(44, 44, 44)
-            .addComponent(cancelEditProject)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(submitEditProject)
-            .addGap(84, 84, 84)
-            .addComponent(editProject)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(deleteProject)
-            .addContainerGap(47, Short.MAX_VALUE))
+                    .addGroup(jPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel46Layout.createSequentialGroup()
+                            .addComponent(cancelEditProject)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(submitEditProject)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(editProject)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(deleteProject))
+                        .addGroup(jPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(projectName, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 93, Short.MAX_VALUE))))
     );
     jPanel46Layout.setVerticalGroup(
         jPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1571,21 +1603,35 @@ public class HabitatController extends javax.swing.JFrame {
     paymentPlanNotes.setRows(5);
     jScrollPane11.setViewportView(paymentPlanNotes);
 
+    addPayment.setBackground(new java.awt.Color(0, 103, 165));
+    addPayment.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+    addPayment.setForeground(new java.awt.Color(254, 254, 254));
     addPayment.setText("+");
+    addPayment.setBorderPainted(false);
+    addPayment.setContentAreaFilled(false);
+    addPayment.setOpaque(true);
+    addPayment.setPreferredSize(new java.awt.Dimension(22, 40));
     addPayment.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             addPaymentActionPerformed(evt);
         }
     });
 
+    deletePayment.setBackground(new java.awt.Color(0, 103, 165));
+    deletePayment.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+    deletePayment.setForeground(new java.awt.Color(254, 254, 254));
     deletePayment.setText("-");
+    deletePayment.setBorderPainted(false);
+    deletePayment.setContentAreaFilled(false);
+    deletePayment.setOpaque(true);
+    deletePayment.setPreferredSize(new java.awt.Dimension(22, 40));
     deletePayment.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             deletePaymentActionPerformed(evt);
         }
     });
 
-    editPaymentPlan.setBackground(new java.awt.Color(22, 113, 204));
+    editPaymentPlan.setBackground(new java.awt.Color(0, 103, 165));
     editPaymentPlan.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editPaymentPlan.setForeground(new java.awt.Color(255, 255, 255));
     editPaymentPlan.setText("Editar");
@@ -1625,35 +1671,35 @@ public class HabitatController extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel10Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(editPaymentPlan)
-                            .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE))
                 .addGroup(jPanel10Layout.createSequentialGroup()
                     .addGap(21, 21, 21)
                     .addComponent(jLabel31)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(deletePayment, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(deletePayment, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel10Layout.createSequentialGroup()
                     .addGap(45, 45, 45)
                     .addComponent(jLabel32)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 51, Short.MAX_VALUE)))
             .addContainerGap())
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(editPaymentPlan)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     jPanel10Layout.setVerticalGroup(
         jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel10Layout.createSequentialGroup()
             .addGap(17, 17, 17)
-            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                 .addComponent(jLabel31)
-                .addComponent(addPayment)
-                .addComponent(deletePayment))
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(deletePayment, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(addPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1662,7 +1708,7 @@ public class HabitatController extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jLabel32)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap())
+            .addGap(252, 252, 252))
     );
 
     jTabbedPane15.addTab("Prestações", jPanel10);
@@ -1703,7 +1749,7 @@ public class HabitatController extends javax.swing.JFrame {
     taskList.getTableHeader().setReorderingAllowed(false);
     jScrollPane22.setViewportView(taskList);
 
-    taskViewDetails.setBackground(new java.awt.Color(22, 113, 204));
+    taskViewDetails.setBackground(new java.awt.Color(0, 103, 165));
     taskViewDetails.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     taskViewDetails.setForeground(new java.awt.Color(255, 255, 255));
     taskViewDetails.setText("Detalhes");
@@ -1738,7 +1784,7 @@ public class HabitatController extends javax.swing.JFrame {
                 .addComponent(addTask)
                 .addComponent(removeTask))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE)
+            .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(taskViewDetails)
             .addContainerGap())
@@ -1746,7 +1792,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jTabbedPane15.addTab("Tarefas", jPanel6);
 
-    addProject.setBackground(new java.awt.Color(22, 113, 204));
+    addProject.setBackground(new java.awt.Color(0, 103, 165));
     addProject.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
     addProject.setForeground(new java.awt.Color(255, 255, 255));
     addProject.setText("Adicionar projeto");
@@ -1800,9 +1846,9 @@ public class HabitatController extends javax.swing.JFrame {
                     .addComponent(jScrollPane16, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
                     .addContainerGap())
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel45Layout.createSequentialGroup()
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(157, 157, 157)
                     .addComponent(addProject)
-                    .addGap(123, 123, 123))))
+                    .addContainerGap(157, Short.MAX_VALUE))))
     );
     jPanel45Layout.setVerticalGroup(
         jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1811,11 +1857,9 @@ public class HabitatController extends javax.swing.JFrame {
                 .addGroup(jPanel45Layout.createSequentialGroup()
                     .addGap(11, 11, 11)
                     .addComponent(addProject)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jScrollPane16, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE))
-                .addGroup(jPanel45Layout.createSequentialGroup()
-                    .addGap(8, 8, 8)
-                    .addComponent(jTabbedPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jTabbedPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
             .addContainerGap())
     );
 
@@ -1823,7 +1867,7 @@ public class HabitatController extends javax.swing.JFrame {
     jPanel2.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 1194, Short.MAX_VALUE)
+        .addGap(0, 1219, Short.MAX_VALUE)
         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
@@ -1832,7 +1876,7 @@ public class HabitatController extends javax.swing.JFrame {
         .addGap(0, 757, Short.MAX_VALUE)
         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel45, javax.swing.GroupLayout.PREFERRED_SIZE, 745, Short.MAX_VALUE)
                 .addContainerGap()))
     );
 
@@ -1873,10 +1917,10 @@ public class HabitatController extends javax.swing.JFrame {
 
     jLabel15.setText("Nacionalidade:");
 
-    editVolunteer.setBackground(new java.awt.Color(22, 113, 204));
+    editVolunteer.setBackground(new java.awt.Color(0, 103, 165));
     editVolunteer.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editVolunteer.setForeground(new java.awt.Color(255, 255, 255));
-    editVolunteer.setText("Editar Voluntário");
+    editVolunteer.setText("Editar");
     editVolunteer.setBorderPainted(false);
     editVolunteer.setContentAreaFilled(false);
     editVolunteer.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -1887,10 +1931,10 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    deleteVolunteer.setBackground(new java.awt.Color(22, 113, 204));
+    deleteVolunteer.setBackground(new java.awt.Color(0, 103, 165));
     deleteVolunteer.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     deleteVolunteer.setForeground(new java.awt.Color(255, 255, 255));
-    deleteVolunteer.setText("Remover Voluntário");
+    deleteVolunteer.setText("Remover");
     deleteVolunteer.setBorderPainted(false);
     deleteVolunteer.setContentAreaFilled(false);
     deleteVolunteer.setOpaque(true);
@@ -1902,7 +1946,7 @@ public class HabitatController extends javax.swing.JFrame {
     volunteerTeam.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
     volunteerTeam.setEnabled(false);
 
-    addVolunteerTeam.setBackground(new java.awt.Color(22, 113, 204));
+    addVolunteerTeam.setBackground(new java.awt.Color(0, 103, 165));
     addVolunteerTeam.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     addVolunteerTeam.setForeground(new java.awt.Color(255, 255, 255));
     addVolunteerTeam.setText("Nova Equipa");
@@ -1941,7 +1985,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     volunteerNif.setEditable(false);
 
-    cancelEditVolunteer.setBackground(new java.awt.Color(22, 113, 204));
+    cancelEditVolunteer.setBackground(new java.awt.Color(0, 103, 165));
     cancelEditVolunteer.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     cancelEditVolunteer.setForeground(new java.awt.Color(255, 255, 255));
     cancelEditVolunteer.setText("Cancelar");
@@ -1955,7 +1999,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    submitEditVolunteer.setBackground(new java.awt.Color(22, 113, 204));
+    submitEditVolunteer.setBackground(new java.awt.Color(0, 103, 165));
     submitEditVolunteer.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     submitEditVolunteer.setForeground(new java.awt.Color(255, 255, 255));
     submitEditVolunteer.setText("Submeter");
@@ -2022,18 +2066,17 @@ public class HabitatController extends javax.swing.JFrame {
                             .addComponent(volunteerTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(25, 25, 25)
                             .addComponent(addVolunteerTeam))
-                        .addGroup(jPanel25Layout.createSequentialGroup()
-                            .addGap(118, 118, 118)
-                            .addComponent(cancelEditVolunteer)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(submitEditVolunteer))
                         .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel25Layout.createSequentialGroup()
+                                .addComponent(cancelEditVolunteer)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(submitEditVolunteer))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel25Layout.createSequentialGroup()
                                 .addComponent(editVolunteer)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(deleteVolunteer))
                             .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 19, Short.MAX_VALUE)))
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     jPanel25Layout.setVerticalGroup(
@@ -2081,21 +2124,21 @@ public class HabitatController extends javax.swing.JFrame {
                 .addComponent(jLabel114)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(submitEditVolunteer, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(submitEditVolunteer)
                 .addComponent(cancelEditVolunteer))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(editVolunteer)
                 .addComponent(deleteVolunteer))
-            .addContainerGap(233, Short.MAX_VALUE))
+            .addContainerGap(237, Short.MAX_VALUE))
     );
 
     jTabbedPane12.addTab("Informações", jPanel25);
 
     jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
-    volunteerViewEventDetails.setBackground(new java.awt.Color(22, 113, 204));
+    volunteerViewEventDetails.setBackground(new java.awt.Color(0, 103, 165));
     volunteerViewEventDetails.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     volunteerViewEventDetails.setForeground(new java.awt.Color(255, 255, 255));
     volunteerViewEventDetails.setText("Detalhes");
@@ -2135,18 +2178,18 @@ public class HabitatController extends javax.swing.JFrame {
         jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel11Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
+            .addComponent(jScrollPane19)
             .addContainerGap())
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-            .addGap(296, 296, 296)
+            .addContainerGap(263, Short.MAX_VALUE)
             .addComponent(volunteerViewEventDetails)
-            .addGap(295, 295, 295))
+            .addContainerGap(295, Short.MAX_VALUE))
     );
     jPanel11Layout.setVerticalGroup(
         jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+            .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(volunteerViewEventDetails)
             .addGap(12, 12, 12))
@@ -2156,7 +2199,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jPanel12.setBackground(new java.awt.Color(255, 255, 255));
 
-    volunteerViewProjectDetails.setBackground(new java.awt.Color(22, 113, 204));
+    volunteerViewProjectDetails.setBackground(new java.awt.Color(0, 103, 165));
     volunteerViewProjectDetails.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     volunteerViewProjectDetails.setForeground(new java.awt.Color(255, 255, 255));
     volunteerViewProjectDetails.setText("Detalhes");
@@ -2202,15 +2245,15 @@ public class HabitatController extends javax.swing.JFrame {
             .addComponent(jScrollPane20)
             .addContainerGap())
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-            .addGap(296, 296, 296)
+            .addContainerGap(261, Short.MAX_VALUE)
             .addComponent(volunteerViewProjectDetails)
-            .addGap(297, 297, 297))
+            .addContainerGap(297, Short.MAX_VALUE))
     );
     jPanel12Layout.setVerticalGroup(
         jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jScrollPane20, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+            .addComponent(jScrollPane20, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(volunteerViewProjectDetails)
             .addGap(12, 12, 12))
@@ -2218,7 +2261,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jTabbedPane12.addTab("Projetos", jPanel12);
 
-    addVolunteer.setBackground(new java.awt.Color(22, 113, 204));
+    addVolunteer.setBackground(new java.awt.Color(0, 103, 165));
     addVolunteer.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
     addVolunteer.setForeground(new java.awt.Color(255, 255, 255));
     addVolunteer.setText("Adicionar Voluntário");
@@ -2262,23 +2305,26 @@ public class HabitatController extends javax.swing.JFrame {
         jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
             .addComponent(jTabbedPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
                 .addGroup(jPanel24Layout.createSequentialGroup()
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+                    .addContainerGap())
+                .addGroup(jPanel24Layout.createSequentialGroup()
+                    .addGap(142, 142, 142)
                     .addComponent(addVolunteer)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addContainerGap())
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
     );
     jPanel24Layout.setVerticalGroup(
         jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel24Layout.createSequentialGroup()
-            .addGap(8, 8, 8)
-            .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, 0)
+            .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                 .addGroup(jPanel24Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(addVolunteer)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jScrollPane10))
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 685, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addComponent(jTabbedPane12))
             .addContainerGap())
     );
@@ -2287,7 +2333,7 @@ public class HabitatController extends javax.swing.JFrame {
     jPanel3.setLayout(jPanel3Layout);
     jPanel3Layout.setHorizontalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 1194, Short.MAX_VALUE)
+        .addGap(0, 1219, Short.MAX_VALUE)
         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
@@ -2328,10 +2374,10 @@ public class HabitatController extends javax.swing.JFrame {
     jScrollPane32.setViewportView(eventObservation);
     eventObservation.setDocument(new JTextAreaLimit(500));
 
-    editEventButton.setBackground(new java.awt.Color(22, 113, 204));
+    editEventButton.setBackground(new java.awt.Color(0, 103, 165));
     editEventButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editEventButton.setForeground(new java.awt.Color(255, 255, 255));
-    editEventButton.setText("Editar Evento");
+    editEventButton.setText("Editar");
     editEventButton.setBorderPainted(false);
     editEventButton.setContentAreaFilled(false);
     editEventButton.setOpaque(true);
@@ -2341,10 +2387,10 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    removeEventButton.setBackground(new java.awt.Color(22, 113, 204));
+    removeEventButton.setBackground(new java.awt.Color(0, 103, 165));
     removeEventButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     removeEventButton.setForeground(new java.awt.Color(255, 255, 255));
-    removeEventButton.setText("Remover Evento");
+    removeEventButton.setText("Remover");
     removeEventButton.setBorderPainted(false);
     removeEventButton.setContentAreaFilled(false);
     removeEventButton.setOpaque(true);
@@ -2381,7 +2427,7 @@ public class HabitatController extends javax.swing.JFrame {
     });
 
     cancelEditEventButton.setVisible(false);
-    cancelEditEventButton.setBackground(new java.awt.Color(22, 113, 204));
+    cancelEditEventButton.setBackground(new java.awt.Color(0, 103, 165));
     cancelEditEventButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     cancelEditEventButton.setForeground(new java.awt.Color(255, 255, 255));
     cancelEditEventButton.setText("Cancelar");
@@ -2395,7 +2441,7 @@ public class HabitatController extends javax.swing.JFrame {
     });
 
     submitEditEventButton.setVisible(false);
-    submitEditEventButton.setBackground(new java.awt.Color(22, 113, 204));
+    submitEditEventButton.setBackground(new java.awt.Color(0, 103, 165));
     submitEditEventButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     submitEditEventButton.setForeground(new java.awt.Color(255, 255, 255));
     submitEditEventButton.setText("Submeter");
@@ -2414,40 +2460,38 @@ public class HabitatController extends javax.swing.JFrame {
         .addGroup(jPanel44Layout.createSequentialGroup()
             .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel44Layout.createSequentialGroup()
-                    .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel44Layout.createSequentialGroup()
-                            .addGap(19, 19, 19)
-                            .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel133)
-                                .addComponent(jLabel131)
-                                .addComponent(jLabel115)
-                                .addComponent(jLabel1))
-                            .addGap(5, 5, 5))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel44Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel130)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                    .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane32, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
-                            .addComponent(eventAddress)
-                            .addGroup(jPanel44Layout.createSequentialGroup()
-                                .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(eventParticipantNmb, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(eventRaisedValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addComponent(eventDate, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(19, 19, 19)
+                    .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel133)
+                        .addComponent(jLabel131)
+                        .addComponent(jLabel115)
+                        .addComponent(jLabel1))
+                    .addGap(5, 5, 5))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel44Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel130)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+            .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel44Layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cancelEditEventButton)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(submitEditEventButton)
-                    .addGap(30, 30, 30)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, Short.MAX_VALUE)
                     .addComponent(editEventButton)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(removeEventButton)))
+                    .addComponent(removeEventButton))
+                .addComponent(jScrollPane32, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+                .addComponent(eventAddress)
+                .addGroup(jPanel44Layout.createSequentialGroup()
+                    .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel44Layout.createSequentialGroup()
+                            .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(eventParticipantNmb, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(eventRaisedValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel4))
+                        .addComponent(eventDate, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(0, 0, Short.MAX_VALUE)))
             .addGap(22, 22, 22))
     );
     jPanel44Layout.setVerticalGroup(
@@ -2475,11 +2519,13 @@ public class HabitatController extends javax.swing.JFrame {
                 .addComponent(jLabel133)
                 .addComponent(jScrollPane32, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(removeEventButton)
-                .addComponent(editEventButton)
-                .addComponent(submitEditEventButton)
-                .addComponent(cancelEditEventButton))
+            .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(removeEventButton)
+                    .addComponent(editEventButton))
+                .addGroup(jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelEditEventButton)
+                    .addComponent(submitEditEventButton)))
             .addContainerGap())
     );
 
@@ -2514,10 +2560,10 @@ public class HabitatController extends javax.swing.JFrame {
     participantsTable.getTableHeader().setReorderingAllowed(false);
     jScrollPane17.setViewportView(participantsTable);
 
-    editParticipantsButton.setBackground(new java.awt.Color(22, 113, 204));
+    editParticipantsButton.setBackground(new java.awt.Color(0, 103, 165));
     editParticipantsButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editParticipantsButton.setForeground(new java.awt.Color(255, 255, 255));
-    editParticipantsButton.setText("Editar participantes");
+    editParticipantsButton.setText("Editar");
     editParticipantsButton.setBorderPainted(false);
     editParticipantsButton.setContentAreaFilled(false);
     editParticipantsButton.setOpaque(true);
@@ -2532,14 +2578,13 @@ public class HabitatController extends javax.swing.JFrame {
     jPanel7Layout.setHorizontalGroup(
         jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel7Layout.createSequentialGroup()
-            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addContainerGap(82, Short.MAX_VALUE)
-                    .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addGap(235, 235, 235)
-                    .addComponent(editParticipantsButton)))
-            .addContainerGap(92, Short.MAX_VALUE))
+            .addContainerGap(49, Short.MAX_VALUE)
+            .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(58, Short.MAX_VALUE))
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(editParticipantsButton)
+            .addGap(284, 284, 284))
     );
     jPanel7Layout.setVerticalGroup(
         jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2548,12 +2593,12 @@ public class HabitatController extends javax.swing.JFrame {
             .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(editParticipantsButton)
-            .addContainerGap(168, Short.MAX_VALUE))
+            .addContainerGap(169, Short.MAX_VALUE))
     );
 
     jTabbedPane14.addTab("Participantes", jPanel7);
 
-    addEventButton.setBackground(new java.awt.Color(22, 113, 204));
+    addEventButton.setBackground(new java.awt.Color(0, 103, 165));
     addEventButton.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
     addEventButton.setForeground(new java.awt.Color(255, 255, 255));
     addEventButton.setText("Adicionar Evento");
@@ -2628,7 +2673,7 @@ public class HabitatController extends javax.swing.JFrame {
     jPanel5.setLayout(jPanel5Layout);
     jPanel5Layout.setHorizontalGroup(
         jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 1194, Short.MAX_VALUE)
+        .addGap(0, 1219, Short.MAX_VALUE)
         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
@@ -2660,10 +2705,10 @@ public class HabitatController extends javax.swing.JFrame {
 
     jLabel42.setText("Tipo:");
 
-    editDonorButton.setBackground(new java.awt.Color(22, 113, 204));
+    editDonorButton.setBackground(new java.awt.Color(0, 103, 165));
     editDonorButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     editDonorButton.setForeground(new java.awt.Color(255, 255, 255));
-    editDonorButton.setText("Editar doador");
+    editDonorButton.setText("Editar");
     editDonorButton.setBorderPainted(false);
     editDonorButton.setContentAreaFilled(false);
     editDonorButton.setOpaque(true);
@@ -2673,10 +2718,10 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    removeDonorButton.setBackground(new java.awt.Color(22, 113, 204));
+    removeDonorButton.setBackground(new java.awt.Color(0, 103, 165));
     removeDonorButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     removeDonorButton.setForeground(new java.awt.Color(255, 255, 255));
-    removeDonorButton.setText("Remover doador");
+    removeDonorButton.setText("Remover");
     removeDonorButton.setBorderPainted(false);
     removeDonorButton.setContentAreaFilled(false);
     removeDonorButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -2734,7 +2779,13 @@ public class HabitatController extends javax.swing.JFrame {
                     new String[] { "Telefone", "Telemóvel", "Email", "Fax" }))) );
     }
 
+    addDonorContact.setBackground(new java.awt.Color(0, 103, 165));
+    addDonorContact.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+    addDonorContact.setForeground(new java.awt.Color(254, 254, 254));
     addDonorContact.setText("+");
+    addDonorContact.setBorderPainted(false);
+    addDonorContact.setContentAreaFilled(false);
+    addDonorContact.setOpaque(true);
     addDonorContact.setVisible(false);
     addDonorContact.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2742,9 +2793,15 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
+    deleteDonorContact.setBackground(new java.awt.Color(0, 103, 165));
+    deleteDonorContact.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+    deleteDonorContact.setForeground(new java.awt.Color(254, 254, 254));
     deleteDonorContact.setText("-");
+    deleteDonorContact.setBorderPainted(false);
+    deleteDonorContact.setContentAreaFilled(false);
     deleteDonorContact.setMaximumSize(new java.awt.Dimension(41, 23));
     deleteDonorContact.setMinimumSize(new java.awt.Dimension(41, 23));
+    deleteDonorContact.setOpaque(true);
     deleteDonorContact.setVisible(false);
     deleteDonorContact.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2753,7 +2810,7 @@ public class HabitatController extends javax.swing.JFrame {
     });
 
     cancelDonorEdit.setVisible(false);
-    cancelDonorEdit.setBackground(new java.awt.Color(22, 113, 204));
+    cancelDonorEdit.setBackground(new java.awt.Color(0, 103, 165));
     cancelDonorEdit.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     cancelDonorEdit.setForeground(new java.awt.Color(255, 255, 255));
     cancelDonorEdit.setText("Cancelar");
@@ -2767,7 +2824,7 @@ public class HabitatController extends javax.swing.JFrame {
     });
 
     submitDonorEdit.setVisible(false);
-    submitDonorEdit.setBackground(new java.awt.Color(22, 113, 204));
+    submitDonorEdit.setBackground(new java.awt.Color(0, 103, 165));
     submitDonorEdit.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     submitDonorEdit.setForeground(new java.awt.Color(255, 255, 255));
     submitDonorEdit.setText("Submeter");
@@ -2780,16 +2837,6 @@ public class HabitatController extends javax.swing.JFrame {
     jPanel48Layout.setHorizontalGroup(
         jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel48Layout.createSequentialGroup()
-            .addGap(62, 62, 62)
-            .addComponent(cancelDonorEdit)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(submitDonorEdit)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-            .addComponent(editDonorButton)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(removeDonorButton)
-            .addGap(55, 55, 55))
-        .addGroup(jPanel48Layout.createSequentialGroup()
             .addGap(15, 15, 15)
             .addGroup(jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                 .addComponent(jLabel127)
@@ -2801,18 +2848,27 @@ public class HabitatController extends javax.swing.JFrame {
                 .addComponent(jLabel128))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel48Layout.createSequentialGroup()
+                    .addComponent(cancelDonorEdit)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(submitDonorEdit)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editDonorButton)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(removeDonorButton))
                 .addComponent(donorAddress)
                 .addComponent(donorName, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
                 .addComponent(donorNIF, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(donorActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(donorType, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel48Layout.createSequentialGroup()
-                    .addComponent(addDonorContact, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addDonorContact, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(deleteDonorContact, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(deleteDonorContact, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(9, 9, 9))
                 .addComponent(jScrollPane3)
                 .addComponent(jScrollPane23))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addContainerGap(44, Short.MAX_VALUE))
     );
     jPanel48Layout.setVerticalGroup(
         jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2839,8 +2895,8 @@ public class HabitatController extends javax.swing.JFrame {
                 .addComponent(donorType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(18, 18, 18)
             .addGroup(jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(deleteDonorContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(addDonorContact))
+                .addComponent(deleteDonorContact, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(addDonorContact, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(2, 2, 2)
             .addGroup(jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jScrollPane23, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2851,9 +2907,9 @@ public class HabitatController extends javax.swing.JFrame {
                 .addComponent(jLabel128))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(editDonorButton)
                 .addComponent(removeDonorButton)
                 .addComponent(cancelDonorEdit)
+                .addComponent(editDonorButton)
                 .addComponent(submitDonorEdit))
             .addGap(27, 27, 27))
     );
@@ -2882,10 +2938,10 @@ public class HabitatController extends javax.swing.JFrame {
     });
     jScrollPane24.setViewportView(addDonationTable);
 
-    removeDonationButton.setBackground(new java.awt.Color(22, 113, 204));
+    removeDonationButton.setBackground(new java.awt.Color(0, 103, 165));
     removeDonationButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     removeDonationButton.setForeground(new java.awt.Color(255, 255, 255));
-    removeDonationButton.setText("Remover donativo");
+    removeDonationButton.setText("Remover");
     removeDonationButton.setBorderPainted(false);
     removeDonationButton.setContentAreaFilled(false);
     removeDonationButton.setOpaque(true);
@@ -2895,10 +2951,10 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    addDonationButton.setBackground(new java.awt.Color(22, 113, 204));
+    addDonationButton.setBackground(new java.awt.Color(0, 103, 165));
     addDonationButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     addDonationButton.setForeground(new java.awt.Color(255, 255, 255));
-    addDonationButton.setText("Adicionar donativo");
+    addDonationButton.setText("Adicionar");
     addDonationButton.setBorderPainted(false);
     addDonationButton.setContentAreaFilled(false);
     addDonationButton.setOpaque(true);
@@ -2909,7 +2965,7 @@ public class HabitatController extends javax.swing.JFrame {
     });
 
     confirmRemoveDonationButton.setVisible(false);
-    confirmRemoveDonationButton.setBackground(new java.awt.Color(22, 113, 204));
+    confirmRemoveDonationButton.setBackground(new java.awt.Color(0, 103, 165));
     confirmRemoveDonationButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     confirmRemoveDonationButton.setForeground(new java.awt.Color(255, 255, 255));
     confirmRemoveDonationButton.setText("Confirmar");
@@ -2923,7 +2979,7 @@ public class HabitatController extends javax.swing.JFrame {
     });
 
     cancelRemoveDonationButton.setVisible(false);
-    cancelRemoveDonationButton.setBackground(new java.awt.Color(22, 113, 204));
+    cancelRemoveDonationButton.setBackground(new java.awt.Color(0, 103, 165));
     cancelRemoveDonationButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
     cancelRemoveDonationButton.setForeground(new java.awt.Color(255, 255, 255));
     cancelRemoveDonationButton.setText("Cancelar");
@@ -2943,6 +2999,7 @@ public class HabitatController extends javax.swing.JFrame {
         .addGroup(jPanel9Layout.createSequentialGroup()
             .addGap(54, 54, 54)
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(jScrollPane24, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel9Layout.createSequentialGroup()
                     .addComponent(cancelRemoveDonationButton)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2950,15 +3007,14 @@ public class HabitatController extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(removeDonationButton)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(addDonationButton))
-                .addComponent(jScrollPane24, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap())
+                    .addComponent(addDonationButton)))
+            .addGap(78, 78, 78))
     );
     jPanel9Layout.setVerticalGroup(
         jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel9Layout.createSequentialGroup()
             .addGap(40, 40, 40)
-            .addComponent(jScrollPane24, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+            .addComponent(jScrollPane24, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(addDonationButton)
@@ -2970,7 +3026,7 @@ public class HabitatController extends javax.swing.JFrame {
 
     jTabbedPane16.addTab("Donativos", jPanel9);
 
-    addDonorButton.setBackground(new java.awt.Color(22, 113, 204));
+    addDonorButton.setBackground(new java.awt.Color(0, 103, 165));
     addDonorButton.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
     addDonorButton.setForeground(new java.awt.Color(255, 255, 255));
     addDonorButton.setText("Adicionar doador");
@@ -2983,7 +3039,7 @@ public class HabitatController extends javax.swing.JFrame {
         }
     });
 
-    jButton40.setBackground(new java.awt.Color(22, 113, 204));
+    jButton40.setBackground(new java.awt.Color(0, 103, 165));
     jButton40.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
     jButton40.setForeground(new java.awt.Color(255, 255, 255));
     jButton40.setText("Anónimos");
@@ -3037,9 +3093,9 @@ public class HabitatController extends javax.swing.JFrame {
                         .addComponent(jScrollPane25, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addContainerGap())
                 .addGroup(jPanel47Layout.createSequentialGroup()
-                    .addGap(131, 131, 131)
+                    .addGap(155, 155, 155)
                     .addComponent(addDonorButton)
-                    .addContainerGap(131, Short.MAX_VALUE))))
+                    .addContainerGap(162, Short.MAX_VALUE))))
     );
     jPanel47Layout.setVerticalGroup(
         jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3057,7 +3113,7 @@ public class HabitatController extends javax.swing.JFrame {
     jPanel8.setLayout(jPanel8Layout);
     jPanel8Layout.setHorizontalGroup(
         jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 1194, Short.MAX_VALUE)
+        .addGap(0, 1219, Short.MAX_VALUE)
         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
@@ -3072,14 +3128,16 @@ public class HabitatController extends javax.swing.JFrame {
 
     jTabbedPane1.addTab("Doadores", jPanel8);
 
-    jPanel13.setBackground(new java.awt.Color(22, 113, 204));
+    jPanel13.setBackground(new java.awt.Color(0, 103, 165));
 
     jLabel7.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
     jLabel7.setForeground(new java.awt.Color(255, 255, 255));
     jLabel7.setText("Habitat For Humanity");
 
+    jTextField1.setBackground(new java.awt.Color(254, 254, 254));
     jTextField1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
     jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
+    jTextField1.setPreferredSize(new java.awt.Dimension(6, 25));
     jTextField1.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jTextField1ActionPerformed(evt);
@@ -3125,7 +3183,7 @@ public class HabitatController extends javax.swing.JFrame {
         .addGroup(layout.createSequentialGroup()
             .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(0, 0, 0)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 803, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 805, Short.MAX_VALUE))
     );
 
     pack();
@@ -3596,6 +3654,9 @@ public class HabitatController extends javax.swing.JFrame {
             applicationNotes.setEditable(false);
             applicationQuestionnaire.setEnabled(false);
             applicationPriority.setEnabled(false);
+            addApplication.setVisible(false);
+            deleteApplication.setVisible(false);
+            editApplication.setVisible(false);
         }
         
         
@@ -3628,6 +3689,9 @@ public class HabitatController extends javax.swing.JFrame {
         applicationNotes.setEditable(true);
         applicationQuestionnaire.setEnabled(true);
         applicationPriority.setEnabled(true);
+        addApplication.setVisible(false);
+        deleteApplication.setVisible(false);
+        editApplication.setVisible(false);
     }//GEN-LAST:event_editApplicationActionPerformed
 
     private void submitMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitMembersActionPerformed
@@ -3699,6 +3763,9 @@ public class HabitatController extends javax.swing.JFrame {
         applicationNotes.setEditable(false);
         applicationQuestionnaire.setEnabled(false);
         applicationPriority.setEnabled(false);
+        addApplication.setVisible(true);
+        deleteApplication.setVisible(true);
+        editApplication.setVisible(true);
     }//GEN-LAST:event_editQuestionnaireCancelActionPerformed
 
     private void nextApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextApplicationActionPerformed
