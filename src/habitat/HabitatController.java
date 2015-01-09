@@ -9,7 +9,6 @@ package habitat;
 import controllers.ApplicationsController;
 import controllers.Controller;
 import controllers.ControllerFactory;
-import controllers.QuestionsController;
 import data.DataException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -131,7 +130,7 @@ public class HabitatController extends javax.swing.JFrame {
         } else
             return;
         
-        QuestionsController qc = ControllerFactory.getQuestionsController();
+        Controller<Question> qc = ControllerFactory.getQuestionsController();
         try {
             List<Question> activeQuestions = qc.findBy(new HashMap<String, Object>() {{ put("enabled", true); }});
             for(Question q : activeQuestions)
@@ -452,7 +451,7 @@ public class HabitatController extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        clearSearch = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -3136,7 +3135,8 @@ public class HabitatController extends javax.swing.JFrame {
 
     jLabel7.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
     jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel7.setText("Habitat For Humanity");
+    jLabel7.setText(" Habitat For Humanity");
+    jLabel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
     jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
     search.setBackground(new java.awt.Color(254, 254, 254));
@@ -3153,11 +3153,16 @@ public class HabitatController extends javax.swing.JFrame {
     jLabel6.setForeground(new java.awt.Color(255, 255, 255));
     jLabel6.setText("Pesquisa");
 
-    jButton1.setForeground(new java.awt.Color(255, 255, 255));
-    jButton1.setText("Limpar");
-    jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
-    jButton1.setContentAreaFilled(false);
-    jButton1.setPreferredSize(new java.awt.Dimension(47, 25));
+    clearSearch.setForeground(new java.awt.Color(255, 255, 255));
+    clearSearch.setText("Limpar");
+    clearSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
+    clearSearch.setContentAreaFilled(false);
+    clearSearch.setPreferredSize(new java.awt.Dimension(47, 25));
+    clearSearch.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            clearSearchActionPerformed(evt);
+        }
+    });
 
     javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
     jPanel13.setLayout(jPanel13Layout);
@@ -3165,27 +3170,30 @@ public class HabitatController extends javax.swing.JFrame {
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel13Layout.createSequentialGroup()
             .addGap(27, 27, 27)
-            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(299, 299, 299)
+            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(304, 304, 304)
             .addComponent(jLabel6)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(search, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(clearSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(18, 18, 18))
     );
     jPanel13Layout.setVerticalGroup(
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+            .addGap(0, 0, Short.MAX_VALUE)
             .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jLabel6))
             .addContainerGap())
         .addGroup(jPanel13Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGap(7, 7, 7))
+            .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(jPanel13Layout.createSequentialGroup()
+                    .addComponent(clearSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(7, 7, 7))))
     );
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -3645,7 +3653,7 @@ public class HabitatController extends javax.swing.JFrame {
             return;
         
         try {
-            ApplicationsController ac = ControllerFactory.getApplicationsController();        
+            ApplicationsController ac = (ApplicationsController) ControllerFactory.getApplicationsController();        
             TableModel t = applicationQuestionnaire.getModel();
             
             for(int i = 0; i < rowCount; i++) {
@@ -3811,6 +3819,11 @@ public class HabitatController extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_searchActionPerformed
 
+    private void clearSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearSearchActionPerformed
+        search.setText("");
+        listFamilies();
+    }//GEN-LAST:event_clearSearchActionPerformed
+
     private void filterFamilies( String text){
         DefaultTableModel familyListModel = ((DefaultTableModel)familyList.getModel());
         boolean isNumber = true;
@@ -3871,6 +3884,7 @@ public class HabitatController extends javax.swing.JFrame {
     private javax.swing.JButton cancelEditProject;
     private javax.swing.JButton cancelEditVolunteer;
     private javax.swing.JButton cancelRemoveDonationButton;
+    private javax.swing.JButton clearSearch;
     private javax.swing.JButton confirmRemoveDonationButton;
     private javax.swing.JButton deleteApplication;
     private javax.swing.JButton deleteDonorContact;
@@ -3911,7 +3925,6 @@ public class HabitatController extends javax.swing.JFrame {
     private javax.swing.JTextField familyRep;
     private javax.swing.JTabbedPane familySubTabbedPane;
     private javax.swing.JTextField familyVolHours;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton40;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFormattedTextField jFormattedTextField1;

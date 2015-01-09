@@ -45,8 +45,8 @@ public class Habitat {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //(new Login()).setVisible(true);
-                new HabitatController("sds", "asds").setVisible(true);
+                (new Login()).setVisible(true);
+                //new HabitatController("test", "test").setVisible(true);
             }
         });
     }

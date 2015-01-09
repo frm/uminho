@@ -6,9 +6,8 @@
 
 package habitat;
 
-import controllers.ContactsController;
+import controllers.Controller;
 import controllers.ControllerFactory;
-import controllers.VolunteersController;
 import data.DataException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import models.Activity;
+import models.Contact;
 import models.Volunteer;
 
 /**
@@ -345,8 +345,8 @@ public class AdicionarVoluntario extends javax.swing.JDialog {
     }//GEN-LAST:event_addNationalityActionPerformed
 
     private void submitVolunteerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitVolunteerActionPerformed
-        VolunteersController vc = ControllerFactory.getVolunteersController();
-        ContactsController cc = ControllerFactory.getContactsController();
+        Controller<Volunteer> vc = ControllerFactory.getVolunteersController();
+        Controller<Contact> cc = ControllerFactory.getContactsController();
         try {
             final Volunteer v = vc.save( new HashMap<String, Object>() {{
                 put("name", addName.getText());

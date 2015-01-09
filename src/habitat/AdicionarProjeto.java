@@ -5,13 +5,14 @@
  */
 package habitat;
 
+import controllers.Controller;
 import controllers.ControllerFactory;
-import controllers.ProjectsController;
 import data.DataException;
 import java.awt.Frame;
 import java.awt.Window;
 import java.util.HashMap;
 import javax.swing.SwingUtilities;
+import models.Project;
 
 /**
  *
@@ -420,7 +421,7 @@ public class AdicionarProjeto extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowClosed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        ProjectsController pc = ControllerFactory.getProjectController();
+        Controller<Project> pc = ControllerFactory.getProjectController();
         
         try {
             pc.save( new HashMap<String, Object>() {{

@@ -5,9 +5,8 @@
  */
 package habitat;
 
-import controllers.ContactsController;
+import controllers.Controller;
 import controllers.ControllerFactory;
-import controllers.DonorsController;
 import data.DataException;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import models.Activity;
+import models.Contact;
 import models.Donor;
 
 /**
@@ -320,8 +320,8 @@ public class AdicionarDoador extends javax.swing.JDialog {
     }
     
     private void SubmitAddDonorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitAddDonorButtonActionPerformed
-        DonorsController dc = ControllerFactory.getDonorsController();
-        ContactsController cc = ControllerFactory.getContactsController();
+        Controller<Donor> dc = ControllerFactory.getDonorsController();
+        Controller<Contact> cc = ControllerFactory.getContactsController();
         
         try {           
             final Donor d = dc.save(new HashMap<String, Object>() {{

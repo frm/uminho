@@ -75,10 +75,8 @@
                                       <Component id="jScrollPane3" alignment="0" pref="412" max="32767" attributes="0"/>
                                       <Component id="addEventAddress" alignment="0" max="32767" attributes="0"/>
                                       <Component id="addEventDate" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="addEventParticipantNmr" alignment="0" pref="109" max="32767" attributes="0"/>
-                                          <Component id="addEventRaisedValue" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="addEventParticipantNmr" alignment="0" pref="109" max="32767" attributes="0"/>
+                                      <Component id="addEventRaisedValue" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>

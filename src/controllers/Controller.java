@@ -20,4 +20,7 @@ public interface Controller<T> {
     public List<T> saveAll(List<Map<String, Object>> params) throws DataException;
     public T find(int id) throws DataException;
     public T newInstance(Map<String, Object> params) throws DataException;
+    public List<T> findBy(Map<String, Object> params) throws DataException;
+    public List<T> all() throws DataException;
+    public void delete(T t) throws DataException;
 }

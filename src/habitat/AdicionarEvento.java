@@ -5,8 +5,8 @@
  */
 package habitat;
 
+import controllers.Controller;
 import controllers.ControllerFactory;
-import controllers.EventsController;
 import data.DataException;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
@@ -401,7 +401,7 @@ public class AdicionarEvento extends javax.swing.JDialog {
     }//GEN-LAST:event_volunteerProjectFilterActionPerformed
 
     private void addEventSubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEventSubmitButtonActionPerformed
-        EventsController ec = ControllerFactory.getEventsController();
+        Controller<Event> ec = ControllerFactory.getEventsController();
         HashMap<String, Integer> volTar = new HashMap<>();
         
         try {           

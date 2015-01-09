@@ -6,6 +6,20 @@
 package controllers;
 
 import data.RepositoryFactory;
+import models.Activity;
+import models.Application;
+import models.Contact;
+import models.Donor;
+import models.Employee;
+import models.Event;
+import models.Family;
+import models.Payment;
+import models.PaymentPlan;
+import models.Project;
+import models.Question;
+import models.Representative;
+import models.SimpleMember;
+import models.Task;
 
 /**
  *
@@ -28,103 +42,103 @@ public class ControllerFactory {
     private static EmployeeController employeeController;
     private static QuestionsController questionsController;
 
-    public static VolunteersController getVolunteersController() {
+    public static Controller getVolunteersController() {
         if (volunteersController == null)
             volunteersController = new VolunteersController();
 
         return volunteersController;
     }
 
-    public static ActivityController getActivityController() {
+    public static Controller<Activity> getActivityController() {
         if (activityController == null)
             activityController = new ActivityController();
 
         return activityController;
     }
 
-    public static RepresentativesController getRepresentativesController() {
+    public static Controller<Representative> getRepresentativesController() {
         if (representativesController == null)
             representativesController = new RepresentativesController();
 
         return representativesController;
     }
 
-    public static ContactsController getContactsController() {
+    public static Controller<Contact> getContactsController() {
         if (contactsController == null)
             contactsController = new ContactsController();
 
         return contactsController;
     }
-    public static FamiliesController getFamiliesController() {
+    public static Controller<Family> getFamiliesController() {
         if (familiesController == null)
             familiesController = new FamiliesController();
 
         return familiesController;
     }
 
-    public static TasksController getTaskController() {
+    public static Controller<Task> getTaskController() {
         if (taskController == null)
             taskController = new TasksController();
 
         return taskController;
     }
 
-    public static ProjectsController getProjectController() {
+    public static Controller<Project> getProjectController() {
         if (projectController == null)
             projectController = new ProjectsController();
 
         return projectController;
     }
 
-    public static PaymentPlanController getPaymentPlanController() {
+    public static Controller<PaymentPlan> getPaymentPlanController() {
         if (paymentPlanController == null)
             paymentPlanController = new PaymentPlanController();
 
         return paymentPlanController;
     }
 
-    public static PaymentsController getPaymentController() {
+    public static Controller<Payment> getPaymentController() {
         if (paymentController == null)
             paymentController = new PaymentsController();
 
         return paymentController;
     }
 
-    public static DonorsController getDonorsController() {
+    public static Controller<Donor> getDonorsController() {
         if (donorsController == null)
             donorsController = new DonorsController();
 
         return donorsController;
     }
 
-    public static EventsController getEventsController() {
+    public static Controller<Event> getEventsController() {
         if (eventsController == null)
             eventsController = new EventsController();
 
         return eventsController;
     }
-    public static MembersController getMembersController() {
+    public static Controller<SimpleMember> getMembersController() {
         if (membersController == null)
             membersController = new MembersController();
 
         return membersController;
     }
 
-    public static ApplicationsController getApplicationsController() {
+    public static Controller<Application> getApplicationsController() {
         if (applicationsController == null)
             applicationsController = new ApplicationsController();
 
         return applicationsController;
     }
     
-    public static EmployeeController getEmployeeController() {
+    public static Controller<Employee> getEmployeeController() {
         if (employeeController == null)
             employeeController = new EmployeeController();
 
         return employeeController;
     }
     
-    public static QuestionsController getQuestionsController() {
+    public static Controller<Question> getQuestionsController() {
         if (questionsController == null)
             questionsController = new QuestionsController();
 
