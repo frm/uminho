@@ -74,7 +74,7 @@
           <Group type="102" attributes="0">
               <Component id="jPanel13" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="jTabbedPane1" pref="803" max="32767" attributes="0"/>
+              <Component id="jTabbedPane1" pref="796" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -189,6 +189,611 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
                   <SubComponents>
+                    <Container class="javax.swing.JPanel" name="jPanel35">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                      </Properties>
+                      <Constraints>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                          <JTabbedPaneConstraints tabName="Candidaturas">
+                            <Property name="tabTitle" type="java.lang.String" value="Candidaturas"/>
+                          </JTabbedPaneConstraints>
+                        </Constraint>
+                      </Constraints>
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="55" pref="55" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jScrollPane7" alignment="0" pref="522" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Group type="103" groupAlignment="1" attributes="0">
+                                                      <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel26" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                          <Component id="applicationDate" pref="300" max="32767" attributes="0"/>
+                                                          <Component id="applicationLocation" max="32767" attributes="0"/>
+                                                          <Component id="applicationApprovalDate" alignment="0" min="-2" pref="87" max="-2" attributes="0"/>
+                                                          <Component id="applicationId" min="-2" pref="87" max="-2" attributes="0"/>
+                                                          <Component id="jScrollPane9" alignment="0" pref="300" max="32767" attributes="0"/>
+                                                          <Component id="applicationPriority" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <Component id="applicationApproved" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="addApplication" min="-2" pref="143" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="editApplication" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="deleteApplication" min="-2" pref="103" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="editQuestionnaireCancel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="editQuestionnaireSubmit" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="applicationPages" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="previousApplication" min="-2" pref="30" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="nextApplication" min="-2" pref="30" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                  <Component id="applicationPages" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="previousApplication" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="nextApplication" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="applicationDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="applicationApproved" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel24" min="-2" pref="14" max="-2" attributes="0"/>
+                                          <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="applicationPriority" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel25" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="applicationLocation" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="applicationApprovalDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="applicationId" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jScrollPane9" min="-2" pref="100" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jScrollPane7" min="-2" pref="222" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="editQuestionnaireSubmit" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editQuestionnaireCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="addApplication" linkSize="2" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
+                                      <Component id="deleteApplication" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="editApplication" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
+                      <SubComponents>
+                        <Component class="javax.swing.JButton" name="addApplication">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="71" red="16" type="rgb"/>
+                            </Property>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Lucida Grande" size="14" style="0"/>
+                            </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Adicionar"/>
+                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                              <Border info="null"/>
+                            </Property>
+                            <Property name="contentAreaFilled" type="boolean" value="false"/>
+                            <Property name="opaque" type="boolean" value="true"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addApplicationActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel23">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="C&#xf3;digo:"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel24">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Aprovada:"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel25">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Terreno:"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel26">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Data de Candidatura:"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel27">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Data de Aprova&#xe7;&#xe3;o:"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="previousApplication">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="71" red="16" type="rgb"/>
+                            </Property>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Noto Sans" size="14" style="0"/>
+                            </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="&lt;"/>
+                            <Property name="borderPainted" type="boolean" value="false"/>
+                            <Property name="contentAreaFilled" type="boolean" value="false"/>
+                            <Property name="enabled" type="boolean" value="false"/>
+                            <Property name="opaque" type="boolean" value="true"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="previousApplicationActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="nextApplication">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="71" red="16" type="rgb"/>
+                            </Property>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Noto Sans" size="14" style="0"/>
+                            </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="&gt;"/>
+                            <Property name="borderPainted" type="boolean" value="false"/>
+                            <Property name="contentAreaFilled" type="boolean" value="false"/>
+                            <Property name="enabled" type="boolean" value="false"/>
+                            <Property name="opaque" type="boolean" value="true"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nextApplicationActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="deleteApplication">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="71" red="16" type="rgb"/>
+                            </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Remover"/>
+                            <Property name="borderPainted" type="boolean" value="false"/>
+                            <Property name="contentAreaFilled" type="boolean" value="false"/>
+                            <Property name="opaque" type="boolean" value="true"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="editApplication">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="71" red="16" type="rgb"/>
+                            </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Editar"/>
+                            <Property name="borderPainted" type="boolean" value="false"/>
+                            <Property name="contentAreaFilled" type="boolean" value="false"/>
+                            <Property name="opaque" type="boolean" value="true"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editApplicationActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel5">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Prioridade:"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel21">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Observa&#xe7;&#xf5;es:"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel29">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Question&#xe1;rio"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="applicationPages">
+                        </Component>
+                        <Container class="javax.swing.JScrollPane" name="jScrollPane7">
+                          <AuxValues>
+                            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                          </AuxValues>
+
+                          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                          <SubComponents>
+                            <Component class="javax.swing.JTable" name="applicationQuestionnaire">
+                              <Properties>
+                                <Property name="autoCreateRowSorter" type="boolean" value="true"/>
+                                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                                  <Table columnCount="2" rowCount="0">
+                                    <Column editable="false" title="Pergunta" type="java.lang.String"/>
+                                    <Column editable="true" title="Resposta" type="java.lang.String"/>
+                                  </Table>
+                                </Property>
+                                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                                  <TableColumnModel selectionModel="0">
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                  </TableColumnModel>
+                                </Property>
+                                <Property name="enabled" type="boolean" value="false"/>
+                                <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                                  <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
+                                </Property>
+                              </Properties>
+                            </Component>
+                          </SubComponents>
+                        </Container>
+                        <Component class="javax.swing.JFormattedTextField" name="applicationDate">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+                              <Format format="dd/MM/yyyy" subtype="-1" type="1"/>
+                            </Property>
+                            <Property name="toolTipText" type="java.lang.String" value="dd/MM/aaaa"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="applicationLocation">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JFormattedTextField" name="applicationApprovalDate">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+                              <Format format="dd/MM/yyyy" subtype="-1" type="1"/>
+                            </Property>
+                            <Property name="toolTipText" type="java.lang.String" value="dd/MM/aaaa"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="applicationId">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                          </Properties>
+                        </Component>
+                        <Container class="javax.swing.JScrollPane" name="jScrollPane9">
+
+                          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                          <SubComponents>
+                            <Component class="javax.swing.JTextArea" name="applicationNotes">
+                              <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
+                                <Property name="columns" type="int" value="20"/>
+                                <Property name="lineWrap" type="boolean" value="true"/>
+                                <Property name="rows" type="int" value="5"/>
+                                <Property name="toolTipText" type="java.lang.String" value=""/>
+                                <Property name="wrapStyleWord" type="boolean" value="true"/>
+                              </Properties>
+                              <AuxValues>
+                                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="familyNotes.setDocument(new JTextAreaLimit(500));"/>
+                              </AuxValues>
+                            </Component>
+                          </SubComponents>
+                        </Container>
+                        <Component class="javax.swing.JButton" name="editQuestionnaireSubmit">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="71" red="16" type="rgb"/>
+                            </Property>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Lucida Grande" size="14" style="0"/>
+                            </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Submeter"/>
+                            <Property name="borderPainted" type="boolean" value="false"/>
+                            <Property name="contentAreaFilled" type="boolean" value="false"/>
+                            <Property name="opaque" type="boolean" value="true"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editQuestionnaireSubmitActionPerformed"/>
+                          </Events>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="editQuestionnaireSubmit.setVisible(false);"/>
+                          </AuxValues>
+                        </Component>
+                        <Component class="javax.swing.JComboBox" name="applicationPriority">
+                          <Properties>
+                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                              <StringArray count="3">
+                                <StringItem index="0" value="Baixa"/>
+                                <StringItem index="1" value="Normal"/>
+                                <StringItem index="2" value="Alta"/>
+                              </StringArray>
+                            </Property>
+                            <Property name="selectedIndex" type="int" value="-1"/>
+                          </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="applicationPriority.setEnabled(false);"/>
+                          </AuxValues>
+                        </Component>
+                        <Component class="javax.swing.JCheckBox" name="applicationApproved">
+                          <Properties>
+                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                              <Border info="null"/>
+                            </Property>
+                            <Property name="enabled" type="boolean" value="false"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="editQuestionnaireCancel">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="71" red="16" type="rgb"/>
+                            </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Cancelar"/>
+                            <Property name="borderPainted" type="boolean" value="false"/>
+                            <Property name="contentAreaFilled" type="boolean" value="false"/>
+                            <Property name="opaque" type="boolean" value="true"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editQuestionnaireCancelActionPerformed"/>
+                          </Events>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="editQuestionnaireCancel.setVisible(false);"/>
+                          </AuxValues>
+                        </Component>
+                      </SubComponents>
+                    </Container>
+                    <Container class="javax.swing.JPanel" name="jPanel36">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                      </Properties>
+                      <Constraints>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                          <JTabbedPaneConstraints tabName="Membros">
+                            <Property name="tabTitle" type="java.lang.String" value="Membros"/>
+                          </JTabbedPaneConstraints>
+                        </Constraint>
+                      </Constraints>
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jScrollPane18" pref="603" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="addMember" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="submitMembers" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="removeMember" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="jScrollPane18" min="-2" pref="378" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="submitMembers" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="removeMember" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="addMember" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="238" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
+                      <SubComponents>
+                        <Component class="javax.swing.JButton" name="submitMembers">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="71" red="16" type="rgb"/>
+                            </Property>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Lucida Grande" size="14" style="0"/>
+                            </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Submeter"/>
+                            <Property name="borderPainted" type="boolean" value="false"/>
+                            <Property name="contentAreaFilled" type="boolean" value="false"/>
+                            <Property name="opaque" type="boolean" value="true"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submitMembersActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="removeMember">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="71" red="16" type="rgb"/>
+                            </Property>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Noto Sans" size="14" style="0"/>
+                            </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="fe" green="fe" red="fe" type="rgb"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Remover"/>
+                            <Property name="borderPainted" type="boolean" value="false"/>
+                            <Property name="contentAreaFilled" type="boolean" value="false"/>
+                            <Property name="opaque" type="boolean" value="true"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeMemberActionPerformed"/>
+                          </Events>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="removeMember.setBackground(new java.awt.Color(0, 103, 165));&#xa;removeMember.setFont(new java.awt.Font(&quot;Lucida Grande&quot;, 0, 14)); // NOI18N&#xa;removeMember.setForeground(new java.awt.Color(255, 255, 255));&#xa;removeMember.setBorderPainted(false);&#xa;removeMember.setContentAreaFilled(false);&#xa;removeMember.setOpaque(true);"/>
+                          </AuxValues>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="addMember">
+                          <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="cc" green="71" red="16" type="rgb"/>
+                            </Property>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Lucida Grande" size="14" style="0"/>
+                            </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Adicionar"/>
+                            <Property name="borderPainted" type="boolean" value="false"/>
+                            <Property name="contentAreaFilled" type="boolean" value="false"/>
+                            <Property name="opaque" type="boolean" value="true"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addMemberActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Container class="javax.swing.JScrollPane" name="jScrollPane18">
+                          <AuxValues>
+                            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                          </AuxValues>
+
+                          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                          <SubComponents>
+                            <Component class="javax.swing.JTable" name="memberList">
+                              <Properties>
+                                <Property name="autoCreateRowSorter" type="boolean" value="true"/>
+                                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                                  <Table columnCount="4" rowCount="0">
+                                    <Column editable="false" title="N&#xfa;mero" type="java.lang.Integer"/>
+                                    <Column editable="true" title="Nome" type="java.lang.String"/>
+                                    <Column editable="true" title="Data de Nascimento" type="java.lang.String"/>
+                                    <Column editable="true" title="Grau de Parentesco" type="java.lang.String"/>
+                                  </Table>
+                                </Property>
+                                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                                  <TableColumnModel selectionModel="0">
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                  </TableColumnModel>
+                                </Property>
+                                <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                                  <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
+                                </Property>
+                              </Properties>
+                            </Component>
+                          </SubComponents>
+                        </Container>
+                      </SubComponents>
+                    </Container>
                     <Container class="javax.swing.JPanel" name="jPanel34">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -1043,611 +1648,6 @@
                             <Property name="editable" type="boolean" value="false"/>
                           </Properties>
                         </Component>
-                      </SubComponents>
-                    </Container>
-                    <Container class="javax.swing.JPanel" name="jPanel35">
-                      <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
-                      </Properties>
-                      <Constraints>
-                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                          <JTabbedPaneConstraints tabName="Candidaturas">
-                            <Property name="tabTitle" type="java.lang.String" value="Candidaturas"/>
-                          </JTabbedPaneConstraints>
-                        </Constraint>
-                      </Constraints>
-
-                      <Layout>
-                        <DimensionLayout dim="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="55" pref="55" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPane7" alignment="0" pref="522" max="32767" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Group type="103" groupAlignment="1" attributes="0">
-                                                      <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel26" alignment="1" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                          <Component id="applicationDate" pref="300" max="32767" attributes="0"/>
-                                                          <Component id="applicationLocation" max="32767" attributes="0"/>
-                                                          <Component id="applicationApprovalDate" alignment="0" min="-2" pref="87" max="-2" attributes="0"/>
-                                                          <Component id="applicationId" min="-2" pref="87" max="-2" attributes="0"/>
-                                                          <Component id="jScrollPane9" alignment="0" pref="300" max="32767" attributes="0"/>
-                                                          <Component id="applicationPriority" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <Component id="applicationApproved" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
-                                          </Group>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="addApplication" min="-2" pref="143" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="editApplication" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="deleteApplication" min="-2" pref="103" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="editQuestionnaireCancel" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="editQuestionnaireSubmit" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="applicationPages" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="previousApplication" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="nextApplication" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                        <DimensionLayout dim="1">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                                  <Component id="applicationPages" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="previousApplication" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="nextApplication" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="applicationDate" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="applicationApproved" min="-2" max="-2" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <Component id="jLabel24" min="-2" pref="14" max="-2" attributes="0"/>
-                                          <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="applicationPriority" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel25" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="applicationLocation" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="applicationApprovalDate" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="applicationId" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jScrollPane9" min="-2" pref="100" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="jLabel29" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPane7" min="-2" pref="222" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="editQuestionnaireSubmit" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="editQuestionnaireCancel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="addApplication" linkSize="2" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
-                                      <Component id="deleteApplication" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="editApplication" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                      </Layout>
-                      <SubComponents>
-                        <Component class="javax.swing.JButton" name="addApplication">
-                          <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="cc" green="71" red="16" type="rgb"/>
-                            </Property>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Lucida Grande" size="14" style="0"/>
-                            </Property>
-                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Adicionar"/>
-                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                              <Border info="null"/>
-                            </Property>
-                            <Property name="contentAreaFilled" type="boolean" value="false"/>
-                            <Property name="opaque" type="boolean" value="true"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addApplicationActionPerformed"/>
-                          </Events>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel23">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="C&#xf3;digo:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel24">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Aprovada:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel25">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Terreno:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel26">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Data de Candidatura:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel27">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Data de Aprova&#xe7;&#xe3;o:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="previousApplication">
-                          <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="cc" green="71" red="16" type="rgb"/>
-                            </Property>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Noto Sans" size="14" style="0"/>
-                            </Property>
-                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="fe" green="fe" red="fe" type="rgb"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="&lt;"/>
-                            <Property name="borderPainted" type="boolean" value="false"/>
-                            <Property name="contentAreaFilled" type="boolean" value="false"/>
-                            <Property name="enabled" type="boolean" value="false"/>
-                            <Property name="opaque" type="boolean" value="true"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="previousApplicationActionPerformed"/>
-                          </Events>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="nextApplication">
-                          <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="cc" green="71" red="16" type="rgb"/>
-                            </Property>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Noto Sans" size="14" style="0"/>
-                            </Property>
-                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="fe" green="fe" red="fe" type="rgb"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="&gt;"/>
-                            <Property name="borderPainted" type="boolean" value="false"/>
-                            <Property name="contentAreaFilled" type="boolean" value="false"/>
-                            <Property name="enabled" type="boolean" value="false"/>
-                            <Property name="opaque" type="boolean" value="true"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nextApplicationActionPerformed"/>
-                          </Events>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="deleteApplication">
-                          <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="cc" green="71" red="16" type="rgb"/>
-                            </Property>
-                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Remover"/>
-                            <Property name="borderPainted" type="boolean" value="false"/>
-                            <Property name="contentAreaFilled" type="boolean" value="false"/>
-                            <Property name="opaque" type="boolean" value="true"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="editApplication">
-                          <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="cc" green="71" red="16" type="rgb"/>
-                            </Property>
-                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Editar"/>
-                            <Property name="borderPainted" type="boolean" value="false"/>
-                            <Property name="contentAreaFilled" type="boolean" value="false"/>
-                            <Property name="opaque" type="boolean" value="true"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editApplicationActionPerformed"/>
-                          </Events>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel5">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Prioridade:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel21">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Observa&#xe7;&#xf5;es:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel29">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Question&#xe1;rio"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="applicationPages">
-                        </Component>
-                        <Container class="javax.swing.JScrollPane" name="jScrollPane7">
-                          <AuxValues>
-                            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-                          </AuxValues>
-
-                          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                          <SubComponents>
-                            <Component class="javax.swing.JTable" name="applicationQuestionnaire">
-                              <Properties>
-                                <Property name="autoCreateRowSorter" type="boolean" value="true"/>
-                                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                  <Table columnCount="2" rowCount="0">
-                                    <Column editable="false" title="Pergunta" type="java.lang.String"/>
-                                    <Column editable="true" title="Resposta" type="java.lang.String"/>
-                                  </Table>
-                                </Property>
-                                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-                                  <TableColumnModel selectionModel="0">
-                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                      <Title/>
-                                      <Editor/>
-                                      <Renderer/>
-                                    </Column>
-                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                      <Title/>
-                                      <Editor/>
-                                      <Renderer/>
-                                    </Column>
-                                  </TableColumnModel>
-                                </Property>
-                                <Property name="enabled" type="boolean" value="false"/>
-                                <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                                  <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
-                                </Property>
-                              </Properties>
-                            </Component>
-                          </SubComponents>
-                        </Container>
-                        <Component class="javax.swing.JFormattedTextField" name="applicationDate">
-                          <Properties>
-                            <Property name="editable" type="boolean" value="false"/>
-                            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                              <Format format="dd/MM/yyyy" subtype="-1" type="1"/>
-                            </Property>
-                            <Property name="toolTipText" type="java.lang.String" value="dd/MM/aaaa"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="applicationLocation">
-                          <Properties>
-                            <Property name="editable" type="boolean" value="false"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JFormattedTextField" name="applicationApprovalDate">
-                          <Properties>
-                            <Property name="editable" type="boolean" value="false"/>
-                            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                              <Format format="dd/MM/yyyy" subtype="-1" type="1"/>
-                            </Property>
-                            <Property name="toolTipText" type="java.lang.String" value="dd/MM/aaaa"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="applicationId">
-                          <Properties>
-                            <Property name="editable" type="boolean" value="false"/>
-                          </Properties>
-                        </Component>
-                        <Container class="javax.swing.JScrollPane" name="jScrollPane9">
-
-                          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                          <SubComponents>
-                            <Component class="javax.swing.JTextArea" name="applicationNotes">
-                              <Properties>
-                                <Property name="editable" type="boolean" value="false"/>
-                                <Property name="columns" type="int" value="20"/>
-                                <Property name="lineWrap" type="boolean" value="true"/>
-                                <Property name="rows" type="int" value="5"/>
-                                <Property name="toolTipText" type="java.lang.String" value=""/>
-                                <Property name="wrapStyleWord" type="boolean" value="true"/>
-                              </Properties>
-                              <AuxValues>
-                                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="familyNotes.setDocument(new JTextAreaLimit(500));"/>
-                              </AuxValues>
-                            </Component>
-                          </SubComponents>
-                        </Container>
-                        <Component class="javax.swing.JButton" name="editQuestionnaireSubmit">
-                          <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="cc" green="71" red="16" type="rgb"/>
-                            </Property>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Lucida Grande" size="14" style="0"/>
-                            </Property>
-                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Submeter"/>
-                            <Property name="borderPainted" type="boolean" value="false"/>
-                            <Property name="contentAreaFilled" type="boolean" value="false"/>
-                            <Property name="opaque" type="boolean" value="true"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editQuestionnaireSubmitActionPerformed"/>
-                          </Events>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="editQuestionnaireSubmit.setVisible(false);"/>
-                          </AuxValues>
-                        </Component>
-                        <Component class="javax.swing.JComboBox" name="applicationPriority">
-                          <Properties>
-                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="3">
-                                <StringItem index="0" value="Baixa"/>
-                                <StringItem index="1" value="Normal"/>
-                                <StringItem index="2" value="Alta"/>
-                              </StringArray>
-                            </Property>
-                            <Property name="selectedIndex" type="int" value="-1"/>
-                          </Properties>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="applicationPriority.setEnabled(false);"/>
-                          </AuxValues>
-                        </Component>
-                        <Component class="javax.swing.JCheckBox" name="applicationApproved">
-                          <Properties>
-                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                              <Border info="null"/>
-                            </Property>
-                            <Property name="enabled" type="boolean" value="false"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="editQuestionnaireCancel">
-                          <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="cc" green="71" red="16" type="rgb"/>
-                            </Property>
-                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Cancelar"/>
-                            <Property name="borderPainted" type="boolean" value="false"/>
-                            <Property name="contentAreaFilled" type="boolean" value="false"/>
-                            <Property name="opaque" type="boolean" value="true"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editQuestionnaireCancelActionPerformed"/>
-                          </Events>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="editQuestionnaireCancel.setVisible(false);"/>
-                          </AuxValues>
-                        </Component>
-                      </SubComponents>
-                    </Container>
-                    <Container class="javax.swing.JPanel" name="jPanel36">
-                      <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
-                      </Properties>
-                      <Constraints>
-                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                          <JTabbedPaneConstraints tabName="Membros">
-                            <Property name="tabTitle" type="java.lang.String" value="Membros"/>
-                          </JTabbedPaneConstraints>
-                        </Constraint>
-                      </Constraints>
-
-                      <Layout>
-                        <DimensionLayout dim="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPane18" pref="603" max="32767" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <Component id="addMember" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="submitMembers" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="removeMember" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                        <DimensionLayout dim="1">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="jScrollPane18" min="-2" pref="378" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="submitMembers" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="removeMember" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="addMember" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="238" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                      </Layout>
-                      <SubComponents>
-                        <Component class="javax.swing.JButton" name="submitMembers">
-                          <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="cc" green="71" red="16" type="rgb"/>
-                            </Property>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Lucida Grande" size="14" style="0"/>
-                            </Property>
-                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Submeter"/>
-                            <Property name="borderPainted" type="boolean" value="false"/>
-                            <Property name="contentAreaFilled" type="boolean" value="false"/>
-                            <Property name="opaque" type="boolean" value="true"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submitMembersActionPerformed"/>
-                          </Events>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="removeMember">
-                          <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="cc" green="71" red="16" type="rgb"/>
-                            </Property>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Noto Sans" size="14" style="0"/>
-                            </Property>
-                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="fe" green="fe" red="fe" type="rgb"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Remover"/>
-                            <Property name="borderPainted" type="boolean" value="false"/>
-                            <Property name="contentAreaFilled" type="boolean" value="false"/>
-                            <Property name="opaque" type="boolean" value="true"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeMemberActionPerformed"/>
-                          </Events>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="removeMember.setBackground(new java.awt.Color(0, 103, 165));&#xa;removeMember.setFont(new java.awt.Font(&quot;Lucida Grande&quot;, 0, 14)); // NOI18N&#xa;removeMember.setForeground(new java.awt.Color(255, 255, 255));&#xa;removeMember.setBorderPainted(false);&#xa;removeMember.setContentAreaFilled(false);&#xa;removeMember.setOpaque(true);"/>
-                          </AuxValues>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="addMember">
-                          <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="cc" green="71" red="16" type="rgb"/>
-                            </Property>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Lucida Grande" size="14" style="0"/>
-                            </Property>
-                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Adicionar"/>
-                            <Property name="borderPainted" type="boolean" value="false"/>
-                            <Property name="contentAreaFilled" type="boolean" value="false"/>
-                            <Property name="opaque" type="boolean" value="true"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addMemberActionPerformed"/>
-                          </Events>
-                        </Component>
-                        <Container class="javax.swing.JScrollPane" name="jScrollPane18">
-                          <AuxValues>
-                            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-                          </AuxValues>
-
-                          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                          <SubComponents>
-                            <Component class="javax.swing.JTable" name="memberList">
-                              <Properties>
-                                <Property name="autoCreateRowSorter" type="boolean" value="true"/>
-                                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                  <Table columnCount="4" rowCount="0">
-                                    <Column editable="false" title="N&#xfa;mero" type="java.lang.Integer"/>
-                                    <Column editable="true" title="Nome" type="java.lang.String"/>
-                                    <Column editable="true" title="Data de Nascimento" type="java.lang.String"/>
-                                    <Column editable="true" title="Grau de Parentesco" type="java.lang.String"/>
-                                  </Table>
-                                </Property>
-                                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-                                  <TableColumnModel selectionModel="0">
-                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                      <Title/>
-                                      <Editor/>
-                                      <Renderer/>
-                                    </Column>
-                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                      <Title/>
-                                      <Editor/>
-                                      <Renderer/>
-                                    </Column>
-                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                      <Title/>
-                                      <Editor/>
-                                      <Renderer/>
-                                    </Column>
-                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                      <Title/>
-                                      <Editor/>
-                                      <Renderer/>
-                                    </Column>
-                                  </TableColumnModel>
-                                </Property>
-                                <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                                  <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
-                                </Property>
-                              </Properties>
-                            </Component>
-                          </SubComponents>
-                        </Container>
                       </SubComponents>
                     </Container>
                   </SubComponents>
@@ -2600,7 +2600,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="757" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="754" max="32767" attributes="0"/>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jPanel24" max="32767" attributes="0"/>
@@ -2644,7 +2644,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jScrollPane10" min="-2" pref="685" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jTabbedPane12" max="32767" attributes="0"/>
+                              <Component id="jTabbedPane12" pref="730" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -2827,7 +2827,7 @@
                                       <Component id="editVolunteer" min="-2" max="-2" attributes="0"/>
                                       <Component id="deleteVolunteer" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="241" max="32767" attributes="0"/>
+                                  <EmptySpace pref="244" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3327,7 +3327,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPane19" pref="671" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane19" pref="663" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="volunteerViewEventDetails" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
@@ -3438,7 +3438,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPane20" pref="671" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane20" pref="663" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="volunteerViewProjectDetails" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
@@ -3606,7 +3606,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="757" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="754" max="32767" attributes="0"/>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jPanel43" max="32767" attributes="0"/>
@@ -3645,7 +3645,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane21" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jTabbedPane14" max="32767" attributes="0"/>
+                      <Component id="jTabbedPane14" pref="742" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -3983,7 +3983,7 @@
                                   <Component id="jScrollPane17" min="-2" pref="499" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="editParticipantsButton" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="168" max="32767" attributes="0"/>
+                                  <EmptySpace pref="172" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -4139,7 +4139,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="757" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="754" max="32767" attributes="0"/>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jPanel47" max="32767" attributes="0"/>
@@ -4189,7 +4189,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane25" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jTabbedPane16" max="32767" attributes="0"/>
+                      <Component id="jTabbedPane16" pref="742" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -4613,7 +4613,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane24" pref="620" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane24" pref="624" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="addDonationButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -4841,9 +4841,9 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                  <Component id="jLabel7" min="-2" pref="267" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="304" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="jLabel7" min="-2" pref="278" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="288" max="-2" attributes="0"/>
                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="search" pref="445" max="32767" attributes="0"/>
@@ -4855,23 +4855,15 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="search" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel7" pref="0" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <Component id="clearSearch" max="32767" attributes="0"/>
-                          <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="clearSearch" alignment="3" max="32767" attributes="0"/>
+                      <Component id="search" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel7" alignment="3" max="32767" attributes="0"/>
                   </Group>
+                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
