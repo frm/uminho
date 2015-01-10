@@ -51,7 +51,7 @@ abstract class AbstractRepository<T extends BasicModel> implements Repository<T>
     public Connection connect() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
-    
+
     public boolean attemptLogin() {
         try {
             DriverManager.getConnection(url, username, password);
@@ -60,7 +60,7 @@ abstract class AbstractRepository<T extends BasicModel> implements Repository<T>
             return false;
         }
     }
-    
+
     public void saveAll(Collection<T> entities) throws DataException {
         for(T e : entities)
             save(e);
@@ -81,7 +81,7 @@ abstract class AbstractRepository<T extends BasicModel> implements Repository<T>
             return false;
         }
     }
-    
+
     public void delete(int id) throws DataException {
         try {
             String query = new StringBuilder("DELETE FROM ")
@@ -90,13 +90,13 @@ abstract class AbstractRepository<T extends BasicModel> implements Repository<T>
                                             .append(id)
                                             .append(";")
                                             .toString();
-            
+
             Connection connection = null;
             PreparedStatement statement = null;
             try {
                 connection = DriverManager.getConnection(url, username, password);
                 statement = connection.prepareStatement(query);
-                statement.executeUpdate();            
+                statement.executeUpdate();
             } finally {
                 statement.close();
                 connection.close();
@@ -181,8 +181,6 @@ abstract class AbstractRepository<T extends BasicModel> implements Repository<T>
             generatedKeys = Statement.NO_GENERATED_KEYS;
         }
 
-        System.out.println(query);
-        
         Connection connection;
         PreparedStatement statement;
         try {

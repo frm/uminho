@@ -38,7 +38,7 @@ import models.SimpleMember;
  * @author tiago
  */
 public class HabitatController extends javax.swing.JFrame {
-    
+
     private Family currentFamily;
     private Representative currentRepresentative;
     private List<SimpleMember> currentMembers;
@@ -57,7 +57,7 @@ public class HabitatController extends javax.swing.JFrame {
         this.setIconImage((new ImageIcon("etc/logo.png")).getImage());
         initComponents();
         listFamilies();
-        
+
         familyList.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
         public void valueChanged(ListSelectionEvent event) {
             String code;
@@ -75,28 +75,28 @@ public class HabitatController extends javax.swing.JFrame {
                 currentMembers = ControllerFactory.getMembersController().findBy(new HashMap<String, Object>() {{
                 put("familyID", currentFamily.getId());
                 }});
-                
+
                 representativeContacts = ControllerFactory.getContactsController().findBy(new HashMap<String, Object>() {{
                     put("OwnerType", "Representante");
                     put("Owner", currentRepresentative.getId());
                 }});
-                
+
                 familyApplications = ControllerFactory.getApplicationsController().findBy(new HashMap<String, Object>() {{
                     put("familyId", currentFamily.getId());
                 }});
-                
+
                 applicationIndex = familyApplications.size() - 1;
-                
+
                 if(applicationIndex > 0)
                     nextApplication.setEnabled(true);
-                
+
                 setCurrentFamily();
                 setFamilyMembers();
                 setCurrentApplication();
             } catch(DataException e) { }
         }
         });
-        
+
         try {
             Collection<Activity> items = ControllerFactory.getActivityController().all();
             for( Activity a: items){
@@ -111,14 +111,14 @@ public class HabitatController extends javax.swing.JFrame {
         String password = JOptionPane.showInputDialog(this, "Por favor confirme password");
         return this.password.equals(password);
     }
-    
+
     public void listFamilies() {
         List<Family> families  = new ArrayList<>();
         try {
             families = ControllerFactory.getFamiliesController().all();
-            
+
             ((DefaultTableModel)familyList.getModel()).setRowCount(0);
-            
+
             for(final Family f : families) {
                 ((DefaultTableModel)familyList.getModel()).addRow(new Object[]{f.getId(), f.getName(), ControllerFactory.getRepresentativesController().findBy(
                     new HashMap<String, Object>() {{ put("familyID", f.getId());}}
@@ -128,7 +128,7 @@ public class HabitatController extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro a ler dados");
         }
     }
-    
+
     public void setCurrentApplication() {
         ((DefaultTableModel)applicationQuestionnaire.getModel()).setRowCount(0);
         applicationDate.setText("");
@@ -141,27 +141,27 @@ public class HabitatController extends javax.swing.JFrame {
         previousApplication.setEnabled(false);
         nextApplication.setEnabled(false);
         applicationPages.setText("");
-        
+
         if (familyApplications.size() > 0) {
             currentApplication = familyApplications.get(applicationIndex);
         } else
             return;
-        
+
         Controller<Question> qc = ControllerFactory.getQuestionsController();
         try {
             List<Question> activeQuestions = qc.findBy(new HashMap<String, Object>() {{ put("enabled", true); }});
             for(Question q : activeQuestions)
-                ((DefaultTableModel)applicationQuestionnaire.getModel()).addRow(new Object[]{q,""});            
+                ((DefaultTableModel)applicationQuestionnaire.getModel()).addRow(new Object[]{q,""});
         } catch(DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a ler dados");
         }
-        
+
         int totalPages = familyApplications.size();
         applicationPages.setText(new StringBuilder().append(totalPages - applicationIndex).append("/")
                                             .append(totalPages).toString());
-        
+
         currentApplication = familyApplications.get(applicationIndex);
-        
+
         applicationDate.setText(Util.dateToStr(currentApplication.getApplicationDate()));
         applicationApproved.setSelected(currentApplication.getStatus());
         applicationPriority.setSelectedIndex(currentApplication.getPriority());
@@ -170,16 +170,16 @@ public class HabitatController extends javax.swing.JFrame {
         applicationId.setText(Integer.toString(currentApplication.getId()));
         applicationNotes.setText(currentApplication.getNotes());
     }
-    
+
     public void setCurrentFamily() {
         Family f = currentFamily;
         familyName.setText(f.getName());
         familyAddress.setText(f.getAddress());
         familyIncome.setText(Float.toString(f.getIncome()));
         familyApproved.setSelected(f.getApproved());
-        familyNotes.setText(f.getObservations());        
+        familyNotes.setText(f.getObservations());
         Representative r = currentRepresentative;
-        
+
         familyRep.setText(r.getName());
         repBirthDate.setText(Util.dateToStr(r.getBirthDate()));
         repMaritalStatus.setSelectedItem(r.getMaritalStatus());
@@ -189,13 +189,13 @@ public class HabitatController extends javax.swing.JFrame {
         mainWindowRepProf.setSelectedItem(currentRepresentative.getActivity());
         repBirthPlace.setText(r.getBirthPlace());
         repNationality.setSelectedItem(r.getNationality());
-        
+
         ((DefaultTableModel)repContacts.getModel()).setRowCount(0);
-            
+
         for(Contact c : representativeContacts)
             ((DefaultTableModel)repContacts.getModel()).addRow(new Object[]{c.getType(), c.getValue()});
     }
-    
+
     public void setFamilyMembers() {
         try{
             final Family f = currentFamily;
@@ -206,7 +206,7 @@ public class HabitatController extends javax.swing.JFrame {
             for(final SimpleMember m : members)
                 ((DefaultTableModel)memberList.getModel()).addRow(new Object[]{ m.getId(), m.getName(), Util.dateToStr(m.getBirthDate()), m.getKinship() });
         } catch (NullPointerException e){}
-        
+
     }
 
     /**
@@ -3480,7 +3480,7 @@ public class HabitatController extends javax.swing.JFrame {
         } catch (DataException ex) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao obter os dados");
         }
-                
+
     }//GEN-LAST:event_addFamilyActionPerformed
 
     private void addMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMemberActionPerformed
@@ -3488,11 +3488,11 @@ public class HabitatController extends javax.swing.JFrame {
     }//GEN-LAST:event_addMemberActionPerformed
 
     private void addApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addApplicationActionPerformed
-        if (currentFamily == null) {           
+        if (currentFamily == null) {
                 JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
                 return;
         }
-            
+
         (new AdicionarCandidatura(this, true, currentFamily.getId())).setVisible(true);
     }//GEN-LAST:event_addApplicationActionPerformed
 
@@ -3551,7 +3551,7 @@ public class HabitatController extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
                 return;
         }
-                    
+
         familyName.setEditable(true);
         familyAddress.setEditable(true);
         familyIncome.setEditable(true);
@@ -3579,16 +3579,16 @@ public class HabitatController extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
                 return;
             }
-            
+
             if(!confirmPassword()) {
                 JOptionPane.showMessageDialog(this, "Password errada");
                 return;
             }
 
             ControllerFactory.getFamiliesController().delete(currentFamily);
-            
+
             familyList.remove(familyList.getSelectedRow());
-            
+
             if(familyList.getRowCount() > 0)
                 familyList.getSelectionModel().setSelectionInterval(0, 0);
         } catch (DataException ex) {
@@ -3598,16 +3598,16 @@ public class HabitatController extends javax.swing.JFrame {
 
     private void editRepresentativeContacts() {
         int rowCount = repContacts.getRowCount();
-        
+
         if(rowCount <= 0)
             return;
-        
+
         try {
             Controller<Contact> cc = ControllerFactory.getContactsController();
-        
+
             int nrContacts = representativeContacts.size();
             int i = 0;
-        
+
             final TableModel t = repContacts.getModel();
             while (i < nrContacts) {
                 Contact c = representativeContacts.get(i);
@@ -3616,7 +3616,7 @@ public class HabitatController extends javax.swing.JFrame {
                 cc.save(c);
                 i++;
             }
-        
+
             while(i < rowCount) {
                 final int i2 = i;
                 Contact newContact = cc.save( new HashMap<String, Object>() {{
@@ -3626,32 +3626,32 @@ public class HabitatController extends javax.swing.JFrame {
                     put("owner", currentRepresentative.getId());
                 }});
                 i++;
-            }    
+            }
         } catch (DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a gravar dados");
         }
     }
-    
-    
+
+
     private void submitEditFamilyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitEditFamilyActionPerformed
         if(currentFamily == null) {
             JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
             return;
         }
-        
+
         Controller rc = ControllerFactory.getRepresentativesController();
         Controller mc = ControllerFactory.getMembersController();
         Controller fc = ControllerFactory.getFamiliesController();
         Controller cc = ControllerFactory.getContactsController();
-        
+
         try {
             currentFamily.setName(familyName.getText());
             currentFamily.setAddress(familyAddress.getText());
             currentFamily.setObservations(familyNotes.getText());
             currentFamily.setIncome(Float.parseFloat(familyIncome.getText()));
-            
+
             fc.save(currentFamily);
-            
+
             currentRepresentative.setName(familyRep.getText());
             currentRepresentative.setBirthDate(Util.strToDate( repBirthDate.getText() ));
             currentRepresentative.setMaritalStatus(repMaritalStatus.getSelectedItem().toString());
@@ -3659,7 +3659,7 @@ public class HabitatController extends javax.swing.JFrame {
             currentRepresentative.setActivity((Activity)mainWindowRepProf.getSelectedItem());
             currentRepresentative.setNif(repNif.getText());
             currentRepresentative.setNib(repNib.getText());
-            
+
             editRepresentativeContacts();
             rc.save(currentRepresentative);
         } catch (DataException e) {
@@ -3675,21 +3675,21 @@ public class HabitatController extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Por favor responda a todas as perguntas");
             return;
         }
-        
+
         try {
-            ApplicationsController ac = (ApplicationsController) ControllerFactory.getApplicationsController();        
+            ApplicationsController ac = (ApplicationsController) ControllerFactory.getApplicationsController();
             TableModel t = applicationQuestionnaire.getModel();
-            
+
             for(int i = 0; i < rowCount; i++) {
                 if(t.getValueAt(i, 1).toString().length() == 0) {
                     JOptionPane.showMessageDialog(this, "Por favor responda a todas as perguntas");
                     return;
                 }
             }
-            
+
             for(int i = 0; i < rowCount; i++) {
                 ac.addAnswerTo((Question)t.getValueAt(i, 0), currentApplication, t.getValueAt(i, 1).toString());
-            }    
+            }
         } catch (DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a gravar dados");
         }finally{
@@ -3707,15 +3707,15 @@ public class HabitatController extends javax.swing.JFrame {
             deleteApplication.setVisible(false);
             editApplication.setVisible(false);
         }
-        
-        
+
+
         currentApplication.setApplicationDate(Util.strToDate(applicationDate.getText()));
         currentApplication.setPriority(applicationPriority.getSelectedIndex());
         currentApplication.setNotes(applicationNotes.getText());
         currentApplication.setLocation(applicationLocation.getText());
         currentApplication.setStatus(applicationApproved.isSelected());
         currentApplication.setApprovalDate(Util.strToDate(applicationApprovalDate.getText()));
-        
+
         try {
             ControllerFactory.getApplicationsController().save(currentApplication);
         } catch (DataException e) {
@@ -3745,16 +3745,16 @@ public class HabitatController extends javax.swing.JFrame {
 
     private void submitMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitMembersActionPerformed
         int rowCount = memberList.getRowCount();
-        
+
         if(rowCount <= 0)
             return;
-        
+
         try {
             Controller<SimpleMember> mc = ControllerFactory.getMembersController();
-        
+
             int nrMembers = currentMembers.size();
             int i = 0;
-        
+
             final TableModel t = memberList.getModel();
             while (i < nrMembers) {
                 SimpleMember m = currentMembers.get(i);
@@ -3764,7 +3764,7 @@ public class HabitatController extends javax.swing.JFrame {
                 mc.save(m);
                 i++;
             }
-        
+
             while(i < rowCount) {
                 final int i2 = i;
                 SimpleMember newMember = mc.save( new HashMap<String, Object>() {{
@@ -3775,7 +3775,7 @@ public class HabitatController extends javax.swing.JFrame {
                 }});
                 t.setValueAt(newMember.getId(), i2, 0);
                 i++;
-            }    
+            }
         } catch (DataException e) {
             JOptionPane.showMessageDialog(this, "Erro a gravar dados");
         }
@@ -3785,12 +3785,12 @@ public class HabitatController extends javax.swing.JFrame {
         int row = memberList.getSelectedRow();
         if(row == -1)
             return;
-        
+
         if(!confirmPassword()) {
             JOptionPane.showMessageDialog(this, "Password errada");
             return;
         }
-        
+
         SimpleMember m = currentMembers.get(row);
         currentMembers.remove(row);
         ((DefaultTableModel)memberList.getModel()).removeRow(row);
@@ -3822,9 +3822,9 @@ public class HabitatController extends javax.swing.JFrame {
         setCurrentApplication();
         if(applicationIndex == 0)
             nextApplication.setEnabled(false);
-        
+
         previousApplication.setEnabled(true);
-        
+
     }//GEN-LAST:event_nextApplicationActionPerformed
 
     private void previousApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousApplicationActionPerformed
@@ -3832,7 +3832,7 @@ public class HabitatController extends javax.swing.JFrame {
         setCurrentApplication();
         if(applicationIndex == familyApplications.size() - 1)
             previousApplication.setEnabled(false);
-        
+
         nextApplication.setEnabled(true);
     }//GEN-LAST:event_previousApplicationActionPerformed
 
@@ -3857,27 +3857,26 @@ public class HabitatController extends javax.swing.JFrame {
         }catch(NumberFormatException e){
             isNumber = false;
         }
-        
+
         if(text.length() == 0)
             listFamilies();
         else{
             tableloop:
             for(int i = 0; i < familyList.getRowCount(); i++){
-                
+
                 if(  isNumber && (id == ((int) familyList.getValueAt(i, 0) ) ))
                     continue;
                 for(int j = 1; j < familyList.getColumnCount(); j++){
                     if( ( (String) familyList.getValueAt(i,j) ).contains(text))
                         continue tableloop;
                 }
-                System.out.println("Remove");
                 familyListModel.removeRow(i);
                 i--;
-                
+
             }
         }
     }
-        
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addApplication;
     private javax.swing.JButton addDonationButton;
