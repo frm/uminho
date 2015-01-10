@@ -60,7 +60,12 @@ public class HabitatController extends javax.swing.JFrame {
         
         familyList.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
         public void valueChanged(ListSelectionEvent event) {
-            String code = familyList.getValueAt(familyList.getSelectedRow(), 0).toString();
+            String code;
+            try {
+                code = familyList.getValueAt(familyList.getSelectedRow(), 0).toString();
+            } catch (Exception e) {
+                return;
+            }
             int i = Integer.parseInt(code);
             try {
                 currentFamily = ControllerFactory.getFamiliesController().find(i);
@@ -111,6 +116,9 @@ public class HabitatController extends javax.swing.JFrame {
         List<Family> families  = new ArrayList<>();
         try {
             families = ControllerFactory.getFamiliesController().all();
+            
+            ((DefaultTableModel)familyList.getModel()).setRowCount(0);
+            
             for(final Family f : families) {
                 ((DefaultTableModel)familyList.getModel()).addRow(new Object[]{f.getId(), f.getName(), ControllerFactory.getRepresentativesController().findBy(
                     new HashMap<String, Object>() {{ put("familyID", f.getId());}}
@@ -123,7 +131,16 @@ public class HabitatController extends javax.swing.JFrame {
     
     public void setCurrentApplication() {
         ((DefaultTableModel)applicationQuestionnaire.getModel()).setRowCount(0);
-        
+        applicationDate.setText("");
+        applicationApproved.setSelected(false);
+        applicationPriority.setSelectedIndex(-1);
+        applicationLocation.setText("");
+        applicationApprovalDate.setText("");
+        applicationId.setText("");
+        applicationNotes.setText("");
+        previousApplication.setEnabled(false);
+        nextApplication.setEnabled(false);
+        applicationPages.setText("");
         
         if (familyApplications.size() > 0) {
             currentApplication = familyApplications.get(applicationIndex);
@@ -3471,6 +3488,11 @@ public class HabitatController extends javax.swing.JFrame {
     }//GEN-LAST:event_addMemberActionPerformed
 
     private void addApplicationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addApplicationActionPerformed
+        if (currentFamily == null) {           
+                JOptionPane.showMessageDialog(this, "Por favor seleccione uma família.");
+                return;
+        }
+            
         (new AdicionarCandidatura(this, true, currentFamily.getId())).setVisible(true);
     }//GEN-LAST:event_addApplicationActionPerformed
 
@@ -3649,8 +3671,10 @@ public class HabitatController extends javax.swing.JFrame {
 
     private void editQuestionnaireSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editQuestionnaireSubmitActionPerformed
         int rowCount = applicationQuestionnaire.getRowCount();
-        if (rowCount <= 0)
+        if (rowCount <= 0){
+            JOptionPane.showMessageDialog(this, "Por favor responda a todas as perguntas");
             return;
+        }
         
         try {
             ApplicationsController ac = (ApplicationsController) ControllerFactory.getApplicationsController();        

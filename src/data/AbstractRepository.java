@@ -181,6 +181,8 @@ abstract class AbstractRepository<T extends BasicModel> implements Repository<T>
             generatedKeys = Statement.NO_GENERATED_KEYS;
         }
 
+        System.out.println(query);
+        
         Connection connection;
         PreparedStatement statement;
         try {

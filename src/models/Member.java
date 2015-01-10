@@ -10,7 +10,7 @@ package models;
  *
  * @author joaorodrigues
  */
-abstract class Member extends BasicModel {
+public abstract class Member extends BasicModel {
     private String name;
     private String birthDate;
     private Integer familyID;
