@@ -6,3 +6,6 @@
 *.o
 *.out
 
+# Flex
+*.yy.c
+
