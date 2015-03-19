@@ -1,0 +1,8 @@
+# OS X
+.DS_Store
+
+# C
+*.a
+*.o
+*.out
+
