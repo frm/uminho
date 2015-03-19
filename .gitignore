@@ -9,3 +9,10 @@
 # Flex
 *.yy.c
 
+# Vim
+*~
+*.swp
+
+# Misc
+*.log
+
