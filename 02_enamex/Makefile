@@ -1,4 +1,5 @@
-CFLAGS ?= -Wall -Wextra -pedantic -lfl -Wno-unused-function
+CFLAGS ?= -Wall -Wextra -pedantic -Wno-unused-function
+LEXFLAGS ?= -lfl
 EXEC = parser.out
 
 VALGRIND = valgrind --tool=memcheck --leak-check=yes
@@ -19,7 +20,7 @@ O_FILES = $(C_FILES:%.c=%.o)
 
 $(EXEC): $(O_FILES)
 	@echo "\n### LINKING $@"
-	$(LINK.c) $(OUTPUT_OPTION) $^ $(LOADLIBES) $(LDLIBS)
+	$(LINK.c) $(LEXFLAGS) $(OUTPUT_OPTION) $^ $(LOADLIBES) $(LDLIBS)
 
 debug: CFLAGS += -g -DDEBUG
 debug: $(EXEC)
@@ -28,7 +29,8 @@ leak-check: CFLAGS += -g
 leak-check: $(EXEC)
 	 $(VALGRIND)./$(EXEC)
 
-osx: CFLAGS -= lfl += -ll
+osx: LEXFLAGS:=$(filter-out -lfl,$(LEXFLAGS))
+osx: LEXFLAGS+= -ll
 osx: $(EXEC)
 
 clean:
