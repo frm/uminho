@@ -1,0 +1,10 @@
+title: Canta, canta amigo canta
+from: jj
+author: António Macedo
+
+Canta canta amigo canta
+vem cantar a nossa canção
+tu sozinho não és nada
+juntos temos o caralho na mão
+
+[tT][iI][tT][lL][eE]:.*\n			{aux = strcpy(aux,yytext);}
