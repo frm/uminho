@@ -1,6 +1,7 @@
 %{
 
-#include "tree.h"
+#include "hash.h"
+hash h;
 
 char* strcut(char* str, char fst, char snd) {
     if(! str)
@@ -29,13 +30,20 @@ char* strcut(char* str, char fst, char snd) {
 }
 
 void extract_info(char* str) {
-    printf("!! DEBUG: %s", str);
     // get what's inside the first set of ' '
     char* type = strcut(str, '"', '"');
     // jump over to subtype and get what's inside the ' '
     char* subtype = strcut(strstr(str, "SUBTYPE"), '"', '"');
     // get what's between > and <
     char* value = strcut(str, '>', '<');
+    if(subtype) {
+        char* args[3] = {type, subtype, value};
+        add_to_hash(&h, args, 3);
+    }
+    else {
+        char* args[2] = {type, value};
+        add_to_hash(&h, args, 2);
+    }
     printf("\n## TYPE: %s\nSUBTYPE: %s\nVALUE: %s\n\n", type, subtype, value);
 }
 
@@ -49,6 +57,8 @@ char* get_type_value(char* str) {
     return start;
 }
 */
+
+
 %}
 
 ENAMEX_START    <[\t ]*ENAMEX
@@ -66,6 +76,7 @@ ENAMEX_END      <\/ENAMEX>
 %%
 
 int main(int argc, char** argv) {
+    hash h = new_hash(10000);
     if (argc == 2)
         yyin = fopen(argv[1], "r");
 

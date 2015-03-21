@@ -1,4 +1,5 @@
 CFLAGS ?= -Wall -Wextra -pedantic -Wno-unused-function
+CPPFLAGS ?= -Iincludes
 LDFLAGS += -lfl
 EXEC = parser.out
 LEX = flex
@@ -6,7 +7,7 @@ LEX = flex
 VALGRIND = valgrind --tool=memcheck --leak-check=yes
 
 LEX_FILES = $(shell ls *.l)
-C_FILES = $(shell find . -name *.c) $(LEX_FILES:%.l=%.c)
+C_FILES = $(shell ls src/*.c) $(LEX_FILES:%.l=%.c)
 O_FILES = $(C_FILES:%.c=%.o)
 
 .PHONY: clean debug leak-check
@@ -40,6 +41,8 @@ clean:
 	@echo ""
 	$(RM) *.o
 	$(RM) *.yy.c
+	$(RM) *.h.gch
+	$(RM) *.out
 	$(RM) $(EXEC)
 	$(RM) *.log
 
