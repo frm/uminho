@@ -5,6 +5,7 @@
 *.a
 *.o
 *.out
+*.h.gch
 
 # Flex
 *.yy.c
