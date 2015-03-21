@@ -116,7 +116,7 @@ node* new_tree() {
     return n;
 }
 
-
+/*
 int main() {
     node* t = new_tree();
     create_and_add_to(t, "BRAGA");
@@ -128,5 +128,5 @@ int main() {
     print_tree(*t);
     return 0;
 }
-
+*/
 
