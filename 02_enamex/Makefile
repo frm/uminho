@@ -6,7 +6,7 @@ LEX = flex
 
 VALGRIND = valgrind --tool=memcheck --leak-check=yes
 
-LEX_FILES = $(shell ls *.l)
+LEX_FILES = $(shell ls lex/*.l)
 C_FILES = $(shell ls src/*.c) $(LEX_FILES:%.l=%.c)
 O_FILES = $(C_FILES:%.c=%.o)
 
@@ -39,10 +39,10 @@ clean:
 	@echo "### CLEANING UP\n"
 	@cat ../.make/asciiart/maid.art
 	@echo ""
-	$(RM) *.o
-	$(RM) *.yy.c
-	$(RM) *.h.gch
-	$(RM) *.out
+	$(RM) *.o **/*.o
+	$(RM) *.yy.c **/*.yy.c
+	$(RM) *.h.gch **/*.h.gch
+	$(RM) *.out **/*.out
+	$(RM) *.log **/*.log
 	$(RM) $(EXEC)
-	$(RM) *.log
 
