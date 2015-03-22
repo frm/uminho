@@ -76,7 +76,7 @@ ENAMEX_END      <\/ENAMEX>
 %%
 
 int main(int argc, char** argv) {
-    hash h = new_hash(10000);
+    h = new_hash(10000);
     if (argc == 2)
         yyin = fopen(argv[1], "r");
 
