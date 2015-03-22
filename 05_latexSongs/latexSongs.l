@@ -5,7 +5,7 @@
     SongListP mySongs;
     int metaSize = 0;
     char *aux;
-    //title,from,author,lyrics,music,singer,lyricsText
+    /*title,from,author,lyrics,music,singer,lyricsText*/
     char *info[7];
 %}
 
@@ -16,7 +16,9 @@
 [lL][yY][rR][iI][cC][sS]:" ".*      aux = yytext + 8; info[3] = strdup(aux);
 [mM][uU][sS][iI][cC]:" ".*          aux = yytext + 7; info[4] = strdup(aux);
 [sS][iI][nN][gG][eE][rR]:" ".*      aux = yytext + 8; info[5] = strdup(aux);
-\n\n(.|\n)*                         aux = yytext + 2; info[6] = strdup(aux);
+\n\n(.|\n)*#{2}\-+                  aux = yytext + 2; info[6] = strdup(aux);
+[^"##"]\n\n(.|\n)*                  aux = yytext + 2; info[6] = strdup(aux);
+
 %%
 
 int main(int argc, char** argv) {
@@ -29,10 +31,10 @@ int main(int argc, char** argv) {
 
     yylex();
 
-    int i;
+    /*int i;
     for(i = 0; i<7;i++){
         printf("String: %s\n",info[i]);
-    }
+    }*/
 
     addSong(mySongs,info);
     SongP p = mySongs->cursor;
@@ -54,7 +56,7 @@ int main(int argc, char** argv) {
 
         fprintf(fp, "\\title{%s}\n\\begin{document}\n\\maketitle\n\\section{Letra}\n%s\n",p->title, p->lyricsText);
         if(p->singer != NULL)
-            fprintf(fp, "%s\n",p->singer);
+            fprintf(fp, "\\begin{flushleft}\n%s\n\\end{flushleft}\n",p->singer);
         fprintf(fp,"\\end{document}");
         fclose(fp);
 
