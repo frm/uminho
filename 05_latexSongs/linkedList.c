@@ -39,32 +39,11 @@ SongP newSong(char *info[7]){
 	return newSong;
 }
 
-/*SongP newSong(char *info[6]){
-	int stringSize = 0;
-	SongP newSong = (SongP) malloc (sizeof(Song));
-
-	stringSize = strlen(ttl) + 1;
-	newSong->title = malloc(sizeof(char) * stringSize);
-	strncpy(newSong->title, ttl, stringSize);
-	
-	newSong->next = NULL;
-	return newSong;
-}*/
-
 int addSong(SongListP sl, char *info[7]){
+
 	SongP ns = newSong(info);
+	
 	ns->next = sl->cursor;
 	sl->cursor = ns;
 	return 1;
 }
-/*
-int main(){
-	SongListP mySongs = init();
-	addSong(mySongs,"juju");
-	addSong(mySongs,"falafel");
-	while(mySongs->cursor != NULL){
-		printf("%s\n",mySongs->cursor->title );
-		mySongs->cursor = mySongs->cursor->next;
-	}
-}
-*/
