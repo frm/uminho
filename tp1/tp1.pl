@@ -13,10 +13,11 @@
 
 :- op( 900,xfy,'::' ).
 :- dynamic filho/2.
-:- dynamic pai/2.
-:- dynamic irmao/2.
 
-r :- consult('pratico.pl').
+r :- consult('tp1.pl').
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Arvore geneologica exemplo
 
 % pais de joao
 filho(joao_silva, carlos_silva).
@@ -43,7 +44,7 @@ filho(flora_soares, antonia_soares).
 filho(flora_soares, joao_soares).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado pai: P,F -> {V,F}
+% Extensao do predicado pai: Pai,Filho -> {V,F}
 
 pai(P,F) :- filho(F, P).
 
@@ -53,21 +54,47 @@ pai(P,F) :- filho(F, P).
 irmao(M,N) :- pai(P, M), pai(P, N).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado avo: A,N -> {V,F}
+% Extensao do predicado avo: Avo,Neto -> {V,F}
 
 avo(A,N) :- filho(N, X) , pai(A, X).
 
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado neto: N,A -> {V,F}
+%%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado neto: Neto,Avo -> {V,F}
 
 neto(N, A) :- avo(A, N).
 
+%%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado tio: Tio,Sobrinho -> {V,F}
+
+tio(T, S) :- pai(P, S), irmao(T, P).
+
+%%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado sobrinho: Sobrinho,Tio -> {V,F}
+
+sobrinho(S, T) :- tio(T, S).
+
+%%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado casado: M,N -> {V,F}
+
+casado(M, N) :- filho(F, M), filho(F, N).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado descendente: X,Y -> {V,F}
 
 descendente(X,Y) :- filho(X,Y); filho(X,Z) , descendente(Z,Y).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado descendenteGrau: Descendente,Ascendente,Grau -> {V,F}
+descendenteGrau(D,A,1) :- filho(D, A).
+descendenteGrau(D,A,G) :- filho(D, F), descendenteGrau(F, A, Z), G is Z + 1.
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado descendentesGrau: Ascendente,Grau,Resultado -> {V,F}
+descendentesGrau(A,G,R) :- solucoes(P, descendenteGrau(P, A, G), R).
+
+descendenteAteGrau(D,A,N) :- descendenteGrau(D,A,G), G =< N.
+
+descendentesAteGrau(A,G,R) :- solucoes(P, descendenteAteGrau(P,A,G), R).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado grau: X,Y,N -> {V,F}
@@ -77,7 +104,7 @@ grau(X,Y, N) :- filho(X,Z) , grau(Z, Y, G), N is G+1.
 
 
 
-+filho( F,P ) :: ( findall( X, (filho(F, X)), S),
++filho( F,P ) :: ( solucoes( X, (filho(F, X)), S),
                     comprimento(S, N),
                     N=<2
                   ).
@@ -91,6 +118,9 @@ comprimento( [X|L],N ) :-
     comprimento( L,N1 ),
     N is N1+1.
 
+
+
+solucoes(A, T, S) :- findall(A, T, S).
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que permite a evolucao do conhecimento
 
@@ -102,7 +132,7 @@ teste( [R|LR]) :-
         R,
         teste(LR).
 
-evolucao(T) :- findall( I, +T::I, S),
+evolucao(T) :- solucoes( I, +T::I, S),
                   insere(T),
                   teste(S).
 
@@ -110,7 +140,7 @@ evolucao(T) :- findall( I, +T::I, S),
 % Invariante Estrutural:  nao permitir a insercao de conhecimento
 %                         repetido  [i]
 
-+filho( F,P ) :: (findall( (F,P),(filho( F,P )),S ),
++filho( F,P ) :: (solucoes( (F,P),(filho( F,P )),S ),
                   comprimento( S,N ),
                   N == 1
                   ).
