@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include "strutil.h"
 
 typedef struct hash *hash;
 hash new_hash(int size);

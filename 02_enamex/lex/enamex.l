@@ -1,49 +1,28 @@
 %{
 
+#include "strutil.h"
 #include "hash.h"
+
 hash h;
 int html = 0;
 
-char* strcut(char* str, char fst, char snd) {
-    if(! str)
-        return NULL;
-
-    int start = -1, end = 0, i = 0;
-    int size = strlen(str);
-
-    for(i = 0; i < size && str[i] != fst; i++);
-
-    start = i + 1;
-
-    for(++i; i < size && str[i] != snd; i++);
-
-    end = i;
-
-    if(start >= size || end >= size)
-        return NULL;
-
-    int mv = end - start + 1;
-    char* s = (char*)malloc( sizeof(char) * mv );
-    memmove(s, str + start, mv);
-    s[mv - 1] = '\0';
-
-    return s;
-}
-
 void extract_info(char* str) {
     // get what's inside the first set of ' '
-    char* type = strcut(str, '"', '"');
+    char* type = strtrim( strcut(str, '"', '"') );
     // jump over to subtype and get what's inside the ' '
-    char* subtype = strcut(strstr(str, "SUBTYPE"), '"', '"');
+    char* subtype = strtrim( strcut(strstr(str, "SUBTYPE"), '"', '"') );
     // get what's between > and <
-    char* value = strcut(str, '>', '<');
+    char* value = strtrim( strcut(str, '>', '<') );
     if(subtype) {
         char* args[3] = {type, subtype, value};
         add_to_hash(&h, args, 3);
+        free(subtype);
     }
     else {
         char* args[2] = {type, value};
         add_to_hash(&h, args, 2);
+        free(type);
+        free(value);
     }
     printf("\n## TYPE: %s\nSUBTYPE: %s\nVALUE: %s\n\n", type, subtype, value);
 }

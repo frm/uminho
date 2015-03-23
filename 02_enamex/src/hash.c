@@ -53,14 +53,6 @@ static unsigned int djb2_hash(char* str) {
     return hash;
 }
 
-static char* str_to_lower(char* str) {
-    char* l = (char*)calloc(strlen(str) + 1, sizeof(char) );
-
-    for (int i = 0 ; str[i]; ++i) l[i] = tolower(str[i]);
-    return l;
-}
-
-
 /* Finds the address where the pointer should be (whether or not it is there)
  * So that we can add it if we want
  * returns 0 if it exists, 1 otherwise
