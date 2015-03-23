@@ -3,14 +3,14 @@
 
 #include <string.h>
 #include <stdlib.h>
-
+#include <stdio.h>
+#include <ctype.h>
 
 typedef struct hash *hash;
 hash new_hash(int size);
 int add_to_hash(hash* h, char* args[], int size);
-
+char* hash_to_html(hash h);
 #ifdef DEBUG
-#include <stdio.h>
 void print_hash(hash h, int level);
 #endif
 

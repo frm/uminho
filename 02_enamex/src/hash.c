@@ -53,19 +53,30 @@ static unsigned int djb2_hash(char* str) {
     return hash;
 }
 
+static char* str_to_lower(char* str) {
+    char* l = (char*)calloc(strlen(str) + 1, sizeof(char) );
+
+    for (int i = 0 ; str[i]; ++i) l[i] = tolower(str[i]);
+    return l;
+}
+
+
 /* Finds the address where the pointer should be (whether or not it is there)
  * So that we can add it if we want
  * returns 0 if it exists, 1 otherwise
  */
 static int __get_bucket_addr(hash h, char* key, bucket** ret) {
-    unsigned int i = djb2_hash(key) % (h -> size);
+    char* lower_key = str_to_lower(key);
+    printf("\n\n### KEY: %s\nLOWER: %s\n", key, lower_key);
+    unsigned int i = djb2_hash(lower_key) % (h -> size);
+    free(lower_key);
     int found = 0;
     bucket* it = &(h -> table)[i];
     bucket* head = it;
 
     // try to find it in the current bucket
     while(*it && !found) {
-        if( strcmp( (*it) -> key, key) == 0 )
+        if( strcasecmp( (*it) -> key, key) == 0 )
             found = 1;
         else
             it = &( (*it) -> next );
@@ -141,6 +152,91 @@ hash new_hash(int size) {
     h -> n_elements = 0;
     h -> table = (bucket*)calloc(size, sizeof(bucket));
     return h;
+}
+
+static char* __subhash_to_html(hash h, int level) {
+    if(!h)
+        return NULL;
+
+    int header = level < 6 ? level : 6;
+    char* contents = (char*)calloc(1, sizeof(char));
+    for(int i = 0; i < h -> size; i++) {
+        bucket b = h -> table[i];
+        if(!b)
+            continue;
+        char* new_contents = __subhash_to_html(b -> subnodes, level + 1);
+        if(new_contents) {
+            // 38: <div class="col-xs-3"><h?></h?></div> + \0
+            puts("1");
+            int size = strlen(contents) + strlen(new_contents) + strlen(b -> key) + 38;
+            puts("2");
+            contents = (char*)realloc(contents, size);
+            printf("\n### CONTENTS: %s\nKEY:%s\nNEW_CONTENTS:%s\n", contents, b->key, new_contents);
+            sprintf(contents, "%s<div class=\"col-xs-3\"><h%d>%s</h%d>%s</div>", contents, header, b -> key, header, new_contents);
+            puts("3");
+        }
+    }
+    return contents;
+}
+
+static char* __hash_to_html(bucket b) {
+    if(!b)
+        return NULL;
+    // 33: <div class="col-xs-12"><h1></h1> + \0
+    /*char* contents = (char*)malloc(sizeof(char) * (strlen(b -> key) + 33) );
+    sprintf(contents, "<div class=\"col-xs-12\"><h1>%s</h1>", b -> key);*/
+    char* contents = (char*)calloc(1, sizeof(char));
+
+    char* new_contents = __subhash_to_html(b -> subnodes, 2);
+    if(new_contents) {
+        // 36: <div class="col-xs-12"></div></div> + \0
+        int size = strlen(contents) + strlen(new_contents) + 36;
+        char* str = (char*)malloc(sizeof(char) * size);
+        sprintf(str, "%s<div class=\"col-xs-12\">%s</div></div>", contents, new_contents);
+        return str;
+    }
+
+    return NULL;
+}
+
+char* hash_to_html(hash h) {
+    if(!h)
+        return NULL;
+
+    char* contents = (char*)calloc(1, sizeof(char));
+    for(int i = 0; i < h -> size; i++) {
+        bucket b = h -> table[i];
+        char* new_contents = __hash_to_html(b);
+
+        // 39: <div class="col-xs-12"><h1></h1></div> + \0
+        if(new_contents) {
+            int size = strlen(contents) + strlen(new_contents) + strlen(b -> key) + 39;
+            contents = (char*)realloc(contents, size);
+            sprintf(contents, "%s<div class=\"col-xs-12\"><h1>%s</h1>%s</div>", contents, b -> key, new_contents);
+        }
+
+   }
+    // 24 : <div class="row"></div> + \0
+/*    int final_size = strlen(contents) + 24;
+    contents = (char*)realloc(contents, final_size);
+    sprintf(contents, "<div class=\"row\">%s</div>", contents);*/
+    return contents;
+}
+
+
+static void __fprint_hash(FILE* f, hash h, int level) {
+     for(int i = 0; i < h -> size; i++) {
+        bucket b = h -> table[i];
+        while(b) {
+            fprintf(f, "LEVEL: %d, KEY: %s\n", level, b -> key);
+            __fprint_hash(f, b -> subnodes, level + 1);
+            b = b -> next;
+        }
+    }
+
+}
+void fprint_hash(FILE* f, hash h) {
+    __fprint_hash(f, h, 0);
 }
 
 #ifdef DEBUG

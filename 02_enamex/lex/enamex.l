@@ -2,6 +2,7 @@
 
 #include "hash.h"
 hash h;
+int html = 0;
 
 char* strcut(char* str, char fst, char snd) {
     if(! str)
@@ -59,6 +60,11 @@ char* get_type_value(char* str) {
 */
 
 
+void print_html() {
+    if (html)
+        printf("%s", hash_to_html(h));
+}
+
 %}
 
 ENAMEX_START    <[\t ]*ENAMEX
@@ -68,9 +74,14 @@ CLOSE           [\t ]*>
 VALUE           [^<]+
 ENAMEX_END      <\/ENAMEX>
 
+
+YIELD           \{\{[\t ]*yield[\t ]*\}\}
+
 %%
 
 (?i:{ENAMEX_START}{TYPE}{SUBTYPE}{CLOSE}{VALUE}{ENAMEX_END})       extract_info(yytext);
+
+(?i:{YIELD})     print_html();
 
 
 %%
@@ -81,6 +92,10 @@ int main(int argc, char** argv) {
         yyin = fopen(argv[1], "r");
 
     printf("Hello world!\n");
+    yylex();
+
+    yyin = fopen("templates/index.html", "rw");
+    html = 1;
     yylex();
     return 0;
 }
