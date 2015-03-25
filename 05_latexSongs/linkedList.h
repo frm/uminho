@@ -14,5 +14,7 @@ typedef struct songList {
 } *SongListP, SongList;
 
 SongListP init();
+	
+SongP newSong();
 
-int addSong(SongListP sl, char *info[6]);
+int addSong(SongListP sl, SongP ns);
