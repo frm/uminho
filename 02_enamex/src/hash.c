@@ -15,6 +15,10 @@ struct hash {
 
 static void delete_bucket(bucket b);
 
+static int empty_bucket(bucket b) {
+    return b -> subnodes -> n_elements == 0;
+}
+
 void delete_hash(hash h) {
     if(!h)
         return;
@@ -146,6 +150,14 @@ hash new_hash(int size) {
     return h;
 }
 
+static char* __bucket_paragraph(bucket b) {
+    // 37: <p></p> + \0
+    int size = strlen(b -> key) + 37;
+    char* contents = (char*)calloc(size, sizeof(char));
+    sprintf(contents, "<div class=\"large-4\"><p>%s</p></div>", b -> key);
+    return contents;
+}
+
 static char* __subhash_to_html(hash h, int level) {
     if(!h)
         return NULL;
@@ -154,18 +166,27 @@ static char* __subhash_to_html(hash h, int level) {
     char* contents = (char*)calloc(1, sizeof(char));
     for(int i = 0; i < h -> size; i++) {
         bucket b = h -> table[i];
+
         if(!b)
             continue;
-        char* new_contents = __subhash_to_html(b -> subnodes, level + 1);
-        if(new_contents) {
-            // 38: <div class="col-xs-3"><h?></h?></div> + \0
-            puts("1");
-            int size = strlen(contents) + strlen(new_contents) + strlen(b -> key) + 38;
-            puts("2");
+
+        char* new_contents;
+
+        if( empty_bucket(b) ) {
+            new_contents = __bucket_paragraph(b);
+            int size = strlen(contents) + strlen(new_contents) + 1;
             contents = (char*)realloc(contents, size);
-            printf("\n### CONTENTS: %s\nKEY:%s\nNEW_CONTENTS:%s\n", contents, b->key, new_contents);
-            sprintf(contents, "%s<div class=\"col-xs-3\"><h%d>%s</h%d>%s</div>", contents, header, b -> key, header, new_contents);
-            puts("3");
+            sprintf(contents, "%s%s", contents, new_contents);
+            continue;
+        }
+
+        else new_contents = __subhash_to_html(b -> subnodes, level + 2);
+
+        if(new_contents) {
+            // 39: <div class="large-4"><h?></h?></div> + \0
+            int size = strlen(contents) + strlen(new_contents) + strlen(b -> key) + 39;
+            contents = (char*)realloc(contents, size);
+            sprintf(contents, "%s<div class=\"large-4\"><h%d>%s</h%d>%s</div>", contents, header, b -> key, header, new_contents);
         }
     }
     return contents;
@@ -174,17 +195,17 @@ static char* __subhash_to_html(hash h, int level) {
 static char* __hash_to_html(bucket b) {
     if(!b)
         return NULL;
-    // 33: <div class="col-xs-12"><h1></h1> + \0
+    // 33: <div class="large-12"><h1></h1> + \0
     /*char* contents = (char*)malloc(sizeof(char) * (strlen(b -> key) + 33) );
-    sprintf(contents, "<div class=\"col-xs-12\"><h1>%s</h1>", b -> key);*/
+    sprintf(contents, "<div class=\"large-12\"><h1>%s</h1>", b -> key);*/
     char* contents = (char*)calloc(1, sizeof(char));
 
-    char* new_contents = __subhash_to_html(b -> subnodes, 2);
+    char* new_contents = __subhash_to_html(b -> subnodes, 3);
     if(new_contents) {
-        // 36: <div class="col-xs-12"></div></div> + \0
-        int size = strlen(contents) + strlen(new_contents) + 36;
+        // 37: <div class="large-12"></div> + \0
+        int size = strlen(contents) + strlen(new_contents) + 31;
         char* str = (char*)malloc(sizeof(char) * size);
-        sprintf(str, "%s<div class=\"col-xs-12\">%s</div></div>", contents, new_contents);
+        sprintf(str, "%s<div class=\"large-12\">%s</div>", contents, new_contents);
         return str;
     }
 
@@ -200,11 +221,11 @@ char* hash_to_html(hash h) {
         bucket b = h -> table[i];
         char* new_contents = __hash_to_html(b);
 
-        // 39: <div class="col-xs-12"><h1></h1></div> + \0
+        // 40: <div class="large-12"><h1></h1></div> + \0
         if(new_contents) {
-            int size = strlen(contents) + strlen(new_contents) + strlen(b -> key) + 39;
+            int size = strlen(contents) + strlen(new_contents) + strlen(b -> key) + 40;
             contents = (char*)realloc(contents, size);
-            sprintf(contents, "%s<div class=\"col-xs-12\"><h1>%s</h1>%s</div>", contents, b -> key, new_contents);
+            sprintf(contents, "%s<div class=\"large-12\"><h1>%s</h1>%s</div>", contents, b -> key, new_contents);
         }
 
    }
@@ -261,4 +282,3 @@ int main() {
     return 0;
 }
 #endif
-

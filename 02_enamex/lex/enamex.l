@@ -5,6 +5,7 @@
 
 hash h;
 int html = 0;
+FILE* f;
 
 void extract_info(char* str) {
     // get what's inside the first set of ' '
@@ -39,9 +40,14 @@ char* get_type_value(char* str) {
 */
 
 
-void print_html() {
+void print_struct() {
     if (html)
-        printf("%s", hash_to_html(h));
+        fprintf(f, "%s", hash_to_html(h));
+}
+
+void print_html() {
+    if(html)
+        fprintf(f, "%s", yytext);
 }
 
 %}
@@ -60,8 +66,8 @@ YIELD           \{\{[\t ]*yield[\t ]*\}\}
 
 (?i:{ENAMEX_START}{TYPE}{SUBTYPE}{CLOSE}{VALUE}{ENAMEX_END})       extract_info(yytext);
 
-(?i:{YIELD})     print_html();
-
+(?i:{YIELD})     print_struct();
+.                print_html();
 
 %%
 
@@ -73,9 +79,10 @@ int main(int argc, char** argv) {
     printf("Hello world!\n");
     yylex();
 
-    yyin = fopen("templates/index.html", "rw");
     html = 1;
+    yyin = fopen("templates/template.html", "r");
+    f = fopen("html/index.html", "w+");
     yylex();
+    fclose(f);
     return 0;
 }
-
