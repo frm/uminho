@@ -89,6 +89,13 @@ sobrinho(S, T) :- tio(T, S).
 
 casado(M, N) :- filho(F, M), filho(F, N).
 
+
+primo(X, Y) :- pai(P1, X), pai(P2, Y), irmao(P1, P2).
+
+bisavo(BA, BN) :- avo(A, BN), pai(BA, A).
+
+bisneto(BN, BA) :- bisavo(BA, BN).
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado descendente: X,Y -> {V,F}
 
