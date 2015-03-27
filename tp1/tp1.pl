@@ -13,6 +13,12 @@
 
 :- op( 900,xfy,'::' ).
 :- dynamic filho/2.
+:- dynamic pai/2.
+:- dynamic irmao/2.
+:- dynamic avo/2.
+:- dynamic neto/2.
+:- dynamic tio/2.
+:- dynamic primo/2.
 
 r :- consult('tp1.pl').
 
@@ -46,17 +52,22 @@ filho(flora_soares, joao_soares).
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado pai: Pai,Filho -> {V,F}
 
-pai(P,F) :- filho(F, P).
+filho(F, P) :- clause(pai(P,F), true) .
 
+pai(P,F) :- filho(F, P).
+pai(P,F) :- clause(irmao(M,F), true), clause(pai(P,M),true).
+pai(P,F) :- clause(irmao(F,M), true), clause(pai(P,M),true).
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado irmao: M,N -> {V,F}
 
 irmao(M,N) :- pai(P, M), pai(P, N).
+irmao(M,N) :- clause(irmao(N, M), true) .
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado avo: Avo,Neto -> {V,F}
 
 avo(A,N) :- filho(N, X) , pai(A, X).
+avo(A,N) :- irmao(N,I), clause(avo(A,I), true).
 
 %%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado neto: Neto,Avo -> {V,F}
@@ -135,7 +146,6 @@ teste( [R|LR]) :-
 evolucao(T) :- solucoes( I, +T::I, S),
                   insere(T),
                   teste(S).
-
 
 % Invariante Estrutural:  nao permitir a insercao de conhecimento
 %                         repetido  [i]
