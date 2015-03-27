@@ -1,3 +1,27 @@
+% TODO:
+% [] naturalidade
+% [] listar filhos
+% [] listar pais
+% [] listar tios
+% [] listar sobrinhos
+% [] listar avos
+% [] listar netos
+% [] listar bisavos
+% [] listar bisnetos
+% [] listar primos
+% [] listar casados
+% [] listar nascidos num ano
+% [] listar mortos num ano
+% [] listar naturais de um sitio
+% [] listar pessoas com uma certa idade
+% [] solucoes
+% [] relacao entre duas pessoas
+% [] invariantes do filho (info repetida, mais que 2 pais)
+% [] invariantes da naturalidade (nascimento e morte, mais que uma naturalidade)
+% [] casado com mais que uma pessoa? acho que nao se aplica se for a base de filhos
+% [] por comentarios direito
+% [] clauses
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % SIST. REPR. CONHECIMENTO E RACIOCINIO - LEI/3
 
