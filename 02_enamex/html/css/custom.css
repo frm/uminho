@@ -31,7 +31,7 @@ body > .accordion {
 }
 
 .row > .accordion .accordion {
-    border-top: 1px solid black;
+    border-top: 2px solid #fafafa;
 }
 
 .accordion .large-12 {
@@ -42,11 +42,11 @@ body > .accordion {
     margin: 5px;
     color: #fafafa;
     padding: 5px;
-    background-color: #26ae90;
+    background-color: #80DEEA;
     border-radius: 5px;
 }
 
 .open {
-    background-color: #00695C;
+    background-color: #00BCD4;
 }
 
