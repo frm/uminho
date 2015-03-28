@@ -63,7 +63,6 @@ static unsigned int djb2_hash(char* str) {
  */
 static int __get_bucket_addr(hash h, char* key, bucket** ret) {
     char* lower_key = str_to_lower(key);
-    printf("\n\n### KEY: %s\nLOWER: %s\n", key, lower_key);
     unsigned int i = djb2_hash(lower_key) % (h -> size);
     free(lower_key);
     int found = 0;
@@ -229,10 +228,6 @@ char* hash_to_html(hash h) {
         }
 
    }
-    // 24 : <div class="row"></div> + \0
-/*    int final_size = strlen(contents) + 24;
-    contents = (char*)realloc(contents, final_size);
-    sprintf(contents, "<div class=\"row\">%s</div>", contents);*/
     return contents;
 }
 

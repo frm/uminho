@@ -25,7 +25,6 @@ void extract_info(char* str) {
         free(type);
         free(value);
     }
-    printf("\n## TYPE: %s\nSUBTYPE: %s\nVALUE: %s\n\n", type, subtype, value);
 }
 
 
@@ -68,7 +67,6 @@ int main(int argc, char** argv) {
     if (argc == 2)
         yyin = fopen(argv[1], "r");
 
-    printf("Hello world!\n");
     yylex();
 
     html = 1;
