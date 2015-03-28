@@ -137,8 +137,38 @@ t13 :-
 t14 :-
     sobrinho(joao, carolina).
 
-test(L) :-
+teste_relacoes(L) :-
     test_all( [t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14], L ).
+
+tl1 :-
+    listarPais(joao, L), contemTodos(L, [ana, jorge]).
+
+tl2 :-
+    listarFilhos(jorge, L), contemTodos(L, [carlos, joao]).
+
+tl3 :-
+    listarAvos(jorge, A), contemTodos(A, [jose, maria, manuel, margarida]).
+
+tl4 :-
+    listarNetos(maria, L), contemTodos(L, [joao, carlos, carla]).
+
+tl5 :-
+    listarTios(joao, L), contemTodos(L, [carolina, luis]).
+
+tl6 :-
+    listarSobrinhos(luis, L), contemTodos(L, [joao, carlos]).
+
+teste_listar(L) :-
+    test_all( [tl1, tl2, tl3, tl4, tl5, tl6], L ).
+
+% funcoes auxiliares de teste
+contem(H, [H|T]).
+contem(X, [H|T]) :-
+    contem(X, T).
+
+contemTodos([], _).
+contemTodos([H|T], L) :-
+    contem(H, L), contemTodos(T, L).
 
 test_all([], []).
 test_all([H|T], L) :-
@@ -253,7 +283,7 @@ listarFilhos( P,S ) :-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarPais: F,S -> {V,F}
 listarPais( F,S ) :-
-    solucoes( P,pai(F,P), S).
+    solucoes( P,pai(P,F), S).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarTios: SOB,S -> {V,F}
@@ -273,7 +303,7 @@ listarAvos( N,S ) :-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarNetos: A,S -> {V,F}
 listarNetos( A,S ) :-
-    solucoes( A,neto(N,A),S ).
+    solucoes( N,neto(N,A),S ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarBisavos: BN,S -> {V,F}
