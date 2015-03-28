@@ -1,7 +1,8 @@
 $(document).ready(function() {
-    $('.accordion :header').on('click', function(e) {
+    $('.accordion').on('click', ':header', function(e) {
         e.stopPropagation();
-        $(this).parent().find('.large-12').slideToggle();
+        $(this).toggleClass('open');
+        $(this).closest('.accordion').find("> .large-12").slideToggle();
     });
 });
 

@@ -1,3 +1,16 @@
+* {
+  margin:0;
+  padding:0;
+  font-family:"Helvetica Neue", Helvetica, Sans-serif;
+  word-spacing:-2px;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+}
+
 .accordion h1,
 .accordion h2,
 .accordion h3,
@@ -5,7 +18,12 @@
 .accordion h5,
 .accordion h6
 {
+    margin: 0 auto;
+    display:inline-block;
+    padding: 5px 15px;
+    border-radius: 5px;
     cursor: pointer;
+    color: #fafafa;
 }
 
 body > .accordion {
@@ -22,8 +40,13 @@ body > .accordion {
 
 .accordion {
     margin: 5px;
+    color: #fafafa;
     padding: 5px;
+    background-color: #26ae90;
     border-radius: 5px;
-    background-color: #F5F5F5;
+}
+
+.open {
+    background-color: #00695C;
 }
 

@@ -202,10 +202,9 @@ static char* __hash_to_html(bucket b) {
 
     char* new_contents = __subhash_to_html(b -> subnodes, 3);
     if(new_contents) {
-        // 37: <div class="large-12"></div> + \0
-        int size = strlen(contents) + strlen(new_contents) + 31;
+        int size = strlen(contents) + strlen(new_contents) + 1;
         char* str = (char*)malloc(sizeof(char) * size);
-        sprintf(str, "%s<div class=\"large-12\">%s</div>", contents, new_contents);
+        sprintf(str, "%s%s", contents, new_contents);
 
         return str;
     }
