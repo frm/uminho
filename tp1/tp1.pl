@@ -19,9 +19,10 @@
 % [] listar filhos de casamento
 % [x] solucoes
 % [] relacao entre duas pessoas
-% [] invariantes do filho (info repetida, mais que 2 pais)
+% [x] invariantes do filho (info repetida, mais que 2 pais)
+% [] invariantes do pai (impedir que inserir pai something de cabo dos invariados do filho)
 % [] invariantes da naturalidade (nascimento e morte, mais que uma naturalidade)
-% [] invariante casado com mais que uma pessoa, informacao repetida e casado(A, B)/casado(B,A)
+% [x] invariante casado com mais que uma pessoa, informacao repetida e casado(A, B)/casado(B,A)
 % [] por comentarios direito
 % [] clauses
 % [x] remover repetidos
@@ -48,6 +49,7 @@
 :- dynamic tio/2.
 :- dynamic primo/2.
 :- dynamic casado/2.
+:- dynamic naturalidade/3.
 
 r :-
     consult('tp1.pl').
@@ -55,6 +57,8 @@ r :-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Arvore geneologica exemplo
 %
+%                       ricardo
+%                          |
 %                         jose + maria
 %                           /     \
 %      manuel + margarida  /       \
@@ -93,6 +97,9 @@ filho(carolina, maria).
 filho(carla, luis).
 filho(carla, carolina).
 casado(carolina, luis).
+
+% ricardo, pai de jose, avo de jorge e carolina, bisavo de joao, carlos e carla
+filho(jose,ricardo).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Testes exemplo
@@ -139,8 +146,16 @@ t13 :-
 t14 :-
     sobrinho(joao, carolina).
 
+t15 :-
+    pai(ricardo,jose).
+
+t16 :-
+    nao( avo(ricardo, ana) ).
+
 teste_relacoes(L) :-
-    test_all( [t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14], L ).
+    test_all( [t1, t2, t3, t4, t5, t6, t7,
+                t8, t9, t10, t11, t12, t13,
+                t14, t15, t16], L ).
 
 tl1 :-
     listarPais(joao, L), contemTodos(L, [ana, jorge]).
@@ -160,8 +175,45 @@ tl5 :-
 tl6 :-
     listarSobrinhos(luis, L), contemTodos(L, [joao, carlos]).
 
+tl7 :-
+    listarNetos(ricardo, L), contemTodos(L, [jorge, carolina]).
+
+tl6 :-
+    listarBisnetos(ricardo, L), contemTodos(L, [carlos, carla, joao]).
+
+tl7 :-
+    listarBisavos(carlos, L), contemTodos(L, [ricardo]).
+
 teste_listar(L) :-
-    test_all( [tl1, tl2, tl3, tl4, tl5, tl6], L ).
+    test_all( [tl1, tl2, tl3, tl4, tl5, tl6, tl7], L ).
+
+
+ti1 :-
+    nao( evolucao(filho(joao,x)) ).
+
+ti2 :-
+    nao( evolucao(filho(joao,jorge)) ).
+
+ti3 :-
+    nao( evolucao(ana,x) ).
+
+ti4 :-
+    nao( evolucao(x,ana) ).
+
+ti5 :-
+    nao( evolucao(ana,jorge) ).
+
+ti6 :-
+    nao( evolucao(jorge, ana) ).
+
+teste_invariantes(L) :-
+    test_all( [ti1, ti2, ti3, ti4, ti5, ti6], L).
+
+teste_total(L) :-
+    teste_listar(SL1),
+    teste_invariantes(SL2),
+    teste_relacoes(SL3),
+    L = [SL1, SL2, SL3].
 
 % funcoes auxiliares de teste
 contem(H, [H|T]).
@@ -175,6 +227,7 @@ contemTodos([H|T], L) :-
 test_all([], []).
 test_all([H|T], L) :-
     H, test_all(T, L).
+
 test_all([H|T], L) :-
     test_all(T, NL), L = [H|NL].
 
@@ -389,3 +442,46 @@ evolucao(T) :-
                   comprimento( S,N ),
                   N == 1
                   ).
+
+casado(X,Y) :- clause(casado(Y,X), true).
+
+% so estar casado com uma pessoa
++casado( X,Y ) :: ( solucoes( Z,casado(X,Z),S ),
+                    comprimento( S,N ),
+                    N =< 1
+                  ).
+
++casado( X,Y ) :: ( solucoes(Z, casado(Y,Z), S),
+                    comprimento( S,N ),
+                    N =< 1
+                  ).
+
+% nao inserir conhecimento repetido:
+% se esta casado(X,Y) nao inserir
+% casado(X,Y) nem casado(Y,X)
+% mas isto nao fica coberto pelo caso de so estar casado com uma pessoa?
++casado( X,Y ) :: ( solucoes( (X,Y), casado(X,Y), S),
+                    comprimento( S,N ),
+                    N == 1
+                  ).
+
++casado( X,Y ) :: ( solucoes( (X,Y), casado(Y,X), S),
+                    comprimento( S,N ),
+                    N == 1
+                  ).
+
+
+
+% isto serve para testar, mas no fim e para remover
+% o rui usou isto, disponibilizou no grupo, e deles
+whynot( T , ER) :-
+    solucoes(I,+T::I,S),
+    assert(T),
+    why_not_teste(S, ER),
+    retract(T).
+
+why_not_teste([],ok).
+why_not_teste([I|L], ER) :- I, why_not_teste(L, ER).
+why_not_teste([I|L], ER) :- head(L,ER).
+
+head([H|L], H).
