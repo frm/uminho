@@ -151,10 +151,10 @@ hash new_hash(int size) {
 }
 
 static char* __bucket_paragraph(bucket b) {
-    // 37: <p></p> + \0
-    int size = strlen(b -> key) + 37;
+    // 38: <p></p> + \0
+    int size = strlen(b -> key) + 36;
     char* contents = (char*)calloc(size, sizeof(char));
-    sprintf(contents, "<div class=\"large-4\"><p>%s</p></div>", b -> key);
+    sprintf(contents, "<div class=\"large-12\"><p>%s</p></div>", b -> key);
     return contents;
 }
 
@@ -183,10 +183,10 @@ static char* __subhash_to_html(hash h, int level) {
         else new_contents = __subhash_to_html(b -> subnodes, level + 2);
 
         if(new_contents) {
-            // 39: <div class="large-4"><h?></h?></div> + \0
-            int size = strlen(contents) + strlen(new_contents) + strlen(b -> key) + 39;
+            // 40: <div class="large-12"><h?></h?></div> + \0
+            int size = strlen(contents) + strlen(new_contents) + strlen(b -> key) + 48;
             contents = (char*)realloc(contents, size);
-            sprintf(contents, "%s<div class=\"large-4\"><h%d>%s</h%d>%s</div>", contents, header, b -> key, header, new_contents);
+            sprintf(contents, "%s<div class=\"large-12 accordion\"><h%d>%s</h%d>%s</div>", contents, header, b -> key, header, new_contents);
         }
     }
     return contents;
@@ -206,6 +206,7 @@ static char* __hash_to_html(bucket b) {
         int size = strlen(contents) + strlen(new_contents) + 31;
         char* str = (char*)malloc(sizeof(char) * size);
         sprintf(str, "%s<div class=\"large-12\">%s</div>", contents, new_contents);
+
         return str;
     }
 
@@ -223,9 +224,9 @@ char* hash_to_html(hash h) {
 
         // 40: <div class="large-12"><h1></h1></div> + \0
         if(new_contents) {
-            int size = strlen(contents) + strlen(new_contents) + strlen(b -> key) + 40;
+            int size = strlen(contents) + strlen(new_contents) + strlen(b -> key) + 48;
             contents = (char*)realloc(contents, size);
-            sprintf(contents, "%s<div class=\"large-12\"><h1>%s</h1>%s</div>", contents, b -> key, new_contents);
+            sprintf(contents, "%s<div class=\"large-12 accordion\"><h1>%s</h1>%s</div>", contents, b -> key, new_contents);
         }
 
    }

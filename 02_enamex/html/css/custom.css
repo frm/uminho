@@ -1,0 +1,29 @@
+.accordion h1,
+.accordion h2,
+.accordion h3,
+.accordion h4,
+.accordion h5,
+.accordion h6
+{
+    cursor: pointer;
+}
+
+body > .accordion {
+    display: block;
+}
+
+.row > .accordion .accordion {
+    border-top: 1px solid black;
+}
+
+.accordion .large-12 {
+    display: none;
+}
+
+.accordion {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #F5F5F5;
+}
+
