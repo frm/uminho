@@ -1,11 +1,13 @@
 % TODO:
+% y - feito
+% x - feito e testado
 % [] naturalidade
-% [y] listar filhos
-% [y] listar pais
-% [y] listar tios
-% [y] listar sobrinhos
-% [y] listar avos
-% [y] listar netos
+% [x] listar filhos
+% [x] listar pais
+% [x] listar tios
+% [x] listar sobrinhos
+% [x] listar avos
+% [x] listar netos
 % [y] listar bisavos
 % [y] listar bisnetos
 % [] listar primos
@@ -19,7 +21,7 @@
 % [] relacao entre duas pessoas
 % [] invariantes do filho (info repetida, mais que 2 pais)
 % [] invariantes da naturalidade (nascimento e morte, mais que uma naturalidade)
-% [] casado com mais que uma pessoa? acho que nao se aplica se for a base de filhos
+% [] invariante casado com mais que uma pessoa, informacao repetida e casado(A, B)/casado(B,A)
 % [] por comentarios direito
 % [] clauses
 % [y] remover repetidos
@@ -147,7 +149,7 @@ tl2 :-
     listarFilhos(jorge, L), contemTodos(L, [carlos, joao]).
 
 tl3 :-
-    listarAvos(jorge, A), contemTodos(A, [jose, maria, manuel, margarida]).
+    listarAvos(joao, A), contemTodos(A, [jose, maria, manuel, margarida]).
 
 tl4 :-
     listarNetos(maria, L), contemTodos(L, [joao, carlos, carla]).
@@ -278,42 +280,42 @@ grau(X,Y, N) :-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarFilhos: P,S -> {V,F}
 listarFilhos( P,S ) :-
-    solucoes( F,filho(F,P), S).
+    solucoes( F,filho(F,P),NL ), removerRepetidos(NL, S).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarPais: F,S -> {V,F}
 listarPais( F,S ) :-
-    solucoes( P,pai(P,F), S).
+    solucoes( P,pai(P,F),NL ), removerRepetidos(NL, S).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarTios: SOB,S -> {V,F}
 listarTios( SOB,S ) :-
-    solucoes( T,tio(T,SOB),S ).
+    solucoes( T,tio(T,SOB),NL ), removerRepetidos(NL, S).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarSobrinhos: T,S -> {V,F}
 listarSobrinhos( T,S ) :-
-    solucoes( SOB,sobrinho(SOB,T),S ).
+    solucoes( SOB,sobrinho(SOB,T),NL ), removerRepetidos(NL, S).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarAvos: N,S -> {V,F}
 listarAvos( N,S ) :-
-    solucoes( A,avo(A,N),S ).
+    solucoes( A,avo(A,N),NL ), removerRepetidos(NL, S).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarNetos: A,S -> {V,F}
 listarNetos( A,S ) :-
-    solucoes( N,neto(N,A),S ).
+    solucoes( N,neto(N,A),NL ), removerRepetidos(NL, S).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarBisavos: BN,S -> {V,F}
 listarBisavos( BN,S ) :-
-    solucoes( A,avo(A,BN),S ).
+    solucoes( A,avo(A,BN),NL ), removerRepetidos(NL, S).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarBisnetos: BA,S -> {V,F}
 listarBisnetos( BA,S ) :-
-    solucoes( BA,bisneto(N,BA),S ).
+    solucoes( BA,bisneto(N,BA),NL ), removerRepetidos(NL, S).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -326,10 +328,10 @@ removerElemento( [X|L],Y,[X|NL] ) :-
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado removerRepetido: [X | L], [A | B] -> {V,F}
-removerRepetido( [],[] ).
-removerRepetido( [X|L],[X|NL] ) :-
-    removerElemento( L,X,TL ), removerRepetido( TL,NL ).
+% Extensao do predicado removerRepetidos: [X | L], [A | B] -> {V,F}
+removerRepetidos( [],[] ).
+removerRepetidos( [X|L],[X|NL] ) :-
+    removerElemento( L,X,TL ), removerRepetidos( TL,NL ).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -347,8 +349,25 @@ nao(T) :-
 nao(_).
 
 
+%solucoes(A, T, S) :-
+%    findall(A, T, S).
+
+
 solucoes(A, T, S) :-
-    findall(A, T, S).
+    T,
+    assert( tmp(A) ),
+    fail.
+
+solucoes(A, T, S) :-
+    obter([], S).
+
+obter(X,S) :-
+    retract( tmp(A) ),
+    !,
+    obter([A|X], S).
+
+obter(S,S).
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que permite a evolucao do conhecimento
 
