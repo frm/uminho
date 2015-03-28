@@ -95,6 +95,57 @@ casado(carolina, luis).
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Testes exemplo
 
+t1 :-
+    pai(ana, joao), pai(ana, carlos).
+
+t2 :-
+    irmao(joao, carlos).
+
+t3 :-
+    avo(manuel, carlos).
+
+t4 :-
+    avo(margarida, joao).
+
+t5 :-
+    tio(carolina, joao).
+
+t6 :-
+    tio(luis, carlos).
+
+t7 :-
+    nao( tio(jorge, joao) ).
+
+t8 :-
+    avo(jose, carlos).
+
+t9 :-
+    primo(carlos, carla).
+
+t10 :-
+    irmao(jorge, carolina).
+
+t11 :-
+    nao( irmao(jorge,luis) ).
+
+t12 :-
+    neto(carla, maria).
+
+t13 :-
+    sobrinho(joao, luis).
+
+t14 :-
+    sobrinho(joao, carolina).
+
+test(L) :-
+    test_all( [t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14], L ).
+
+test_all([], []).
+test_all([H|T], L) :-
+    H, !, test_all(T, L).
+test_all([H|T], L) :-
+    test_all(T, NL), L = [H|NL].
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado pai: Pai,Filho -> {V,F}
 
@@ -195,60 +246,60 @@ grau(X,Y, N) :-
                   ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado listarfilhos: P,S -> {V,F}
-listarfilhos( P,S ) :-
+% Extensao do predicado listarFilhos: P,S -> {V,F}
+listarFilhos( P,S ) :-
     solucoes( F,filho(F,P), S).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado listarpais: F,S -> {V,F}
-listarpais( F,S ) :-
+% Extensao do predicado listarPais: F,S -> {V,F}
+listarPais( F,S ) :-
     solucoes( P,pai(F,P), S).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado listartios: SOB,S -> {V,F}
-listartios( SOB,S ) :-
+% Extensao do predicado listarTios: SOB,S -> {V,F}
+listarTios( SOB,S ) :-
     solucoes( T,tio(T,SOB),S ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado listarsobrinhos: T,S -> {V,F}
-listarsobrinhos( T,S ) :-
+% Extensao do predicado listarSobrinhos: T,S -> {V,F}
+listarSobrinhos( T,S ) :-
     solucoes( SOB,sobrinho(SOB,T),S ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado listaravos: N,S -> {V,F}
-listaravos( N,S ) :-
+% Extensao do predicado listarAvos: N,S -> {V,F}
+listarAvos( N,S ) :-
     solucoes( A,avo(A,N),S ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado listarnetos: A,S -> {V,F}
-listarnetos( A,S ) :-
+% Extensao do predicado listarNetos: A,S -> {V,F}
+listarNetos( A,S ) :-
     solucoes( A,neto(N,A),S ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado listarbisavos: BN,S -> {V,F}
-listarbisavos( BN,S ) :-
+% Extensao do predicado listarBisavos: BN,S -> {V,F}
+listarBisavos( BN,S ) :-
     solucoes( A,avo(A,BN),S ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado listarbisnetos: BA,S -> {V,F}
-listarbisnetos( BA,S ) :-
+% Extensao do predicado listarBisnetos: BA,S -> {V,F}
+listarBisnetos( BA,S ) :-
     solucoes( BA,bisneto(N,BA),S ).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado removerelemento: [X | L], Y, [A | B] -> {V,F}
-removerelemento( [],_,[] ).
-removerelemento( [X|L],X,NL ) :-
-    removerelemento( L,X,NL ).
-removerelemento( [X|L],Y,[X|NL] ) :-
-    X \== Y, removerelemento( L,Y,NL ).
+% Extensao do predicado removerElemento: [X | L], Y, [A | B] -> {V,F}
+removerElemento( [],_,[] ).
+removerElemento( [X|L],X,NL ) :-
+    removerElemento( L,X,NL ).
+removerElemento( [X|L],Y,[X|NL] ) :-
+    X \== Y, removerElemento( L,Y,NL ).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado removerelementorep: [X | L], [A | B] -> {V,F}
-removerelementorep( [],[] ).
-removerelementorep( [X|L],[X|NL] ) :-
-    removerelemento( L,X,TL ), removerelementorep( TL,NL ).
+% Extensao do predicado removerRepetido: [X | L], [A | B] -> {V,F}
+removerRepetido( [],[] ).
+removerRepetido( [X|L],[X|NL] ) :-
+    removerElemento( L,X,TL ), removerRepetido( TL,NL ).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -259,6 +310,11 @@ comprimento( [X|L],N ) :-
     comprimento( L,N1 ),
     N is N1+1.
 
+
+nao(T) :-
+    T, !, fail.
+
+nao(_).
 
 
 solucoes(A, T, S) :-
