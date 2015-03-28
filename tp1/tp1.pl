@@ -1,19 +1,20 @@
 % TODO:
 % [] naturalidade
-% [] listar filhos
-% [] listar pais
-% [] listar tios
-% [] listar sobrinhos
-% [] listar avos
-% [] listar netos
-% [] listar bisavos
-% [] listar bisnetos
+% [y] listar filhos
+% [y] listar pais
+% [y] listar tios
+% [y] listar sobrinhos
+% [y] listar avos
+% [y] listar netos
+% [y] listar bisavos
+% [y] listar bisnetos
 % [] listar primos
 % [] listar casados
 % [] listar nascidos num ano
 % [] listar mortos num ano
 % [] listar naturais de um sitio
 % [] listar pessoas com uma certa idade
+% [] listar filhos de casamento
 % [] solucoes
 % [] relacao entre duas pessoas
 % [] invariantes do filho (info repetida, mais que 2 pais)
@@ -21,6 +22,7 @@
 % [] casado com mais que uma pessoa? acho que nao se aplica se for a base de filhos
 % [] por comentarios direito
 % [] clauses
+% [y] remover repetidos
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % SIST. REPR. CONHECIMENTO E RACIOCINIO - LEI/3
@@ -43,6 +45,7 @@
 :- dynamic neto/2.
 :- dynamic tio/2.
 :- dynamic primo/2.
+:- dynamic casado/2.
 
 r :- consult('tp1.pl').
 
@@ -73,6 +76,9 @@ filho(antonia_soares, joaquina_ferreira).
 filho(flora_soares, antonia_soares).
 filho(flora_soares, joao_soares).
 
+%
+casado(antonia_soares,joao_soares).
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado pai: Pai,Filho -> {V,F}
 
@@ -84,7 +90,7 @@ pai(P,F) :- clause(irmao(F,M), true), clause(pai(P,M),true).
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado irmao: M,N -> {V,F}
 
-irmao(M,N) :- pai(P, M), pai(P, N).
+irmao(M,N) :- pai(P, M), pai(P, N) , M \== N.
 irmao(M,N) :- clause(irmao(N, M), true) .
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -102,16 +108,13 @@ neto(N, A) :- avo(A, N).
 % Extensao do predicado tio: Tio,Sobrinho -> {V,F}
 
 tio(T, S) :- pai(P, S), irmao(T, P).
+tio( T1,S ) :- avo(A, S), filho(T2, A), pai(P, S), P \== T2, clause(casado( T1, T2) , true).
+tio( T1,S ) :- avo(A, S), filho(T2, A), pai(P, S), P \== T2, clause(casado( T2, T1) , true).
 
 %%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado sobrinho: Sobrinho,Tio -> {V,F}
 
 sobrinho(S, T) :- tio(T, S).
-
-%%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado casado: M,N -> {V,F}
-
-casado(M, N) :- filho(F, M), filho(F, N).
 
 
 primo(X, Y) :- pai(P1, X), pai(P2, Y), irmao(P1, P2).
@@ -151,6 +154,51 @@ grau(X,Y, N) :- filho(X,Z) , grau(Z, Y, G), N is G+1.
                     N=<2
                   ).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listarfilhos: P,S -> {V,F}
+listarfilhos( P,S ) :- solucoes( F,filho(F,P), S).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listarpais: F,S -> {V,F}
+listarpais( F,S ) :- solucoes( P,pai(F,P), S).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listartios: SOB,S -> {V,F}
+listartios( SOB,S ) :- solucoes( T,tio(T,SOB),S ).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listarsobrinhos: T,S -> {V,F}
+listarsobrinhos( T,S ) :- solucoes( SOB,sobrinho(SOB,T),S ).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listaravos: N,S -> {V,F}
+listaravos( N,S ) :- solucoes( A,avo(A,N),S ).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listarnetos: A,S -> {V,F}
+listarnetos( A,S ) :- solucoes( A,neto(N,A),S ).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listarbisavos: BN,S -> {V,F}
+listarbisavos( BN,S ) :- solucoes( A,avo(A,BN),S ).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listarbisnetos: BA,S -> {V,F}
+listarbisnetos( BA,S ) :- solucoes( BA,bisneto(N,BA),S ).
+
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado removerelemento: [X | L], Y, [A | B] -> {V,F}
+removerelemento( [],_,[] ).
+removerelemento( [X|L],X,NL ) :- removerelemento( L,X,NL ).
+removerelemento( [X|L],Y,[X|NL] ) :- X \== Y, removerelemento( L,Y,NL ).
+
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado removerelementorep: [X | L], [A | B] -> {V,F}
+removerelementorep( [],[] ).
+removerelementorep( [X|L],[X|NL] ) :- removerelemento( L,X,TL ), removerelementorep( TL,NL ).
+	
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado comprimento: [X | L], N -> {V,F}
