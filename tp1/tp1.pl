@@ -142,7 +142,7 @@ test(L) :-
 
 test_all([], []).
 test_all([H|T], L) :-
-    H, !, test_all(T, L).
+    H, test_all(T, L).
 test_all([H|T], L) :-
     test_all(T, NL), L = [H|NL].
 
@@ -186,9 +186,9 @@ neto(N, A) :-
 tio(T, S) :-
     pai(P, S), irmao(T, P).
 tio( T1,S ) :-
-    avo(A, S), filho(T2, A), pai(P, S), P \== T2, clause(casado( T1, T2) , true).
+    avo(A, S), filho(T2, A), nao( pai(T2, S) ), clause(casado( T1, T2) , true).
 tio( T1,S ) :-
-    avo(A, S), filho(T2, A), pai(P, S), P \== T2, clause(casado( T2, T1) , true).
+    avo(A, S), filho(T2, A), nao( pai(T2, S) ), clause(casado( T2, T1) , true).
 
 %%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado sobrinho: Sobrinho,Tio -> {V,F}
