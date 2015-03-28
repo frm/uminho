@@ -28,21 +28,13 @@ void extract_info(char* str) {
     printf("\n## TYPE: %s\nSUBTYPE: %s\nVALUE: %s\n\n", type, subtype, value);
 }
 
-/*
-char* get_type_value(char* str) {
-    char* start = strchr( strstr(str, "TYPE"), '"') + 1;
-    char* end = strrchr(start, '"');
-    unsigned long last_index = strlen(start) - (end - start);
-    unsigned long i = strlen(start) - last_index;
-    start[i] = '\0';
-    return start;
-}
-*/
-
 
 void print_struct() {
-    if (html)
-        fprintf(f, "%s", hash_to_html(h));
+    if (html) {
+        char* html = hash_to_html(h);
+        fprintf(f, "%s", html);
+        free(html);
+    }
 }
 
 void print_html() {
@@ -86,3 +78,4 @@ int main(int argc, char** argv) {
     fclose(f);
     return 0;
 }
+
