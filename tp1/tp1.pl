@@ -8,10 +8,10 @@
 % [x] listar sobrinhos
 % [x] listar avos
 % [x] listar netos
-% [y] listar bisavos
-% [y] listar bisnetos
-% [] listar primos
-% [] listar casados
+% [x] listar bisavos
+% [x] listar bisnetos
+% [x] listar primos
+% [x] listar casados
 % [] listar nascidos num ano
 % [] listar mortos num ano
 % [] listar naturais de um sitio
@@ -21,7 +21,7 @@
 % [] relacao entre duas pessoas
 % [x] invariantes do filho (info repetida, mais que 2 pais)
 % [] invariantes do pai (impedir que inserir pai something de cabo dos invariados do filho)
-% [] invariantes da naturalidade (nascimento e morte, mais que uma naturalidade)
+% [x] invariantes da naturalidade (nascimento e morte, mais que uma naturalidade)
 % [x] invariante casado com mais que uma pessoa, informacao repetida e casado(A, B)/casado(B,A)
 % [] por comentarios direito
 % [] clauses
@@ -231,6 +231,8 @@ test_all([H|T], L) :-
 test_all([H|T], L) :-
     test_all(T, NL), L = [H|NL].
 
+
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado pai: Pai,Filho -> {V,F}
 
@@ -250,6 +252,11 @@ irmao(M,N) :-
     pai(P, M), pai(P, N) , M \== N.
 irmao(M,N) :-
     clause(irmao(N, M), true) .
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado casado: X,Y -> {V,F}
+
+casado(X,Y) :- clause(casado(Y,X), true).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado avo: Avo,Neto -> {V,F}
@@ -281,12 +288,20 @@ tio( T1,S ) :-
 sobrinho(S, T) :-
     tio(T, S).
 
+%%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado primo: Primo,Primo -> {V,F}
 
 primo(X, Y) :-
     pai(P1, X), pai(P2, Y), irmao(P1, P2).
 
+%%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado bisavo: Bisavo,Bisneto -> {V,F}
+
 bisavo(BA, BN) :-
     avo(A, BN), pai(BA, A).
+
+%%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado bisneto: Bisneto,Bisavo -> {V,F}
 
 bisneto(BN, BA) :-
     bisavo(BA, BN).
@@ -323,13 +338,6 @@ grau(X,Y,1) :-
 grau(X,Y, N) :-
     filho(X,Z) , grau(Z, Y, G), N is G+1.
 
-
-
-+filho( F,P ) :: ( solucoes( X, (filho(F, X)), S),
-                    comprimento(S, N),
-                    N=<2
-                  ).
-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarFilhos: P,S -> {V,F}
 listarFilhos( P,S ) :-
@@ -363,13 +371,45 @@ listarNetos( A,S ) :-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarBisavos: BN,S -> {V,F}
 listarBisavos( BN,S ) :-
-    solucoes( A,avo(A,BN),NL ), removerRepetidos(NL, S).
+    solucoes( A,bisavo(A,BN),NL ), removerRepetidos(NL, S).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarBisnetos: BA,S -> {V,F}
 listarBisnetos( BA,S ) :-
-    solucoes( BA,bisneto(N,BA),NL ), removerRepetidos(NL, S).
+    solucoes( BN,bisneto(BN,BA),NL ), removerRepetidos(NL, S).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listarPrimos: PR,S -> {V,F}
+
+listarPrimos( P,S ) :-
+    solucoes( PR,primo(P,PR),NL ), removerRepetidos( NL,S ).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listarCasados: C,S -> {V,F}
+
+listarCasados( C,S ) :-
+    solucoes( C2,casado(C,C2),S ).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listarNascidos: NSC,S -> {V,F}
+
+listarNascidos( NSC,S ) :-
+    solucoes( P,naturalidade(P,N,NSC,MRR),S ).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listarMortos: MRR,S -> {V,F}
+
+listarMortos( MRR,S ) :-
+    solucoes( P,naturalidade(P,N,NSC,MRR),S ).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listarNaturais: N,S -> {V,F}
+
+listarNaturais( N,S ) :-
+    solucoes( P,naturalidade(P,N,NSC,MRR),S ).
+
+% [] listar pessoas com uma certa idade
+% [] listar filhos de casamento
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado removerElemento: [X | L], Y, [A | B] -> {V,F}
@@ -443,7 +483,12 @@ evolucao(T) :-
                   N == 1
                   ).
 
-casado(X,Y) :- clause(casado(Y,X), true).
+% nao permitir que um filho tenha mais que dois progenitores
+
++filho( F,P ) :: ( solucoes( X, (filho(F, X)), S),
+                    comprimento(S, N),
+                    N < 3
+                  ).
 
 % so estar casado com uma pessoa
 +casado( X,Y ) :: ( solucoes( Z,casado(X,Z),S ),
@@ -470,7 +515,16 @@ casado(X,Y) :- clause(casado(Y,X), true).
                     N == 1
                   ).
 
+% nao e possivel ter nascimento depois de morte
++naturalidade( P,N,NSC,MRR ) :: ( solucoes( (P,N,NSC,MRR),naturalidade( P,N,NSC,MRR ), S ),
+                                  NSC < MRR
+                                ).
 
+% nao e possivel alguem ter mais que uma naturalidade
++naturalidade( P,N,NSC,MRR ) :: ( solucoes( P,naturalidade( P,N,NSC,MRR ), S ),
+                                  comprimento(S,N),
+                                  N =< 1
+                                ).
 
 % isto serve para testar, mas no fim e para remover
 % o rui usou isto, disponibilizou no grupo, e deles
