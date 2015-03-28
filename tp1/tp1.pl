@@ -17,14 +17,14 @@
 % [] listar naturais de um sitio
 % [] listar pessoas com uma certa idade
 % [] listar filhos de casamento
-% [] solucoes
+% [x] solucoes
 % [] relacao entre duas pessoas
 % [] invariantes do filho (info repetida, mais que 2 pais)
 % [] invariantes da naturalidade (nascimento e morte, mais que uma naturalidade)
 % [] invariante casado com mais que uma pessoa, informacao repetida e casado(A, B)/casado(B,A)
 % [] por comentarios direito
 % [] clauses
-% [y] remover repetidos
+% [x] remover repetidos
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % SIST. REPR. CONHECIMENTO E RACIOCINIO - LEI/3
@@ -347,10 +347,6 @@ nao(T) :-
     T, !, fail.
 
 nao(_).
-
-
-%solucoes(A, T, S) :-
-%    findall(A, T, S).
 
 
 solucoes(A, T, S) :-
