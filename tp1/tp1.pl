@@ -240,7 +240,7 @@ ti2 :-
     nao( evolucao(filho(joao,jorge)) ).
 
 ti3 :-
-    nao( evolocao(pai(carla,luis)) ).
+    nao( evolucao(pai(carla,luis)) ).
 
 ti4 :-
     nao( evolucao(pai(miguel,ana)) ).
