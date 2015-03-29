@@ -167,7 +167,7 @@ t15 :-
 t16 :-
     nao( avo(ricardo, ana) ).
 
-teste_relacoes(L) :-
+teste_predicados(L) :-
     test_all( [t1, t2, t3, t4, t5, t6, t7,
                 t8, t9, t10, t11, t12, t13,
                 t14, t15, t16], L ).
@@ -224,11 +224,76 @@ ti6 :-
 teste_invariantes(L) :-
     test_all( [ti1, ti2, ti3, ti4, ti5, ti6], L).
 
-teste_total(L) :-
-    teste_listar(SL1),
-    teste_invariantes(SL2),
-    teste_relacoes(SL3),
-    L = [SL1, SL2, SL3].
+
+tr1 :-
+    relacao(joao, carlos, irmao).
+
+tr2 :-
+    relacao(carlos, joao, irmao).
+
+tr3 :-
+    relacao(ana, carlos, pai).
+
+tr4 :-
+    relacao(joao, carla, primo).
+
+tr5 :-
+    relacao(manuel, joao, avo).
+
+tr6 :-
+    relacao(carlos, margarida, neto).
+
+tr7 :-
+    relacao(carlos, carla, primo).
+
+tr8 :-
+    relacao(carla, joao, primo).
+
+tr9 :-
+    relacao(luis, joao, tio).
+
+tr10 :-
+    relacao(carla, ana, sobrinho).
+
+tr11 :-
+    relacao(carolina, carlos, tio).
+
+tr12 :-
+    relacao(ricardo, jose, pai).
+
+tr13 :-
+    relacao(jorge, ricardo, neto).
+
+tr14 :-
+    relacao(ricardo, joao, bisavo).
+
+tr15 :-
+    relacao(carolina, alexandre, bisneto).
+
+tr16 :-
+    relacao(alexandre, carlos, ascendente\ de\ grau\ 4).
+
+tr17 :-
+    relacao(joao, alexandre, descendente\ de\ grau\ 4).
+
+tr18 :-
+    relacao(luis, alexandre, desconhecido).
+
+tr19 :-
+    relacao(ana, carolina, desconhecido).
+
+
+teste_relacoes(L) :-
+    test_all([tr1, tr2, tr3, tr4, tr5, tr6, tr7,
+                tr8, tr9, tr10, tr11, tr12, tr13,
+                tr14, tr15, tr16, tr17, tr18, tr19], L).
+
+testar(L) :-
+    teste_predicados(SL1),
+    teste_listar(SL2),
+    teste_invariantes(SL3),
+    teste_relacoes(SL4),
+    L = (predicados: SL1, listar: SL2, invariantes: SL3, relacoes: SL4).
 
 % funcoes auxiliares de teste
 contem(H, [H|T]).
