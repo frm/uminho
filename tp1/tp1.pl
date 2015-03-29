@@ -61,17 +61,17 @@ r :-
     consult('tp1.pl').
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Arvore geneologica exemplo
+% Arvore genealogica exemplo
 %
 %                 alexandre
 %                     |
 %                  ricardo + sara
 %                          |
-%                         jose + maria
-%                           /     \
-%      manuel + margarida  /       \
-%             |           /         \
-%            ana  + jorge         carolina + luis
+%     manuel + margarida  jose + maria
+%            |              /     \
+%            |             /       \
+%            |            /         \
+%           ana  +  jorge         carolina + luis
 %               /    \                     |
 %            joao   carlos               carla
 %
