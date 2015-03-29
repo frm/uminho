@@ -17,7 +17,7 @@
 % [x] listar mortos num ano
 % [x] listar naturais de um sitio
 % [x] listar pessoas com uma certa idade
-% [y] listar filhos de casamento
+% [x] listar filhos de casamento
 % [x] solucoes
 % [x] relacao entre duas pessoas
 % [x] invariantes do filho (info repetida, mais que 2 pais)
@@ -115,6 +115,7 @@ naturalidade(ricardo,porto,1872,1922).
 naturalidade(jose,porto,1910,1982).
 naturalidade(margarida,aveiro,1910,2003).
 naturalidade(maria,braga,1933,2003).
+naturalidade(ana,braga,1960,2010).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Testes exemplo
@@ -199,8 +200,32 @@ tl6 :-
 tl7 :-
     listarBisavos(carlos, L), contemTodos(L, [ricardo]).
 
+tl8 :-
+    listarPrimos(joao, L), contemTodos(L, [carla]).
+
+tl9 :-
+    listarPrimos(carla, L), contemTodos(L, [joao,carlos]).
+
+tl10 :-
+    listarCasados(carolina, L), contemTodos(L, [luis]).
+
+tl11 :-
+    listarNascidos(1910, L), contemTodos(L, [jose,margarida]).
+
+tl12 :-
+    listarMortos(2003, L), contemTodos(L, [margarida,maria]).
+
+tl13 :-
+    listarNaturais(porto, L), contemTodos(L, [ricardo,jose]).
+
+tl14 :-
+    listarComIdade(50, L), contemTodos(L, [ana,ricardo]).
+
+tl15 :-
+    listarFilhosDeCasamento(manuel,margarida, L), contemTodos(L, [ana, jorge]).
+
 teste_listar(L) :-
-    test_all( [tl1, tl2, tl3, tl4, tl5, tl6, tl7], L ).
+    test_all( [tl1, tl2, tl3, tl4, tl5, tl6, tl7, tl8, tl9, tl10, tl11, tl12, tl13, tl14, tl15], L ).
 
 
 ti1 :-
