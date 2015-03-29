@@ -72,8 +72,8 @@ r :-
 %            |             /       \
 %            |            /         \
 %           ana  +  jorge         carolina + luis
-%               /    \                     |
-%            joao   carlos               carla
+%               / \                        |
+%           joao   carlos                carla
 %
 %
 
