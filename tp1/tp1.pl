@@ -26,7 +26,7 @@
 % [] uma pessoa só pode ter 2^G ascendentes de grau G
 % [] nao permitir que individuos tenham relacoes incongruentes, p.e., ser primo e irmao ao mesmo tempo, ou avo e bisavo.
 % [] nao permitir adicionar pai com morte anterior ao nascimento do filho
-% [x] invariantes do pai (impedir que inserir pai something de cabo dos invariados do filho)
+% [x] invariantes do pai (impedir que inserir pai something de cabo dos invariantes do filho)
 % [x] invariantes da naturalidade (nascimento e morte, mais que uma naturalidade)
 % [x] invariante casado com mais que uma pessoa, informacao repetida e casado(A, B)/casado(B,A)
 % [] por comentarios direito
