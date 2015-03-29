@@ -17,7 +17,7 @@
 % [x] listar mortos num ano
 % [x] listar naturais de um sitio
 % [x] listar pessoas com uma certa idade
-% [] listar filhos de casamento
+% [y] listar filhos de casamento
 % [x] solucoes
 % [] relacao entre duas pessoas
 % [x] invariantes do filho (info repetida, mais que 2 pais)
@@ -428,7 +428,26 @@ listarNaturais( N,S ) :-
 listarComIdade( I,S ) :-
 	solucoes( P,idade(P,I),S ).
 
-% [] listar filhos de casamento
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado selecionaComuns: [A|B],[X|L],Res -> {V,F}
+
+selecionaComuns( [],[C|D],[] ).
+selecionaComuns( [A|B],[C|D],Res ) :-
+    nao( contem( A,[C|D] ) ),
+    selecionaComuns( B,[C|D], Res).
+selecionaComuns( [A|B],[C|D],Res ) :-
+    selecionaComuns( B,[C|D], R),
+    contem( A,[C|D] ),
+    Res = [A|R].
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listarFilhosDeCasamento: I,S -> {V,F}
+
+listarFilhosDeCasamento( X,Y,S ) :-
+    casado( X,Y ),
+    listarFilhos( X,S1 ),
+    listarFilhos( Y,S2 ),
+    selecionaComuns( S1,S2,S ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado removerElemento: [X | L], Y, [A | B] -> {V,F}
