@@ -1,7 +1,8 @@
 % TODO:
 % y - feito
 % x - feito e testado
-% [] naturalidade
+% [x] naturalidade
+% [x] idade
 % [x] listar filhos
 % [x] listar pais
 % [x] listar tios
@@ -12,10 +13,10 @@
 % [x] listar bisnetos
 % [x] listar primos
 % [x] listar casados
-% [] listar nascidos num ano
-% [] listar mortos num ano
-% [] listar naturais de um sitio
-% [] listar pessoas com uma certa idade
+% [x] listar nascidos num ano
+% [x] listar mortos num ano
+% [x] listar naturais de um sitio
+% [x] listar pessoas com uma certa idade
 % [] listar filhos de casamento
 % [x] solucoes
 % [] relacao entre duas pessoas
@@ -49,7 +50,7 @@
 :- dynamic tio/2.
 :- dynamic primo/2.
 :- dynamic casado/2.
-:- dynamic naturalidade/3.
+:- dynamic naturalidade/4.
 
 r :-
     consult('tp1.pl').
@@ -100,6 +101,12 @@ casado(carolina, luis).
 
 % ricardo, pai de jose, avo de jorge e carolina, bisavo de joao, carlos e carla
 filho(jose,ricardo).
+
+% naturalidades
+naturalidade(ricardo,porto,1872,1922).
+naturalidade(jose,porto,1910,1982).
+naturalidade(margarida,aveiro,1910,2003).
+naturalidade(maria,braga,1933,2003).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Testes exemplo
@@ -339,6 +346,13 @@ grau(X,Y, N) :-
     filho(X,Z) , grau(Z, Y, G), N is G+1.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado idade: P,R -> {V,F}
+
+idade( P,R ) :-
+	naturalidade( P,N,NSC,MRR ),
+	R is MRR - NSC.
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado listarFilhos: P,S -> {V,F}
 listarFilhos( P,S ) :-
     solucoes( F,filho(F,P),NL ), removerRepetidos(NL, S).
@@ -408,7 +422,12 @@ listarMortos( MRR,S ) :-
 listarNaturais( N,S ) :-
     solucoes( P,naturalidade(P,N,NSC,MRR),S ).
 
-% [] listar pessoas com uma certa idade
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado listarComIdade: I,S -> {V,F}
+
+listarComIdade( I,S ) :-
+	solucoes( P,idade(P,I),S ).
+
 % [] listar filhos de casamento
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -521,9 +540,9 @@ evolucao(T) :-
                                 ).
 
 % nao e possivel alguem ter mais que uma naturalidade
-+naturalidade( P,N,NSC,MRR ) :: ( solucoes( P,naturalidade( P,N,NSC,MRR ), S ),
-                                  comprimento(S,N),
-                                  N =< 1
++naturalidade( P,N,NSC,MRR ) :: ( solucoes( (NX,NSCX,MRRX),naturalidade( P,NX,NSCX,MRRX ), S ),
+                                  comprimento(S,NL),
+                                  NL < 2
                                 ).
 
 % isto serve para testar, mas no fim e para remover
