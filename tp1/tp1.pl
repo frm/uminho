@@ -556,9 +556,13 @@ descendenteGrau(D,A,G) :-
 descendentesGrau(A,G,R) :-
     solucoes(P, descendenteGrau(P, A, G), R).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado descendenteAteGrau: Ascendente,Grau,Resultado -> {V,F}
+
 descendenteAteGrau(D,A,N) :-
     descendenteGrau(D,A,G), G =< N.
 
+%ERRO AQUI - descendentesAteGrau(ana,P,2).
 descendentesAteGrau(A,G,R) :-
     solucoes(P, descendenteAteGrau(P,A,G), R).
 
@@ -783,12 +787,99 @@ evolucao(T) :-
                   insere(T),
                   teste(S).
 
-% Invariante Estrutural:  nao permitir a insercao de conhecimento
-%                         repetido  [i]
+
+
+% nao permitir adicionar uma relacao onde o ascendente tenha nascido depois do descendente
+ascendenteAntes( A,D ) :- naturalidade(A,N,NSCA,MRR), naturalidade(D,N,NSCD,MRR).
+
+%(solucoes( (A,D),(descendente( A,D )),S ),
+                 			%	nao( naturalidade(A,N,NSCA,MRR), naturalidade(D,N,NSCD,MRR), NSCA < NSCD)
+                  			%).
+	
+% nao permitir que individuos tenham relacoes incongruentes
+
++filho( F,P ) :: relacao(F,P,desconhecido).
++pai( P,F ) :: relacao(P,F,desconhecido).
++irmao( M,N ) :: relacao(M,N,desconhecido).
++avo( A,N ) :: relacao(A,N,desconhecido).
++neto( N,A ) :: relacao(N,A,desconhecido).
++tio( T,S ) :: relacao(T,S,desconhecido).
++sobrinho( S,T ) :: relacao(S,t,desconhecido).
++primo( P1,P2 ) :: relacao(P1,P2,desconhecido).
++bisavo( BA,BN ) :: relacao(BA,BN,desconhecido).
++bisneto( BN,BA ) :: relacao(BN,BA,desconhecido).
+
+
+% nao permitir a insercao de conhecimento repetido
 
 +filho( F,P ) :: (solucoes( (F,P),(filho( F,P )),S ),
                   comprimento( S,N ),
                   N == 1
+                  ).
+
++pai( F,P ) :: (solucoes( (P,F),(pai( P,F )),S ),
+                  comprimento( S,N ),
+                  N == 1
+                  ).
+
++irmao( M,N ) :: (solucoes( (M,N),(irmao( M,N )),S ),
+                  comprimento( S,N ),
+                  N == 1
+                  ).
+
++irmao( M,N ) :: (solucoes( (N,M),(irmao( N,M )),S ),
+                  comprimento( S,N ),
+                  N == 1
+                  ).
+
++primo( P1,P2 ) :: (solucoes( (P1,P2),(primo( P1,P2 )),S ),
+                  comprimento( S,N ),
+                  N == 1
+                  ).
+
++primo( P1,P2 ) :: (solucoes( (P2,P1),(primo( P2,P1 )),S ),
+                  comprimento( S,N ),
+                  N == 1
+                  ).
+
++tio( T,SOB ) :: (solucoes( (T,SOB),(tio( T,SOB )),S ),
+                  comprimento( S,N ),
+                  N == 1
+                  ).
+
++sobrinho( SOB,T ) :: (solucoes( (SOB,T),(sobrinho( SOB,T )),S ),
+                  comprimento( S,N ),
+                  N == 1
+                  ).
+
++avo( A,N ) :: (solucoes( (A,N),(avo( A,N )),S ),
+                  comprimento( S,N ),
+                  N == 1
+                  ).
+
++neto( N,A ) :: (solucoes( (N,A),(neto( N,A )),S ),
+                  comprimento( S,N ),
+                  N == 1
+                  ).
+
++bisavo( BA,BN ) :: (solucoes( (BA,BN),(bisavo( BA,BN )),S ),
+                  comprimento( S,N ),
+                  N == 1
+                  ).
+
++bisneto( BN,BA ) :: (solucoes( (BN,BA),(bisneto( BN,BA )),S ),
+                  comprimento( S,N ),
+                  N == 1
+                  ).
+
++casado( X,Y ) :: ( solucoes( Z,casado(X,Z),S ),
+                    comprimento( S,N ),
+                    N =< 1
+                  ).
+
++casado( X,Y ) :: ( solucoes(Z, casado(Y,Z), S),
+                    comprimento( S,N ),
+                    N =< 1
                   ).
 
 % nao permitir que um filho tenha mais que dois progenitores
@@ -810,30 +901,17 @@ evolucao(T) :-
                     N < 3
                 ).
 
-% so estar casado com uma pessoa
-+casado( X,Y ) :: ( solucoes( Z,casado(X,Z),S ),
-                    comprimento( S,N ),
-                    N =< 1
-                  ).
+% nao permitir adicionar avo de um neto que ja tenha quatro avos
++avo( A,N ) ::  ( solucoes( X, (neto(N, X)), S),
+                    comprimento(S, N),
+                    N < 5
+                ).
 
-+casado( X,Y ) :: ( solucoes(Z, casado(Y,Z), S),
-                    comprimento( S,N ),
-                    N =< 1
-                  ).
-
-% nao inserir conhecimento repetido:
-% se esta casado(X,Y) nao inserir
-% casado(X,Y) nem casado(Y,X)
-% mas isto nao fica coberto pelo caso de so estar casado com uma pessoa?
-+casado( X,Y ) :: ( solucoes( (X,Y), casado(X,Y), S),
-                    comprimento( S,N ),
-                    N == 1
-                  ).
-
-+casado( X,Y ) :: ( solucoes( (X,Y), casado(Y,X), S),
-                    comprimento( S,N ),
-                    N == 1
-                  ).
+% nao permitir adicionar bisavo de um bisneto que ja tenha oito bisavos
++bisavo( A,N ) ::  ( solucoes( X, (bisneto(N, X)), S),
+                    comprimento(S, N),
+                    N < 9
+                ).
 
 % nao e possivel ter nascimento depois de morte
 +naturalidade( P,N,NSC,MRR ) :: ( solucoes( (P,N,NSC,MRR),naturalidade( P,N,NSC,MRR ), S ),
