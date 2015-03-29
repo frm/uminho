@@ -56,6 +56,7 @@
 :- dynamic primo/2.
 :- dynamic casado/2.
 :- dynamic naturalidade/4.
+:- dynamic sobrinho/2.
 
 r :-
     consult('tp1.pl').
@@ -324,12 +325,103 @@ teste_relacoes(L) :-
                 tr8, tr9, tr10, tr11, tr12, tr13,
                 tr14, tr15, tr16, tr17, tr18, tr19], L).
 
+
+% Testes de informacao complementar ou incompleta
+
+tc1 :-
+    assert( pai(p,f) ), filho(f,p),
+    retract( pai(p,f) ).
+
+tc2 :-
+    assert( irmao(i1,i2) ), assert( pai(p,i1) ), pai(p,i2),
+    retract( irmao(i1,i2) ), retract( pai(p,i1) ).
+
+tc3 :-
+    assert( irmao(i1,i2) ), assert( pai(p,i2) ), pai(p,i1),
+    retract( irmao(i1,i2) ), retract( pai(p,i2) ).
+
+tc4 :-
+    assert( irmao(i1,i2) ), assert( pai(p,i2) ), filho(i1,p),
+    retract( irmao(i1,i2) ), retract( pai(p,i2) ).
+
+tc5 :-
+    assert( irmao(i1,i2) ), assert( pai(p,i1) ), filho(i2, p),
+    retract( irmao(i1,i2) ), retract( pai(p,i1) ).
+
+tc6 :-
+    assert( irmao(i2,i1) ), assert( pai(p,i1) ), filho(i2, p),
+    retract( irmao(i2,i1) ), retract( pai(p,i1) ).
+
+tc7 :-
+    assert( primo(pr,x) ), assert( pai(t,pr) ),
+    tio(t,x),
+    retract( primo(pr,x) ), retract( pai(t,pr) ).
+
+tc8 :-
+    assert( primo(x,pr) ), assert( pai(t,pr) ),
+    tio(t,x),
+    retract( primo(x,pr) ), retract( pai(t,pr) ).
+
+tc9 :-
+    assert( primo(pr,x) ), assert( filho(pr,t) ),
+    tio(t,x),
+    retract( primo(pr,x) ), retract( filho(pr,t) ).
+
+tc10 :-
+    assert( primo(x,pr) ), assert( filho(pr,t) ),
+    tio(t,x),
+    retract( primo(x,pr) ), retract( filho(pr,t) ).
+
+tc11 :-
+    assert( irmao(i1,i2) ), assert(tio(t, i1)),
+    tio(t,i2),
+    retract( irmao(i1,i2) ), retract( tio(t,i1) ).
+
+tc12 :-
+    assert( irmao(i2,i1) ), assert(tio(t, i1)),
+    tio(t,i2),
+    retract( irmao(i2,i1) ), retract( tio(t,i1) ).
+
+tc13 :-
+    assert( irmao(i1,i2) ), assert(tio(t, i2)),
+    tio(t,i1),
+    retract( irmao(i1,i2) ), retract( tio(t,i2) ).
+
+tc14 :-
+    assert( irmao(i1,i2) ), assert(sobrinho(i2, t)),
+    tio(t,i1),
+    retract( irmao(i1,i2) ), retract( sobrinho(i2,t) ).
+
+tc15 :-
+    assert( irmao(i1,i2) ), assert(sobrinho(i1, t)),
+    tio(t,i2),
+    retract( irmao(i1,i2) ), retract( sobrinho(i1,t) ).
+
+tc16 :-
+    assert( irmao(i2,i1) ), assert(sobrinho(i1, t)),
+    tio(t,i2),
+    retract( irmao(i2,i1) ), retract( sobrinho(i1,t) ).
+
+tc17 :-
+    assert( irmao(i2,i1) ), assert(sobrinho(i2, t)),
+    tio(t,i1),
+    retract( irmao(i2,i1) ), retract( sobrinho(i2,t) ).
+
+
+teste_complementar(L) :-
+    test_all([tc1, tc2, tc3, tc4, tc5, tc6, tc7,
+                tc8, tc9, tc10, tc11, tc12, tc13,
+                tc14, tc15, tc16, tc17], L).
+
 testar(L) :-
     teste_predicados(SL1),
     teste_listar(SL2),
     teste_invariantes(SL3),
     teste_relacoes(SL4),
-    L = (predicados: SL1, listar: SL2, invariantes: SL3, relacoes: SL4).
+    teste_complementar(SL5),
+    L = (predicados: SL1, listar: SL2, invariantes: SL3, relacoes: SL4, complementar: SL5).
+
+t(L) :- testar(L).
 
 % funcoes auxiliares de teste
 contem(H, [H|T]).
@@ -354,6 +446,14 @@ test_all([H|T], L) :-
 
 filho(F, P) :-
     clause(pai(P,F), true) .
+filho(F, P) :-
+    clause(filho(I,P), true), clause(irmao(F,I), true).
+filho(F, P) :-
+    clause(pai(P,I), true), clause(irmao(F,I), true).
+filho(F, P) :-
+    clause(filho(I,P), true), clause(irmao(I,F), true).
+filho(F, P) :-
+    clause(pai(P,I), true), clause(irmao(I,F), true).
 
 pai(P,F) :-
     filho(F, P).
@@ -361,6 +461,7 @@ pai(P,F) :-
     clause(irmao(M,F), true), clause(pai(P,M),true).
 pai(P,F) :-
     clause(irmao(F,M), true), clause(pai(P,M),true).
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado irmao: M,N -> {V,F}
 
@@ -391,12 +492,27 @@ neto(N, A) :-
 %%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado tio: Tio,Sobrinho -> {V,F}
 
-tio(T, S) :-
+tio( T,S ) :-
     pai(P, S), irmao(T, P).
+
 tio( T1,S ) :-
     avo(A, S), filho(T2, A), nao( pai(T2, S) ), clause(casado( T1, T2) , true).
+
 tio( T1,S ) :-
     avo(A, S), filho(T2, A), nao( pai(T2, S) ), clause(casado( T2, T1) , true).
+
+tio(T,S) :-
+    pai(T,P), clause(primo(P,S), true).
+
+tio(T,S) :-
+    pai(T,P), clause(primo(S,P), true).
+
+tio(T,S) :-
+    irmao(S,I), clause(tio(T,I), true).
+
+tio(T,S) :-
+    clause(sobrinho(I,T), true), irmao(I,S).
+
 
 %%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado sobrinho: Sobrinho,Tio -> {V,F}
