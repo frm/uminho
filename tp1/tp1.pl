@@ -21,7 +21,12 @@
 % [x] solucoes
 % [x] relacao entre duas pessoas
 % [x] invariantes do filho (info repetida, mais que 2 pais)
-% [] invariantes do pai (impedir que inserir pai something de cabo dos invariados do filho)
+% [] nao permitir adicionar uma relacao onde o ascendente tenha nascido depois do descendente
+% [] nao permitir adicionar uma relacao onde o descendente tenha nascido antes do ascendente
+% [] uma pessoa só pode ter 2^G ascendentes de grau G
+% [] nao permitir que individuos tenham relacoes incongruentes, p.e., ser primo e irmao ao mesmo tempo, ou avo e bisavo.
+% [] nao permitir adicionar pai com morte anterior ao nascimento do filho
+% [x] invariantes do pai (impedir que inserir pai something de cabo dos invariados do filho)
 % [x] invariantes da naturalidade (nascimento e morte, mais que uma naturalidade)
 % [x] invariante casado com mais que uma pessoa, informacao repetida e casado(A, B)/casado(B,A)
 % [] por comentarios direito
@@ -235,19 +240,25 @@ ti2 :-
     nao( evolucao(filho(joao,jorge)) ).
 
 ti3 :-
-    nao( evolucao(ana,x) ).
+    nao( evolocao(pai(carla,luis)) ).
 
 ti4 :-
-    nao( evolucao(x,ana) ).
+    nao( evolucao(pai(miguel,ana)) ).
 
 ti5 :-
-    nao( evolucao(ana,jorge) ).
+    nao( evolucao(ana,x) ).
 
 ti6 :-
+    nao( evolucao(x,ana) ).
+
+ti7 :-
+    nao( evolucao(ana,jorge) ).
+
+ti8 :-
     nao( evolucao(jorge, ana) ).
 
 teste_invariantes(L) :-
-    test_all( [ti1, ti2, ti3, ti4, ti5, ti6], L).
+    test_all( [ti1, ti2, ti3, ti4, ti5, ti6, ti7, ti8], L).
 
 
 tr1 :-
@@ -670,6 +681,18 @@ evolucao(T) :-
                     comprimento(S, N),
                     N < 3
                   ).
+
+
+% nao permitir ao adicionar pai que este seja pai de alguem do qual e descendente
++pai( P,F ) ::  ( solucoes( (P,F), (pai( P,F )), S),
+                    nao( descendente(P,F) )
+                ).
+
+% nao permitir adicionar pai de um filho que ja tenha dois progenitores
++pai( P,F ) ::  ( solucoes( X, (filho(F, X)), S),
+                    comprimento(S, N),
+                    N < 3
+                ).
 
 % so estar casado com uma pessoa
 +casado( X,Y ) :: ( solucoes( Z,casado(X,Z),S ),
