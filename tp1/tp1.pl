@@ -19,7 +19,7 @@
 % [x] listar pessoas com uma certa idade
 % [y] listar filhos de casamento
 % [x] solucoes
-% [] relacao entre duas pessoas
+% [x] relacao entre duas pessoas
 % [x] invariantes do filho (info repetida, mais que 2 pais)
 % [] invariantes do pai (impedir que inserir pai something de cabo dos invariados do filho)
 % [x] invariantes da naturalidade (nascimento e morte, mais que uma naturalidade)
@@ -58,7 +58,9 @@ r :-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Arvore geneologica exemplo
 %
-%                       ricardo
+%                 alexandre
+%                     |
+%                  ricardo + sara
 %                          |
 %                         jose + maria
 %                           /     \
@@ -99,8 +101,14 @@ filho(carla, luis).
 filho(carla, carolina).
 casado(carolina, luis).
 
-% ricardo, pai de jose, avo de jorge e carolina, bisavo de joao, carlos e carla
+% ricardo e sara, pais de jose, avos de jorge e carolina, bisavos de joao, carlos e carla
 filho(jose,ricardo).
+filho(jose, sara).
+casado(ricardo, sara).
+
+% alexandre, pai de ricardo, avo de jose, bisavo de jorge e carolina, trisavo de joao, carlos e carla
+filho(ricardo, alexandre).
+
 
 % naturalidades
 naturalidade(ricardo,porto,1872,1922).
@@ -427,6 +435,51 @@ listarNaturais( N,S ) :-
 
 listarComIdade( I,S ) :-
 	solucoes( P,idade(P,I),S ).
+
+
+
+relacao(A, B, filho) :-
+    filho(A, B).
+
+relacao(A, B, pai) :-
+    pai(A, B).
+
+relacao(A, B, irmao) :-
+    irmao(A, B).
+
+relacao(A, B, tio) :-
+    tio(A,B).
+
+relacao(A,B, sobrinho) :-
+    sobrinho(A,B).
+
+relacao(A, B, casado) :-
+    casado(A,B).
+
+relacao(A,B, avo) :-
+    avo(A,B).
+
+relacao(A,B, neto) :-
+    neto(A,B).
+
+relacao(A,B,bisavo) :-
+    bisavo(A,B).
+
+relacao(A,B, bisneto) :-
+    bisneto(A,B).
+
+relacao(A,B, primo) :-
+    primo(A,B).
+
+relacao(A,B,X) :-
+    descendenteGrau(A,B,N),
+    X = descendente\ de\ grau\ N.
+
+relacao(A,B,X) :-
+    descendenteGrau(B,A,N),
+    X = ascendente\ de\ grau\ N.
+
+relacao(A,B,desconhecido).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado selecionaComuns: [A|B],[X|L],Res -> {V,F}
