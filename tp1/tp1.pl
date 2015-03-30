@@ -107,7 +107,10 @@ bisneto(BN, BA) :-
 % Extensao do predicado descendente: X,Y -> {V,F}
 
 descendente(X,Y) :-
-    filho(X,Y); filho(X,Z) , descendente(Z,Y).
+    filho(X,Y).
+    
+descendente(X,Y) :-
+	filho(X,Z) , descendente(Z,Y).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado ascendente: X,Y -> {V,F}
