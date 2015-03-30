@@ -458,43 +458,42 @@ tc25 :-
     remocao( filho(f,p) ).
 
 tc26 :-
-    nao( evolucao(naturalidade(x, Braga, 2015, 2014) ) ).
+    evolucao( primo(p1, p2) ),
+    evolucao( casado(p1, p2) ),
+    nao( evolucao(tio(p1,p2)) ),
+    remocao( primo(p1,p2) ),
+    remocao( casado(p1,p2) ).
 
 tc27 :-
-    evolucao(naturalidade(x, Braga, 1980, 2014)),
-    evolucao(pai(x,f)),
-    nao( evolucao(naturalidade(f,Braga,2015, 2016)) ),
-    remocao(naturalidade(x,Braga,1980,2014)),
-    remocao( pai(x,f) ).
+    nao( evolucao(naturalidade(x, Braga, 2015, 2014) ) ).
 
 tc28 :-
-    evolucao(naturalidade(x, Braga, 1980, 2014)),
-    evolucao(naturalidade(f,Braga,2015, 2016)),
-    nao( evolucao(pai(x,f)) ),
-    remocao(naturalidade(x,Braga,1980,2014)),
-    remocao(naturalidade(f,Braga,2015, 2016)).
+    evolucao(pai(abc,def)),
+    nao( evolucao(filho(def,abc)) ),
+    remocao( pai(abc,def) ).
 
 tc29 :-
-    evolucao(naturalidade(x, Braga, 1980,2014)),
-    evolucao(filho(f,x)),
-    nao(evolucao(naturalidade(f,Braga,2015,2016))),
-    remocao(naturalidade(x,Braga,1980,2014)),
-    remocao(filho(f,x)).
+    evolucao( avo(av,nt) ),
+    nao( evolucao( tio(nt,av) ) ),
+    remocao( avo(av,nt) ).
 
 tc30 :-
-    evolucao(naturalidade(x, Braga, 1980,2014)),
-    evolucao(pai(x,f)),
-    nao(evolucao(naturalidade(f,Braga,2015,2016))),
-    remocao(pai(f,x)),
-    remocao(naturalidade(x,Braga,1980,2014)).
+    evolucao( pai(abc,def) ),
+    nao( evolucao(casado(abc,def)) ),
+    remocao( pai(abc,def) ).
 
 tc31 :-
-    evolucao(pai(a,b)),
-    remocao(pai(a,b)).
+    evolucao( primo(abc,def) ),
+    evolucao( casado(def,abc) ),
+    remocao( primo(abc,def) ),
+    remocao( casado(def,abc) ).
 
 tc32 :-
-    evolucao(filho(a,b)),
-    remocao(filho(a,b)).
+    evolucao( primo(abc,def) ),
+    evolucao( casado(abc,def) ),
+    nao( evolucao(bisavo(def,abc)) ),
+    remocao( primo(abc,def) ),
+    remocao( casado(abc,def) ).
 
 tc33 :-
     nao( evolucao( filho(f,f) ) ).
@@ -529,19 +528,15 @@ tc42 :-
 tc43 :-
     nao( evolucao( primo(f,f) ) ).
 
-tc44 :-
-    evolucao( primo(p1, p2) ),
-    evolucao( casado(p1, p2) ),
-    nao( evolucao(tio(p1,p2)) ),
-    remocao( primo(p1,p2) ),
-    remocao( casado(p1,p2) ).
-
 teste_complementar(L) :-
     test_all([tc1, tc2, tc3, tc4, tc5, tc6, tc7,
                 tc8, tc9, tc10, tc11, tc12, tc13,
                 tc14, tc15, tc16, tc17, tc18, tc19,
                 tc20, tc21, tc22, tc23, tc24, tc25,
-                tc26, tc27, tc28, tc29, tc30, tc31], L).
+                tc26, tc27, tc28, tc29, tc30, tc31,
+                tc32, tc33, tc34, tc35, tc36, tc37,
+                tc38, tc39, tc40, tc41, tc42, tc43],
+                L).
 
 testar(L) :-
     teste_predicados(SL1),
@@ -1087,6 +1082,11 @@ remocao(T) :-
 +naturalidade(P,N,DN,DM) :: ( DN < DM ).
 
 % nao permitir relacionamentos com ele proprio
++pai(P,F) :: (solucoes(P, pai(P,P), S),
+                    comprimento(S,N),
+                    N == 0
+               ).
+
 +filho(F,P) :: (solucoes(F, filho(F,F), S),
                     comprimento(S,N),
                     N == 0
