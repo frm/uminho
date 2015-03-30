@@ -28,12 +28,12 @@
 % [] por comentarios direito
 %
 % predicados:
-%   [] remocao (tem de verificar predicados de remocao)
-%   [] ascendente
-%   [] ascendenteGrau
-%   [] ascendenteAteGrau
-%   [] novo naturalidade
-%   [] dataMorte
+%   [x] remocao (tem de verificar predicados de remocao)
+%   [x] ascendente
+%   [x] ascendenteGrau
+%   [x] ascendenteAteGrau
+%   [x] novo naturalidade
+%   [x] dataMorte
 %
 % Invariantes:
 % [] nao colocar conhecimento repetido em:
@@ -80,7 +80,6 @@
 :- dynamic tio/2.
 :- dynamic primo/2.
 :- dynamic casado/2.
-:- dynamic naturalidade/4.
 :- dynamic sobrinho/2.
 :- dynamic bisavo/2.
 :- dynamic bisneto/2.
@@ -88,6 +87,8 @@
 :- dynamic ascendente/2.
 :- dynamic descendenteGrau/3.
 :- dynamic descendenteAteGrau/3.
+:- dynamic naturalidade/3.
+:- dynamic dataMorte/2.
 
 r :-
     consult('tp1.pl').
@@ -147,12 +148,21 @@ casado(ricardo, sara).
 filho(ricardo, alexandre).
 
 
-% naturalidades
-naturalidade(ricardo,porto,1872,1922).
-naturalidade(jose,porto,1910,1982).
-naturalidade(margarida,aveiro,1910,2003).
-naturalidade(maria,braga,1933,2003).
-naturalidade(ana,braga,1960,2010).
+% naturalidades e mortes
+naturalidade(ricardo,porto,1872).
+dataMorte(ricardo, 1922).
+
+naturalidade(jose,porto,1910).
+dataMorte(jose,1982).
+
+naturalidade(margarida,aveiro,1910).
+dataMorte(margarida,2003).
+
+naturalidade(maria,braga,1933).
+dataMorte(maria,2003).
+
+naturalidade(ana,braga,1960).
+dataMorte(ana,2010).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Testes exemplo
@@ -599,6 +609,11 @@ descendente(X,Y) :-
     filho(X,Y); filho(X,Z) , descendente(Z,Y).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado ascendente: X,Y -> {V,F}
+ascendente(X,Y) :-
+    descendente(Y,X).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado descendenteGrau: Descendente,Ascendente,Grau -> {V,F}
 descendenteGrau(D,A,1) :-
     filho(D, A).
@@ -606,18 +621,40 @@ descendenteGrau(D,A,G) :-
     filho(D, F), descendenteGrau(F, A, Z), G is Z + 1.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado descendenteGrau: Ascendente,Descendente,Grau -> {V,F}
+ascendenteGrau(A,D,G) :-
+    descendenteGrau(D,A,G).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado descendentesGrau: Ascendente,Grau,Resultado -> {V,F}
 descendentesGrau(A,G,R) :-
     solucoes(P, descendenteGrau(P, A, G), R).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado descendenteAteGrau: Ascendente,Grau,Resultado -> {V,F}
+% Extensao do predicado ascendentesGrau: Descendente,Grau,Resultado -> {V,F}
+ascendentesGrau(D,G,R) :-
+    solucoes(P, ascendenteGrau(P,D,G), R).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado descendenteAteGrau: Descendente,Ascendente,Grau -> {V,F}
 descendenteAteGrau(D,A,N) :-
     descendenteGrau(D,A,G), G =< N.
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado descendentesAteGrau: Ascendente,Grau,Resultado -> {V,F}
+
 descendentesAteGrau(A,G,R) :-
     solucoes(P, descendenteAteGrau(P,A,G), R).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado ascendenteAteGrau: Ascendente,Descendente,Grau -> {V,F}
+ascendenteAteGrau(A,D,N) :-
+    descendenteAteGrau(D,A,N).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado ascendentesAteGrau: Ascendente,Grau,Resultado -> {V,F}
+ascendentesAteGrau(D,G,R) :-
+    solucoes(P, ascendenteAteGrau(P,D,G), R).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado grau: X,Y,N -> {V,F}
@@ -840,14 +877,10 @@ evolucao(T) :-
                   insere(T),
                   teste(S).
 
-
-
-% nao permitir adicionar uma relacao onde o ascendente tenha nascido depois do descendente
-ascendenteAntes( A,D ) :- naturalidade(A,N,NSCA,MRR), naturalidade(D,N,NSCD,MRR).
-
-%(solucoes( (A,D),(descendente( A,D )),S ),
-                 			%	nao( naturalidade(A,N,NSCA,MRR), naturalidade(D,N,NSCD,MRR), NSCA < NSCD)
-                  			%).
+remocao(T) :-
+    solucoes( C, -T::C, S),
+    teste(S),
+    retract(T).
 
 % nao permitir que individuos tenham relacoes incongruentes
 
@@ -976,6 +1009,11 @@ ascendenteAntes( A,D ) :- naturalidade(A,N,NSCA,MRR), naturalidade(D,N,NSCD,MRR)
                                   comprimento(S,NL),
                                   NL < 2
                                 ).
+
+
+
+
+
 
 % isto serve para testar, mas no fim e para remover
 % o rui usou isto, disponibilizou no grupo, e deles
