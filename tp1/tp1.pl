@@ -21,17 +21,42 @@
 % [x] solucoes
 % [x] relacao entre duas pessoas
 % [x] invariantes do filho (info repetida, mais que 2 pais)
-% [] nao permitir adicionar uma relacao onde o ascendente tenha nascido depois do descendente
-% [] nao permitir adicionar uma relacao onde o descendente tenha nascido antes do ascendente
-% [] uma pessoa só pode ter 2^G ascendentes de grau G
-% [] nao permitir que individuos tenham relacoes incongruentes, p.e., ser primo e irmao ao mesmo tempo, ou avo e bisavo.
-% [] nao permitir adicionar pai com morte anterior ao nascimento do filho
 % [x] invariantes do pai (impedir que inserir pai something de cabo dos invariantes do filho)
 % [x] invariantes da naturalidade (nascimento e morte, mais que uma naturalidade)
 % [x] invariante casado com mais que uma pessoa, informacao repetida e casado(A, B)/casado(B,A)
-% [] por comentarios direito
-% [] clauses
 % [x] remover repetidos
+% [] por comentarios direito
+%
+% predicados:
+%   [] remocao (tem de verificar predicados de remocao)
+%   [] ascendente
+%   [] ascendenteGrau
+%   [] ascendenteAteGrau
+%   [] novo naturalidade
+%   [] dataMorte
+%
+% Invariantes:
+% [] nao colocar conhecimento repetido em:
+%   [] ascendente
+%   [] descendente
+%   [] descendenteGrau
+%   [] descendenteAteGrau
+%   [] ascendenteGrau
+%   [] ascendenteAteGrau
+% [y] so pode ter 2 pais
+% [y] so pode ter 4 avos
+% [y] so pode ter 8 bisavos
+% [] so ter uma relacao com um individuo (exceto primos e casados)
+% [] nao ter relacionamento com ele proprio
+% [] data nascimento < data morte
+% [] uma so naturalidade
+% [] filho entre nascimento e morte dos pais:
+%   [] invariante quando se adiciona o filho
+%   [] invariante quando se adiciona o pai
+%   [] invariante quando se adiciona a naturalidade do filho
+%   [] invariante quando se adiciona a naturalidade do pai
+%   [] invariante quando se adiciona a dataMorte do pai
+%   [] invariante quando se adiciona a dataMorte do filho
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % SIST. REPR. CONHECIMENTO E RACIOCINIO - LEI/3
@@ -57,6 +82,12 @@
 :- dynamic casado/2.
 :- dynamic naturalidade/4.
 :- dynamic sobrinho/2.
+:- dynamic bisavo/2.
+:- dynamic bisneto/2.
+:- dynamic descendente/2.
+:- dynamic ascendente/2.
+:- dynamic descendenteGrau/3.
+:- dynamic descendenteAteGrau/3.
 
 r :-
     consult('tp1.pl').
@@ -328,90 +359,148 @@ teste_relacoes(L) :-
 
 % Testes de informacao complementar ou incompleta
 
+% Invariantes:
+% - nao colocar conhecimento repetido (filho, pai, irmao, casado, tio, sobrinho, avo, neto, bisavo, bisneto, descendente, primo, ascendente)
+% - so podem ter 2 pais, 4 avos, 8 bisavos
+% - so se pode ter uma relacao com um individuo, exceto primos e casados
+% - data nascimento < data morte
+% - uma so naturalidade
+% - filho entre nascimento e morte dos pais
+
 tc1 :-
-    assert( pai(p,f) ), filho(f,p),
-    retract( pai(p,f) ).
+    nao( evolucao( filho(joao, jorge) ) ).
 
 tc2 :-
-    assert( irmao(i1,i2) ), assert( pai(p,i1) ), pai(p,i2),
-    retract( irmao(i1,i2) ), retract( pai(p,i1) ).
+    nao( evolucao( pai(jorge, carlos) ) ).
 
 tc3 :-
-    assert( irmao(i1,i2) ), assert( pai(p,i2) ), pai(p,i1),
-    retract( irmao(i1,i2) ), retract( pai(p,i2) ).
+    nao( evolucao( irmao(jorge, carolina) ) ).
 
 tc4 :-
-    assert( irmao(i1,i2) ), assert( pai(p,i2) ), filho(i1,p),
-    retract( irmao(i1,i2) ), retract( pai(p,i2) ).
+    nao( evolucao( casado(jose, maria) ) ).
 
 tc5 :-
-    assert( irmao(i1,i2) ), assert( pai(p,i1) ), filho(i2, p),
-    retract( irmao(i1,i2) ), retract( pai(p,i1) ).
+    nao( evolucao( tio(ana, carla) ) ).
 
 tc6 :-
-    assert( irmao(i2,i1) ), assert( pai(p,i1) ), filho(i2, p),
-    retract( irmao(i2,i1) ), retract( pai(p,i1) ).
+    nao( evolucao( sobrinho(joao, luis) ) ).
 
 tc7 :-
-    assert( primo(pr,x) ), assert( pai(t,pr) ),
-    tio(t,x),
-    retract( primo(pr,x) ), retract( pai(t,pr) ).
+    nao( evolucao( avo(alexandre, jose) ) ).
 
 tc8 :-
-    assert( primo(x,pr) ), assert( pai(t,pr) ),
-    tio(t,x),
-    retract( primo(x,pr) ), retract( pai(t,pr) ).
+    nao( evolucao( neto(joao, margarida) ) ).
 
 tc9 :-
-    assert( primo(pr,x) ), assert( filho(pr,t) ),
-    tio(t,x),
-    retract( primo(pr,x) ), retract( filho(pr,t) ).
+    nao( evolucao( bisavo(ricardo,carla) ) ).
 
 tc10 :-
-    assert( primo(x,pr) ), assert( filho(pr,t) ),
-    tio(t,x),
-    retract( primo(x,pr) ), retract( filho(pr,t) ).
+    nao( evolucao( bisneto(jorge,alexandre) ) ).
 
 tc11 :-
-    assert( irmao(i1,i2) ), assert(tio(t, i1)),
-    tio(t,i2),
-    retract( irmao(i1,i2) ), retract( tio(t,i1) ).
+    nao( evolucao( descendente(carlos, alexandre) ) ).
 
 tc12 :-
-    assert( irmao(i2,i1) ), assert(tio(t, i1)),
-    tio(t,i2),
-    retract( irmao(i2,i1) ), retract( tio(t,i1) ).
+    nao( evolucao( ascendente(alexandre, carla) ) ).
 
 tc13 :-
-    assert( irmao(i1,i2) ), assert(tio(t, i2)),
-    tio(t,i1),
-    retract( irmao(i1,i2) ), retract( tio(t,i2) ).
+    nao( evolucao( descendenteGrau(joao, alexandre, 4) ) ).
 
 tc14 :-
-    assert( irmao(i1,i2) ), assert(sobrinho(i2, t)),
-    tio(t,i1),
-    retract( irmao(i1,i2) ), retract( sobrinho(i2,t) ).
+    nao( evolucao( descendenteGrau(carlos, alexandre, 5) ) ).
 
 tc15 :-
-    assert( irmao(i1,i2) ), assert(sobrinho(i1, t)),
-    tio(t,i2),
-    retract( irmao(i1,i2) ), retract( sobrinho(i1,t) ).
+    nao( evolucao( ascendenteGrau(alexandre, carlos, 5) ) ).
+
+tc15 :-
+    nao( evolucao( descendente(jose,alexandre) ) ).
 
 tc16 :-
-    assert( irmao(i2,i1) ), assert(sobrinho(i1, t)),
-    tio(t,i2),
-    retract( irmao(i2,i1) ), retract( sobrinho(i1,t) ).
+    nao( evolucao( ascendente(maria, carlos) ) ).
 
 tc17 :-
-    assert( irmao(i2,i1) ), assert(sobrinho(i2, t)),
-    tio(t,i1),
-    retract( irmao(i2,i1) ), retract( sobrinho(i2,t) ).
+    nao( evolucao( primo(carla, carlos) ) ).
 
+tc18 :-
+    nao( evolucao( primo(carlos, carla) ) ).
+
+tc19 :-
+    nao( evolucao( pai(ficticio, joao) ) ).
+
+tc20 :-
+    nao( evolucao( filho(carla, ficticio) ) ).
+
+tc21 :-
+    nao( evolucao( avo(avo_ficticio, joao) ) ).
+
+tc22 :-
+    nao( evolucao( neto(carlos, avo_ficticio) ) ).
+
+tc23 :-
+    nao( evolucao( casado(jorge, mulher_ficticia) ) ).
+
+tc24 :-
+    evolucao( primo(p1, p2) ),
+    evolucao( casado(p1, p2) ),
+    remocao( primo(p1,p2) ),
+    remocao( casado(p1,p2) ).
+
+tc25 :-
+    evolucao( filho(f, p) ),
+    nao( evolucao( casado(f, p) ) ),
+    remocao( filho(f,p) ).
+
+tc26 :-
+    evolucao(naturalidade(x, Braga, 2015) ),
+    nao( evolucao(dataMorte(x, 2014) ) ),
+    remocao( naturalidade( x,Braga,2015) ).
+
+tc27 :-
+    evolucao(naturalidade(x, Braga, 1980)),
+    evolucao(dataMorte(x, 2014) ),
+    evolucao(naturalidade(f,Braga,2015)),
+    nao( evolucao(filho(f,x)) ),
+    remocao(naturalidade(x,Braga,1980)),
+    remocao(dataMorte(x,2014)),
+    remocao(naturalidade(f,Braga,2015)).
+
+tc28 :-
+    evolucao(naturalidade(x, Braga, 1980)),
+    evolucao(dataMorte(x, 2014) ),
+    evolucao(naturalidade(f,Braga,2015)),
+    nao( evolucao(pai(f,x)) ),
+    remocao(naturalidade(x,Braga,1980)),
+    remocao(dataMorte(x,2014)),
+    remocao(naturalidade(f,Braga,2015)).
+
+tc29 :-
+    evolucao(naturalidade(x, Braga, 1980)),
+    evolucao(dataMorte(x, 2014) ),
+    evolucao(filho(f,x)),
+    nao(evolucao(naturalidade(f,Braga,2015))),
+    remocao(filho(f,x)),
+    remocao(naturalidade(x,Braga,1980)),
+    remocao(dataMorte(x,2014)).
+
+tc30 :-
+    evolucao(naturalidade(x, Braga, 1980)),
+    evolucao(dataMorte(x, 2014) ),
+    evolucao(pai(f,x)),
+    nao(evolucao(naturalidade(f,Braga,2015))),
+    remocao(pai(f,x)),
+    remocao(naturalidade(x,Braga,1980)),
+    remocao(dataMorte(x,2014)).
+
+tc31 :-
+    nao( remocao(pai(jorge,joao)) ).
+
+tc32 :-
+    evolucao(filho(a,b)),
+    remocao(filho(a,b)).
 
 teste_complementar(L) :-
     test_all([tc1, tc2, tc3, tc4, tc5, tc6, tc7,
-                tc8, tc9, tc10, tc11, tc12, tc13,
-                tc14, tc15, tc16, tc17], L).
+                tc8, tc9, tc10, tc11, tc12, tc13], L).
 
 testar(L) :-
     teste_predicados(SL1),
@@ -444,31 +533,14 @@ test_all([H|T], L) :-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado pai: Pai,Filho -> {V,F}
 
-filho(F, P) :-
-    clause(pai(P,F), true) .
-filho(F, P) :-
-    clause(filho(I,P), true), clause(irmao(F,I), true).
-filho(F, P) :-
-    clause(pai(P,I), true), clause(irmao(F,I), true).
-filho(F, P) :-
-    clause(filho(I,P), true), clause(irmao(I,F), true).
-filho(F, P) :-
-    clause(pai(P,I), true), clause(irmao(I,F), true).
-
 pai(P,F) :-
     filho(F, P).
-pai(P,F) :-
-    clause(irmao(M,F), true), clause(pai(P,M),true).
-pai(P,F) :-
-    clause(irmao(F,M), true), clause(pai(P,M),true).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado irmao: M,N -> {V,F}
 
 irmao(M,N) :-
     pai(P, M), pai(P, N) , M \== N.
-irmao(M,N) :-
-    clause(irmao(N, M), true) .
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado casado: X,Y -> {V,F}
@@ -480,8 +552,6 @@ casado(X,Y) :- clause(casado(Y,X), true).
 
 avo(A,N) :-
     filho(N, X) , pai(A, X).
-avo(A,N) :-
-    irmao(N,I), clause(avo(A,I), true).
 
 %%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado neto: Neto,Avo -> {V,F}
@@ -496,23 +566,7 @@ tio( T,S ) :-
     pai(P, S), irmao(T, P).
 
 tio( T1,S ) :-
-    avo(A, S), filho(T2, A), nao( pai(T2, S) ), clause(casado( T1, T2) , true).
-
-tio( T1,S ) :-
-    avo(A, S), filho(T2, A), nao( pai(T2, S) ), clause(casado( T2, T1) , true).
-
-tio(T,S) :-
-    pai(T,P), clause(primo(P,S), true).
-
-tio(T,S) :-
-    pai(T,P), clause(primo(S,P), true).
-
-tio(T,S) :-
-    irmao(S,I), clause(tio(T,I), true).
-
-tio(T,S) :-
-    clause(sobrinho(I,T), true), irmao(I,S).
-
+    avo(A, S), filho(T2, A), nao( pai(T2, S) ), casado( T1, T2).
 
 %%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado sobrinho: Sobrinho,Tio -> {V,F}
@@ -562,7 +616,6 @@ descendentesGrau(A,G,R) :-
 descendenteAteGrau(D,A,N) :-
     descendenteGrau(D,A,G), G =< N.
 
-%ERRO AQUI - descendentesAteGrau(ana,P,2).
 descendentesAteGrau(A,G,R) :-
     solucoes(P, descendenteAteGrau(P,A,G), R).
 
@@ -795,7 +848,7 @@ ascendenteAntes( A,D ) :- naturalidade(A,N,NSCA,MRR), naturalidade(D,N,NSCD,MRR)
 %(solucoes( (A,D),(descendente( A,D )),S ),
                  			%	nao( naturalidade(A,N,NSCA,MRR), naturalidade(D,N,NSCD,MRR), NSCA < NSCD)
                   			%).
-	
+
 % nao permitir que individuos tenham relacoes incongruentes
 
 +filho( F,P ) :: relacao(F,P,desconhecido).
