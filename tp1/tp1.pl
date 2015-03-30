@@ -437,10 +437,11 @@ unico([H|T]) :- nao( contem(H,T) ), unico(T).
 % apenas permitir que individuos tenham relacoes validas entre eles
 
 +filho( F,P ) :: (solucoes(R, relacao(F,P,R), S),
-                     contemTodos(S, [filho, desconhecido, descendente\ de\ grau\ 1])
+                     contemTodos(S, [filho, desconhecido, descendente\ de\ grau\ 1]),
                      solucoes(R2, relacao(P,F,R2), S2),
                      unico(S2)
                   ).
++filho(X,Y) :: nao( filho(Y,X) ).
 
 +pai( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,pai,ascendente\ de\ grau\ 2]),
@@ -453,23 +454,26 @@ unico([H|T]) :- nao( contem(H,T) ), unico(T).
                     contemTodos(S, [desconhecido,irmao]),
                     solucoes(R2, relacao(F,P,R2), S2),
                     unico(S2)
-               ).
+                ).
 +avo( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,avo,ascendente\ de\ grau\ 2]),
                     solucoes(R2, relacao(F,P,R2), S2),
-                    unico(S2)
+                    unico(S2),
+                    nao( contem( avo,S2 ) )
                ).
 
 +tio( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,tio]),
                     solucoes(R2, relacao(F,P,R2), S2),
-                    unico(S2)
+                    unico(S2),
+                    nao( contem( tio,S2 ) )
                ).
 
 +sobrinho( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,sobrinho]),
                     solucoes(R2, relacao(F,P,R2), S2),
-                    unico(S2)
+                    unico(S2),
+                    nao( contem( sobrinho,S2 ) )
                ).
 +primo( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,primo,casado]),
@@ -479,17 +483,20 @@ unico([H|T]) :- nao( contem(H,T) ), unico(T).
 +neto( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,neto,descendente\ de\ grau\ 2]),
                     solucoes(R2, relacao(F,P,R2), S2),
-                    unico(S2)
+                    unico(S2),
+                    nao( contem( neto,S2 ) )
                ).
 +bisneto( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,bisneto,descendente\ de\ grau\ 3]),
                     solucoes(R2, relacao(F,P,R2), S2),
-                    unico(S2)
+                    unico(S2),
+                    nao( contem( bisneto,S2 ) )
                ).
 +bisavo( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,bisavo,ascendente\ de\ grau\ 3]),
                     solucoes(R2, relacao(F,P,R2), S2),
-                    unico(S2)
+                    unico(S2),
+                    nao( contem( bisavo,S2 ) )
                ).
 +casado( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,casado,primo]),
