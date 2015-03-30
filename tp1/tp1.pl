@@ -47,6 +47,9 @@ pai(P,F) :-
 irmao(M,N) :-
     pai(P, M), pai(P, N) , M \== N.
 
+irmao(N,M) :-
+	clause( irmao(M,N),true ).
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado casado: X,Y -> {V,F}
 
@@ -434,62 +437,63 @@ unico([H|T]) :- nao( contem(H,T) ), unico(T).
 % apenas permitir que individuos tenham relacoes validas entre eles
 
 +filho( F,P ) :: (solucoes(R, relacao(F,P,R), S),
-                     contemTodos(S, [filho, desconhecido, descendente\ de\ grau\ 1]),
+                     contemTodos(S, [filho, desconhecido, descendente\ de\ grau\ 1])
                      solucoes(R2, relacao(P,F,R2), S2),
                      unico(S2)
                   ).
 
 +pai( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,pai,ascendente\ de\ grau\ 2]),
-                    solucoes(R2, relacao(P,F,R2), S2),
-                    unico(S2)
+                    solucoes(R2, relacao(F,P,R2), S2),
+                    unico(S2),
+                    nao( contem( pai,S2 ) )
                ).
 
 +irmao( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,irmao]),
-                    solucoes(R2, relacao(P,F,R2), S2),
+                    solucoes(R2, relacao(F,P,R2), S2),
                     unico(S2)
                ).
 +avo( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,avo,ascendente\ de\ grau\ 2]),
-                    solucoes(R2, relacao(P,F,R2), S2),
+                    solucoes(R2, relacao(F,P,R2), S2),
                     unico(S2)
                ).
 
 +tio( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,tio]),
-                    solucoes(R2, relacao(P,F,R2), S2),
+                    solucoes(R2, relacao(F,P,R2), S2),
                     unico(S2)
                ).
 
 +sobrinho( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,sobrinho]),
-                    solucoes(R2, relacao(P,F,R2), S2),
+                    solucoes(R2, relacao(F,P,R2), S2),
                     unico(S2)
                ).
 +primo( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,primo,casado]),
-                    solucoes(R2, relacao(P,F,R2), S2),
+                    solucoes(R2, relacao(F,P,R2), S2),
                     unico(S2)
                ).
 +neto( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,neto,descendente\ de\ grau\ 2]),
-                    solucoes(R2, relacao(P,F,R2), S2),
+                    solucoes(R2, relacao(F,P,R2), S2),
                     unico(S2)
                ).
 +bisneto( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,bisneto,descendente\ de\ grau\ 3]),
-                    solucoes(R2, relacao(P,F,R2), S2),
+                    solucoes(R2, relacao(F,P,R2), S2),
                     unico(S2)
                ).
 +bisavo( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,bisavo,ascendente\ de\ grau\ 3]),
-                    solucoes(R2, relacao(P,F,R2), S2),
+                    solucoes(R2, relacao(F,P,R2), S2),
                     unico(S2)
                ).
 +casado( P,F ) :: (solucoes(R, relacao(P,F,R), S),
                     contemTodos(S, [desconhecido,casado,primo]),
-                    solucoes(R2, relacao(P,F,R2), S2),
+                    solucoes(R2, relacao(F,P,R2), S2),
                     unico(S2)
                ).
 
@@ -644,11 +648,6 @@ unico([H|T]) :- nao( contem(H,T) ), unico(T).
 +ascendenteGrau(A,A,G) :: fail.
 +descendenteAteGrau(D,D,G) :: fail.
 +ascendenteAteGrau(A,A,G) :: fail.
-
-
-
-
-
 
 % ----------------- TESTES
 
