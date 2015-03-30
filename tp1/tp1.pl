@@ -647,52 +647,16 @@ unico([H|T]) :- nao( contem(H,T) ), unico(T).
 +naturalidade(P,N,DN,DM) :: ( DN < DM ).
 
 % nao permitir relacionamentos com ele proprio
-+pai(P,F) :: (solucoes(P, pai(P,P), S),
-                    comprimento(S,N),
-                    N == 0
-               ).
-
-+filho(F,P) :: (solucoes(F, filho(F,F), S),
-                    comprimento(S,N),
-                    N == 0
-               ).
-
-+bisneto(BN,BA) :: (solucoes(BN, bisneto(BN,BN), S),
-                    comprimento(S,N),
-                    N == 0
-                  ).
-+sobrinho(S,T) :: (solucoes(S, sobrinho(S,S), SL),
-                    comprimento(SL,N),
-                    N == 0
-                  ).
-
-+descendente(D,A) :: (solucoes(D, descendente(D,D), S),
-                        comprimento(S,N),
-                        N == 0
-                     ).
-
-+ascendente(A,D) :: (solucoes(A, ascendente(A,A), S),
-                        comprimento(S,N),
-                        N == 0
-                    ).
-
-+descendenteGrau(D,A,G) :: (solucoes(X, descendenteGrau(D,D,X), S),
-                            comprimento(S,N),
-                            N == 0
-                           ).
-+ascendenteGrau(A,D,G) :: (solucoes(X, ascendenteGrau(A,A,X), S),
-                            comprimento(S,N),
-                            N == 0
-                           ).
-
-+descendenteAteGrau(D,A,G) :: (solucoes(X, descendenteAteGrau(D,D,X), S),
-                            comprimento(S,N),
-                            N == 0
-                           ).
-+ascendenteAteGrau(A,D,G) :: (solucoes(X, ascendenteAteGrau(A,A,X), S),
-                            comprimento(S,N),
-                            N == 0
-                           ).
++pai(P,P) :: fail.
++filho(F,F) :: fail.
++bisneto(BN,BN) :: fail.
++sobrinho(S,S) :: fail.
++descendente(D,D) :: fail.
++ascendente(A,A) :: fail.
++descendenteGrau(D,D,G) :: fail.
++ascendenteGrau(A,A,G) :: fail.
++descendenteAteGrau(D,D,G) :: fail.
++ascendenteAteGrau(A,A,G) :: fail.
 
 % funcoes auxiliares
 contem(H, [H|T]).
