@@ -46,7 +46,7 @@
 % [x] so pode ter 2 pais
 % [x] so pode ter 4 avos
 % [x] so pode ter 8 bisavos
-% [?] so ter uma relacao com um individuo (exceto primos e casados)
+% [x] so ter uma relacao com um individuo (exceto primos e casados)
 % [x] nao ter relacionamento com ele proprio
 % [x] data nascimento < data morte
 % [x] uma so naturalidade
@@ -649,6 +649,8 @@ unico([H|T]) :- nao( contem(H,T) ), unico(T).
 % nao permitir relacionamentos com ele proprio
 +pai(P,P) :: fail.
 +filho(F,F) :: fail.
++irmao(I,I) :: fail.
++neto(N,N) :: fail.
 +bisneto(BN,BN) :: fail.
 +sobrinho(S,S) :: fail.
 +descendente(D,D) :: fail.
