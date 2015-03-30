@@ -96,7 +96,6 @@
 r :-
     consult('tp1.pl').
 
-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado pai: Pai,Filho -> {V,F}
 
@@ -443,42 +442,67 @@ remocao(T) :-
 
 % nao permitir que individuos tenham relacoes incongruentes
 
+unico([]).
+unico([H|T]) :- nao( contem(H,T) ), unico(T).
+
 +filho( F,P ) :: (solucoes(R, relacao(F,P,R), S),
-                     contemTodos(S, [filho, desconhecido, descendente\ de\ grau\ 1])
+                     contemTodos(S, [filho, desconhecido, descendente\ de\ grau\ 1]),
+                     solucoes(R2, relacao(P,F,R2), S2),
+                     unico(S2)
                   ).
 
 +pai( P,F ) :: (solucoes(R, relacao(P,F,R), S),
-                    contemTodos(S, [desconhecido,pai,ascendente\ de\ grau\ 2])
+                    contemTodos(S, [desconhecido,pai,ascendente\ de\ grau\ 2]),
+                    solucoes(R2, relacao(P,F,R2), S2),
+                    unico(S2)
                ).
 
 +irmao( P,F ) :: (solucoes(R, relacao(P,F,R), S),
-                    contemTodos(S, [desconhecido,irmao])
+                    contemTodos(S, [desconhecido,irmao]),
+                    solucoes(R2, relacao(P,F,R2), S2),
+                    unico(S2)
                ).
 +avo( P,F ) :: (solucoes(R, relacao(P,F,R), S),
-                    contemTodos(S, [desconhecido,avo,ascendente\ de\ grau\ 2])
+                    contemTodos(S, [desconhecido,avo,ascendente\ de\ grau\ 2]),
+                    solucoes(R2, relacao(P,F,R2), S2),
+                    unico(S2)
                ).
 
 +tio( P,F ) :: (solucoes(R, relacao(P,F,R), S),
-                    contemTodos(S, [desconhecido,tio])
+                    contemTodos(S, [desconhecido,tio]),
+                    solucoes(R2, relacao(P,F,R2), S2),
+                    unico(S2)
                ).
 
 +sobrinho( P,F ) :: (solucoes(R, relacao(P,F,R), S),
-                    contemTodos(S, [desconhecido,sobrinho])
+                    contemTodos(S, [desconhecido,sobrinho]),
+                    solucoes(R2, relacao(P,F,R2), S2),
+                    unico(S2)
                ).
 +primo( P,F ) :: (solucoes(R, relacao(P,F,R), S),
-                    contemTodos(S, [desconhecido,primo,casado])
+                    contemTodos(S, [desconhecido,primo,casado]),
+                    solucoes(R2, relacao(P,F,R2), S2),
+                    unico(S2)
                ).
 +neto( P,F ) :: (solucoes(R, relacao(P,F,R), S),
-                    contemTodos(S, [desconhecido,neto,descendente\ de\ grau\ 2])
+                    contemTodos(S, [desconhecido,neto,descendente\ de\ grau\ 2]),
+                    solucoes(R2, relacao(P,F,R2), S2),
+                    unico(S2)
                ).
 +bisneto( P,F ) :: (solucoes(R, relacao(P,F,R), S),
-                    contemTodos(S, [desconhecido,bisneto,descendente\ de\ grau\ 3])
+                    contemTodos(S, [desconhecido,bisneto,descendente\ de\ grau\ 3]),
+                    solucoes(R2, relacao(P,F,R2), S2),
+                    unico(S2)
                ).
 +bisavo( P,F ) :: (solucoes(R, relacao(P,F,R), S),
-                    contemTodos(S, [desconhecido,bisavo,ascendente\ de\ grau\ 3])
+                    contemTodos(S, [desconhecido,bisavo,ascendente\ de\ grau\ 3]),
+                    solucoes(R2, relacao(P,F,R2), S2),
+                    unico(S2)
                ).
 +casado( P,F ) :: (solucoes(R, relacao(P,F,R), S),
-                    contemTodos(S, [desconhecido,casado,primo])
+                    contemTodos(S, [desconhecido,casado,primo]),
+                    solucoes(R2, relacao(P,F,R2), S2),
+                    unico(S2)
                ).
 
 % nao permitir a insercao de conhecimento repetido
@@ -494,8 +518,8 @@ remocao(T) :-
                   ).
 
 +irmao( M,N ) :: (solucoes( (M,N),(irmao( M,N )),S ),
-                  comprimento( S,N ),
-                  N == 1
+                  comprimento( S,C ),
+                  C == 1
                   ).
 
 +primo( P1,P2 ) :: (solucoes( (P1,P2),(primo( P1,P2 )),S ),
@@ -514,18 +538,18 @@ remocao(T) :-
                   ).
 
 +avo( A,N ) :: (solucoes( (A,N),(avo( A,N )),S ),
-                  comprimento( S,N ),
-                  N == 1
+                  comprimento( S,C ),
+                  C == 1
                   ).
 
 +neto( N,A ) :: (solucoes( (N,A),(neto( N,A )),S ),
-                  comprimento( S,N ),
-                  N == 1
+                  comprimento( S,C ),
+                  C == 1
                   ).
 
 +bisavo( BA,BN ) :: (solucoes( (BA,BN),(bisavo( BA,BN )),S ),
-                  comprimento( S,N ),
-                  N == 1
+                  comprimento( S,C ),
+                  C == 1
                   ).
 
 +bisneto( BN,BA ) :: (solucoes( (BN,BA),(bisneto( BN,BA )),S ),
@@ -593,16 +617,26 @@ remocao(T) :-
                 ).
 
 % nao permitir adicionar avo de um neto que ja tenha quatro avos
-+avo( A,NE ) ::  ( solucoes( X, (avo(X,NE )), S),
++avo( A,NE ) ::  ( solucoes( X, (avo(X,NE)), S),
                     comprimento(S, N),
                     N < 5
-                ).
+                 ).
+
++neto( NE,A ) ::  ( solucoes( X, (neto(NE,X)), S),
+                   comprimento(S, N),
+                   N < 5
+                  ).
 
 % nao permitir adicionar bisavo de um bisneto que ja tenha oito bisavos
 +bisavo( BA,BN ) ::  ( solucoes( X, (bisavo(X, BN)), S),
                     comprimento(S, N),
                     N < 9
                 ).
+
++bisneto( BN,BA ) ::  ( solucoes( X, (bisneto(BN,X)), S),
+                        comprimento(S, N),
+                        N < 5
+                      ).
 
 % so pode ter uma naturalidade
 +naturalidade(P,N,DN,DM) :: ( solucoes(M, naturalidade(P,M,_,_), S),
