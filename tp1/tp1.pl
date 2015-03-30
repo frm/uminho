@@ -36,16 +36,16 @@
 %   [x] dataMorte
 %
 % Invariantes:
-% [] nao colocar conhecimento repetido em:
-%   [] ascendente
-%   [] descendente
-%   [] descendenteGrau
-%   [] descendenteAteGrau
-%   [] ascendenteGrau
-%   [] ascendenteAteGrau
-% [y] so pode ter 2 pais
-% [y] so pode ter 4 avos
-% [y] so pode ter 8 bisavos
+% [x] nao colocar conhecimento repetido em:
+%   [x] ascendente
+%   [x] descendente
+%   [x] descendenteGrau
+%   [x] descendenteAteGrau
+%   [x] ascendenteGrau
+%   [x] ascendenteAteGrau
+% [x] so pode ter 2 pais
+% [x] so pode ter 4 avos
+% [x] so pode ter 8 bisavos
 % [] so ter uma relacao com um individuo (exceto primos e casados)
 % [] nao ter relacionamento com ele proprio
 % [] data nascimento < data morte
@@ -86,7 +86,9 @@
 :- dynamic descendente/2.
 :- dynamic ascendente/2.
 :- dynamic descendenteGrau/3.
+:- dynamic ascendenteGrau/3.
 :- dynamic descendenteAteGrau/3.
+:- dynamic ascendenteAteGrau/3.
 :- dynamic naturalidade/3.
 :- dynamic dataMorte/2.
 
@@ -510,7 +512,9 @@ tc32 :-
 
 teste_complementar(L) :-
     test_all([tc1, tc2, tc3, tc4, tc5, tc6, tc7,
-                tc8, tc9, tc10, tc11, tc12, tc13], L).
+                tc8, tc9, tc10, tc11, tc12, tc13,
+                tc14, tc15, tc16, tc17, tc18, tc19,
+                tc20, tc21, tc22, tc23, tc24, tc25], L).
 
 testar(L) :-
     teste_predicados(SL1),
@@ -963,7 +967,37 @@ remocao(T) :-
                     N =< 1
                   ).
 
-+casado( X,Y ) :: ( solucoes(Z, casado(Y,Z), S),
+% nao permitir cnhecimento repetido
++descendente( X,Y ) :: ( solucoes(Y, descendente(X,Y), S),
+                    comprimento( S,N ),
+                    N =< 1
+                  ).
+% nao permitir conhecimento repetido
++ascendente( X,Y ) :: ( solucoes(Y, ascendente(X,Y), S),
+                    comprimento( S,N ),
+                    N =< 1
+                  ).
+
+% nao permitir conhecimento repetido, nao pode ser ascendente de um grau qualquer
++ascendenteGrau( X,Y,G ) :: ( solucoes(Y, ascendenteGrau(X,Y,Z), S),
+                    comprimento( S,N ),
+                    N =< 1
+                  ).
+
+% nao permitir conhecimento repetido, nao pode ser descendente de um grau qualquer
++descendenteGrau( X,Y,G ) :: ( solucoes(Y, descendenteGrau(X,Y,Z), S),
+                    comprimento( S,N ),
+                    N =< 1
+                  ).
+
+% nao permitir conhecimento repetido, nao pode ser descendente de um grau qualquer
++descendenteAteGrau( X,Y,G ) :: ( solucoes(Y, descendenteAteGrau(X,Y,Z), S),
+                    comprimento( S,N ),
+                    N =< 1
+                  ).
+
+% nao permitir conhecimento repetido, nao pode ser ascendente de um grau qualquer
++ascendenteAteGrau( X,Y,G ) :: ( solucoes(Y, ascendenteAteGrau(X,Y,G), S),
                     comprimento( S,N ),
                     N =< 1
                   ).
