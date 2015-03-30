@@ -1113,16 +1113,3 @@ test_all([H|T], L) :-
 
 test_all([H|T], L) :-
     test_all(T, NL), L = [H|NL].
-
-% testar e no fim remover, conhecendo o predicado onde falhou
-whynot( T , ER) :-
-    solucoes(I,+T::I,S),
-    assert(T),
-    why_not_teste(S, ER),
-    retract(T).
-
-why_not_teste([],ok).
-why_not_teste([I|L], ER) :- I, why_not_teste(L, ER).
-why_not_teste([I|L], ER) :- head(L,ER).
-
-head([H|L], H).
