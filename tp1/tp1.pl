@@ -108,7 +108,7 @@ bisneto(BN, BA) :-
 
 descendente(X,Y) :-
     filho(X,Y).
-    
+
 descendente(X,Y) :-
 	filho(X,Z) , descendente(Z,Y).
 
@@ -1094,7 +1094,7 @@ tc42 :-
 tc43 :-
     nao( evolucao( primo(f,f) ) ).
 
-teste_complementar(L) :-
+teste_consistencia(L) :-
     test_all([tc1, tc2, tc3, tc4, tc5, tc6, tc7,
                 tc8, tc9, tc10, tc11, tc12, tc13,
                 tc14, tc15, tc16, tc17, tc18, tc19,
@@ -1109,8 +1109,8 @@ testar(L) :-
     teste_listar(SL2),
     teste_invariantes(SL3),
     teste_relacoes(SL4),
-    teste_complementar(SL5),
-    L = (predicados: SL1, listar: SL2, invariantes: SL3, relacoes: SL4, complementar: SL5).
+    teste_consistencia(SL5),
+    L = (predicados: SL1, listar: SL2, invariantes: SL3, relacoes: SL4, consistencia: SL5).
 
 t(L) :- testar(L).
 
