@@ -1114,7 +1114,7 @@ testar(L) :-
 
 t(L) :- testar(L).
 
-% funcoes auxiliares de teste
+% predicados auxiliares de teste
 
 test_all([], []).
 test_all([H|T], L) :-
