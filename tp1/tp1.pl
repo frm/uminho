@@ -46,17 +46,18 @@
 % [x] so pode ter 2 pais
 % [x] so pode ter 4 avos
 % [x] so pode ter 8 bisavos
-% [] so ter uma relacao com um individuo (exceto primos e casados)
-% [] nao ter relacionamento com ele proprio
-% [] data nascimento < data morte
-% [] uma so naturalidade
-% [] filho entre nascimento e morte dos pais:
-%   [] invariante quando se adiciona o filho
-%   [] invariante quando se adiciona o pai
-%   [] invariante quando se adiciona a naturalidade do filho
-%   [] invariante quando se adiciona a naturalidade do pai
-%   [] invariante quando se adiciona a dataMorte do pai
-%   [] invariante quando se adiciona a dataMorte do filho
+% [?] so ter uma relacao com um individuo (exceto primos e casados)
+% [x] nao ter relacionamento com ele proprio
+% [x] data nascimento < data morte
+% [x] uma so naturalidade
+% [a] filho entre nascimento e morte dos pais:
+%   [a] invariante quando se adiciona o filho
+%   [a] invariante quando se adiciona o pai
+%   [a] invariante quando se adiciona a naturalidade do filho
+%   [a] invariante quando se adiciona a naturalidade do pai
+%   [a] invariante quando se adiciona a dataMorte do pai
+%   [a] invariante quando se adiciona a dataMorte do filho
+% [x] acrescentar antecedente de grau a relacao
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % SIST. REPR. CONHECIMENTO E RACIOCINIO - LEI/3
@@ -89,8 +90,7 @@
 :- dynamic ascendenteGrau/3.
 :- dynamic descendenteAteGrau/3.
 :- dynamic ascendenteAteGrau/3.
-:- dynamic naturalidade/3.
-:- dynamic dataMorte/2.
+:- dynamic naturalidade/4.
 
 r :-
     consult('tp1.pl').
@@ -150,21 +150,16 @@ casado(ricardo, sara).
 filho(ricardo, alexandre).
 
 
-% naturalidades e mortes
-naturalidade(ricardo,porto,1872).
-dataMorte(ricardo, 1922).
+% naturalidades
+naturalidade(ricardo,porto,1872,1922).
 
-naturalidade(jose,porto,1910).
-dataMorte(jose,1982).
+naturalidade(jose,porto,1910,1982).
 
-naturalidade(margarida,aveiro,1910).
-dataMorte(margarida,2003).
+naturalidade(margarida,aveiro,1910,2003).
 
-naturalidade(maria,braga,1933).
-dataMorte(maria,2003).
+naturalidade(maria,braga,1933,2003).
 
-naturalidade(ana,braga,1960).
-dataMorte(ana,2010).
+naturalidade(ana,braga,1960,2010).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Testes exemplo
@@ -463,58 +458,90 @@ tc25 :-
     remocao( filho(f,p) ).
 
 tc26 :-
-    evolucao(naturalidade(x, Braga, 2015) ),
-    nao( evolucao(dataMorte(x, 2014) ) ),
-    remocao( naturalidade( x,Braga,2015) ).
+    nao( evolucao(naturalidade(x, Braga, 2015, 2014) ) ).
 
 tc27 :-
-    evolucao(naturalidade(x, Braga, 1980)),
-    evolucao(dataMorte(x, 2014) ),
-    evolucao(naturalidade(f,Braga,2015)),
-    nao( evolucao(filho(f,x)) ),
-    remocao(naturalidade(x,Braga,1980)),
-    remocao(dataMorte(x,2014)),
-    remocao(naturalidade(f,Braga,2015)).
+    evolucao(naturalidade(x, Braga, 1980, 2014)),
+    evolucao(pai(x,f)),
+    nao( evolucao(naturalidade(f,Braga,2015, 2016)) ),
+    remocao(naturalidade(x,Braga,1980,2014)),
+    remocao( pai(x,f) ).
 
 tc28 :-
-    evolucao(naturalidade(x, Braga, 1980)),
-    evolucao(dataMorte(x, 2014) ),
-    evolucao(naturalidade(f,Braga,2015)),
-    nao( evolucao(pai(f,x)) ),
-    remocao(naturalidade(x,Braga,1980)),
-    remocao(dataMorte(x,2014)),
-    remocao(naturalidade(f,Braga,2015)).
+    evolucao(naturalidade(x, Braga, 1980, 2014)),
+    evolucao(naturalidade(f,Braga,2015, 2016)),
+    nao( evolucao(pai(x,f)) ),
+    remocao(naturalidade(x,Braga,1980,2014)),
+    remocao(naturalidade(f,Braga,2015, 2016)).
 
 tc29 :-
-    evolucao(naturalidade(x, Braga, 1980)),
-    evolucao(dataMorte(x, 2014) ),
+    evolucao(naturalidade(x, Braga, 1980,2014)),
     evolucao(filho(f,x)),
-    nao(evolucao(naturalidade(f,Braga,2015))),
-    remocao(filho(f,x)),
-    remocao(naturalidade(x,Braga,1980)),
-    remocao(dataMorte(x,2014)).
+    nao(evolucao(naturalidade(f,Braga,2015,2016))),
+    remocao(naturalidade(x,Braga,1980,2014)),
+    remocao(filho(f,x)).
 
 tc30 :-
-    evolucao(naturalidade(x, Braga, 1980)),
-    evolucao(dataMorte(x, 2014) ),
-    evolucao(pai(f,x)),
-    nao(evolucao(naturalidade(f,Braga,2015))),
+    evolucao(naturalidade(x, Braga, 1980,2014)),
+    evolucao(pai(x,f)),
+    nao(evolucao(naturalidade(f,Braga,2015,2016))),
     remocao(pai(f,x)),
-    remocao(naturalidade(x,Braga,1980)),
-    remocao(dataMorte(x,2014)).
+    remocao(naturalidade(x,Braga,1980,2014)).
 
 tc31 :-
-    nao( remocao(pai(jorge,joao)) ).
+    evolucao(pai(a,b)),
+    remocao(pai(a,b)).
 
 tc32 :-
     evolucao(filho(a,b)),
     remocao(filho(a,b)).
 
+tc33 :-
+    nao( evolucao( filho(f,f) ) ).
+
+tc34 :-
+    nao( evolucao( pai(f,f) ) ).
+
+tc35 :-
+    nao( evolucao( irmao(f,f) ) ).
+
+tc36 :-
+    nao( evolucao( tio(f,f) ) ).
+
+tc37 :-
+    nao( evolucao( sobrinho(f,f) ) ).
+
+tc38 :-
+    nao( evolucao( avo(f,f) ) ).
+
+tc39 :-
+    nao( evolucao( neto(f,f) ) ).
+
+tc40 :-
+    nao( evolucao( bisneto(f,f) ) ).
+
+tc41 :-
+    nao( evolucao( bisavo(f,f) ) ).
+
+tc42 :-
+    nao( evolucao( casado(f,f) ) ).
+
+tc43 :-
+    nao( evolucao( primo(f,f) ) ).
+
+tc44 :-
+    evolucao( primo(p1, p2) ),
+    evolucao( casado(p1, p2) ),
+    nao( evolucao(tio(p1,p2)) ),
+    remocao( primo(p1,p2) ),
+    remocao( casado(p1,p2) ).
+
 teste_complementar(L) :-
     test_all([tc1, tc2, tc3, tc4, tc5, tc6, tc7,
                 tc8, tc9, tc10, tc11, tc12, tc13,
                 tc14, tc15, tc16, tc17, tc18, tc19,
-                tc20, tc21, tc22, tc23, tc24, tc25], L).
+                tc20, tc21, tc22, tc23, tc24, tc25,
+                tc26, tc27, tc28, tc29, tc30, tc31], L).
 
 testar(L) :-
     teste_predicados(SL1),
@@ -594,6 +621,8 @@ sobrinho(S, T) :-
 primo(X, Y) :-
     pai(P1, X), pai(P2, Y), irmao(P1, P2).
 
+primo(X, Y) :-
+    clause( primo(Y,X), true).
 %%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado bisavo: Bisavo,Bisneto -> {V,F}
 
@@ -888,17 +917,43 @@ remocao(T) :-
 
 % nao permitir que individuos tenham relacoes incongruentes
 
-+filho( F,P ) :: relacao(F,P,desconhecido).
-+pai( P,F ) :: relacao(P,F,desconhecido).
-+irmao( M,N ) :: relacao(M,N,desconhecido).
-+avo( A,N ) :: relacao(A,N,desconhecido).
-+neto( N,A ) :: relacao(N,A,desconhecido).
-+tio( T,S ) :: relacao(T,S,desconhecido).
-+sobrinho( S,T ) :: relacao(S,t,desconhecido).
-+primo( P1,P2 ) :: relacao(P1,P2,desconhecido).
-+bisavo( BA,BN ) :: relacao(BA,BN,desconhecido).
-+bisneto( BN,BA ) :: relacao(BN,BA,desconhecido).
++filho( F,P ) :: (solucoes(R, relacao(F,P,R), S),
+                     contemTodos(S, [filho, desconhecido, descendente\ de\ grau\ 1])
+                  ).
 
++pai( P,F ) :: (solucoes(R, relacao(P,F,R), S),
+                    contemTodos(S, [desconhecido,pai,ascendente\ de\ grau\ 2])
+               ).
+
++irmao( P,F ) :: (solucoes(R, relacao(P,F,R), S),
+                    contemTodos(S, [desconhecido,irmao])
+               ).
++avo( P,F ) :: (solucoes(R, relacao(P,F,R), S),
+                    contemTodos(S, [desconhecido,avo,ascendente\ de\ grau\ 2])
+               ).
+
++tio( P,F ) :: (solucoes(R, relacao(P,F,R), S),
+                    contemTodos(S, [desconhecido,tio])
+               ).
+
++sobrinho( P,F ) :: (solucoes(R, relacao(P,F,R), S),
+                    contemTodos(S, [desconhecido,sobrinho])
+               ).
++primo( P,F ) :: (solucoes(R, relacao(P,F,R), S),
+                    contemTodos(S, [desconhecido,primo,casado])
+               ).
++neto( P,F ) :: (solucoes(R, relacao(P,F,R), S),
+                    contemTodos(S, [desconhecido,neto,descendente\ de\ grau\ 2])
+               ).
++bisneto( P,F ) :: (solucoes(R, relacao(P,F,R), S),
+                    contemTodos(S, [desconhecido,bisneto,descendente\ de\ grau\ 3])
+               ).
++bisavo( P,F ) :: (solucoes(R, relacao(P,F,R), S),
+                    contemTodos(S, [desconhecido,bisavo,ascendente\ de\ grau\ 3])
+               ).
++casado( P,F ) :: (solucoes(R, relacao(P,F,R), S),
+                    contemTodos(S, [desconhecido,casado,primo])
+               ).
 
 % nao permitir a insercao de conhecimento repetido
 
@@ -907,7 +962,7 @@ remocao(T) :-
                   N == 1
                   ).
 
-+pai( F,P ) :: (solucoes( (P,F),(pai( P,F )),S ),
++pai( P,F ) :: (solucoes( (P,F),(pai( P,F )),S ),
                   comprimento( S,N ),
                   N == 1
                   ).
@@ -917,17 +972,7 @@ remocao(T) :-
                   N == 1
                   ).
 
-+irmao( M,N ) :: (solucoes( (N,M),(irmao( N,M )),S ),
-                  comprimento( S,N ),
-                  N == 1
-                  ).
-
 +primo( P1,P2 ) :: (solucoes( (P1,P2),(primo( P1,P2 )),S ),
-                  comprimento( S,N ),
-                  N == 1
-                  ).
-
-+primo( P1,P2 ) :: (solucoes( (P2,P1),(primo( P2,P1 )),S ),
                   comprimento( S,N ),
                   N == 1
                   ).
@@ -967,7 +1012,7 @@ remocao(T) :-
                     N =< 1
                   ).
 
-% nao permitir cnhecimento repetido
+% nao permitir conhecimento repetido
 +descendente( X,Y ) :: ( solucoes(Y, descendente(X,Y), S),
                     comprimento( S,N ),
                     N =< 1
@@ -1016,38 +1061,73 @@ remocao(T) :-
                 ).
 
 % nao permitir adicionar pai de um filho que ja tenha dois progenitores
-+pai( P,F ) ::  ( solucoes( X, (filho(F, X)), S),
++pai( P,F ) ::  ( solucoes( X, (pai(X, F)), S),
                     comprimento(S, N),
                     N < 3
                 ).
 
 % nao permitir adicionar avo de um neto que ja tenha quatro avos
-+avo( A,N ) ::  ( solucoes( X, (neto(N, X)), S),
++avo( A,NE ) ::  ( solucoes( X, (avo(X,NE )), S),
                     comprimento(S, N),
                     N < 5
                 ).
 
 % nao permitir adicionar bisavo de um bisneto que ja tenha oito bisavos
-+bisavo( A,N ) ::  ( solucoes( X, (bisneto(N, X)), S),
++bisavo( BA,BN ) ::  ( solucoes( X, (bisavo(X, BN)), S),
                     comprimento(S, N),
                     N < 9
                 ).
 
-% nao e possivel ter nascimento depois de morte
-+naturalidade( P,N,NSC,MRR ) :: ( solucoes( (P,N,NSC,MRR),naturalidade( P,N,NSC,MRR ), S ),
-                                  NSC < MRR
-                                ).
+% so pode ter uma naturalidade
++naturalidade(P,N,DN,DM) :: ( solucoes(M, naturalidade(P,M,_,_), S),
+                            comprimento(S,C),
+                            C < 2
+                        ).
+% nao permitir nascimento depois da morte
++naturalidade(P,N,DN,DM) :: ( DN < DM ).
 
-% nao e possivel alguem ter mais que uma naturalidade
-+naturalidade( P,N,NSC,MRR ) :: ( solucoes( (NX,NSCX,MRRX),naturalidade( P,NX,NSCX,MRRX ), S ),
-                                  comprimento(S,NL),
-                                  NL < 2
-                                ).
+% nao permitir relacionamentos com ele proprio
++filho(F,P) :: (solucoes(F, filho(F,F), S),
+                    comprimento(S,N),
+                    N == 0
+               ).
 
++bisneto(BN,BA) :: (solucoes(BN, bisneto(BN,BN), S),
+                    comprimento(S,N),
+                    N == 0
+                  ).
++sobrinho(S,T) :: (solucoes(S, sobrinho(S,S), SL),
+                    comprimento(SL,N),
+                    N == 0
+                  ).
 
++descendente(D,A) :: (solucoes(D, descendente(D,D), S),
+                        comprimento(S,N),
+                        N == 0
+                     ).
 
++ascendente(A,D) :: (solucoes(A, ascendente(A,A), S),
+                        comprimento(S,N),
+                        N == 0
+                    ).
 
++descendenteGrau(D,A,G) :: (solucoes(X, descendenteGrau(D,D,X), S),
+                            comprimento(S,N),
+                            N == 0
+                           ).
++ascendenteGrau(A,D,G) :: (solucoes(X, ascendenteGrau(A,A,X), S),
+                            comprimento(S,N),
+                            N == 0
+                           ).
 
++descendenteAteGrau(D,A,G) :: (solucoes(X, descendenteAteGrau(D,D,X), S),
+                            comprimento(S,N),
+                            N == 0
+                           ).
++ascendenteAteGrau(A,D,G) :: (solucoes(X, ascendenteAteGrau(A,A,X), S),
+                            comprimento(S,N),
+                            N == 0
+                           ).
 
 % isto serve para testar, mas no fim e para remover
 % o rui usou isto, disponibilizou no grupo, e deles
