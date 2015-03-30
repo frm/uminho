@@ -1,64 +1,3 @@
-% TODO:
-% y - feito
-% x - feito e testado
-% [x] naturalidade
-% [x] idade
-% [x] listar filhos
-% [x] listar pais
-% [x] listar tios
-% [x] listar sobrinhos
-% [x] listar avos
-% [x] listar netos
-% [x] listar bisavos
-% [x] listar bisnetos
-% [x] listar primos
-% [x] listar casados
-% [x] listar nascidos num ano
-% [x] listar mortos num ano
-% [x] listar naturais de um sitio
-% [x] listar pessoas com uma certa idade
-% [x] listar filhos de casamento
-% [x] solucoes
-% [x] relacao entre duas pessoas
-% [x] invariantes do filho (info repetida, mais que 2 pais)
-% [x] invariantes do pai (impedir que inserir pai something de cabo dos invariantes do filho)
-% [x] invariantes da naturalidade (nascimento e morte, mais que uma naturalidade)
-% [x] invariante casado com mais que uma pessoa, informacao repetida e casado(A, B)/casado(B,A)
-% [x] remover repetidos
-% [] por comentarios direito
-%
-% predicados:
-%   [x] remocao (tem de verificar predicados de remocao)
-%   [x] ascendente
-%   [x] ascendenteGrau
-%   [x] ascendenteAteGrau
-%   [x] novo naturalidade
-%   [x] dataMorte
-%
-% Invariantes:
-% [x] nao colocar conhecimento repetido em:
-%   [x] ascendente
-%   [x] descendente
-%   [x] descendenteGrau
-%   [x] descendenteAteGrau
-%   [x] ascendenteGrau
-%   [x] ascendenteAteGrau
-% [x] so pode ter 2 pais
-% [x] so pode ter 4 avos
-% [x] so pode ter 8 bisavos
-% [x] so ter uma relacao com um individuo (exceto primos e casados)
-% [x] nao ter relacionamento com ele proprio
-% [x] data nascimento < data morte
-% [x] uma so naturalidade
-% [a] filho entre nascimento e morte dos pais:
-%   [a] invariante quando se adiciona o filho
-%   [a] invariante quando se adiciona o pai
-%   [a] invariante quando se adiciona a naturalidade do filho
-%   [a] invariante quando se adiciona a naturalidade do pai
-%   [a] invariante quando se adiciona a dataMorte do pai
-%   [a] invariante quando se adiciona a dataMorte do filho
-% [x] acrescentar antecedente de grau a relacao
-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % SIST. REPR. CONHECIMENTO E RACIOCINIO - LEI/3
 
@@ -148,6 +87,7 @@ primo(X, Y) :-
 
 primo(X, Y) :-
     clause( primo(Y,X), true).
+
 %%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado bisavo: Bisavo,Bisneto -> {V,F}
 
@@ -219,6 +159,7 @@ ascendentesAteGrau(D,G,R) :-
 
 grau(X,Y,1) :-
     filho(X,Y).
+
 grau(X,Y, N) :-
     filho(X,Z) , grau(Z, Y, G), N is G+1.
 
@@ -305,7 +246,8 @@ listarNaturais( N,S ) :-
 listarComIdade( I,S ) :-
 	solucoes( P,idade(P,I),S ).
 
-
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado relacao: A,B,REL -> {V,F}
 
 relacao(A, B, filho) :-
     filho(A, B).
@@ -351,19 +293,21 @@ relacao(A,B,X) :-
 relacao(A,B,desconhecido).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado selecionaComuns: [A|B],[X|L],Res -> {V,F}
+% Extensao do predicado selecionaComuns: [A|B],[C|D],Res -> {V,F}
 
 selecionaComuns( [],[C|D],[] ).
+
 selecionaComuns( [A|B],[C|D],Res ) :-
     nao( contem( A,[C|D] ) ),
     selecionaComuns( B,[C|D], Res).
+
 selecionaComuns( [A|B],[C|D],Res ) :-
     selecionaComuns( B,[C|D], R),
     contem( A,[C|D] ),
     Res = [A|R].
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado listarFilhosDeCasamento: I,S -> {V,F}
+% Extensao do predicado listarFilhosDeCasamento: X,Y,S -> {V,F}
 
 listarFilhosDeCasamento( X,Y,S ) :-
     casado( X,Y ),
@@ -373,16 +317,21 @@ listarFilhosDeCasamento( X,Y,S ) :-
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado removerElemento: [X | L], Y, [A | B] -> {V,F}
+
 removerElemento( [],_,[] ).
+
 removerElemento( [X|L],X,NL ) :-
     removerElemento( L,X,NL ).
+
 removerElemento( [X|L],Y,[X|NL] ) :-
     X \== Y, removerElemento( L,Y,NL ).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado removerRepetidos: [X | L], [A | B] -> {V,F}
+
 removerRepetidos( [],[] ).
+
 removerRepetidos( [X|L],[X|NL] ) :-
     removerElemento( L,X,TL ), removerRepetidos( TL,NL ).
 
@@ -391,16 +340,21 @@ removerRepetidos( [X|L],[X|NL] ) :-
 % Extensao do predicado comprimento: [X | L], N -> {V,F}
 
 comprimento( [],0 ).
+
 comprimento( [X|L],N ) :-
     comprimento( L,N1 ),
     N is N1+1.
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado nao: Questao -> {V,F}
 
 nao(T) :-
     T, !, fail.
 
 nao(_).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensão do predicado solucoes: A,T,S -> {V, F}
 
 solucoes(A, T, S) :-
     T,
@@ -410,6 +364,9 @@ solucoes(A, T, S) :-
 solucoes(A, T, S) :-
     obter([], S).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensão do predicado solucoes: X,S -> {V, F}
+
 obter(X,S) :-
     retract( tmp(A) ),
     !,
@@ -418,32 +375,63 @@ obter(X,S) :-
 obter(S,S).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensão do predicado que permite a evolucao do conhecimento
+% Extensão do predicado que permite a evolucao do conhecimento: T -> {V,F}
 
 insere(T) :-
     assert(T).
 insere(T) :-
     retract(T), !, fail.
 
+evolucao(T) :-
+    solucoes( I, +T::I, S),
+                  insere(T),
+                  teste(S).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensão do predicado teste: [R|LR] -> {V,F}
+
 teste([]).
 teste( [R|LR]) :-
         R,
         teste(LR).
 
-evolucao(T) :-
-    solucoes( I, +T::I, S),
-                  insere(T),
-                  teste(S).
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensão do predicado que permite a remocao do conhecimento: T -> {V,F}
 
 remocao(T) :-
     solucoes( C, -T::C, S),
     teste(S),
     retract(T).
 
-% nao permitir que individuos tenham relacoes incongruentes
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensão do predicado contem: H,[H|T] -> {V, F}
+
+contem(H, [H|T]).
+contem(X, [H|T]) :-
+    contem(X, T).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensão do predicado contem: [H|T],L -> {V, F}
+
+contemTodos([], _).
+contemTodos([H|T], L) :-
+    contem(H, L), contemTodos(T, L).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensão do predicado unico: [H|T] -> {V, F}
 
 unico([]).
 unico([H|T]) :- nao( contem(H,T) ), unico(T).
+
+
+
+
+
+
+% ----------------- INVARIANTES
+
+% apenas permitir que individuos tenham relacoes validas entre eles
 
 +filho( F,P ) :: (solucoes(R, relacao(F,P,R), S),
                      contemTodos(S, [filho, desconhecido, descendente\ de\ grau\ 1]),
@@ -506,7 +494,6 @@ unico([H|T]) :- nao( contem(H,T) ), unico(T).
                ).
 
 % nao permitir a insercao de conhecimento repetido
-
 +filho( F,P ) :: (solucoes( (F,P),(filho( F,P )),S ),
                   comprimento( S,N ),
                   N == 1
@@ -562,48 +549,43 @@ unico([H|T]) :- nao( contem(H,T) ), unico(T).
                     N =< 1
                   ).
 
-% nao permitir conhecimento repetido
 +descendente( X,Y ) :: ( solucoes(Y, descendente(X,Y), S),
                     comprimento( S,N ),
                     N =< 1
                   ).
-% nao permitir conhecimento repetido
+
 +ascendente( X,Y ) :: ( solucoes(Y, ascendente(X,Y), S),
                     comprimento( S,N ),
                     N =< 1
                   ).
 
-% nao permitir conhecimento repetido, nao pode ser ascendente de um grau qualquer
 +ascendenteGrau( X,Y,G ) :: ( solucoes(Y, ascendenteGrau(X,Y,Z), S),
                     comprimento( S,N ),
                     N =< 1
                   ).
 
-% nao permitir conhecimento repetido, nao pode ser descendente de um grau qualquer
 +descendenteGrau( X,Y,G ) :: ( solucoes(Y, descendenteGrau(X,Y,Z), S),
                     comprimento( S,N ),
                     N =< 1
                   ).
 
-% nao permitir conhecimento repetido, nao pode ser descendente de um grau qualquer
 +descendenteAteGrau( X,Y,G ) :: ( solucoes(Y, descendenteAteGrau(X,Y,Z), S),
                     comprimento( S,N ),
                     N =< 1
                   ).
 
-% nao permitir conhecimento repetido, nao pode ser ascendente de um grau qualquer
 +ascendenteAteGrau( X,Y,G ) :: ( solucoes(Y, ascendenteAteGrau(X,Y,G), S),
                     comprimento( S,N ),
                     N =< 1
                   ).
 
-% nao permitir que um filho tenha mais que dois progenitores
 
+
+% nao permitir que um filho tenha mais que dois progenitores
 +filho( F,P ) :: ( solucoes( X, (filho(F, X)), S),
                     comprimento(S, N),
                     N < 3
                   ).
-
 
 % nao permitir ao adicionar pai que este seja pai de alguem do qual e descendente
 +pai( P,F ) ::  ( solucoes( (P,F), (pai( P,F )), S),
@@ -622,6 +604,7 @@ unico([H|T]) :- nao( contem(H,T) ), unico(T).
                     N < 5
                  ).
 
+% nao permitir adicionar neto de um avo, se esse neto ja tiver quatro avos
 +neto( NE,A ) ::  ( solucoes( X, (neto(NE,X)), S),
                    comprimento(S, N),
                    N < 5
@@ -633,6 +616,7 @@ unico([H|T]) :- nao( contem(H,T) ), unico(T).
                     N < 9
                 ).
 
+% nao permitir adicionar bisneto de um bisavo, se esse bisneto ja tiver oito bisavos
 +bisneto( BN,BA ) ::  ( solucoes( X, (bisneto(BN,X)), S),
                         comprimento(S, N),
                         N < 5
@@ -643,6 +627,7 @@ unico([H|T]) :- nao( contem(H,T) ), unico(T).
                             comprimento(S,C),
                             C < 2
                         ).
+
 % nao permitir nascimento depois da morte
 +naturalidade(P,N,DN,DM) :: ( DN < DM ).
 
@@ -660,19 +645,12 @@ unico([H|T]) :- nao( contem(H,T) ), unico(T).
 +descendenteAteGrau(D,D,G) :: fail.
 +ascendenteAteGrau(A,A,G) :: fail.
 
-% funcoes auxiliares
-contem(H, [H|T]).
-contem(X, [H|T]) :-
-    contem(X, T).
 
-contemTodos([], _).
-contemTodos([H|T], L) :-
-    contem(H, L), contemTodos(T, L).
+
+
 
 
 % ----------------- TESTES
-
-
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Arvore genealogica exemplo
@@ -796,6 +774,8 @@ teste_predicados(L) :-
                 t8, t9, t10, t11, t12, t13,
                 t14, t15, t16], L ).
 
+% Testes listar
+
 tl1 :-
     listarPais(joao, L), contemTodos(L, [ana, jorge]).
 
@@ -851,6 +831,8 @@ teste_listar(L) :-
     test_all( [tl1, tl2, tl3, tl4, tl5, tl6, tl7, tl8, tl9, tl10, tl11, tl12, tl13, tl14, tl15], L ).
 
 
+% Testes invariantes
+
 ti1 :-
     nao( evolucao(filho(joao,x)) ).
 
@@ -878,6 +860,8 @@ ti8 :-
 teste_invariantes(L) :-
     test_all( [ti1, ti2, ti3, ti4, ti5, ti6, ti7, ti8], L).
 
+
+% Testes relacoes
 
 tr1 :-
     relacao(joao, carlos, irmao).
@@ -943,15 +927,9 @@ teste_relacoes(L) :-
                 tr14, tr15, tr16, tr17, tr18, tr19], L).
 
 
-% Testes de informacao complementar ou incompleta
 
-% Invariantes:
-% - nao colocar conhecimento repetido (filho, pai, irmao, casado, tio, sobrinho, avo, neto, bisavo, bisneto, descendente, primo, ascendente)
-% - so podem ter 2 pais, 4 avos, 8 bisavos
-% - so se pode ter uma relacao com um individuo, exceto primos e casados
-% - data nascimento < data morte
-% - uma so naturalidade
-% - filho entre nascimento e morte dos pais
+
+% Testes de consistência da base de conhecimento
 
 tc1 :-
     nao( evolucao( filho(joao, jorge) ) ).
@@ -1136,8 +1114,7 @@ test_all([H|T], L) :-
 test_all([H|T], L) :-
     test_all(T, NL), L = [H|NL].
 
-% isto serve para testar, mas no fim e para remover
-% o rui usou isto, disponibilizou no grupo, e deles
+% testar e no fim remover, conhecendo o predicado onde falhou
 whynot( T , ER) :-
     solucoes(I,+T::I,S),
     assert(T),
