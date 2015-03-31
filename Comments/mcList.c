@@ -7,7 +7,6 @@ typedef struct mComment{
 	int endLine;
 	int language;
 	char *cText;
-	char *nextLine;
 	struct mComment *next;
 } *mCommentP, mComment;
 
