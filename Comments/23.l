@@ -3,7 +3,7 @@ commentEnd		([^*]|[\n]|(\*[^/]))*\*\/
 
 %{
 	#include "mcList.h"
-	mCommentListP myMC;
+	mCommentP base;
 	mCommentP currentMC;
 	int lc = 0, mc = 0, dc = 0, lineNr = 1;
 	char *aux;
@@ -18,7 +18,7 @@ commentEnd		([^*]|[\n]|(\*[^/]))*\*\/
 
 <multiComment>{commentEnd}				{ mc++; yytext[yyleng-2] = '\0'; currentMC->startLine = lineNr;
 											currentMC->cText = strdup(yytext); lineNr += lineCounter(currentMC->cText);
-											currentMC->endLine = lineNr; BEGIN 0; }
+											currentMC->endLine = lineNr; addMComment(base,currentMC); BEGIN 0; }
 
 <docComment>{commentEnd}				{ dc++; /*usar a linecounter para continuar a contar linhas*/ BEGIN codeLine; }
 <codeLine>.*							{ /*Recolher a linha extra*/ BEGIN 0; }
@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
     if (argc == 2)
         yyin = fopen(argv[1], "r");
 
-    myMC = init();
+    base = newMComment();
     currentMC = newMComment();
 
     yylex();
@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
     fprintf(fp,"<!DOCTYPE html>\n<html>\n<title>\nComments\n</title>\n<body>\n<h1>\nFicheiro: %s\n</h1>\n<p>Single line comments: %d</p>\n<p>Multi-line comments: %d</p>\n<p>Documentation comments: %d</p>\n",argv[1],lc,mc,dc);
     
     /*Imprime comentários multi-linha no ficheiro html*/
-    currentMC = myMC->cursor;
+    currentMC = base;
     printMC(fp, currentMC);
 
     fprintf(fp, "</body>\n</html>");
