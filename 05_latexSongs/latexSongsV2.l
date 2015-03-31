@@ -1,3 +1,5 @@
+%x lText
+
 %{
     #include <sys/types.h>
     #include <sys/stat.h>
@@ -8,11 +10,11 @@
 
     SongListP mySongs;
     SongP currentSong, p;
+    char *res, *ss = "\\usepackage";
 
-    /*just to save space*/
-    char *ss = "\\usepackage";
 %}
 %%
+    BEGIN 0;
 
 (?i:title):" ".*        {currentSong->title = strdup(yytext + 7);}
 (?i:author):" ".*       {currentSong->author = strdup(yytext + 8);}
@@ -20,12 +22,14 @@
 (?i:music):" ".*        {currentSong->music = strdup(yytext + 7);}
 (?i:singer):" ".*       {currentSong->singer = strdup(yytext + 8);}
 
-\n\n[^#]+(##-|[^#])     { if(yytext[yyleng-1] == '-') yytext[yyleng-4] = '\0';
-			  			  currentSong->lyricsText = strdup(yytext + 2); addSong(mySongs,currentSong);
-						  currentSong = newSong();
-                        }
 
-.|\n                    ;
+\n\n                            BEGIN lText; printf("BUGA\n");
+<lText>[a-zA-ZÇ-ÑÀ-Ù!" "?\n]+   { res = (char*)realloc(res, sizeof(char) * (strlen(res) + yyleng+1) ); strcat(res,yytext);}
+<lText>#{2}-+                   { currentSong->lyricsText = strdup(res); addSong(mySongs,currentSong);
+                                  currentSong = newSong(); BEGIN 0;
+                                }
+
+.                           ;
 
 %%
 
@@ -35,9 +39,15 @@ int main(int argc, char** argv) {
 
     mySongs = init();
     currentSong = newSong();
+    res = (char *) calloc(sizeof(char),1);
 
     yylex();
 
+currentSong->lyricsText = strdup(res); addSong(mySongs,currentSong);
+                                  currentSong = newSong();
+
+
+    printf("ASDASD\n");
     struct stat t;
     if(stat("cancoes", &t) == -1)
         mkdir("cancoes", 0700);

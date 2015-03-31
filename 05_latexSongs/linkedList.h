@@ -1,6 +1,5 @@
 typedef struct song{
 	char *title;
-	char *from;
 	char *author;
 	char *lyrics;
 	char *music;

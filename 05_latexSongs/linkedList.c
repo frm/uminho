@@ -4,7 +4,6 @@
 
 typedef struct song{
 	char *title;
-	char *from;
 	char *author;
 	char *lyrics;
 	char *music;
@@ -29,8 +28,7 @@ SongP newSong(){
 	return newSong;
 }
 
-int addSong(SongListP sl, SongP ns){
+void addSong(SongListP sl, SongP ns){
 	ns->next = sl->cursor;
 	sl->cursor = ns;
-	return 1;
 }
