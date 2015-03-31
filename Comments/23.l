@@ -3,8 +3,7 @@ commentEnd		([^*]|[\n]|(\*[^/]))*\*\/
 
 %{
 	#include "mcList.h"
-	mCommentP base;
-	mCommentP currentMC;
+	mCommentP currentMC, base;
 	int lc = 0, mc = 0, dc = 0, lineNr = 1;
 	char *aux;
 %}
@@ -18,7 +17,7 @@ commentEnd		([^*]|[\n]|(\*[^/]))*\*\/
 
 <multiComment>{commentEnd}				{ mc++; yytext[yyleng-2] = '\0'; currentMC->startLine = lineNr;
 											currentMC->cText = strdup(yytext); lineNr += lineCounter(currentMC->cText);
-											currentMC->endLine = lineNr; addMComment(base,currentMC); BEGIN 0; }
+											currentMC->endLine = lineNr; addMComment(base,currentMC); printf("%s",base->cText); BEGIN 0; }
 
 <docComment>{commentEnd}				{ dc++; /*usar a linecounter para continuar a contar linhas*/ BEGIN codeLine; }
 <codeLine>.*							{ /*Recolher a linha extra*/ BEGIN 0; }
