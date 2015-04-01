@@ -1,6 +1,9 @@
 %{
+#include <sys/stat.h>
+#include <sys/types.h>
 #include "strutil.h"
 #include "hash.h"
+
 hash h;
 int html = 0;
 FILE* f;
@@ -69,6 +72,11 @@ int main(int argc, char** argv) {
 
     html = 1;
     yyin = fopen("templates/template.html", "r");
+
+    struct stat st;
+    if (stat("html/", &st) == -1)
+        mkdir("html/", 0700);
+
     f = fopen("html/index.html", "w+");
     yylex();
     fclose(f);
