@@ -1,4 +1,4 @@
-CFLAGS ?= -Wall -Wextra -pedantic -Wno-unused-function -D_GNU_SOURCE
+CFLAGS ?= -Wall -Wextra -pedantic -Wno-unused-function -D_GNU_SOURCE -O2
 CPPFLAGS ?= -Iincludes
 LDFLAGS += -lfl
 EXEC = parser.out
