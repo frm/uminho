@@ -4,10 +4,22 @@ commentEnd		([^*]|[\n]|(\*[^/]))*\*\/
 %{
 #include "lComment.h"	
 #include "mComment.h"
+#include "doc.h"
 
 lCommentP previousLC;
 mCommentP previousMC;
 int lc = 0, mc = 0, dc = 0, lineNr = 1;
+
+
+DocComment *currentDoc;
+DocComment *docComments;
+
+Tag *authors = NULL;
+Tag *versions = NULL;
+
+char *currAuthor = NULL;
+char *currVersion = NULL;
+
 
 int lineCounter(char *s){
 	int i,cnt = 0;
@@ -68,14 +80,34 @@ void processMC(){
 
 [^\/\n]*\/\/.*							{ processLC(); }
 \/\*									{ BEGIN multiComment; }
-\/\*\*									{ BEGIN docComment; }
+\/\*\*                                  { BEGIN docComment; }
 \n 										{ lineNr++; }
+
+
+<codeLine>.+\n                          { yytext[ strlen(yytext) - 1] = '\0';
+                                        currentDoc->firstLine = strdup(yytext);
+                                        BEGIN 0; 
+                                        lineNr++; 
+                                        currentDoc = NULL; 
+                                        }
 
 <multiComment>{commentEnd}				{ processMC(); }
 
-<docComment>{commentEnd}				{ dc++; /*usar a linecounter para continuar a contar linhas*/ BEGIN codeLine; }
-<codeLine>.*							{ /*Recolher a linha extra*/ BEGIN 0; }
-<codeLine>\n 							{ lineNr++; }
+<docComment>{commentEnd}                { yytext[strlen(yytext)-2] = '\0';
+                                        currentDoc = newDocComment( strdup(yytext));
+                                        addDocComment(docComments, currentDoc);
+                                        currAuthor = getTag(yytext, "author");
+                                        if( currAuthor != NULL) authors = addTag( currAuthor, authors, currentDoc);
+                                        currVersion = getTag(yytext, "version");
+                                        if( currVersion != NULL) versions = addTag( currVersion , versions, currentDoc);
+                                        lineNr += lineCounter(yytext);
+                                        BEGIN codeLine;
+                                        }
+
+<codeLine>.+							{currentDoc->firstLine = strdup(yytext); 
+                                        BEGIN 0;
+                                        lineNr++; 
+                                        currentDoc = NULL;}
 
 %%
 int main(int argc, char** argv) {
@@ -92,6 +124,9 @@ int main(int argc, char** argv) {
 
     printLC(fp,previousLC);
     printMC(fp,previousMC);
+
+    writeAuthorsToFile(authors);
+    writeVersionsToFile(versions);
 
     fprintf(fp, "</body>\n</html>");
     return 0;
