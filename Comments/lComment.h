@@ -4,5 +4,7 @@ typedef struct lComment{
 	struct lComment *next;
 } *lCommentP, lComment;
 
+lCommentP initLComment();
+
 lCommentP newLComment();
 

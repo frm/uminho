@@ -3,6 +3,14 @@
 #include <string.h>
 #include "lComment.h"
 
+lCommentP initLComment(){
+	lCommentP newComment = (lCommentP) malloc(sizeof(lComment));
+	newComment-> next = NULL;
+    newComment -> cText = NULL;
+    newComment -> line = -1;
+	return newComment;
+}
+
 lCommentP newLComment(char* str, int l){
 	lCommentP newComment = (lCommentP) malloc(sizeof(lComment));
 	newComment-> next = NULL;

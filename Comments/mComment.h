@@ -6,5 +6,7 @@ typedef struct mComment{
 	struct mComment *next;
 } *mCommentP, mComment;
 
+mCommentP initMComment();
+
 mCommentP newMComment();
 

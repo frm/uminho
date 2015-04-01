@@ -82,8 +82,8 @@ int main(int argc, char** argv) {
     if (argc == 2)
         yyin = fopen(argv[1], "r");
 
-    previousLC = newLComment();
-    previousMC = newMComment();
+    previousLC = initLComment();
+    previousMC = initMComment();
 
     yylex();
 
