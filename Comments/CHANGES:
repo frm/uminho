@@ -1,0 +1,22 @@
+CHANGES:
+
+eru.
+
+\/\*\*[^(\*\/)]\*\/                             { printf("FOT HETE\n");
+                                        currentDoc = newDocComment( strdup(yytext));
+                                        addDocComment(docComments, currentDoc);
+                                        currAuthor = getTag(yytext, "author");
+                                        if( currAuthor != NULL) addTag( currAuthor, authors, currentDoc);
+                                        currVersion = getTag(yytext, "version");
+                                        if( currVersion != NULL) addTag( currVersion , versions, currentDoc);
+                                        lineNr += lineCounter(yytext);
+                                        BEGIN codeLine;
+                                        }
+
+<codeLine>.+\n                          { yytext[ strlen(yytext) - 1] = '\0';
+                                        currentDoc->firstLine = strdup(yytext);
+                                        BEGIN 0; 
+                                        lineNr++; 
+                                        currentDoc = NULL; 
+                                        }
+
