@@ -1,9 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 #include "doc.h"
 
 
+void writeTagComments(AuxDocComment *aux, FILE *f){
+    while(aux != NULL){
+        fprintf(f, "<div style=\"white-space:pre;\" class=\"doc-comment\">%s</div>\n", aux->doc->comment);
+        fprintf(f, "<p class=\"doc-firstline\">Primeira Linha: %s</p>\n", aux->doc->firstLine);
+        aux = aux->next;
+    }
+}
 
 
 
@@ -14,26 +22,45 @@ void writeAuthors(Tag *author, FILE *index){
     if (stat("autores/", &st) == -1) {
         mkdir("autores/", 0700);
     } 
-    if(p != NULL){
+    if(author != NULL){
         writeAuthors(author->left, index);
         filename = (char *) calloc(strlen(author->name) + 17, sizeof(char));
         sprintf(filename, "autores/aut_%s.html", author->name);
         newFile = fopen(filename, "w+");
         fprintf(newFile, "<!DOCTYPE html>\n<meta charset=\"UTF-8\">\n");
-        fprintf(newFile, "<link rel=\"stylesheet\" type=\"text/css\" href=\"../comment.css\" media=\"screen\" />\n");
-        fprintf(newFile, "<h1>Comentários feito por %s</h1>\n", author->name);
-        writeAuxComments()
-        writePeoplePictures(p->pictures, newFile);
+        fprintf(newFile, "<link rel=\"stylesheet\" type=\"text/css\" href=\"../comments.css\" media=\"screen\" />\n");
+        fprintf(newFile, "<h1>Comentários de Documentação feitos por %s</h1>\n", author->name);
+        writeTagComments(author->comments, newFile);
         fclose(newFile);
         free(filename);
 
-        fprintf(html, "\t\t<li><a href=\"pessoas/%s.html\">%s</a>\n",p->name, p->name);
-        writePeople(authors->right, html);
+        fprintf(index, "\t\t<li><a href=\"autores/aut_%s.html\">%s</a>\n",author->name, author->name);
+        writeAuthors(author->right, index);
     }
 }
 
-void writeVersionsToFile(Tag *versions){
+void writeVersions(Tag *version, FILE *index){
+    char *filename;
+    struct stat st = {0};
+    FILE *newFile;
+    if (stat("versoes/", &st) == -1) {
+        mkdir("versoes/", 0700);
+    } 
+    if(version != NULL){
+        writeAuthors(version->left, index);
+        filename = (char *) calloc(strlen(version->name) + 17, sizeof(char));
+        sprintf(filename, "versoes/ver_%s.html", version->name);
+        newFile = fopen(filename, "w+");
+        fprintf(newFile, "<!DOCTYPE html>\n<meta charset=\"UTF-8\">\n");
+        fprintf(newFile, "<link rel=\"stylesheet\" type=\"text/css\" href=\"../comments.css\" media=\"screen\" />\n");
+        fprintf(newFile, "<h1>Comentários de Documentação referentes à versão %s</h1>\n", version->name);
+        writeTagComments(version->comments, newFile);
+        fclose(newFile);
+        free(filename);
 
+        fprintf(index, "\t\t<li><a href=\"versoes/ver_%s.html\">%s</a>\n",version->name, version->name);
+        writeAuthors(version->right, index);
+    }
 }
 
 char *getTag(char *comment, char *tagName){

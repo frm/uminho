@@ -120,13 +120,24 @@ int main(int argc, char** argv) {
     yylex();
 
     FILE *fp = fopen("comments.html","w+");
-    fprintf(fp,"<!DOCTYPE html>\n<html>\n<title>\nComments\n</title>\n<body>\n<h1>\nFicheiro: %s\n</h1>\n<p>Single line comments: %d</p>\n<p>Multi-line comments: %d</p>\n<p>Documentation comments: %d</p>\n",argv[1],lc,mc,dc);
+    fprintf(fp, "<!DOCTYPE html>\n<meta charset=\"UTF-8\">\n");
+    fprintf(fp, "<link rel=\"stylesheet\" type=\"text/css\" href=\"../comments.css\" media=\"screen\" />\n");
+    
+    fprintf(fp, "Documentação por Autor:\n<ul>\n");
+    writeAuthors(authors,fp);
+    fprintf(fp, "</ul>\nDocumentação por Versão:\n<ul>\n");
+    writeVersions(versions, fp);
+    fprintf(fp, "</ul>");
+
+    
+    fprintf(fp,"<title>\nComments\n</title>\n<body>\n<h1>\nFicheiro: %s\n</h1>\n<p>Single line comments: %d</p>\n<p>Multi-line comments: %d</p>\n<p>Documentation comments: %d</p>\n",argv[1],lc,mc,dc);
+
+
 
     printLC(fp,previousLC);
     printMC(fp,previousMC);
 
-    writeAuthorsToFile(authors);
-    writeVersionsToFile(versions);
+    
 
     fprintf(fp, "</body>\n</html>");
     return 0;
