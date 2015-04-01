@@ -106,7 +106,7 @@ static bucket* __get_or_create(hash *h, char* key) {
     return ret;
 }
 
-int update_by_find(hash* h, char* args[], int level) {
+int update_by_level(hash* h, char* args[], int level) {
     bucket *ret;
 
     if( ! (h && __get_bucket_addr(*h, *args, &ret) ) )
@@ -115,11 +115,27 @@ int update_by_find(hash* h, char* args[], int level) {
     if(level == 0)
         return 1;
 
-    if( update_by_find(&((*ret) -> subnodes), args + 1, level - 1) ) {
+    if( update_by_level(&((*ret) -> subnodes), args + 1, level - 1) ) {
         (*ret) -> count++;
         return 1;
     } else
         return 0;
+}
+
+int update_at_top(hash *h, char* key) {
+      for(int i = 0; i < (*h) -> size; i++) {
+        bucket b = (*h) -> table[i];
+        while(b) {
+            bucket *ret;
+            if( __get_bucket_addr(b -> subnodes, key, &ret) ) {
+                b -> count++;
+                return 1;
+            }
+
+            b = b -> next;
+        }
+    }
+    return 0;
 }
 
 void reset_level(hash* h, int level) {
@@ -211,7 +227,7 @@ void print_hash(hash h, int level) {
 
 #endif
 
-#ifdef DEBUG
+#ifdef HASHDEBUG
 int main() {
     hash h = new_hash(1);
     char* args[2] = {"EN", "that"};
@@ -226,16 +242,22 @@ int main() {
     char* upd[2] = {"EN", "that"};
     char* upd2[2] = {"EN", "this"};
     char* upd3[2] = {"EN", "not_this"};
-    update_by_find(&h, upd, 1);
-    update_by_find(&h, upd2, 1);
-    update_by_find(&h, upd2, 1);
-    update_by_find(&h, upd3, 1);
+    update_by_level(&h, upd, 1);
+    update_by_level(&h, upd2, 1);
+    update_by_level(&h, upd2, 1);
+    update_by_level(&h, upd3, 1);
 
     print_hash(h, 0);
 
     printf("TOP: %s\n", get_top(&h));
 
     reset_level(&h, 0);
+
+    update_at_top(&h, "that");
+    update_at_top(&h, "this")
+    update_at_top(&h, "this");
+    update_at_top(&h, "not_this");
+
     print_hash(h, 0);
     delete_hash(h);
     return 0;

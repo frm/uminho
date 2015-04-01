@@ -2,10 +2,12 @@
 commentEnd		([^*]|[\n]|(\*[^/]))*\*\/
 
 %{
-#include "lComment.h"	
+#include "lComment.h"
 #include "mComment.h"
 #include "doc.h"
+#include "hash.h"
 
+hash h;
 lCommentP previousLC;
 mCommentP previousMC;
 int lc = 0, mc = 0, dc = 0, lineNr = 1;
@@ -20,6 +22,28 @@ Tag *versions = NULL;
 char *currAuthor = NULL;
 char *currVersion = NULL;
 
+
+void fill_dictionary(char** files, int size) {
+    for(int i = 0; i < size; i++) {
+        puts("HERE");
+        size_t top_size = 5;
+        size_t word_size = 100;
+        FILE* f = fopen(files[i], "r");
+        char* args[2];
+        args[0] = (char*)calloc(5, sizeof(char));
+        getline(args, &top_size, f);
+        args[1] = (char*)calloc(100, sizeof(char));
+
+        while( getline(args + 1, &word_size, f) > 0 ) {
+            for(int j = 0; j < 2; j++)
+                printf("ARGS: %s\n", args[j]);
+            add_to_hash(&h, args, 2);
+        }
+    }
+
+    print_hash(h, 0);
+    puts("HERE2");
+}
 
 int lineCounter(char *s){
 	int i,cnt = 0;
@@ -86,9 +110,9 @@ void processMC(){
 
 <codeLine>.+\n                          { yytext[ strlen(yytext) - 1] = '\0';
                                         currentDoc->firstLine = strdup(yytext);
-                                        BEGIN 0; 
-                                        lineNr++; 
-                                        currentDoc = NULL; 
+                                        BEGIN 0;
+                                        lineNr++;
+                                        currentDoc = NULL;
                                         }
 
 <multiComment>{commentEnd}				{ processMC(); }
@@ -104,15 +128,18 @@ void processMC(){
                                         BEGIN codeLine;
                                         }
 
-<codeLine>.+							{currentDoc->firstLine = strdup(yytext); 
+<codeLine>.+							{currentDoc->firstLine = strdup(yytext);
                                         BEGIN 0;
-                                        lineNr++; 
+                                        lineNr++;
                                         currentDoc = NULL;}
 
 %%
 int main(int argc, char** argv) {
-    if (argc == 2)
+    if (argc > 1)
         yyin = fopen(argv[1], "r");
+
+    h = new_hash(1500);
+    fill_dictionary(argv + 2, argc - 2);
 
     previousLC = initLComment();
     previousMC = initMComment();
@@ -132,7 +159,7 @@ int main(int argc, char** argv) {
     writeVersions(versions, fp);
     fprintf(fp, "</ul>");
 
-    
+
     fprintf(fp,"<title>\nComments\n</title>\n<body>\n<h1>\nFicheiro: %s\n</h1>\n<p>Single line comments: %d</p>\n<p>Multi-line comments: %d</p>\n<p>Documentation comments: %d</p>\n",argv[1],lc,mc,dc);
 
 
@@ -140,7 +167,7 @@ int main(int argc, char** argv) {
     printLC(fp,previousLC);
     printMC(fp,previousMC);
 
-    
+
 
     fprintf(fp, "</body>\n</html>");
     return 0;
