@@ -29,6 +29,10 @@ DocComment* newDocComment(char *comment);
 
 DocComment* addDocComment(DocComment *start, DocComment *comment);
 
+void writeAuthors(Tag *author, FILE *index);
 
+void writeVersions(Tag *version, FILE *index);
+
+void writeDocComments(DocComment *doc);
 
 #endif
