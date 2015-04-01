@@ -30,10 +30,10 @@ void writeAuthors(Tag *author, FILE *index){
     FILE *newFile;
     if (stat("autores/", &st) == -1) {
         mkdir("autores/", 0700);
-    } 
+    }
     if(author != NULL){
         writeAuthors(author->left, index);
-        filename = (char *) calloc(strlen(author->name) + 17, sizeof(char));
+        filename = (char *) calloc(strlen(author->name) + 18, sizeof(char));
         sprintf(filename, "autores/aut_%s.html", author->name);
         newFile = fopen(filename, "w+");
         fprintf(newFile, "<!DOCTYPE html>\n<meta charset=\"UTF-8\">\n");
@@ -54,10 +54,10 @@ void writeVersions(Tag *version, FILE *index){
     FILE *newFile;
     if (stat("versoes/", &st) == -1) {
         mkdir("versoes/", 0700);
-    } 
+    }
     if(version != NULL){
         writeAuthors(version->left, index);
-        filename = (char *) calloc(strlen(version->name) + 17, sizeof(char));
+        filename = (char *) calloc(strlen(version->name) + 18, sizeof(char));
         sprintf(filename, "versoes/ver_%s.html", version->name);
         newFile = fopen(filename, "w+");
         fprintf(newFile, "<!DOCTYPE html>\n<meta charset=\"UTF-8\">\n");
@@ -156,7 +156,7 @@ Tag *addTag( char *name, Tag *start, DocComment *comment){
     Tag *curr = start;
     Tag *newA;
     int compare;
-    
+
     while(1){
         compare = strcmp(name, curr->name);
         if(compare == 0){
