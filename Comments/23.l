@@ -77,7 +77,7 @@ void printLC(FILE *fp, lCommentP node){
 
     printLC(fp, node -> next);
 
-    fprintf(fp,"<p>Line: %d</p>\n<p>%s</p>\n",node->line,node->cText);
+    fprintf(fp,"<div style=\"text-align: center\"><strong>Line Comment</strong><p>Line: %d</p>\n<p>%s</p></div>",node->line,node->cText);
 }
 
 void printMC(FILE *fp, mCommentP node){
@@ -86,7 +86,7 @@ void printMC(FILE *fp, mCommentP node){
 
     printMC(fp, node -> next);
 
-    fprintf(fp,"<p>Line: %d~%d</p>\n<p>%s</p>\n",node->startLine,node->endLine,node->cText);
+    fprintf(fp,"<hr><div style=\"text-align: center; white-space: pre\"><strong>Multi-line Comment</strong><p><u>Line:</u> %d~%d</p><p><u>Language:</u> %s</p><p>%s</p><br></div>",node->startLine,node->endLine,node->language,node->cText);
 }
 
 void processLC(){
@@ -103,10 +103,10 @@ void processMC(){
 
 	yytext[yyleng-2] = '\0';
 
-    processWord(yytext);
+    char* lang = processWord(yytext);
     int counter = lineCounter(yytext);
 
-    mCommentP new = newMComment(yytext, lineNr, counter + lineNr);
+    mCommentP new = newMComment(yytext, lineNr, counter + lineNr, lang);
 
     lineNr += counter;
 

@@ -3,13 +3,13 @@
 typedef struct mComment{
 	int startLine;
 	int endLine;
-	int language;
+	char* language;
 	char *cText;
 	struct mComment *next;
 } *mCommentP, mComment;
 
 mCommentP initMComment();
 
-mCommentP newMComment();
+mCommentP newMComment(char* str, int start, int end, char* lang);
 
 #endif
