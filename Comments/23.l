@@ -6,7 +6,6 @@ commentEnd		([^*]|[\n]|(\*[^/]))*\*\/
 mCommentP previousMC;
 int lc = 0, mc = 0, dc = 0, lineNr = 1;
 
-int debug = 0;
 int lineCounter(char *s){
 	int i,cnt = 0;
 	for(i = 0; s[i] != '\0';i++)
@@ -17,7 +16,7 @@ int lineCounter(char *s){
 }
 
 void printMC(FILE *fp, mCommentP node){
-    if(node == NULL)
+    if(node->next == NULL)
     	return;
 
     printMC(fp, node -> next);
