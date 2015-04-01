@@ -7,13 +7,7 @@ typedef struct song{
 	char *lyricsText;
 	struct song *next;
 } *SongP, Song;
-
-typedef struct songList {
-    struct song *cursor;
-} *SongListP, SongList;
-
-SongListP init();
 	
-SongP newSong();
+SongP initSong();
 
-int addSong(SongListP sl, SongP ns);
+SongP newSong(char* t, char* a, char* l, char* m, char* s, char* lt);
