@@ -117,6 +117,17 @@ void processMC(){
     BEGIN 0;
 }
 
+void processDoc(){
+    yytext[strlen(yytext)-2] = '\0';
+    currentDoc = newDocComment( strdup(yytext));
+    docComments = addDocComment(docComments, currentDoc);
+    currAuthor = getTag(yytext, "author");
+    if( currAuthor != NULL) authors = addTag( currAuthor, authors, currentDoc);
+    currVersion = getTag(yytext, "version");
+    if( currVersion != NULL) versions = addTag( currVersion , versions, currentDoc);
+    lineNr += lineCounter(yytext);
+}
+
 %}
 %%
 	BEGIN 0;
@@ -136,14 +147,7 @@ void processMC(){
 
 <multiComment>{commentEnd}				{ processMC(); }
 
-<docComment>{commentEnd}                { yytext[strlen(yytext)-2] = '\0';
-                                        currentDoc = newDocComment( strdup(yytext));
-                                        docComments = addDocComment(docComments, currentDoc);
-                                        currAuthor = getTag(yytext, "author");
-                                        if( currAuthor != NULL) authors = addTag( currAuthor, authors, currentDoc);
-                                        currVersion = getTag(yytext, "version");
-                                        if( currVersion != NULL) versions = addTag( currVersion , versions, currentDoc);
-                                        lineNr += lineCounter(yytext);
+<docComment>{commentEnd}                {processDoc();
                                         BEGIN codeLine;
                                         }
 
