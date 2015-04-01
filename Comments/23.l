@@ -169,21 +169,24 @@ int main(int argc, char** argv) {
 
     yylex();
 
+
     FILE *fp = fopen("comments.html","w+");
     fprintf(fp, "<!DOCTYPE html>\n<meta charset=\"UTF-8\">\n");
-    fprintf(fp, "<link rel=\"stylesheet\" type=\"text/css\" href=\"../comments.css\" media=\"screen\" />\n");
+    fprintf(fp, "<link rel=\"stylesheet\" type=\"text/css\" href=\"comments.css\" media=\"screen\" />\n");
+
+    fprintf(fp,"<title>\nComments\n</title>\n<body>\n<h1>\nFile: %s\n</h1>\n", argv[1]);
 
     writeDocComments(docComments);
-    fprintf(fp, "<a href=\"doc_comments.html\">Documentação Completa</a><br>");
+    fprintf(fp, "<h2><a href=\"doc_comments.html\">All Documentation Comments</a></h2><br>");
 
-    fprintf(fp, "\nDocumentação por Autor:\n<ul>\n");
+    fprintf(fp, "\n<h2>Documentation by Author\n</h2><ul>\n");
     writeAuthors(authors,fp);
-    fprintf(fp, "</ul>\nDocumentação por Versão:\n<ul>\n");
+    fprintf(fp, "</ul>\n<h2>Documentation by Version\n</h2>\n<ul>\n");
     writeVersions(versions, fp);
     fprintf(fp, "</ul>");
 
-
-    fprintf(fp,"<title>\nComments\n</title>\n<body>\n<h1>\nFicheiro: %s\n</h1>\n<p>Single line comments: %d</p>\n<p>Multi-line comments: %d</p>\n<p>Documentation comments: %d</p>\n",argv[1],lc,mc,dc);
+    fprintf(fp, "<h2>Normal Comments</h2\n");
+    fprintf(fp,"<p>Single line comments: %d</p>\n<p>Multi-line comments: %d</p>\n<p>Documentation comments: %d</p>\n",lc,mc,dc);
 
 
 
