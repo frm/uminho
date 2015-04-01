@@ -1,8 +1,6 @@
 %{
-
 #include "strutil.h"
 #include "hash.h"
-
 hash h;
 int html = 0;
 FILE* f;
@@ -11,7 +9,7 @@ void extract_info(char* str) {
     // get what's inside the first set of ' '
     char* type = strtrim( strcut(str, '"', '"') );
     // jump over to subtype and get what's inside the ' '
-    char* subtype = strtrim( strcut(strstr(str, "SUBTYPE"), '"', '"') );
+    char* subtype = strtrim( strcut(strcasestr(str, "SUBTYPE"), '"', '"') );
     // get what's between > and <
     char* value = strtrim( strcut(str, '>', '<') );
     if(subtype) {
@@ -45,10 +43,10 @@ void print_html() {
 
 ENAMEX_START    <[\t ]*ENAMEX
 TYPE            [\t ]*TYPE=\"[^\"]+\"
-SUBTYPE         [\t ]*(SUBTYPE=\"[^\"]+\")?
+SUBTYPE         [\t ]*(SUBTYPE=\"[^\"]+\"[\t ]*)?
 CLOSE           [\t ]*>
 VALUE           [^<]+
-ENAMEX_END      <\/ENAMEX>
+ENAMEX_END      <\/[\t ]*ENAMEX[\t ]*>
 
 
 YIELD           \{\{[\t ]*yield[\t ]*\}\}

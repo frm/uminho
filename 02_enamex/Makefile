@@ -1,7 +1,8 @@
-CFLAGS ?= -Wall -Wextra -pedantic -Wno-unused-function
+CFLAGS ?= -Wall -Wextra -pedantic -Wno-unused-function -D_GNU_SOURCE -O2
 CPPFLAGS ?= -Iincludes
 LDFLAGS += -lfl
 EXEC = parser.out
+CC = clang
 LEX = flex
 
 VALGRIND = valgrind --tool=memcheck --leak-check=yes
