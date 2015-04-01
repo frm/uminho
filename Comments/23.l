@@ -41,7 +41,8 @@ void fill_dictionary(char** files, int size) {
     }
 }
 
-char* processWord(char* str) {
+char* processWord(char* text) {
+    char* str = strdup(text);
     char* tok = strtok(str, " .,\t\n");
 
     while(tok) {
@@ -57,7 +58,6 @@ char* processWord(char* str) {
         sprintf(lang, "?");
     }
 
-    printf("\nFOR COMMENT: %s\nLANG: %s, COUNT: %d\n\n", str, lang, cap);
     reset_level(&h, 0);
     return lang;
 }
