@@ -170,7 +170,7 @@ int main(int argc, char** argv) {
     fprintf(fp, "<link rel=\"stylesheet\" type=\"text/css\" href=\"../comments.css\" media=\"screen\" />\n");
 
     writeDocComments(docComments);
-    fprintf(fp, "<a href=\"doc_comments.html\">Documentação Completa</a>");
+    fprintf(fp, "<a href=\"doc_comments.html\">Documentação Completa</a><br>");
 
     fprintf(fp, "\nDocumentação por Autor:\n<ul>\n");
     writeAuthors(authors,fp);
