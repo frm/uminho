@@ -93,20 +93,21 @@ void processMC(){
 
 <multiComment>{commentEnd}				{ processMC(); }
 
-<docComment>{commentEnd}                {printf("FOT HETE\n");
+<docComment>{commentEnd}                { yytext[strlen(yytext)-2] = '\0';
                                         currentDoc = newDocComment( strdup(yytext));
                                         addDocComment(docComments, currentDoc);
                                         currAuthor = getTag(yytext, "author");
-                                        printf("\n\nASIHAISFHA%s\n", currAuthor);
-                                        if( currAuthor != NULL) addTag( currAuthor, authors, currentDoc);
+                                        if( currAuthor != NULL) authors = addTag( currAuthor, authors, currentDoc);
                                         currVersion = getTag(yytext, "version");
-                                        if( currVersion != NULL) addTag( currVersion , versions, currentDoc);
+                                        if( currVersion != NULL) versions = addTag( currVersion , versions, currentDoc);
                                         lineNr += lineCounter(yytext);
                                         BEGIN codeLine;
                                         }
 
-<codeLine>.*							{ /*Recolher a linha extra*/ BEGIN 0; }
-<codeLine>\n 							{ lineNr++; }
+<codeLine>.+							{currentDoc->firstLine = strdup(yytext); 
+                                        BEGIN 0;
+                                        lineNr++; 
+                                        currentDoc = NULL;}
 
 %%
 int main(int argc, char** argv) {
@@ -124,9 +125,9 @@ int main(int argc, char** argv) {
     printLC(fp,previousLC);
     printMC(fp,previousMC);
 
-    FILE *file2 = fopen("text.txt","w+");
-    writeCommentsByTag(file2, authors);
-    fclose(file2);
+    writeAuthorsToFile(authors);
+    writeVersionsToFile(versions);
+
     fprintf(fp, "</body>\n</html>");
     return 0;
 }

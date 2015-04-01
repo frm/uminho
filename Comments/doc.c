@@ -4,48 +4,64 @@
 #include "doc.h"
 
 
-void writeCommentsByTag(FILE *ff, Tag *tt){
-    if(tt != NULL){
-        writeCommentsByTag(ff, tt->left);
-        fprintf(ff, "AUTOR: %s\n", tt->name);
-        AuxDocComment *comment = tt->comments;
-        while(comment != NULL){
-            fprintf(ff, "\t\tCOMMENT: %s", comment->doc->comment);
-        }
-        writeCommentsByTag(ff, tt->right);
+
+
+
+void writeAuthors(Tag *author, FILE *index){
+    char *filename;
+    struct stat st = {0};
+    FILE *newFile;
+    if (stat("autores/", &st) == -1) {
+        mkdir("autores/", 0700);
+    } 
+    if(p != NULL){
+        writeAuthors(author->left, index);
+        filename = (char *) calloc(strlen(author->name) + 17, sizeof(char));
+        sprintf(filename, "autores/aut_%s.html", author->name);
+        newFile = fopen(filename, "w+");
+        fprintf(newFile, "<!DOCTYPE html>\n<meta charset=\"UTF-8\">\n");
+        fprintf(newFile, "<link rel=\"stylesheet\" type=\"text/css\" href=\"../comment.css\" media=\"screen\" />\n");
+        fprintf(newFile, "<h1>Comentários feito por %s</h1>\n", author->name);
+        writeAuxComments()
+        writePeoplePictures(p->pictures, newFile);
+        fclose(newFile);
+        free(filename);
+
+        fprintf(html, "\t\t<li><a href=\"pessoas/%s.html\">%s</a>\n",p->name, p->name);
+        writePeople(authors->right, html);
     }
 }
 
+void writeVersionsToFile(Tag *versions){
+
+}
 
 char *getTag(char *comment, char *tagName){
-    comment = comment+3;
-    int i = 0;
-    int foundTag = 0;
+    comment = strstr(comment, tagName);
     char *result;
 
-    if(comment[i] == '@'){
-        for(i = 1; i<strlen(tagName) && comment[i] == tagName[i]; i++);
-        comment = comment+i+1;
-        if( i == strlen(tagName)) foundTag = 1;
-    }
+    if(comment == NULL)
+        return NULL;
+
+    comment += strlen(tagName) + 1;
+
+    int i;
 
     for( i = 0; comment[i] != '\0' && comment[i] != '\n'; i++);
 
-    if(foundTag && i > 0){
-        if( comment[i] == '\n')
-            comment[i] = '\0';
-
+    if( comment[i] == '\n'){
+        comment[i] = '\0';
+        result = strdup(comment);
+        comment[i] = '\n';
+    }
+    else
         result = strdup(comment);
 
-        comment[i] = '\n';
+    return result;
 
-        return result;
-    }
 
-    if( comment[i] == '\0')
-        return NULL;
 
-    return getTag(comment+i+1, tagName);
+
 }
 
 
@@ -95,8 +111,13 @@ AuxDocComment * addAuxDocComment(AuxDocComment *start, AuxDocComment *aux){
 }
 
 Tag *addTag( char *name, Tag *start, DocComment *comment){
-    if(start == NULL)
-        return newTag(name);
+    if(start == NULL){
+        AuxDocComment *newAuxDoc = newAuxDocComment(comment);
+        Tag *result =  newTag(name);
+        result->comments = newAuxDoc;
+        printf("\nAIAAIAIAIAIAA\n");
+        return result;
+    }
     Tag *curr = start;
     Tag *newA;
     int compare;
