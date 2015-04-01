@@ -194,9 +194,7 @@ static char* __subhash_to_html(hash h, int level) {
 static char* __hash_to_html(bucket b) {
     if(!b)
         return NULL;
-    // 33: <div class="large-12"><h1></h1> + \0
-    /*char* contents = (char*)malloc(sizeof(char) * (strlen(b -> key) + 33) );
-    sprintf(contents, "<div class=\"large-12\"><h1>%s</h1>", b -> key);*/
+
     char* contents = (char*)calloc(1, sizeof(char));
 
     char* new_contents = __subhash_to_html(b -> subnodes, 3);
@@ -220,7 +218,7 @@ char* hash_to_html(hash h) {
         bucket b = h -> table[i];
         char* new_contents = __hash_to_html(b);
 
-        // 40: <div class="large-12"><h1></h1></div> + \0
+        // 48: <div class="large-12 accordion"><h1></h1></div> + \0
         if(new_contents) {
             int size = strlen(contents) + strlen(new_contents) + strlen(b -> key) + 48;
             contents = (char*)realloc(contents, size);
