@@ -7,5 +7,3 @@ typedef struct mComment{
 } *mCommentP, mComment;
 
 mCommentP newMComment();
-
-void addMComment(mCommentP base, mCommentP mc);

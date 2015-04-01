@@ -17,11 +17,6 @@ mCommentP newMComment(){
 	return newComment;
 }
 
-void addMComment(mCommentP base, mCommentP mc){
-	mc->next = base;
-	base = mc;
-}
-
 /*TODO
 whatLanguage
 */
