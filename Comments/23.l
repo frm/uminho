@@ -25,24 +25,41 @@ char *currVersion = NULL;
 
 void fill_dictionary(char** files, int size) {
     for(int i = 0; i < size; i++) {
-        puts("HERE");
         size_t top_size = 5;
         size_t word_size = 100;
         FILE* f = fopen(files[i], "r");
         char* args[2];
         args[0] = (char*)calloc(5, sizeof(char));
         getline(args, &top_size, f);
+        args[0] = strtrim( args[0] );
         args[1] = (char*)calloc(100, sizeof(char));
 
         while( getline(args + 1, &word_size, f) > 0 ) {
-            for(int j = 0; j < 2; j++)
-                printf("ARGS: %s\n", args[j]);
+            args[1] = strtrim(args[1]);
             add_to_hash(&h, args, 2);
         }
     }
+}
 
-    print_hash(h, 0);
-    puts("HERE2");
+char* processWord(char* str) {
+    char* tok = strtok(str, " .,\t\n");
+
+    while(tok) {
+        update_at_top(&h, strtrim(tok));
+        tok = strtok(NULL, " .,");
+    }
+
+    char* lang;
+    int cap = get_top(&h, &lang);
+
+    if(cap < 5) {
+        lang = realloc(lang, sizeof(char) * 2);
+        sprintf(lang, "?");
+    }
+
+    printf("\nFOR COMMENT: %s\nLANG: %s, COUNT: %d\n\n", str, lang, cap);
+    reset_level(&h, 0);
+    return lang;
 }
 
 int lineCounter(char *s){
@@ -86,6 +103,7 @@ void processMC(){
 
 	yytext[yyleng-2] = '\0';
 
+    processWord(yytext);
     int counter = lineCounter(yytext);
 
     mCommentP new = newMComment(yytext, lineNr, counter + lineNr);
@@ -94,6 +112,7 @@ void processMC(){
 
     new -> next = previousMC;
     previousMC = new;
+
 
     BEGIN 0;
 }

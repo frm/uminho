@@ -13,7 +13,7 @@ hash new_hash(int size);
 
 int add_to_hash(hash* h, char* args[], int size);
 
-char* get_top(hash* h);
+int get_top(hash* h, char** ret);
 
 int update_by_level(hash* h, char* args[], int level);
 int update_at_top(hash* h, char* key);

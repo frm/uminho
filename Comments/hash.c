@@ -152,7 +152,7 @@ void reset_level(hash* h, int level) {
     }
 }
 
-char* get_top(hash* h) {
+int get_top(hash* h, char** ret) {
     char* top;
     int max = -1;
     for(int i = 0; i < (*h) -> size; i++) {
@@ -165,7 +165,9 @@ char* get_top(hash* h) {
             b = b -> next;
         }
     }
-    return strdup(top);
+
+    *ret = strdup(top);
+    return max;
 }
 
 static int add_subnode(bucket b, int size) {
@@ -249,7 +251,6 @@ int main() {
 
     print_hash(h, 0);
 
-    printf("TOP: %s\n", get_top(&h));
 
     reset_level(&h, 0);
 
