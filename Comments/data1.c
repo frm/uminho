@@ -1,13 +1,13 @@
 adsbom//asdasd
 
-pokipoki /* //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+/* //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 asd
 */
 //isto tem de ser comido
 /*
-*
-*
-*
+*s
+*sda
+* 787aqw
 *
 */
 
@@ -15,12 +15,12 @@ asd
 this
 this this this this this
 asdasd
-COMIDELA mankk
+COM mankk with that
 asd   asdçl	 	lmsd
 */
 as -/*
 asd
-asd
+al
 
 asd
 qwp + */
