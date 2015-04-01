@@ -33,4 +33,6 @@ void writeAuthors(Tag *author, FILE *index);
 
 void writeVersions(Tag *version, FILE *index);
 
+void writeDocComments(DocComment *doc);
+
 #endif

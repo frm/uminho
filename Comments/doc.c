@@ -13,6 +13,15 @@ void writeTagComments(AuxDocComment *aux, FILE *f){
     }
 }
 
+void writeDocComments(DocComment *doc){
+    FILE *f = fopen("doc_comments.html", "w+");
+    fprintf(f,"<h1>Comentários de Documentação</h1>\n");
+    while(doc != NULL){
+        fprintf(f, "<div style=\"white-space:pre;\" class=\"doc-comment\">%s</div>\n\n", doc->comment);
+        doc = doc->next;
+    }
+}
+
 
 
 void writeAuthors(Tag *author, FILE *index){
@@ -142,7 +151,6 @@ Tag *addTag( char *name, Tag *start, DocComment *comment){
         AuxDocComment *newAuxDoc = newAuxDocComment(comment);
         Tag *result =  newTag(name);
         result->comments = newAuxDoc;
-        printf("\nAIAAIAIAIAIAA\n");
         return result;
     }
     Tag *curr = start;

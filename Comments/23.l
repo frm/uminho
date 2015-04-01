@@ -95,7 +95,7 @@ void processMC(){
 
 <docComment>{commentEnd}                { yytext[strlen(yytext)-2] = '\0';
                                         currentDoc = newDocComment( strdup(yytext));
-                                        addDocComment(docComments, currentDoc);
+                                        docComments = addDocComment(docComments, currentDoc);
                                         currAuthor = getTag(yytext, "author");
                                         if( currAuthor != NULL) authors = addTag( currAuthor, authors, currentDoc);
                                         currVersion = getTag(yytext, "version");
@@ -122,8 +122,11 @@ int main(int argc, char** argv) {
     FILE *fp = fopen("comments.html","w+");
     fprintf(fp, "<!DOCTYPE html>\n<meta charset=\"UTF-8\">\n");
     fprintf(fp, "<link rel=\"stylesheet\" type=\"text/css\" href=\"../comments.css\" media=\"screen\" />\n");
-    
-    fprintf(fp, "Documentação por Autor:\n<ul>\n");
+
+    writeDocComments(docComments);
+    fprintf(fp, "<a href=\"doc_comments.html\">Documentação Completa</a>");
+
+    fprintf(fp, "\nDocumentação por Autor:\n<ul>\n");
     writeAuthors(authors,fp);
     fprintf(fp, "</ul>\nDocumentação por Versão:\n<ul>\n");
     writeVersions(versions, fp);
