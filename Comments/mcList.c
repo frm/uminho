@@ -11,9 +11,12 @@ typedef struct mComment{
 	struct mComment *next;
 } *mCommentP, mComment;
 
-mCommentP newMComment(){
+mCommentP newMComment(char* str, int start, int end){
 	mCommentP newComment = (mCommentP) malloc(sizeof(mComment));
-	newComment->next = NULL;
+	newComment-> next = NULL;
+    newComment -> cText = strdup(str);
+    newComment -> startLine = start;
+    newComment -> endLine = end;
 	return newComment;
 }
 
