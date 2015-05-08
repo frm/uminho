@@ -42,6 +42,8 @@ excecao( marca( MTR,MRC ) ) :-
   marca( MTR,mproibida01 ).
 nulo( mproibida01 ).
 
+excecao( marca( "AA-AA-05",subaru ) ).
+
 %tem de ser feito de uma forma geral
 
 +marca( MTR,MRC ) :: ( solucoes( (MTR,Md),( marca( "AA-AA-04",Md ),nao( nulo(Md) ) ),S ),
@@ -104,6 +106,11 @@ nao( Questao ).
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que permite a evolucao do conhecimento: Termo -> {V,F}
 
+evolucaoMais( [] ).
+evolucaoMais( [X|L] ) :-
+	evolucao( X ),
+	evolucaoMais( L ).
+
 evolucao( Termo ) :-
     solucoes( Invariante,+Termo::Invariante,Lista ),
     insercao( Termo ),
@@ -140,11 +147,55 @@ comprimento( [X|L],N ) :-
 
 % ----------------- INVARIANTES
 %impossível adicionar conhecimento repetido
-+marca( MTR,MRC) :: (solucoes( MRC,(marca(MTR,MRC)),S),
++marca( MTR,MRC ) :: (solucoes( MRC,(marca(MTR,MRC)),S),
                         comprimento(S,N),
                         N == 1
+                     ).
+
++(-T) :: (solucoes( T,(-T),S),
+            		comprimento(S,N),
+            		N == 1
+   	 	 ).
+
+%CONHECIMENTO PERFEITO POSITIVO
+%Não permitir adicionar quando se tem o conhecimento perfeito negativo oposto
++marca( MTR,MRC ) :: nao( -marca(MTR,MRC) ).
+
+%->Depois de adicionado não se pode adicionar nada, e tem de se remover o conhecimento imperfeito
+
+%CONHECIMENTO PERFEITO NEGATIVO
+%Não permitir adicionar se houver o conhecimento positivo perfeito oposto.
++(-marca( MTR,MRC )) :: nao( marca(MTR,MRC) ).
+
+%CONHECIMENTO DESCONHECIDO
+%Não se pode adicionar se houver conhecimento perfeito positivo.
+
+
+%CONHECIMENTO IMPERFEITO
+%apenas deixar adicionar conhecimento positivo se este. Remover o conhecimento impreciso.
++marca( MTR,MRC) :: (solucoes( B,excecao(marca(MTR,B)),S),
+                        verificaSePertence(S,MRC),
+                        solucoes(excecao(marca(MTR,B)),excecao(marca(MTR,B)),S),
+               			removeImprecisao(MTR)
                     ).
 
+verificaSePertence([], MRC).
+verificaSePertence( S,MRC ) :-
+	verificaSePertenceAux( S,MRC ).
+
+verificaSePertenceAux( [MRC],MRC ).
+verificaSePertenceAux( [MRC|L],MRC ).
+verificaSePertenceAux( [X|L],MRC ) :-
+	verificaSePertence( L, MRC).
+
+removeImprecisao([]) :-
+	.
+
+
+%impossível adicionar excecoes a conhecimento perfeito positivo
++excecao( marca(MTR,MRC) ) :: nao( marca(MTR,MRC) ).
+
+%CONHECIMENTO NULO
 %impossível adicionar conhecimento se tivermos conhecimento proibido associado a essa matricula
 +marca( MTR,MRC) :: (solucoes( B,marca(MTR,B),S),
                         semNulos(S)
@@ -155,20 +206,14 @@ semNulos( [X|L] ) :-
 	nao( nulo( X ) ),
 	semNulos( L ).
 
-%impossível adicionar conhecimento se já tivermos conhecimento perfeito associado a essa matricula
-+marca( MTR,MRC) :: (solucoes( (MTR,B),marca(MTR,B),S),
-                        naoPerfeito(S)
-                    ).
-
-naoPerfeito( [] ).
-naoPerfeito( [X|L] ) :-
-	demo( marca(X),R ),
-	R == desconhecido.
-
 
 
 % [y] Não permitir conhecimento repetido
 % [y] Não permitir adicionar se tivermos conhecimento proibido
+% [y] Evolucao Perfeita
+% [] Evolucao Imprecisa
+% [] Evolucao Desconhecida
+% [] Evolucao Proibida
 % [] Não permitir adicionar nada quando temos conhecimento perfeito
 % [] Permitir adicionar quando já temos conhecimento desconhecido (Como se faz?)
 % [] Permitir adicionar quando já temos conhecimento impreciso (Apagar as excecoes?)
