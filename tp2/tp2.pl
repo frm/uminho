@@ -147,7 +147,7 @@ comprimento( [X|L],N ) :-
 
 % ----------------- INVARIANTES
 %impossível adicionar conhecimento repetido
-+marca( MTR,MRC ) :: (solucoes( MRC,(marca(MTR,MRC)),S),
++marca( MTR,MRC ) :: (solucoes( MTR,(marca(MTR,MRC)),S),
                         comprimento(S,N),
                         N == 1
                      ).
@@ -176,7 +176,7 @@ comprimento( [X|L],N ) :-
 +marca( MTR,MRC) :: (solucoes( B,excecao(marca(MTR,B)),S),
                         verificaSePertence(S,MRC),
                         solucoes(excecao(marca(MTR,B)),excecao(marca(MTR,B)),S),
-               			removeImprecisao(MTR)
+               			removeImprecisao(S)
                     ).
 
 verificaSePertence([], MRC).
@@ -188,8 +188,12 @@ verificaSePertenceAux( [MRC|L],MRC ).
 verificaSePertenceAux( [X|L],MRC ) :-
 	verificaSePertence( L, MRC).
 
-removeImprecisao([]) :-
-	.
+removeImprecisao( [] ).
+removeImprecisao( [X] ) :-
+	retract(X).
+removeImprecisao( [X|L] ) :-
+	retract(X),
+	removeImprecisao( L ).
 
 
 %impossível adicionar excecoes a conhecimento perfeito positivo
