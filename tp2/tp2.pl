@@ -151,11 +151,6 @@ evolucaoDesconhecido( marca(MTR,MRC) ) :-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que permite a evolucao do conhecimento impreciso: Termo -> {V,F}
 
-evolucao( Termo ) :-
-    solucoes( Invariante,+Termo::Invariante,Lista ),
-    insere( Termo ),
-    teste( Lista ).
-
 evolucaoImpreciso([]).
 evolucaoImpreciso([marca(MTR, MAR)| L]) :-
     comprimento([marca(MTR, MAR)| L], N),
@@ -185,24 +180,6 @@ evolucaoInterdito( marca(MTR,MRC) ) :-
   					marca( MTRVAR,MRC ))
 		  ),
 	evolucao( nulo(MRC) ).
-
-
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensão do predicado solucoes: A,T,S -> {V, F}
-
-removerExcecoes([], MTR).
-removerExcecoes([MRC|T], MTR) :-
-    retract(excecao(marca(MTR,MRC))),
-    removerExcecoes(T, MTR).
-
-removerDesconhecido(MTR) :-
-    solucoes( MAR, excecao(marca(MTR, MAR)), S),
-    removerTermosDesconhecidos(MTR, S).
-
-
-removerTermosDesconhecidos(MTR, [MAR|T]) :-
-    retract((excecao(marca(MTR,_) ):-marca(MTR,MAR ))),
-    remove(marca(MTR, MAR)).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado insere: Termo -> {V, F}
@@ -260,7 +237,7 @@ comprimento( [X|L],N ) :-
 
 % ----------------- INVARIANTES ----------------
 
-%---------------CONHECIMENTO PERFEITO POSITIVO---------------
+%---------------CONHECIMENTO PERFEITO POSITIVO E DESCONHECIDO---------------
 
 % -> Não permitir adicionar quando se tem o conhecimento perfeito negativo oposto
 +marca( MTR,MRC ) :: nao( -marca(MTR,MRC) ).
@@ -269,12 +246,31 @@ comprimento( [X|L],N ) :-
 +excecao( marca(MTR,MRC) ) :: nao( marca(MTR,MRC) ).
 
 % -> Não permitir adicionar quando já se tem o conhecimento perfeito positivo e removendo conhecimento desconhecido, se este existir.
-+marca( MTR,MRC ) :: (	solucoes( marca(MTR,B),marca(MTR,B),S),
-                        seTemDesconhecidoRemove(S),
-						solucoes( B,(marca(MTR,B)),S),
-            			comprimento(S,N),
-            			N == 1
-            		 ).
++marca( MTR,MRC ) :: verificaPerfEvol( MTR,MRC ).
+
+verificaPerfEvol( MTR,MRC ) :-
+	solucoes( marca(MTR,B),marca(MTR,B),S),
+    seTemDesconhecidoRemove(S).
+
+verificaPerfEvol( MTR,MRC ) :-
+	solucoes( B,marca(MTR,B),S),
+	comprimento( S,N ),
+	N == 1.
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado seTemDesconhecidoRemove: [X | L] -> {V,F}
+
+seTemDesconhecidoRemove( [ marca(MTR,MRC)] ) :-
+	demo(marca(MTR,qqlcoisa),desconhecido),
+	removeTermos( [marca(MTR,MRC),(excecao(marca(MTRVAR,MRCVAR)):-marca(MTRVAR,MRC))] ).
+
+seTemDesconhecidoRemove( [marca(MTR,MRC)|L] ) :-
+	demo(marca(MTR,qqlcoisa),desconhecido),
+	removeTermos( [marca(MTR,MRC),(excecao(marca(MTRVAR,MRCVAR)):-marca(MTRVAR,MRC))] ).
+	
+seTemDesconhecidoRemove( [X|L] ) :-
+	seTemDesconhecidoRemove( L ).
+
 
 
 
@@ -295,18 +291,6 @@ comprimento( [X|L],N ) :-
 
 
 %---------------CONHECIMENTO DESCONHECIDO---------------
-
-seTemDesconhecidoRemove( [] ).
-seTemDesconhecidoRemove( [ marca(MTR,MRC)] ) :-
-	demo(marca(MTR,MRC),desconhecido),
-	removeTermos( [marca(MTR,MRC),(excecao(marca(MTRVAR,MRCVAR)):-marca(MTRVAR,MRC))] ).
-
-seTemDesconhecidoRemove( [X|L] ) :-
-	demo(marca(MTR,MRC),desconhecido),
-	removeTermos( [marca(MTR,MRC),(excecao(marca(MTRVAR,MRCVAR)):-marca(MTRVAR,MRC))] ).
-	
-seTemDesconhecidoRemove( [X|L] ) :-
-	seTemDesconhecidoRemove( L ).
 
 
 +(excecao( marca(MTR, MRC) )) :: ( solucoes(B, demo(marca(MTR, B), verdadeiro), S),
