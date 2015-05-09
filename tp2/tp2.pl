@@ -284,7 +284,7 @@ seTemDesconhecidoRemove( [X|L] ) :-
 % -> Não permitir adicionar conhecimento negativo repetido
 +(-T) :: (solucoes( T,(-T),S),
             		comprimento(S,N),
-            		N == 1
+            		N == 2
    	 	 ).
 
 
