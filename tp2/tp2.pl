@@ -42,13 +42,6 @@ excecao( marca( MTR,MRC ) ) :-
   marca( MTR,mproibida01 ).
 nulo( mproibida01 ).
 
-excecao( marca( "AA-AA-05",subaru ) ).
-
-%tem de ser feito de uma forma geral
-
-+marca( MTR,MRC ) :: ( solucoes( (MTR,Md),( marca( "AA-AA-04",Md ),nao( nulo(Md) ) ),S ),
-                       comprimento( S,N ), N == 0
-                     ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do meta-predicado marca: MTR,MRC -> {V,F,D}
@@ -76,25 +69,28 @@ demoCada([Q|T], R) :-
     R = [X|B]. 
 
 
-demoTodos([], verdadeiro).
 
-demoTodos([Q|T], verdadeiro) :- 
+demoConj([], verdadeiro).
+
+demoConj([Q|T], verdadeiro) :- 
     demo(Q, verdadeiro),
-    demoTodos(T, verdadeiro).
+    demoConj(T, verdadeiro).
 
-demoTodos([Q|T], desconhecido) :-
+demoConj([Q|T], desconhecido) :-
     demo(Q, desconhecido),
-    demoTodos(T, verdadeiro).
+    nao( demoConj(T, falso)).
 
-demoTodos([Q|T], desconhecido) :-
+demoConj([Q|T], desconhecido) :-
     nao( demo(Q, falso)),
-    demoTodos(T, desconhecido).
+    demoConj(T, desconhecido).
 
-demoTodos([Q|T], falso) :- 
+demoConj([Q|T], falso) :- 
     demo(Q, falso).
 
-demoTodos([Q|T], falso) :-
-    demoTodos(T, falso).
+demoConj([Q|T], falso) :-
+    demoConj(T, falso).
+
+
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do meta-predicado nao: Questao -> {V,F}
@@ -105,11 +101,18 @@ nao( Questao ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que permite a evolucao do conhecimento: Termo -> {V,F}
+evolucaoDesconhecido( marca(MTR,MRC) ) :-
+	evolucao( marca(MTR,MRC) ),
+	assert( (excecao( marca( MTRVAR,MRCVAR ) ) :-
+  					marca( MTRVAR,MRC ))
+		   ).
 
-evolucaoMais( [] ).
-evolucaoMais( [X|L] ) :-
-	evolucao( X ),
-	evolucaoMais( L ).
+evolucaoInterdito( marca(MTR,MRC) ) :-
+	evolucao( marca(MTR,MRC) ),
+	assert( (excecao( marca( MTRVAR,MRCVAR ) ) :-
+  					marca( MTRVAR,MRC ))
+		  ),
+	evolucao( nulo(MRC) ).
 
 evolucao( Termo ) :-
     solucoes( Invariante,+Termo::Invariante,Lista ),
@@ -120,6 +123,16 @@ insercao( Termo ) :-
     assert( Termo ).
 insercao( Termo ) :-
     retract( Termo ),!,fail.
+
+remove( Termo ) :-
+	retract( Termo ).
+
+removeTermos( [] ).
+removeTermos( [X] ) :-
+	retract(X).
+removeTermos( [X|L] ) :-
+	retract(X),
+	removeTermos( L ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado teste: [R|LR] -> {V,F}
@@ -146,37 +159,61 @@ comprimento( [X|L],N ) :-
 
 
 % ----------------- INVARIANTES
-%impossível adicionar conhecimento repetido
-+marca( MTR,MRC ) :: (solucoes( MTR,(marca(MTR,MRC)),S),
-                        comprimento(S,N),
-                        N == 1
-                     ).
-
-+(-T) :: (solucoes( T,(-T),S),
-            		comprimento(S,N),
-            		N == 1
-   	 	 ).
 
 %CONHECIMENTO PERFEITO POSITIVO
 %Não permitir adicionar quando se tem o conhecimento perfeito negativo oposto
 +marca( MTR,MRC ) :: nao( -marca(MTR,MRC) ).
 
+%Não permitir adicionar quando já se tem o conhecimento perfeito positivo
++marca( MTR,MRC ) :: (	solucoes( B,(marca(MTR,B)),S),
+            			comprimento(S,N),
+            			N == 1
+            		 ).
+
 %->Depois de adicionado não se pode adicionar nada, e tem de se remover o conhecimento imperfeito
+
+
+
 
 %CONHECIMENTO PERFEITO NEGATIVO
 %Não permitir adicionar se houver o conhecimento positivo perfeito oposto.
 +(-marca( MTR,MRC )) :: nao( marca(MTR,MRC) ).
 
+%Não permitir adicionar conhecimento negativo repetido
++(-T) :: (solucoes( T,(-T),S),
+            		comprimento(S,N),
+            		N == 1
+   	 	 ).
+
+
+
+
 %CONHECIMENTO DESCONHECIDO
-%Não se pode adicionar se houver conhecimento perfeito positivo.
+%deixar adicionar conhecimento positivo e remover o conhecimento desconhecido.
++marca( MTR,MRC) :: (solucoes( marca(MTR,B),marca(MTR,B),S),
+                        seTemDesconhecidoRemove(S)
+                    ).
+
+seTemDesconhecidoRemove( [] ).
+seTemDesconhecidoRemove( [ marca(MTR,MRC)] ) :-
+	demo(marca(MTR,MRC),desconhecido),
+	removeTermos( [marca(MTR,MRC),(excecao(marca(MTRVAR,MRCVAR)):-marca(MTRVAR,MRC))] ).
+
+seTemDesconhecidoRemove( [X|L] ) :-
+	demo(marca(MTR,MRC),desconhecido),
+	removeTermos( [marca(MTR,MRC),(excecao(marca(MTRVAR,MRCVAR)):-marca(MTRVAR,MRC))] ).
+	
+seTemDesconhecidoRemove( [X|L] ) :-
+	seTemDesconhecidoRemove( L ).
+
 
 
 %CONHECIMENTO IMPERFEITO
-%apenas deixar adicionar conhecimento positivo se este. Remover o conhecimento impreciso.
+%apenas deixar adicionar conhecimento positivo se este pertence ao conjunto de conhecimento impreciso e remover o conhecimento impreciso.
 +marca( MTR,MRC) :: (solucoes( B,excecao(marca(MTR,B)),S),
                         verificaSePertence(S,MRC),
-                        solucoes(excecao(marca(MTR,B)),excecao(marca(MTR,B)),S),
-               			removeImprecisao(S)
+                        solucoes(excecao(marca(MTR,B)),excecao(marca(MTR,B)),S2),
+               			removeTermos(S2)
                     ).
 
 verificaSePertence([], MRC).
@@ -187,13 +224,6 @@ verificaSePertenceAux( [MRC],MRC ).
 verificaSePertenceAux( [MRC|L],MRC ).
 verificaSePertenceAux( [X|L],MRC ) :-
 	verificaSePertence( L, MRC).
-
-removeImprecisao( [] ).
-removeImprecisao( [X] ) :-
-	retract(X).
-removeImprecisao( [X|L] ) :-
-	retract(X),
-	removeImprecisao( L ).
 
 
 %impossível adicionar excecoes a conhecimento perfeito positivo
@@ -212,9 +242,16 @@ semNulos( [X|L] ) :-
 
 
 
-% [y] Não permitir conhecimento repetido
-% [y] Não permitir adicionar se tivermos conhecimento proibido
-% [y] Evolucao Perfeita
+% INVARIANTES
+% [y] impossível adicionar conhecimento repetido
+% [y] impossível adicionar conhecimento perfeito positivo quando se tem o conhecimento perfeito negativo oposto ou conhecimento positivo
+% [y] impossível adicionar conhecimento perfeito negativo quando se tem o conhecimento perfeito positivo oposto
+% [y] impossível adicionar excecoes a conhecimento perfeito positivo
+% [y] deixar adicionar conhecimento positivo se tivermos conhecimento impreciso, removendo o conhecimento impreciso.
+% [y] impossível adicionar conhecimento se tivermos conhecimento proibido associado a essa matricula
+
+% EVOLUCOES
+% [y] evolucao Perfeita
 % [] Evolucao Imprecisa
 % [] Evolucao Desconhecida
 % [] Evolucao Proibida
