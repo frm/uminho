@@ -92,6 +92,31 @@ demoConj([Q|T], falso) :-
 
 
 
+
+demoDisj([], verdadeiro).
+
+demoDisj([Q|T], verdadeiro) :- 
+    demo(Q, verdadeiro).
+
+demoDisj([Q|T], verdadeiro) :-
+    demoDisj(T, verdadeiro).
+
+
+demoDisj([Q|T], desconhecido) :-
+    demo(Q, desconhecido),
+    nao( demoDisj(T, verdadeiro)).
+
+demoDisj([Q|T], desconhecido) :-
+    nao( demo(Q, verdadeiro)),
+    demoDisj(T, desconhecido).
+
+
+
+demoDisj([Q|T], falso) :- 
+    demo(Q, falso),
+    demoDisj(T, falso).
+
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do meta-predicado nao: Questao -> {V,F}
 
@@ -118,6 +143,44 @@ evolucao( Termo ) :-
     solucoes( Invariante,+Termo::Invariante,Lista ),
     insercao( Termo ),
     teste( Lista ).
+
+evolucaoImpreciso([]).
+evolucaoImpreciso([marca(MTR, MAR)| L]) :-
+    comprimento([marca(MTR, MAR)| L], N),
+    N > 1,
+    mesmaMatricula(L, MTR),
+    evolucaoImprecisoAux([marca(MTR, MAR)|L]).
+
+evolucaoImprecisoAux([]).
+evolucaoImprecisoAux([T|L]) :-
+    evolucao(excecao(T)),
+    evolucaoImprecisoAux(L).
+
+mesmaMatricula([], MTR2).
+mesmaMatricula([marca(MTR, MAR)|L], MTR2) :-
+    MTR == MTR2,
+    mesmaMatricula(L, MTR2).
+
+
+removerImprecisao(MTR) :-
+    solucoes(MRC, excecao(marca(MTR, MRC)), S),
+    removerExcecoes(S).
+
+removerExcecoes([], MTR).
+removerExcecoes([MRC|T], MTR) :-
+    retract(excecao(marca(MTR,MRC))),
+    removerExcecoes(T, MTR).
+
+removerDesconhecido(MTR) :-
+    solucoes( MAR, excecao(marca(MTR, MAR)), S),
+    removerTermosDesconhecidos(MTR, S).
+
+
+removerTermosDesconhecidos(MTR, [MAR|T]) :-
+    retract((excecao(marca(MTR,_) ):-marca(MTR,MAR ))),
+    remove(marca(MTR, MAR)).
+
+
 
 insercao( Termo ) :-
     assert( Termo ).
@@ -207,7 +270,9 @@ seTemDesconhecidoRemove( [X|L] ) :-
 	seTemDesconhecidoRemove( L ).
 
 
-
++(excecao( marca(MTR, MRC) )) :: ( solucoes(B, demo(marca(MTR, B), verdadeiro), S),
+                                    comprimento(S, N),
+                                    N==0 ).
 %CONHECIMENTO IMPERFEITO
 %apenas deixar adicionar conhecimento positivo se este pertence ao conjunto de conhecimento impreciso e remover o conhecimento impreciso.
 +marca( MTR,MRC) :: (solucoes( B,excecao(marca(MTR,B)),S),
