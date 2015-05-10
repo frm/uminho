@@ -228,8 +228,23 @@ teste( [R|LR] ) :-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado solucoes: A,T,S -> {V, F}
 
-solucoes( X,Y,Z ) :-
-    findall( X,Y,Z ).
+solucoes(A, T, S) :-
+    T,
+    assert( tmp(A) ),
+    fail.
+
+solucoes(A, T, S) :-
+    obter([], S).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensão do predicado obter: X,S -> {V, F}
+
+obter(X,S) :-
+    retract( tmp(A) ),
+    !,
+    obter([A|X], S).
+
+obter(S,S).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado comprimento: [X | L], N -> {V,F}
@@ -269,11 +284,11 @@ verificaPerfEvol( MTR,MRC ) :-
 % Extensao do predicado seTemDesconhecidoRemove: [X | L] -> {V,F}
 
 seTemDesconhecidoRemove( [ marca(MTR,MRC)] ) :-
-	demo(marca(MTR,qqlcoisa),desconhecido),
+	demo(marca(MTR,qualquerMarca),desconhecido),
 	removeTermos( [marca(MTR,MRC),(excecao(marca(MTRVAR,MRCVAR)):-marca(MTRVAR,MRC))] ).
 
 seTemDesconhecidoRemove( [marca(MTR,MRC)|L] ) :-
-	demo(marca(MTR,qqlcoisa),desconhecido),
+	demo(marca(MTR,qualquerMarca),desconhecido),
 	removeTermos( [marca(MTR,MRC),(excecao(marca(MTRVAR,MRCVAR)):-marca(MTRVAR,MRC))] ).
 	
 seTemDesconhecidoRemove( [X|L] ) :-

@@ -27,7 +27,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        System.out.println("Hello, world!");
         try {
             sp = new SICStus();
             sp.load("tp2.pl");
