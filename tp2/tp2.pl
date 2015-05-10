@@ -366,7 +366,7 @@ verificaSePertence( S,MRC ) :-
 verificaSePertenceAux( [MRC],MRC ).
 verificaSePertenceAux( [MRC|L],MRC ).
 verificaSePertenceAux( [X|L],MRC ) :-
-	verificaSePertence( L, MRC).
+	verificaSePertenceAux( L, MRC).
 
 
 
