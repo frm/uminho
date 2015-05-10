@@ -137,6 +137,14 @@ evolucao( Termo ) :-
     insere( Termo ),
     teste( Lista ).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensão do predicado que permite a evolucao do conhecimento perfeito de uma dada lista: [H|T] -> {V,F}
+
+evolucaoLista([]).
+evolucaoLista([H|T]) :-
+    evolucao(H),
+    evolucaoLista(T).
+
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que permite a evolucao do conhecimento imperfeito desconhecido: Termo -> {V,F}
@@ -283,11 +291,8 @@ seTemDesconhecidoRemove( [X|L] ) :-
 
 % -> Não permitir adicionar conhecimento negativo repetido
 +(-T) :: (solucoes( T,(-T),S),
-            		comprimento(S,N),
-            		N == 2
-   	 	 ).
-
-
+                    comprimento(S,N),
+                    N \= 2).
 
 
 %---------------CONHECIMENTO DESCONHECIDO---------------
@@ -310,6 +315,26 @@ seTemDesconhecidoRemove( [X|L] ) :-
                         solucoes(excecao(marca(MTR,B)),excecao(marca(MTR,B)),S2),
                			removeTermos(S2)
                     ).
+
++(-marca(MTR,MRC)) :: (solucoes(B, excecao(marca(MTR,B)), S),
+                        verificaSePertence(S,MRC),
+                        solucoes(excecao(marca(MTR,MRC)), excecao(marca(MTR,MRC)), S2),
+                        removeTermos(S2),
+                        decide(MTR) ).
+
+
+
+decide(MTR) :-
+    solucoes(marca(MTR, B), excecao(marca(MTR, B)), S),
+    comprimento(S, N),
+    N==1,
+    evolucaoLista(S).
+
+decide(MTR) :-
+    solucoes(B, excecao(marca(MTR, B)), S),
+    comprimento(S, N),
+    N\=1.
+
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -

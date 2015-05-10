@@ -4,30 +4,39 @@ import se.sics.jasper.Query;
 import se.sics.jasper.SICStus;
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  * Created by frm on 22/04/15.
  */
 public class Main {
-    public static void sampleJasper() throws Exception {
-        SICStus sp = new SICStus();
-        sp.load("prolog/sample.pl");
+    private static SICStus sp;
 
+
+    public static void runJasper(String line) throws Exception {
         HashMap map = new HashMap();
-        String p = "succ(2, R).";
-        Query q = sp.openPrologQuery(p, map);
-
-        while(q.nextSolution()) {
-            System.out.println("Query: " + p + "\nAnswer: " + map.toString());
+        Query q = sp.openPrologQuery(line, map);
+        if(q.nextSolution()) {
+            if (map.size() == 0)
+                System.out.println("yes");
+            else
+                System.out.println(map.toString());
         }
-
-        q.close();
+        else
+            System.out.println("no");
     }
 
     public static void main(String[] args) {
         System.out.println("Hello, world!");
         try {
-            sampleJasper();
+            sp = new SICStus();
+            sp.load("tp2.pl");
+            Scanner in = new Scanner(System.in);
+            String line;
+            while(in.hasNextLine()){
+                line = in.nextLine();
+                runJasper(line);
+            }
         } catch (Exception e) {
             System.out.println("Error sampling Jasper");
             e.printStackTrace();
