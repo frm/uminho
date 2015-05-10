@@ -100,7 +100,7 @@ demoConj([Q|T], falso) :-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do meta-predicado demoDisj: [Q | T], Resposta -> {verdadeiro, falso, desconhecido}
 
-demoDisj([], verdadeiro).
+demoDisj([], falso).
 
 demoDisj([Q|T], verdadeiro) :- 
     demo(Q, verdadeiro).
@@ -307,7 +307,7 @@ seTemDesconhecidoRemove( [X|L] ) :-
 % -> Não permitir adicionar conhecimento negativo repetido
 +(-T) :: (solucoes( T,(-T),S),
                     comprimento(S,N),
-                    N \= 2).
+                    N \= 1).
 
 
 %---------------CONHECIMENTO DESCONHECIDO---------------
