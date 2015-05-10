@@ -18,12 +18,12 @@ public class Main {
         Query q = sp.openPrologQuery(line, map);
         if(q.nextSolution()) {
             if (map.size() == 0)
-                System.out.println("yes");
+                System.out.println("sucesso");
             else
                 System.out.println(map.toString());
         }
         else
-            System.out.println("no");
+            System.out.println("insucesso");
     }
 
     public static void main(String[] args) {
@@ -32,9 +32,11 @@ public class Main {
             sp.load("tp2.pl");
             Scanner in = new Scanner(System.in);
             String line;
+            System.out.print("> ");
             while(in.hasNextLine()){
                 line = in.nextLine();
                 runJasper(line);
+                System.out.print("> ");
             }
         } catch (Exception e) {
             System.out.println("Error sampling Jasper");
