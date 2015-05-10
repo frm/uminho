@@ -284,16 +284,14 @@ verificaPerfEvol( MTR,MRC ) :-
 % Extensao do predicado seTemDesconhecidoRemove: [X | L] -> {V,F}
 
 seTemDesconhecidoRemove( [ marca(MTR,MRC)] ) :-
-	demo(marca(MTR,qualquerMarca),desconhecido),
-	removeTermos( [marca(MTR,MRC),(excecao(marca(MTRVAR,MRCVAR)):-marca(MTRVAR,MRC))] ).
+    demo(marca(MTR,qualquerMarca),desconhecido),
+    removeTermos( [marca(MTR,MRC),(excecao(marca(MTRVAR,MRCVAR)):-marca(MTRVAR,MRC))] ).
 
 seTemDesconhecidoRemove( [marca(MTR,MRC)|L] ) :-
-	demo(marca(MTR,qualquerMarca),desconhecido),
-	removeTermos( [marca(MTR,MRC),(excecao(marca(MTRVAR,MRCVAR)):-marca(MTRVAR,MRC))] ).
-	
+    seTemDesconhecidoRemove( [ marca(MTR,MRC)] ).
+    
 seTemDesconhecidoRemove( [X|L] ) :-
-	seTemDesconhecidoRemove( L ).
-
+    seTemDesconhecidoRemove( L ).
 
 
 
