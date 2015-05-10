@@ -388,22 +388,3 @@ semNulos( [] ).
 semNulos( [X|L] ) :-
 	nao( nulo( X ) ),
 	semNulos( L ).
-
-
-
-% INVARIANTES
-% [y] impossível adicionar conhecimento repetido
-% [y] impossível adicionar conhecimento perfeito positivo quando se tem o conhecimento perfeito negativo oposto ou conhecimento positivo
-% [y] impossível adicionar conhecimento perfeito negativo quando se tem o conhecimento perfeito positivo oposto
-% [y] impossível adicionar excecoes a conhecimento perfeito positivo
-% [y] deixar adicionar conhecimento positivo se tivermos conhecimento impreciso, removendo o conhecimento impreciso.
-% [y] impossível adicionar conhecimento se tivermos conhecimento proibido associado a essa matricula
-
-% EVOLUCOES
-% [] evolucao Perfeita
-% [] Evolucao Imprecisa
-% [] Evolucao Desconhecida
-% [] Evolucao Interdita
-% [] Não permitir adicionar nada quando temos conhecimento perfeito
-% [] Permitir adicionar quando já temos conhecimento desconhecido (Como se faz?)
-% [] Permitir adicionar quando já temos conhecimento impreciso (Apagar as excecoes?)
