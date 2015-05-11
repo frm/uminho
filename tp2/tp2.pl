@@ -228,13 +228,8 @@ teste( [R|LR] ) :-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado solucoes: A,T,S -> {V, F}
 
-solucoes(A, T, S) :-
-    T,
-    assert( tmp(A) ),
-    fail.
-
-solucoes(A, T, S) :-
-    obter([], S).
+solucoes( X,Y,Z ) :-
+    findall( X,Y,Z ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado obter: X,S -> {V, F}
@@ -260,6 +255,21 @@ comprimento( [X|L],N ) :-
 
 % ----------------- INVARIANTES ----------------
 
+%---------------CONHECIMENTO INTERDITO---------------
+% -> Impossível adicionar conhecimento se tivermos conhecimento interdito associado a essa matricula
++marca( MTR,MRC) :: (solucoes( B,marca(MTR,B),S),
+                        semNulos(S)
+                    ).
+
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do predicado semNulo: [X | L] -> {V,F}
+
+semNulos( [] ).
+semNulos( [X|L] ) :-
+    nao( nulo( X ) ),
+    semNulos( L ).
+
 %---------------CONHECIMENTO PERFEITO POSITIVO E DESCONHECIDO---------------
 
 % -> Não permitir adicionar quando se tem o conhecimento perfeito negativo oposto
@@ -267,6 +277,8 @@ comprimento( [X|L],N ) :-
 
 % -> impossível adicionar excecoes a conhecimento perfeito positivo
 +excecao( marca(MTR,MRC) ) :: nao( marca(MTR,MRC) ).
+
+
 
 % -> Não permitir adicionar quando já se tem o conhecimento perfeito positivo e removendo conhecimento desconhecido, se este existir.
 +marca( MTR,MRC ) :: verificaPerfEvol( MTR,MRC ).
@@ -307,10 +319,18 @@ seTemDesconhecidoRemove( [X|L] ) :-
 % -> Não permitir adicionar conhecimento negativo repetido
 +(-T) :: (solucoes( T,(-T),S),
                     comprimento(S,N),
-                    N \= 1).
+                    N < 3).
 
 
 %---------------CONHECIMENTO DESCONHECIDO---------------
+
++(excecao(marca(MTR,MAR))) :: (solucoes( excecao(marca(MTR,MAR)),excecao(marca(MTR,MAR)),S),
+                    comprimento(S,N),
+                    N < 2).
+
++(excecao(-marca(MTR,MAR))) :: (solucoes( excecao(marca(MTR,MAR)),excecao(-marca(MTR,MAR)),S),
+                    comprimento(S,N),
+                    N < 2).
 
 
 +(excecao( marca(MTR, MRC) )) :: ( solucoes(B, demo(marca(MTR, B), verdadeiro), S),
@@ -374,17 +394,4 @@ verificaSePertenceAux( [X|L],MRC ) :-
 
 
 
-%---------------CONHECIMENTO INTERDITO---------------
-% -> Impossível adicionar conhecimento se tivermos conhecimento interdito associado a essa matricula
-+marca( MTR,MRC) :: (solucoes( B,marca(MTR,B),S),
-                        semNulos(S)
-                    ).
 
-
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado semNulo: [X | L] -> {V,F}
-
-semNulos( [] ).
-semNulos( [X|L] ) :-
-	nao( nulo( X ) ),
-	semNulos( L ).
