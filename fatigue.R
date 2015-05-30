@@ -1,26 +1,3 @@
-# Todo: 
-# - [x] Identificar os 7 niveis de fadiga
-# - [x] Identificar existencia (ou nao) de fadiga
-# - [x] Identificar escala ideal de fadiga
-
-# Extras:
-# - [x] plots
-# - [ ] comparar algoritmos
-# - [x] obter tarefa em funcao do resto
-# - [x] obter tarefa em funcao da existencia (ou nao) de fadiga
-# - [ ] obter tarefa em funcao da escala ideal de fadiga
-# - [x] ir removendo parametros e ver o peso que cada um tem
-# - [x] ir removendo parametros e ver o peso que cada um tem na escala ideal de fadiga
-# - [x] ir removendo parametros e ver o peso que cada um tem em funcao da existencia (ou nao) de fadiga
-# - [x] ir removendo parametros e ver o peso que cada um tem (no caso em que obtemos a tarefa como output)
-# - [x] descobrir parametro com mais peso na escala de fadiga
-# - [x] descobrir parametro com mais peso na escala ideal de fadiga
-# - [x] descobrir parametro com mais peso na existencia (ou nao) de fadiga
-# - [x] descobrir parametro com mais peso na tarefa final
-
-# Plots:
-# Para cada rede neuronal que formos verificar o peso, expressar o output em funcao dos parametros
-
 ################################################
 #### Data Init
 
@@ -46,6 +23,7 @@ fatigue_nnet <- function(dataset, hidden, testset, algorithm="rprop+", threshold
                            Performance.DMSMean + Performance.AEDMean + Performance.ADMSLMean +
                            Performance.Task) {
 
+  set.seed(1234)
   # Training the neural network
   nnet <- neuralnet(formula, dataset, threshold=threshold, hidden=hidden)
   
@@ -86,7 +64,7 @@ to_scale <- function(dataset) {
   d <- dataset
   # Setting new dataset to the cluster groups
   d$FatigueLevel[d$FatigueLevel < 3] = 1
-  d$FatigueLevel[d$FatigueLevel > 2 && d$FatigueLevel < 5] = 2
+  d$FatigueLevel[d$FatigueLevel > 2 & d$FatigueLevel < 5] = 2
   d$FatigueLevel[d$FatigueLevel > 4] = 3
   
   return(d);
@@ -138,7 +116,7 @@ sts3 <- to_scale(ts3) # 100 regs
 # Various neural network configurations
 # nncn = Neural Network Configuration #n
 nnc1 <- c(2)
-nnc1 <- c(4,2)
+nnc2 <- c(4,2)
 nnc3 <- c(10,5)
 nnc4 <- c(20,10)
 nnc5 <- c(40,20)
@@ -147,9 +125,14 @@ nnc5 <- c(40,20)
 #### Identifying the level of fatigue
 # Testing diferent samples of datasets, testsets, configuration and algorithms
 
-fnnet1 <- fatigue_nnet(ds5, nnc5, ts1)
+#fnnet1 <- fatigue_nnet(ds5, nnc5, ts1)
 
 ################################################
 #### Identifying the (non)-existance of fatigue
 
-bfnnet1 <- fatigue_nnet(bds1, nnc5, ts1)
+#bfnnet1 <- fatigue_nnet(bds1, nnc5, ts1)
+
+################################################
+#### Identifying the existance of fatigue on an ideal scale
+
+#sfnnet1 <- fatigue_nnet(sds5, nnc5, sts1)
