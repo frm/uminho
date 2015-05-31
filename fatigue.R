@@ -23,9 +23,9 @@ fatigue_nnet <- function(dataset, hidden, testset, algorithm="rprop+", threshold
                            Performance.DMSMean + Performance.AEDMean + Performance.ADMSLMean +
                            Performance.Task) {
 
-  set.seed(1234)
+  set.seed(1234567890)
   # Training the neural network
-  nnet <- neuralnet(formula, dataset, threshold=threshold, hidden=hidden)
+  nnet <- neuralnet(formula, dataset, threshold=threshold, hidden=hidden, algorithm=algorithm)
   
   # Duplicating the testset and removing the output variable
   inputset <- testset
