@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by frm on 15/10/15.
  */
 public class WorkerHub {
-    // The subscriber list is a set of workers that want to receive the messages
+    // The subscriber list is a map of workers that want to receive the messages
     private Map<Integer, AsyncWorker> subscribers;
     private int subscriberCount;
 
@@ -38,14 +38,13 @@ public class WorkerHub {
             // We need to make a copy because we want to send the same message to every worker
             // Yet, using the write method from AsynchronousSocketChannel, changes the buffer we give him
             // So we copy it into a new variable each time
-            // This is why I hate shared state.
             // No immutability means nasty side effects
             // And Java can't give us that guarantee.
             ByteBuffer copy = AsyncWorker.cloneByteBuffer(buffer);
             w.send(copy, senderId);
         }
 
-        // when a client shutsdown, it sends null value
+        // when a client leaves the chat, it sends null value
         // and we get a null pointer exception here
         // so, just double check
         AsyncWorker sender = subscribers.get(senderId);

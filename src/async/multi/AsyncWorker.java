@@ -62,9 +62,9 @@ public class AsyncWorker {
 
     public void send(ByteBuffer buf, int senderId) {
         // only send to our client if the message is not his own
-        // after writing we don't want to do anything since we already have a write callback set
+        // after writing we don't want to do anything since we already have a write callback set up
         // in hub.diffuse(..., writeCallback). That is going to be called after we send a message to everyone
-        // yet, we need to send in a callback (thanks Java, you don't accept null callbacks)
+        // yet, we need to send in a callback
         // So I just made a mock callback that doesn't do anything
         if(senderId != id)
             client.write(buf, null, mockCallback);
