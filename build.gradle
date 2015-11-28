@@ -2,6 +2,7 @@ group 'pt.uminho.di.sdc'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: 'application'
 
 mainClassName = System.getProperty("main")
