@@ -18,6 +18,7 @@ configurations {
 dependencies {
     testCompile 'junit:junit:4.11'
     compile 'org.slf4j:slf4j-api:1.7.5'
+    compile 'org.slf4j:slf4j-simple:1.7.5'
 
     compile  "co.paralleluniverse:quasar-core:0.7.3:jdk8"
     compile  "co.paralleluniverse:quasar-actors:0.7.3"
