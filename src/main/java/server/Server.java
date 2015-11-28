@@ -12,16 +12,19 @@ import java.net.InetSocketAddress;
  */
 public class Server extends BasicActor {
     private FiberServerSocketChannel ss;
+    private UserRepo users;
     private int port;
 
     private final static int DEFAULT_PORT = 3000;
 
     public Server() {
         port = DEFAULT_PORT;
+        users = new UserRepo();
     }
 
     public Server(int port) {
         this.port = port;
+        users = new UserRepo();
     }
 
     public void bind() throws IOException, SuspendExecution {
@@ -32,7 +35,7 @@ public class Server extends BasicActor {
     }
 
     public void accept() throws IOException, SuspendExecution {
-        new ServerWorker(ss.accept()).spawn();
+        new ServerWorker(ss.accept(), users).spawn();
     }
 
     @Override
