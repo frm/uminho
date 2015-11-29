@@ -7,7 +7,6 @@ import util.Pair;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.channels.ClosedChannelException;
 
 /**
  * Created by frm on 28/11/15.
@@ -16,6 +15,7 @@ public class ServerWorker extends BasicActor {
     private final FiberSocketChannel cl;
     private final ByteBuffer buf;
     private final UserRepo repo;
+    private String currentUser;
 
     public static final int DEFAULT_SIZE = 1024;
 
@@ -31,11 +31,76 @@ public class ServerWorker extends BasicActor {
         buf = ByteBuffer.allocate(bufferCapacity);
     }
 
+    private Pair<Boolean, String> registerUser(String uname, String password) {
+        Boolean res = repo.register(uname, password, self());
+        String reply = null;
+        if(res) {
+            // reply = TODO: list of channels here
+            currentUser = uname;
+            reply = "User successfully created!";
+        }
+        else {
+            // TODO: move this to a config file
+            reply = "Error creating account";
+        }
+        return new Pair<>(res, reply);
+    }
+
+    private Pair<Boolean, String> authenticateUser(String uname, String password) {
+        Boolean res = repo.logIn(uname, password, self());
+        String reply = null;
+        if(res) {
+            // reply = TODO: list of channels here
+            currentUser = uname;
+            reply = "User successfully authenticated!";
+        }
+        else {
+            // TODO: move this to a config file
+            reply = "Invalid auth credentials";
+        }
+        return new Pair<>(res, reply);
+    }
+
+    private Pair<Boolean, String> deleteUser(String uname, String password) {
+        Boolean res = repo.delete(uname, password);
+        String reply = null;
+        if(res) {
+            reply = "User successfully deleted!";
+        }
+        else {
+            // TODO: move this to a config file
+            reply = "Invalid auth credentials";
+        }
+
+        return new Pair<>(res, reply);
+    }
+
     private Pair<Boolean, String> onConnection(String req) {
-        // parse request
-        // try to authenticate, register or something
-        // Command c = CommandParser.parse(req)
-        return new Pair<>(false, req);
+        Command c = Command.parse(req);
+        switch(c.command) {
+            case Command.REGISTER:
+                return registerUser(c.args[0], c.args[1]);
+            case Command.AUTHENTICATE:
+                return authenticateUser(c.args[0], c.args[1]);
+            case Command.CANCEL:
+                return deleteUser(c.args[0], c.args[1]);
+            default:
+                return new Pair<>(false, "Invalid command");
+        }
+    }
+
+    private String read() throws IOException {
+        buf.clear();
+        cl.read(buf);
+        buf.flip();
+        return new String(buf.array(), 0, buf.limit());
+    }
+
+    private void write(String s) throws IOException {
+        buf.clear();
+        buf.put(s.getBytes());
+        buf.flip();
+        cl.write(buf);
     }
 
     @Override
@@ -44,26 +109,30 @@ public class ServerWorker extends BasicActor {
 
         try {
             while(!connected) {
+                // TODO: instrumentalize this section
+                // String req = read();
+
                 buf.clear();
                 cl.read(buf);
                 buf.flip();
-
-                // this should return a pair of boolean and string
-                // the string should be sent to the user, may be an error or the channel list
                 String req = new String(buf.array(), 0, buf.limit());
+
                 Pair<Boolean, String> p = onConnection(req);
+
                 connected = p.first;
+
+               // write(p.second);
                 buf.clear();
                 buf.put(p.second.getBytes());
                 buf.flip();
                 cl.write(buf);
             }
         } catch (IOException e) {
-            // TODO: handle client disconnection here
-            // if (!connected) dont do anything
-            // else go on user list and disconnect
             e.printStackTrace();
         }
+
+        if(connected)
+            repo.disconnect(currentUser, self());
 
         return null;
     }

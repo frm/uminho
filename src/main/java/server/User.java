@@ -16,15 +16,24 @@ public class User {
         this.password = password;
     }
 
-    // TODO: change this method to also save the actor ref
-    public boolean login(String password) {
+    public boolean login(String password, ActorRef address) {
         if(logged)
             return false;
 
-        boolean b = this.password.equals(password);
+        boolean b = matchPassword(password);
         if(b) {
             logged = true;
-            // save actor ref here
+            connection = address;
+        }
+
+        return b;
+    }
+
+    public boolean disconnect(ActorRef address) {
+        boolean b = address.equals(connection);
+        if(b) {
+            logged = false;
+            connection = null;
         }
 
         return b;
@@ -33,5 +42,13 @@ public class User {
     @Override
     public int hashCode() {
         return uname.hashCode();
+    }
+
+    public boolean matchPassword(String password) {
+        return this.password.equals(password);
+    }
+
+    public boolean isLoggedIn() {
+        return logged;
     }
 }
