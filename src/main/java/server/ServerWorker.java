@@ -2,6 +2,7 @@ package server;
 
 import co.paralleluniverse.actors.BasicActor;
 import co.paralleluniverse.fibers.SuspendExecution;
+import co.paralleluniverse.fibers.Suspendable;
 import co.paralleluniverse.fibers.io.FiberSocketChannel;
 import util.MessageBuilder;
 import util.Pair;
@@ -80,6 +81,7 @@ public class ServerWorker extends BasicActor {
         }
     }
 
+    @Suspendable
     private String read() throws IOException {
         buf.clear();
         cl.read(buf);
@@ -87,6 +89,7 @@ public class ServerWorker extends BasicActor {
         return new String(buf.array(), 0, buf.limit());
     }
 
+    @Suspendable
     private void write(String s) throws IOException {
         buf.clear();
         buf.put(s.getBytes());
@@ -100,23 +103,10 @@ public class ServerWorker extends BasicActor {
 
         try {
             while(!connected) {
-                // TODO: instrumentalize this section
-                // String req = read();
-
-                buf.clear();
-                cl.read(buf);
-                buf.flip();
-                String req = new String(buf.array(), 0, buf.limit());
-
+                String req = read();
                 Pair<Boolean, String> p = onConnection(req);
-
                 connected = p.first;
-
-               // write(p.second);
-                buf.clear();
-                buf.put(p.second.getBytes());
-                buf.flip();
-                cl.write(buf);
+                write(p.second);
             }
         } catch (IOException e) {
             e.printStackTrace();
