@@ -18,7 +18,7 @@ public class RoomRepo extends BasicActor<Msg, Void> {
 
     }
 
-    public ActorRef getRoom(String name){
+    private ActorRef getRoom(String name){
         return rooms.get(name);
     }
 
