@@ -9,7 +9,7 @@ import co.paralleluniverse.actors.ActorRef;
 
 
 public class Msg {
-    public enum Type {REF, TEXT, OK, ERROR, JOIN, CHAT, LEAVE, CLOSE, CREATE, REMOVE}
+    public enum Type {REF, TEXT, OK, ERROR, CHAT, CLOSE, ADD, REMOVE}
     private final Type type;
     private final Object content;
     private final ActorRef sender;
