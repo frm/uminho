@@ -54,7 +54,7 @@ public class RoomRepo extends BasicActor<Msg, Void> {
         receive(msg -> {
             ActorRef sender = msg.getSender();
             switch (msg.getType()) {
-                case CREATE:
+                case ADD:
                     if( createRoom((String) msg.getContent() ) )
                         sender.send( new Msg(Msg.Type.OK, null, self()));
                     else

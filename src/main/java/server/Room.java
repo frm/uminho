@@ -23,7 +23,7 @@ public class Room extends BasicActor<Msg, Void> {
 
     private void closeRoom() throws SuspendExecution {
         for (ActorRef usr : members.values()) {
-            usr.send(new Msg(Msg.Type.LEAVE, null, self()));
+            usr.send(new Msg(Msg.Type.REMOVE, null, self()));
         }
     }
 
@@ -57,7 +57,7 @@ public class Room extends BasicActor<Msg, Void> {
         receive(msg -> {
             ActorRef sender = msg.getSender();
             switch (msg.getType()) {
-                case JOIN:
+                case ADD:
                     if (addMember((String) msg.getContent(), sender))
                         sender.send(new Msg(Msg.Type.OK, null, self()));
                     else
@@ -66,7 +66,7 @@ public class Room extends BasicActor<Msg, Void> {
                 case CHAT:
                     sendChat(msg);
                     return true;
-                case LEAVE:
+                case REMOVE:
                     if (removeMember((String) msg.getContent(), sender))
                         sender.send(new Msg(Msg.Type.OK, null, self()));
                     else
