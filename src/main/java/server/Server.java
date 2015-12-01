@@ -3,6 +3,7 @@ package server;
 import co.paralleluniverse.actors.BasicActor;
 import co.paralleluniverse.fibers.SuspendExecution;
 import co.paralleluniverse.fibers.io.FiberServerSocketChannel;
+import util.MessageBuilder;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -42,6 +43,7 @@ public class Server extends BasicActor {
     protected Object doRun() throws InterruptedException, SuspendExecution {
         try {
             bind();
+            MessageBuilder.init();
             for(;;) accept();
         }
         catch (IOException e) {

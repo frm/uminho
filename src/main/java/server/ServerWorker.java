@@ -3,6 +3,7 @@ package server;
 import co.paralleluniverse.actors.BasicActor;
 import co.paralleluniverse.fibers.SuspendExecution;
 import co.paralleluniverse.fibers.io.FiberSocketChannel;
+import util.MessageBuilder;
 import util.Pair;
 
 import java.io.IOException;
@@ -37,11 +38,10 @@ public class ServerWorker extends BasicActor {
         if(res) {
             // reply = TODO: list of channels here
             currentUser = uname;
-            reply = "User successfully created!";
+            reply = MessageBuilder.message(MessageBuilder.REGISTER_SUCCESS);
         }
         else {
-            // TODO: move this to a config file
-            reply = "Error creating account";
+            reply = MessageBuilder.message(MessageBuilder.REGISTER_INVALID);
         }
         return new Pair<>(res, reply);
     }
@@ -52,26 +52,17 @@ public class ServerWorker extends BasicActor {
         if(res) {
             // reply = TODO: list of channels here
             currentUser = uname;
-            reply = "User successfully authenticated!";
+            reply = MessageBuilder.message(MessageBuilder.AUTH_SUCCESS);
         }
         else {
-            // TODO: move this to a config file
-            reply = "Invalid auth credentials";
+            reply = MessageBuilder.message(MessageBuilder.AUTH_INVALID);
         }
         return new Pair<>(res, reply);
     }
 
     private Pair<Boolean, String> deleteUser(String uname, String password) {
         Boolean res = repo.delete(uname, password);
-        String reply = null;
-        if(res) {
-            reply = "User successfully deleted!";
-        }
-        else {
-            // TODO: move this to a config file
-            reply = "Invalid auth credentials";
-        }
-
+        String reply = MessageBuilder.message(res ? MessageBuilder.DELETE_SUCCESS : MessageBuilder.INVALID_PARAMS);
         return new Pair<>(res, reply);
     }
 
@@ -85,7 +76,7 @@ public class ServerWorker extends BasicActor {
             case Command.CANCEL:
                 return deleteUser(c.args[0], c.args[1]);
             default:
-                return new Pair<>(false, "Invalid command");
+                return new Pair<>(false, MessageBuilder.message(MessageBuilder.INVALID_COMMAND));
         }
     }
 

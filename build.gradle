@@ -16,6 +16,8 @@ configurations {
 }
 
 dependencies {
+    compile 'org.yaml:snakeyaml:1.16'
+
     testCompile 'junit:junit:4.11'
     compile 'org.slf4j:slf4j-api:1.7.5'
     compile 'org.slf4j:slf4j-simple:1.7.5'

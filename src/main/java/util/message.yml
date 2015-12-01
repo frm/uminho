@@ -1,0 +1,7 @@
+"invalid_params": "Invalid parameters provided.\n"
+"invalid_command": "Invalid command provided.\n"
+"auth_success": "Authentication successful.\n"
+"auth_invalid": "Authentication invalid.\n"
+"register_success": "Registration successful.\n"
+"register_invalid": "Registration invalid.\n"
+"delete_success": "Deletion successful.\n"
