@@ -36,7 +36,7 @@ public class Server extends BasicActor {
     }
 
     public void accept() throws IOException, SuspendExecution {
-        new ServerWorker(ss.accept(), users).spawn();
+        new LineReader(ss.accept(), users).spawn();
     }
 
     @Override

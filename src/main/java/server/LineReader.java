@@ -13,7 +13,7 @@ import java.nio.ByteBuffer;
 /**
  * Created by frm on 28/11/15.
  */
-public class ServerWorker extends BasicActor {
+public class LineReader extends BasicActor {
     private final FiberSocketChannel cl;
     private final ByteBuffer buf;
     private final UserRepo repo;
@@ -21,13 +21,13 @@ public class ServerWorker extends BasicActor {
 
     public static final int DEFAULT_SIZE = 1024;
 
-    public ServerWorker(FiberSocketChannel client, UserRepo users) {
+    public LineReader(FiberSocketChannel client, UserRepo users) {
         cl = client;
         repo = users;
         buf = ByteBuffer.allocate(DEFAULT_SIZE);
     }
 
-    public ServerWorker(FiberSocketChannel client, UserRepo users, int bufferCapacity) {
+    public LineReader(FiberSocketChannel client, UserRepo users, int bufferCapacity) {
         cl = client;
         repo = users;
         buf = ByteBuffer.allocate(bufferCapacity);
