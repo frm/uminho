@@ -10,9 +10,9 @@ import co.paralleluniverse.actors.ActorRef;
 
 public class Msg {
     public enum Type {REF, TEXT, OK, ERROR, CHAT, CLOSE, ADD, REMOVE}
-    private final Type type;
-    private final Object content;
-    private final ActorRef sender;
+    public final Type type;
+    public final Object content;
+    public final ActorRef sender;
 
     public Msg(Type type, Object content, ActorRef sender){
       this.type = type;
@@ -20,15 +20,4 @@ public class Msg {
       this.sender = sender;
     }
 
-    public Type getType() {
-        return type;
-    }
-
-    public Object getContent() {
-        return content;
-    }
-
-    public ActorRef getSender() {
-        return sender;
-    }
 }
