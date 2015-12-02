@@ -59,10 +59,11 @@ public class Room extends BasicActor<Msg, Void> {
                         sender.send(new Msg(Msg.Type.ROOM_USERS, members.keySet(), self()));
                         return true;
                     case CHAT:
-                        sendChat(msg);
+                        sendChat(new Msg(Msg.Type.NEW_CHAT, msg.content, sender));
                         return true;
                     case REMOVE:
                         removeMember((String) msg.content);
+                        sender.send( new Msg(Msg.Type.OK, "Left Room, users are now: "+members.keySet(), self()));
                         return true;
                     case GET_ROOM_USERS:
                         sender.send(new Msg(Msg.Type.ROOM_USERS, members.keySet(), self()));

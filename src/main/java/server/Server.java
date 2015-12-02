@@ -14,6 +14,7 @@ import java.net.InetSocketAddress;
 public class Server extends BasicActor {
     private FiberServerSocketChannel ss;
     private UserRepo users;
+    private RoomRepo rooms;
     private int port;
 
     private final static int DEFAULT_PORT = 3000;
@@ -21,6 +22,8 @@ public class Server extends BasicActor {
     public Server() {
         port = DEFAULT_PORT;
         users = new UserRepo();
+        rooms = new RoomRepo();
+        rooms.spawn();
     }
 
     public Server(int port) {
@@ -36,7 +39,7 @@ public class Server extends BasicActor {
     }
 
     public void accept() throws IOException, SuspendExecution {
-        new LineReader(ss.accept(), users).spawn();
+        new LineReader(ss.accept(), users, rooms.ref()).spawn();
     }
 
     @Override

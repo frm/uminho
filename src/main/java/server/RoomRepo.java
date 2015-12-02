@@ -18,7 +18,7 @@ public class RoomRepo extends BasicActor<Msg, Void> {
 
     }
 
-    private ActorRef getRoom(String name){
+    public ActorRef getRoom(String name){
         return rooms.get(name);
     }
 
@@ -35,6 +35,7 @@ public class RoomRepo extends BasicActor<Msg, Void> {
 
     }
 
+
     private boolean createRoom(String name){
         if(rooms.containsKey(name))
             return false;
@@ -47,6 +48,10 @@ public class RoomRepo extends BasicActor<Msg, Void> {
 
         return true;
 
+    }
+
+    public void addRoom(Room room, String name){
+        rooms.put(name, room.ref());
     }
 
     @Override

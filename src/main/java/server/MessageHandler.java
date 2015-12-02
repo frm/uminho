@@ -66,7 +66,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         user.send(msg);
                         return true;
                     //FROM ROOM
-                    case SENT_CHAT:
+                    case NEW_CHAT:
                         user.send(msg);
                         return true;
                     case ROOM_USERS:
@@ -76,7 +76,9 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         currRoom = null;
                         user.send(msg);
                         return true;
-
+                    case OK:
+                        user.send(msg);
+                        return true;
                 }
 
                 return false;

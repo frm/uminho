@@ -1,30 +1,37 @@
 package server;
 
+import co.paralleluniverse.actors.ActorRef;
 import co.paralleluniverse.actors.BasicActor;
 import co.paralleluniverse.fibers.SuspendExecution;
 import co.paralleluniverse.fibers.Suspendable;
 import co.paralleluniverse.fibers.io.FiberSocketChannel;
 import util.MessageBuilder;
+import util.Msg;
 import util.Pair;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.HashSet;
 
 /**
  * Created by frm on 28/11/15.
  */
-public class LineReader extends BasicActor {
+public class LineReader extends BasicActor<Msg, Void> {
     private final FiberSocketChannel cl;
     private final ByteBuffer buf;
+    //TODO: Change UserRepo to Actor
     private final UserRepo repo;
+    private ActorRef roomRepo;
     private String currentUser;
+    private ActorRef handler;
 
     public static final int DEFAULT_SIZE = 1024;
 
-    public LineReader(FiberSocketChannel client, UserRepo users) {
+    public LineReader(FiberSocketChannel client, UserRepo users, ActorRef roomRepo) {
         cl = client;
         repo = users;
         buf = ByteBuffer.allocate(DEFAULT_SIZE);
+        this.roomRepo = roomRepo;
     }
 
     public LineReader(FiberSocketChannel client, UserRepo users, int bufferCapacity) {
@@ -98,8 +105,9 @@ public class LineReader extends BasicActor {
     }
 
     @Override
-    protected Object doRun() throws InterruptedException, SuspendExecution {
+    protected Void doRun() throws InterruptedException, SuspendExecution {
         boolean connected = false;
+        boolean inRoom = false;
 
         try {
             while(!connected) {
@@ -111,6 +119,46 @@ public class LineReader extends BasicActor {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        handler = (new MessageHandler(self(), roomRepo, currentUser)).spawn();
+
+
+        System.out.println("BANJO");
+
+        handler.send( new Msg(Msg.Type.JOIN, "room", self()) );
+
+        //TODO: Use inRoom
+
+        while (
+                receive(msg -> {
+                    ActorRef sender = msg.sender;
+
+                    try {
+                        switch (msg.type) {
+                            case ROOMS:
+                                write( msg.content.toString());
+                                return true;
+                            //FROM ROOM
+                            case NEW_CHAT:
+                                write( msg.content.toString());
+                                return true;
+                            case ROOM_USERS:
+                                write( msg.content.toString());
+                                return true;
+                            case KICK:
+                                write( "The room was closed, or you were kicked from it");
+                                return true;
+                            case OK:
+                                write( msg.content.toString());
+                                return true;
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    return false;
+                })) ;
+
 
         if(connected)
             repo.disconnect(currentUser, self());

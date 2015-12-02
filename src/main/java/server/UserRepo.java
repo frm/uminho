@@ -8,7 +8,7 @@ import java.util.HashSet;
 /**
  * Created by frm on 28/11/15.
  */
-public class UserRepo {
+public class UserRepo{
     private HashMap<String, User> users;
 
     public UserRepo() {
