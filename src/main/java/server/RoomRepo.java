@@ -51,31 +51,33 @@ public class RoomRepo extends BasicActor<Msg, Void> {
 
     @Override
     protected Void doRun() throws InterruptedException, SuspendExecution {
-        receive(msg -> {
-            ActorRef sender = msg.sender;
-            switch (msg.type) {
-                case ADD:
-                    if( createRoom((String) msg.content ) )
-                        sender.send( new Msg(Msg.Type.OK, null, self()));
-                    else
-                        sender.send( new Msg(Msg.Type.ERROR, null, self()));
-                    return true;
-                case REMOVE:
-                    if( closeRoom( (String) msg.content, sender) )
-                        sender.send( new Msg(Msg.Type.OK, null, self()));
-                    else
-                        sender.send( new Msg(Msg.Type.ERROR, null, self()));
-                    return true;
-                case REF:
-                    ActorRef ref = getRoom( (String) msg.content);
-                    if(ref != null)
-                        sender.send( new Msg(Msg.Type.OK, ref, self()));
-                    else
-                        sender.send( new Msg(Msg.Type.ERROR, null, self()));
-            }
+        while(
+            receive(msg -> {
+                ActorRef sender = msg.sender;
+                switch (msg.type) {
+                    case ADD:
+                        if( createRoom((String) msg.content ) )
+                            sender.send( new Msg(Msg.Type.OK, null, self()));
+                        else
+                            sender.send( new Msg(Msg.Type.ERROR, null, self()));
+                        return true;
+                    case REMOVE:
+                        if( closeRoom( (String) msg.content, sender) )
+                            sender.send( new Msg(Msg.Type.OK, null, self()));
+                        else
+                            sender.send( new Msg(Msg.Type.ERROR, null, self()));
+                        return true;
+                    case GET_ROOM:
+                        ActorRef ref = getRoom( (String) msg.content);
+                        sender.send( new Msg(Msg.Type.ROOM, ref, self()));
+                        return true;
+                    case GET_ROOMS:
+                        sender.send( new Msg(Msg.Type.ROOMS, rooms.keySet(), self()));
+                        return true;
+                }
 
-            return false;
-        });
+                return false;
+        }));
         return null;
     }
 
