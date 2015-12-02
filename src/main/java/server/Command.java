@@ -1,5 +1,7 @@
 package server;
 
+import util.Pair;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,10 +20,11 @@ public class Command {
     public static final String CANCEL = "/cancel";
     private static final int CANCEL_ARGS = 2;
 
-    private static final HashMap<String, Integer> COMMAND_LIST = new HashMap<String, Integer>() {{
-        put(REGISTER, REGISTER_ARGS);
-        put(AUTHENTICATE, AUTHENTICATE_ARGS);
-        put(CANCEL, CANCEL_ARGS);
+    private static final HashMap<String, Pair<Integer, Boolean>> COMMAND_LIST =
+        new HashMap<String, Pair<Integer, Boolean>>() {{
+            put(REGISTER, new Pair<>(REGISTER_ARGS, false));
+            put(AUTHENTICATE, new Pair<>(AUTHENTICATE_ARGS, false));
+            put(CANCEL, new Pair<>(CANCEL_ARGS, false));
     }};
 
     private Command(String c, String[] args) {
@@ -34,9 +37,12 @@ public class Command {
     }
 
     private boolean correctNrArgs() {
-        for(Map.Entry<String, Integer> p : COMMAND_LIST.entrySet()) {
+        for(Map.Entry<String, Pair<Integer, Boolean>> p : COMMAND_LIST.entrySet()) {
             if(p.getKey().equals(command))
-                return p.getValue() == args.length;
+                if(p.getValue().second)
+                    return p.getValue().first >= args.length;
+                else
+                    return p.getValue().first == args.length;
         }
 
         return false;
