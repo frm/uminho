@@ -21,9 +21,9 @@ public class Room extends BasicActor<Msg, Void> {
 
     }
 
-    private void closeRoom() throws SuspendExecution {
-        for (ActorRef usr : members.values()) {
-            usr.send(new Msg(Msg.Type.REMOVE, null, self()));
+    private void kickMembers() throws SuspendExecution {
+        for (ActorRef member : members.values()) {
+            member.send(new Msg(Msg.Type.KICK, null, self()));
         }
     }
 
@@ -35,12 +35,8 @@ public class Room extends BasicActor<Msg, Void> {
         return false;
     }
 
-    private boolean removeMember(String name, ActorRef ref) {
-        ActorRef usr = members.get(name);
-        if (usr == null || !usr.equals(ref))
-            return false;
+    private void removeMember(String name) {
         members.remove(name);
-        return true;
 
     }
 
@@ -54,28 +50,30 @@ public class Room extends BasicActor<Msg, Void> {
 
     @Override
     protected Void doRun() throws InterruptedException, SuspendExecution {
-        receive(msg -> {
-            ActorRef sender = msg.sender;
-            switch (msg.type) {
-                case ADD:
-                    if (addMember((String) msg.content, sender))
-                        sender.send(new Msg(Msg.Type.OK, null, self()));
-                    else
-                        sender.send(new Msg(Msg.Type.ERROR, null, self()));
-                    return true;
-                case CHAT:
-                    sendChat(msg);
-                    return true;
-                case REMOVE:
-                    if (removeMember((String) msg.content, sender))
-                        sender.send(new Msg(Msg.Type.OK, null, self()));
-                    else
-                        sender.send(new Msg(Msg.Type.ERROR, null, self()));
-                    return true;
-            }
+        while(
+            receive(msg -> {
+                ActorRef sender = msg.sender;
+                switch (msg.type) {
+                    case ADD:
+                        addMember((String) msg.content, sender);
+                        sender.send(new Msg(Msg.Type.ROOM_USERS, members.keySet(), self()));
+                        return true;
+                    case CHAT:
+                        sendChat(msg);
+                        return true;
+                    case REMOVE:
+                        removeMember((String) msg.content);
+                        return true;
+                    case GET_ROOM_USERS:
+                        sender.send(new Msg(Msg.Type.ROOM_USERS, members.keySet(), self()));
+                        return true;
+                    case CLOSE:
+                        kickMembers();
+                        return false;
+                }
 
-            return false;
-        });
+                return false;
+            }));
         return null;
     }
 }
