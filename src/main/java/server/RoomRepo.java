@@ -35,7 +35,6 @@ public class RoomRepo extends BasicActor<Msg, Void> {
 
     }
 
-
     private boolean createRoom(String name){
         if(rooms.containsKey(name))
             return false;
@@ -53,7 +52,6 @@ public class RoomRepo extends BasicActor<Msg, Void> {
     public void addRoom(Room room, String name){
         rooms.put(name, room.ref());
     }
-
     @Override
     protected Void doRun() throws InterruptedException, SuspendExecution {
         while(
