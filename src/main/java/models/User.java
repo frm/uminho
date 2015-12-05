@@ -1,4 +1,4 @@
-package server;
+package models;
 
 import co.paralleluniverse.actors.ActorRef;
 

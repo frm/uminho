@@ -1,4 +1,4 @@
-package util;
+package communication;
 
 import co.paralleluniverse.actors.ActorRef;
 

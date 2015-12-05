@@ -1,9 +1,9 @@
-package server;
+package repositories;
 
 import co.paralleluniverse.actors.ActorRef;
+import models.User;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * Created by frm on 28/11/15.

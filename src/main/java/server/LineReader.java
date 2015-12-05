@@ -5,13 +5,14 @@ import co.paralleluniverse.actors.BasicActor;
 import co.paralleluniverse.fibers.SuspendExecution;
 import co.paralleluniverse.fibers.Suspendable;
 import co.paralleluniverse.fibers.io.FiberSocketChannel;
+import communication.Command;
+import repositories.UserRepo;
 import util.MessageBuilder;
-import util.Msg;
+import communication.Msg;
 import util.Pair;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.HashSet;
 
 /**
  * Created by frm on 28/11/15.

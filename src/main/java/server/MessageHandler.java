@@ -3,7 +3,7 @@ package server;
 import co.paralleluniverse.actors.ActorRef;
 import co.paralleluniverse.actors.BasicActor;
 import co.paralleluniverse.fibers.SuspendExecution;
-import util.Msg;
+import communication.Msg;
 
 /**
  * Created by joaorodrigues on 2 Dec 15.

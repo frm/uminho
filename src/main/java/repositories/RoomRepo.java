@@ -1,9 +1,10 @@
-package server;
+package repositories;
 
 import co.paralleluniverse.actors.ActorRef;
 import co.paralleluniverse.actors.BasicActor;
 import co.paralleluniverse.fibers.SuspendExecution;
-import util.Msg;
+import communication.Msg;
+import models.Room;
 
 import java.util.HashMap;
 
