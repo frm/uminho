@@ -1,4 +1,6 @@
-package server;
+package app;
+
+import server.Server;
 
 import java.util.concurrent.ExecutionException;
 
