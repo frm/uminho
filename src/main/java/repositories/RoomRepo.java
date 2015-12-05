@@ -5,6 +5,7 @@ import co.paralleluniverse.actors.BasicActor;
 import co.paralleluniverse.fibers.SuspendExecution;
 import communication.Msg;
 import models.Room;
+import notification.Notification;
 
 import java.util.HashMap;
 
@@ -13,9 +14,11 @@ import java.util.HashMap;
  */
 public class RoomRepo extends BasicActor<Msg, Void> {
     private HashMap<String, ActorRef> rooms;
+    private ActorRef notificationHandler;
 
-    public RoomRepo(){
+    public RoomRepo(ActorRef nh){
         rooms = new HashMap<>();
+        this.notificationHandler = nh;
 
     }
 
@@ -40,7 +43,7 @@ public class RoomRepo extends BasicActor<Msg, Void> {
         if(rooms.containsKey(name))
             return false;
 
-        Room room = new Room();
+        Room room = new Room(notificationHandler, name);
 
         room.spawn();
 
@@ -60,16 +63,16 @@ public class RoomRepo extends BasicActor<Msg, Void> {
                 ActorRef sender = msg.sender;
                 switch (msg.type) {
                     case ADD:
-                        if( createRoom((String) msg.content ) )
-                            sender.send( new Msg(Msg.Type.OK, null, self()));
-                        else
-                            sender.send( new Msg(Msg.Type.ERROR, null, self()));
+                        if( createRoom((String) msg.content ) ) {
+                            sender.send(new Msg(Msg.Type.OK, null, self()));
+                            notificationHandler.send( new Notification(Notification.Type.CREATE, (String) msg.content));
+                        }
                         return true;
                     case REMOVE:
-                        if( closeRoom( (String) msg.content, sender) )
-                            sender.send( new Msg(Msg.Type.OK, null, self()));
-                        else
-                            sender.send( new Msg(Msg.Type.ERROR, null, self()));
+                        if( closeRoom( (String) msg.content, sender) ) {
+                            sender.send(new Msg(Msg.Type.OK, null, self()));
+                            notificationHandler.send( new Notification(Notification.Type.REMOVE, (String) msg.content));
+                        }
                         return true;
                     case GET_ROOM:
                         ActorRef ref = getRoom( (String) msg.content);

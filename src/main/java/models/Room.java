@@ -4,6 +4,7 @@ import co.paralleluniverse.actors.ActorRef;
 import co.paralleluniverse.actors.BasicActor;
 import co.paralleluniverse.fibers.SuspendExecution;
 import communication.Msg;
+import notification.Notification;
 
 import java.util.HashMap;
 
@@ -14,9 +15,13 @@ import java.util.HashMap;
  */
 public class Room extends BasicActor<Msg, Void> {
     private HashMap<String, ActorRef> members;
+    private ActorRef notificationHandler;
+    private String name;
 
-    public Room() {
+    public Room(ActorRef nh, String name) {
         members = new HashMap<String, ActorRef>();
+        this.notificationHandler = nh;
+        this.name = name;
 
     }
 
@@ -56,6 +61,7 @@ public class Room extends BasicActor<Msg, Void> {
                     case ADD:
                         addMember((String) msg.content, sender);
                         sender.send(new Msg(Msg.Type.ROOM_USERS, members.keySet(), self()));
+                        notificationHandler.send( new Notification(Notification.Type.JOIN, (String) msg.content, name));
                         return true;
                     case CHAT:
                         sendChat(new Msg(Msg.Type.NEW_CHAT, msg.content, sender));
@@ -63,6 +69,7 @@ public class Room extends BasicActor<Msg, Void> {
                     case REMOVE:
                         removeMember((String) msg.content);
                         sender.send( new Msg(Msg.Type.OK, "Left Room, users are now: "+members.keySet(), self()));
+                        notificationHandler.send( new Notification(Notification.Type.LEAVE, (String) msg.content, name));
                         return true;
                     case GET_ROOM_USERS:
                         sender.send(new Msg(Msg.Type.ROOM_USERS, members.keySet(), self()));
