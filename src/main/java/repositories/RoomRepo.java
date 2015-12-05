@@ -19,7 +19,6 @@ public class RoomRepo extends BasicActor<Msg, Void> {
     public RoomRepo(ActorRef nh){
         rooms = new HashMap<>();
         this.notificationHandler = nh;
-
     }
 
     public ActorRef getRoom(String name){

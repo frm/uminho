@@ -27,8 +27,6 @@ public class MessageHandler extends BasicActor<Msg, Void> {
     }
 
     private void joinRoom() throws SuspendExecution, InterruptedException {
-
-
         if(currRoom == null)
             user.send( new Msg(Msg.Type.ERROR, null, self()));
         else
@@ -37,8 +35,6 @@ public class MessageHandler extends BasicActor<Msg, Void> {
 
     @Override
     protected Void doRun() throws InterruptedException, SuspendExecution {
-
-
         while(
             receive(msg -> {
                 ActorRef sender = msg.sender;
@@ -74,7 +70,9 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                     case SENT_CHAT:
                         user.send(msg);
                         return true;
+                    case NEW_CHAT:
                     case ROOM_USERS:
+                    case OK:
                         user.send(msg);
                         return true;
                     case KICK:
@@ -83,9 +81,6 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         return true;
                     case PORT_LIST:
                         //writer.send((String) msg.content);
-                    case OK:
-                        user.send(msg);
-                        return true;
                 }
 
                 return false;

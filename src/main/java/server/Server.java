@@ -19,8 +19,8 @@ import java.net.InetSocketAddress;
 public class Server extends BasicActor {
     private FiberServerSocketChannel ss;
     private UserRepo users;
-    private ActorRef rooms;
-    private ActorRef notificationHandler;
+    private RoomRepo rooms;
+    private NotificationHandler notificationHandler;
     private int port;
 
     private final static int DEFAULT_PORT = 3000;
@@ -28,8 +28,8 @@ public class Server extends BasicActor {
     public Server() {
         port = DEFAULT_PORT;
         users = new UserRepo();
-        notificationHandler = (new NotificationHandler()).spawn();
-        rooms = (new RoomRepo(notificationHandler)).spawn();
+        notificationHandler = new NotificationHandler();
+        rooms = new RoomRepo(notificationHandler.ref());
     }
 
     public Server(int port) {
@@ -42,6 +42,9 @@ public class Server extends BasicActor {
             ss = FiberServerSocketChannel.open();
 
         ss.bind(new InetSocketAddress(port));
+        users.spawn();
+        notificationHandler.spawn();
+        rooms.spawn();
     }
 
     public void accept() throws IOException, SuspendExecution {
