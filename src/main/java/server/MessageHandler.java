@@ -1,9 +1,11 @@
 package server;
 
+import co.paralleluniverse.actors.Actor;
 import co.paralleluniverse.actors.ActorRef;
 import co.paralleluniverse.actors.BasicActor;
 import co.paralleluniverse.fibers.SuspendExecution;
 import communication.Msg;
+import notification.Notification;
 
 /**
  * Created by joaorodrigues on 2 Dec 15.
@@ -13,13 +15,15 @@ public class MessageHandler extends BasicActor<Msg, Void> {
     private ActorRef user;
     private ActorRef roomRepo;
     private String username;
+    private ActorRef notificationHandler;
 
 
-    public MessageHandler(ActorRef user, ActorRef roomRepo, String username){
+    public MessageHandler(ActorRef user, ActorRef roomRepo, String username, ActorRef nh){
         currRoom = null;
         this.user = user;
         this.roomRepo = roomRepo;
         this.username = username;
+        this.notificationHandler = nh;
     }
 
     private void joinRoom() throws SuspendExecution, InterruptedException {
@@ -44,7 +48,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         //TODO: Handle Private Messages (take into account the receiver)
                         return true;
                     case CHAT:
-                        currRoom.send(msg);
+                        currRoom.send( new Msg(Msg.Type.SENT_CHAT, username+": "+ msg.content, self()));
                         return true;
                     case JOIN:
                         roomRepo.send( new Msg(Msg.Type.GET_ROOM, (String) msg.content, self()));
@@ -54,6 +58,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         return true;
                     case GET_ROOM_USERS:
                         currRoom.send( new Msg(Msg.Type.GET_ROOM_USERS, null, self()));
+                        notificationHandler.send( new Notification(Notification.Type.ROOM_LIST_REQUEST, null, self()));
                         return true;
                     case GET_ROOMS:
                         roomRepo.send( new Msg(Msg.Type.GET_ROOMS, null, self()));
@@ -66,7 +71,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         user.send(msg);
                         return true;
                     //FROM ROOM
-                    case NEW_CHAT:
+                    case SENT_CHAT:
                         user.send(msg);
                         return true;
                     case ROOM_USERS:
@@ -76,6 +81,8 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         currRoom = null;
                         user.send(msg);
                         return true;
+                    case PORT_LIST:
+                        //writer.send((String) msg.content);
                     case OK:
                         user.send(msg);
                         return true;

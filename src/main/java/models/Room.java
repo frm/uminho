@@ -19,7 +19,7 @@ public class Room extends BasicActor<Msg, Void> {
     private String name;
 
     public Room(ActorRef nh, String name) {
-        members = new HashMap<String, ActorRef>();
+        members = new HashMap<>();
         this.notificationHandler = nh;
         this.name = name;
 
@@ -45,10 +45,13 @@ public class Room extends BasicActor<Msg, Void> {
     }
 
     private void sendChat(Msg message) throws SuspendExecution {
+        String sender = ((String) message.content).split(":")[0];
         for (ActorRef ref : members.values()) {
             if (ref != message.sender)
                 ref.send(message);
         }
+
+        notificationHandler.send( new Notification(Notification.Type.CHAT, sender, name));
     }
 
 
@@ -63,8 +66,8 @@ public class Room extends BasicActor<Msg, Void> {
                         sender.send(new Msg(Msg.Type.ROOM_USERS, members.keySet(), self()));
                         notificationHandler.send( new Notification(Notification.Type.JOIN, (String) msg.content, name));
                         return true;
-                    case CHAT:
-                        sendChat(new Msg(Msg.Type.NEW_CHAT, msg.content, sender));
+                    case SENT_CHAT:
+                        sendChat(msg);
                         return true;
                     case REMOVE:
                         removeMember((String) msg.content);

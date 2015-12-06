@@ -25,20 +25,23 @@ public class LineReader extends BasicActor<Msg, Void> {
     private ActorRef roomRepo;
     private String currentUser;
     private ActorRef handler;
+    private ActorRef notificationHandler;
 
     public static final int DEFAULT_SIZE = 1024;
 
-    public LineReader(FiberSocketChannel client, UserRepo users, ActorRef roomRepo) {
+    public LineReader(FiberSocketChannel client, UserRepo users, ActorRef roomRepo, ActorRef nh) {
         cl = client;
         repo = users;
         buf = ByteBuffer.allocate(DEFAULT_SIZE);
         this.roomRepo = roomRepo;
+        notificationHandler = nh;
     }
 
-    public LineReader(FiberSocketChannel client, UserRepo users, int bufferCapacity) {
+    public LineReader(FiberSocketChannel client, UserRepo users, int bufferCapacity, ActorRef nh) {
         cl = client;
         repo = users;
         buf = ByteBuffer.allocate(bufferCapacity);
+        notificationHandler = nh;
     }
 
     private Pair<Boolean, String> registerUser(String uname, String password) {
@@ -121,7 +124,7 @@ public class LineReader extends BasicActor<Msg, Void> {
             e.printStackTrace();
         }
 
-        handler = (new MessageHandler(self(), roomRepo, currentUser)).spawn();
+        handler = (new MessageHandler(self(), roomRepo, currentUser, notificationHandler)).spawn();
 
 
         System.out.println("BANJO");
@@ -140,7 +143,7 @@ public class LineReader extends BasicActor<Msg, Void> {
                                 write( msg.content.toString());
                                 return true;
                             //FROM ROOM
-                            case NEW_CHAT:
+                            case SENT_CHAT:
                                 write( msg.content.toString());
                                 return true;
                             case ROOM_USERS:

@@ -45,7 +45,7 @@ public class Server extends BasicActor {
     }
 
     public void accept() throws IOException, SuspendExecution {
-        new LineReader(ss.accept(), users, rooms).spawn();
+        new LineReader(ss.accept(), users, rooms, notificationHandler).spawn();
     }
 
     @Override
