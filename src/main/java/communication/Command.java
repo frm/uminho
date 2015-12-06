@@ -19,12 +19,24 @@ public class Command {
     private static final int AUTHENTICATE_ARGS = 2;
     public static final String CANCEL = "/cancel";
     private static final int CANCEL_ARGS = 2;
+    public static final String JOIN = "/join";
+    private static final int JOIN_ARGS = 1;
+    public static final String PM = "/msg";
+    private static final int PM_ARGS = 1;
+    public static final String LIST_ROOMS = "/list";
+    private static final int LIST_ROOMS_ARGS = 0;
 
     private static final HashMap<String, Pair<Integer, Boolean>> COMMAND_LIST =
         new HashMap<String, Pair<Integer, Boolean>>() {{
+            // second argument of pair indicates the strictness
+            // false states that the number of arguments is strict
+            // true states that the number of arguments is the minimum required
             put(REGISTER, new Pair<>(REGISTER_ARGS, false));
             put(AUTHENTICATE, new Pair<>(AUTHENTICATE_ARGS, false));
             put(CANCEL, new Pair<>(CANCEL_ARGS, false));
+            put(JOIN, new Pair<>(JOIN_ARGS, false));
+            put(LIST_ROOMS, new Pair<>(LIST_ROOMS_ARGS, false));
+            put(PM, new Pair<>(PM_ARGS, true));
     }};
 
     private Command(String c, String[] args) {

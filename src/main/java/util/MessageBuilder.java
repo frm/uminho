@@ -22,6 +22,8 @@ public class MessageBuilder {
     public static String REGISTER_SUCCESS="register_success";
     public static String REGISTER_INVALID="register_invalid";
     public static String DELETE_SUCCESS="delete_success";
+    public static String JOIN_SUCCESS="join_success";
+    public static String JOIN_INVALID="join_invalid";
 
     private static void load() throws FileNotFoundException {
         FileInputStream in = new FileInputStream(new File(MESSAGE_FILE));
