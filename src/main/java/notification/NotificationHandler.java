@@ -54,6 +54,7 @@ public class NotificationHandler extends BasicActor<Notification, Void> {
         currPort += 99;
         ZMQ.Socket socket = context.socket(ZMQ.SUB);
         socket.bind("tcp://*:" + port);
+
         sockets.put("r_"+name, socket);
     }
 
