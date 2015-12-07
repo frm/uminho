@@ -30,6 +30,7 @@ public class Msg {
                 put(Command.LIST_ROOMS, Type.GET_ROOMS);
                 put(Command.LIST_ROOM_USERS, Type.GET_ROOM_USERS);
                 put(Command.PM, Type.PM);
+                put(Command.LEAVE, Type.LEAVE);
     }};
 
     public Msg(Type type, Object content, ActorRef sender){

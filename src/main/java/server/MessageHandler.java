@@ -20,6 +20,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
     private ActorRef<Msg> roomRepo;
     private ActorRef<String> writer;
     private String username;
+    private boolean connected;
     private ActorRef notificationHandler;
 
 
@@ -29,6 +30,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
         this.userRepo = userRepo;
         this.roomRepo = roomRepo;
         this.notificationHandler = nh;
+        connected = false;
     }
 
     // INTERNAL API
@@ -49,7 +51,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
 
     // CONNECT LOOP
     private void connectLoop() throws InterruptedException, SuspendExecution {
-        while(!attemptConnection());
+        while(! (connected = attemptConnection()) );
     }
 
     private boolean attemptConnection() throws SuspendExecution, InterruptedException {
@@ -213,14 +215,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         return true;
                     case LEAVE:
                         leaveRoom();
-
-                        try {
-                            joinLoop();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        return true;
+                        return false;
                     case GET_ROOM_USERS:
                         listUsers();
                         return true;
@@ -255,8 +250,10 @@ public class MessageHandler extends BasicActor<Msg, Void> {
     protected Void doRun() throws InterruptedException, SuspendExecution {
         try {
             connectLoop();
-            joinLoop();
-            mainLoop();
+            while(connected) {
+                joinLoop();
+                mainLoop();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

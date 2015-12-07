@@ -27,6 +27,8 @@ public class Command {
     private static final int LIST_ROOMS_ARGS = 0;
     public static final String LIST_ROOM_USERS = "/names";
     private static final int LIST_ROOM_USERS_ARGS = 0;
+    public static final String LEAVE = "/part";
+    private static final int LEAVE_ARGS = 0;
 
     private static final HashMap<String, Pair<Integer, Boolean>> COMMAND_LIST =
         new HashMap<String, Pair<Integer, Boolean>>() {{
@@ -40,6 +42,7 @@ public class Command {
             put(LIST_ROOMS, new Pair<>(LIST_ROOMS_ARGS, false));
             put(LIST_ROOM_USERS, new Pair<>(LIST_ROOM_USERS_ARGS, false));
             put(PM, new Pair<>(PM_ARGS, true));
+            put(LEAVE, new Pair<>(LEAVE_ARGS, false));
     }};
 
     private Command(String c, String[] args) {
