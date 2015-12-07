@@ -162,7 +162,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
 
     private Pair<Boolean, String> listRooms() throws SuspendExecution, InterruptedException {
         sendTo(roomRepo, Msg.Type.GET_ROOMS, null);
-        String list = (String)receive(msg -> msg.content);
+        String list = (String)receive(msg -> ((String[])msg.content)[0]);
         return new Pair<>(false, list);
     }
 

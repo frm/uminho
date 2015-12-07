@@ -21,21 +21,22 @@ public class RoomRepo extends BasicActor<Msg, Void> {
         this.notificationHandler = nh;
     }
 
+    private void sendTo(ActorRef<Msg> target, Msg.Type type, Object attachment) throws SuspendExecution {
+        target.send(new Msg(type, attachment, self()));
+    }
+
     public ActorRef getRoom(String name){
         return rooms.get(name);
     }
 
     private boolean closeRoom(String name, ActorRef requester) throws SuspendExecution {
         ActorRef room = rooms.get(name);
+        boolean b = room != null;
 
-        if(room != null)
-            room.send( new Msg(Msg.Type.CLOSE, null, self()));
-        else
-            return false;
+        if(b)
+            sendTo(room, Msg.Type.CLOSE, null);
 
-        return true;
-
-
+        return b;
     }
 
     private boolean createRoom(String name){
@@ -49,7 +50,6 @@ public class RoomRepo extends BasicActor<Msg, Void> {
         rooms.put(name, room.ref());
 
         return true;
-
     }
 
     private Msg joinRoom(String room, String username, ActorRef<Msg> sender) throws SuspendExecution {
@@ -58,6 +58,10 @@ public class RoomRepo extends BasicActor<Msg, Void> {
             r.send(new Msg(Msg.Type.JOIN, username, sender));
 
         return new Msg(Msg.Type.ROOM, r, self());
+    }
+
+    private void sendRooms(ActorRef<Msg> sender) throws SuspendExecution {
+        sendTo(sender, Msg.Type.ROOMS, new String[] { rooms.keySet().toString() });
     }
 
     public void addRoom(Room room, String name){
@@ -77,17 +81,17 @@ public class RoomRepo extends BasicActor<Msg, Void> {
                         sender.send( joinRoom(args[0], args[1], sender) );
                         return true;
                     case GET_ROOMS:
-                        sender.send( new Msg(Msg.Type.ROOMS, rooms.keySet().toString(), self()));
+                        sendRooms(sender);
                         return true;
                     case ADD:
                         if( createRoom((String) msg.content ) ) {
-                            sender.send(new Msg(Msg.Type.OK, null, self()));
+                            sendTo(sender, Msg.Type.OK, null);
                             notificationHandler.send( new Notification(Notification.Type.CREATE, (String) msg.content));
                         }
                         return true;
                     case REMOVE:
                         if( closeRoom( (String) msg.content, sender) ) {
-                            sender.send(new Msg(Msg.Type.OK, null, self()));
+                            sendTo(sender, Msg.Type.OK, null);
                             notificationHandler.send( new Notification(Notification.Type.REMOVE, (String) msg.content));
                         }
                         return true;
