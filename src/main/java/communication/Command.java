@@ -52,12 +52,18 @@ public class Command {
         for(Map.Entry<String, Pair<Integer, Boolean>> p : COMMAND_LIST.entrySet()) {
             if(p.getKey().equals(command))
                 if(p.getValue().second)
-                    return p.getValue().first >= args.length;
+                    // bash-like execution of the second function
+                    return (p.getValue().first >= args.length && rearrangeArgs());
                 else
                     return p.getValue().first == args.length;
         }
 
         return false;
+    }
+
+    private boolean rearrangeArgs() {
+        args = new String[] { args[0], String.join(" ", Arrays.copyOfRange(args, 1, args.length)) };
+        return true; // see the second if in correctNrArgs. Allows logical chaining
     }
 
     public static Command parse(String req) {
