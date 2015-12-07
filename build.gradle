@@ -25,9 +25,10 @@ dependencies {
     compile  "co.paralleluniverse:quasar-core:0.7.3:jdk8"
     compile  "co.paralleluniverse:quasar-actors:0.7.3"
     quasar  "co.paralleluniverse:quasar-core:0.7.3:jdk8"
-    compile 'org.zeromq:jzmq:2.1.0'
+    compile 'org.zeromq:jzmq:3.1.0'
 }
 
 run {
+    jvmArgs "-Djava.library.path=/usr/local/lib"
     jvmArgs "-javaagent:${configurations.quasar.iterator().next()}"
 }
