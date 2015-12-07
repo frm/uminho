@@ -12,7 +12,7 @@ import java.util.Map;
 
 
 public class Msg {
-    public enum Type {OK, ERROR, CHAT, ADD, REMOVE, PM, GET_ROOM, ROOM, NEW_CHAT,
+    public enum Type {OK, CHAT, ADD, REMOVE, PM, GET_ROOM, ROOM, SENT_CHAT,
         GET_ROOM_USERS,ROOM_USERS, JOIN, LEAVE, GET_ROOMS, ROOMS, KICK, CLOSE,
         CANCEL, AUTH, REGISTER, DEAUTH,
         PORT_LIST}
@@ -38,6 +38,7 @@ public class Msg {
     }
 
     public static Type commandType(String command) {
-        return commandInterface.get(command);
+        Type t = commandInterface.get(command);
+        return t != null ? t : Msg.Type.CHAT;
     }
 }

@@ -5,5 +5,5 @@
 "register_success": "Registration successful.\n"
 "register_invalid": "Registration invalid.\n"
 "delete_success": "Deletion successful.\n"
-"join_success":"Room found! Joining...\n"
-"join_invalid":"Couldn't join room. Perhaps you misspelt it...?\n"
+"join_success": "Room found! Joining...\n"
+"join_invalid": "Couldn't join room. Perhaps you misspelt it...?\n"

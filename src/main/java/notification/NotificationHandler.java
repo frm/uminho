@@ -78,31 +78,32 @@ public class NotificationHandler extends BasicActor<Notification, Void> {
 
         while(
             receive(notification -> {
-                switch (notification.type) {
-                    case JOIN:
-                    case LEAVE:
-                        sockets.get("RoomState").send(notification.toString());
-                        return true;
-                    case CREATE:
-                        addRoomSocket(notification.field1);
-                        sockets.get("RoomList").send(notification.toString());
-                        return true;
-                    case REMOVE:
-                        removeRoomSocket(notification.field1);
-                        sockets.get("RoomList").send(notification.toString());
-                        return true;
-                    case LOGIN:
-                    case LOGOUT:
-                        sockets.get("UserState").send(notification.toString());
-                        return true;
-                    case SIGNUP:
-                        sockets.get("UserList").send(notification.toString());
-                        return true;
-                    case ROOM_LIST_REQUEST:
-                        sockets.get("RoomListRequest").send(notification.toString());
-                        notification.sender.send( new Msg(Msg.Type.PORT_LIST, getPortListString(), self()));
-                        return true;
-                }
+                //switch (notification.type) {
+                //    case JOIN:
+                //    case LEAVE:
+                //        sockets.get("RoomState").send(notification.toString());
+                //        return true;
+                //    case CREATE:
+                //        addRoomSocket(notification.field1);
+                //        sockets.get("RoomList").send(notification.toString());
+                //        return true;
+                //    case REMOVE:
+                //        removeRoomSocket(notification.field1);
+                //        sockets.get("RoomList").send(notification.toString());
+                //        return true;
+                //    case LOGIN:
+                //    case LOGOUT:
+                //        sockets.get("UserState").send(notification.toString());
+                //        return true;
+                //    case SIGNUP:
+                //        sockets.get("UserList").send(notification.toString());
+                //        return true;
+                //    case ROOM_LIST_REQUEST:
+                //        sockets.get("RoomListRequest").send(notification.toString());
+                //        notification.sender.send( new Msg(Msg.Type.PORT_LIST, getPortListString(), self()));
+                //        return true;
+                //}
+                System.out.println("RECEIVED A NOTIFICATION");
                 return false;
             }));
         return null;

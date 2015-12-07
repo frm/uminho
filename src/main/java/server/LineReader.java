@@ -5,6 +5,7 @@ import co.paralleluniverse.actors.BasicActor;
 import co.paralleluniverse.fibers.SuspendExecution;
 import co.paralleluniverse.fibers.Suspendable;
 import co.paralleluniverse.fibers.io.FiberSocketChannel;
+import communication.Command;
 import notification.Notification;
 import communication.Msg;
 
@@ -27,19 +28,17 @@ public class LineReader extends BasicActor<Msg, Void> {
 
     public static final int DEFAULT_SIZE = 1024;
 
-    public LineReader(FiberSocketChannel client, ActorRef users, ActorRef roomRepo, ActorRef nh) {
-        cl = client;
-        userRepo = users;
-        buf = ByteBuffer.allocate(DEFAULT_SIZE);
+    public LineReader(FiberSocketChannel client, ActorRef<Msg> userRepo, ActorRef<Msg> roomRepo, ActorRef<Notification> nh) {
+        this.cl = client;
+        this.userRepo = userRepo;
         this.roomRepo = roomRepo;
-        notificationHandler = nh;
+        this.buf = ByteBuffer.allocate(DEFAULT_SIZE);
+        this.notificationHandler = nh;
     }
 
-    // INTERNAL API
     private void init() {
         writer = (new LineWriter(cl)).spawn();
-        handler = (new MessageHandler(currentUser, writer, userRepo, roomRepo, notificationHandler)).spawn();
-        replyTarget = self();
+        handler = (new MessageHandler(writer, userRepo, roomRepo, notificationHandler)).spawn();
     }
 
     private void disconnect() throws SuspendExecution {
@@ -56,55 +55,16 @@ public class LineReader extends BasicActor<Msg, Void> {
     }
 
     private void forward(String req) throws SuspendExecution {
+        Command c = Command.parse(req);
         Msg m = new Msg(Msg.commandType(c.command), c.args, self());
         handler.send(m);
     }
 
-    // READ LOOP
     private void readLoop() throws IOException, SuspendExecution {
         // TODO: Exit gracefully sometime in the future
         while(true) {
             forward( read() );
         }
-    }
-
-    private void initHandler() {
-        handler = (new MessageHandler(self(), roomRepo, currentUser, notificationHandler)).spawn();
-    }
-
-    private void receiveLoop() throws InterruptedException, SuspendExecution {
-        boolean inRoom = false;
-        //TODO: Use inRoom
-
-        while (
-                receive(msg -> {
-                    ActorRef sender = msg.sender; // @jorod: I don't think this is needed
-                    System.out.println(msg.content);
-
-                    try {
-                        switch (msg.type) {
-                            case ROOMS:
-                                write(msg.content.toString());
-                                return true;
-                            case SENT_CHAT:
-                                write(msg.content.toString());
-                                return true;
-                            case ROOM_USERS:
-                                write(msg.content.toString());
-                                return true;
-                            case KICK:
-                                write("The room was closed, or you were kicked from it"); // @jorod: this should use the config file
-                                return true;
-                            case OK:
-                                write(msg.content.toString());
-                                return true;
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    return false;
-                })) ;
     }
 
     @Override

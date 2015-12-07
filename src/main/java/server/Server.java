@@ -29,7 +29,6 @@ public class Server extends BasicActor {
         port = DEFAULT_PORT;
         users = new UserRepo();
         notificationHandler = new NotificationHandler();
-        rooms = new RoomRepo(notificationHandler.ref());
     }
 
     public Server(int port) {
@@ -44,6 +43,7 @@ public class Server extends BasicActor {
         ss.bind(new InetSocketAddress(port));
         users.spawn();
         notificationHandler.spawn();
+        rooms = new RoomRepo(notificationHandler.ref());
         rooms.spawn();
     }
 

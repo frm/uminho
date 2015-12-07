@@ -1,5 +1,6 @@
 package util;
 
+import co.paralleluniverse.fibers.Suspendable;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -30,6 +31,7 @@ public class MessageBuilder {
         messages = (Map<String, String>)file.load(in);
     }
 
+    @Suspendable
     public static void init() throws FileNotFoundException {
         file = new Yaml();
         load();

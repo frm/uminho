@@ -3,6 +3,7 @@ package server;
 import co.paralleluniverse.actors.ActorRef;
 import co.paralleluniverse.actors.BasicActor;
 import co.paralleluniverse.fibers.SuspendExecution;
+import co.paralleluniverse.fibers.Suspendable;
 import communication.Msg;
 import notification.Notification;
 import util.MessageBuilder;
@@ -22,12 +23,11 @@ public class MessageHandler extends BasicActor<Msg, Void> {
     private ActorRef notificationHandler;
 
 
-    public MessageHandler(String username, ActorRef<String> writer, ActorRef<Msg> userRepo, ActorRef<Msg> roomRepo, ActorRef<Notification> nh){
+    public MessageHandler(ActorRef<String> writer, ActorRef<Msg> userRepo, ActorRef<Msg> roomRepo, ActorRef<Notification> nh){
         currRoom = null;
         this.writer = writer;
         this.userRepo = userRepo;
         this.roomRepo = roomRepo;
-        this.username = username;
         this.notificationHandler = nh;
     }
 
@@ -38,7 +38,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
             writer.send(s);
     }
 
-    private void sendTo(ActorRef target, Msg.Type type, String[] args) throws SuspendExecution {
+    private void sendTo(ActorRef target, Msg.Type type, Object args) throws SuspendExecution {
         target.send(new Msg(type, args, self()));
     }
 
@@ -53,7 +53,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
     }
 
     private boolean attemptConnection() throws SuspendExecution, InterruptedException {
-        return sendToUser( onConnection( read() ) );
+        return sendToUser( onConnection( receive() ) );
     }
 
     private Pair<Boolean, String> onConnection(Msg m) throws InterruptedException, SuspendExecution {
@@ -83,7 +83,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
         String[] args = (String[])m.content;
         switch(m.type) {
             case JOIN:
-                return joinRoom(args);
+                return joinRoom(new String[]{ args[0], username });
             case PM:
                 return sendPrivateMessage(args);
             case GET_ROOMS:
@@ -132,11 +132,24 @@ public class MessageHandler extends BasicActor<Msg, Void> {
     }
 
     // JOIN LOOP ACTIONS
+    @Suspendable
     private Pair<Boolean, String> joinRoom(String[] args) throws SuspendExecution, InterruptedException {
         sendTo(roomRepo, Msg.Type.JOIN, args);
-        Boolean res = (Boolean)receive(msg -> msg.content);
+        Msg m = receive();
+        boolean res = m.content != null;
+        if(res)
+            currRoom = (ActorRef<Msg>)m.content;
         String reply = MessageBuilder.message(res ? MessageBuilder.JOIN_SUCCESS : MessageBuilder.JOIN_INVALID);
         return new Pair<>(res, reply);
+    }
+
+    private String validateRoom(Object o) {
+        boolean b = o != null;
+
+        if(b)
+            currRoom = (ActorRef<Msg>)o;
+
+        return MessageBuilder.message(b ? MessageBuilder.JOIN_SUCCESS : MessageBuilder.JOIN_INVALID);
     }
 
     private Pair<Boolean, String> sendPrivateMessage(String[] args) throws SuspendExecution, InterruptedException {
@@ -150,8 +163,86 @@ public class MessageHandler extends BasicActor<Msg, Void> {
         return new Pair<>(false, list);
     }
 
-    private void mainLoop() {
+    // MAIN LOOP ACTIONS
+    private void attemptJoin(String[] args) throws SuspendExecution, InterruptedException {
+        sendTo(roomRepo, Msg.Type.JOIN, args);
+    }
 
+    private void messageRoom(String msg) throws SuspendExecution {
+        sendTo(currRoom, Msg.Type.SENT_CHAT, msg);
+    }
+
+    private void leaveRoom() throws SuspendExecution {
+        sendTo(currRoom, Msg.Type.LEAVE, null);
+        currRoom = null;
+    }
+
+    private void listUsers() throws SuspendExecution {
+        sendTo(currRoom, Msg.Type.GET_ROOM_USERS, null);
+    }
+
+    private void getRooms() throws SuspendExecution {
+        sendTo(roomRepo, Msg.Type.GET_ROOMS, null);
+    }
+
+    private void mainLoop() throws InterruptedException, SuspendExecution {
+        while(
+            receive(msg -> {
+                ActorRef<Msg> sender = msg.sender;
+                String[] args = (String[])msg.content;
+
+                switch (msg.type) {
+                    // FROM LINEREADER
+                    case PM:
+                        //TODO: Handle Private Messages (take into account //the receiver)
+                        return true;
+                    case CHAT:
+                        messageRoom(args[0]);
+                        return true;
+                    case JOIN:
+                        attemptJoin(new String[] { args[0], username });
+                        return true;
+                    case LEAVE:
+                        leaveRoom();
+
+                        try {
+                            joinLoop();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        return true;
+                    case GET_ROOM_USERS:
+                        listUsers();
+                        return true;
+                    case GET_ROOMS:
+                        getRooms();
+                        return true;
+
+                    //FROM ROOM REPO
+                    case ROOM:
+                        write( validateRoom(msg.content) );
+                        return true;
+                    case ROOMS:
+                        write(args[0]);
+                        // notificationHandler.send( new Notification//(Notification.Type.ROOM_LIST_REQUEST, null, self()));
+                        return true;
+                    //FROM ROOM
+                    case SENT_CHAT:
+                    case ROOM_USERS:
+                        write(args[0]);
+                        return true;
+                    case KICK:
+                        currRoom = null;
+                        write(args[0]);
+                        return true;
+                    case PORT_LIST:
+                        //writer.send((String) msg.content);
+                        return true;
+                }
+
+                return false;
+            }));
     }
 
     @Override
@@ -166,59 +257,4 @@ public class MessageHandler extends BasicActor<Msg, Void> {
 
         return null;
     }
-//    @Override
-//    protected Void doRun() throws InterruptedException, SuspendExecution {
-//        while(
-//            receive(msg -> {
-//                ActorRef sender = msg.sender;
-//                switch (msg.type) {
-//                    //FROM LINEREADER
-//                    case PM:
-//                        //TODO: Handle Private Messages (take into account //the receiver)
-//                        return true;
-//                    case CHAT:
-//                        currRoom.send( new Msg(Msg.Type.SENT_CHAT, //username+": "+ msg.content, self()));
-//                        return true;
-//                    case JOIN:
-//                        roomRepo.send( new Msg(Msg.Type.GET_ROOM, (String) //msg.content, self()));
-//                        return true;
-//                    case LEAVE:
-//                        currRoom.send( new Msg(Msg.Type.REMOVE,username, //self()));
-//                        return true;
-//                    case GET_ROOM_USERS:
-//                        currRoom.send( new Msg(Msg.Type.GET_ROOM_USERS, //null, self()));
-//                        notificationHandler.send( new Notification//(Notification.Type.ROOM_LIST_REQUEST, null, self()));
-//                        return true;
-//                    case GET_ROOMS:
-//                        roomRepo.send( new Msg(Msg.Type.GET_ROOMS, null, //self()));
-//                    //FROM ROOM REPO
-//                    case ROOM:
-//                        currRoom = (ActorRef) msg.content;
-//                        joinRoom();
-//                        return true;
-//                    case ROOMS:
-//                        user.send(msg);
-//                        return true;
-//                    //FROM ROOM
-//                    case SENT_CHAT:
-//                        user.send(msg);
-//                        return true;
-//                    case NEW_CHAT:
-//                    case ROOM_USERS:
-//                    case OK:
-//                        user.send(msg);
-//                        return true;
-//                    case KICK:
-//                        currRoom = null;
-//                        user.send(msg);
-//                        return true;
-//                    case PORT_LIST:
-//                        //writer.send((String) msg.content);
-//                }
-//
-//                return false;
-//            }));
-//
-//        return null;
-//    }
 }

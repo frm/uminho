@@ -25,45 +25,23 @@ public class LineWriter extends BasicActor<String, Void> {
     @Suspendable
     private void write(String s) throws IOException {
         buf.clear();
-        buf.put(s.getBytes());
+        buf.put((s + "\n").getBytes()); // STOP. HAMMER TIME
         buf.flip();
         cl.write(buf);
     }
 
     private void receiveLoop() throws InterruptedException, SuspendExecution {
-        boolean inRoom = false;
-        //TODO: Use inRoom
-
-        while (
-                receive(msg -> {
-                    ActorRef sender = msg.sender; // @jorod: I don't think this is needed
-                    System.out.println(msg.content);
-
-                    try {
-                        switch (msg.type) {
-                            case ROOMS:
-                                write( msg.content.toString());
-                                return true;
-                            //FROM ROOM @jorod: I don't understand this comment
-                            case NEW_CHAT:
-                                write( msg.content.toString());
-                                return true;
-                            case ROOM_USERS:
-                                write( msg.content.toString());
-                                return true;
-                            case KICK:
-                                write( "The room was closed, or you were kicked from it"); // @jorod: this should use the config file
-                                return true;
-                            case OK:
-                                write( msg.content.toString());
-                                return true;
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    return false;
-                })) ;
+        // TODO: Disconnect gracefully
+        while(true) {
+            receive(str -> {
+                try {
+                    write(str);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            });
+        }
     }
 
     @Override

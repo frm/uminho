@@ -34,7 +34,7 @@ public class Command {
             put(REGISTER, new Pair<>(REGISTER_ARGS, false));
             put(AUTHENTICATE, new Pair<>(AUTHENTICATE_ARGS, false));
             put(CANCEL, new Pair<>(CANCEL_ARGS, false));
-            put(JOIN, new Pair<>(JOIN_ARGS, false));
+            put(JOIN, new Pair<>(JOIN_ARGS, true));
             put(LIST_ROOMS, new Pair<>(LIST_ROOMS_ARGS, false));
             put(PM, new Pair<>(PM_ARGS, true));
     }};
@@ -69,6 +69,6 @@ public class Command {
     public static Command parse(String req) {
         String[] strs = req.trim().split(" ");
         Command c = new Command(strs[0], Arrays.copyOfRange(strs, 1, strs.length));
-        return c.valid() ? c : new Command("", new String[0]);
+        return c.valid() ? c : new Command("", new String[] { req });
     }
 }
