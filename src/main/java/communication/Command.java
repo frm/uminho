@@ -25,6 +25,8 @@ public class Command {
     private static final int PM_ARGS = 1;
     public static final String LIST_ROOMS = "/list";
     private static final int LIST_ROOMS_ARGS = 0;
+    public static final String LIST_ROOM_USERS = "/names";
+    private static final int LIST_ROOM_USERS_ARGS = 0;
 
     private static final HashMap<String, Pair<Integer, Boolean>> COMMAND_LIST =
         new HashMap<String, Pair<Integer, Boolean>>() {{
@@ -36,6 +38,7 @@ public class Command {
             put(CANCEL, new Pair<>(CANCEL_ARGS, false));
             put(JOIN, new Pair<>(JOIN_ARGS, true));
             put(LIST_ROOMS, new Pair<>(LIST_ROOMS_ARGS, false));
+            put(LIST_ROOM_USERS, new Pair<>(LIST_ROOM_USERS_ARGS, false));
             put(PM, new Pair<>(PM_ARGS, true));
     }};
 

@@ -28,6 +28,7 @@ public class Msg {
                 put(Command.CANCEL, Type.CANCEL);
                 put(Command.JOIN, Type.JOIN);
                 put(Command.LIST_ROOMS, Type.GET_ROOMS);
+                put(Command.LIST_ROOM_USERS, Type.GET_ROOM_USERS);
                 put(Command.PM, Type.PM);
     }};
 
