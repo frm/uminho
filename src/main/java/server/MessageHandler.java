@@ -66,7 +66,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
             case CANCEL:
                 return deleteUser(args);
             default:
-                return new Pair<>(false, MessageBuilder.INVALID_COMMAND);
+                return new Pair<>(false, MessageBuilder.message(MessageBuilder.INVALID_COMMAND));
         }
     }
 
@@ -89,7 +89,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
             case GET_ROOMS:
                 return listRooms();
             default:
-                return new Pair<>(false, MessageBuilder.INVALID_COMMAND);
+                return new Pair<>(false, MessageBuilder.message(MessageBuilder.INVALID_COMMAND));
         }
     }
 
