@@ -143,11 +143,14 @@ public class MessageHandler extends BasicActor<Msg, Void> {
         return new Pair<>(res, reply);
     }
 
-    private String validateRoom(Object o) {
+    private String validateRoom(Object o) throws SuspendExecution {
         boolean b = o != null;
 
-        if(b)
-            currRoom = (ActorRef<Msg>)o;
+        if(b) {
+            if(currRoom != null)
+                leaveRoom();
+            currRoom = (ActorRef<Msg>) o;
+        }
 
         return MessageBuilder.message(b ? MessageBuilder.JOIN_SUCCESS : MessageBuilder.JOIN_INVALID);
     }
@@ -189,6 +192,12 @@ public class MessageHandler extends BasicActor<Msg, Void> {
         while(
             receive(msg -> {
                 ActorRef<Msg> sender = msg.sender;
+
+                if(msg.type == Msg.Type.ROOM) {
+                    write( validateRoom(msg.content) );
+                    return true;
+                }
+
                 String[] args = (String[])msg.content;
 
                 switch (msg.type) {
@@ -220,9 +229,6 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         return true;
 
                     //FROM ROOM REPO
-                    case ROOM:
-                        write( validateRoom(msg.content) );
-                        return true;
                     case ROOMS:
                         write(args[0]);
                         // notificationHandler.send( new Notification//(Notification.Type.ROOM_LIST_REQUEST, null, self()));

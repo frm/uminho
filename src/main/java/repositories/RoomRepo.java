@@ -67,6 +67,7 @@ public class RoomRepo extends BasicActor<Msg, Void> {
     protected Void doRun() throws InterruptedException, SuspendExecution {
         // TODO: Remove this when we have admin
         createRoom("default");
+        createRoom("general");
         while(
             receive(msg -> {
                 ActorRef<Msg> sender = msg.sender;
