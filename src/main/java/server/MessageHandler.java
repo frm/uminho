@@ -76,7 +76,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
             case CANCEL:
                 return deleteUser(args);
             default:
-                return new Pair<>(false, MessageBuilder.message(MessageBuilder.INVALID_COMMAND));
+                return new Pair<>(false, MessageBuilder.message(MessageBuilder.NOT_AUTHENTICATED));
         }
     }
 
@@ -187,6 +187,10 @@ public class MessageHandler extends BasicActor<Msg, Void> {
         sendTo(currRoom, Msg.Type.SENT_CHAT, msg);
     }
 
+    private void pmUser(String[] args) throws SuspendExecution {
+        sendTo(userRepo, Msg.Type.PM, args);
+    }
+
     private void leaveRoom() throws SuspendExecution {
         sendTo(currRoom, Msg.Type.LEAVE, null);
         currRoom = null;
@@ -208,6 +212,14 @@ public class MessageHandler extends BasicActor<Msg, Void> {
         sendTo(userRepo, Msg.Type.CANCEL, args);
     }
 
+    private void grant(String[] args) throws SuspendExecution {
+        sendTo(userRepo, Msg.Type.GRANT, args);
+    }
+
+    private void revoke(String[] args) throws SuspendExecution {
+        sendTo(userRepo, Msg.Type.REVOKE, args);
+    }
+
     private void mainLoop() throws InterruptedException, SuspendExecution {
         while(
             receive(msg -> {
@@ -223,7 +235,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                 switch (msg.type) {
                     // FROM LINEREADER
                     case PM:
-                        sendTo(userRepo, Msg.Type.PM, args);
+                        pmUser(args);
                         return true;
                     case CHAT:
                         messageRoom(args[0]);
@@ -242,6 +254,12 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         return true;
                     case CANCEL:
                         cancelAccount(args);
+                        return true;
+                    case GRANT:
+                        grant(args);
+                        return true;
+                    case REVOKE:
+                        revoke(args);
                         return true;
 
                     //FROM ROOM REPO
@@ -265,6 +283,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                     case DEAUTH:
                         disconnect();
                         return false;
+                    case OK:
                     case ERROR:
                         write(args[0]);
                         return true;

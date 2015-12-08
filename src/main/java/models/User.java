@@ -83,7 +83,7 @@ public class User {
             adminTimestamp = null;
         }
 
-        return !b;
+        return b;
     }
 
     @Override

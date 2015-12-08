@@ -98,6 +98,10 @@ public class UserRepo extends BasicActor<Msg, Void> {
 
     @Override
     protected Void doRun() throws InterruptedException, SuspendExecution {
+        User defaultAdmin = new User("admin", "admin");
+        defaultAdmin.addAdminPrivileges();
+        users.put("admin", defaultAdmin);
+
         while(
                 receive(msg -> {
                     String[] args = (String[])msg.content;
@@ -129,6 +133,34 @@ public class UserRepo extends BasicActor<Msg, Void> {
                             break;
                         case PM:
                             pmUser(args[0], args[1], sender);
+                            break;
+                        case GRANT:
+                            String reply;
+                            Msg.Type type;
+                            User u = findByAddress(sender);
+                            if(u != null && makeAdmin(args[0], u.uname)) {
+                                reply = MessageBuilder.message(MessageBuilder.GRANT_SUCCESS);
+                                type = Msg.Type.OK;
+                            }
+                            else {
+                                reply = MessageBuilder.message(MessageBuilder.GRANT_INVALID);
+                                type = Msg.Type.ERROR;
+                            }
+                            sendTo(sender, type, new String[] { reply });
+                            break;
+                        case REVOKE:
+                            String str;
+                            Msg.Type rt;
+                            User usr = findByAddress(sender);
+                            if(usr != null && revokeAdmin(args[0], usr.uname)) {
+                                str = MessageBuilder.message(MessageBuilder.REVOKE_SUCCESS);
+                                rt = Msg.Type.OK;
+                            }
+                            else {
+                                str = MessageBuilder.message(MessageBuilder.REVOKE_INVALID);
+                                rt = Msg.Type.ERROR;
+                            }
+                            sendTo(sender, rt, new String[] { str });
                             break;
                     }
 

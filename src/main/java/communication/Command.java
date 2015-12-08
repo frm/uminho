@@ -31,6 +31,10 @@ public class Command {
     private static final int LIST_ROOM_USERS_ARGS = 0;
     public static final String LEAVE = "/part";
     private static final int LEAVE_ARGS = 0;
+    public static final String GRANT = "/grant";
+    private static final int GRANT_ARGS = 1;
+    public static final String REVOKE = "/revoke";
+    private static final int REVOKE_ARGS = 1;
 
     private static final HashMap<String, Pair<Integer, Boolean>> COMMAND_LIST =
         new HashMap<String, Pair<Integer, Boolean>>() {{
@@ -46,6 +50,8 @@ public class Command {
             put(LIST_ROOM_USERS, new Pair<>(LIST_ROOM_USERS_ARGS, false));
             put(PM, new Pair<>(PM_ARGS, true));
             put(LEAVE, new Pair<>(LEAVE_ARGS, false));
+            put(GRANT, new Pair<>(GRANT_ARGS, false));
+            put(REVOKE, new Pair<>(REVOKE_ARGS, false));
     }};
 
     private Command(String c, String[] args) {

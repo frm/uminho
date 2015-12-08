@@ -20,12 +20,17 @@ public class MessageBuilder {
     public static String INVALID_COMMAND="invalid_command";
     public static String AUTH_SUCCESS="auth_success";
     public static String AUTH_INVALID="auth_invalid";
+    public static String NOT_AUTHENTICATED="not_authenticated";
     public static String REGISTER_SUCCESS="register_success";
     public static String REGISTER_INVALID="register_invalid";
     public static String DELETE_SUCCESS="delete_success";
     public static String JOIN_SUCCESS="join_success";
     public static String JOIN_INVALID="join_invalid";
     public static String NO_SUCH_USER="no_such_user";
+    public static String GRANT_SUCCESS="grant_success";
+    public static String GRANT_INVALID="grant_invalid";
+    public static String REVOKE_SUCCESS="revoke_success";
+    public static String REVOKE_INVALID="revoke_invalid";
 
     private static void load() throws FileNotFoundException {
         FileInputStream in = new FileInputStream(new File(MESSAGE_FILE));
