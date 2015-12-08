@@ -25,7 +25,7 @@ public class LineWriter extends BasicActor<String, Void> {
     @Suspendable
     private void write(String s) throws IOException {
         buf.clear();
-        buf.put((s + "\n").getBytes()); // STOP. HAMMER TIME
+        buf.put(s.getBytes());
         buf.flip();
         cl.write(buf);
     }

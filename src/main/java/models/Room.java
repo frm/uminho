@@ -77,7 +77,8 @@ public class Room extends BasicActor<Msg, Void> {
     }
 
     private String roomUsers() {
-        return members.keySet().toString();
+        // STOP. HAMMER TIME
+        return members.keySet().toString() + "\n";
     }
 
     private void sendRoomUsers(ActorRef<Msg> target) throws SuspendExecution {

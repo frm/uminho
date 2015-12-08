@@ -60,7 +60,8 @@ public class RoomRepo extends BasicActor<Msg, Void> {
     }
 
     private void sendRooms(ActorRef<Msg> sender) throws SuspendExecution {
-        sendTo(sender, Msg.Type.ROOMS, new String[] { rooms.keySet().toString() });
+        // STOP. HAMMER TIME
+        sendTo(sender, Msg.Type.ROOMS, new String[] { rooms.keySet().toString() + "\n" });
     }
 
     private void addRoom(String[] args, ActorRef<Msg> sender) throws SuspendExecution {

@@ -63,6 +63,6 @@ public class MessageBuilder {
     }
 
     public static String formatPM(String uname, String contents) {
-        return "(PM) " + format(uname, contents);
+        return "(PM) " + format(uname, contents) + "\n";
     }
 }
