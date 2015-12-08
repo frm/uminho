@@ -316,6 +316,12 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         currRoom = null;
                         write(MessageBuilder.message(MessageBuilder.KICKED));
                         return true;
+                    case JOINED_ROOM:
+                        write(MessageBuilder.formatRoomActivity(args[0], MessageBuilder.JOINED_ROOM));
+                        return true;
+                    case LEFT_ROOM:
+                        write(MessageBuilder.formatRoomActivity(args[0], MessageBuilder.LEFT_ROOM));
+                        return true;
                     // FROM USER REPO
                     case GRANTED:
                         getGranted();

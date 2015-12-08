@@ -8,6 +8,8 @@
 "delete_success": "Deletion successful.\n"
 "join_success": "Joined room! "
 "join_invalid": "Couldn't join room. Perhaps you misspelt it...?\n"
+"joined_room": " just joined!\n"
+"left_room": " just left!\n"
 "no_such_user": "Couldn't find a user with that name. Perhaps you misspelt it...?\n"
 "grant_success": "Privileges granted!\n"
 "grant_invalid": "Unable to grant privileges\n"

@@ -38,6 +38,8 @@ public class MessageBuilder {
     public static String REMOVE_SUCCESS="remove_success";
     public static String REMOVE_INVALID="remove_invalid";
     public static String KICKED="kicked";
+    public static String JOINED_ROOM="joined_room";
+    public static String LEFT_ROOM="left_room";
 
     private static void load() throws FileNotFoundException {
         FileInputStream in = new FileInputStream(new File(MESSAGE_FILE));
@@ -64,5 +66,13 @@ public class MessageBuilder {
 
     public static String formatPM(String uname, String contents) {
         return "(PM) " + format(uname, contents) + "\n";
+    }
+
+    public static String formatRoomActivity(String uname, String activity) {
+        String s = messages.get(activity);
+        if(s == null)
+            return "";
+
+        return uname + s;
     }
 }

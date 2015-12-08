@@ -30,10 +30,14 @@ public class Room extends BasicActor<Msg, Void> {
         target.send(new Msg(type, attachment, self()));
     }
 
-    private void kickMembers() throws SuspendExecution {
-        for (ActorRef<Msg> member : members.values()) {
-            sendTo(member, Msg.Type.KICK, null);
+    private void notifyUsers(Msg.Type type, Object attachment) throws SuspendExecution {
+        for(ActorRef<Msg> member : members.values()) {
+            sendTo(member, type, attachment);
         }
+    }
+
+    private void kickMembers() throws SuspendExecution {
+        notifyUsers(Msg.Type.KICK, null);
     }
 
     private boolean addMember(String name, ActorRef<Msg> ref) {
@@ -44,11 +48,15 @@ public class Room extends BasicActor<Msg, Void> {
         return false;
     }
 
-    private void removeMember(ActorRef<Msg> sender) {
+    private String removeMember(ActorRef<Msg> sender) {
         for(Map.Entry<String, ActorRef<Msg>> p : members.entrySet()) {
-            if (p.getValue() == sender)
+            if (p.getValue() == sender) {
                 members.remove(p.getKey());
+                return p.getKey();
+            }
         }
+
+        return null;
     }
 
     private void sendChat(Msg m) throws SuspendExecution {
@@ -93,12 +101,16 @@ public class Room extends BasicActor<Msg, Void> {
                 ActorRef<Msg> sender = msg.sender;
                 switch (msg.type) {
                     case JOIN:
-                        addMember((String) msg.content, sender);
+                        String uname = (String)msg.content;
+                        addMember(uname, sender);
                         sendRoomUsers(sender);
                         notificationHandler.send( new Notification(Notification.Type.JOIN, (String) msg.content, name));
+                        notifyUsers(Msg.Type.JOINED_ROOM, new String[]{uname});
                         return true;
                     case LEAVE:
-                        removeMember(sender);
+                        String s = removeMember(sender);
+                        notifyUsers(Msg.Type.LEFT_ROOM, new String[]{s});
+
                         // notificationHandler.send( new Notification(Notification.Type.LEAVE, (String) msg.content, name));
                         return true;
                     case SENT_CHAT:
