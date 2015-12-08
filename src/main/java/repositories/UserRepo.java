@@ -44,9 +44,9 @@ public class UserRepo extends BasicActor<Msg, Void> {
         return true;
     }
 
-    public boolean delete(String uname, String password) {
+    public boolean delete(String uname, String password, ActorRef<Msg> sender) {
         User u = users.get(uname);
-        boolean b = u != null && u.matchPassword(password) && !u.isLoggedIn();
+        boolean b = u != null && u.matchPassword(password) && u.hasAddress(sender);
         if(b)
             users.remove(uname);
 
@@ -112,8 +112,17 @@ public class UserRepo extends BasicActor<Msg, Void> {
                             sendTo(sender, Msg.Type.OK, b);
                             break;
                         case CANCEL:
-                            Boolean c = delete(args[0], args[1]);
-                            sendTo(sender, Msg.Type.OK, c);
+                            Msg.Type t;
+                            Object o = null;
+                            if(delete(args[0], args[1], sender)) {
+                                t = Msg.Type.DEAUTH;
+                            }
+                            else {
+                                t = Msg.Type.ERROR;
+                                o = new String[]{MessageBuilder.message(MessageBuilder.AUTH_INVALID)};
+                            }
+
+                            sendTo(sender, t, o);
                             break;
                         case DEAUTH:
                             disconnect(sender);

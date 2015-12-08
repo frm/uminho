@@ -204,6 +204,10 @@ public class MessageHandler extends BasicActor<Msg, Void> {
         sendTo(userRepo, Msg.Type.DEAUTH, null);
     }
 
+    private void cancelAccount(String[] args) throws SuspendExecution {
+        sendTo(userRepo, Msg.Type.CANCEL, args);
+    }
+
     private void mainLoop() throws InterruptedException, SuspendExecution {
         while(
             receive(msg -> {
@@ -235,6 +239,9 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         return true;
                     case GET_ROOMS:
                         getRooms();
+                        return true;
+                    case CANCEL:
+                        cancelAccount(args);
                         return true;
 
                     //FROM ROOM REPO
