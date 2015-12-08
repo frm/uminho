@@ -75,6 +75,9 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                 return authenticateUser(args);
             case CANCEL:
                 return deleteUser(args);
+            case DEAUTH:
+                disconnect();
+                return new Pair<>(true, "");
             default:
                 return new Pair<>(false, MessageBuilder.message(MessageBuilder.NOT_AUTHENTICATED));
         }
@@ -100,6 +103,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                 return listRooms();
             case DEAUTH:
                 disconnect();
+                return new Pair<>(true, "");
             default:
                 return new Pair<>(false, MessageBuilder.message(MessageBuilder.INVALID_COMMAND));
         }
@@ -221,6 +225,10 @@ public class MessageHandler extends BasicActor<Msg, Void> {
     }
 
     private void mainLoop() throws InterruptedException, SuspendExecution {
+        // if disconnected on the join loop
+        if(!connected)
+            return;
+
         while(
             receive(msg -> {
                 ActorRef<Msg> sender = msg.sender;
