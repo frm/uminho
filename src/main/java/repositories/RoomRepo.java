@@ -6,6 +6,7 @@ import co.paralleluniverse.fibers.SuspendExecution;
 import communication.Msg;
 import models.Room;
 import notification.Notification;
+import util.MessageBuilder;
 
 import java.util.HashMap;
 
@@ -25,16 +26,14 @@ public class RoomRepo extends BasicActor<Msg, Void> {
         target.send(new Msg(type, attachment, self()));
     }
 
-    public ActorRef getRoom(String name){
-        return rooms.get(name);
-    }
-
-    private boolean closeRoom(String name, ActorRef requester) throws SuspendExecution {
-        ActorRef room = rooms.get(name);
+    private boolean closeRoom(String name) throws SuspendExecution {
+        ActorRef<Msg> room = rooms.get(name);
         boolean b = room != null;
 
-        if(b)
+        if(b) {
             sendTo(room, Msg.Type.CLOSE, null);
+            rooms.remove(name);
+        }
 
         return b;
     }
@@ -64,9 +63,39 @@ public class RoomRepo extends BasicActor<Msg, Void> {
         sendTo(sender, Msg.Type.ROOMS, new String[] { rooms.keySet().toString() });
     }
 
-    public void addRoom(Room room, String name){
-        rooms.put(name, room.ref());
+    private void addRoom(String[] args, ActorRef<Msg> sender) throws SuspendExecution {
+        String reply;
+        Msg.Type t;
+        if( createRoom(args[0])) {
+            reply = MessageBuilder.message(MessageBuilder.CREATE_SUCCESS);
+            t = Msg.Type.OK;
+            notificationHandler.send( new Notification(Notification.Type.CREATE, args[0] ));
+        }
+        else {
+            t = Msg.Type.ERROR;
+            reply = MessageBuilder.message(MessageBuilder.CREATE_INVALID);
+        }
+
+        sendTo(sender, t, new String[] { reply });
     }
+
+    private void removeRoom(String[] args, ActorRef<Msg> sender) throws SuspendExecution {
+        String reply;
+        Msg.Type t;
+        if( closeRoom(args[0]) ) {
+            reply = MessageBuilder.message(MessageBuilder.REMOVE_SUCCESS);
+            t = Msg.Type.OK;
+            notificationHandler.send( new Notification(Notification.Type.REMOVE, args[0]));
+        }
+        else {
+            t = Msg.Type.ERROR;
+            reply = MessageBuilder.message(MessageBuilder.REMOVE_INVALID);
+        }
+
+        sendTo(sender, t, new String[] { reply });
+    }
+
+
     @Override
     protected Void doRun() throws InterruptedException, SuspendExecution {
         // TODO: Remove this when we have admin
@@ -84,16 +113,10 @@ public class RoomRepo extends BasicActor<Msg, Void> {
                         sendRooms(sender);
                         return true;
                     case ADD:
-                        if( createRoom((String) msg.content ) ) {
-                            sendTo(sender, Msg.Type.OK, null);
-                            notificationHandler.send( new Notification(Notification.Type.CREATE, (String) msg.content));
-                        }
+                        addRoom(args, sender);
                         return true;
                     case REMOVE:
-                        if( closeRoom( (String) msg.content, sender) ) {
-                            sendTo(sender, Msg.Type.OK, null);
-                            notificationHandler.send( new Notification(Notification.Type.REMOVE, (String) msg.content));
-                        }
+                        removeRoom(args, sender);
                         return true;
                 }
 
@@ -101,5 +124,4 @@ public class RoomRepo extends BasicActor<Msg, Void> {
         }));
         return null;
     }
-
 }

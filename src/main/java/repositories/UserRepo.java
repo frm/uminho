@@ -28,9 +28,9 @@ public class UserRepo extends BasicActor<Msg, Void> {
         return null;
     }
 
-    public boolean logIn(String uname, String password, ActorRef address) {
+    public Boolean[] logIn(String uname, String password, ActorRef address) {
         User u = users.get(uname);
-        return u != null && u.login(password, address);
+        return new Boolean[] { u != null && u.login(password, address), u.isAdmin() };
     }
 
     public boolean register(String uname, String password, ActorRef address) {
@@ -96,6 +96,38 @@ public class UserRepo extends BasicActor<Msg, Void> {
         target.send(new Msg(type, attachment, self()));
     }
 
+    private void grant(String uname, ActorRef<Msg> sender) throws SuspendExecution {
+        String reply;
+        Msg.Type type;
+        User u = findByAddress(sender);
+        if(u != null && makeAdmin(uname, u.uname)) {
+            reply = MessageBuilder.message(MessageBuilder.GRANT_SUCCESS);
+            type = Msg.Type.OK;
+            sendTo(u.getAddress(), Msg.Type.GRANTED, null);
+        }
+        else {
+            reply = MessageBuilder.message(MessageBuilder.GRANT_INVALID);
+            type = Msg.Type.ERROR;
+        }
+        sendTo(sender, type, new String[] { reply });
+    }
+
+    private void revoke(String uname, ActorRef<Msg> sender) throws SuspendExecution {
+        String reply;
+        Msg.Type t;
+        User usr = findByAddress(sender);
+        if(usr != null && revokeAdmin(uname, usr.uname)) {
+            reply = MessageBuilder.message(MessageBuilder.REVOKE_SUCCESS);
+            t = Msg.Type.OK;
+            sendTo(usr.getAddress(), Msg.Type.REVOKED, null);
+        }
+        else {
+            reply = MessageBuilder.message(MessageBuilder.REVOKE_INVALID);
+            t = Msg.Type.ERROR;
+        }
+        sendTo(sender, t, new String[] { reply });
+    }
+
     @Override
     protected Void doRun() throws InterruptedException, SuspendExecution {
         User defaultAdmin = new User("admin", "admin");
@@ -112,7 +144,7 @@ public class UserRepo extends BasicActor<Msg, Void> {
                             sendTo(sender, Msg.Type.OK, ans);
                             break;
                         case AUTH:
-                            Boolean b = logIn(args[0], args[1], sender);
+                            Boolean[] b = logIn(args[0], args[1], sender);
                             sendTo(sender, Msg.Type.OK, b);
                             break;
                         case CANCEL:
@@ -135,32 +167,9 @@ public class UserRepo extends BasicActor<Msg, Void> {
                             pmUser(args[0], args[1], sender);
                             break;
                         case GRANT:
-                            String reply;
-                            Msg.Type type;
-                            User u = findByAddress(sender);
-                            if(u != null && makeAdmin(args[0], u.uname)) {
-                                reply = MessageBuilder.message(MessageBuilder.GRANT_SUCCESS);
-                                type = Msg.Type.OK;
-                            }
-                            else {
-                                reply = MessageBuilder.message(MessageBuilder.GRANT_INVALID);
-                                type = Msg.Type.ERROR;
-                            }
-                            sendTo(sender, type, new String[] { reply });
+                            grant(args[0], sender);
                             break;
                         case REVOKE:
-                            String str;
-                            Msg.Type rt;
-                            User usr = findByAddress(sender);
-                            if(usr != null && revokeAdmin(args[0], usr.uname)) {
-                                str = MessageBuilder.message(MessageBuilder.REVOKE_SUCCESS);
-                                rt = Msg.Type.OK;
-                            }
-                            else {
-                                str = MessageBuilder.message(MessageBuilder.REVOKE_INVALID);
-                                rt = Msg.Type.ERROR;
-                            }
-                            sendTo(sender, rt, new String[] { str });
                             break;
                     }
 

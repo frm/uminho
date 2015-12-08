@@ -35,6 +35,10 @@ public class Command {
     private static final int GRANT_ARGS = 1;
     public static final String REVOKE = "/revoke";
     private static final int REVOKE_ARGS = 1;
+    public static final String ADD = "/add";
+    private static final int ADD_ARGS = 1;
+    public static final String REMOVE = "/remove";
+    private static final int REMOVE_ARGS = 1;
 
     private static final HashMap<String, Pair<Integer, Boolean>> COMMAND_LIST =
         new HashMap<String, Pair<Integer, Boolean>>() {{
@@ -52,6 +56,8 @@ public class Command {
             put(LEAVE, new Pair<>(LEAVE_ARGS, false));
             put(GRANT, new Pair<>(GRANT_ARGS, false));
             put(REVOKE, new Pair<>(REVOKE_ARGS, false));
+            put(ADD, new Pair<>(ADD_ARGS, false));
+            put(REMOVE, new Pair<>(REMOVE_ARGS, false));
     }};
 
     private Command(String c, String[] args) {

@@ -21,6 +21,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
     private ActorRef<String> writer;
     private String username;
     private boolean connected;
+    private boolean admin;
     private ActorRef notificationHandler;
 
 
@@ -31,6 +32,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
         this.roomRepo = roomRepo;
         this.notificationHandler = nh;
         connected = false;
+        admin = false;
     }
 
     // INTERNAL API
@@ -115,7 +117,6 @@ public class MessageHandler extends BasicActor<Msg, Void> {
         Boolean res = (Boolean)receive(msg -> msg.content);
         String reply;
         if(res) {
-            // reply = TODO: list of channels here
             username = args[0];
             reply = MessageBuilder.message(MessageBuilder.REGISTER_SUCCESS);
         }
@@ -127,17 +128,17 @@ public class MessageHandler extends BasicActor<Msg, Void> {
 
     private Pair<Boolean, String> authenticateUser(String[] args) throws InterruptedException, SuspendExecution {
         sendTo(userRepo, Msg.Type.AUTH, args);
-        Boolean res = (Boolean)receive(msg -> msg.content);
+        Boolean[] res = (Boolean[])receive(msg -> msg.content);
         String reply;
-        if(res) {
-            // reply = TODO: list of channels here
+        if(res[0]) {
             username = args[0];
+            admin = res[1];
             reply = MessageBuilder.message(MessageBuilder.AUTH_SUCCESS);
         }
         else {
             reply = MessageBuilder.message(MessageBuilder.AUTH_INVALID);
         }
-        return new Pair<>(res, reply);
+        return new Pair<>(res[0], reply);
     }
 
     private Pair<Boolean, String> deleteUser(String[] args) throws InterruptedException, SuspendExecution {
@@ -224,6 +225,24 @@ public class MessageHandler extends BasicActor<Msg, Void> {
         sendTo(userRepo, Msg.Type.REVOKE, args);
     }
 
+    private void getGranted() throws SuspendExecution {
+        admin = true;
+        write(MessageBuilder.message(MessageBuilder.GRANTED));
+    }
+
+    private void getRevoked() throws SuspendExecution {
+        admin = false;
+        write(MessageBuilder.message(MessageBuilder.REVOKED));
+    }
+
+    private void addRoom(String[] args) throws SuspendExecution {
+        sendTo(roomRepo, Msg.Type.ADD, args);
+    }
+
+    private void removeRoom(String[] args) throws SuspendExecution {
+        sendTo(roomRepo, Msg.Type.REMOVE, args);
+    }
+
     private void mainLoop() throws InterruptedException, SuspendExecution {
         // if disconnected on the join loop
         if(!connected)
@@ -269,6 +288,18 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                     case REVOKE:
                         revoke(args);
                         return true;
+                    case ADD:
+                        if(admin)
+                            addRoom(args);
+                        else
+                            write(MessageBuilder.message(MessageBuilder.INVALID_COMMAND));
+                        return true;
+                    case REMOVE:
+                        if(admin)
+                            removeRoom(args);
+                        else
+                            write(MessageBuilder.message(MessageBuilder.INVALID_COMMAND));
+                        return true;
 
                     //FROM ROOM REPO
                     case ROOMS:
@@ -283,8 +314,16 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         return true;
                     case KICK:
                         currRoom = null;
-                        write(args[0]);
+                        write(MessageBuilder.message(MessageBuilder.KICKED));
                         return true;
+                    // FROM USER REPO
+                    case GRANTED:
+                        getGranted();
+                        return true;
+                    case REVOKED:
+                        getRevoked();
+                        return true;
+                    // GENERAL
                     case PORT_LIST:
                         //writer.send((String) msg.content);
                         return true;

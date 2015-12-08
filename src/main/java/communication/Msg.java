@@ -16,7 +16,7 @@ public class Msg {
         GET_ROOM_USERS,ROOM_USERS, JOIN, LEAVE, GET_ROOMS, ROOMS, KICK, CLOSE,
         SENT_PM, SENT_CHAT,
         CANCEL, AUTH, REGISTER, DEAUTH,
-        GRANT, REVOKE,
+        GRANT, REVOKE, GRANTED, REVOKED,
         PORT_LIST}
 
     public final Type type;
@@ -36,6 +36,8 @@ public class Msg {
                 put(Command.LEAVE, Type.LEAVE);
                 put(Command.GRANT, Type.GRANT);
                 put(Command.REVOKE, Type.REVOKE);
+                put(Command.ADD, Type.ADD);
+                put(Command.REMOVE, Type.REMOVE);
     }};
 
     public Msg(Type type, Object content, ActorRef sender){

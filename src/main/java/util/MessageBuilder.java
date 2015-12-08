@@ -31,6 +31,13 @@ public class MessageBuilder {
     public static String GRANT_INVALID="grant_invalid";
     public static String REVOKE_SUCCESS="revoke_success";
     public static String REVOKE_INVALID="revoke_invalid";
+    public static String GRANTED="granted";
+    public static String REVOKED="revoked";
+    public static String CREATE_SUCCESS="create_success";
+    public static String CREATE_INVALID="create_invalid";
+    public static String REMOVE_SUCCESS="remove_success";
+    public static String REMOVE_INVALID="remove_invalid";
+    public static String KICKED="kicked";
 
     private static void load() throws FileNotFoundException {
         FileInputStream in = new FileInputStream(new File(MESSAGE_FILE));
