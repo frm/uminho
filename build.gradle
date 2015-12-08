@@ -5,7 +5,9 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'application'
 
-mainClassName = System.getProperty("main")
+// Uncomment if we ever do a client for this
+// mainClassName = System.getProperty("main")
+mainClassName = "app.Main"
 
 repositories {
     mavenCentral()
