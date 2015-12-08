@@ -12,7 +12,7 @@ public class User {
     public String uname;
     private String password;
     private boolean logged; // TODO: can this be replaced by checking if the connection is null?
-    private ActorRef connection;
+    private ActorRef<Msg> connection;
     private boolean admin;
     private Date adminTimestamp;
 
@@ -22,7 +22,7 @@ public class User {
         this.admin = false;
     }
 
-    public boolean login(String password, ActorRef address) {
+    public boolean login(String password, ActorRef<Msg> address) {
         if(logged)
             return false;
 
@@ -33,6 +33,10 @@ public class User {
         }
 
         return b;
+    }
+
+    public ActorRef<Msg> getAddress() {
+        return connection;
     }
 
     public boolean hasAddress(ActorRef<Msg> address) {

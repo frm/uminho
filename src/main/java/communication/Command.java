@@ -24,7 +24,7 @@ public class Command {
     public static final String JOIN = "/join";
     private static final int JOIN_ARGS = 1;
     public static final String PM = "/msg";
-    private static final int PM_ARGS = 1;
+    private static final int PM_ARGS = 2;
     public static final String LIST_ROOMS = "/list";
     private static final int LIST_ROOMS_ARGS = 0;
     public static final String LIST_ROOM_USERS = "/names";
@@ -60,9 +60,10 @@ public class Command {
     private boolean correctNrArgs() {
         for(Map.Entry<String, Pair<Integer, Boolean>> p : COMMAND_LIST.entrySet()) {
             if(p.getKey().equals(command))
-                if(p.getValue().second)
+                if(p.getValue().second) {
                     // bash-like execution of the second function
-                    return (p.getValue().first >= args.length && rearrangeArgs());
+                    return (p.getValue().first <= args.length && rearrangeArgs());
+                }
                 else
                     return p.getValue().first == args.length;
         }

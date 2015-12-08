@@ -219,7 +219,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                 switch (msg.type) {
                     // FROM LINEREADER
                     case PM:
-                        //TODO: Handle Private Messages (take into account //the receiver)
+                        sendTo(userRepo, Msg.Type.PM, args);
                         return true;
                     case CHAT:
                         messageRoom(args[0]);
@@ -243,6 +243,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         // notificationHandler.send( new Notification//(Notification.Type.ROOM_LIST_REQUEST, null, self()));
                         return true;
                     //FROM ROOM
+                    case SENT_PM:
                     case SENT_CHAT:
                     case ROOM_USERS:
                         write(args[0]);
@@ -257,6 +258,9 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                     case DEAUTH:
                         disconnect();
                         return false;
+                    case ERROR:
+                        write(args[0]);
+                        return true;
                 }
 
                 return false;

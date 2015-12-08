@@ -5,6 +5,7 @@ import co.paralleluniverse.actors.BasicActor;
 import co.paralleluniverse.fibers.SuspendExecution;
 import communication.Msg;
 import models.User;
+import util.MessageBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,14 @@ public class UserRepo extends BasicActor<Msg, Void> {
 
     public UserRepo() {
         this.users = new HashMap<>();
+    }
+
+    private User findByAddress(ActorRef<Msg> address) {
+        for(User u : users.values())
+            if(u.hasAddress(address))
+                return u;
+
+        return null;
     }
 
     public boolean logIn(String uname, String password, ActorRef address) {
@@ -45,11 +54,9 @@ public class UserRepo extends BasicActor<Msg, Void> {
     }
 
     public boolean disconnect(ActorRef address) {
-        for(User u : users.values())
-            if(u.hasAddress(address)) {
-                return u.disconnect();
-            }
-
+        User u = findByAddress(address);
+        if (u != null)
+            u.disconnect();
         return false;
     }
 
@@ -74,6 +81,15 @@ public class UserRepo extends BasicActor<Msg, Void> {
                 && a.authorityOver(t)
                 && t.revokeAdminPrivileges()
         );
+    }
+
+    private void pmUser(String uname, String msg, ActorRef<Msg> sender) throws SuspendExecution {
+        User u = users.get(uname);
+        String senderName = findByAddress(sender).uname;
+        if(u == null)
+            sendTo(sender, Msg.Type.ERROR, new String[] { MessageBuilder.message(MessageBuilder.NO_SUCH_USER) });
+        else
+            sendTo(u.getAddress(), Msg.Type.SENT_PM, new String[]{MessageBuilder.formatPM(senderName, msg)});
     }
 
     private void sendTo(ActorRef<Msg> target, Msg.Type type, Object attachment) throws SuspendExecution {
@@ -101,6 +117,9 @@ public class UserRepo extends BasicActor<Msg, Void> {
                             break;
                         case DEAUTH:
                             disconnect(sender);
+                            break;
+                        case PM:
+                            pmUser(args[0], args[1], sender);
                             break;
                     }
 

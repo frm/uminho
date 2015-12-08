@@ -7,3 +7,4 @@
 "delete_success": "Deletion successful.\n"
 "join_success": "Room found! Joining...\n"
 "join_invalid": "Couldn't join room. Perhaps you misspelt it...?\n"
+"no_such_user": "Couldn't find a user with that name. Perhaps you misspelt it...?\n"

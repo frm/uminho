@@ -25,6 +25,7 @@ public class MessageBuilder {
     public static String DELETE_SUCCESS="delete_success";
     public static String JOIN_SUCCESS="join_success";
     public static String JOIN_INVALID="join_invalid";
+    public static String NO_SUCH_USER="no_such_user";
 
     private static void load() throws FileNotFoundException {
         FileInputStream in = new FileInputStream(new File(MESSAGE_FILE));
@@ -47,5 +48,9 @@ public class MessageBuilder {
 
     public static String format(String uname, String contents) {
         return uname + ": " + contents;
+    }
+
+    public static String formatPM(String uname, String contents) {
+        return "(PM) " + format(uname, contents);
     }
 }
