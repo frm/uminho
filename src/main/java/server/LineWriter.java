@@ -31,17 +31,19 @@ public class LineWriter extends BasicActor<String, Void> {
     }
 
     private void receiveLoop() throws InterruptedException, SuspendExecution {
-        // TODO: Disconnect gracefully
-        while(true) {
+        while(
             receive(str -> {
+                if(str == null) {
+                    return false;
+                }
                 try {
                     write(str);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    return false;
                 }
                 return true;
-            });
-        }
+            })
+        );
     }
 
     @Override

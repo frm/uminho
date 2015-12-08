@@ -7,6 +7,7 @@ import communication.Msg;
 import models.User;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by frm on 28/11/15.
@@ -43,9 +44,13 @@ public class UserRepo extends BasicActor<Msg, Void> {
         return b;
     }
 
-    public boolean disconnect(String uname, ActorRef address) {
-        User u = users.get(uname);
-        return u != null && u.disconnect(address);
+    public boolean disconnect(ActorRef address) {
+        for(User u : users.values())
+            if(u.hasAddress(address)) {
+                return u.disconnect();
+            }
+
+        return false;
     }
 
     public boolean makeAdmin(String target, String admin) {
@@ -71,29 +76,34 @@ public class UserRepo extends BasicActor<Msg, Void> {
         );
     }
 
+    private void sendTo(ActorRef<Msg> target, Msg.Type type, Object attachment) throws SuspendExecution {
+        target.send(new Msg(type, attachment, self()));
+    }
+
     @Override
     protected Void doRun() throws InterruptedException, SuspendExecution {
         while(
                 receive(msg -> {
                     String[] args = (String[])msg.content;
-                    Boolean ans = false;
                     ActorRef<Msg> sender = msg.sender;
                     switch(msg.type) {
                         case REGISTER:
-                            ans = register(args[0], args[1], sender);
+                            boolean ans = register(args[0], args[1], sender);
+                            sendTo(sender, Msg.Type.OK, ans);
                             break;
                         case AUTH:
-                            ans = logIn(args[0], args[1], sender);
+                            Boolean b = logIn(args[0], args[1], sender);
+                            sendTo(sender, Msg.Type.OK, b);
                             break;
                         case CANCEL:
-                            ans = delete(args[0], args[1]);
+                            Boolean c = delete(args[0], args[1]);
+                            sendTo(sender, Msg.Type.OK, c);
                             break;
                         case DEAUTH:
-                            ans = disconnect(args[0], sender);
+                            disconnect(sender);
                             break;
                     }
 
-                    sender.send(new Msg(Msg.Type.OK, ans, self()));
                     return true;
                 })
         );

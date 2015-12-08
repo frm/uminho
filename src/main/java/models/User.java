@@ -1,6 +1,7 @@
 package models;
 
 import co.paralleluniverse.actors.ActorRef;
+import communication.Msg;
 
 import java.util.Date;
 
@@ -34,12 +35,15 @@ public class User {
         return b;
     }
 
-    public boolean disconnect(ActorRef address) {
-        boolean b = address.equals(connection);
-        if(b) {
-            logged = false;
-            connection = null;
-        }
+    public boolean hasAddress(ActorRef<Msg> address) {
+        return connection == address;
+    }
+
+    public boolean disconnect() {
+        boolean b = logged;
+
+        logged = false;
+        connection = null;
 
         return b;
     }

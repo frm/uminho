@@ -25,6 +25,7 @@ public class Msg {
             new HashMap<String, Type>() {{
                 put(Command.REGISTER, Type.REGISTER);
                 put(Command.AUTHENTICATE, Type.AUTH);
+                put(Command.DEAUTHENTICATE, Type.DEAUTH);
                 put(Command.CANCEL, Type.CANCEL);
                 put(Command.JOIN, Type.JOIN);
                 put(Command.LIST_ROOMS, Type.GET_ROOMS);

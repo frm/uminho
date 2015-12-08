@@ -24,7 +24,7 @@ public class LineReader extends BasicActor<Msg, Void> {
     private ActorRef<String> writer;
     private ActorRef<Msg> handler;
     private ActorRef<Notification> notificationHandler;
-    private String currentUser;
+    private boolean connected;
 
     public static final int DEFAULT_SIZE = 1024;
 
@@ -39,11 +39,11 @@ public class LineReader extends BasicActor<Msg, Void> {
     private void init() {
         writer = (new LineWriter(cl)).spawn();
         handler = (new MessageHandler(writer, userRepo, roomRepo, notificationHandler)).spawn();
+        connected = true;
     }
 
     private void disconnect() throws SuspendExecution {
-        // TODO: Gracefully disconnect here
-        userRepo.send(new Msg(Msg.Type.DEAUTH, new String[] { currentUser }, self()));
+        handler.send(new Msg(Msg.Type.DEAUTH, null, self()));
     }
 
     @Suspendable
@@ -58,13 +58,17 @@ public class LineReader extends BasicActor<Msg, Void> {
         Command c = Command.parse(req);
         Msg m = new Msg(Msg.commandType(c.command), c.args, self());
         handler.send(m);
+        if(m.type == Msg.Type.DEAUTH) {
+            connected = false;
+        }
     }
 
     private void readLoop() throws IOException, SuspendExecution {
-        // TODO: Exit gracefully sometime in the future
-        while(true) {
+        while(connected) {
             forward( read() );
         }
+
+        disconnect();
     }
 
     @Override
@@ -73,7 +77,8 @@ public class LineReader extends BasicActor<Msg, Void> {
             init();
             readLoop();
         } catch (IOException e) {
-            e.printStackTrace();
+            // Forcing a disconnect
+            disconnect();
         }
 
         return null;

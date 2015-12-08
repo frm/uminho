@@ -49,6 +49,14 @@ public class MessageHandler extends BasicActor<Msg, Void> {
         return p.first;
     }
 
+    private void disconnect() throws SuspendExecution {
+        connected = false;
+        writer.send(null);
+        if(currRoom != null)
+            leaveRoom();
+        deauth();
+    }
+
     // CONNECT LOOP
     private void connectLoop() throws InterruptedException, SuspendExecution {
         while(! (connected = attemptConnection()) );
@@ -90,6 +98,8 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                 return sendPrivateMessage(args);
             case GET_ROOMS:
                 return listRooms();
+            case DEAUTH:
+                disconnect();
             default:
                 return new Pair<>(false, MessageBuilder.message(MessageBuilder.INVALID_COMMAND));
         }
@@ -190,6 +200,10 @@ public class MessageHandler extends BasicActor<Msg, Void> {
         sendTo(roomRepo, Msg.Type.GET_ROOMS, null);
     }
 
+    private void deauth() throws SuspendExecution {
+        sendTo(userRepo, Msg.Type.DEAUTH, null);
+    }
+
     private void mainLoop() throws InterruptedException, SuspendExecution {
         while(
             receive(msg -> {
@@ -240,6 +254,9 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                     case PORT_LIST:
                         //writer.send((String) msg.content);
                         return true;
+                    case DEAUTH:
+                        disconnect();
+                        return false;
                 }
 
                 return false;

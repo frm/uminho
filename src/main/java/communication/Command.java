@@ -17,6 +17,8 @@ public class Command {
     private static final int REGISTER_ARGS = 2;
     public static final String AUTHENTICATE = "/auth";
     private static final int AUTHENTICATE_ARGS = 2;
+    public static final String DEAUTHENTICATE = "/deauth";
+    private static final int DEAUTHENTICATE_ARGS = 0;
     public static final String CANCEL = "/cancel";
     private static final int CANCEL_ARGS = 2;
     public static final String JOIN = "/join";
@@ -37,6 +39,7 @@ public class Command {
             // true states that the number of arguments is the minimum required
             put(REGISTER, new Pair<>(REGISTER_ARGS, false));
             put(AUTHENTICATE, new Pair<>(AUTHENTICATE_ARGS, false));
+            put(DEAUTHENTICATE, new Pair<>(DEAUTHENTICATE_ARGS, false));
             put(CANCEL, new Pair<>(CANCEL_ARGS, false));
             put(JOIN, new Pair<>(JOIN_ARGS, true));
             put(LIST_ROOMS, new Pair<>(LIST_ROOMS_ARGS, false));
