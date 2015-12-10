@@ -53,7 +53,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
 
     private void disconnect() throws SuspendExecution {
         connected = false;
-        writer.send(null);
+        writer.send("");
         if(currRoom != null)
             leaveRoom();
         deauth();
@@ -101,6 +101,8 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                 return joinRoom(new String[]{ args[0], username });
             case PM:
                 return sendPrivateMessage(args);
+            case SENT_PM:
+                return new Pair<>(false, args[0]);
             case GET_ROOMS:
                 return listRooms();
             case DEAUTH:
@@ -173,8 +175,8 @@ public class MessageHandler extends BasicActor<Msg, Void> {
     }
 
     private Pair<Boolean, String> sendPrivateMessage(String[] args) throws SuspendExecution, InterruptedException {
-        // TODO: Implement this
-        return new Pair<>(false, "LOL DIS DOESUN WORK");
+        pmUser(args);
+        return new Pair<>(false, "");
     }
 
     private Pair<Boolean, String> listRooms() throws SuspendExecution, InterruptedException {
