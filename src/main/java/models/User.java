@@ -11,7 +11,7 @@ import java.util.Date;
 public class User {
     public String uname;
     private String password;
-    private boolean logged; // TODO: can this be replaced by checking if the connection is null?
+    private boolean logged;
     private ActorRef<Msg> connection;
     private boolean admin;
     private Date adminTimestamp;

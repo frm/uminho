@@ -99,7 +99,6 @@ public class RoomRepo extends BasicActor<Msg, Void> {
 
     @Override
     protected Void doRun() throws InterruptedException, SuspendExecution {
-        // TODO: Remove this when we have admin
         createRoom("default");
         createRoom("general");
         while(
