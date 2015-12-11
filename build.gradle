@@ -5,9 +5,8 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'application'
 
-// Uncomment if we ever do a client for this
-// mainClassName = System.getProperty("main")
-mainClassName = "app.Main"
+// Uncomment if we ever do a notificationClient for this
+mainClassName = System.getProperty("main")
 
 repositories {
     mavenCentral()
@@ -33,4 +32,5 @@ dependencies {
 run {
     jvmArgs "-Djava.library.path=/usr/local/lib"
     jvmArgs "-javaagent:${configurations.quasar.iterator().next()}"
+    standardInput = System.in
 }

@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class RoomRepo extends BasicActor<Msg, Void> {
     private HashMap<String, ActorRef<Msg>> rooms;
-    private ActorRef notificationHandler;
+    private ActorRef<Notification> notificationHandler;
 
     public RoomRepo(ActorRef nh){
         rooms = new HashMap<>();

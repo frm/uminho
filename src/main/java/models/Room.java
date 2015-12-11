@@ -71,6 +71,8 @@ public class Room extends BasicActor<Msg, Void> {
 
         }
 
+        notificationHandler.send( new Notification(Notification.Type.CHAT, senderName, name));
+
         String[] attachment = new String[] { MessageBuilder.format(senderName, (String) m.content ) };
 
         targets.forEach(t -> {
@@ -81,7 +83,6 @@ public class Room extends BasicActor<Msg, Void> {
             }
         });
 
-        // notificationHandler.send( new Notification(Notification.Type.CHAT, senderName, name));
     }
 
     private String roomUsers() {
@@ -109,9 +110,9 @@ public class Room extends BasicActor<Msg, Void> {
                         return true;
                     case LEAVE:
                         String s = removeMember(sender);
+                        notificationHandler.send( new Notification(Notification.Type.LEAVE, (String) msg.content, name));
                         notifyUsers(Msg.Type.LEFT_ROOM, new String[]{s});
 
-                        // notificationHandler.send( new Notification(Notification.Type.LEAVE, (String) msg.content, name));
                         return true;
                     case SENT_CHAT:
                         sendChat(msg);

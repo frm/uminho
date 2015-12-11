@@ -36,22 +36,31 @@ public class NotificationHandler extends BasicActor<Notification, Void> {
                     case JOIN:
                     case LEAVE:
                         socket.send("ROOM_USER_LIST:"+notification.toString());
+                        socket.send("ALL:"+notification.toString());
                         return true;
                     case CREATE:
                     case REMOVE:
                         socket.send("ROOM_LIST:"+notification.toString());
+                        socket.send("ALL:"+notification.toString());
+
                         return true;
                     case LOGIN:
                     case LOGOUT:
                         socket.send("USER_STATE:"+notification.toString());
+                        socket.send("ALL:"+notification.toString());
+
                         return true;
                     case SIGNUP:
                         socket.send("USER_LIST:"+notification.toString());
+                        socket.send("ALL:"+notification.toString());
+
                         return true;
-                    case ROOM_LIST_REQUEST:
+                    case CHAT:
                         socket.send("ROOM_MESSAGES_"+notification.field2+":"+notification.toString());
+                        socket.send("GLOBAL_ROOM_MESSAGES:"+notification.toString());
+                        socket.send("ALL:"+notification.toString());
+                        return true;
                 }
-                System.out.println("RECEIVED A NOTIFICATION");
                 return false;
             }));
         return null;

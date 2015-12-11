@@ -27,13 +27,12 @@ public class Server extends BasicActor {
 
     public Server() {
         port = DEFAULT_PORT;
-        users = new UserRepo();
         notificationHandler = new NotificationHandler();
     }
 
     public Server(int port) {
         this.port = port;
-        users = new UserRepo();
+
     }
 
     public void bind() throws IOException, SuspendExecution {
@@ -41,10 +40,11 @@ public class Server extends BasicActor {
             ss = FiberServerSocketChannel.open();
 
         ss.bind(new InetSocketAddress(port));
-        users.spawn();
         notificationHandler.spawn();
+        users = new UserRepo(notificationHandler.ref());
         rooms = new RoomRepo(notificationHandler.ref());
         rooms.spawn();
+        users.spawn();
     }
 
     public void accept() throws IOException, SuspendExecution {

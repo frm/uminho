@@ -199,7 +199,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
     }
 
     private void leaveRoom() throws SuspendExecution {
-        sendTo(currRoom, Msg.Type.LEAVE, null);
+        sendTo(currRoom, Msg.Type.LEAVE, username);
         currRoom = null;
     }
 
@@ -212,7 +212,7 @@ public class MessageHandler extends BasicActor<Msg, Void> {
     }
 
     private void deauth() throws SuspendExecution {
-        sendTo(userRepo, Msg.Type.DEAUTH, null);
+        sendTo(userRepo, Msg.Type.DEAUTH, new String[]{username});
     }
 
     private void cancelAccount(String[] args) throws SuspendExecution {
@@ -267,7 +267,8 @@ public class MessageHandler extends BasicActor<Msg, Void> {
                         pmUser(args);
                         return true;
                     case CHAT:
-                        messageRoom(args[0]);
+                        if(!args[0].isEmpty())
+                            messageRoom(args[0]);
                         return true;
                     case JOIN:
                         attemptJoin(new String[] { args[0], username });

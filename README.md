@@ -19,7 +19,7 @@ The service should support the following features:
 
 ### Clients
 
-There should be three clients: a chat client for end users, which also allows listing rooms, chosing room and listing users; it should use a line-oriented text-based protocol (so it should be possible to use telnet as client, even if less pleasantly); an administration client to manage (create/remove/list) rooms; a notification console, which allows observing the system by chosing relevant events to subscribe to.
+There should be three clients: a chat notificationClient for end users, which also allows listing rooms, chosing room and listing users; it should use a line-oriented text-based protocol (so it should be possible to use telnet as notificationClient, even if less pleasantly); an administration notificationClient to manage (create/remove/list) rooms; a notification console, which allows observing the system by chosing relevant events to subscribe to.
 
 ### Server
 
