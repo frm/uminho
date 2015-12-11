@@ -86,7 +86,6 @@ public class Room extends BasicActor<Msg, Void> {
     }
 
     private String roomUsers() {
-        // STOP. HAMMER TIME
         return members.keySet().toString() + "\n";
     }
 

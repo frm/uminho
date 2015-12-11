@@ -145,13 +145,13 @@ public class UserRepo extends BasicActor<Msg, Void> {
                         case REGISTER:
                             boolean ans = register(args[0], args[1], sender);
                             if(ans)
-                                notificationHandler.send( new Notification(Notification.Type.SIGNUP, args[0],self() ));
+                                notificationHandler.send( new Notification(Notification.Type.SIGNUP, args[0]));
                             sendTo(sender, Msg.Type.OK, ans);
                             break;
                         case AUTH:
                             Boolean[] b = logIn(args[0], args[1], sender);
                             if(b[0])
-                                notificationHandler.send( new Notification(Notification.Type.LOGIN, args[0],self() ));
+                                notificationHandler.send( new Notification(Notification.Type.LOGIN, args[0]));
                             sendTo(sender, Msg.Type.OK, b);
                             break;
                         case CANCEL:
@@ -169,7 +169,7 @@ public class UserRepo extends BasicActor<Msg, Void> {
                             break;
                         case DEAUTH:
                             disconnect(sender);
-                            notificationHandler.send( new Notification(Notification.Type.LOGOUT, args[0],self() ));
+                            notificationHandler.send( new Notification(Notification.Type.LOGOUT, args[0]));
                             break;
                         case PM:
                             pmUser(args[0], args[1], sender);

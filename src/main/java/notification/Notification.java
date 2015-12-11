@@ -13,7 +13,6 @@ public class Notification {
     public Type type;
     public String field1;
     public String field2;
-    public ActorRef sender;
 
     private static final HashMap<Type ,String> builders = new HashMap<Type, String>() {{
         put(Type.JOIN, " has joined ");
@@ -24,24 +23,9 @@ public class Notification {
         put(Type.CREATE, " room was created");
         put(Type.REMOVE, " room was removed");
         put(Type.CHAT, " has messaged the room ");
-        put(Type.ROOM_LIST_REQUEST, " has requested the room list");
 
 
     }};
-
-    public Notification( Type t, String f1, String f2, ActorRef sender ){
-        type = t;
-        field1 = f1;
-        field2 = f2;
-        this.sender = sender;
-    }
-
-    public Notification( Type t, String f1, ActorRef sender){
-        type = t;
-        field1 = f1;
-        field2 = "";
-        this.sender = sender;
-    }
 
     public Notification( Type t, String f1, String f2 ){
         type = t;
