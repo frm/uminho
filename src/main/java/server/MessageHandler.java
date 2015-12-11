@@ -238,11 +238,11 @@ public class MessageHandler extends BasicActor<Msg, Void> {
     }
 
     private void addRoom(String[] args) throws SuspendExecution {
-        sendTo(roomRepo, Msg.Type.ADD, args);
+        sendTo(roomRepo, Msg.Type.ADD, new String[]{ args[0], username});
     }
 
     private void removeRoom(String[] args) throws SuspendExecution {
-        sendTo(roomRepo, Msg.Type.REMOVE, args);
+        sendTo(roomRepo, Msg.Type.REMOVE, new String[]{ args[0], username});
     }
 
     private void mainLoop() throws InterruptedException, SuspendExecution {

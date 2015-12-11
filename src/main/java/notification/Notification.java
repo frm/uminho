@@ -20,8 +20,8 @@ public class Notification {
         put(Type.LOGIN, " has logged in");
         put(Type.LOGOUT, " has logged out");
         put(Type.SIGNUP, " has signed up");
-        put(Type.CREATE, " room was created");
-        put(Type.REMOVE, " room was removed");
+        put(Type.CREATE, " room was created by ");
+        put(Type.REMOVE, " room was removed ");
         put(Type.CHAT, " has messaged the room ");
 
 
@@ -29,13 +29,13 @@ public class Notification {
 
     public Notification( Type t, String f1, String f2 ){
         type = t;
-        field1 = f1;
-        field2 = f2;
+        field1 = '"'+f1+'"';
+        field2 = '"'+f2+'"';
     }
 
     public Notification( Type t, String f1){
         type = t;
-        field1 = f1;
+        field1 = '"'+f1+'"';
         field2 = "";
     }
 

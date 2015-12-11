@@ -70,7 +70,7 @@ public class RoomRepo extends BasicActor<Msg, Void> {
         if( createRoom(args[0])) {
             reply = MessageBuilder.message(MessageBuilder.CREATE_SUCCESS);
             t = Msg.Type.OK;
-            notificationHandler.send( new Notification(Notification.Type.CREATE, args[0] ));
+            notificationHandler.send( new Notification(Notification.Type.CREATE, args[0], args[1] ));
         }
         else {
             t = Msg.Type.ERROR;
@@ -86,7 +86,7 @@ public class RoomRepo extends BasicActor<Msg, Void> {
         if( closeRoom(args[0]) ) {
             reply = MessageBuilder.message(MessageBuilder.REMOVE_SUCCESS);
             t = Msg.Type.OK;
-            notificationHandler.send( new Notification(Notification.Type.REMOVE, args[0]));
+            notificationHandler.send( new Notification(Notification.Type.REMOVE, args[0], args[1]));
         }
         else {
             t = Msg.Type.ERROR;
