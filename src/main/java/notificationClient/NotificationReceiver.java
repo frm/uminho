@@ -1,6 +1,7 @@
 package notificationClient;
 
 import org.zeromq.ZMQ;
+import util.MessageBuilder;
 
 /**
  * Created by joaorodrigues on 10 Dec 15.
@@ -8,7 +9,7 @@ import org.zeromq.ZMQ;
 public class NotificationReceiver implements Runnable{
     private int port;
 
-    public NotificationReceiver(int port){ this.port = port;}
+    public NotificationReceiver(int port){ this.port = port; }
 
 
     private void subscribeAll(ZMQ.Socket notifications){
@@ -25,6 +26,7 @@ public class NotificationReceiver implements Runnable{
         notifications.unsubscribe("GLOBAL_ROOM_MESSAGES:".getBytes());
         notifications.unsubscribe("USER_LIST:".getBytes());
         notifications.unsubscribe("USER_STATE:".getBytes());
+        System.out.println("\n"+MessageBuilder.message(MessageBuilder.UNSUB_ALL));
     }
 
     @Override
@@ -58,6 +60,11 @@ public class NotificationReceiver implements Runnable{
             if (poller.pollin(0)) {
                 text = commands.recv();
                 String[] params = new String(text).split(" ");
+                if(params.length != 2){
+                    System.out.println("\n"+MessageBuilder.message(MessageBuilder.INVALID_PARAMS));
+                    continue;
+                }
+
                 switch (params[0]) {
                     case "/sub":
                         if(params[1].equals("ALL"))
@@ -72,14 +79,14 @@ public class NotificationReceiver implements Runnable{
                         notifications.unsubscribe((params[1]+":").getBytes());
                         break;
                     default:
-                        System.out.println("Command Not Recognized");
+                        System.out.println("\n"+MessageBuilder.message(MessageBuilder.INVALID_COMMAND));
                         break;
                 }
 
             }
             if (poller.pollin(1)) {
                 text = notifications.recv();
-                System.out.println(new String(text).split(":")[1]);
+                System.out.println("\n"+(new String(text).split(":")[1]));
             }
         }
         //socket.close();

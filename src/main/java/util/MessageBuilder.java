@@ -40,6 +40,7 @@ public class MessageBuilder {
     public static String KICKED="kicked";
     public static String JOINED_ROOM="joined_room";
     public static String LEFT_ROOM="left_room";
+    public static String UNSUB_ALL="unsub_all";
 
     private static void load() throws FileNotFoundException {
         FileInputStream in = new FileInputStream(new File(MESSAGE_FILE));

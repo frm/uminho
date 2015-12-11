@@ -150,7 +150,7 @@ public class UserRepo extends BasicActor<Msg, Void> {
                             break;
                         case AUTH:
                             Boolean[] b = logIn(args[0], args[1], sender);
-                            //if(b[0])
+                            if(b[0])
                                 notificationHandler.send( new Notification(Notification.Type.LOGIN, args[0],self() ));
                             sendTo(sender, Msg.Type.OK, b);
                             break;

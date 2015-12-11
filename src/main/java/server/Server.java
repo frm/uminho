@@ -52,7 +52,7 @@ public class Server extends BasicActor {
     }
 
     @Override
-    protected Object doRun() throws InterruptedException, SuspendExecution {
+    protected Void doRun() throws InterruptedException, SuspendExecution {
         try {
             bind();
             MessageBuilder.init();
