@@ -8,7 +8,7 @@ import java.util.HashMap;
  * Created by joaorodrigues on 5 Dec 15.
  */
 public class Notification {
-    public enum Type {JOIN, LEAVE, LOGIN, LOGOUT, SIGNUP, CREATE, REMOVE, CHAT, ROOM_LIST_REQUEST}
+    public enum Type {JOIN, LEAVE, LOGIN, LOGOUT, SIGNUP, CREATE, REMOVE, CHAT}
 
     public Type type;
     public String field1;
