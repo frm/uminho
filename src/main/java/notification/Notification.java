@@ -21,7 +21,7 @@ public class Notification {
         put(Type.LOGOUT, " has logged out");
         put(Type.SIGNUP, " has signed up");
         put(Type.CREATE, " room was created by ");
-        put(Type.REMOVE, " room was removed ");
+        put(Type.REMOVE, " room was removed by ");
         put(Type.CHAT, " has messaged the room ");
 
 
