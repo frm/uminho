@@ -6,10 +6,12 @@ gem 'therubyracer', platforms: :ruby
 gem 'sqlite3'
 
 gem 'sass-rails', '~> 5.0'
+gem 'slim-rails'
 
 gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 
+gem 'devise'
 
 # gem 'turbolinks'
 # gem 'jbuilder', '~> 2.0'
