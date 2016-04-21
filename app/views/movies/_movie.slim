@@ -1,2 +1,5 @@
 p = link_to movie.title, movie_path(movie.id)
 p = movie.year
+
+= render movie.reviews
+= render 'reviews/form'

@@ -1,0 +1,11 @@
+= form_for(@movie.reviews.build, url: movie_reviews_path(@movie)) do |f|
+  p
+    = f.label :description
+    br/
+    = f.text_area :description
+  p
+    = f.label :score
+    br/
+    = f.number_field :score, :class => 'text_field', :step => 0.5
+  p
+    = f.submit
