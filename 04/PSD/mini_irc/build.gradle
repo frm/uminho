@@ -1,0 +1,36 @@
+group 'pt.uminho.di.sdc'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'application'
+
+// Uncomment if we ever do a notificationClient for this
+mainClassName = System.getProperty("main")
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    quasar
+}
+
+dependencies {
+    compile 'org.yaml:snakeyaml:1.16'
+
+    testCompile 'junit:junit:4.11'
+    compile 'org.slf4j:slf4j-api:1.7.5'
+    compile 'org.slf4j:slf4j-simple:1.7.5'
+
+    compile  "co.paralleluniverse:quasar-core:0.7.3:jdk8"
+    compile  "co.paralleluniverse:quasar-actors:0.7.3"
+    quasar  "co.paralleluniverse:quasar-core:0.7.3:jdk8"
+    compile 'org.zeromq:jzmq:3.1.0'
+}
+
+run {
+    jvmArgs "-Djava.library.path=/usr/local/lib"
+    jvmArgs "-javaagent:${configurations.quasar.iterator().next()}"
+    standardInput = System.in
+}
