@@ -1,0 +1,23 @@
+# Java
+*.jar
+
+# Mac OS X hidden files
+.DS_Store
+
+# Vim
+*~
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+
+# Temps
+tmp/
+.tmp/
+
+# IntelliJ
+.idea
+*.iml
+
+# Project
+out/
+log/
+
