@@ -10,7 +10,7 @@ Anyway, I've been using git for pretty much all of the course, but the repos hav
 
 Pretty much every line of code is a mess because we f\*cking n00bs learning, so don't get your hopes up.
 
-If you're a Computer Engineering student looking at this, the projects will *probably* help you, especially because every now and then the professors hand over the same project assignments. If you need help through any part or if you need to find out what was the assignment we were supposed to do, your best bet is probably to hit me up on [Twitter](https://twitter.com/frmendes) or whatever.
+If you're a Computer Engineering student looking at this, the projects will *probably* help you, especially because every now and then the professors hand over the same project assignments. If you need help through any part or if you need to find out what was the assignment we were supposed to do, your best bet is probably to hit me up on [Twitter](https://twitter.com/fribmendes) or whatever.
 
 ## Content
 
@@ -26,7 +26,7 @@ If you're a Computer Engineering student looking at this, the projects will *pro
   - [Distributed Systems](https://github.com/frmendes/uminho/tree/master/03/SD) - stock management software
   - [Computer Graphics](https://github.com/frmendes/uminho/tree/master/03/CG) - a solar system. With a teapot that's also a meteor \\m/
   - [Language Processing & Compilers](https://github.com/frmendes/uminho/tree/master/03/PL) - We started off with a small set of projects using Flex and ended up with a small language that runs on a stack-based VM.
-  - [Knowledge and Reasoning Representation Systems](https://github.com/frmendes/uminho/tree/master/03/SRCR) - Artifical Intelligence. A set of projects using Prolog to represent knowledge and neural networks for the reasoning part.  
+  - [Knowledge and Reasoning Representation Systems](https://github.com/frmendes/uminho/tree/master/03/SRCR) - Artifical Intelligence. A set of projects using Prolog to represent knowledge and neural networks for the reasoning part.
 
 **MSc**:
   * **1st year/4th year**: We have to choose two specialties. I chose Distribued Systems and Cryptography and also Application Engineering. More projects will be added here in the future (I hope).
