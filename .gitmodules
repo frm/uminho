@@ -1,0 +1,6 @@
+[submodule "03/CG/cg-lei-1415"]
+  path = 03/CG/cg-lei-1415
+  url = git@github.com:JoRod94/cg-lei-1415.git
+[submodule "03/PL/lpis-lang"]
+  path = 03/PL/lpis-lang
+  url = git@github.com:JoRod94/lpis-lang.git
