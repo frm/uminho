@@ -1,6 +1,6 @@
-# Room Chat
+# Mini IRC
 
-A simple text-based room chat application. Academic project for a Distributed Systems MSc class at University of Minho.
+A simple text room-based chat application. Academic project for a Distributed Systems MSc class at University of Minho.
 
 ## Project Summary
 
