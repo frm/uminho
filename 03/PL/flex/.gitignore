@@ -1,0 +1,19 @@
+# OS X
+.DS_Store
+
+# C
+*.a
+*.o
+*.out
+*.h.gch
+
+# Flex
+*.yy.c
+
+# Vim
+*~
+*.swp
+
+# Misc
+*.log
+
