@@ -4,4 +4,8 @@ class Movie < ActiveRecord::Base
   def rating
     self.reviews.average(:score)
   end
+
+  def self.find(id)
+    Movie::TraktLoader.find(id.to_s)
+  end
 end

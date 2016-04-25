@@ -9,6 +9,10 @@ class Review < ActiveRecord::Base
   validates :score, presence: true, inclusion: { in: 0..10.0 }
   validate  :score_steps_in_halves
 
+  def movie
+    Movie.find(movie_id)
+  end
+
   protected
 
   def score_steps_in_halves
