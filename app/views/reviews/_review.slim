@@ -1,13 +1,16 @@
 p
-  strong Score:
+  strong
+    ' Score:
   = review.score
 
 p
-  strong Description:
+  strong
+   ' Description:
   = review.description
 
 p
-  strong Made by:
+  strong
+   ' Made by:
   = link_to review.user.name, user_path(review.user.id)
 
 = link_to 'Destroy', movie_review_path(review.movie, review), method: :delete, data: { confirm: 'Are you sure?' }
