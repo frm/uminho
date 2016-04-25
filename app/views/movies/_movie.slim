@@ -1,5 +1,11 @@
 p = link_to movie.title, movie_path(movie.id)
 p = movie.year
+p
+  strong
+    ' Movie Rating:
+  = movie.rating
+
+hr
 
 = render movie.reviews
 = render 'reviews/form'
