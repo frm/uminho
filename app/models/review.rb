@@ -3,7 +3,8 @@ class Review < ActiveRecord::Base
   belongs_to :movie
 
   validates :user_id, presence: true
-  validates :movie_id, presence: true
+  validates :movie_id, presence: true, uniqueness: { scope: :user_id,
+                                                     message: "review already exists"}
   validates :description, length: { maximum: 1000 }
   validates :score, presence: true, inclusion: { in: 0..10.0 }
   validate  :score_steps_in_halves

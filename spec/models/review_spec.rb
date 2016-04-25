@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Review, type: :model do
   before do
     @user = FactoryGirl.create :user
-    @review = @user.reviews.build FactoryGirl.attributes_for(:review, movie_id: 1)
+    @review = @user.reviews.build FactoryGirl.attributes_for(:review,
+                                                             movie_id: 1)
   end
 
   subject { @review }
@@ -56,5 +57,13 @@ RSpec.describe Review, type: :model do
       before { @review.score = 1.2 }
       it { should_not be_valid }
     end
+  end
+
+  it "should be limited to one user review per movie" do
+    @review.save
+    @other_review = @user.reviews.build FactoryGirl.attributes_for(
+                                                      :review, movie_id: 1)
+
+    expect(@other_review).not_to be_valid
   end
 end
