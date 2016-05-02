@@ -4,3 +4,6 @@
 [submodule "03/PL/lpis-lang"]
   path = 03/PL/lpis-lang
   url = git@github.com:JoRod94/lpis-lang.git
+[submodule "03/CC/cc"]
+	path = 03/CC/cc
+	url = https://github.com/JoRod94/cc

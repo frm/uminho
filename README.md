@@ -25,6 +25,7 @@ If you're a Computer Engineering student looking at this, the projects will *pro
   - [Software Systems Development & Databases](https://github.com/frmendes/uminho/tree/master/03/DSS_BD) - a Habitat For Humanity management thingy.
   - [Distributed Systems](https://github.com/frmendes/uminho/tree/master/03/SD) - stock management software
   - [Computer Graphics](https://github.com/frmendes/uminho/tree/master/03/CG) - a solar system. With a teapot that's also a meteor \\m/
+  - [Computer Communications](https://github.com/frmendes/uminho/tree/master/03/CC) - we didn't even finish this one. We were supposed to make a game that broadcasted songs across multiple clients or something.
   - [Language Processing & Compilers](https://github.com/frmendes/uminho/tree/master/03/PL) - We started off with a small set of projects using Flex and ended up with a small language that runs on a stack-based VM.
   - [Knowledge and Reasoning Representation Systems](https://github.com/frmendes/uminho/tree/master/03/SRCR) - Artifical Intelligence. A set of projects using Prolog to represent knowledge and neural networks for the reasoning part.
 
