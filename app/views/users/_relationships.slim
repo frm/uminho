@@ -1,0 +1,11 @@
+p
+  = link_to user_following_path(@user) do
+    strong
+      ' Following:
+    = @user.following.count
+
+p
+  = link_to user_followers_path(@user) do
+    strong
+      ' Followers:
+    = @user.followers.count

@@ -1,4 +1,6 @@
 = render @user
 
+= render 'users/relationships'
+
 h2 Reviews
 = render partial: 'users/review', collection: @user.reviews
