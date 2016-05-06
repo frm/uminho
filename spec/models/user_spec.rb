@@ -34,4 +34,20 @@ RSpec.describe User, type: :model do
       it { should_not be_valid }
     end
   end
+
+  describe "relationships" do
+    it "should follow and unfollow users" do
+      first_user = FactoryGirl.create :user
+      other_user = FactoryGirl.create :user
+      expect(first_user.following? other_user).to be false
+
+      first_user.follow(other_user)
+      expect(first_user.following? other_user).to be true
+      expect(other_user.followed_by? first_user).to be true
+
+      first_user.unfollow(other_user)
+      expect(first_user.following? other_user).to be false
+      expect(other_user.followed_by? first_user).to be false
+    end
+  end
 end
