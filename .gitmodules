@@ -7,3 +7,6 @@
 [submodule "03/CC/cc"]
 	path = 03/CC/cc
 	url = https://github.com/JoRod94/cc
+[submodule "04/PSD/dsc-bank-service-rmi"]
+	path = 04/PSD/dsc-bank-service-rmi
+	url = https://github.com/JoRod94/dsc-bank-service-rmi

@@ -32,6 +32,7 @@ If you're a Computer Engineering student looking at this, the projects will *pro
 **MSc**:
   * **1st year/4th year**: We have to choose two specialties. I chose Distribued Systems and Cryptography and also Application Engineering. More projects will be added here in the future (I hope).
     - [Distributed Systems Paradigms](https://github.com/frmendes/uminho/tree/master/04/PSD) - We started with a small set of TCP chats using multiple technologies (callback-based app and promises) and ended up with a small IRC-like application (this also has actor-based programming and ZeroMQ, which is pretty sweet).
+    - [Distributed Systems Paradigms pt 2](https://github.com/JoRod94/dsc-bank-service-rmi) - We had to implement a bank service using RMI in Java.
 
 ## Contributors
 
