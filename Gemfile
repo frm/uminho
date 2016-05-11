@@ -13,6 +13,8 @@ gem 'devise'
 
 gem 'httparty'
 
+gem 'email_validator'
+
 # gem 'turbolinks'
 # gem 'jbuilder', '~> 2.0'
 
