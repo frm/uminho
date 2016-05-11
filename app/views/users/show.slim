@@ -2,5 +2,7 @@
 
 = render 'users/relationships'
 
+= render 'follow_form' if current_user && current_user != @user
+
 h2 Reviews
 = render partial: 'users/review', collection: @user.reviews

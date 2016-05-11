@@ -6,4 +6,14 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
   end
+
+  def following
+    @users = User.find(params[:user_id]).following
+    render :index
+  end
+
+  def followers
+    @users = User.find(params[:user_id]).followers
+    render :index
+  end
 end
