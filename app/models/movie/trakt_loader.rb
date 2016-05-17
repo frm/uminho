@@ -1,11 +1,10 @@
 class Movie::TraktLoader
-  API_VERSION = '2'
-  URL_PREFIX  = "https://api-v2launch.trakt.tv"
+  include Trakt
   SHOW_URI    = '/movies/:id'
   INDEX_URI   = '/movies/trending'
 
   def self.find(id)
-    response = get(SHOW_URI, id: id)
+    response = Trakt.get(SHOW_URI, id: id)
 
     if response.success?
       Movie.new movie_params(response.parsed_response)
@@ -15,7 +14,7 @@ class Movie::TraktLoader
   end
 
   def self.all
-    response = get(INDEX_URI)
+    response = Trakt.get INDEX_URI
 
     # TODO: Trakt API allows for watchers when listing trending. Maybe allow
     # that in our view?
@@ -28,34 +27,9 @@ class Movie::TraktLoader
     end
   end
 
-  private
-
-  def self.get(uri, params = {})
-    HTTParty.get(build_url(uri, params),
-                 headers: headers)
-  end
-
-  def self.build_url(uri, params = {})
-    new_uri = uri.dup
-
-    params.each do |k,v|
-      new_uri.gsub!(':' + k.to_s, v)
-    end
-
-    URL_PREFIX + new_uri
-  end
-
   def self.movie_params(params)
     symbolized_params = params.deep_symbolize_keys
     symbolized_params[:id] = symbolized_params[:ids][:trakt]
     symbolized_params.slice(:title, :year, :id)
-  end
-
-  def self.headers(params = {})
-    {
-      "Content-Type" => "application/json",
-      "trakt-api-version" => API_VERSION,
-      "trakt-api-key" => ENV['TRAKT_ID']
-    }.merge(params)
   end
 end
