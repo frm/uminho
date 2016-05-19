@@ -6,13 +6,9 @@ class Movie::TraktLoader
 
   def self.find(id)
     response = Trakt.get(SHOW_URI, id: id)
-    response_people = Trakt.get(SHOW_PEOPLE_URI, id: id)
 
     if response.success?
-      params = movie_params(response.parsed_response)
-      params.merge!(:cast => movie_cast_params(response_people.parsed_response))
-      Movie.new params
-      
+      Movie.new movie_params(response.parsed_response)
     else
       nil
     end
@@ -36,6 +32,15 @@ class Movie::TraktLoader
     symbolized_params = params.deep_symbolize_keys
     symbolized_params[:id] = symbolized_params[:ids][:trakt]
     r = symbolized_params.slice(:title, :year, :id)
+  end
+
+  def self.movie_cast(id)
+    response = Trakt.get(SHOW_PEOPLE_URI, id: id)
+    if response.success?
+      movie_cast_params(response.parsed_response)
+    else 
+      nil
+    end
   end
 
   def self.movie_cast_params(params)
