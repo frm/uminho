@@ -9,4 +9,12 @@ class Movie < ActiveRecord::Base
   def self.find(id)
     Movie::TraktLoader.find(id.to_s)
   end
+
+  def cast
+    Movie::TraktLoader.find_cast(id.to_s)
+  end
+
+  def self.all
+    Movie::TraktLoader.all
+  end
 end

@@ -1,6 +1,7 @@
 class Movie::TraktLoader
   include Trakt
   SHOW_URI    = '/movies/:id'
+  CAST_URI    = '/movies/:id/people'
   INDEX_URI   = '/movies/trending'
 
   def self.find(id)
@@ -27,9 +28,25 @@ class Movie::TraktLoader
     end
   end
 
+  def self.find_cast(id)
+    response = Trakt.get(CAST_URI, id: id)
+
+    if response.success?
+      response.parsed_response['cast'].map { |a| Actor.new actor_params(a['person']) }
+    else
+      []
+    end
+  end
+
   def self.movie_params(params)
     symbolized_params = params.deep_symbolize_keys
     symbolized_params[:id] = symbolized_params[:ids][:trakt]
     symbolized_params.slice(:title, :year, :id)
+  end
+
+  def self.actor_params(params)
+    symbolized_params = params.deep_symbolize_keys
+    symbolized_params[:id] = symbolized_params[:ids][:trakt]
+    symbolized_params.slice(:name, :id)
   end
 end
