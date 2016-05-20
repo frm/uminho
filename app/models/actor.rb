@@ -4,4 +4,8 @@ class Actor < ActiveRecord::Base
   def self.find(id)
     Actor::TraktLoader.find(id.to_s)
   end
+
+  def movies
+  	Actor::TraktLoader.find_movies(id.to_s)
+  end
 end

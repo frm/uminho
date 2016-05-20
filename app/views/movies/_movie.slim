@@ -6,7 +6,8 @@ p
   = movie.rating
 hr
 
-= render @actors
+= @actors.each do |a|
+  p = link_to a.name, actor_path(a.id)
 
 = render movie.reviews
 = render 'reviews/form'
