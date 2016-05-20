@@ -1,10 +1,9 @@
 class MoviesController < ApplicationController
   def show
-    @movie = Movie::TraktLoader.find(params[:id])
-    @actors = Movie::TraktLoader.movie_cast(params[:id])
+    @movie = Movie.find(params[:id])
   end
 
   def index
-    @movies = Movie::TraktLoader.all
+    @movies = Movie.all
   end
 end

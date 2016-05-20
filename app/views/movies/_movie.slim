@@ -6,10 +6,5 @@ p
   = movie.rating
 hr
 
-= @actors.each do |a|
-	p = a[:name]
-
-hr
-
 = render movie.reviews
 = render 'reviews/form'
