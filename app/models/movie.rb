@@ -6,6 +6,10 @@ class Movie < ActiveRecord::Base
   end
 
   def self.find(id)
-    Movie::TraktLoader.find(id.to_s)
+    Movie::Loader.find(id.to_s)
+  end
+
+  def self.trending
+    Movie::Loader.all
   end
 end

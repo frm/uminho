@@ -1,6 +1,6 @@
-module Trakt
-  API_VERSION = '2'
-  URL_PREFIX  = "https://api-v2launch.trakt.tv"
+module TMDB
+  URL_PREFIX  = "https://api.themoviedb.org/3"
+  API_KEY = ENV['TMDB_KEY']
 
   def self.get(uri, params = {})
     HTTParty.get(build_url(uri, params),
@@ -14,14 +14,12 @@ module Trakt
       new_uri.gsub!(':' + k.to_s, v)
     end
 
-    URL_PREFIX + new_uri
+    URL_PREFIX + new_uri + "?api_key=#{API_KEY}"
   end
 
   def self.headers(params = {})
     {
-      "Content-Type" => "application/json",
-      "trakt-api-version" => API_VERSION,
-      "trakt-api-key" => ENV['TRAKT_ID']
+      "accept" => "application/json"
     }.merge(params)
   end
 end
