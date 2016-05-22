@@ -12,5 +12,7 @@ Rails.application.routes.draw do
 
   resources :actors, only: [:show]
 
+  resources :genres, only: [:index, :show]
+
   resources :relationships, only: [:create, :destroy]
 end

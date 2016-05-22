@@ -1,9 +1,9 @@
 p
   strong
     ' Name:
-  = actor.name
+  = genre.name
 
 hr
 
-= actor.movies.each do |m|
+- genre.movies.each do |m|
   p = link_to m.title, movie_path(m.id)
