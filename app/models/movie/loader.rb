@@ -2,6 +2,7 @@ class Movie::Loader
   include TMDB
   SHOW_URI    = '/movie/:id'
   INDEX_URI   = '/movie/popular'
+  CAST_URI    = '/movie/:id/credits'
 
   def self.find(id)
     response = TMDB.get(SHOW_URI, id: id)
@@ -15,13 +16,18 @@ class Movie::Loader
 
   def self.all
     response = TMDB.get INDEX_URI
-
-    # TODO: Trakt API allows for watchers when listing trending. Maybe allow
-    # that in our view?
-    # If so, movie_params must be adapted and called upon m instead of
-    # m['movie']
     if response.success?
       response.parsed_response["results"].map { |m| Movie.new movie_params(m) }
+    else
+      []
+    end
+  end
+
+  def self.find_cast(id)
+    response = TMDB.get(CAST_URI, id: id)
+
+    if response.success?
+      response.parsed_response['cast'].map { |a| Actor.new Actor::Loader.actor_params(a) }
     else
       []
     end

@@ -1,0 +1,9 @@
+p
+  strong
+    ' Name:
+  = actor.name
+
+hr
+
+= @movies.each do |m|
+  p = link_to m.title, movie_path(m.id)
