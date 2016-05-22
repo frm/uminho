@@ -16,11 +16,6 @@ class Movie::Loader
 
   def self.all
     response = TMDB.get INDEX_URI
-
-    # TODO: Trakt API allows for watchers when listing trending. Maybe allow
-    # that in our view?
-    # If so, movie_params must be adapted and called upon m instead of
-    # m['movie']
     if response.success?
       response.parsed_response["results"].map { |m| Movie.new movie_params(m) }
     else
@@ -29,10 +24,10 @@ class Movie::Loader
   end
 
   def self.find_cast(id)
-    response = Trakt.get(CAST_URI, id: id)
+    response = TMDB.get(CAST_URI, id: id)
 
     if response.success?
-      response.parsed_response['cast'].map { |a| Actor.new actor_params(a) }
+      response.parsed_response['cast'].map { |a| Actor.new Actor::Loader.actor_params(a) }
     else
       []
     end
@@ -43,9 +38,5 @@ class Movie::Loader
     symbolized_params[:year] =
       symbolized_params[:release_date].split('-').first.to_i
     symbolized_params.slice(:title, :year, :id)
-  end
-
-  def self.actor_params(params)
-    params.deep_symbolize_keys.slice(:name, :id)
   end
 end

@@ -4,8 +4,7 @@ class Movie < ActiveRecord::Base
   def rating
     self.reviews.average(:score)
   end
-
-
+  
   def self.find(id)
     Movie::Loader.find(id.to_s)
   end
@@ -15,10 +14,6 @@ class Movie < ActiveRecord::Base
   end
 
   def cast
-    Movie::TraktLoader.find_cast(id.to_s)
-  end
-
-  def self.all
-    Movie::TraktLoader.all
+    Movie::Loader.find_cast(id.to_s)
   end
 end
