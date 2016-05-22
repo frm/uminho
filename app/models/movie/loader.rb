@@ -1,11 +1,11 @@
-class Movie::TraktLoader
-  include Trakt
-  SHOW_URI    = '/movies/:id'
-  CAST_URI    = '/movies/:id/people'
-  INDEX_URI   = '/movies/trending'
+class Movie::Loader
+  include TMDB
+  SHOW_URI    = '/movie/:id'
+  INDEX_URI   = '/movie/popular'
+  CAST_URI    = '/movie/:id/credits'
 
   def self.find(id)
-    response = Trakt.get(SHOW_URI, id: id)
+    response = TMDB.get(SHOW_URI, id: id)
 
     if response.success?
       Movie.new movie_params(response.parsed_response)
@@ -15,14 +15,14 @@ class Movie::TraktLoader
   end
 
   def self.all
-    response = Trakt.get INDEX_URI
+    response = TMDB.get INDEX_URI
 
     # TODO: Trakt API allows for watchers when listing trending. Maybe allow
     # that in our view?
     # If so, movie_params must be adapted and called upon m instead of
     # m['movie']
     if response.success?
-      response.parsed_response.map { |m| Movie.new movie_params(m['movie']) }
+      response.parsed_response["results"].map { |m| Movie.new movie_params(m) }
     else
       []
     end
@@ -32,7 +32,7 @@ class Movie::TraktLoader
     response = Trakt.get(CAST_URI, id: id)
 
     if response.success?
-      response.parsed_response['cast'].map { |a| Actor.new actor_params(a['person']) }
+      response.parsed_response['cast'].map { |a| Actor.new actor_params(a) }
     else
       []
     end
@@ -40,13 +40,12 @@ class Movie::TraktLoader
 
   def self.movie_params(params)
     symbolized_params = params.deep_symbolize_keys
-    symbolized_params[:id] = symbolized_params[:ids][:trakt]
+    symbolized_params[:year] =
+      symbolized_params[:release_date].split('-').first.to_i
     symbolized_params.slice(:title, :year, :id)
   end
 
   def self.actor_params(params)
-    symbolized_params = params.deep_symbolize_keys
-    symbolized_params[:id] = symbolized_params[:ids][:trakt]
-    symbolized_params.slice(:name, :id)
+    params.deep_symbolize_keys.slice(:name, :id)
   end
 end
