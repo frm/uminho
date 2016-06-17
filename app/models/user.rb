@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  acts_as_voter
+
   validates :email, presence: true, email: true
   validates :name,  presence: true, length: { maximum: 75 }
   validates :bio,   length: { maximum: 300 }

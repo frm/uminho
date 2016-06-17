@@ -2,6 +2,8 @@ class Review < ActiveRecord::Base
   belongs_to :user
   belongs_to :movie
 
+  acts_as_votable
+
   validates :user_id, presence: true
   validates :movie_id, presence: true, uniqueness: { scope: :user_id,
                                                      message: "review already exists"}

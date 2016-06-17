@@ -15,6 +15,8 @@ gem 'httparty'
 
 gem 'email_validator'
 
+gem 'acts_as_votable', '~> 0.10.0'
+
 # gem 'turbolinks'
 # gem 'jbuilder', '~> 2.0'
 
@@ -46,4 +48,5 @@ group :development do
   gem 'web-console', '~> 2.0'
   gem 'better_errors'
 end
+
 
