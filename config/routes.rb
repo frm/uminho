@@ -15,4 +15,9 @@ Rails.application.routes.draw do
   resources :genres, only: [:index, :show]
 
   resources :relationships, only: [:create, :destroy]
+
+  namespace 'reviews' do 
+    post '/:review_id/vote' => 'ratings#create', as: 'vote'
+    delete '/:review_id/unvote' => 'ratings#destroy', as: 'unvote'
+  end
 end

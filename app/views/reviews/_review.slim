@@ -13,6 +13,17 @@ p
    ' Made by:
   = link_to review.user.name, user_path(review.user.id)
 
-= link_to 'Destroy', movie_review_path(review.movie, review), method: :delete, data: { confirm: 'Are you sure?' }
+p
+  strong
+   ' Reliability:
+  = review.get_upvotes.size + review.get_downvotes.size
+
+= link_to 'Destroy', movie_review_path(review.movie, review), method: :delete, data: { confirm: 'Are you sure?'}
+
+- if current_user != review.user
+  br
+  = render partial: 'reviews/upvote', locals: {review: review}
+  br
+  = render partial: 'reviews/downvote', locals: {review: review}
 
 hr
