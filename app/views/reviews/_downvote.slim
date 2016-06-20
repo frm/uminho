@@ -1,1 +1,1 @@
-= link_to 'downvote', reviews_vote_path(review_id: review.id, review_rating: 'down'), remote: true, method: :post
+= link_to 'downvote', reviews_vote_path(review_id: review.id, review_rating: 'down'), remote: true, method: :post, id: "downvote-#{review.id}"

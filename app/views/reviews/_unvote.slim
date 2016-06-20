@@ -1,1 +1,1 @@
-= link_to 'unvote', reviews_unvote_path(review_id: review.id), remote: true, method: :delete
+= link_to 'unvote', reviews_unvote_path(review_id: review.id), remote: true, method: :delete, id: "unvote-#{review.id}"
