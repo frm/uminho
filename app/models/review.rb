@@ -15,6 +15,10 @@ class Review < ActiveRecord::Base
     Movie.find(movie_id)
   end
 
+  def reliability
+    get_upvotes.size - get_downvotes.size
+  end
+
   protected
 
   def score_steps_in_halves
