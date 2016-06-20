@@ -1,7 +1,6 @@
 class RatingsController < ApplicationController
   def create
     @review = Review.find(params[:review_id])
-    binding.pry
     @review.vote_by voter: current_user, vote: params[:review_rating]
     respond_to do |format|
       format.html { redirect_to @review.movie }
