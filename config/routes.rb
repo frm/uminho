@@ -16,8 +16,8 @@ Rails.application.routes.draw do
 
   resources :relationships, only: [:create, :destroy]
 
-  namespace 'reviews' do 
-    post '/:review_id/vote' => 'ratings#create', as: 'vote'
-    delete '/:review_id/unvote' => 'ratings#destroy', as: 'unvote'
+  scope '/reviews' do
+    post '/:review_id/vote' => 'ratings#create', as: 'reviews_vote'
+    delete '/:review_id/unvote' => 'ratings#destroy', as: 'reviews_unvote'
   end
 end
