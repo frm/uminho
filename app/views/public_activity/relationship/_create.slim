@@ -1,0 +1,6 @@
+- follower = a.owner
+- followed = a.trackable.followed
+li
+  = "#{follower.name} started following #{followed.name}"
+  br
+  = "#{time_ago_in_words(a.created_at)} ago"
