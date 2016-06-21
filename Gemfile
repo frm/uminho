@@ -10,12 +10,11 @@ gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 
 gem 'devise'
-
 gem 'httparty'
-
 gem 'email_validator'
 
 gem 'acts_as_votable', '~> 0.10.0'
+gem 'public_activity'
 
 # gem 'turbolinks'
 # gem 'jbuilder', '~> 2.0'
