@@ -1,5 +1,9 @@
 p = link_to movie.title, movie_path(movie.id)
 p = movie.year
+p = movie.overview
+= image_tag movie.img_path
+p = movie.tagline
+
 p
   strong
     ' Movie Rating:
@@ -7,7 +11,11 @@ p
 hr
 
 - @actors.each do |a|
-  p = link_to a.name, actor_path(a.id)
+  p
+    = image_tag a.profile_path
+    br
+    = link_to a.name, actor_path(a.id)
+    = " as #{a.character}"
 
 = render movie.reviews
 = render 'reviews/form'

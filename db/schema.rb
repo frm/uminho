@@ -32,8 +32,10 @@ ActiveRecord::Schema.define(version: 20160621092328) do
 
   create_table "actors", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "profile_path"
+    t.string   "character"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "genres", force: :cascade do |t|
@@ -45,14 +47,9 @@ ActiveRecord::Schema.define(version: 20160621092328) do
   create_table "movies", force: :cascade do |t|
     t.string   "title"
     t.integer  "year"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "ratings", force: :cascade do |t|
-    t.boolean  "score"
-    t.integer  "user_id"
-    t.integer  "review_id"
+    t.string   "img_path"
+    t.text     "overview"
+    t.text     "tagline"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

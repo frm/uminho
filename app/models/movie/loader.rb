@@ -3,6 +3,7 @@ class Movie::Loader
   SHOW_URI    = '/movie/:id'
   INDEX_URI   = '/movie/popular'
   CAST_URI    = '/movie/:id/credits'
+  IMG_PATH    = 'https://image.tmdb.org/t/p/w396'
 
   def self.find(id)
     response = TMDB.get(SHOW_URI, id: id)
@@ -37,6 +38,8 @@ class Movie::Loader
     symbolized_params = params.deep_symbolize_keys
     symbolized_params[:year] =
       symbolized_params[:release_date].split('-').first.to_i
-    symbolized_params.slice(:title, :year, :id)
+
+    symbolized_params[:img_path] = IMG_PATH + symbolized_params[:poster_path]
+    symbolized_params.slice(:title, :year, :id, :img_path, :overview, :tagline)
   end
 end
