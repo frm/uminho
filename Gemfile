@@ -3,8 +3,9 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.6'
 gem 'therubyracer', platforms: :ruby
 
-gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'
+gem 'sass-rails', '~> 5.0'
+gem 'bootstrap-sass', '~> 3.3.6'
 
 gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
