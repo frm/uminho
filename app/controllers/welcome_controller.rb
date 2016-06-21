@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
   def index
-    @activities = PublicActivity::Activity.all if current_user
+    @activities = current_user.feed if current_user
   end
 end

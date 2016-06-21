@@ -38,4 +38,10 @@ class User < ActiveRecord::Base
   def followed_by?(user)
     followers.include? user
   end
+
+  def feed
+    PublicActivity::Activity.joins("LEFT OUTER JOIN relationships
+                ON relationships.followed_id = activities.owner_id
+                WHERE relationships.follower_id=#{id}")
+  end
 end
