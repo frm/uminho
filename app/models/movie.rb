@@ -2,9 +2,13 @@ class Movie < ActiveRecord::Base
   has_many :reviews
 
   def rating
-    self.reviews.average(:score)
+    self.reviews.average(:score) || 0
   end
-  
+
+  def ratings
+    self.reviews.count
+  end
+
   def self.find(id)
     Movie::Loader.find(id.to_s)
   end
