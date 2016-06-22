@@ -28,7 +28,12 @@ class Movie::Loader
     response = TMDB.get(CAST_URI, id: id)
 
     if response.success?
-      response.parsed_response['cast'].map { |a| Actor.new Actor::Loader.actor_params(a) }
+      res = response.parsed_response
+      [
+        res['cast'].map { |a| Actor.new Actor::Loader.actor_params(a) },
+        res['crew'].select { |c| c["job"] == "Director" }
+                    .map { |c| Actor.new Actor::Loader.actor_params(c) }
+      ]
     else
       []
     end
@@ -40,6 +45,18 @@ class Movie::Loader
       symbolized_params[:release_date].split('-').first.to_i
 
     symbolized_params[:img_path] = IMG_PATH + symbolized_params[:poster_path]
-    symbolized_params.slice(:title, :year, :id, :img_path, :overview, :tagline)
+
+    if symbolized_params[:spoken_languages]
+      symbolized_params[:language] = retrieve_language(symbolized_params)
+    end
+
+    symbolized_params.slice(:title, :year, :id, :img_path, :overview,
+                           :tagline, :runtime, :language)
+  end
+
+  def self.retrieve_language(params)
+    params[:spoken_languages].select do |lang|
+      lang[:iso_639_1] == params[:original_language]
+    end.first[:name]
   end
 end

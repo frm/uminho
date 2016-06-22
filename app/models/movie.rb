@@ -18,6 +18,14 @@ class Movie < ActiveRecord::Base
   end
 
   def cast
-    Movie::Loader.find_cast(id.to_s)
+    res = Movie::Loader.find_cast(id.to_s) unless @cast
+    @directors ||= res[1]
+    @cast ||= res[0]
+  end
+
+  def directors
+    res = Movie::Loader.find_cast(id.to_s) unless @directors
+    @cast ||= res[0]
+    @directors ||= res[1]
   end
 end
