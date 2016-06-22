@@ -44,20 +44,35 @@
     button.btn.btn-info type="button" data-toggle="modal" data-target="#movie-review-modal"
       ' Review
 
-.row
-  hr
-  - @actors.each do |a|
-    .col-md-3
-      = image_tag a.profile_path, class: 'movie-cast-member'
-      p.movie-role
-        = link_to a.name, actor_path(a.id)
-        br
-        = " as "
-        span.movie-character = " #{a.character}"
+.u-padding-md
 
 .row
-  hr
-  = render movie.reviews
+  div
+    ul.nav.nav-tabs role="tablist"
+      li.active role="presentation"
+        a href="#movie-reviews" aria-controls="profile" role="tab" data-toggle="tab"
+          ' Reviews
+
+      li role="presentation"
+        a href="#movie-actors" aria-controls="profile" role="tab" data-toggle="tab"
+          ' Actors
+
+  .tab-content
+    div.tab-pane.active#movie-reviews role="tabpanel"
+      .u-padding-md
+      = render movie.reviews
+
+    div.tab-pane#movie-actors role="tabpanel"
+      .u-padding-md
+
+      - @actors.each do |a|
+        .col-md-3
+          = image_tag a.profile_path, class: 'movie-cast-member'
+          p.movie-role
+            = link_to a.name, actor_path(a.id)
+            br
+            = " as "
+            span.movie-character = " #{a.character}"
 
 .modal.fade id="movie-review-modal" tab-index="-1" role="dialog" aria-labelledby='movie-review-modal-title'
   .modal-dialog role="document"

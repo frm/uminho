@@ -1,26 +1,15 @@
-p
-  strong
+.review.col-md-4
+  p
+    span.review-reliability id=("review-reliability-#{review.id}")
+      = "(#{review.reliability})"
+    = link_to " #{review.user.name}: ", user_path(review.user.id), class: 'review-author'
+    span.review-description = review.description
+
+  p.review-score
     ' Score:
-  = review.score
+    = review.score
 
-p
-  strong
-   ' Description:
-  = review.description
+  = link_to 'Destroy', movie_review_path(review.movie, review), method: :delete, data: { confirm: 'Are you sure?'}
 
-p
-  strong
-   ' Made by:
-  = link_to review.user.name, user_path(review.user.id)
-
-p
-  strong
-   ' Reliability:
-  span id=("review-reliability-#{review.id}")
-    = review.reliability
-
-= link_to 'Destroy', movie_review_path(review.movie, review), method: :delete, data: { confirm: 'Are you sure?'}
-
-- if current_user != review.user
-  = render partial: 'reviews/vote', locals: {:review => review}
-hr
+  - if current_user != review.user
+    = render partial: 'reviews/vote', locals: {:review => review}
