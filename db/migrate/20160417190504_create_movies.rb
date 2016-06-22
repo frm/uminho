@@ -6,6 +6,8 @@ class CreateMovies < ActiveRecord::Migration
       t.string :img_path
       t.text :overview
       t.text :tagline
+      t.integer :runtime
+      t.string :language
 
       t.timestamps null: false
     end

@@ -50,6 +50,8 @@ ActiveRecord::Schema.define(version: 20160621092328) do
     t.string   "img_path"
     t.text     "overview"
     t.text     "tagline"
+    t.integer  "runtime"
+    t.string   "language"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
