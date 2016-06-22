@@ -1,3 +1,47 @@
 // Place all the styles related to the Movies controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'variables';
+
+.movie-poster {
+  max-width: 250px;
+}
+
+.movie-tagline {
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  border-left: 5px solid $grey;
+  font-family: $f-serif;
+  font-style: italic;
+
+  &::before {
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
+  }
+}
+
+.movie-title {
+  font-family: $f-serif;
+  margin-bottom: 0;
+}
+
+.movie-year {
+  margin: 0;
+  font-style: italic;
+  color: $grey;
+}
+
+img.movie-cast-member {
+  max-width: 200px;
+  max-height: 150px;
+}
+
+.movie-role {
+  margin-bottom: $margin-sm;
+}
+
+.movie-character {
+  font-weight: bold;
+  font-style: italic;
+}

@@ -1,21 +1,48 @@
-p = link_to movie.title, movie_path(movie.id)
-p = movie.year
-p = movie.overview
-= image_tag movie.img_path
-p = movie.tagline
+.u-padding-md
 
-p
-  strong
-    ' Movie Rating:
-  = movie.rating
-hr
+.row
+  div.col-md-3
+    = image_tag movie.img_path, class: 'movie-poster'
 
-- @actors.each do |a|
-  p
-    = image_tag a.profile_path
-    br
-    = link_to a.name, actor_path(a.id)
-    = " as #{a.character}"
+  div.col-md-5
+    h1.movie-title = movie.title
+    p.movie-year = "#{movie.year}"
 
-= render movie.reviews
-= render 'reviews/form'
+    .u-padding-md
+
+    p.movie-tagline = movie.tagline
+    hr
+    p.movie-overview = movie.overview
+
+  div.col-md-2.movie-new-review
+
+    .u-padding-md
+
+    p
+      strong
+        ' Movie Rating:
+      = movie.rating
+    p
+      strong
+        ' Nr Reviews:
+      = movie.ratings
+    button.btn.btn-info type="button" Review
+
+  div.col-md-offset-2
+
+.row
+  hr
+  - @actors.each do |a|
+    .col-md-3
+      = image_tag a.profile_path, class: 'movie-cast-member'
+      p.movie-role
+        = link_to a.name, actor_path(a.id)
+        br
+        = " as "
+        span.movie-character = " #{a.character}"
+
+.row
+  hr
+  = render movie.reviews
+  hr
+  = render 'reviews/form'
