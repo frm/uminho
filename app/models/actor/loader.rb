@@ -3,6 +3,7 @@ class Actor::Loader
   SHOW_URI = '/person/:id'
   MOVIES_URI = '/person/:id/movie_credits'
   IMG_PATH = 'https://image.tmdb.org/t/p/w185'
+  IMG_PLACEHOLDER = 'http://www.clker.com/cliparts/A/Y/O/m/o/N/placeholder.svg'
 
   def self.find(id)
     response = TMDB.get(SHOW_URI, id: id)
@@ -16,8 +17,11 @@ class Actor::Loader
 
   def self.actor_params(params)
     symbolized_params = params.deep_symbolize_keys
+
     profile_path = symbolized_params[:profile_path]
-    symbolized_params[:profile_path] = IMG_PATH + profile_path if profile_path
+    symbolized_params[:profile_path] =
+      profile_path ? IMG_PATH + profile_path : IMG_PLACEHOLDER
+
     symbolized_params.slice(:name, :id, :profile_path, :character)
   end
 
