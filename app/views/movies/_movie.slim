@@ -57,12 +57,18 @@
         a href="#movie-actors" aria-controls="profile" role="tab" data-toggle="tab"
           ' Actors
 
-  .tab-content
+  .tab-content.col-md-12
     div.tab-pane.active#movie-reviews role="tabpanel"
       .u-padding-md
-      = render movie.reviews
+      - reviews_page = movie.reviews.paginate(per_page: 20, page: params[:page])
+      - reviews_page.each do |r|
+        .col-md-4
+          = render r
 
-    div.tab-pane#movie-actors role="tabpanel"
+      .col-md-12
+        = will_paginate reviews_page
+
+    div.tab-pane.col-md-12#movie-actors role="tabpanel"
       .u-padding-md
 
       - @actors.each do |a|
@@ -73,6 +79,7 @@
             br
             = " as "
             span.movie-character = " #{a.character}"
+
 
 .modal.fade id="movie-review-modal" tab-index="-1" role="dialog" aria-labelledby='movie-review-modal-title'
   .modal-dialog role="document"

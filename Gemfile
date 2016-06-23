@@ -17,6 +17,8 @@ gem 'email_validator'
 gem 'acts_as_votable', '~> 0.10.0'
 gem 'public_activity'
 
+gem 'will_paginate', '~> 3.1.0'
+
 # gem 'turbolinks'
 # gem 'jbuilder', '~> 2.0'
 
