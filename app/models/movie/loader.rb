@@ -41,10 +41,15 @@ class Movie::Loader
 
   def self.movie_params(params)
     symbolized_params = params.deep_symbolize_keys
-    symbolized_params[:year] =
-      symbolized_params[:release_date].split('-').first.to_i
 
-    symbolized_params[:img_path] = IMG_PATH + symbolized_params[:poster_path]
+    if symbolized_params[:release_date]
+      symbolized_params[:year] =
+        symbolized_params[:release_date].split('-').first.to_i
+    end
+
+    if symbolized_params[:poster_path]
+      symbolized_params[:img_path] = IMG_PATH + symbolized_params[:poster_path]
+    end
 
     if symbolized_params[:spoken_languages]
       symbolized_params[:language] = retrieve_language(symbolized_params)
