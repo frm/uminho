@@ -34,8 +34,12 @@ ActiveRecord::Schema.define(version: 20160621092328) do
     t.string   "name"
     t.string   "profile_path"
     t.string   "character"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.string   "place_of_birth"
+    t.string   "homepage"
+    t.date     "birthday"
+    t.text     "biography"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "genres", force: :cascade do |t|
