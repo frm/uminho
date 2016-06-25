@@ -6,6 +6,7 @@ gem 'therubyracer', platforms: :ruby
 gem 'slim-rails'
 gem 'sass-rails', '~> 5.0'
 gem 'bootstrap-sass', '~> 3.3.6'
+gem "font-awesome-rails"
 
 gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
@@ -18,6 +19,7 @@ gem 'acts_as_votable', '~> 0.10.0'
 gem 'public_activity'
 
 gem 'will_paginate', '~> 3.1.0'
+gem 'coffee-rails'
 
 # gem 'turbolinks'
 # gem 'jbuilder', '~> 2.0'
