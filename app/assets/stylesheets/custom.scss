@@ -1,5 +1,9 @@
 @import 'variables';
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   font-family: $f-sans-serif !important;
 }
