@@ -9,8 +9,10 @@
 <body>
 
 <div class="container">
-  <%= render 'shared/nav' %>
-  <div class="u-padding-xl"></div>
+  <% if user_signed_in? %>
+    <%= render 'shared/nav' %>
+    <div class="u-padding-xl"></div>
+  <% end %>
   <%= yield %>
 </div>
 
