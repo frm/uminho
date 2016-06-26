@@ -1,5 +1,20 @@
 .landing-container style="background-image: linear-gradient(rgba(0, 0, 0, 0.35),
   rgba(0, 0, 0, 0.35)), url(#{random_cinemagraph})"
 
+  .landing-center
+    h1.landing-title Reel
+
+    .u-padding-lg
+
+    p.landing-quote
+
+    .landing-buttons
+      = link_to new_user_session_path do
+        button.landing-btn Log In
+
+      = link_to new_user_registration_path do
+        button.landing-btn Sign Up
+
+
   = link_to 'Login', new_user_session_path
 

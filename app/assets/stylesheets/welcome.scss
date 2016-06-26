@@ -14,3 +14,76 @@ html.landing {
   background-repeat: no-repeat;
   color: $white;
 }
+
+.landing-center {
+  margin: 0 auto;
+  margin-top: 100px;
+  width: 75%;
+}
+
+.landing-title {
+  display: inline-block;
+  font-size: 125px;
+  font-family: $f-logo;
+  font-weight: bold;
+  color: $dark;
+  background-color: $white;
+  padding: 0 15px;
+  transform: skew(-10deg);
+  text-transform: uppercase;
+  letter-spacing: -5px;
+}
+
+.landing-quote {
+  text-align: right;
+  font-family: $f-serif;
+  font-size: 28px;
+  line-height: 40px;
+  margin: 0 2px 20px;
+  padding: 10px;
+  color: $white;
+
+  span {
+    display: inline;
+    background-color: $white;
+    color: $dark;
+    padding: 0 2px;
+  }
+
+  span.landing-quote-author {
+    background-color: transparent;
+    color: $grey;
+    display: block;
+    font-size: 16px;
+    font-style: italic;
+  }
+}
+
+.landing-buttons {
+  text-align: center;
+}
+
+.landing-btn {
+  background: none;
+  display: inline-block;
+  padding: 20px 60px;
+  margin: 10px 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: $f-logo;
+  font-style: italic;
+  outline: none;
+  position: relative;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  color: $white;
+  border: 3px solid $white;
+
+  &:hover, &:focus {
+    background-color: $white;
+    color: $dark;
+  }
+}
