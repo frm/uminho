@@ -1,8 +1,25 @@
 - username = a.owner.name
 - movie = a.trackable.movie
 - score = a.trackable.score
-li
-  = "#{username} updated #{movie.title}'s review to #{score}"
-  = " - #{a.trackable.description}" if a.trackable.description
-  br
-  = "#{time_ago_in_words(a.created_at)} ago"
+
+li.timeline-inverted
+  -if score > 3.9
+    .timeline-badge.success
+        i.glyphicon.glyphicon-thumbs-up
+  -else
+    -if score > 2.9
+      .timeline-badge.warning
+        i.glyphicon.glyphicon-thumbs-up
+    -else
+      .timeline-badge.danger
+        i.glyphicon.glyphicon-thumbs-down
+  .timeline-panel
+    .timeline-heading
+      h4.timeline-title = "#{username} updated #{movie.title}'s review to #{score}"
+      p
+        small.text-muted
+          i.glyphicon.glyphicon-time
+          |  #{time_ago_in_words(a.created_at)} ago
+    .timeline-body
+      p
+        |  #{a.trackable.description}
