@@ -2,11 +2,11 @@
 
 .row
   div.col-md-3
-    = image_tag movie.img_path, class: 'movie-poster'
+    = image_tag movie.img_path, class: 'profile-poster'
 
   div.col-md-5
-    h1.movie-title = movie.title
-    p.movie-year = "#{movie.year}"
+    h1.profile-title = movie.title
+    p.profile-subtitle = "#{movie.year}"
 
     .u-padding-md
 
@@ -71,14 +71,15 @@
     div.tab-pane.col-md-12#movie-actors role="tabpanel"
       .u-padding-md
 
-      - @actors.each do |a|
-        .col-md-3
-          = image_tag a.profile_path, class: 'movie-cast-member'
-          p.movie-role
-            = link_to a.name, actor_path(a.id)
-            br
-            = " as "
-            span.movie-character = " #{a.character}"
+      .gallery-row
+        - @actors.each do |a|
+          .gallery-entry style="background-image: url(#{a.profile_path})"
+            = image_tag a.profile_path, class: 'gallery-img'
+            .overbox
+              .overtext
+                = link_to actor_path(a.id) do
+                  = "#{a.name} as "
+                  span.movie-character = " #{a.character}"
 
 
 .modal.fade id="movie-review-modal" tab-index="-1" role="dialog" aria-labelledby='movie-review-modal-title'
