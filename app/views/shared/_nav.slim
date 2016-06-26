@@ -7,11 +7,9 @@ nav.navbar.navbar-custom.navbar-fixed-top role="navigation"
     .collapse.navbar-collapse.navbar-left.navbar-main-collapse
       ul.nav.navbar-nav
         li
-          a href="/movies"  Movies
+          = link_to 'Movies', movies_path
         li
-          a href="/activity" Activity
-        li
-          a href="/discover"  Discover
+          = link_to 'Discover', genres_path
 
     .navbar-right
       form.navbar-form role="search"
