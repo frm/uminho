@@ -8,6 +8,14 @@ body {
   margin: $margin-md;
 }
 
+.u-padding-lg {
+  margin: $margin-lg;
+}
+
+.u-padding-xl {
+  margin: $margin-lg + $margin-md;
+}
+
 .profile-poster {
   max-width: 250px;
 }

@@ -1,54 +1,55 @@
+@import 'variables';
+
 .navbar-custom {
-    margin-bottom: 0;
-    border-bottom: 1px solid rgba(white, 0.3);
-    text-transform: uppercase;
-    font-family: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background-color: #333333;
-    .navbar-toggle {
-        padding: 4px 6px;
-        font-size: 16px;
-        color: white;
+  margin-bottom: 0;
+  border-bottom: 1px solid rgba(white, 0.3);
+  text-transform: uppercase;
+  font-family: $f-sans-serif;
+  background-color: #333333;
+  .navbar-toggle {
+    padding: 4px 6px;
+    font-size: 16px;
+    color: white;
+    &:focus,
+    &:active {
+      outline: none;
+    }
+  }
+  .navbar-brand {
+    font-weight: 700;
+    &:focus {
+      outline: none;
+    }
+  }
+  a {
+    color: white;
+  }
+  .nav {
+    li {
+      a {
+        -webkit-transition: background .3s ease-in-out;
+        -moz-transition: background .3s ease-in-out;
+        transition: background .3s ease-in-out;
+        &:hover {
+          color: rgba(white, 0.8);
+          outline: none;
+          background-color: transparent;
+        }
         &:focus,
         &:active {
-            outline: none;
+          outline: none;
+          background-color: transparent;
         }
-    }
-    .navbar-brand {
-        font-weight: 700;
-        &:focus {
-            outline: none;
+      }
+      &.active {
+        outline: none;
+        a {
+          background-color: rgba(white, 0.3);
+          &:hover {
+            color: white;
+          }
         }
+      }
     }
-    a {
-        color: white;
-    }
-    .nav {
-        li {
-            a {
-                -webkit-transition: background .3s ease-in-out;
-                -moz-transition: background .3s ease-in-out;
-                transition: background .3s ease-in-out;
-                &:hover {
-                    color: rgba(white, 0.8);
-                    outline: none;
-                    background-color: transparent;
-                }
-                &:focus,
-                &:active {
-                    outline: none;
-                    background-color: transparent;
-                }
-            }
-            &.active {
-                outline: none;
-                a {
-                    background-color: rgba(white, 0.3);
-                    &:hover {
-                        color: white;
-                    }
-                }
-            }
-        }
-    }
-    
+  }
 }
