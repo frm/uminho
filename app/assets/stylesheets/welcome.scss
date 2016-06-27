@@ -63,27 +63,3 @@ html.landing {
   text-align: center;
 }
 
-.landing-btn {
-  background: none;
-  display: inline-block;
-  padding: 20px 60px;
-  margin: 10px 20px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: bold;
-  font-size: 18px;
-  font-family: $f-logo;
-  font-style: italic;
-  outline: none;
-  position: relative;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
-  color: $white;
-  border: 3px solid $white;
-
-  &:hover, &:focus {
-    background-color: $white;
-    color: $dark;
-  }
-}
