@@ -20,6 +20,10 @@ body {
   margin: $margin-lg + $margin-md;
 }
 
+h1.reel-title {
+  font-family: $f-serif;
+}
+
 .profile-poster {
   max-width: 250px;
 }
@@ -139,3 +143,4 @@ body {
     color: $dark;
   }
 }
+

@@ -1,2 +1,12 @@
-- @movies.each do |m|
-  p = link_to m.title, movie_path(m.id)
+h1.reel-title Trending
+
+.u-padding-md
+
+.gallery-row
+  - @movies.each do |m|
+    .gallery-entry style="background-image: url(#{m.img_path})"
+      = image_tag m.img_path, class: 'gallery-img'
+      .overbox
+        .overtext
+          = link_to movie_path(m.id) do
+            = m.title
