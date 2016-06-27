@@ -8,6 +8,14 @@ body {
   font-family: $f-sans-serif !important;
 }
 
+.u-padding-xs {
+  margin: $margin-xs;
+}
+
+.u-padding-sm {
+  margin: $margin-sm;
+}
+
 .u-padding-md {
   margin: $margin-md;
 }
@@ -144,3 +152,20 @@ h1.reel-title {
   }
 }
 
+.reel-logo {
+  display: inline-block;
+  font-family: $f-logo;
+  font-weight: bold;
+  color: $dark;
+  background-color: $white;
+  padding: 0 15px;
+  transform: skew(-10deg);
+  text-transform: uppercase;
+}
+
+.label-notice {
+  font-family: $f-sans-serif;
+  font-size: 12px;
+  color: $grey;
+  display: inline;
+}

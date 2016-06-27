@@ -1,0 +1,43 @@
+@import 'custom';
+
+.registration-btn {
+  @extend .reel-btn;
+  max-width: 125px;
+  min-height: 50px;
+  text-decoration: none;
+  font-style: none;
+  margin: 0 auto;
+
+  &:hover, &:focus {
+    background-color: $dark;
+    color: $white;
+  }
+}
+
+.registration-info {
+  width: 50%;
+  float: left;
+}
+
+.registration-container {
+  margin: 0 auto;
+}
+
+.reel-registration-title {
+  @extend .reel-logo;
+  background-color: $dark;
+  color: #fff;
+  font-size: 50px;
+}
+
+.registration-links {
+  a {
+    color: $dark;
+    font-family: $f-serif;
+    font-size: 12px;
+
+    &:hover, &:focus {
+      color: lighten($dark, 0.4);
+    }
+  }
+}

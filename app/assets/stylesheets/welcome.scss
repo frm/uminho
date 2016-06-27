@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'custom';
 
 html.landing {
   overflow-y: none;
@@ -22,15 +23,8 @@ html.landing {
 }
 
 .landing-title {
-  display: inline-block;
+  @extend .reel-logo;
   font-size: 125px;
-  font-family: $f-logo;
-  font-weight: bold;
-  color: $dark;
-  background-color: $white;
-  padding: 0 15px;
-  transform: skew(-10deg);
-  text-transform: uppercase;
   letter-spacing: -5px;
 }
 
