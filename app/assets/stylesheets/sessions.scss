@@ -1,0 +1,24 @@
+@import 'custom';
+
+.session-container {
+  margin: 0 auto;
+}
+
+.session-logo-container {
+  text-align: center;
+}
+
+.reel-session-title {
+  @extend .reel-logo;
+  background-color: $dark;
+  color: #fff;
+  font-size: 125px;
+  letter-spacing: -5px;
+  padding: 0 20px;
+}
+
+.session-title {
+  font-family: $f-serif;
+  color: $dark;
+}
+

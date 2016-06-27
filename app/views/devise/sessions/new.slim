@@ -1,0 +1,27 @@
+.u-padding-md
+
+.session-container
+  .session-logo-container
+    = link_to root_url do
+      h1.reel-session-title Reel
+
+  .u-padding-md
+
+  = form_for(resource, as: resource_name, url: session_path(resource_name), html: {class:'cbp-mc-form'}) do |f|
+    = devise_error_messages!
+
+    .cbp-mc-column.cbp-mc-column-2x.cbp-mc-column-center
+      = f.label :email
+      = f.email_field :email, autofocus: true
+
+      = f.label :password
+      = f.password_field :password, autocomplete: "off"
+
+      - if devise_mapping.rememberable?
+        = f.check_box :remember_me
+        = f.label :remember_me, class: 'label-notice'
+
+      .cbp-mc-submit-wrap
+        = f.submit "Log in", class: 'registration-btn'
+        .u-padding-xs
+        = render "devise/shared/links"

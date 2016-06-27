@@ -24,6 +24,11 @@
   width: 50%;
 }
 
+.cbp-mc-column.cbp-mc-column-center {
+  float: none;
+  margin: 0 auto;
+}
+
 .cbp-mc-form label {
   display: inline-block;
   padding: 20px 5px 5px 2px;
@@ -70,6 +75,11 @@
 
 .cbp-mc-form select:focus {
   outline: none;
+}
+
+.cbp-mc-form input[type="checkbox"] {
+  width: 10%;
+  display: inline;
 }
 
 ::-webkit-input-placeholder { /* WebKit browsers */
