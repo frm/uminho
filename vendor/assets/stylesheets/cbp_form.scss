@@ -1,0 +1,133 @@
+@import 'variables';
+
+.cbp-mc-form {
+  position: relative;
+}
+
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.cbp-mc-form:before,
+.cbp-mc-form:after {
+  content: " "; display: table;
+}
+
+.cbp-mc-form:after {
+  clear: both;
+}
+
+.cbp-mc-column {
+  width: 33%;
+  padding: 10px 30px;
+  float: left;
+}
+
+.cbp-mc-column.cpb-mc-column-2x {
+  width: 50%;
+}
+
+.cbp-mc-form label {
+  display: inline-block;
+  padding: 20px 5px 5px 2px;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+
+  &:first-child {
+    padding-top: 0px;
+  }
+}
+
+.cbp-mc-form input,
+.cbp-mc-form textarea,
+.cbp-mc-form select {
+  font-family: $f-sans-serif;
+  line-height: 1.4;
+  font-size: 1.1em;
+  padding: 5px 10px;
+  color: $dark;
+  display: block;
+  width: 100%;
+  background: transparent;
+}
+
+.cbp-mc-form input,
+.cbp-mc-form textarea {
+  border: 2px solid $dark;
+}
+
+.cbp-mc-form textarea {
+  min-height: 200px;
+  resize: none;
+}
+
+.cbp-mc-form input:focus,
+.cbp-mc-form textarea:focus,
+.cbp-mc-form label:active + input,
+.cbp-mc-form label:active + textarea {
+  outline: none;
+  border: 2px solid $dark;
+}
+
+.cbp-mc-form select:focus {
+  outline: none;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: $grey;
+    font-style: italic;
+}
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: $grey;
+    font-style: italic;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: $grey;
+    font-style: italic;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: $grey;
+    font-style: italic;
+}
+
+.cbp-mc-submit-wrap {
+  text-align: center;
+  padding-top: 40px;
+  clear: both;
+}
+
+.cbp-mc-form input.cbp-mc-submit {
+  background: $dark;
+  border: none;
+  color: $white;
+  width: auto;
+  cursor: pointer;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 1.1em;
+  border-radius: 2px;
+  letter-spacing: 1px;
+}
+
+.cbp-mc-form input.cbp-mc-submit:hover {
+  background: $dark;
+}
+
+@media screen and (max-width: 70em) {
+  .cbp-mc-column {
+    width: 50%;
+  }
+  .cbp-mc-column:nth-child(3) {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 48em) {
+  .cbp-mc-column {
+    width: 100%;
+    padding: 10px;
+  }
+}
