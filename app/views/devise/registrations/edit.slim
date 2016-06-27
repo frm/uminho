@@ -1,0 +1,45 @@
+.u-padding-md
+
+.session-container
+  .session-logo-container
+    = link_to root_path do
+      h1.reel-session-title Reel
+
+  .u-padding-md
+
+  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, multipart: true, class: 'cbp-mc-form' }) do |f|
+    = devise_error_messages!
+
+    .cbp-mc-column.cbp-mc-column-2x.cbp-mc-column-center
+      = f.label :name
+      = f.text_field :name, autofocus: true, placeholder: 'John Doe'
+
+      = f.label :avatar
+      = f.file_field :avatar
+
+      = f.label :bio
+      = f.text_area :bio, placeholder: 'Tell us about yourself'
+
+      = f.label :email
+      = f.email_field :email, placeholder: 'johndoe@example.com'
+
+      = f.label :password
+      = f.password_field :password, autocomplete: "off"
+      span.label-notice
+        ' (leave blank if you don't want to change it)
+
+      = f.label :password_confirmation
+      = f.password_field :password_confirmation, autocomplete: "off"
+
+      = f.label :current_password
+      = f.password_field :current_password, autocomplete: "off"
+      span.label-notice
+        ' (we need your current password to confirm your changes)
+
+    .cbp-mc-submit-wrap
+      = f.submit "Update", class: 'registration-btn'
+      .u-padding-xs
+      .registration-links
+        = link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
+        br
+        = link_to "Back", :back
