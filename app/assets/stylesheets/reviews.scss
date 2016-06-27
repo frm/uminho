@@ -27,10 +27,9 @@
   width: 60%;
   border: none;
   border-radius: 0;
-  background: #f0f0f0;
-  color: #aaa;
+  color: $white;
   font-weight: bold;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: $f-sans-serif;
   -webkit-appearance: none; /* for box shadows to show on iOS */
 }
 
@@ -43,11 +42,11 @@
   float: right;
   padding: 0 1em;
   width: 40%;
-  color: #6a7989;
+  color: $dark;
   font-weight: bold;
   font-size: 70.25%;
   -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -63,7 +62,6 @@
   width: 100%;
 }
 
-
 .input--ichiro {
     margin-top: 2em;
 }
@@ -77,8 +75,8 @@
     padding: 0 0.55em;
     width: calc(100% - 8px);
     height: calc(100% - 8px);
-    background: #f0f0f0;
-    color: #7F8994;
+    /*background: #f0f0f0;*/
+    color: $dark;
     opacity: 0;
     -webkit-transform: scale3d(1, 0, 1);
     transform: scale3d(1, 0, 1);
@@ -138,5 +136,16 @@
 .input--filled .input__label-content--ichiro {
     -webkit-transform: translate3d(0, -3.15em, 0) scale3d(0.8, 0.8, 1);
     transform: translate3d(0, -3.15em, 0) scale3d(0.8, 0.8, 1) translateZ(1px);
+}
+
+.review-movie-title {
+  font-family: $f-serif;
+  font-size: 28px;
+}
+
+.review-movie-title-rating {
+  font-family: $f-sans-serif;
+  font-size: 16px;
+  color: $grey;
 }
 

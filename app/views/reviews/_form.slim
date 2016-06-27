@@ -1,12 +1,17 @@
 = form_for(@movie.reviews.build, url: movie_reviews_path(@movie)) do |f|
-  
-  = f.number_field :score, class: 'rating rating-loading'
+  h1.review-movie-title
+    ' #{ @movie.title}
+    span.review-movie-title-rating
+      ' (#{@movie.rating} avg)
+
 
   .container
     section.content
+      = f.number_field :score, class: 'rating rating-loading'
+
       span.input.input--ichiro
         = f.text_area :description, class: 'input__field input__field--ichiro', id: 'review-description-input'
         label.input__label.input__label--ichiro for='review-description-input'
           span.input__label-content.input__label-content--ichiro Write a review
 
-  = f.submit
+  = f.submit class: 'reel-btn'
