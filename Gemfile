@@ -21,6 +21,8 @@ gem 'public_activity'
 gem 'will_paginate', '~> 3.1.0'
 gem 'coffee-rails'
 
+gem 'paperclip'
+
 # gem 'turbolinks'
 # gem 'jbuilder', '~> 2.0'
 

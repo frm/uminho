@@ -10,6 +10,9 @@ class User < ActiveRecord::Base
   validates :name,  presence: true, length: { maximum: 75 }
   validates :bio,   length: { maximum: 300 }
 
+  has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>"  }
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
+
   has_many :reviews, dependent: :destroy
 
   has_many :active_relationships,   class_name:   "Relationship",

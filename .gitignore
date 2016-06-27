@@ -21,3 +21,6 @@
 
 # simplecov output
 coverage/
+
+# Paperclip uploads
+public/system

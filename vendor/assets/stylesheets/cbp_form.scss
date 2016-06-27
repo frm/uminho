@@ -82,6 +82,10 @@
   display: inline;
 }
 
+.cbp-mc-form input[type="file"] {
+  border: none;
+}
+
 ::-webkit-input-placeholder { /* WebKit browsers */
     color: $grey;
     font-style: italic;

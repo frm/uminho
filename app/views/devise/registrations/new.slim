@@ -9,12 +9,15 @@
 
     p Someday is not a fucking day of the week. Design is all about fucking relationships—the relationship of form and content, the relationship of elements, the relationship of designer and user. A good fucking composition is the result of a hierarchy consisting of clearly contrasting elements set with distinct alignments containing irregular intervals of negative space. Must-do is a good fucking master. The graphic designer’s first fucking consideration is always the size and shape of the format, whether for the printed page or for digital display. When you sit down to work, external critics aren’t the enemy. It’s you who you must to fight against to do great fucking work. You must overcome yourself. If you’re not being fucking honest with yourself how could you ever hope to communicate something meaningful to someone else?
 
-  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'cbp-mc-form'}) do |f|
+  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'cbp-mc-form', multipart: true}) do |f|
     = devise_error_messages!
 
     .cbp-mc-column.cbp-mc-column-2x
       = f.label :name
       = f.text_field :name, autofocus: true, placeholder: 'John Doe'
+
+      = f.label :avatar
+      = f.file_field :avatar
 
       = f.label :bio
       = f.text_area :bio, placeholder: 'Tell us about yourself'
