@@ -1,6 +1,15 @@
 - follower = a.owner
 - followed = a.trackable.followed
-li
-  = "#{follower.name} started following #{followed.name}"
-  br
-  = "#{time_ago_in_words(a.created_at)} ago"
+li.timeline-inverted
+  .timeline-badge.info
+    i.glyphicon.glyphicon-user
+  .timeline-panel
+    .timeline-heading
+      h4.timeline-title
+        = link_to follower.name, user_path(follower.id)
+        '  started following
+        = link_to followed.name, user_path(followed.id)
+      p
+        small.text-muted
+          i.glyphicon.glyphicon-time
+          |  #{time_ago_in_words(a.created_at)} ago

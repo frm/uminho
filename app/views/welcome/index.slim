@@ -1,5 +1,10 @@
 - if user_signed_in?
-  = render_activities(@activities)
+  .container
+    .page-header
+      h1#timeline Timeline
+
+  ul.timeline
+    = render_activities(@activities)
   = link_to('Logout', destroy_user_session_path, :method => :delete)
 - else
   = render 'welcome/landing'
