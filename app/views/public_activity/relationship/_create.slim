@@ -5,7 +5,10 @@ li.timeline-inverted
     i.glyphicon.glyphicon-user
   .timeline-panel
     .timeline-heading
-      h4.timeline-title = "#{follower.name} started following #{followed.name}"
+      h4.timeline-title
+        = link_to follower.name, user_path(follower.id)
+        '  started following
+        = link_to followed.name, user_path(followed.id)
       p
         small.text-muted
           i.glyphicon.glyphicon-time

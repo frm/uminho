@@ -1,4 +1,4 @@
-- username = a.owner.name
+- user = a.owner
 - movie = a.trackable.movie
 - score = a.trackable.score
 
@@ -15,7 +15,11 @@ li.timeline-inverted
         i.glyphicon.glyphicon-thumbs-down
   .timeline-panel
     .timeline-heading
-      h4.timeline-title = "#{username} reviewed #{movie.title} with a score of #{score}"
+      h4.timeline-title
+        = link_to user.name, user_path(user)
+        '  reviewed
+        = link_to movie.title, movie_path(movie.id)
+        '  with a score of #{score}"
       p
         small.text-muted
           i.glyphicon.glyphicon-time
