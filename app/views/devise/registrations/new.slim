@@ -1,0 +1,39 @@
+.u-padding-md
+
+= link_to root_url do
+  h1.reel-registration-title Reel
+
+.registration-container
+  .registration-info
+    .u-padding-md
+
+    p Someday is not a fucking day of the week. Design is all about fucking relationships—the relationship of form and content, the relationship of elements, the relationship of designer and user. A good fucking composition is the result of a hierarchy consisting of clearly contrasting elements set with distinct alignments containing irregular intervals of negative space. Must-do is a good fucking master. The graphic designer’s first fucking consideration is always the size and shape of the format, whether for the printed page or for digital display. When you sit down to work, external critics aren’t the enemy. It’s you who you must to fight against to do great fucking work. You must overcome yourself. If you’re not being fucking honest with yourself how could you ever hope to communicate something meaningful to someone else?
+
+  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'cbp-mc-form'}) do |f|
+    = devise_error_messages!
+
+    .cbp-mc-column.cbp-mc-column-2x
+      = f.label :name
+      = f.text_field :name, autofocus: true, placeholder: 'John Doe'
+
+      = f.label :bio
+      = f.text_area :bio, placeholder: 'Tell us about yourself'
+
+      = f.label :email
+      = f.email_field :email, placeholder: 'johndoe@example.com'
+
+      = f.label :password
+      - if @minimum_password_length
+        span.label-notice
+          = "(#{@minimum_password_length} characters minimum)"
+
+      = f.password_field :password, autocomplete: "off"
+
+      = f.label :password_confirmation
+      = f.password_field :password_confirmation, autocomplete: "off"
+
+    .cbp-mc-submit-wrap
+      = f.submit "Sign Up", class: 'registration-btn'
+      .u-padding-xs
+      = render "devise/shared/links"
+
