@@ -1,0 +1,64 @@
+@import 'custom';
+
+/* I'm so sorry, CSS gurus */
+.profile-displayer {
+  position: fixed;
+  z-index: 100;
+
+  & * {
+    z-index: 101;
+  }
+
+  div {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.displayer {
+  font-family: $f-sans-serif;
+  font-size: 16px;
+  color: $dark;
+
+  & a {
+    color: $dark;
+
+    &:hover, &:focus {
+      text-decoration: none;
+
+      .displayer-label {
+        color: $dark;
+      }
+    }
+  }
+}
+
+div.displayer-col {
+  display: inline-block;
+  padding: 0;
+  margin: 10px 10px 10px 0;
+}
+
+div.displayer-name-container {
+  margin: 20px 0 0 10px;
+}
+
+.displayer-name {
+  text-transform: uppercase;
+  font-weight: bolder;
+  margin: 0;
+}
+
+.displayer-label {
+  display: block;
+  font-size: 12px;
+  color: darken($grey, 0.8);
+  text-transform: uppercase;
+  font-weight: 900;
+
+  &.displayer-label-inline {
+    color: $dark;
+    display: inline-block;
+  }
+}
+

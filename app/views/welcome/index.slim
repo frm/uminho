@@ -1,11 +1,58 @@
 - if user_signed_in?
   .container
-    .page-header
-      h1#timeline Timeline
+    .row
+      .col-md-4
+        .profile-displayer
+          .col-md-3
+            = link_to user_path(current_user.id) do
+              = image_tag current_user.avatar(:thumb)
+          .col-md-5.displayer-name-container
+            p.displayer.displayer-name
+              = link_to user_path(current_user) do
+                = current_user.name
+            p.displayer.displayer-reliability
+              ' #{current_user.reliability}
+              span.displayer-label.displayer-label-inline Reliability
+          .col-md-12
+            .displayer-col
+              p.displayer
+                = link_to user_path(current_user) do
+                  = current_user.reviews_count
+                  span.displayer-label Reviews
+            .displayer-col
+              p.displayer
+                = link_to user_followers_path(current_user) do
+                  = current_user.followers_count
+                  span.displayer-label Followers
+            .displayer-col
+              p.displayer
+                = link_to user_following_path(current_user) do
+                  = current_user.following_count
+                  span.displayer-label Following
 
-  ul.timeline
-    = render_activities(@activities)
-  = link_to('Logout', destroy_user_session_path, :method => :delete)
+    ul.timeline
+      = render_activities(@activities)
+
+    .u-padding-lg
+    p
+      ' placeholder
+    .u-padding-lg
+    p
+      ' placeholder
+    .u-padding-lg
+    p
+      ' placeholder
+    .u-padding-lg
+    p
+      ' placeholder
+    .u-padding-lg
+    p
+      ' placeholder
+    .u-padding-lg
+    p
+      ' placeholder
+    .u-padding-lg
+    = link_to('Logout', destroy_user_session_path, :method => :delete)
 - else
   = render 'welcome/landing'
 
