@@ -14,7 +14,8 @@ module TMDB
       new_uri.gsub!(':' + k.to_s, v)
     end
 
-    URL_PREFIX + new_uri + "?api_key=#{API_KEY}"
+    res = URL_PREFIX + new_uri + "?api_key=#{API_KEY}"
+    params[:query] ? res + "&query=#{params[:query]}" : res
   end
 
   def self.headers(params = {})
