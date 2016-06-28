@@ -12,9 +12,9 @@ nav.navbar.navbar-custom.navbar-fixed-top role="navigation"
           = link_to 'Discover', genres_path
 
     .navbar-right
-      form.navbar-form role="search"
+      = form_tag("/search", method: "get", class: "navbar-form") do
         .input-group
-          input.form-control name="q" placeholder="Search" type="text" /
+          = text_field_tag :q, nil, placeholder: 'Search', class: 'form-control'
           .input-group-btn
-            button.btn.btn-default type="submit"
+            = button_tag class:'btn btn-default' do
               = fa_icon 'search'
