@@ -23,6 +23,8 @@ gem 'coffee-rails'
 
 gem 'paperclip'
 
+gem 'client_side_validations'
+
 # gem 'turbolinks'
 # gem 'jbuilder', '~> 2.0'
 
