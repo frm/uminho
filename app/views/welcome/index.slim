@@ -30,8 +30,10 @@
                   = current_user.following_count
                   span.displayer-label Following
 
-    ul.timeline
-      = render_activities(@activities)
+    .row
+      .col-md-12
+        ul.timeline
+          = render_activities(@activities)
 
     .u-padding-lg
     p
