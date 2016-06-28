@@ -33,7 +33,7 @@
         -webkit-transition: background .3s ease-in-out;
         -moz-transition: background .3s ease-in-out;
         transition: background .3s ease-in-out;
-        &:hover {
+        &:hover, &:focus {
           color: rgba(white, 0.8);
           outline: none;
           background-color: transparent;
