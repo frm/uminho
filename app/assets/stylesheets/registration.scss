@@ -62,3 +62,11 @@ form .field_with_errors {
   }
 }
 
+.session-flash-container {
+  margin: 10px;
+  text-align: center;
+
+  .flash-message {
+    display: inline-block;
+  }
+}

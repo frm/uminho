@@ -10,6 +10,9 @@
   = form_for(resource, as: resource_name, url: session_path(resource_name), html: {class:'cbp-mc-form'}) do |f|
     = devise_error_messages!
 
+    .session-flash-container
+      = flash_messages
+
     .cbp-mc-column.cbp-mc-column-2x.cbp-mc-column-center
       = f.label :email, class: 'cbp-mc-no-padding'
       = f.email_field :email, autofocus: true
