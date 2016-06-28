@@ -1,0 +1,38 @@
+@import 'custom';
+
+.search-img {
+  max-width: 150px;
+}
+
+.result-entry {
+  margin-top: 15px;
+}
+
+.search-title, .result-title {
+  @extend h1.reel-title;
+}
+
+a .result-title {
+  color: $dark;
+}
+
+.result-movie-year {
+  @extend .profile-subtitle;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.no-results {
+  p {
+    font-family: $f-serif;
+    font-size: 16px;
+    text-align: center;
+    font-weight: lighter;
+    color: $dark;
+  }
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+}
