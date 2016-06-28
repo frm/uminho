@@ -14,8 +14,8 @@
     = devise_error_messages!
 
     .cbp-mc-column.cbp-mc-column-2x
-      = f.label :name
-      = f.text_field :name, autofocus: true, placeholder: 'John Doe'
+      = f.label :name, class: 'cbp-mc-no-padding'
+      = f.text_field :name, placeholder: 'John Doe'
 
       = f.label :avatar
       = f.file_field :avatar

@@ -48,7 +48,6 @@
 }
 
 form .field_with_errors {
-  margin-top: 20px;
   label.message {
     @extend .label-notice;
     color: $red;
