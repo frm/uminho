@@ -63,7 +63,8 @@ class User < ActiveRecord::Base
   def feed
     PublicActivity::Activity.joins("LEFT OUTER JOIN relationships
                 ON relationships.followed_id = activities.owner_id
-                WHERE relationships.follower_id=#{id}")
+                WHERE relationships.follower_id=#{id}
+                ORDER BY activities.created_at DESC")
   end
 
   def name_initials
