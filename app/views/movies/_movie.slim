@@ -78,8 +78,11 @@
             .overbox
               .overtext
                 = link_to actor_path(a.id) do
-                  = "#{a.name} as "
-                  span.movie-character = " #{a.character}"
+                  - unless a.character.empty?
+                    = "#{a.name} as "
+                    span.movie-character = " #{a.character}"
+                  - else
+                    = a.name
 
 
 .modal.fade id="movie-review-modal" tab-index="-1" role="dialog" aria-labelledby='movie-review-modal-title'
