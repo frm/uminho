@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>"  }
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
+  validates_confirmation_of :password
+
   has_many :reviews, dependent: :destroy
 
   has_many :active_relationships,   class_name:   "Relationship",
