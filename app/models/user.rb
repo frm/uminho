@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   validates :name,  presence: true, length: { maximum: 75 }
   validates :bio,   length: { maximum: 300 }
 
-  has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>"  }, default_url: "http://dummyimage.com/:dimensions/333/eaeaea.png&text=:initials"
+  has_attached_file :avatar, styles: { medium: "300x300#", thumb: "100x100#"  }, default_url: "http://dummyimage.com/:dimensions/333/eaeaea.png&text=:initials"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
   validates_confirmation_of :password
@@ -42,6 +42,22 @@ class User < ActiveRecord::Base
 
   def followed_by?(user)
     followers.include? user
+  end
+
+  def followers_count
+    followers.count
+  end
+
+  def following_count
+    following.count
+  end
+
+  def reviews_count
+    reviews.count
+  end
+
+  def reliability
+    reviews.inject(0) { |sum, review| sum + review.reliability }
   end
 
   def feed
