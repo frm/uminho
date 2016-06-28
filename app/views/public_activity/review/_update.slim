@@ -15,15 +15,19 @@ li.timeline-inverted
         i.glyphicon.glyphicon-thumbs-down
   .timeline-panel
     .timeline-heading
-      h4.timeline-title
-        = link_to user.name, user_path(user)
-        '  updated
-        = link_to movie.title, movie_path(movie.id)
-        ' 's review to #{score}"
-      p
-        small.text-muted
-          i.glyphicon.glyphicon-time
-          |  #{time_ago_in_words(a.created_at)} ago
-    .timeline-body
-      p
-        |  #{a.trackable.description}
+      .row
+        .col-md-3
+          = link_to movie_path(movie.id) do
+            = image_tag movie.img_path, class: 'timeline-poster'
+        .col-md-9
+          h4.timeline-title
+            = link_to user.name, user_path(user)
+            '  updated
+            = link_to movie.title, movie_path(movie.id)
+            ' 's review to #{score}"
+          p
+            |  #{a.trackable.description}
+          p
+            small.text-muted
+              i.glyphicon.glyphicon-time
+              |  #{time_ago_in_words(a.created_at)} ago

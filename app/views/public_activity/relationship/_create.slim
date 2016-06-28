@@ -4,12 +4,17 @@ li.timeline-inverted
   .timeline-badge.info
     i.glyphicon.glyphicon-user
   .timeline-panel
-    .timeline-heading
-      h4.timeline-title
-        = link_to follower.name, user_path(follower.id)
-        '  started following
-        = link_to followed.name, user_path(followed.id)
-      p
-        small.text-muted
-          i.glyphicon.glyphicon-time
-          |  #{time_ago_in_words(a.created_at)} ago
+    .row
+      .col-md-3
+        = link_to user_path(follower.id) do
+          = image_tag follower.avatar(:thumb)
+      .col-md-9
+        .timeline-heading
+          h4.timeline-title
+            = link_to follower.name, user_path(follower.id)
+            '  started following
+            = link_to followed.name, user_path(followed.id)
+        p
+          small.text-muted
+            i.glyphicon.glyphicon-time
+            |  #{time_ago_in_words(a.created_at)} ago
