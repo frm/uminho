@@ -11,9 +11,10 @@
 
   = form_for(resource, as: resource_name, url: registration_path(resource_name),
     html: {class: 'cbp-mc-form', multipart: true}, validate: true) do |f|
-    = devise_error_messages!
 
     .cbp-mc-column.cbp-mc-column-2x
+      = devise_error_messages!
+
       = f.label :name, class: 'cbp-mc-no-padding'
       = f.text_field :name, placeholder: 'John Doe'
 
