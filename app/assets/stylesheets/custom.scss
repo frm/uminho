@@ -8,6 +8,18 @@ body {
   font-family: $f-sans-serif !important;
 }
 
+a, a span {
+  -o-transition: 0.2s;
+  -ms-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+
+  &:hover, &:focus {
+    text-decoration: none !important; // i'm sorry
+  }
+}
+
 .u-padding-xs {
   margin: $margin-xs;
 }
