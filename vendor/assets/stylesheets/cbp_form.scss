@@ -20,7 +20,11 @@
   float: left;
 }
 
-.cbp-mc-column.cpb-mc-column-2x {
+.cbp-mc-column.cbp-mc-column-full {
+  width:100%;
+}
+
+.cbp-mc-column.cbp-mc-column-2x {
   width: 50%;
 }
 

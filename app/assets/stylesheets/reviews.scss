@@ -1,4 +1,4 @@
-@import "variables";
+@import "custom";
 
 .review-reliability {
   font-weight: bold;
@@ -7,135 +7,6 @@
 .review-description {
   font-family: $f-serif;
   font-style: italic;
-}
-
-.input {
-  position: relative;
-  z-index: 1;
-  display: inline-block;
-  margin: 1em;
-  max-width: 350px;
-  width: calc(100% - 2em);
-  vertical-align: top;
-}
-
-.input__field {
-  position: relative;
-  display: block;
-  float: right;
-  padding: 0.8em;
-  width: 60%;
-  border: none;
-  border-radius: 0;
-  color: $white;
-  font-weight: bold;
-  font-family: $f-sans-serif;
-  -webkit-appearance: none; /* for box shadows to show on iOS */
-}
-
-.input__field:focus {
-  outline: none;
-}
-
-.input__label {
-  display: inline-block;
-  float: right;
-  padding: 0 1em;
-  width: 40%;
-  color: $dark;
-  font-weight: bold;
-  font-size: 70.25%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.input__label-content {
-  position: relative;
-  display: block;
-  padding: 1.6em 0;
-  width: 100%;
-}
-
-.input--ichiro {
-    margin-top: 2em;
-}
-
-.input__field--ichiro {
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    z-index: 100;
-    display: block;
-    padding: 0 0.55em;
-    width: calc(100% - 8px);
-    height: calc(100% - 8px);
-    /*background: #f0f0f0;*/
-    color: $dark;
-    opacity: 0;
-    -webkit-transform: scale3d(1, 0, 1);
-    transform: scale3d(1, 0, 1);
-    -webkit-transform-origin: 50% 100%;
-    transform-origin: 50% 100%;
-    -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
-    transition: opacity 0.3s, transform 0.3s;
-}
-
-.input__label--ichiro {
-    width: 100%;
-    text-align: left;
-    cursor: text;
-}
-
-.input__label--ichiro::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #fff;
-    -webkit-transform-origin: 50% 100%;
-    transform-origin: 50% 100%;
-    -webkit-transition: -webkit-transform 0.3s;
-    transition: transform 0.3s;
-}
-
-.input__label-content--ichiro {
-    -webkit-transform-origin: 0% 50%;
-    transform-origin: 0% 50%;
-    -webkit-transition: -webkit-transform 0.3s;
-    transition: transform 0.3s;
-}
-
-.input__field--ichiro:focus,
-.input--filled .input__field--ichiro {
-    opacity: 1;
-    -webkit-transform: scale3d(1, 1, 1);
-    transform: scale3d(1, 1, 1);
-}
-
-.input__field--ichiro:focus + .input__label--ichiro,
-.input--filled .input__label--ichiro {
-    cursor: default;
-    pointer-events: none;
-}
-
-.input__field--ichiro:focus + .input__label--ichiro::before,
-.input--filled .input__label--ichiro::before {
-    -webkit-transform: scale3d(1, 1.5, 1);
-    transform: scale3d(1, 1.5, 1);
-}
-
-.input__field--ichiro:focus + .input__label--ichiro .input__label-content--ichiro,
-.input--filled .input__label-content--ichiro {
-    -webkit-transform: translate3d(0, -3.15em, 0) scale3d(0.8, 0.8, 1);
-    transform: translate3d(0, -3.15em, 0) scale3d(0.8, 0.8, 1) translateZ(1px);
 }
 
 .review-movie-title {
@@ -149,3 +20,36 @@
   color: $grey;
 }
 
+.rating-container {
+  span.filled-stars {
+    text-shadow: none;
+    color: $yellow;
+  }
+
+  span.label-default {
+    background-color: $dark;
+  }
+
+  div.clear-rating {
+    color: $dark;
+  }
+}
+
+.review-submit-btn {
+  text-align: center;
+
+  input[type="submit"] {
+    @extend .reel-btn;
+    background-color: transparent;
+    border-color: $dark;
+    color: $dark;
+    max-width: 175px;
+    font-size: 14px;
+    padding: 15px 20px;
+
+    &:hover, &:focus {
+      background-color: $dark;
+      color: #fff;
+    }
+  }
+}
