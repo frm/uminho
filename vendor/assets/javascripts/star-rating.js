@@ -32,7 +32,7 @@
         handler, Rating;
     NAMESPACE = '.review-rating';
     DEFAULT_MIN = 0;
-    DEFAULT_MAX = 10;
+    DEFAULT_MAX = 5;
     DEFAULT_STEP = 0.5;
     isEmpty = function (value, trim) {
         return value === null || value === undefined || value.length === 0 || (trim && $.trim(value) === '');
@@ -503,7 +503,7 @@
     $.fn.rating.defaults = {
         theme: '',
         language: 'en',
-        stars: 10,
+        stars: 5,
         filledStar: '<i class="glyphicon glyphicon-star"></i>',
         emptyStar: '<i class="glyphicon glyphicon-star-empty"></i>',
         containerClass: '',
