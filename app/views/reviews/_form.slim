@@ -6,9 +6,11 @@
       span.review-movie-title-rating
         ' (#{@movie.rating} avg)
 
-    = f.number_field :score, class: 'rating rating-loading'
+    = f.text_field :score,
+      data: {show_clear:"false", show_caption: "true"}
     .u-padding-sm
     = f.text_area :description, placeholder: 'What did you think?'
 
     .review-submit-btn
       = f.submit 'Create Review'
+
