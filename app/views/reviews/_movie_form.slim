@@ -1,0 +1,8 @@
+- review = current_user.review_for @movie
+
+- if review
+  = render partial: 'reviews/form', locals: {review: review, method: :put,
+    url: movie_review_path(id: review.id, movie_id: @movie.id)}
+- else
+  = render partial: 'reviews/form', locals: {review: @movie.reviews.build,
+    method: :post, url: movie_reviews_path(@movie)}

@@ -10,6 +10,12 @@ class ReviewsController < ApplicationController
     redirect_to movie_url(params[:movie_id])
   end
 
+  def update
+    @review = Review.find(params[:id])
+    @review.update_attributes review_params
+    redirect_to movie_url(params[:movie_id])
+  end
+
   private
 
   def review_params

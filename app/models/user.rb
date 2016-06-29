@@ -60,6 +60,10 @@ class User < ActiveRecord::Base
     reviews.inject(0) { |sum, review| sum + review.reliability }
   end
 
+  def review_for(movie)
+    Review.find_by(user_id: id, movie_id: movie.id)
+  end
+
   def feed
     PublicActivity::Activity.joins("LEFT OUTER JOIN relationships
                 ON relationships.followed_id = activities.owner_id

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   end
 
   resources :movies, only: [:index, :show] do
-    resources :reviews, only: [:create, :destroy]
+    resources :reviews, only: [:create, :destroy, :update]
   end
 
   resources :actors, only: [:show]

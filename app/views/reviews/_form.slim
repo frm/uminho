@@ -1,5 +1,4 @@
-= form_for(@movie.reviews.build, url: movie_reviews_path(@movie),
-  html: { class: 'cbp-mc-form' }) do |f|
+= form_for(review, url: url, html: { class: 'cbp-mc-form', method: method }) do |f|
   .cbp-mc-column.cbp-mc-column-full
     h1.review-movie-title
       ' #{ @movie.title}
