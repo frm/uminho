@@ -1,0 +1,21 @@
+@import 'custom';
+
+div.user-profile-displayer {
+  padding: 0;
+}
+
+.user-profile-displayer {
+  a {
+    color: $dark;
+  }
+
+  .displayer-label {
+    display: inline;
+    font-size: 14px;
+
+    &::before {
+      content: ' ';
+    }
+  }
+}
+

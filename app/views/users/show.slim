@@ -1,8 +1,38 @@
-= render @user
+.u-padding-md
 
-= render 'users/relationships'
+.row
+  .col-md-3
+    = image_tag @user.avatar(:medium), class: 'profile-image user-profile-image'
 
-= render 'follow_form' if current_user && current_user != @user
+  .col-md-5
+    h1.profile-title = @user.name
 
-h2 Reviews
-= render partial: 'users/review', collection: @user.reviews
+    .u-padding-sm
+
+    p.user-bio = @user.bio
+
+  .col-md-4
+    .u-padding-md
+    p.user-profile-displayer
+      a href="#user-reviews"
+        = @user.reviews_count
+        span.displayer-label Reviews
+    p.user-profile-displayer
+      = link_to user_followers_path(@user) do
+        = @user.followers_count
+        span.displayer-label Followers
+    p.user-profile-displayer
+      = link_to user_following_path(@user) do
+        = @user.following_count
+        span.displayer-label Following
+
+    - if current_user && current_user != @user
+      .u-padding-sm
+      = render 'follow_form'
+
+
+
+
+#user-reviews
+  h2 Reviews
+  = render partial: 'users/review', collection: @user.reviews
