@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require rails.validations
 //= require bootstrap-sprockets
+//= require star-rating
 //= require_tree .
