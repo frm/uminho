@@ -76,9 +76,25 @@ a.navbar-brand {
 
 .navbar-custom .nav li a.user-menu {
   padding: 5px;
+  background-color: #333;
 }
 
 .nav > li > a.user-menu > img.nav-pic {
   max-width: 40px;
   border-radius: 50%;
+}
+
+.navbar-nav > li > .dropdown-menu {
+  background-color: $dark;
+  color: $white;
+
+  li {
+    &:hover, &:focus {
+      background-color: lighten($dark, 5);
+    }
+  }
+}
+
+.navbar-custom .nav li a {
+  color: $white;
 }
