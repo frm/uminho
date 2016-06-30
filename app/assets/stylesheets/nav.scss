@@ -1,4 +1,4 @@
-@import 'variables';
+@import 'custom';
 
 .navbar-custom {
   margin-bottom: 0;
@@ -55,4 +55,16 @@
       }
     }
   }
+}
+
+a.navbar-brand {
+  padding: 10px;
+}
+
+.nav-logo {
+  @extend .reel-logo;
+  font-size: 24px;
+  margin: 0;
+  padding: 2px 5px;
+  background-color: #fff;
 }
