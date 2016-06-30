@@ -19,11 +19,11 @@
         span.displayer-label Reviews
     p.user-profile-displayer
       = link_to user_followers_path(@user) do
-        = @user.followers_count
+        span#follower-count = @user.followers_count
         span.displayer-label Followers
     p.user-profile-displayer
       = link_to user_following_path(@user) do
-        = @user.following_count
+        span#following-count = @user.following_count
         span.displayer-label Following
 
     - if current_user && current_user != @user
