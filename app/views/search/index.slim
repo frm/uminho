@@ -35,12 +35,5 @@
     hr
     .row
       h1.search-title Users
-      - @results[:users].each do |u|
-        .col-md-12.result-entry
-          .col-md-2
-            = link_to user_path(u) do
-              = image_tag u.avatar(:medium), class: 'search-img'
-          .col-md-6
-            = link_to user_path(u) do
-              h4.result-title
-                = u.name
+      = render @results[:users]
+
