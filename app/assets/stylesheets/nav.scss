@@ -73,3 +73,12 @@ a.navbar-brand {
     position: relative;
     display: inline-block;
 }
+
+.navbar-custom .nav li a.user-menu {
+  padding: 5px;
+}
+
+.nav > li > a.user-menu > img.nav-pic {
+  max-width: 40px;
+  border-radius: 50%;
+}
