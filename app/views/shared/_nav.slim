@@ -21,7 +21,7 @@ nav.navbar.navbar-custom.navbar-fixed-top role="navigation"
           li
             = link_to 'Profile', current_user
           li
-            a href="/users/sign_out"  Edit
+            = link_to 'Edit', edit_user_registration_path
           li
             = link_to('Logout', destroy_user_session_path, :method => :delete)
 
