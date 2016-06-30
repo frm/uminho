@@ -180,4 +180,8 @@ h1.reel-title {
   font-size: 12px;
   color: $grey;
   display: inline;
+
+  &.bottom-label {
+    display: block;
+  }
 }
