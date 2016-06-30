@@ -7,6 +7,10 @@ div.user-profile-displayer {
 .user-profile-displayer {
   a {
     color: $dark;
+
+    &:hover, &:focus {
+      color: $dark;
+    }
   }
 
   .displayer-label {
@@ -15,6 +19,10 @@ div.user-profile-displayer {
 
     &::before {
       content: ' ';
+    }
+
+    &:hover, &:focus {
+      color: $dark;
     }
   }
 }
