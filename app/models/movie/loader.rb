@@ -62,12 +62,12 @@ class Movie::Loader
   end
 
   def self.retrieve_language(params)
-    return "Unknown" if params[:spoken_languages]
+    return "Unknown" unless params[:spoken_languages]
 
     language = params[:spoken_languages].select do |lang|
       lang[:iso_639_1] == params[:original_language]
     end.first
 
-    language.empty? ? "Unknown" : language[:name]
+    language.nil? ? "Unknown" : language[:name]
   end
 end
