@@ -29,3 +29,21 @@
     padding: 5px 12px;
   }
 }
+
+.search-by-submit-btn {
+  text-align: center;
+
+  input[type="submit"] {
+    @extend .reel-btn;
+
+    border-color: $dark;
+    color: $dark;
+    max-width: 100px;
+    padding: 10px 20px;
+
+    &:hover, &:focus {
+      background-color: $dark;
+      color: $white;
+    }
+  }
+}

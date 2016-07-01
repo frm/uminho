@@ -1,7 +1,20 @@
 = form_tag genre_user_search_path(@genre), method: "get" do
   - @users.each do |u|
-    = image_tag u.avatar(:medium)
-    = u.name
-    = check_box_tag "users[]", u.id
+    .col-md-12.result-entry
+      .col-md-4
+        = link_to user_path(u) do
+          = image_tag u.avatar(:medium), class: 'search-img'
+      .col-md-6
+        = link_to user_path(u) do
+          h4.result-title
+            = u.name
 
-  = submit_tag "go"
+        p.displayer-reliability
+          ' #{u.reliability}
+          span.displayer-label.displayer-label-inline Reliability
+
+        = check_box_tag "users[]", u.id
+
+
+  .col-md-12.search-by-submit-btn
+    = submit_tag "Go"

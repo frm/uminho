@@ -56,6 +56,10 @@ class User < ActiveRecord::Base
     reviews.count
   end
 
+  def reviewed_movies
+    reviews.map(&:movie) # has_many through
+  end
+
   def reliability
     reviews.inject(0) { |sum, review| sum + review.reliability }
   end
