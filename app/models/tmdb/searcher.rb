@@ -1,6 +1,7 @@
 module TMDB::Searcher
   include TMDB
   QUERY_URI = '/search/multi'
+  PERSON_URI = '/search/person'
 
   def self.search(query)
     response = TMDB.get(QUERY_URI, query: query)
@@ -11,6 +12,18 @@ module TMDB::Searcher
     else
       {}
     end
+  end
+
+  def self.actor_search(query)
+    response = TMDB.get(PERSON_URI, query: query)
+
+    if response.success?
+      results = response.parsed_response["results"]
+      results.map { |a| Actor.new Actor::Loader.actor_params(a) }
+    else
+      {}
+    end
+
   end
 
   private

@@ -2,6 +2,13 @@ h1.reel-title = genre.name
 
 .u-padding-md
 
+- if @actors
+  p
+    ' #{genre.name} movies starring
+    = " #{@actors.map(&:name).to_sentence(last_word_connector: 'or')}"
+
+
+
 = render 'genres/search'
 
 .u-padding-lg
@@ -15,3 +22,13 @@ h1.reel-title = genre.name
           = link_to movie_path(m.id) do
             = m.title
 
+.modal.fade id="discover-search-modal" tab-index="-1" role="dialog" aria-labelledby='discover-search-modal-title'
+  .modal-dialog role="document"
+    .modal-content
+      .modal-header
+        button.close type="button" data-dismiss="modal" aria-lable="Close"
+          span aria-hidden="true" &times;
+        h4.modal-title id='discover-search-modal-title'
+      .modal-body#result-modal
+      .modal-footer
+        button.btn.btn-default type="button" data-dismiss="modal" Close

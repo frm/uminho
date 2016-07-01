@@ -1,0 +1,7 @@
+= form_tag genre_user_search_path(@genre), method: "get" do
+  - @users.each do |u|
+    = image_tag u.avatar(:medium)
+    = u.name
+    = check_box_tag "users[]", u.id
+
+  = submit_tag "go"

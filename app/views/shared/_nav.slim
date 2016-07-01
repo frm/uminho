@@ -25,7 +25,7 @@ nav.navbar.navbar-custom.navbar-fixed-top role="navigation"
             = link_to('Logout', destroy_user_session_path, :method => :delete)
 
     .navbar-nav.pull-right
-      = form_tag("/search", method: "get", class: "navbar-form") do
+      = form_tag(search_path, method: "get", class: "navbar-form") do
         .input-group.nav-search-container
           = text_field_tag :q, nil, placeholder: 'Search', class: 'form-control'
           .input-group-btn

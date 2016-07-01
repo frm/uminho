@@ -28,4 +28,12 @@ class Movie < ActiveRecord::Base
     @cast ||= res[0]
     @directors ||= res[1]
   end
+
+  def cache_genres(genres)
+    @genres = genres
+  end
+
+  def genres
+    @genres || Movie.find(id).genres # Force a reload
+  end
 end

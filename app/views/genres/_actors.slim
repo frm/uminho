@@ -1,0 +1,13 @@
+= form_tag genre_actor_search_path(@genre), method: "get" do
+  - @actors.each do |a|
+    .col-md-12.result-entry
+      .col-md-4
+        = link_to actor_path(a.id) do
+          = image_tag a.profile_path, class: 'search-img'
+      .col-md-6
+        = link_to actor_path(a.id) do
+          h4.result-title
+            = a.name
+        = check_box_tag "actors[]", a.id
+
+  = submit_tag "go"

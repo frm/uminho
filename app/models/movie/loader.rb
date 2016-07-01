@@ -9,7 +9,9 @@ class Movie::Loader
     response = TMDB.get(SHOW_URI, id: id)
 
     if response.success?
-      Movie.new movie_params(response.parsed_response)
+      m = Movie.new movie_params(response.parsed_response)
+      m.cache_genres(response["genres"].map { |g| g["id"] })
+      m
     else
       nil
     end
@@ -60,8 +62,12 @@ class Movie::Loader
   end
 
   def self.retrieve_language(params)
-    params[:spoken_languages].select do |lang|
+    return "Unknown" if params[:spoken_languages]
+
+    language = params[:spoken_languages].select do |lang|
       lang[:iso_639_1] == params[:original_language]
-    end.first[:name]
+    end.first
+
+    language.empty? ? "Unknown" : language[:name]
   end
 end
