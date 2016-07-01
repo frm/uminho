@@ -12,7 +12,10 @@ Rails.application.routes.draw do
 
   resources :actors, only: [:show]
 
-  resources :genres, only: [:index, :show]
+  resources :genres, only: [:index, :show] do
+    get '/search/actor' => 'discover#actor', as: 'actor_search'
+    get '/search/user' => 'discover#user', as: 'user_search'
+  end
 
   resources :relationships, only: [:create, :destroy]
 

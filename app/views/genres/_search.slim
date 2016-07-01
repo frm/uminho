@@ -1,0 +1,22 @@
+.genre-btn-container
+  button.genre-btn#actor-search By actor
+  button.genre-btn#user-search By follower
+
+  .u-padding-md
+  = form_tag(genre_actor_search_path(@genre), method: "get",
+    class: "discover-search cbp-mc-form", id: 'actor-search-form') do
+    .input-group.nav-search-container
+      = text_field_tag :q, nil, placeholder: 'Enter an actor name...',
+        class: 'form-control'
+      .input-group-btn
+        = button_tag class: 'btn btn-default' do
+          = fa_icon 'search'
+
+  = form_tag(genre_user_search_path(@genre), method: "get",
+    class: "discover-search cbp-mc-form", id: 'user-search-form') do
+    .input-group.nav-search-container
+      = text_field_tag :q, nil, placeholder: 'Enter a user name or email...',
+        class: 'form-control'
+      .input-group-btn
+        = button_tag class: 'btn btn-default' do
+          = fa_icon 'search'

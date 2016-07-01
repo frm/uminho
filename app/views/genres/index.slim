@@ -1,3 +1,13 @@
-- @genres.each do |g|
-    = link_to g.name, genre_path(g.id)
-    br
+h1.reel-title Discover
+
+.u-padding-md
+
+.gallery-row
+  - @movies.each do |m|
+    .gallery-entry style="background-image: url(#{m.img_path})"
+      = image_tag m.img_path, class: 'gallery-img'
+      .overbox
+        .overtext
+          = link_to movie_path(m.id) do
+            = m.title
+

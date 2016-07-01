@@ -1,0 +1,31 @@
+@import 'custom';
+
+.genre-btn-container {
+  text-align: center;
+}
+
+.genre-btn {
+  @extend .reel-btn;
+
+  border-color: $dark;
+  color: $dark;
+
+  &:hover, &:focus {
+    background-color: $dark;
+    color: $white;
+  }
+}
+
+.discover-search {
+  margin: 0 auto;
+  max-width: 525px;
+
+  input[type="text"] {
+    border-right: none;
+  }
+
+  button {
+    border: 2px solid $dark;
+    padding: 5px 12px;
+  }
+}

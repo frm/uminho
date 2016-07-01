@@ -1,9 +1,17 @@
-p
-  strong
-    ' Name:
-  = genre.name
+h1.reel-title = genre.name
 
-hr
+.u-padding-md
 
-- genre.movies.each do |m|
-  p = link_to m.title, movie_path(m.id)
+= render 'genres/search'
+
+.u-padding-lg
+
+.gallery-row
+  - @genre.movies.each do |m|
+    .gallery-entry style="background-image: url(#{m.img_path})"
+      = image_tag m.img_path, class: 'gallery-img'
+      .overbox
+        .overtext
+          = link_to movie_path(m.id) do
+            = m.title
+
