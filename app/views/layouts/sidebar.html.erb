@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html class="<%= controller_name == 'welcome' ? 'welcome' : 'all' %>">
+<head>
+  <title>Reel</title>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+</head>
+<body>
+
+<%= render 'shared/nav' %>
+
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+      <li class="sidebar-brand">
+      </li>
+      <% @genres.each do |g| %>
+        <li>
+          <%= link_to g.name, genre_path(g) %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+
+  <div id="page-content-wrapper">
+    <div class="container-fluid">
+      <div class="u-padding-xl"></div>
+      <%= yield %>
+    </div>
+  </div>
+</div>
+
+<div class="u-padding-xl"></div>
+</body>
+</html>
