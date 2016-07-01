@@ -1,7 +1,4 @@
-// Place all the styles related to the Movies controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-@import 'variables';
+@import 'custom';
 
 .movie-tagline {
   margin: 1.5em 10px;
@@ -35,4 +32,22 @@ img.movie-cast-member {
   font-weight: bold;
   font-style: italic;
   text-decoration: underline;
+}
+
+.new-review-btn {
+  @extend .reel-btn;
+  text-align: center;
+  background-color: transparent;
+  border-color: $dark;
+  color: $dark;
+  max-width: 120px;
+  font-size: 14px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  font-style: normal;
+
+  &:hover, &:focus {
+    background-color: $dark;
+    color: #fff;
+  }
 }
