@@ -1,2 +1,5 @@
-$("#review-reliability-<%= @review.id %>").html("<%= @review.reliability %>");
+var reliability = $("#review-reliability-<%= @review.id %>");
+reliability.html("<%= @review.reliability %>");
+reliability.removeClass().addClass("badge <%= review_color(@review) %>");
+
 $("#review-vote-<%= @review.id %>").html("<%= escape_javascript(render(partial: 'reviews/vote', locals: {review: @review}))%>");

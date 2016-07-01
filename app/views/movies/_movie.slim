@@ -62,8 +62,8 @@
       .u-padding-md
       - reviews_page = movie.reviews.paginate(per_page: 20, page: params[:page])
       - reviews_page.each do |r|
-        .col-md-4
-          = render r
+        = render partial: 'reviews/review',
+          locals: {img_path: r.user.avatar(:medium), review: r}
 
       .col-md-12
         = will_paginate reviews_page

@@ -1,1 +1,4 @@
-= link_to 'unvote', reviews_unvote_path(review_id: review.id), remote: true, method: :delete, id: "unvote-#{review.id}"
+= link_to reviews_unvote_path(review_id: review.id), remote: true,
+  method: :delete, id: "unvote-#{review.id}",
+  class: "review-vote #{vote}" do
+  = fa_icon "thumbs-#{vote}"

@@ -1,8 +1,11 @@
 $(function() {
-  $('#review_score').rating({
+  var rating_params = {
     step: 0.5,
-    stars: 10,
+    stars: 5,
     size: 'xs',
-    max: 10
-  });
+    max: 5
+  };
+
+  $('#review_score').rating(rating_params);
+  $('.review-show-score').rating(rating_params);
 });

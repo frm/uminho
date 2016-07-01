@@ -1,14 +1,9 @@
-br
+- if current_user.voted_up_on? review
+  = render partial: 'reviews/unvote', locals: {review: review, vote: 'up'}
+- else
+  = render partial: 'reviews/upvote', locals: {review: review}
 
-div id=("review-vote-#{review.id}")
-  - if current_user.voted_up_on? review
-    = render partial: 'reviews/unvote', locals: {review: review, text: 'remove upvote'}
-  - else
-    = render partial: 'reviews/upvote', locals: {review: review, text: 'upvote'}
-
-  br
-
-  - if current_user.voted_down_on? review
-    = render partial: 'reviews/unvote', locals: {review: review, text: 'remove downvote'}
-  - else
-    = render partial: 'reviews/downvote', locals: {review: review, text: 'downvote'}
+- if current_user.voted_down_on? review
+  = render partial: 'reviews/unvote', locals: {review: review, vote: 'down'}
+- else
+  = render partial: 'reviews/downvote', locals: {review: review}
