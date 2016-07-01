@@ -1,4 +1,4 @@
-- username = a.owner
+- user = a.owner
 - movie = a.trackable.movie
 - score = a.trackable.score
 
@@ -24,7 +24,7 @@ li.timeline-inverted
             = link_to user.name, user_path(user)
             '  updated
             = link_to movie.title, movie_path(movie.id)
-            ' 's review to #{score}"
+            ' 's review to #{score}
           p
             |  #{a.trackable.description}
           p
