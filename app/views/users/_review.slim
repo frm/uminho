@@ -1,16 +1,22 @@
-p
-  strong
-    ' Movie:
-  = "#{review.movie.title} (#{review.movie.year})"
+.col-md-12.result-entry.review-info-container
+  .col-md-2
+    = link_to movie_path(review.movie) do
+      = image_tag review.movie.img_path, class: 'review-poster'
+  .col-md-5
+    h4.review-title
+      = link_to movie_path(review.movie) do
+        = review.movie.title
+    = text_field_tag :score, review.score, class: 'review-show-score', data: {readonly: true}
+    span.review-description = review.description
 
-p
-  strong
-    ' Score:
-  = review.score
-
-p
-  strong
-   ' Review:
-  = review.description
-
-hr
+    .review-links-container
+      span.review-reliability
+        span class=("badge #{review_color(review)}") id=("review-reliability-#{review.id}") = review.reliability
+      - if current_user == review.user
+          p
+            = link_to movie_review_path(review.movie, review), method: :delete,
+              data: { confirm: 'Are you sure?'} do
+              = fa_icon "trash-o", text: 'Delete Review'
+      - else
+        .review-vote-container id=("review-vote-#{review.id}")
+          = render partial: 'reviews/vote', locals: {:review => review}

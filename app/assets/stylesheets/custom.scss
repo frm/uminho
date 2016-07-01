@@ -185,3 +185,21 @@ h1.reel-title {
     display: block;
   }
 }
+
+span.badge {
+  &.green {
+    background-color: $green;
+  }
+
+  &.red {
+    background-color: $red;
+  }
+
+  &.blue {
+    background-color: $blue;
+  }
+
+  &.grey {
+    background-color: $grey;
+  }
+}

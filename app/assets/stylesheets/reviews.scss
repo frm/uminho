@@ -2,6 +2,7 @@
 
 .review-reliability {
   font-weight: bold;
+  display: inline;
 }
 
 .review-description {
@@ -53,3 +54,50 @@
     }
   }
 }
+
+.review-poster {
+  max-width: 150px;
+}
+
+h4.review-title {
+  font-family: $f-serif;
+  display: inline;
+  a {
+    color: $dark;
+
+    &:hover, &:focus {
+      color: lighten($dark, 20);
+    }
+  }
+}
+
+.review-info-container {
+  display: flex;
+
+  .review-links-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0 15px;
+  }
+}
+
+.review-vote-container {
+  display: inline-block;
+  padding: 0 5px;
+}
+
+.review-vote {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 20px;
+
+  &.up {
+    color: $green;
+  }
+
+  &.down {
+    color: $red;
+  }
+}
+

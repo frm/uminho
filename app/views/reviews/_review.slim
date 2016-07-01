@@ -1,14 +1,18 @@
-p
-  span.review-reliability id=("review-reliability-#{review.id}")
-    = "(#{review.reliability})"
-  = link_to " #{review.user.name}: ", user_path(review.user.id), class: 'review-author'
-  span.review-description = review.description
+.col-md-12.result-entry
+  .col-md-2
+    = image_tag review.movie.img_path, class: 'review-poster'
+  .col-md-5
+    span.review-reliability
+      '(
+      span id=("review-reliability-#{review.id}") = review.reliability
+      '  )
+    h4.review-title = review.movie.title
+    = text_field_tag :score, review.score, class: 'review-show-score', data: {readonly: true}
+    = link_to " #{review.user.name}: ", user_path(review.user.id), class: 'review-author'
+    span.review-description = review.description
 
-p.review-score
-  ' Score:
-  = review.score
-
-= link_to 'Destroy', movie_review_path(review.movie, review), method: :delete, data: { confirm: 'Are you sure?'}
+    p
+      = link_to 'Delete review', movie_review_path(review.movie, review), method: :delete, data: { confirm: 'Are you sure?'}
 
 - if current_user != review.user
   = render partial: 'reviews/vote', locals: {:review => review}

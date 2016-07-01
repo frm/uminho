@@ -1,1 +1,4 @@
-= link_to 'downvote', reviews_vote_path(review_id: review.id, review_rating: 'down'), remote: true, method: :post, id: "downvote-#{review.id}"
+= link_to reviews_vote_path(review_id: review.id, review_rating: 'down'),
+  remote: true, method: :post, id: "downvote-#{review.id}",
+  class: 'review-vote down' do
+  = fa_icon "thumbs-o-down"
