@@ -8,6 +8,7 @@
 .review-description {
   font-family: $f-serif;
   font-style: italic;
+  margin-bottom: 30px;
 }
 
 .review-movie-title {
@@ -103,4 +104,8 @@ h4.review-title {
 
 .review-reliability .badge {
   margin-right: 5px;
+}
+
+.review-delete {
+  margin-left: 5px;
 }

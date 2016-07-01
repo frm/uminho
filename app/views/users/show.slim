@@ -15,7 +15,6 @@
 
     p.user-bio = @user.bio
 
-
   .col-md-4
     .u-padding-md
     p.user-profile-displayer
@@ -35,9 +34,12 @@
       .u-padding-sm
       = render 'follow_form'
 
-
-
-
 #user-reviews
   h2 Reviews
-  = render partial: 'users/review', collection: @user.reviews
+  - reviews_page = @user.reviews.paginate(per_page: 20, page: params[:page])
+  - reviews_page.each do |r|
+    = render partial: 'reviews/review',
+      locals: {img_path: r.movie.img_path, review: r}
+
+  .col-md-12
+    = will_paginate reviews_page
