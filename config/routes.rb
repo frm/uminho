@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     get '/search/user' => 'genres#user', as: 'user_search'
   end
 
+  get '/suggest' => 'genres#suggest', as: 'suggestion'
+
   resources :relationships, only: [:create, :destroy]
 
   get '/search' => 'search#index', as: 'search'

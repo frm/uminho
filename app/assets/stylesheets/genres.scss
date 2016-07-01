@@ -47,3 +47,23 @@
     }
   }
 }
+
+.sidebar-nav li a.suggest-me-btn {
+  @extend .reel-btn;
+
+  display: block;
+  margin: 0 auto;
+  background-color: $white;
+  max-width: 150px;
+  color: $dark;
+  padding: 2px 10px;
+  border-radius: 5px;
+  font-style: normal;
+  font-size: 12px;
+
+  &:hover, &:focus {
+    background-color: $dark;
+    color: $white;
+    border-color: $white;
+  }
+}
