@@ -45,4 +45,44 @@ class GenresController < ApplicationController
 
     render :show
   end
+
+  def suggest
+    @genres = Genre.all
+
+    if current_user.reviews.count == 0
+      # No reviews, no learning. Randomize
+      @movie = Movie.trending.sample
+    elsif current_user.following.count == 0
+      # No following, no tailoring.
+      # Sample movie from a favorite genre.
+      @movie = Genre.movies(current_user.favorite_genres.sample).sample
+    else
+      @movie = tailored_movie
+    end
+  end
+
+  private
+
+  def movie_sort(movies)
+    overall_rating = {}
+
+    movies.each do |m|
+      score = overall_rating[m.id] || 0
+      overall_rating[m.id] = score + m.rating
+    end
+
+    overall_rating.sort_by { |movie, score| score }
+  end
+
+  def tailored_movie
+    reliable_users = current_user.reliable_following(3)
+
+    top_movies = reliable_users.flat_map { |u| current_user.tailored_from u }
+
+    if top_movies.empty?
+      Genre.movies(current_user.favorite_genres.sample).sample
+    else
+      Movie.find(movie_sort(top_movies).last(10).map(&:first).sample)
+    end
+  end
 end

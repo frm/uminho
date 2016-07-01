@@ -1,0 +1,12 @@
+h1.reel-title Tailored Suggestion
+
+.u-padding-md
+
+.gallery-row
+  .gallery-entry.full-width style="background-image: url(#{@movie.img_path})"
+    = image_tag @movie.img_path, class: 'gallery-img'
+    .overbox
+      .overtext
+        = link_to movie_path(@movie.id) do
+          = @movie.title
+

@@ -80,6 +80,11 @@ h1.reel-title {
   max-width: 230px;
   max-height: 345px;
 
+  &.full-width {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
   .overbox {
     background-color: rgba(0, 0, 0, 0);
     position: absolute;

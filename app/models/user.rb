@@ -64,6 +64,33 @@ class User < ActiveRecord::Base
     reviews.inject(0) { |sum, review| sum + review.reliability }
   end
 
+  def favorite_genres
+    best_reviews = reviews.select { |r| r.score > 3.0 }
+    reviewed_genres = {}
+
+    best_reviews.each do |r|
+      r.movie.genres.each do |g|
+        score = reviewed_genres[g] || 0
+        reviewed_genres[g] = score + r.score
+      end
+    end
+
+    reviewed_genres.sort_by { |genre, score| score }.last(3).map(&:first)
+  end
+
+  def reliable_following(n = 1)
+    following.sort { |a, b| a.reliability <=> b.reliability }.last(n)
+  end
+
+  def tailored_from(other_user)
+    fav_genres = favorite_genres
+    rev_movies = reviewed_movies
+
+    other_user.reviews.select do |r|
+      !(fav_genres & r.movie.genres).empty? && !rev_movies.include?(r.movie)
+    end.map(&:movie)
+  end
+
   def review_for(movie)
     Review.find_by(user_id: id, movie_id: movie.id)
   end
