@@ -47,6 +47,12 @@ div.displayer-name-container {
   text-transform: uppercase;
   font-weight: bolder;
   margin: 0;
+
+  a {
+    &:hover, &:focus {
+      color: lighten($dark, 20);
+    }
+  }
 }
 
 .displayer-label {
