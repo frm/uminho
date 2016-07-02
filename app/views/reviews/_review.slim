@@ -1,11 +1,11 @@
 .col-md-6.result-entry.review-info-container
   .col-md-4
-    = link_to movie_path(review.movie) do
+    = link_to url do
       = image_tag img_path, class: 'review-poster'
   .col-md-8
     h4.review-title
-      = link_to movie_path(review.movie) do
-        = review.movie.title
+      = link_to url do
+        = title
     = text_field_tag :score, review.score, class: 'review-show-score',
       data: {readonly: true, show_clear: false, show_caption: true}
     p.review-description = review.description

@@ -39,7 +39,8 @@
   - reviews_page = @user.reviews.paginate(per_page: 20, page: params[:page])
   - reviews_page.each do |r|
     = render partial: 'reviews/review',
-      locals: {img_path: r.movie.img_path, review: r}
+      locals: {img_path: r.movie.img_path, review: r, url: movie_path(r.movie),
+      title: r.movie.title}
 
   .col-md-12
     = will_paginate reviews_page
