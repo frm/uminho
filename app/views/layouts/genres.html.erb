@@ -17,15 +17,15 @@
     <ul class="sidebar-nav">
       <li class="sidebar-brand">
       </li>
+      <li>
+        <%= link_to 'Suggest Me!', suggestion_path, class: 'suggest-me-btn loading-trigger' %>
+      </li>
+      <div class="u-padding-sm"></div>
       <% @genres.each do |g| %>
         <li>
           <%= link_to g.name, genre_path(g) %>
         </li>
       <% end %>
-      <div class="u-padding-sm"></div>
-      <li>
-        <%= link_to 'Suggest Me!', suggestion_path, class: 'suggest-me-btn loading-trigger' %>
-      </li>
       <div class="u-padding-md"></div>
     </ul>
   </div>
