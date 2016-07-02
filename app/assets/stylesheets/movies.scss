@@ -14,11 +14,6 @@
   }
 }
 
-.movie-title {
-  font-family: $f-serif;
-  margin-bottom: 0;
-}
-
 img.movie-cast-member {
   max-width: 200px;
   max-height: 150px;
@@ -50,4 +45,14 @@ img.movie-cast-member {
     background-color: $dark;
     color: #fff;
   }
+}
+
+.movie-avg-rating {
+  margin-left: 5px;
+  font-family: $f-sans-serif;
+}
+
+.movie-title {
+  @extend .profile-title;
+  margin-top: 0;
 }

@@ -5,13 +5,11 @@
     = image_tag movie.img_path, class: 'profile-image'
 
   div.col-md-5
-    h1.profile-title = movie.title
-    p.profile-subtitle = "#{movie.year}"
-    p.profile-subtitle-info
-      span.badge class="#{rating_badge_color(movie.rating)}"
+    h1.movie-title
+      = movie.title
+      span.badge.movie-avg-rating class="#{rating_badge_color(movie.rating)}"
         ' #{movie.rating}
-      span.text avg.
-
+    p.profile-subtitle = "#{movie.year}"
     .u-padding-md
 
     p.movie-tagline = movie.tagline
