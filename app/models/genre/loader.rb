@@ -6,8 +6,8 @@ class Genre::Loader
   def self.movies(id)
     response = TMDB.get(SHOW_URI, id: id)
 
-    if response.success?
-      response.parsed_response["results"].map { |m| Movie.new Movie::Loader.movie_params(m) }
+    if response
+      response["results"].map { |m| Movie.new Movie::Loader.movie_params(m) }
     else
       []
     end
@@ -15,8 +15,8 @@ class Genre::Loader
 
   def self.all
     response = TMDB.get INDEX_URI
-    if response.success?
-      response.parsed_response["genres"].map { |g| Genre.new genre_params(g) }
+    if response
+      response["genres"].map { |g| Genre.new genre_params(g) }
     else
       []
     end

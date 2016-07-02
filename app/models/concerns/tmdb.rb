@@ -1,10 +1,18 @@
 module TMDB
-  URL_PREFIX  = "https://api.themoviedb.org/3"
+  URL_PREFIX = "https://api.themoviedb.org/3"
   API_KEY = ENV['TMDB_KEY']
 
   def self.get(uri, params = {})
-    HTTParty.get(build_url(uri, params),
-                 headers: headers)
+    endpoint = build_url(uri, params)
+
+    APICache.get(endpoint, cache: 3600, period: 0) do
+      response = HTTParty.get(endpoint, headers: headers)
+      if response.success?
+        response.parsed_response
+      else
+        raise APICache::InvalidResponse
+      end
+    end
   end
 
   def self.build_url(uri, params = {})

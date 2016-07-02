@@ -10,8 +10,8 @@ class Movie::Loader
   def self.find(id)
     response = TMDB.get(SHOW_URI, id: id)
 
-    if response.success?
-      m = Movie.new movie_params(response.parsed_response)
+    if response
+      m = Movie.new movie_params(response)
       m.cache_genres(response["genres"])
       m
     else
@@ -34,11 +34,10 @@ class Movie::Loader
   def self.find_cast(id)
     response = TMDB.get(CAST_URI, id: id)
 
-    if response.success?
-      res = response.parsed_response
+    if response
       [
-        res['cast'].map { |a| Actor.new Actor::Loader.actor_params(a) },
-        res['crew'].select { |c| c["job"] == "Director" }
+        response['cast'].map { |a| Actor.new Actor::Loader.actor_params(a) },
+        response['crew'].select { |c| c["job"] == "Director" }
                     .map { |c| Actor.new Actor::Loader.actor_params(c) }
       ]
     else
@@ -80,8 +79,8 @@ class Movie::Loader
 
   def self.get_collection(uri)
     response = TMDB.get uri
-    if response.success?
-      response.parsed_response["results"].map { |m| Movie.new movie_params(m) }
+    if response
+      response["results"].map { |m| Movie.new movie_params(m) }
     else
       []
     end

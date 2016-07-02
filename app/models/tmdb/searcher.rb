@@ -6,8 +6,8 @@ module TMDB::Searcher
   def self.search(query)
     response = TMDB.get(QUERY_URI, query: query)
 
-    if response.success?
-      results = response.parsed_response["results"]
+    if response
+      results = response["results"]
       parse_search_results results
     else
       {}
@@ -17,8 +17,8 @@ module TMDB::Searcher
   def self.actor_search(query)
     response = TMDB.get(PERSON_URI, query: query)
 
-    if response.success?
-      results = response.parsed_response["results"]
+    if response
+      results = response["results"]
       results.map { |a| Actor.new Actor::Loader.actor_params(a) }
     else
       {}

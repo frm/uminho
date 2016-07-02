@@ -8,8 +8,8 @@ class Actor::Loader
   def self.find(id)
     response = TMDB.get(SHOW_URI, id: id)
 
-    if response.success?
-      Actor.new actor_params(response.parsed_response)
+    if response
+      Actor.new actor_params(response)
     else
       nil
     end
@@ -29,8 +29,8 @@ class Actor::Loader
   def self.find_movies(id)
     response = TMDB.get(MOVIES_URI, id: id)
 
-    if response.success?
-      response.parsed_response['cast'].map { |m| Movie.new Movie::Loader.movie_params(m) }
+    if response
+      response['cast'].map { |m| Movie.new Movie::Loader.movie_params(m) }
     else
       []
     end
