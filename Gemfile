@@ -26,6 +26,8 @@ gem 'paperclip'
 
 gem 'client_side_validations'
 
+gem 'cancancan', '~> 1.10'
+
 # gem 'turbolinks'
 # gem 'jbuilder', '~> 2.0'
 
