@@ -9,7 +9,6 @@ class Api::V1::GenresController < ApplicationController
       @movies = genres[id].movies
     end
 
-    #ActiveModel::Serializer::ArraySerializer.new(@movies, each_serializer: MovieSerializer).to_json
     render json: @movies
   end
 end
