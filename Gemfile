@@ -34,6 +34,7 @@ gem 'dalli'
 
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'simplecov', :require => false, :group => :test
+gem 'rails_12factor', group: :production
 
 group :development, :test do
   gem 'thin'
@@ -60,4 +61,4 @@ group :development do
   gem 'better_errors'
 end
 
-
+ruby "2.2.3"
