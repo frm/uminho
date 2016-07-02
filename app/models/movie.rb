@@ -26,7 +26,7 @@ class Movie < ActiveRecord::Base
   end
 
   def self.popular
-    Review.order(score: :desc).limit(20).map(&:movie)
+    Review.order(score: :desc).group(:movie_id).limit(20).map(&:movie)
   end
 
   def cast
