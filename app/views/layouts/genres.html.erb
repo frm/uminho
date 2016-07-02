@@ -23,7 +23,7 @@
       <% end %>
       <div class="u-padding-sm"></div>
       <li>
-        <%= link_to 'Suggest Me!', suggestion_path, class: 'suggest-me-btn' %>
+        <%= link_to 'Suggest Me!', suggestion_path, class: 'suggest-me-btn loading-trigger' %>
       </li>
       <div class="u-padding-md"></div>
     </ul>
@@ -35,6 +35,19 @@
       <div class="u-padding-xl"></div>
       <%= yield %>
     </div>
+  </div>
+</div>
+
+<div id="loading">
+  <div class="loading-text-container">
+    <p class="spinner">
+      <%= fa_icon "spinner", class: "fa-spin" %>
+    </p>
+    <p class="loading-text">
+      Making a lot of calculations.
+      <br>
+      Please wait while we tailor suggestions.
+      </p>
   </div>
 </div>
 

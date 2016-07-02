@@ -1,4 +1,9 @@
 $(function() {
+  console.log($('.loading-trigger'));
+  $('.loading-trigger').click(function() {
+    $('#loading').fadeIn();
+  });
+
   var actorForm = $('#actor-search-form');
   var userForm = $('#user-search-form');
 
