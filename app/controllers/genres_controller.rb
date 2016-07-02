@@ -26,6 +26,8 @@ class GenresController < ApplicationController
       end
     end
 
+    @actors = ActorsDecorator.decorate(@actors)
+
     render :show
   end
 
@@ -36,13 +38,14 @@ class GenresController < ApplicationController
     @genre = @genres.select{ |g| g.id == params[:genre_id].to_i }.first
 
     params[:users].each do |u|
-      user = User.find u
+      user = User.find(u)
       @users << user
       user.reviewed_movies.each do |m|
         @movies << m if m.genre_ids.include? @genre.id
       end
     end
 
+    @users = UsersDecorator.decorate(@users)
     render :show
   end
 

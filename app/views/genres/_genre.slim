@@ -5,12 +5,11 @@ h1.reel-title = genre.name
 - if @actors
   p
     ' #{genre.name} movies starring
-    = " #{@actors.map(&:name).to_sentence(last_word_connector: 'or')}"
+    = " #{@actors.list('or')}"
 - elsif @users
   p
     ' #{genre.name} movies reviewed by
-    = " #{@users.map(&:name).to_sentence(last_word_connector: 'or')}"
-
+    = " #{@users.list('or')}"
 
 = render 'genres/search'
 

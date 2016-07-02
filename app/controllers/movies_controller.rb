@@ -2,7 +2,7 @@ class MoviesController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @movie = Movie.find(params[:id])
+    @movie = Movie.find(params[:id]).decorate
     @actors = @movie.cast
     if request.xhr?
       render partial: 'movies/reviews'

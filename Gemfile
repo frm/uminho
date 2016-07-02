@@ -5,39 +5,35 @@ gem 'therubyracer', platforms: :ruby
 
 gem 'slim-rails'
 gem 'sass-rails', '~> 5.0'
-gem 'bootstrap-sass', '~> 3.3.6'
-gem "font-awesome-rails"
-
 gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
+gem 'coffee-rails'
+
+gem 'bootstrap-sass', '~> 3.3.6'
+gem "font-awesome-rails"
+gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate-bootstrap'
 
 gem 'devise'
-gem 'httparty'
 gem 'email_validator'
+gem 'client_side_validations'
+gem 'cancancan', '~> 1.10'
 
 gem 'acts_as_votable', '~> 0.10.0'
 gem 'public_activity'
-
-gem 'will_paginate', '~> 3.1.0'
-gem 'will_paginate-bootstrap'
-gem 'coffee-rails'
-
 gem 'paperclip'
+gem 'draper'
 
-gem 'client_side_validations'
-
-gem 'cancancan', '~> 1.10'
+# Memcached API Request caching
+gem 'httparty'
+gem 'api_cache'
+gem 'dalli'
 
 # gem 'turbolinks'
 # gem 'jbuilder', '~> 2.0'
 
 gem 'sdoc', '~> 0.4.0', group: :doc
-
 gem 'simplecov', :require => false, :group => :test
-
-# Memcached API Request caching
-gem 'api_cache'
-gem 'dalli'
 
 group :development, :test do
   gem 'thin'

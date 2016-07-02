@@ -12,7 +12,7 @@
 
     .review-links-container
       span.review-reliability
-        span class=("badge #{review_color(review)}") id=("review-reliability-#{review.id}") = review.reliability
+        span class=("badge #{review.color}") id=("review-reliability-#{review.id}") = review.reliability
       - if current_user == review.user
           = link_to movie_review_path(review.movie, review), method: :delete,
             data: { confirm: 'Are you sure?'}, class: 'review-delete' do

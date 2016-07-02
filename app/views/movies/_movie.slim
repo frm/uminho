@@ -7,7 +7,7 @@
   div.col-md-5
     h1.movie-title
       = movie.title
-      span.badge.movie-avg-rating class="#{rating_badge_color(movie.rating)}"
+      span.badge.movie-avg-rating class="#{movie.badge_color}"
         ' #{movie.rating}
     p.profile-subtitle = "#{movie.year}"
     .u-padding-md
@@ -23,15 +23,12 @@
     p
       strong
         ' Director:
-      = movie.directors.map(&:name).to_sentence(words_connector: ', ',
-        last_word_connector: ' and ')
+      = movie.directors_sentence
 
     p
       strong
         ' Genres:
-      = movie.genre_names.to_sentence(words_connector: ', ',
-        last_word_connector: ' and ')
-
+      = movie.genres_sentence
     p
       strong
         ' Language:
@@ -68,7 +65,7 @@
       - reviews_page = movie.reviews.paginate(per_page: 20, page: params[:page])
       - reviews_page.each do |r|
         = render partial: 'reviews/review',
-          locals: {img_path: r.user.avatar(:medium), review: r,
+          locals: {img_path: r.user.avatar(:medium), review: r.decorate,
             url: user_path(r.user), title: r.user.name}
 
       .col-md-12.pagination-container
