@@ -34,7 +34,9 @@ gem 'dalli'
 
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'simplecov', :require => false, :group => :test
+
 gem 'rails_12factor', group: :production
+gem 'pg', group: :production
 
 group :development, :test do
   gem 'thin'
