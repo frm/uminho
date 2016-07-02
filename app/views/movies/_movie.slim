@@ -66,8 +66,8 @@
           locals: {img_path: r.user.avatar(:medium), review: r,
             url: user_path(r.user), title: r.user.name}
 
-      .col-md-12
-        = will_paginate reviews_page
+      .col-md-12.pagination-container
+        = will_paginate reviews_page, renderer: BootstrapPagination::Rails
 
     div.tab-pane.col-md-12#movie-actors role="tabpanel"
       .u-padding-md

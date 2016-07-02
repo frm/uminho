@@ -42,5 +42,5 @@
       locals: {img_path: r.movie.img_path, review: r, url: movie_path(r.movie),
       title: r.movie.title}
 
-  .col-md-12
-    = will_paginate reviews_page
+  .col-md-12.pagination-container
+    = will_paginate reviews_page, renderer: BootstrapPagination::Rails
