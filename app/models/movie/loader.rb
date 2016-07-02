@@ -1,9 +1,11 @@
 class Movie::Loader
   include TMDB
-  SHOW_URI    = '/movie/:id'
-  INDEX_URI   = '/movie/popular'
-  CAST_URI    = '/movie/:id/credits'
-  IMG_PATH    = 'https://image.tmdb.org/t/p/w396'
+  SHOW_URI      = '/movie/:id'
+  TRENDING_URI  = '/movie/popular'
+  UPCOMING_URI  = '/movie/upcoming'
+  RELEASES_URI  = '/movie/now_playing'
+  CAST_URI      = '/movie/:id/credits'
+  IMG_PATH      = 'https://image.tmdb.org/t/p/w396'
 
   def self.find(id)
     response = TMDB.get(SHOW_URI, id: id)
@@ -17,13 +19,16 @@ class Movie::Loader
     end
   end
 
-  def self.all
-    response = TMDB.get INDEX_URI
-    if response.success?
-      response.parsed_response["results"].map { |m| Movie.new movie_params(m) }
-    else
-      []
-    end
+  def self.trending
+    get_collection TRENDING_URI
+  end
+
+  def self.upcoming
+    get_collection UPCOMING_URI
+  end
+
+  def self.releases
+    get_collection RELEASES_URI
   end
 
   def self.find_cast(id)
@@ -69,5 +74,16 @@ class Movie::Loader
     end.first
 
     language.nil? ? "Unknown" : language[:name]
+  end
+
+  private
+
+  def self.get_collection(uri)
+    response = TMDB.get uri
+    if response.success?
+      response.parsed_response["results"].map { |m| Movie.new movie_params(m) }
+    else
+      []
+    end
   end
 end

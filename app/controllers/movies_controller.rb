@@ -7,7 +7,23 @@ class MoviesController < ApplicationController
     end
   end
 
-  def index
+  def trending
     @movies = Movie.trending
+    render layout: 'movies'
+  end
+
+  def popular
+    @movies = Movie.popular
+    render layout: 'movies'
+  end
+
+  def releases
+    @movies = Movie.releases
+    render layout: 'movies'
+  end
+
+  def upcoming
+    @movies = Movie.upcoming
+    render layout: 'movies'
   end
 end

@@ -14,7 +14,19 @@ class Movie < ActiveRecord::Base
   end
 
   def self.trending
-    Movie::Loader.all
+    Movie::Loader.trending
+  end
+
+  def self.upcoming
+    Movie::Loader.upcoming
+  end
+
+  def self.releases
+    Movie::Loader.releases
+  end
+
+  def self.popular
+    Review.order(score: :desc).limit(20).map(&:movie)
   end
 
   def cast

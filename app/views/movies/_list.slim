@@ -1,9 +1,5 @@
-h1.reel-title Trending
-
-.u-padding-md
-
 .gallery-row
-  - @movies.each do |m|
+  - movies.each do |m|
     .gallery-entry style="background-image: url(#{m.img_path})"
       = image_tag m.img_path, class: 'gallery-img'
       .overbox

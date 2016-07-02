@@ -6,7 +6,12 @@ Rails.application.routes.draw do
     get :following, :followers
   end
 
-  resources :movies, only: [:index, :show] do
+  get '/movies/trending' => 'movies#trending', as: 'trending_movies'
+  get '/movies/releases' => 'movies#releases', as: 'movie_releases'
+  get '/movies/popular'  => 'movies#popular', as: 'popular_movies'
+  get '/movies/upcoming' => 'movies#upcoming', as: 'upcoming_movies'
+
+  resources :movies, only: [:show] do
     resources :reviews, only: [:create, :destroy, :update]
   end
 
