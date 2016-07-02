@@ -59,6 +59,32 @@ h1.reel-title {
   color: $grey;
 }
 
+.profile-subtitle-info {
+  font-family: $f-sans-serif;
+  font-style: normal;
+  color: $dark;
+  text-transform: uppercase;
+  font-weight: bolder;
+  font-size: 16px;
+
+  span.badge.green {
+    background-color: $green;
+  }
+
+  span.badge.blue {
+    background-color: $blue;
+  }
+
+  span.badge.red {
+    background-color: $red;
+  }
+
+  span.text {
+    margin-left: 5px;
+    font-size: 12px;
+  }
+}
+
 .gallery-row {
   display: flex;
   flex-direction: row;
