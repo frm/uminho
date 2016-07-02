@@ -39,13 +39,10 @@ div.displayer-col {
   margin: 10px 10px 10px 0;
 }
 
-div.displayer-name-container {
-  margin: 20px 0 0 10px;
-}
-
 .displayer-name {
   text-transform: uppercase;
   margin: 0;
+  line-height: 16px;
 
   a {
     &:hover, &:focus {
@@ -66,3 +63,10 @@ div.displayer-name-container {
   }
 }
 
+.displayer-entry {
+  margin: 0;
+}
+
+.displayer-value {
+  font-size: 14px;
+}
