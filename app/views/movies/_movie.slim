@@ -8,7 +8,7 @@
     h1.profile-title = movie.title
     p.profile-subtitle = "#{movie.year}"
     p.profile-subtitle-info
-      span.badge class="#{movie_badge_color(movie)}"
+      span.badge class="#{rating_badge_color(movie.rating)}"
         ' #{movie.rating}
       span.text avg.
 

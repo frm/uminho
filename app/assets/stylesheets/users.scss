@@ -5,6 +5,7 @@ div.user-profile-displayer {
 }
 
 .user-profile-displayer {
+  font-family: $f-sans-serif;
   a {
     color: $dark;
 
@@ -22,6 +23,10 @@ div.user-profile-displayer {
     }
 
     &:hover, &:focus {
+      color: $dark;
+    }
+
+    &.unlinked {
       color: $dark;
     }
   }

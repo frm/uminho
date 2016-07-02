@@ -56,6 +56,18 @@ class User < ActiveRecord::Base
     reviews.count
   end
 
+  def average_rating
+    Review.average_rating_for self.reviews
+  end
+
+  def current_average_rating
+    Review.average_rating_for Review.where(user_id: id).limit(5)
+  end
+
+  def monthly_average_rating
+    Review.average_rating_for Review.monthly_reviews_for(id)
+  end
+
   def reviewed_movies
     reviews.map(&:movie) # has_many through
   end

@@ -45,7 +45,6 @@ div.displayer-name-container {
 
 .displayer-name {
   text-transform: uppercase;
-  font-weight: bolder;
   margin: 0;
 
   a {
@@ -60,7 +59,6 @@ div.displayer-name-container {
   font-size: 12px;
   color: darken($grey, 0.8);
   text-transform: uppercase;
-  font-weight: 900;
 
   &.displayer-label-inline {
     color: $dark;

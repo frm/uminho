@@ -25,6 +25,16 @@ class Review < ActiveRecord::Base
     get_upvotes.size - get_downvotes.size
   end
 
+  def self.monthly_reviews_for(user_id)
+    Review.where(
+      updated_at: (Time.now - 1.month)..(Time.now + 1.month),
+      user_id: user_id)
+  end
+
+  def self.average_rating_for(reviews)
+   (reviews.average(:score) || 0).round(1).to_f
+  end
+
   protected
 
   def score_steps_in_halves

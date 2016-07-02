@@ -1,6 +1,6 @@
 module MoviesHelper
-  def movie_badge_color(movie)
-    case movie.rating
+  def rating_badge_color(rating)
+    case rating
     when 0..2.0
       "red"
     when 2.5..3.5

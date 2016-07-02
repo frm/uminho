@@ -15,6 +15,12 @@
 
     p.user-bio = @user.bio
 
+    .u-padding-sm
+
+    - if current_user && current_user != @user
+      .u-padding-sm
+      = render 'follow_form'
+
   .col-md-4
     .u-padding-md
     p.user-profile-displayer
@@ -29,10 +35,16 @@
       = link_to user_following_path(@user) do
         span#following-count = @user.following_count
         span.displayer-label Following
-
-    - if current_user && current_user != @user
-      .u-padding-sm
-      = render 'follow_form'
+    hr
+    p.user-profile-displayer
+      ' #{@user.average_rating}
+      span.displayer-label average rating
+    p.user-profile-displayer
+      ' #{@user.current_average_rating}
+      span.displayer-label last movies avg. rating
+    p.user-profile-displayer
+      ' #{@user.monthly_average_rating}
+      span.displayer-label average rating
 
 #user-reviews
   h2 Reviews
