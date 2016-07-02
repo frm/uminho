@@ -69,7 +69,7 @@ class User < ActiveRecord::Base
     reviewed_genres = {}
 
     best_reviews.each do |r|
-      r.movie.genres.each do |g|
+      r.movie.genre_ids.each do |g|
         score = reviewed_genres[g] || 0
         reviewed_genres[g] = score + r.score
       end
@@ -87,7 +87,7 @@ class User < ActiveRecord::Base
     rev_movies = reviewed_movies
 
     other_user.reviews.select do |r|
-      !(fav_genres & r.movie.genres).empty? && !rev_movies.include?(r.movie)
+      !(fav_genres & r.movie.genre_ids).empty? && !rev_movies.include?(r.movie)
     end.map(&:movie)
   end
 

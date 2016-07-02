@@ -12,7 +12,7 @@ class Movie::Loader
 
     if response.success?
       m = Movie.new movie_params(response.parsed_response)
-      m.cache_genres(response["genres"].map { |g| g["id"] })
+      m.cache_genres(response["genres"])
       m
     else
       nil

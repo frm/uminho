@@ -48,4 +48,12 @@ class Movie < ActiveRecord::Base
   def genres
     @genres || Movie.find(id).genres # Force a reload
   end
+
+  def genre_ids
+    genres.map { |g| g["id"] }
+  end
+
+  def genre_names
+    genres.map { |g| g["name"] }
+  end
 end

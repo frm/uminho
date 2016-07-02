@@ -22,7 +22,7 @@ class GenresController < ApplicationController
       actor = Actor.find(a)
       @actors << actor
       actor.movies.each do |m|
-        @movies << m if m.genres.include? @genre.id
+        @movies << m if m.genre_ids.include? @genre.id
       end
     end
 
@@ -39,7 +39,7 @@ class GenresController < ApplicationController
       user = User.find u
       @users << user
       user.reviewed_movies.each do |m|
-        @movies << m if m.genres.include? @genre.id
+        @movies << m if m.genre_ids.include? @genre.id
       end
     end
 
