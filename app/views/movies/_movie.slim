@@ -23,12 +23,14 @@
     p
       strong
         ' Director:
-      = movie.directors.map(&:name).to_sentence
+      = movie.directors.map(&:name).to_sentence(words_connector: ', ',
+        last_word_connector: ' and ')
 
     p
       strong
         ' Genres:
-      = movie.genre_names.to_sentence
+      = movie.genre_names.to_sentence(words_connector: ', ',
+        last_word_connector: ' and ')
 
     p
       strong
