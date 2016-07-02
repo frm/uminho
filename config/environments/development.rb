@@ -41,4 +41,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   Paperclip.options[:command_path] = ENV['IMG_MAGICK']
+
+  # Cache with Dalli
+  config.cache_store = :dalli_store
 end

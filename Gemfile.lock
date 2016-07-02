@@ -37,6 +37,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     acts_as_votable (0.10.0)
+    api_cache (0.3.0)
     arel (6.0.3)
     autoprefixer-rails (6.3.6.2)
       execjs
@@ -71,6 +72,7 @@ GEM
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.1)
     daemons (1.2.3)
+    dalli (2.7.6)
     debug_inspector (0.0.2)
     devise (3.5.6)
       bcrypt (~> 3.0)
@@ -266,6 +268,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_votable (~> 0.10.0)
+  api_cache
   better_errors
   binding_of_caller
   bootstrap-sass (~> 3.3.6)
@@ -273,6 +276,7 @@ DEPENDENCIES
   cancancan (~> 1.10)
   client_side_validations
   coffee-rails
+  dalli
   devise
   dotenv-rails
   email_validator

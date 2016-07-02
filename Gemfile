@@ -35,6 +35,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'simplecov', :require => false, :group => :test
 
+# Memcached API Request caching
+gem 'api_cache'
+gem 'dalli'
+
 group :development, :test do
   gem 'thin'
 
