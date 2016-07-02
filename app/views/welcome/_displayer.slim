@@ -8,6 +8,11 @@
         = current_user.name
     p.displayer.displayer-entry
       span.displayer-label.displayer-label-inline
+        ' Reliability:
+      span.displayer-value
+        '  #{current_user.reliability}
+    p.displayer.displayer-entry
+      span.displayer-label.displayer-label-inline
         ' Avg Rating:
       span.displayer-value
         '  #{current_user.average_rating}
@@ -21,11 +26,6 @@
         ' Monthly avg. rating:
       span.displayer-value
         '  #{current_user.monthly_average_rating}
-    p.displayer.displayer-entry
-      span.displayer-label.displayer-label-inline
-        ' Reliability:
-      span.displayer-value
-        '  #{current_user.reliability}
 
   .col-md-12
     .displayer-col
