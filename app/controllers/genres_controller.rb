@@ -1,4 +1,6 @@
 class GenresController < ApplicationController
+  before_action :authenticate_user!
+
   def show
     @genres = Genre.all
     @genre = @genres.select{ |g| g.id == params[:id].to_i }.first

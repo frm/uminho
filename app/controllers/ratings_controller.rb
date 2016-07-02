@@ -1,4 +1,6 @@
 class RatingsController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     @review = Review.find(params[:review_id])
     @review.vote_by voter: current_user, vote: params[:review_rating]

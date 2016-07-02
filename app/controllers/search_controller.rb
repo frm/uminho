@@ -1,4 +1,6 @@
 class SearchController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @results = TMDB::Searcher.search(params[:q])
     users = user_search(params[:q])

@@ -1,4 +1,6 @@
 class MoviesController < ApplicationController
+  before_action :authenticate_user!
+
   def show
     @movie = Movie.find(params[:id])
     @actors = @movie.cast
