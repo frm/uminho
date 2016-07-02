@@ -25,7 +25,12 @@
     p
       strong
         ' Director:
-      = movie.directors.map(&:name).join(', ')
+      = movie.directors.map(&:name).to_sentence
+
+    p
+      strong
+        ' Genres:
+      = movie.genre_names.to_sentence
 
     p
       strong
