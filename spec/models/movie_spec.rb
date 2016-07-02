@@ -7,11 +7,11 @@ RSpec.describe Movie, type: :model do
 
   it "calculates the correct review average" do
     @movie.reviews.create(
-          FactoryGirl.attributes_for :review, user_id: 1, score: 6)
+          FactoryGirl.attributes_for :review, user_id: 1, score: 5)
     @movie.reviews.create(
-          FactoryGirl.attributes_for :review, user_id: 2, score: 4)
+          FactoryGirl.attributes_for :review, user_id: 2, score: 3)
 
-    expect(@movie.rating).to eq(5)
+    expect(@movie.rating).to eq(4)
   end
 
 end

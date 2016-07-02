@@ -4,7 +4,7 @@ RSpec.describe Review, type: :model do
   before do
     @user = FactoryGirl.create :user
     @review = @user.reviews.build FactoryGirl.attributes_for(:review,
-                                                             movie_id: 1)
+                                                   movie_id: 1)
   end
 
   subject { @review }
