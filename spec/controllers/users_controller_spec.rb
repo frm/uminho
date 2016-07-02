@@ -2,10 +2,11 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
 
+  login_user
+
   describe "GET #index" do
     it "assigns @users" do
-      user_list = []
-      2.times { user_list << FactoryGirl.create(:user) }
+      user_list = User.all
       get :index
       expect(assigns(:users)).to eq(user_list)
     end
