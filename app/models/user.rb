@@ -108,13 +108,29 @@ class User < ActiveRecord::Base
   end
 
   def feed
+    following_data = following_activity
+    own_data = own_followers
+    (following_data + own_data).uniq.sort { |a, b| b.created_at <=> a.created_at }
+  end
+
+  def name_initials
+    name.split(' ').map { |n| n[0] }.join('')
+  end
+
+  private
+
+  def following_activity
     PublicActivity::Activity.joins("LEFT OUTER JOIN relationships
                 ON relationships.followed_id = activities.owner_id
                 WHERE relationships.follower_id=#{id}
                 ORDER BY activities.created_at DESC")
   end
 
-  def name_initials
-    name.split(' ').map { |n| n[0] }.join('')
+  def own_followers
+    PublicActivity::Activity.joins("LEFT OUTER JOIN relationships
+                  ON relationships.follower_id = activities.owner_id
+                  WHERE activities.key='relationship.create'
+                  AND relationships.followed_id = #{id}
+                  ORDER BY activities.created_at DESC")
   end
 end
