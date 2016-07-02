@@ -34,4 +34,10 @@ Rails.application.routes.draw do
     post '/:review_id/vote' => 'ratings#create', as: 'reviews_vote'
     delete '/:review_id/unvote' => 'ratings#destroy', as: 'reviews_unvote'
   end
+
+  namespace :api do
+    namespace :v1 do
+      resources :genres, only: [:show]
+    end
+  end
 end
