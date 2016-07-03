@@ -5,7 +5,7 @@ module TMDB
   def self.get(uri, params = {})
     endpoint = build_url(uri, params)
 
-    APICache.get(endpoint, cache: 3600, period: 0) do
+    APICache.get(endpoint, cache: 3600, period: 0, timeout: 60) do
       response = HTTParty.get(endpoint, headers: headers)
       if response.success?
         response.parsed_response
