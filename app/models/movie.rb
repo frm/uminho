@@ -26,7 +26,10 @@ class Movie < ActiveRecord::Base
   end
 
   def self.popular
-    Review.order(score: :desc).group(:movie_id).limit(20).map(&:movie)
+    Review.group(:movie_id).average(:score)
+      .sort { |a, b| b.last <=> a.last }
+      .last(20)
+      .map { |pair| Movie.find(pair.first) }
   end
 
   def cast
