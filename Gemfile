@@ -39,8 +39,6 @@ gem 'rails_12factor', group: :production
 gem 'pg', group: :production
 
 group :development, :test do
-  gem 'thin'
-
   gem 'dotenv-rails'
 
   gem 'rspec-rails', '~> 3.0'
@@ -68,6 +66,9 @@ end
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'better_errors'
+  gem 'rack-mini-profiler'
+  gem 'flamegraph'
+  gem 'stackprof'
 end
 
 ruby "2.2.3"
