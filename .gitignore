@@ -27,3 +27,6 @@ public/system
 
 # Railroady generated files
 doc/
+
+# Profilling output
+profile/
