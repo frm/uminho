@@ -1,5 +1,4 @@
 $(function() {
-  console.log($('.loading-trigger'));
   $('.loading-trigger').click(function() {
     $('#loading').fadeIn();
   });

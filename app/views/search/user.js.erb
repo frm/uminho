@@ -1,3 +1,8 @@
 $('#result-modal').html("<%= escape_javascript(render partial: 'genres/users', locals: {users: @result}) %>");
 
 $('#discover-search-modal').modal();
+
+$('.search-by-submit-btn .loading-trigger').click(function() {
+    $('#loading').fadeIn();
+    $('#discover-search-modal').modal('hide');
+});
