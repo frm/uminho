@@ -61,6 +61,8 @@ group :development, :test do
   gem 'binding_of_caller'
 
   gem 'sqlite3'
+
+  gem 'railroady'
 end
 
 group :development do

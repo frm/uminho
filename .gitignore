@@ -24,3 +24,6 @@ coverage/
 
 # Paperclip uploads
 public/system
+
+# Railroady generated files
+doc/
