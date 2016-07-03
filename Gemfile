@@ -38,6 +38,9 @@ gem 'simplecov', :require => false, :group => :test
 gem 'rails_12factor', group: :production
 gem 'pg', group: :production
 
+gem "rack-timeout"
+gem 'puma'
+
 group :development, :test do
   gem 'dotenv-rails'
 
