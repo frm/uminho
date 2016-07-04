@@ -36,7 +36,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'simplecov', :require => false, :group => :test
 
 gem 'rails_12factor', group: :production
-gem 'pg', group: :production
+gem 'pg'
 gem 'memcachier', group: :production
 
 gem "rack-timeout"
@@ -61,8 +61,6 @@ group :development, :test do
   gem 'byebug'
 
   gem 'binding_of_caller'
-
-  gem 'sqlite3'
 
   gem 'railroady'
 end
