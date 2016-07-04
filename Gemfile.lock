@@ -148,6 +148,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    memcachier (0.0.2)
     method_source (0.8.2)
     mime-types (3.0)
       mime-types-data (~> 3.2015)
@@ -339,6 +340,7 @@ DEPENDENCIES
   font-awesome-rails
   httparty
   jquery-rails
+  memcachier
   paperclip
   pg
   pry-byebug

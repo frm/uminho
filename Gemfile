@@ -37,6 +37,7 @@ gem 'simplecov', :require => false, :group => :test
 
 gem 'rails_12factor', group: :production
 gem 'pg', group: :production
+gem 'memcachier', group: :production
 
 gem "rack-timeout"
 gem 'puma'
