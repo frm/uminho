@@ -8,7 +8,7 @@ feature 'Creating a review' do
 
   scenario 'reviewing a movie' do
     visit genres_path
-    first('.overbox a').click
+    first('.gallery-entry').first('a').click
     click_on "Review"
     fill_in 'review_score', with: 4.0
     fill_in 'review_description', with: 'Good'
@@ -21,7 +21,7 @@ feature 'Creating a review' do
   #scenario 'reviewing a movie', js: true do
   #  visit genres_path
   #  first('.gallery-entry').hover
-  #  first('.overbox a').click
+  #  first('.overbox').click
   #  click_on "Review"
   #  find('.star:nth-child(4)').click
   #  fill_in 'review_description', with: 'Good'
