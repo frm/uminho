@@ -57,8 +57,13 @@ class GenresController < ApplicationController
       @movie = Movie.trending.sample
     elsif current_user.following.count == 0
       # No following, no tailoring.
-      # Sample movie from a favorite genre.
-      @movie = Genre.movies(current_user.favorite_genres.sample).sample
+      # Sample movie from a favorite genre if it exists
+      favorite_genres = current_user.favorite_genres
+      if favorite_genres.empty?
+        @movie = Movie.trending.sample
+      else
+        @movie = Genre.movies(favorite_genres.sample).sample
+      end
     else
       @movie = tailored_movie
     end
