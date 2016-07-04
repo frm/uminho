@@ -29,7 +29,7 @@ class SearchController < ApplicationController
   private
 
   def user_search(query)
-    User.where("name LIKE ? OR email LIKE ?",
+    User.where("name ILIKE ? OR email ILIKE ?",
       "%#{query}%", "%#{query}%")
   end
 end
