@@ -36,11 +36,11 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'simplecov', :require => false, :group => :test
 
 gem 'rails_12factor', group: :production
-gem 'pg'
 gem 'memcachier', group: :production
 
 gem "rack-timeout"
 gem 'puma'
+gem 'pg'
 
 group :development, :test do
   gem 'dotenv-rails'
