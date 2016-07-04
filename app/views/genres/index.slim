@@ -5,9 +5,9 @@ h1.reel-title Discover
 .gallery-row
   - @movies.each do |m|
     .gallery-entry style="background-image: url(#{m.img_path})"
-      = image_tag m.img_path, class: 'gallery-img'
-      .overbox
-        .overtext
-          = link_to movie_path(m.id) do
+      = link_to movie_path(m.id) do
+        = image_tag m.img_path, class: 'gallery-img'
+        .overbox
+          .overtext
             = m.title
 

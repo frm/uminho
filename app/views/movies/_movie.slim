@@ -77,10 +77,10 @@
       .gallery-row
         - @actors.each do |a|
           .gallery-entry style="background-image: url(#{a.profile_path})"
-            = image_tag a.profile_path, class: 'gallery-img'
-            .overbox
-              .overtext
-                = link_to actor_path(a.id) do
+            = link_to actor_path(a.id) do
+              = image_tag a.profile_path, class: 'gallery-img'
+              .overbox
+                .overtext
                   - unless a.character.empty?
                     = "#{a.name} as "
                     span.movie-character = " #{a.character}"

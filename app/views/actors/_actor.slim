@@ -26,7 +26,8 @@ hr
 .gallery-row
   - actor.movies.each do |m|
     .gallery-entry style="background-image: url(#{m.img_path})"
-      = image_tag m.img_path, class: 'gallery-img'
-      .overbox
-        .overtext
-          = link_to m.title, movie_path(m.id)
+      = link_to movie_path(m.id) do
+        = image_tag m.img_path, class: 'gallery-img'
+        .overbox
+          .overtext
+            = m.title

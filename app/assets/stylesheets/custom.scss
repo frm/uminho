@@ -140,17 +140,10 @@ h1.reel-title {
       left: $margin-sm;
       word-wrap: break-word;
 
-      a {
-        color: darken($white, 10%);
-        font-family: $f-strong;
-        text-transform: uppercase;
-        font-size: 16px;
-
-        &:hover, &:focus {
-          color: $white;
-          text-decoration: none;
-        }
-      }
+      color: $white;
+      font-family: $f-strong;
+      text-transform: uppercase;
+      font-size: 16px;
     }
   }
 
