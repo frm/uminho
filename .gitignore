@@ -30,3 +30,6 @@ doc/
 
 # Profilling output
 profile/
+
+# Pre-compiled assets
+public/assets/
