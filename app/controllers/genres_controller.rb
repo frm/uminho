@@ -58,18 +58,33 @@ class GenresController < ApplicationController
     elsif current_user.following.count == 0
       # No following, no tailoring.
       # Sample movie from a favorite genre if it exists
-      favorite_genres = current_user.favorite_genres
-      if favorite_genres.empty?
-        @movie = Movie.trending.sample
-      else
-        @movie = Genre.movies(favorite_genres.sample).sample
-      end
+      @movie = genre_sample
     else
       @movie = tailored_movie
     end
   end
 
   private
+
+  def genre_sample
+    favorite_genres = current_user.favorite_genres
+    reviewed_movies = current_user.reviewed_movies
+
+    if favorite_genres.empty?
+      sample_from Movie.trending, reviewed_movies
+    else
+      sample_from Genre.movies(favorite_genres.sample), reviewed_movies
+    end
+  end
+
+  def sample_from(bag, list)
+    sample = bag.sample
+    while list.include? sample
+      sample = bag.sample
+    end
+
+    sample
+  end
 
   def movie_sort(movies)
     overall_rating = {}
