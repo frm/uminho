@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   get '/search/actor' => 'search#actor', as: 'actor_search'
   get '/search/user' => 'search#user', as: 'user_search'
 
+  get '/recipes' => 'recipes#index', as: 'recipes'
+
   scope '/reviews' do
     post '/:review_id/vote' => 'ratings#create', as: 'reviews_vote'
     delete '/:review_id/unvote' => 'ratings#destroy', as: 'reviews_unvote'

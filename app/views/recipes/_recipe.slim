@@ -1,0 +1,7 @@
+.col-md-3.recipe-video-container
+  = content_tag :iframe, nil, src: recipe.embed_url
+.col-md-2
+  h4.result-title = recipe.name
+  = text_field_tag :score, recipe.score, class: 'review-show-score',
+      data: {readonly: true, show_clear: false, show_caption: false}
+
