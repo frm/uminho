@@ -1,0 +1,49 @@
+body{
+    text-align: center;
+    font-family: sans-serif;
+}
+
+
+h3{
+    font-weight: 400;
+    margin-top: 0px;
+    padding-top: 0;
+}
+
+h1{
+    font-weight: lighter;
+}
+
+a{
+    text-decoration: none;
+    color: #3366CC;
+    padding: 10px 5px;
+
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul{
+    padding: 0;
+    list-style-type: none;
+}
+
+img{
+    width: 500px;
+    border: solid #3e3e3e 3px;
+    border-radius: 4px;
+}
+
+.fact{
+    font-size: 20px;
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+#people-list{
+    width: 700px;
+    margin: 0 auto;
+    text-align: left;
+}

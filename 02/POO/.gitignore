@@ -1,0 +1,11 @@
+nbproject/*
+build/
+dist/
+*.DS_STORE
+*.log
+*.swp
+*.~
+dataFile
+*.dat
+*.sav
+

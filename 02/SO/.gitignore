@@ -1,0 +1,14 @@
+*.log
+*.tmp
+*.swp
+*~
+*.out
+*.out*
+*.dat
+*.dSYM
+.DS_Store
+incrementar
+agregar
+increment
+agregate
+server

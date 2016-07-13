@@ -1,0 +1,15 @@
+[submodule "03/CG/cg-lei-1415"]
+  path = 03/CG/cg-lei-1415
+  url = git@github.com:JoRod94/cg-lei-1415.git
+[submodule "03/PL/lpis-lang"]
+  path = 03/PL/lpis-lang
+  url = git@github.com:JoRod94/lpis-lang.git
+[submodule "03/CC/cc"]
+	path = 03/CC/cc
+	url = https://github.com/JoRod94/cc
+[submodule "04/PSD/dsc-bank-service-rmi"]
+	path = 04/PSD/dsc-bank-service-rmi
+	url = https://github.com/JoRod94/dsc-bank-service-rmi
+[submodule "04/SDC/-SDC-simple-vector-clocks"]
+	path = 04/SDC/-SDC-simple-vector-clocks
+	url = https://github.com/prccaraujo/-SDC-simple-vector-clocks.git
