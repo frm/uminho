@@ -33,6 +33,8 @@ If you're a Computer Engineering student looking at this, the projects will *pro
   * **1st year/4th year**: We have to choose two specialties. I chose Distribued Systems and Cryptography and also Application Engineering. More projects will be added here in the future (I hope).
     - [Distributed Systems Paradigms](https://github.com/frmendes/uminho/tree/master/04/PSD) - We started with a small set of TCP chats using multiple technologies (callback-based app and promises) and ended up with a small IRC-like application (this also has actor-based programming and ZeroMQ, which is pretty sweet).
     - [Distributed Systems Paradigms pt 2](https://github.com/JoRod94/dsc-bank-service-rmi) - We had to implement a bank service using RMI in Java.
+    - [Reliable Distributed Systems: Vector Clocks](https://github.com/prccaraujo/-SDC-simple-vector-clocks) - The second project consisted on a simulation of a middleware application that used vector clocks to ensure causal delivery.
+    - [Reel](https://github.com/frmendes/uminho/tree/master/04/EA/reel) - Reel was fun. Reel is a movie rating Rails app that used the TMDB API as a provider. The aim of this project was to implement API communication with an external service and another app from the same class (hence the recipes thing). Oh boy, was this done in a hurry...
 
 ## Contributors
 
@@ -44,3 +46,4 @@ If you're a Computer Engineering student looking at this, the projects will *pro
 * [Rui Oliveira](https://github.com/ruioliveiras)
 * [Nuno Barbosa](https://github.com/nunomcb)
 * [Bruno Ferreira](https://github.com/chalkos)
+* [Ana Luísa Coutinho](https://github.com/luisacpcoutinho)
