@@ -13,3 +13,6 @@
 [submodule "04/SDC/-SDC-simple-vector-clocks"]
   path = 04/SDC/-SDC-simple-vector-clocks
   url = https://github.com/prccaraujo/-SDC-simple-vector-clocks.git
+[submodule "04/SDC/sdc-replication"]
+  path = 04/SDC/sdc-replication
+  url = git@github.com:JoRod94/sdc-replication.git
